@@ -1,0 +1,51 @@
+name: securityapp
+description: A new Flutter application.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.0
+  hexcolor: ^1.0.6
+  line_awesome_flutter: ^1.0.1
+  dio: ^3.0.10
+  mjpeg: ^0.0.3
+#  rflutter_alert: ^1.1.0
+#  camera: ^0.5.8+17
+#  path_provider: ^1.6.24
+  image_picker: ^0.6.7+14
+#  path: ^1.7.0
+#  esys_flutter_share: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+
+  uses-material-design: true
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/
+
+  fonts:
+    - family: BYekan
+      fonts:
+        - asset: assets/fonts/byekan/BYEKAN.TTF
+
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/opensans/OpenSans-Regular.ttf
+
