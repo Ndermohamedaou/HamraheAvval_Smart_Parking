@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -37,54 +38,52 @@ class CameraInsertionBody extends StatefulWidget {
 }
 
 class _CameraInsertionBodyState extends State<CameraInsertionBody> {
+  Map<String, Object> img;
+
+  Future sendingImage(rawImage)async{
+  // TODO: Next of getting API
+  }
+
+  Future convertingImg(imgFile) async {
+    // print(imgFile['img']);
+    // TODO do some config and pass raw image file to sendingImage()
+  }
+
   @override
   Widget build(BuildContext context) {
     // To get img from right side
-    final Map<String, Object> img = ModalRoute.of(context).settings.arguments;
+    img = ModalRoute.of(context).settings.arguments;
     return SafeArea(
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        decoration: BoxDecoration(
-          color: cardStyleColor,
-          borderRadius: BorderRadius.circular(16)
-        ),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 8,
-              child: Container(
-                alignment: Alignment.center,
-                child: Image.file(
-                  img['img'],
-                  scale: 4,
-                  alignment: Alignment.center,
+      child: Center(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  child: Image.file(img['img']),
                 ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                margin: EdgeInsets.fromLTRB(10, 0, 10, 10),
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ListTile(
-                      title: Text(
-                        "تصویر انتقال یابد؟",
-                        style: TextStyle(fontFamily: 'BYekan', fontSize: 18),
-                        textAlign: TextAlign.center,
+              Expanded(
+                child: Container(
+                    margin: EdgeInsets.only(top: 40),
+                    child: RawMaterialButton(
+                      onPressed: () {
+                        convertingImg(img);
+                      },
+                      elevation: 2.0,
+                      fillColor: Colors.blue,
+                      child: Icon(
+                        CupertinoIcons.capslock_fill,
+                        color: Colors.white,
+                        size: 30.0,
                       ),
-                      leading: Icon(
-                        Icons.info,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                ),
+                      padding: EdgeInsets.all(18.0),
+                      shape: CircleBorder(),
+                    )),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

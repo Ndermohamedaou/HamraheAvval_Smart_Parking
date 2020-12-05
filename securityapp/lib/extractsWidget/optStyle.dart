@@ -29,6 +29,7 @@ class OptionsViewer extends StatelessWidget {
             text,
             style: TextStyle(
               fontFamily: mainSecurityAppFontFamily,
+              color: Colors.white,
               fontSize: titleFontSize,
             ),
           ),
@@ -36,6 +37,7 @@ class OptionsViewer extends StatelessWidget {
             desc,
             style: TextStyle(
               fontFamily: mainSecurityAppFontFamily,
+              color: Colors.white60,
               fontSize: subTitleFontSize,
             ),
           ),

@@ -15,11 +15,12 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
   @override
   Widget build(BuildContext context) {
     File _image;
+
     Future preparingImage() async {
       final image = await ImagePicker.pickImage(source: ImageSource.camera);
       setState(() {
         _image = image;
-        // print(_image);
+        print(_image.path);
         if (_image != null) {
           Navigator.pushNamed(context, '/CameraInsertion',
               arguments: {"img": _image});
@@ -33,12 +34,11 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
         title: AppBarTitleConfig(
           titleText: "اطلاعات را وارد کنید",
           textStyles: TextStyle(
-            fontSize: fontTitleSize,
-            fontFamily: titleFontFamily,
-          ),
+              fontSize: fontTitleSize,
+              fontFamily: titleFontFamily,
+              color: Colors.white),
           titleAlign: TextAlign.center,
         ),
-        backgroundColor: appBarBackgroundColor,
       ),
       body: SafeArea(
         child: Column(

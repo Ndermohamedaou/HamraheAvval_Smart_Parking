@@ -19,16 +19,9 @@ class service_card extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(margin),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
-          color: colour,
-          boxShadow: [
-            BoxShadow(
-              color: HexColor('#0f1c31'),
-              spreadRadius: 5,
-              blurRadius: borderRadius,
-              offset: Offset(0, 5), // changes position of shadow
-            ),
-          ]),
+        borderRadius: BorderRadius.circular(15.0),
+        color: colour,
+      ),
       child: cardChild,
     );
   }

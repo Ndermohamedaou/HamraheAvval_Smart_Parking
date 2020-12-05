@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+//#6c65d9
+HexColor backgroundColor = HexColor('#172438');
+HexColor scaffoldBackgroundColor = HexColor('#172438');
+HexColor accentColor = HexColor('#03c1e5');
 
 const double cardStyleMargin = 10;
 const cardStyleBorderRadius = 15.0;
