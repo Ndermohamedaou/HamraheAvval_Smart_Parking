@@ -1,0 +1,29 @@
+# * Backend 
+# ** MySQL (DB)?
+# ** Fandogh web service(Node.js Server)?
+# Android iOS (PWA?) in Flutter Framework 
+
+
+# * Client Side App
+# ** Show all details about  Parking (reserved, empty, full)
+# *** Select their appropriate parking 
+
+
+* Security Side App 
+** Show all situations of parking
+** IP Camera Render Stream Mjepeg (Landscape, Portrait)
+** Ckeck and (search) Cars base on (pelak cars)
+** Profile to login data and time ?
+** Cars Entry point with static profile and camera
+*** Camera (easy way to submit Cars)
+*** Static Entry Local Storage and sync later with db
+
+
+* Emps(کارمندان)
+** Create Profile
+*** Confirm acc with email or phone
+*** Login and forget with username and password
+*** Permission to see all reserved situations
+**** update reserved or anythings in parking
+*** History of all activity in parking 
+
