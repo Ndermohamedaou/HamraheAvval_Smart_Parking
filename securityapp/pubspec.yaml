@@ -23,7 +23,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   provider: ^4.3.2+2
   image_picker: ^0.6.7+14
-
+  list_tile_switch: ^0.0.2
 
 dev_dependencies:
   flutter_test:

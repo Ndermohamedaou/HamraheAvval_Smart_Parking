@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
           return Center(
             child: MaterialApp(
               theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-              initialRoute: '/LoginPage',
+              initialRoute: '/',
               routes: {
                 '/': (context) => InputSecurityApp(),
                 '/addDataMethods': (context) => AdddingDataMethods(),

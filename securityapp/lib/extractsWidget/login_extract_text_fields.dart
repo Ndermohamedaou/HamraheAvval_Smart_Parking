@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TextFields extends StatelessWidget {
-  TextFields({this.lblText, this.onChangeText, this.textFieldIcon});
+  TextFields({this.lblText, this.onChangeText, this.textFieldIcon, this.textInputType});
 
   final String lblText;
   final Function onChangeText;
   final IconData textFieldIcon;
+  final bool textInputType;
 
 
   @override
@@ -15,6 +16,7 @@ class TextFields extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20),
         child: TextFormField(
+          obscureText: textInputType,
           textAlign: TextAlign.center,
           cursorColor: Colors.blue[900],
           decoration: InputDecoration(

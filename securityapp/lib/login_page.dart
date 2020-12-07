@@ -8,6 +8,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 String user_email = "";
 String user_password = "";
+List results;
+
+// Getting users token with this Future life cycle
+Future<List> gettingToken(email, pass) async {
+  // final response = await Dio().post("xxx.com/api/login?email=${email}&password=${pass}");
+  // try{
+  //   print('Not Found');
+  //
+  // }catch(ext){
+  //   print(response);
+  //
+  // }
+}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -28,8 +41,7 @@ class _LoginPageState extends State<LoginPage> {
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
-              print(
-                  "your username: ${user_email} \n your password ${user_password}");
+              gettingToken(user_email, user_password);
             },
             child: Text(
               loginText,
@@ -86,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFields(
               lblText: "شماره تلفن یا ایمیل شما",
               textFieldIcon: Icons.contacts_outlined,
+              textInputType: false,
               onChangeText: (username) {
                 setState(() {
                   user_email = username;
@@ -95,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 20),
             TextFields(
               lblText: "گذرواژه",
+              textInputType: true,
               textFieldIcon: Icons.vpn_key_outlined,
               onChangeText: (password) {
                 setState(() {
