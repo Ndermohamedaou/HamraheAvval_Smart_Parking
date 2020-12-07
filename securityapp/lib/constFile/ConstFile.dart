@@ -6,12 +6,8 @@ const String mainFontFamily = 'BYekan';
 // Login Style Material
 HexColor sMBColor = HexColor('#172438');
 HexColor statusBar = HexColor('#172438');
-const String loginText = "ورود";
 const String loginTextFontFamily = mainFontFamily;
 const double loginTextSize = 22;
-
-
-
 
 //#6c65d9
 HexColor backgroundColor = HexColor('#172438');
@@ -44,3 +40,4 @@ const IconData opt1Icon = Icons.keyboard;
 const IconData opt2Icon = Icons.camera;
 const Color bothIconNativeColor = Colors.black;
 
+HexColor backPanelColor = HexColor('#1a2e48');

@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'extractsWidget/home_screen.dart';
+import 'extractsWidget/setting.dart';
 import 'titleStyle/titles.dart';
 import 'constFile/texts.dart';
 import 'constFile/ConstFile.dart';
-// for editing bottom and top status
-import 'package:flutter/services.dart';
-
 
 class InputSecurityApp extends StatefulWidget {
   @override
@@ -25,6 +23,7 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
 
   // Following is a list for two page as Widget
   var screens = [HomeScreen(), Setting()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

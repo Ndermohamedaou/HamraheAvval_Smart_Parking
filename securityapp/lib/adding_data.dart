@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'constFile/ConstFile.dart';
 import 'titleStyle/titles.dart';
-import 'extractsWidget/optStyle.dart';
+import 'constFile/optStyle.dart';
 import 'constFile/texts.dart';
 
 class AdddingDataMethods extends StatefulWidget {
@@ -60,8 +60,6 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
             ),
             GestureDetector(
               onTap: () {
-                // print('Camera Entry');
-                // Navigator.pushNamed(context, '/CameraInsertion');
                 preparingImage();
               },
               child: OptionsViewer(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'constFile/texts.dart';
+import 'extractsWidget/bottom_button.dart';
 import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'extractsWidget/login_extract_text_fields.dart';
@@ -88,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
             ),
             Text(
-              'خوش آمدید',
+              greetingText,
               style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -96,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 20,
             ),
             TextFields(
-              lblText: "شماره تلفن یا ایمیل شما",
+              lblText: phoneOrEmail,
               textFieldIcon: Icons.contacts_outlined,
               textInputType: false,
               onChangeText: (username) {
@@ -107,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 20),
             TextFields(
-              lblText: "گذرواژه",
+              lblText: passwordLblText,
               textInputType: true,
               textFieldIcon: Icons.vpn_key_outlined,
               onChangeText: (password) {
@@ -125,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.pushNamed(context, '/forgetPassword');
                   },
                   child: Text(
-                    "گذرواژه خود را فراموش کرده اید؟",
+                    forgetTextButtonHint,
                     style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                   ),
                 ),
@@ -136,8 +138,8 @@ class _LoginScreenState extends State<LoginScreen> {
               textDirection: TextDirection.rtl,
               child: ListTile(
                 title: Text(
-                  'حالت تیره',
-                  style: TextStyle(fontSize: 20, fontFamily: 'BYekan'),
+                  viewScreenLightOrDark,
+                  style: TextStyle(fontSize: 20, fontFamily: mainFontFamily),
                 ),
                 leading: Container(
                   width: 60,

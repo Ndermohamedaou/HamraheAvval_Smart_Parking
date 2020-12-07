@@ -15,4 +15,21 @@ const String opt2 = 'وارد کردن با استفاده دوربین';
 const String opt2Desc =
     "در این روش  شما باید از دوربین پشتی خود برای تصویر برداری از وسیله نقلیه مورد نظر استفاده کنید";
 
-const String darkModeText = "فعال کردن این گزینه باعث میشود در شرایط تاریک با بهتر ببینید";
+const String darkModeText =
+    "فعال کردن این گزینه باعث میشود در شرایط تاریک با بهتر ببینید";
+// button texts
+//   Camera Insertions some text
+const String pictureSubmission = "تایید تصویر";
+const String sendingPic2Db = "ثبت تصویر";
+
+// login and forget and more...
+const String loginText = "ورود";
+const String greetingText = 'خوش آمدید';
+const String phoneOrEmail = "شماره تلفن یا ایمیل شما";
+const String passwordLblText = "گذرواژه";
+const String forgetTextButtonHint = "گذرواژه خود را فراموش کرده اید؟";
+const String viewScreenLightOrDark = 'حالت تیره';
+
+// Forget page text
+const String greetingMsg = 'برای بازنشانی گذرواژه \n ایمیل خود را وارد کنید';
+const String forgetTextButton = 'بازنشانی گذرواژه';

@@ -28,6 +28,27 @@ class _CameraInsertionState extends State<CameraInsertion> {
         backgroundColor: appBarBackgroundColor,
       ),
       body: CameraInsertionBody(),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Material(
+          elevation: 10.0,
+          borderRadius: BorderRadius.circular(8.0),
+          color: Colors.blue[900],
+          child: MaterialButton(
+            padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            onPressed: () {},
+            child: Text(
+              'بازنشانی گذرواژه',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: loginTextFontFamily,
+                  fontSize: loginTextSize,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -38,10 +59,10 @@ class CameraInsertionBody extends StatefulWidget {
 }
 
 class _CameraInsertionBodyState extends State<CameraInsertionBody> {
-  Map<String, Object> img;
+  Map<String, Object> source;
 
-  Future sendingImage(rawImage)async{
-  // TODO: Next of getting API
+  Future sendingImage(rawImage) async {
+    // TODO: Next of getting API
   }
 
   Future convertingImg(imgFile) async {
@@ -52,38 +73,17 @@ class _CameraInsertionBodyState extends State<CameraInsertionBody> {
   @override
   Widget build(BuildContext context) {
     // To get img from right side
-    img = ModalRoute.of(context).settings.arguments;
+    source = ModalRoute.of(context).settings.arguments;
     return SafeArea(
-      child: Center(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  child: Image.file(img['img']),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                    margin: EdgeInsets.only(top: 40),
-                    child: RawMaterialButton(
-                      onPressed: () {
-                        convertingImg(img);
-                      },
-                      elevation: 2.0,
-                      fillColor: Colors.blue,
-                      child: Icon(
-                        CupertinoIcons.capslock_fill,
-                        color: Colors.white,
-                        size: 30.0,
-                      ),
-                      padding: EdgeInsets.all(18.0),
-                      shape: CircleBorder(),
-                    )),
-              ),
-            ],
-          ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Image.file(
+              source['img'],
+              width: double.infinity,
+              scale: 2.5,
+            )
+          ],
         ),
       ),
     );

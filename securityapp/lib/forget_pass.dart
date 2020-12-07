@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'constFile/ConstFile.dart';
 import 'extractsWidget/login_extract_text_fields.dart';
+import 'constFile/ConstFile.dart';
+import 'constFile/texts.dart';
+import 'extractsWidget/bottom_button.dart';
 
 String user_email = "";
 
@@ -24,7 +27,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {},
             child: Text(
-              'بازنشانی گذرواژه',
+              forgetTextButton,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -63,7 +66,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             SizedBox(height: 20),
             Center(
               child: Text(
-                'برای بازنشانی گذرواژه \n ایمیل خود را وارد کنید',
+                greetingMsg,
                 style: TextStyle(
                     fontSize: 30,
                     fontFamily: loginTextFontFamily,
@@ -74,7 +77,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             SizedBox(height: 20),
             TextFields(
               textFieldIcon: Icons.mark_email_read_outlined,
-              lblText: "ایمیل یا تلفن همراه",
+              textInputType: false,
+              lblText: phoneOrEmail,
               onChangeText: (email) {
                 setState(() {
                   user_email = email;
