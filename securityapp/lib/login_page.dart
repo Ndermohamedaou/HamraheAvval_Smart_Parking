@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'extractsWidget/login_extract_text_fields.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String user_email = "";
 String user_password = "";
@@ -57,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -120,17 +122,21 @@ class _LoginScreenState extends State<LoginScreen> {
               textDirection: TextDirection.rtl,
               child: ListTile(
                 title: Text(
-                  'فعال سازی تاریک / روشن',
+                  'حالت تیره',
                   style: TextStyle(fontSize: 20, fontFamily: 'BYekan'),
                 ),
-                leading: Checkbox(
-                  value: themeChange.darkTheme,
-                  onChanged: (bool value) {
-                    themeChange.darkTheme = value;
-                  },
+                leading: Container(
+                  width: 60,
+                  child: Switch(
+                    activeColor: Colors.blue[700],
+                    value: themeChange.darkTheme,
+                    onChanged: (bool value) {
+                      themeChange.darkTheme = value;
+                    },
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
