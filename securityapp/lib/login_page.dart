@@ -61,11 +61,17 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: Image.asset(
-                "assets/images/loginSVG.png",
-                width: 200,
-                height: 200,
-              ),
+              child: themeChange.darkTheme
+                  ? Image.asset(
+                      "assets/images/haDark.png",
+                      width: 200,
+                      height: 200,
+                    )
+                  : Image.asset(
+                      "assets/images/haLight.png",
+                      width: 200,
+                      height: 200,
+                    ),
             ),
             Text(
               'خوش آمدید',
@@ -104,16 +110,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: Text(
                     "گذرواژه خود را فراموش کرده اید؟",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15),
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
                   ),
                 ),
               ),
             ),
             SizedBox(height: 10),
-
-
             Directionality(
               textDirection: TextDirection.rtl,
               child: ListTile(
@@ -129,7 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             )
-
           ],
         ),
       ),
