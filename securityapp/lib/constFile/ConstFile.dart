@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+const String mainFontFamily = 'BYekan';
+
+// Login Style Material
+HexColor sMBColor = HexColor('#172438');
+HexColor statusBar = HexColor('#172438');
+const String loginText = "ورود";
+const String loginTextFontFamily = mainFontFamily;
+const double loginTextSize = 22;
+
+
+
+
 //#6c65d9
 HexColor backgroundColor = HexColor('#172438');
 HexColor scaffoldBackgroundColor = HexColor('#172438');
@@ -8,13 +21,13 @@ HexColor accentColor = HexColor('#03c1e5');
 const double cardStyleMargin = 10;
 const cardStyleBorderRadius = 15.0;
 const double fontTitleSize = 24;
-const String titleFontFamily = 'BYekan';
+const String titleFontFamily = mainFontFamily;
 var appBarBackgroundColor = HexColor('#1a2e48');
 HexColor cardStyleColor = HexColor('#1a2e48');
 
 // Main security app :
 const double mainSecurityAppIconSize = 60;
-const String mainSecurityAppFontFamily = 'BYekan';
+const String mainSecurityAppFontFamily = mainFontFamily;
 const double fontSizeDesc = 15;
 const double fontSizeTitle = 18;
 const Color mainIconColor = Colors.blue;
@@ -30,3 +43,4 @@ const double subTitleFontSize = 14;
 const IconData opt1Icon = Icons.keyboard;
 const IconData opt2Icon = Icons.camera;
 const Color bothIconNativeColor = Colors.black;
+
