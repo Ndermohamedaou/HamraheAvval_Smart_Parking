@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'extractsWidget/login_extract_text_fields.dart';
 
@@ -51,6 +53,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -102,13 +105,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     "گذرواژه خود را فراموش کرده اید؟",
                     style: TextStyle(
-                        color: Colors.blue[900],
                         fontWeight: FontWeight.w500,
                         fontSize: 15),
                   ),
                 ),
               ),
             ),
+            SizedBox(height: 10),
+
+
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: ListTile(
+                title: Text(
+                  'فعال سازی تاریک / روشن',
+                  style: TextStyle(fontSize: 20, fontFamily: 'BYekan'),
+                ),
+                leading: Checkbox(
+                  value: themeChange.darkTheme,
+                  onChanged: (bool value) {
+                    themeChange.darkTheme = value;
+                  },
+                ),
+              ),
+            )
+
           ],
         ),
       ),

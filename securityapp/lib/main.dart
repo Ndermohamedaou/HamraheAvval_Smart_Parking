@@ -53,18 +53,20 @@ class _MyAppState extends State<MyApp> {
             systemNavigationBarColor: scaffoldBackgroundColor, // navigation color
             statusBarColor: scaffoldBackgroundColor, // status bar color
           ));
-          return MaterialApp(
-            theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-            initialRoute: '/',
-            routes: {
-              '/': (context) => InputSecurityApp(),
-              '/addDataMethods': (context) => AdddingDataMethods(),
-              '/StylePage': (context) => ScreenStyle(),
-              '/StaticInsertion': (context) => StaticInsertion(),
-              '/CameraInsertion': (context) => CameraInsertion(),
-              '/LoginPage': (context) => LoginPage(),
-              '/forgetPassword': (context) => ForgetPasswordPage(),
-            },
+          return Center(
+            child: MaterialApp(
+              theme: Styles.themeData(themeChangeProvider.darkTheme, context),
+              initialRoute: '/LoginPage',
+              routes: {
+                '/': (context) => InputSecurityApp(),
+                '/addDataMethods': (context) => AdddingDataMethods(),
+                '/StylePage': (context) => ScreenStyle(),
+                '/StaticInsertion': (context) => StaticInsertion(),
+                '/CameraInsertion': (context) => CameraInsertion(),
+                '/LoginPage': (context) => LoginPage(),
+                '/forgetPassword': (context) => ForgetPasswordPage(),
+              },
+            ),
           );
         },
       ),

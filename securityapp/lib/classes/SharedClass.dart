@@ -35,7 +35,7 @@ class DarkThemeProvider with ChangeNotifier {
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
-      // primaryColor: isDarkTheme ? Colors.black : Colors.white,
+      // primaryColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#f2f2f2'),
       backgroundColor: isDarkTheme ? backgroundColor : HexColor('#f2f2f2'),
       scaffoldBackgroundColor: isDarkTheme ? scaffoldBackgroundColor : HexColor('#f2f2f2'),
       // textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
