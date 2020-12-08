@@ -9,6 +9,10 @@ HexColor statusBar = HexColor('#172438');
 const String loginTextFontFamily = mainFontFamily;
 const double loginTextSize = 22;
 
+// Confirmation
+
+
+
 //#6c65d9
 HexColor backgroundColor = HexColor('#172438');
 HexColor scaffoldBackgroundColor = HexColor('#172438');

@@ -12,8 +12,9 @@ import 'static_insertion.dart';
 import 'camera_insertion.dart';
 import 'darkmode_page.dart';
 import 'login_page.dart';
+import 'confirmation_page.dart';
 import 'forget_pass.dart';
-
+import 'splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,20 +51,23 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, Widget child) {
           SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            systemNavigationBarColor: scaffoldBackgroundColor, // navigation color
+            systemNavigationBarColor: scaffoldBackgroundColor,
+            // navigation color
             statusBarColor: scaffoldBackgroundColor, // status bar color
           ));
           return Center(
             child: MaterialApp(
               theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-              initialRoute: '/LoginPage',
+              initialRoute: '/',
               routes: {
-                '/': (context) => InputSecurityApp(),
+                '/': (context) => SplashScreen(),
+                '/main': (context) => InputSecurityApp(),
                 '/addDataMethods': (context) => AdddingDataMethods(),
                 '/StylePage': (context) => ScreenStyle(),
                 '/StaticInsertion': (context) => StaticInsertion(),
                 '/CameraInsertion': (context) => CameraInsertion(),
                 '/LoginPage': (context) => LoginPage(),
+                '/confirmation': (context) => ConfirmationPage(),
                 '/forgetPassword': (context) => ForgetPasswordPage(),
               },
             ),

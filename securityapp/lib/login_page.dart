@@ -8,21 +8,10 @@ import 'extractsWidget/login_extract_text_fields.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+bool password_protected = true;
 String user_email = "";
 String user_password = "";
 List results;
-
-// Getting users token with this Future life cycle
-Future<List> gettingToken(email, pass) async {
-  // final response = await Dio().post("xxx.com/api/login?email=${email}&password=${pass}");
-  // try{
-  //   print('Not Found');
-  //
-  // }catch(ext){
-  //   print(response);
-  //
-  // }
-}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -30,6 +19,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // Getting users token with this Future life cycle
+  // ignore: missing_return
+  Future<List> gettingToken(email, pass) async {
+    // final response = await Dio().post("xxx.com/api/login?email=${email}&password=${pass}");
+    // try{
+    //
+    // }catch(ext){
+    //
+    // }
+    // TODO If this is first time to append!
+    // Status checker Statement with passing Token (arguments)
+    // Navigator.pushNamed(context, '/confirmation');
+    //  else time
+    //   Navigator.pushNamed(context, '/main');
+    // Saving primary data in secure storage
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             Text(
               greetingText,
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: mainFontFamily),
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -110,8 +119,16 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 20),
             TextFields(
               lblText: passwordLblText,
-              textInputType: true,
-              textFieldIcon: Icons.vpn_key_outlined,
+              maxLen: 20,
+              textInputType: password_protected,
+              textFieldIcon: user_password == ""
+                  ? Icons.vpn_key_outlined
+                  : Icons.remove_red_eye,
+              iconPressed: () {
+                setState(() {
+                  password_protected? password_protected= false: password_protected = true;
+                });
+              },
               onChangeText: (password) {
                 setState(() {
                   user_password = password;
@@ -121,14 +138,16 @@ class _LoginScreenState extends State<LoginScreen> {
             Directionality(
               textDirection: TextDirection.rtl,
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                 child: FlatButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/forgetPassword');
                   },
                   child: Text(
                     forgetTextButtonHint,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                    style: TextStyle(
+                        fontFamily: mainFontFamily,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15),
                   ),
                 ),
               ),

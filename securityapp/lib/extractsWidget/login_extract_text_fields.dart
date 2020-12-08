@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:securityapp/constFile/ConstFile.dart';
 
 class TextFields extends StatelessWidget {
-  TextFields({this.lblText, this.onChangeText, this.textFieldIcon, this.textInputType});
+  TextFields(
+      {this.lblText,
+      this.onChangeText,
+      this.textFieldIcon,
+      this.textInputType,
+      this.validate,
+      this.iconPressed,
+      this.maxLen});
 
   final String lblText;
   final Function onChangeText;
   final IconData textFieldIcon;
   final bool textInputType;
-
+  final Function validate;
+  final Function iconPressed;
+  final int maxLen;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +26,8 @@ class TextFields extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20),
         child: TextFormField(
+          maxLength: maxLen,
+          validator: validate,
           obscureText: textInputType,
           textAlign: TextAlign.center,
           cursorColor: Colors.blue[900],
@@ -26,10 +38,16 @@ class TextFields extends StatelessWidget {
             fillColor: Colors.blue[900],
             labelText: lblText,
             //TODO Fill this section for extract my custom Widget
-            labelStyle: TextStyle(),
-            border: OutlineInputBorder(),
-            suffixIcon: Icon(
-              textFieldIcon,
+            labelStyle: TextStyle(fontFamily: mainFontFamily),
+            border:
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            suffixIcon: FlatButton(
+              minWidth: 10,
+              onPressed: iconPressed,
+              child: Icon(
+                textFieldIcon,
+                color: Colors.blue[900],
+              ),
             ),
           ),
           onChanged: onChangeText,

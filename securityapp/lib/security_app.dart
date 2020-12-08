@@ -23,7 +23,7 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
 
   // Following is a list for two page as Widget
   var screens = [HomeScreen(), Setting()];
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,14 +73,14 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
             BottomNavigationBarItem(
               title: Text(
                 'خانه',
-                style: TextStyle(fontFamily: 'BYekan'),
+                style: TextStyle(fontFamily: mainFontFamily),
               ),
               icon: Icon(LineAwesomeIcons.home),
             ),
             BottomNavigationBarItem(
               title: Text(
                 'تنظیمات',
-                style: TextStyle(fontFamily: 'BYekan'),
+                style: TextStyle(fontFamily: mainFontFamily),
               ),
               icon: Icon(LineAwesomeIcons.hammer),
             ),

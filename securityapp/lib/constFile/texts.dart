@@ -22,6 +22,8 @@ const String darkModeText =
 const String pictureSubmission = "تایید تصویر";
 const String sendingPic2Db = "ثبت تصویر";
 
+// Dark mode section
+
 // login and forget and more...
 const String loginText = "ورود";
 const String greetingText = 'خوش آمدید';
@@ -29,6 +31,11 @@ const String phoneOrEmail = "شماره تلفن یا ایمیل شما";
 const String passwordLblText = "گذرواژه";
 const String forgetTextButtonHint = "گذرواژه خود را فراموش کرده اید؟";
 const String viewScreenLightOrDark = 'حالت تیره';
+
+// Confirmation
+const String confirmText = "بعدی";
+const String greetingConfirmMsg =
+    'شما برای اولین بار است \n که وارد این برنامه می شوید';
 
 // Forget page text
 const String greetingMsg = 'برای بازنشانی گذرواژه \n ایمیل خود را وارد کنید';
