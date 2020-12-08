@@ -10,6 +10,7 @@ class Setting extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -19,9 +20,16 @@ class Setting extends StatelessWidget {
           textDirection: TextDirection.rtl,
           children: [
 
-            
-            
-            
+
+            Container(
+              width: double.infinity,
+              height: 250,
+              decoration: BoxDecoration(
+                color: cardStyleColor,
+
+              ),
+            ),
+
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, '/StylePage');
