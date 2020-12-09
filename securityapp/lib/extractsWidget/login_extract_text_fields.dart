@@ -9,7 +9,8 @@ class TextFields extends StatelessWidget {
       this.textInputType,
       this.validate,
       this.iconPressed,
-      this.maxLen});
+      this.maxLen,
+      this.errText});
 
   final String lblText;
   final Function onChangeText;
@@ -18,6 +19,7 @@ class TextFields extends StatelessWidget {
   final Function validate;
   final Function iconPressed;
   final int maxLen;
+  final dynamic errText;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,15 @@ class TextFields extends StatelessWidget {
           textAlign: TextAlign.center,
           cursorColor: Colors.blue[900],
           decoration: InputDecoration(
+            errorText: errText,
+            errorStyle: TextStyle(
+              fontFamily: mainFontFamily
+            ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.blue[900], width: 2),
+              borderSide: BorderSide(
+                color: Colors.blue[900],
+                width: 2,
+              ),
             ),
             fillColor: Colors.blue[900],
             labelText: lblText,

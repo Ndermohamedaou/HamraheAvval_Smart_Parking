@@ -4,7 +4,6 @@ import 'package:mjpeg/mjpeg.dart';
 import 'package:securityapp/constFile/texts.dart';
 import '../adding_data.dart';
 import '../constFile/ConstFile.dart';
-import 'file:///D:/MyDoc/repo/flutter_parcking/securityapp/lib/constFile/optStyle.dart';
 import 'extract_main_design.dart';
 
 // Service Section in HomeScreen (main)

@@ -24,6 +24,7 @@ class Setting extends StatelessWidget {
               decoration: BoxDecoration(
                 color: cardStyleColor,
               ),
+              // child: Image.asset(text),
             ),
             GestureDetector(
               onTap: () {

@@ -3,6 +3,8 @@
 // would go here and see all const as "String"
 // |--- some text with related comment help you to solve what
 // is this text for thing?
+import 'dart:ui';
+
 const String mainAppBarText = "انتظامات";
 const String Camera = "دوربین ها";
 const String subCamera = "دوربین های مدار بسته";
@@ -36,6 +38,8 @@ const String phoneOrEmail = "شماره تلفن یا ایمیل شما";
 const String passwordLblText = "گذرواژه";
 const String forgetTextButtonHint = "گذرواژه خود را فراموش کرده اید؟";
 const String viewScreenLightOrDark = 'حالت تیره';
+const String emptyTextFieldMsg = "فیلد نباید خالی باشد!";
+const String notAMemberText = "شما عضو سیستم نیستید";
 
 // Confirmation
 const String confirmText = "بعدی";

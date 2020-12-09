@@ -7,6 +7,7 @@ import 'extractsWidget/setting.dart';
 import 'titleStyle/titles.dart';
 import 'constFile/texts.dart';
 import 'constFile/ConstFile.dart';
+import 'constFile/global_var.dart';
 
 class InputSecurityApp extends StatefulWidget {
   @override
@@ -23,9 +24,14 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
 
   // Following is a list for two page as Widget
   var screens = [HomeScreen(), Setting()];
-  
+
+  // void loadingProfileImage() async {
+  // This function will be link with global_var file in repo
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // loadingProfileImage();
     return Scaffold(
       appBar: AppBar(
         title: AppBarTitleConfig(

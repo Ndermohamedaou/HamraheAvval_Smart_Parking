@@ -51,7 +51,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigateUser() async {
-    print('sdsd');
     if (4 > 3) {
       Navigator.pushNamed(context, '/main');
     } else {
