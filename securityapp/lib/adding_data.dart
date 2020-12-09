@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'constFile/ConstFile.dart';
 import 'titleStyle/titles.dart';
-import 'constFile/optStyle.dart';
+import 'extractsWidget/optStyle.dart';
 import 'constFile/texts.dart';
 
 class AdddingDataMethods extends StatefulWidget {

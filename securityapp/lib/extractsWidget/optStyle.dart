@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ConstFile.dart';
+import '../constFile/ConstFile.dart';
 class OptionsViewer extends StatelessWidget {
   OptionsViewer({
     @required this.text,

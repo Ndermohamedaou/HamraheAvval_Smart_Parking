@@ -86,13 +86,11 @@ class _LoginScreenState extends State<LoginScreen> {
               child: themeChange.darkTheme
                   ? Image.asset(
                       "assets/images/haDark.png",
-                      width: 200,
-                      height: 200,
+                      width: widthOfLoginLogo,
                     )
                   : Image.asset(
                       "assets/images/haLight.png",
-                      width: 200,
-                      height: 200,
+                      width: widthOfLoginLogo,
                     ),
             ),
             Text(
@@ -126,7 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   : Icons.remove_red_eye,
               iconPressed: () {
                 setState(() {
-                  password_protected? password_protected= false: password_protected = true;
+                  password_protected
+                      ? password_protected = false
+                      : password_protected = true;
                 });
               },
               onChangeText: (password) {

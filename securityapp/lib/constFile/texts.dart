@@ -1,3 +1,8 @@
+// This file can help you to find all texts i use in
+// our App and if we want to change somethings
+// would go here and see all const as "String"
+// |--- some text with related comment help you to solve what
+// is this text for thing?
 const String mainAppBarText = "انتظامات";
 const String Camera = "دوربین ها";
 const String subCamera = "دوربین های مدار بسته";
@@ -17,8 +22,8 @@ const String opt2Desc =
 
 const String darkModeText =
     "فعال کردن این گزینه باعث میشود در شرایط تاریک با بهتر ببینید";
-// button texts
-//   Camera Insertions some text
+
+// Camera Insertions some text
 const String pictureSubmission = "تایید تصویر";
 const String sendingPic2Db = "ثبت تصویر";
 
@@ -40,3 +45,12 @@ const String greetingConfirmMsg =
 // Forget page text
 const String greetingMsg = 'برای بازنشانی گذرواژه \n ایمیل خود را وارد کنید';
 const String forgetTextButton = 'بازنشانی گذرواژه';
+
+// Settings texts
+// Option 1
+const String themeModeSwitch = 'حالت شب و روز';
+const String themeModeSwitchDesc =
+    "شما میتوانید با استفاده از این گزینه از اپلیکیشن در هر محیطی متناسب با چشمان خود استفاده کنید";
+// Option 2
+const String ipAddressesList = 'آدرس های آی پی';
+const String ipAddressesListDesc = "برای دسترسی به تمامی آدرس های آی پی کلیک کنید";

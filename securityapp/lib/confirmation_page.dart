@@ -58,7 +58,10 @@ class __ConfirmationPageState extends State<_ConfirmationPage> {
           SizedBox(height: 10),
           Text(
             greetingConfirmMsg,
-            style: TextStyle(fontFamily: mainFontFamily, fontSize: 25, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontFamily: mainFontFamily,
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 30),
