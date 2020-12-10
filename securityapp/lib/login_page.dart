@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'constFile/texts.dart';
-import 'extractsWidget/bottom_button.dart';
 import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'extractsWidget/login_extract_text_fields.dart';
@@ -33,20 +32,32 @@ class _LoginPageState extends State<LoginPage> {
   final lStorage = FlutterSecureStorage();
 
   // Getting user details with specific token
+  // For everyone has first_visit false
   // and use some params for storing in local!!
-  Future<Map> fetchingUserDetails(String uToken) async {
+  void fetchingUserDetails(String uToken) async {
     // Token as req goes to server and get me user details
     try {
-      Response response = await dio.post("path");
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers["Authorization"] = "Bearer ${uToken}";
+
+      Response response = await dio.get("/userInfo");
+      // show case
+      print(response.data);
+
       // what does parameters will go to local storage? (with response List)
       // Token as String
-      await lStorage.write(key: "uToken", value: uToken);
+      // await lStorage.write(key: "uToken", value: uToken);
       // fullName as String
       // email as String
 
     } catch (e) {
       print(e);
     }
+  }
+
+  void confirmUser(uToken) {
+    Navigator.pushNamed(context, '/confirmation',
+        arguments: {"userToken": uToken});
   }
 
   void gettingToken(email, pass) async {
@@ -57,19 +68,23 @@ class _LoginPageState extends State<LoginPage> {
         // Dio with post method to get response from local server
         // but if you want work with localhost we must use 10.0.2.2 IP address
         // because AVD use this ip address as local IP!
+        // BaseUrl is abstraction of our url api
+        // dio.options.baseUrl = "http://10.0.2.2:8000/api";
         Response response = await dio.post(
             "http://10.0.2.2:8000/api/login?email=${email}&password=${pass}");
         // if there is a user on server we will get 200
         if (response.data['status'] == "200") {
+          print(response.data);
           // first visit ? navigated to new page
           // to put your email and confirm password
           if (response.data['first_visit']) {
-            // print('This is first visit');
+            String userToken = response.data['token'];
+            confirmUser(userToken);
           } else {
             // if user is not **New** in app
             String userToken = response.data['token'];
             print(userToken);
-            // var results = fetchingUserDetails(userToken);
+            // fetchingUserDetails(userToken);
           }
         }
       } catch (e) {
@@ -138,6 +153,25 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: ListTile(
+                title: Text(
+                  viewScreenLightOrDark,
+                  style: TextStyle(fontSize: 20, fontFamily: mainFontFamily),
+                ),
+                leading: Container(
+                  width: 60,
+                  child: Switch(
+                    activeColor: Colors.blue[700],
+                    value: themeChange.darkTheme,
+                    onChanged: (bool value) {
+                      themeChange.darkTheme = value;
+                    },
+                  ),
+                ),
+              ),
+            ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: themeChange.darkTheme
@@ -219,25 +253,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(height: 10),
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: ListTile(
-                title: Text(
-                  viewScreenLightOrDark,
-                  style: TextStyle(fontSize: 20, fontFamily: mainFontFamily),
-                ),
-                leading: Container(
-                  width: 60,
-                  child: Switch(
-                    activeColor: Colors.blue[700],
-                    value: themeChange.darkTheme,
-                    onChanged: (bool value) {
-                      themeChange.darkTheme = value;
-                    },
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

@@ -25,22 +25,29 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
   // Following is a list for two page as Widget
   var screens = [HomeScreen(), Setting()];
 
-  // void loadingProfileImage() async {
   // This function will be link with global_var file in repo
-  // }
+  void loadingProfileImage() async {
+    imagePath = "assets/images/haDark.png";
+    username = "asn.codes";
+    email = "asn.codes@gmail.com";
+  }
 
   @override
   Widget build(BuildContext context) {
-    // loadingProfileImage();
+    loadingProfileImage();
     return Scaffold(
       appBar: AppBar(
-        title: AppBarTitleConfig(
-          titleText: mainAppBarText,
-          textStyles: TextStyle(
-              fontSize: fontTitleSize,
-              fontFamily: titleFontFamily,
-              color: Colors.white),
+        title: Center(
+          child: AppBarTitleConfig(
+            titleText: mainAppBarText,
+            textStyles: TextStyle(
+                fontSize: fontTitleSize,
+                fontFamily: titleFontFamily,
+                color: Colors.white),
+          ),
         ),
+        leadingWidth: 0,
+        leading: Text(''),
       ),
       body: SafeArea(
         child: PageView(

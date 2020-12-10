@@ -8,7 +8,7 @@ HexColor sMBColor = HexColor('#172438');
 HexColor statusBar = HexColor('#172438');
 const String loginTextFontFamily = mainFontFamily;
 const double loginTextSize = 22;
-const double widthOfLoginLogo = 200;
+const double widthOfLoginLogo = 180;
 
 // Confirmation
 

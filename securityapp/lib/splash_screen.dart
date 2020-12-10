@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigateUser() async {
-    if (4 > 3) {
+    if (2 > 3) {
       Navigator.pushNamed(context, '/main');
     } else {
       Navigator.pushNamed(context, '/LoginPage');

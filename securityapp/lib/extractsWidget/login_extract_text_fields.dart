@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:securityapp/constFile/ConstFile.dart';
 
 class TextFields extends StatelessWidget {
-  TextFields(
-      {this.lblText,
-      this.onChangeText,
-      this.textFieldIcon,
-      this.textInputType,
-      this.validate,
-      this.iconPressed,
-      this.maxLen,
-      this.errText});
+  TextFields({this.lblText,
+    this.onChangeText,
+    this.textFieldIcon,
+    this.textInputType,
+    this.validate,
+    this.iconPressed,
+    this.maxLen,
+    this.minLen,
+    this.errText,
+    this.enteringEditing});
 
   final String lblText;
   final Function onChangeText;
@@ -19,7 +20,9 @@ class TextFields extends StatelessWidget {
   final Function validate;
   final Function iconPressed;
   final int maxLen;
+  final int minLen;
   final dynamic errText;
+  final Function enteringEditing;
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +38,7 @@ class TextFields extends StatelessWidget {
           cursorColor: Colors.blue[900],
           decoration: InputDecoration(
             errorText: errText,
-            errorStyle: TextStyle(
-              fontFamily: mainFontFamily
-            ),
+            errorStyle: TextStyle(fontFamily: mainFontFamily),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.blue[900],
@@ -49,7 +50,7 @@ class TextFields extends StatelessWidget {
             //TODO Fill this section for extract my custom Widget
             labelStyle: TextStyle(fontFamily: mainFontFamily),
             border:
-                OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+            OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
             suffixIcon: FlatButton(
               minWidth: 10,
               onPressed: iconPressed,
@@ -60,6 +61,7 @@ class TextFields extends StatelessWidget {
             ),
           ),
           onChanged: onChangeText,
+          onEditingComplete: enteringEditing,
         ),
       ),
     );

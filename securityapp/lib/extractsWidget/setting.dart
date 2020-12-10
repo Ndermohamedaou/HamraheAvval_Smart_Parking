@@ -3,6 +3,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../constFile/ConstFile.dart';
 import '../constFile/texts.dart';
 import 'optStyle.dart';
+import '../constFile/global_var.dart';
 
 // Setting Section in HomeScreen (main)
 class Setting extends StatelessWidget {
@@ -18,14 +19,23 @@ class Setting extends StatelessWidget {
         child: Column(
           textDirection: TextDirection.rtl,
           children: [
+
             Container(
-              width: double.infinity,
-              height: 250,
-              decoration: BoxDecoration(
-                color: cardStyleColor,
-              ),
-              // child: Image.asset(text),
-            ),
+                width: double.infinity,
+                height: 250,
+                decoration: BoxDecoration(
+                  color: cardStyleColor,
+                ),
+                child: Column(
+                  children: [
+                    Image.asset(
+                      imagePath,
+                      width: 150,
+                    ),
+                    Text(username),
+                    Text(email),
+                  ],
+                )),
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, '/StylePage');

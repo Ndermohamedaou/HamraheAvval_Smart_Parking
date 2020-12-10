@@ -18,25 +18,25 @@ Route::get('/', function () {
 });
 
 Route::get('/add', function () {
-//    $user = \App\User::create([
-//       'name' => 'کیوان شاه کرمی',
-//       'email' => '902399'.'@mci.ir',
-//       'password' => bcrypt('123'),
-//       'role' => 'staff'
-//    ]);
+   $user = \App\User::create([
+      'name' => 'علیرضا سلطانی نشان',
+      'email' => 'asncodes'.'@mci.ir',
+      'password' => bcrypt('123'),
+      'role' => 'staff'
+   ]);
 //
-//    \App\Models\StaffInfo::create([
-//        'user_id' => $user->_id,
-//        'name' => $user->name,
-//        'email' => $user->email,
-//        'join_date' => verta()->today(),
-//        'plate' => '75 ص 325 | 20',
-//        'personal_code' => '902399',
-//        'melli_code' => '4060776319',
-//        'avatar' => 'Sample.jpg',
-//        'section' => 'تحقیق و توسعه',
-//        'birth_date' => '1374-01-23'
-//    ]);
+   \App\Models\StaffInfo::create([
+       'user_id' => $user->_id,
+       'name' => $user->name,
+       'email' => $user->email,
+       'join_date' => verta()->today(),
+       'plate' => '75 ص 325 | 20',
+       'personal_code' => '902399',
+       'melli_code' => '4060776319',
+       'avatar' => 'Sample.jpg',
+       'section' => 'تحقیق و توسعه',
+       'birth_date' => '1374-01-23'
+   ]);
 
 //    \App\Models\Reserve::create([
 //        'plate' => '75 ص 325 | 20',

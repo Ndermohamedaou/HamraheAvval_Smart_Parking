@@ -45,6 +45,10 @@ const String notAMemberText = "شما عضو سیستم نیستید";
 const String confirmText = "بعدی";
 const String greetingConfirmMsg =
     'شما برای اولین بار است \n که وارد این برنامه می شوید';
+const String confirmPasswordLblText = "تایید گذرواژه";
+const String notMatch = "گذرواژه های باهم یکسان نیستند";
+const String lessThanLength = "گذرواژه شما نباید کوچتر از 6 رقم باشد";
+
 
 // Forget page text
 const String greetingMsg = 'برای بازنشانی گذرواژه \n ایمیل خود را وارد کنید';
