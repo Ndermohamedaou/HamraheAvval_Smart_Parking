@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:securityapp/constFile/ConstFile.dart';
 
 class TextFields extends StatelessWidget {
-  TextFields({this.lblText,
-    this.onChangeText,
-    this.textFieldIcon,
-    this.textInputType,
-    this.validate,
-    this.iconPressed,
-    this.maxLen,
-    this.minLen,
-    this.errText,
-    this.enteringEditing});
+  TextFields(
+      {this.lblText,
+      this.onChangeText,
+      this.textFieldIcon,
+      this.textInputType,
+      this.validate,
+      this.iconPressed,
+      this.maxLen,
+      this.errText,
+      this.enteringEditing,
+      this.readOnly, this.initValue});
 
   final String lblText;
   final Function onChangeText;
@@ -20,9 +21,10 @@ class TextFields extends StatelessWidget {
   final Function validate;
   final Function iconPressed;
   final int maxLen;
-  final int minLen;
   final dynamic errText;
   final Function enteringEditing;
+  final bool readOnly;
+  final String initValue;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,9 @@ class TextFields extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20),
         child: TextFormField(
+          readOnly: readOnly,
+          keyboardType: TextInputType.emailAddress,
+          initialValue: initValue,
           maxLength: maxLen,
           validator: validate,
           obscureText: textInputType,
@@ -50,7 +55,7 @@ class TextFields extends StatelessWidget {
             //TODO Fill this section for extract my custom Widget
             labelStyle: TextStyle(fontFamily: mainFontFamily),
             border:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+                OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
             suffixIcon: FlatButton(
               minWidth: 10,
               onPressed: iconPressed,

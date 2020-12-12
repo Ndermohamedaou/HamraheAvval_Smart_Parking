@@ -31,9 +31,6 @@ class _LoginPageState extends State<LoginPage> {
   // Local Storage Super Secure!
   final lStorage = FlutterSecureStorage();
 
-  // Getting user details with specific token
-  // For everyone has first_visit false
-  // and use some params for storing in local!!
   void fetchingUserDetails(String uToken) async {
     // Token as req goes to server and get me user details
     try {
@@ -42,8 +39,8 @@ class _LoginPageState extends State<LoginPage> {
 
       Response response = await dio.get("/userInfo");
       // show case
-      print(response.data);
-
+      // print(response.data);
+      // TODO
       // what does parameters will go to local storage? (with response List)
       // Token as String
       // await lStorage.write(key: "uToken", value: uToken);
@@ -55,9 +52,23 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void confirmUser(uToken) {
-    Navigator.pushNamed(context, '/confirmation',
-        arguments: {"userToken": uToken});
+  // If user is new in application
+  void confirmUser(uToken) async {
+    try {
+      dio.options.headers['Content-Type'] = 'application/json';
+      // Sending user token to server and get user's info
+      dio.options.headers["Authorization"] = "Bearer ${uToken}";
+      // Getting response as map and passing it to confirmation page
+      Response response = await dio.get("http://10.0.2.2:8000/api/userInfo");
+      var userInfo = response.data;
+      Navigator.pushNamed(context, '/confirmation',
+          arguments: {"userInfo": userInfo, "uToken": uToken});
+    } catch (e) {
+      Toast.show("مشکلی از سوی سرور پیش آمده", context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.BOTTOM,
+          textColor: Colors.white);
+    }
   }
 
   void gettingToken(email, pass) async {
@@ -74,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
             "http://10.0.2.2:8000/api/login?email=${email}&password=${pass}");
         // if there is a user on server we will get 200
         if (response.data['status'] == "200") {
-          print(response.data);
+          // print(response.data);
           // first visit ? navigated to new page
           // to put your email and confirm password
           if (response.data['first_visit']) {
@@ -83,9 +94,13 @@ class _LoginPageState extends State<LoginPage> {
           } else {
             // if user is not **New** in app
             String userToken = response.data['token'];
-            print(userToken);
-            // fetchingUserDetails(userToken);
+            fetchingUserDetails(userToken);
           }
+        } else {
+          Toast.show(notAMemberText, context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              textColor: Colors.white);
         }
       } catch (e) {
         Toast.show(notAMemberText, context,
@@ -99,13 +114,6 @@ class _LoginPageState extends State<LoginPage> {
         emptyTextFieldErrPassword = emptyTextFieldMsg;
       });
     }
-
-    // TODO If this is first time to append!
-    // Status checker Statement with passing Token (arguments)
-    // Navigator.pushNamed(context, '/confirmation');
-    //  else time
-    //   Navigator.pushNamed(context, '/main');
-    // Saving primary data in secure storage
   }
 
   @override
@@ -199,6 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
               lblText: phoneOrEmail,
               textFieldIcon: Icons.contacts_outlined,
               textInputType: false,
+              readOnly: false,
               errText:
                   emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
               onChangeText: (username) {
@@ -212,6 +221,7 @@ class _LoginScreenState extends State<LoginScreen> {
             TextFields(
               lblText: passwordLblText,
               maxLen: 20,
+              readOnly: false,
               errText:
                   emptyTextFieldErrPassword == null ? null : emptyTextFieldMsg,
               textInputType: protectedPassword,

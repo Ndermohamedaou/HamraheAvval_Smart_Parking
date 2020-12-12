@@ -1,23 +1,38 @@
+import 'dart:io';
+import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'constFile/ConstFile.dart';
 import 'constFile/texts.dart';
 import 'extractsWidget/login_extract_text_fields.dart';
 import 'package:dio/dio.dart';
+import 'extractsWidget/confirmation_sections.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+// Index of page for forward ahead with btn
+int pageIndex = 0;
+// On Break
+bool breakConfirm = false;
 // Define Main var global
 // in this files and separate with other vars
 String userEmail = "";
 String userPassword = "";
 String userConfirmPassword = "";
 bool protectedPassword = true;
-Map<String, Object> uToken;
+Map<String, Object> userInfo;
+String uToken;
 // some validation in text fields
 IconData showMePass = Icons.remove_red_eye;
 dynamic emptyTextFieldErrEmail = null;
 dynamic emptyTextFieldErrPass = null;
 dynamic emptyTextFieldErrConfirmPass = null;
+// Creating PageController for forwarding ahead with btn
+// without use swapping finger on screen
+PageController _pageController = PageController();
+// Duration to apply in next or prv page
+Duration _duration = new Duration(milliseconds: 500);
 
 class ConfirmationPage extends StatefulWidget {
   @override
@@ -28,8 +43,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
   Dio dio = Dio();
 
   // To sending confirm information
-  void confirmationProcessing(email, pass, confirmPass) async {
-    // print("==========${uToken['userToken']}==========");
+  void confirmationProcessing(email, pass, confirmPass, uToken) async {
     if (email != "" || pass != "" || confirmPass != "") {
       if (pass == confirmPass) {
         if (pass.length > 6 && confirmPass.length > 6) {
@@ -51,11 +65,6 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
           } catch (e) {
             print(e);
           }
-        } else {
-          Toast.show(lessThanLength, context,
-              duration: Toast.LENGTH_LONG,
-              gravity: Toast.BOTTOM,
-              textColor: Colors.white);
         }
       } else {
         Toast.show(notMatch, context,
@@ -75,28 +84,67 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Material(
-          elevation: 10.0,
-          borderRadius: BorderRadius.circular(8.0),
-          color: Colors.blue[900],
-          child: MaterialButton(
-            padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: () {
-              confirmationProcessing(
-                  userEmail, userPassword, userConfirmPassword);
-            },
-            child: Text(
-              confirmText,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: loginTextFontFamily,
-                  fontSize: loginTextSize,
-                  fontWeight: FontWeight.bold),
+      bottomNavigationBar: breakConfirm
+          ? Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(8.0),
+                color: Colors.blue[900],
+                child: MaterialButton(
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: () {
+                    confirmationProcessing(
+                        userEmail, userPassword, userConfirmPassword, uToken);
+                  },
+                  child: Text(
+                    "ثبت اطلاعات",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: loginTextFontFamily,
+                        fontSize: loginTextSize,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            )
+          : Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(8.0),
+                color: Colors.blue[900],
+                child: MaterialButton(
+                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  onPressed: () {
+                    // confirmationProcessing(
+                    //     userEmail, userPassword, userConfirmPassword);
+                    _pageController.nextPage(
+                        duration: _duration, curve: Curves.easeIn);
+                    setState(() {
+                      pageIndex == 0
+                          ? breakConfirm = true
+                          : breakConfirm = false;
+                    });
+                  },
+                  child: Text(
+                    "بعدی",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: loginTextFontFamily,
+                        fontSize: loginTextSize,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
             ),
-          ),
+      appBar: AppBar(
+        backgroundColor: scaffoldBackgroundColor,
+        title: Text(
+          "پروفایل",
+          style: TextStyle(fontFamily: mainFontFamily),
         ),
       ),
       body: _ConfirmationPage(),
@@ -110,97 +158,136 @@ class _ConfirmationPage extends StatefulWidget {
 }
 
 class __ConfirmationPageState extends State<_ConfirmationPage> {
-  // Getting token from main login page as new arg in here
+  File imgSource;
+
+  Future galleryViewer() async {
+    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      imgSource = image;
+      print(imgSource);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    uToken = ModalRoute.of(context).settings.arguments;
+    // Getting Arguments from login page all about user info.
+    userInfo = ModalRoute.of(context).settings.arguments;
+    uToken = userInfo['uToken'];
+    userInfo = userInfo['userInfo'];
 
     return SafeArea(
-        child: SingleChildScrollView(
-      child: Column(
+      child: PageView(
+        onPageChanged: (viewIndex) {
+          setState(() {
+            pageIndex = viewIndex;
+          });
+        },
+        controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
         children: [
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            child: Image.asset("assets/images/confirmPass.png"),
-          ),
-          SizedBox(height: 10),
-          Text(
-            greetingConfirmMsg,
-            style: TextStyle(
-                fontFamily: mainFontFamily,
-                fontSize: 25,
-                fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 30),
-          TextFields(
-            textInputType: false,
-            lblText: phoneOrEmail,
-            textFieldIcon: Icons.email,
-            errText: emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
-            onChangeText: (email) {
-              setState(() {
-                emptyTextFieldErrEmail = null;
-                userEmail = email;
-              });
+          confirmInfoSec1(
+            initName: userInfo['name'],
+            naturalCode: userInfo['melli_code'],
+            personalCode: userInfo['personal_code'],
+            // imageFile: imgSource ==null?"": imgSource,
+            gettingImage: () {
+              galleryViewer();
             },
           ),
-          SizedBox(height: 20),
-          TextFields(
-            textInputType: protectedPassword,
-            lblText: passwordLblText,
-            maxLen: 20,
-            textFieldIcon:
-                userPassword == "" ? Icons.vpn_key_outlined : showMePass,
-            errText: emptyTextFieldErrPass == null ? null : emptyTextFieldMsg,
-            onChangeText: (pass) {
-              setState(() {
-                emptyTextFieldErrPass = null;
-                userPassword = pass;
-              });
-            },
-            iconPressed: () {
-              setState(() {
-                protectedPassword
-                    ? protectedPassword = false
-                    : protectedPassword = true;
-                // Changing eye icon pressing
-                showMePass == Icons.remove_red_eye
-                    ? showMePass = Icons.remove_red_eye_outlined
-                    : showMePass = Icons.remove_red_eye;
-              });
-            },
-          ),
-          SizedBox(height: 20),
-          TextFields(
-            maxLen: 20,
-            textInputType: protectedPassword,
-            lblText: confirmPasswordLblText,
-            textFieldIcon:
-                userConfirmPassword == "" ? Icons.vpn_key_outlined : showMePass,
-            errText:
-                emptyTextFieldErrConfirmPass == null ? null : emptyTextFieldMsg,
-            onChangeText: (confirmPass) {
-              setState(() {
-                emptyTextFieldErrConfirmPass = null;
-                userConfirmPassword = confirmPass;
-              });
-            },
-            iconPressed: () {
-              setState(() {
-                protectedPassword
-                    ? protectedPassword = false
-                    : protectedPassword = true;
-                // Changing eye icon pressing
-                showMePass == Icons.remove_red_eye
-                    ? showMePass = Icons.remove_red_eye_outlined
-                    : showMePass = Icons.remove_red_eye;
-              });
-            },
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  child: Image.asset("assets/images/confirmPass.png"),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  greetingConfirmMsg,
+                  style: TextStyle(
+                      fontFamily: mainFontFamily,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 30),
+                TextFields(
+                  textInputType: false,
+                  readOnly: false,
+                  lblText: phoneOrEmail,
+                  textFieldIcon: Icons.email,
+                  errText:
+                      emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
+                  onChangeText: (email) {
+                    setState(() {
+                      emptyTextFieldErrEmail = null;
+                      userEmail = email;
+                    });
+                  },
+                ),
+                SizedBox(height: 20),
+                TextFields(
+                  textInputType: protectedPassword,
+                  lblText: passwordLblText,
+                  maxLen: 20,
+                  readOnly: false,
+                  textFieldIcon:
+                      userPassword == "" ? Icons.vpn_key_outlined : showMePass,
+                  errText:
+                      emptyTextFieldErrPass == null ? null : emptyTextFieldMsg,
+                  onChangeText: (pass) {
+                    setState(() {
+                      emptyTextFieldErrPass = null;
+                      userPassword = pass;
+                    });
+                  },
+                  iconPressed: () {
+                    setState(() {
+                      protectedPassword
+                          ? protectedPassword = false
+                          : protectedPassword = true;
+                      // Changing eye icon pressing
+                      showMePass == Icons.remove_red_eye
+                          ? showMePass = Icons.remove_red_eye_outlined
+                          : showMePass = Icons.remove_red_eye;
+                    });
+                  },
+                ),
+                SizedBox(height: 20),
+                TextFields(
+                  maxLen: 20,
+                  textInputType: protectedPassword,
+                  lblText: confirmPasswordLblText,
+                  readOnly: false,
+                  textFieldIcon: userConfirmPassword == ""
+                      ? Icons.vpn_key_outlined
+                      : showMePass,
+                  errText: emptyTextFieldErrConfirmPass == null
+                      ? null
+                      : emptyTextFieldMsg,
+                  onChangeText: (confirmPass) {
+                    setState(() {
+                      emptyTextFieldErrConfirmPass = null;
+                      userConfirmPassword = confirmPass;
+                    });
+                  },
+                  iconPressed: () {
+                    setState(() {
+                      protectedPassword
+                          ? protectedPassword = false
+                          : protectedPassword = true;
+                      // Changing eye icon pressing
+                      showMePass == Icons.remove_red_eye
+                          ? showMePass = Icons.remove_red_eye_outlined
+                          : showMePass = Icons.remove_red_eye;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
-    ));
+    );
   }
 }

@@ -42,13 +42,17 @@ const String emptyTextFieldMsg = "فیلد نباید خالی باشد!";
 const String notAMemberText = "شما عضو سیستم نیستید";
 
 // Confirmation
+const String fullName = "نام کامل";
 const String confirmText = "بعدی";
+const String fullNameMsg =
+    "این قسمت مربوط به نام کاربری شما نمی باشد، بلکه نام کامل شما را نشان میدهید";
+const String naturalCodeTooltip = "شما نمیتوانید به صورت مستقیم این فیلد را تغییر دهید";
+
 const String greetingConfirmMsg =
     'شما برای اولین بار است \n که وارد این برنامه می شوید';
 const String confirmPasswordLblText = "تایید گذرواژه";
 const String notMatch = "گذرواژه های باهم یکسان نیستند";
 const String lessThanLength = "گذرواژه شما نباید کوچتر از 6 رقم باشد";
-
 
 // Forget page text
 const String greetingMsg = 'برای بازنشانی گذرواژه \n ایمیل خود را وارد کنید';
@@ -61,4 +65,5 @@ const String themeModeSwitchDesc =
     "شما میتوانید با استفاده از این گزینه از اپلیکیشن در هر محیطی متناسب با چشمان خود استفاده کنید";
 // Option 2
 const String ipAddressesList = 'آدرس های آی پی';
-const String ipAddressesListDesc = "برای دسترسی به تمامی آدرس های آی پی کلیک کنید";
+const String ipAddressesListDesc =
+    "برای دسترسی به تمامی آدرس های آی پی کلیک کنید";

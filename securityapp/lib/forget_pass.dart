@@ -79,6 +79,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               textFieldIcon: Icons.mark_email_read_outlined,
               textInputType: false,
               lblText: phoneOrEmail,
+              readOnly: false,
               onChangeText: (email) {
                 setState(() {
                   user_email = email;

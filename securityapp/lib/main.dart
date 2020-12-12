@@ -15,6 +15,7 @@ import 'login_page.dart';
 import 'confirmation_page.dart';
 import 'forget_pass.dart';
 import 'splash_screen.dart';
+// import 'completing_information.dart';
 
 void main() {
   runApp(MyApp());
