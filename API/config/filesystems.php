@@ -60,6 +60,11 @@ return [
             'root' => public_path('/avatars'),
         ],
 
+        'plates' => [
+            'driver' => 'local',
+            'root' => public_path('/plates'),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

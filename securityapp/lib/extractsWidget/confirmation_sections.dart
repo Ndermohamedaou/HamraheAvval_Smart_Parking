@@ -17,18 +17,18 @@ class confirmInfoSec1 extends StatelessWidget {
   final String naturalCode;
   final String personalCode;
   final Function gettingImage;
-  final File imageFile;
+  var imageFile;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-          margin: EdgeInsets.only(top: 60),
+          margin: EdgeInsets.only(top: 20),
           child: Column(
             children: [
               CircleAvatar(
                 radius: 100,
-                backgroundImage: ExactAssetImage('assets/images/profile.png'),
+                backgroundImage: imageFile,
                 child: Container(
                   margin: EdgeInsets.fromLTRB(120, 150, 0, 0),
                   child: FloatingActionButton(

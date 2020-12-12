@@ -46,7 +46,13 @@ const String fullName = "نام کامل";
 const String confirmText = "بعدی";
 const String fullNameMsg =
     "این قسمت مربوط به نام کاربری شما نمی باشد، بلکه نام کامل شما را نشان میدهید";
-const String naturalCodeTooltip = "شما نمیتوانید به صورت مستقیم این فیلد را تغییر دهید";
+const String naturalCodeTooltip =
+    "شما نمیتوانید به صورت مستقیم این فیلد را تغییر دهید";
+
+const String completingForm = "ثبت اطلاعات";
+const String nextConfirmPage = "بعدی";
+const String serverNotResponse = "مشکلی از سوی سرور رخ داده است";
+const String appBarConfirmationTitle = "پروفایل";
 
 const String greetingConfirmMsg =
     'شما برای اولین بار است \n که وارد این برنامه می شوید';

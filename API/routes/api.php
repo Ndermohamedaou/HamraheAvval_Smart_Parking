@@ -31,5 +31,8 @@ Route::group(['middleware' => ['jwt'] , 'namespace' => 'Api'], function() {
     Route::get('getUserReserves', 'ApiUserController@getUserReserves');
 //        Route::get('closed', 'DataController@closed');
     Route::get('/getSlots','DataController@getSlots');
+    Route::post('/getSlotInfo','DataController@getSlotInfo');
+    Route::post('/searchSlot','DataController@searchSlot');
+    Route::post('/uploadPlate','PlateController@uploadPlate');
 });
 

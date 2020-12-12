@@ -23,6 +23,7 @@ String userConfirmPassword = "";
 bool protectedPassword = true;
 Map<String, Object> userInfo;
 String uToken;
+File imgSource;
 // some validation in text fields
 IconData showMePass = Icons.remove_red_eye;
 dynamic emptyTextFieldErrEmail = null;
@@ -42,19 +43,32 @@ class ConfirmationPage extends StatefulWidget {
 class _ConfirmationPageState extends State<ConfirmationPage> {
   Dio dio = Dio();
 
+  // Local Storage Super Secure!
+  final lStorage = FlutterSecureStorage();
+
   // To sending confirm information
   void confirmationProcessing(email, pass, confirmPass, uToken) async {
+    // I will use userInfo Map for storing data in local
     if (email != "" || pass != "" || confirmPass != "") {
       if (pass == confirmPass) {
         if (pass.length > 6 && confirmPass.length > 6) {
+          // Prepare require data to updating user info
+          // FormData userData = FormData.fromMap({"avatar": imgSource});
+          var formData = FormData();
+          formData.files.add(MapEntry(
+              "avatar",
+              await MultipartFile.fromFile(imgSource.path,
+                  filename: "userAvatar.png")));
           try {
+            print(
+                "${email} -- ${pass} -- ${confirmPass} -- ${uToken} -- ${imgSource}");
             dio.options.headers['content-type'] = 'application/json';
-            dio.options.headers['authorization'] =
-                "Bearer ${uToken['userToken']}";
-            Response response =
-                await dio.get("http://10.0.2.2:8000/api/userInfo/");
+            dio.options.headers['authorization'] = "Bearer ${uToken}";
+            Response response = await dio.post(
+                "http://10.0.2.2:8000/api/UpdateInfo?&email=${email}&password=${pass}",
+                data: formData);
             // show case
-            print(response);
+            print(response.data);
             // TODO
             // what does parameters will go to local storage? (with response List)
             // Token as String
@@ -63,6 +77,10 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
             // email as String
 
           } catch (e) {
+            // Toast.show(serverNotResponse, context,
+            //     duration: Toast.LENGTH_LONG,
+            //     gravity: Toast.BOTTOM,
+            //     textColor: Colors.white);
             print(e);
           }
         }
@@ -98,7 +116,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                         userEmail, userPassword, userConfirmPassword, uToken);
                   },
                   child: Text(
-                    "ثبت اطلاعات",
+                    completingForm,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -129,7 +147,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                     });
                   },
                   child: Text(
-                    "بعدی",
+                    nextConfirmPage,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
@@ -143,7 +161,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
       appBar: AppBar(
         backgroundColor: scaffoldBackgroundColor,
         title: Text(
-          "پروفایل",
+          appBarConfirmationTitle,
           style: TextStyle(fontFamily: mainFontFamily),
         ),
       ),
@@ -158,13 +176,10 @@ class _ConfirmationPage extends StatefulWidget {
 }
 
 class __ConfirmationPageState extends State<_ConfirmationPage> {
-  File imgSource;
-
   Future galleryViewer() async {
     final image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       imgSource = image;
-      print(imgSource);
     });
   }
 
@@ -189,102 +204,104 @@ class __ConfirmationPageState extends State<_ConfirmationPage> {
             initName: userInfo['name'],
             naturalCode: userInfo['melli_code'],
             personalCode: userInfo['personal_code'],
-            // imageFile: imgSource ==null?"": imgSource,
+            imageFile: imgSource == null
+                ? AssetImage('assets/images/profile.png')
+                : FileImage(imgSource),
             gettingImage: () {
               galleryViewer();
             },
           ),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  child: Image.asset("assets/images/confirmPass.png"),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  greetingConfirmMsg,
-                  style: TextStyle(
-                      fontFamily: mainFontFamily,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 30),
-                TextFields(
-                  textInputType: false,
-                  readOnly: false,
-                  lblText: phoneOrEmail,
-                  textFieldIcon: Icons.email,
-                  errText:
-                      emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
-                  onChangeText: (email) {
-                    setState(() {
-                      emptyTextFieldErrEmail = null;
-                      userEmail = email;
-                    });
-                  },
-                ),
-                SizedBox(height: 20),
-                TextFields(
-                  textInputType: protectedPassword,
-                  lblText: passwordLblText,
-                  maxLen: 20,
-                  readOnly: false,
-                  textFieldIcon:
-                      userPassword == "" ? Icons.vpn_key_outlined : showMePass,
-                  errText:
-                      emptyTextFieldErrPass == null ? null : emptyTextFieldMsg,
-                  onChangeText: (pass) {
-                    setState(() {
-                      emptyTextFieldErrPass = null;
-                      userPassword = pass;
-                    });
-                  },
-                  iconPressed: () {
-                    setState(() {
-                      protectedPassword
-                          ? protectedPassword = false
-                          : protectedPassword = true;
-                      // Changing eye icon pressing
-                      showMePass == Icons.remove_red_eye
-                          ? showMePass = Icons.remove_red_eye_outlined
-                          : showMePass = Icons.remove_red_eye;
-                    });
-                  },
-                ),
-                SizedBox(height: 20),
-                TextFields(
-                  maxLen: 20,
-                  textInputType: protectedPassword,
-                  lblText: confirmPasswordLblText,
-                  readOnly: false,
-                  textFieldIcon: userConfirmPassword == ""
-                      ? Icons.vpn_key_outlined
-                      : showMePass,
-                  errText: emptyTextFieldErrConfirmPass == null
-                      ? null
-                      : emptyTextFieldMsg,
-                  onChangeText: (confirmPass) {
-                    setState(() {
-                      emptyTextFieldErrConfirmPass = null;
-                      userConfirmPassword = confirmPass;
-                    });
-                  },
-                  iconPressed: () {
-                    setState(() {
-                      protectedPassword
-                          ? protectedPassword = false
-                          : protectedPassword = true;
-                      // Changing eye icon pressing
-                      showMePass == Icons.remove_red_eye
-                          ? showMePass = Icons.remove_red_eye_outlined
-                          : showMePass = Icons.remove_red_eye;
-                    });
-                  },
-                ),
-              ],
-            ),
+          buildSingleChildScrollView(),
+        ],
+      ),
+    );
+  }
+
+  SingleChildScrollView buildSingleChildScrollView() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            child: Image.asset("assets/images/confirmPass.png"),
+          ),
+          SizedBox(height: 10),
+          Text(
+            greetingConfirmMsg,
+            style: TextStyle(
+                fontFamily: mainFontFamily,
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 30),
+          TextFields(
+            textInputType: false,
+            readOnly: false,
+            lblText: phoneOrEmail,
+            textFieldIcon: Icons.email,
+            errText: emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
+            onChangeText: (email) {
+              setState(() {
+                emptyTextFieldErrEmail = null;
+                userEmail = email;
+              });
+            },
+          ),
+          SizedBox(height: 20),
+          TextFields(
+            textInputType: protectedPassword,
+            lblText: passwordLblText,
+            maxLen: 20,
+            readOnly: false,
+            textFieldIcon:
+                userPassword == "" ? Icons.vpn_key_outlined : showMePass,
+            errText: emptyTextFieldErrPass == null ? null : emptyTextFieldMsg,
+            onChangeText: (pass) {
+              setState(() {
+                emptyTextFieldErrPass = null;
+                userPassword = pass;
+              });
+            },
+            iconPressed: () {
+              setState(() {
+                protectedPassword
+                    ? protectedPassword = false
+                    : protectedPassword = true;
+                // Changing eye icon pressing
+                showMePass == Icons.remove_red_eye
+                    ? showMePass = Icons.remove_red_eye_outlined
+                    : showMePass = Icons.remove_red_eye;
+              });
+            },
+          ),
+          SizedBox(height: 20),
+          TextFields(
+            maxLen: 20,
+            textInputType: protectedPassword,
+            lblText: confirmPasswordLblText,
+            readOnly: false,
+            textFieldIcon:
+                userConfirmPassword == "" ? Icons.vpn_key_outlined : showMePass,
+            errText:
+                emptyTextFieldErrConfirmPass == null ? null : emptyTextFieldMsg,
+            onChangeText: (confirmPass) {
+              setState(() {
+                emptyTextFieldErrConfirmPass = null;
+                userConfirmPassword = confirmPass;
+              });
+            },
+            iconPressed: () {
+              setState(() {
+                protectedPassword
+                    ? protectedPassword = false
+                    : protectedPassword = true;
+                // Changing eye icon pressing
+                showMePass == Icons.remove_red_eye
+                    ? showMePass = Icons.remove_red_eye_outlined
+                    : showMePass = Icons.remove_red_eye;
+              });
+            },
           ),
         ],
       ),
