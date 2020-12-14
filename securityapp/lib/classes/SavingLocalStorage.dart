@@ -31,4 +31,9 @@ class LocalizationDataStorage {
     } else
       return false;
   }
+
+  // For logout and deleting all local information
+  void deleteUuToken() async {
+    lStorage.deleteAll();
+  }
 }

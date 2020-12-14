@@ -28,20 +28,16 @@ class ApiAuthController extends Controller
 
         $user = auth()->user();
 
-        $first_visit = false;
-
-        if (is_null($user->last_login))
+        if (!is_null($user->last_login))
         {
-           $first_visit = true;
+            $user->last_login = verta()->today()->format('Y-m-d');
+            $user->save();
         }
-
-        $user->last_login = verta()->today()->format('Y-m-d');
-        $user->save();
 
         $data = [
             'status' => '200',
             'token' => $token,
-            'first_visit' => $first_visit,
+            'first_visit' => empty($user->last_login) ? true : false,
             'role' => $user->role,
         ];
 
@@ -67,12 +63,12 @@ class ApiAuthController extends Controller
             'email' => $user->email,
             'role' => $user->role,
             'last_login' => empty($user->last_login) ? verta()->today()->format('Y-m-d') : $user->last_login,
-            'plates' => $user->getStaffinfo->getStaffPlates ?? null,
-            'personal_code' => $user->getStaffinfo->personal_code ?? null,
-            'melli_code' => $user->getStaffinfo->melli_code ?? null,
-            'avatar' => $user->getStaffinfo->avatar ?? null,
-            'section' => $user->getStaffinfo->section ?? null,
-            'birth_date' => $user->getStaffinfo->birth_date ?? null
+            'plate' => $user->getStaffinfo->plate,
+            'personal_code' => $user->getStaffinfo->personal_code,
+            'melli_code' => $user->getStaffinfo->melli_code,
+            'avatar' => $user->getStaffinfo->avatar,
+            'section' => $user->getStaffinfo->section,
+            'birth_date' => $user->getStaffinfo->birth_date
         ];
 
         return response($data);
@@ -95,16 +91,6 @@ class ApiAuthController extends Controller
 //            });
         }else{
             return response('404', 404);
-        }
-    }
-
-    public function logout(Request $request)
-    {
-        if (JWTAuth::invalidate(JWTAuth::getToken()))
-        {
-            return response("200",200);
-        }else{
-            return response("500",500);
         }
     }
 }

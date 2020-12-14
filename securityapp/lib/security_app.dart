@@ -32,7 +32,7 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
   void loadingProfileImage() async {
     final lStorage = FlutterSecureStorage();
     // imagePath = (await lStorage.read(key: "avatar")) as File;
-    print(await lStorage.read(key: "avatar"));
+    // print(await lStorage.read(key: "avatar"));
     username = await lStorage.read(key: "fullName");
     email = await lStorage.read(key: "email");
   }

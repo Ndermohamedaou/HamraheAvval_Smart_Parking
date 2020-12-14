@@ -8,6 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'classes/ApiAccess.dart';
+import 'classes/SavingLocalStorage.dart';
 
 bool protectedPassword = true;
 // ignore: non_constant_identifier_names
@@ -29,24 +30,36 @@ class _LoginPageState extends State<LoginPage> {
   // ignore: missing_return
   Dio dio = Dio();
 
+  // Instance of local data
+  LocalizationDataStorage lds = LocalizationDataStorage();
+
   // Local Storage Super Secure!
   final lStorage = FlutterSecureStorage();
 
   // if first visit be false
-  void fetchingUserDetails(String uToken) async {
+  void fetchingUserDetails(String uToken, uPass) async {
     // Token as req goes to server and get me user details
     try {
       ApiAccess api = ApiAccess();
       Map response = await api.gettingUsersInfo(uToken);
-        print(response);
-      // show case
-      // print(response.data);
-      // TODO
-      // what does parameters will go to local storage? (with response List)
-      // Token as String
-      // await lStorage.write(key: "uToken", value: uToken);
-      // fullName as String
-      // email as String
+      // print(response);
+      bool lStorageStatus = await lds.savingUInfo(
+          uToken: uToken,
+          fullName: response['name'],
+          email: response['email'],
+          personalCode: response['personal_code'],
+          naturalCode: response['melli_code'],
+          password: uPass,
+          avatar: response['avatar']);
+
+      if (lStorageStatus) {
+        Navigator.pushNamed(context, '/');
+      } else {
+        Toast.show("مشکل از داخل اپلیکیشن رخ داده!", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            textColor: Colors.white);
+      }
     } catch (e) {
       Toast.show(notAMemberText, context,
           duration: Toast.LENGTH_LONG,
@@ -96,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
           } else {
             // if user is not **New** in app
             String userToken = response.data['token'];
-            fetchingUserDetails(userToken);
+            fetchingUserDetails(userToken, pass);
           }
         } else {
           Toast.show(notAMemberText, context,

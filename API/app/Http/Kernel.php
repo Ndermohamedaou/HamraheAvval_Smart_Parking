@@ -2,7 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\APIAdminMiddleware;
 use App\Http\Middleware\JwtMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -64,9 +63,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'jwt' => \App\Http\Middleware\Jwt::class,
-        'APIAdminMiddleware' => \App\Http\Middleware\APIAdminMiddleware::class,
-        'APIStaffMiddleware' => \App\Http\Middleware\APIStaffMiddleware::class,
-        'APISecurityMiddleware' => \App\Http\Middleware\APISecurityMiddleware::class,
+        'jwt' => \App\Http\Middleware\Jwt::class
     ];
 }

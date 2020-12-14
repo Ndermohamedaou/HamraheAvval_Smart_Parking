@@ -25,6 +25,9 @@ const String opt2Desc =
 const String darkModeText =
     "فعال کردن این گزینه باعث میشود در شرایط تاریک با بهتر ببینید";
 
+const aggregation =
+    "با تایید این صفحه شما از حساب خود بیرون خواهید رفت! آیا میخواهید در این برنامه از حساب خود خارج شوید؟";
+
 // Camera Insertions some text
 const String pictureSubmission = "تایید تصویر";
 const String sendingPic2Db = "ثبت تصویر";

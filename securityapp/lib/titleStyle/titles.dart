@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppBarTitleConfig extends StatelessWidget {
-  AppBarTitleConfig({@required this.titleText, @required this.textStyles, this.titleAlign});
+  AppBarTitleConfig(
+      {@required this.titleText, @required this.textStyles, this.titleAlign});
 
   final String titleText;
   final TextStyle textStyles;
