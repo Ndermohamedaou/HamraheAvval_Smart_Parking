@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       if (lStorageStatus) {
         Navigator.pushNamed(context, '/');
       } else {
-        Toast.show("مشکل از داخل اپلیکیشن رخ داده!", context,
+        Toast.show(applicationError, context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
             textColor: Colors.white);
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.pushNamed(context, '/confirmation',
           arguments: {"userInfo": userInfo, "uToken": uToken});
     } catch (e) {
-      Toast.show("مشکلی از سوی سرور پیش آمده", context,
+      Toast.show(serverProblem, context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);

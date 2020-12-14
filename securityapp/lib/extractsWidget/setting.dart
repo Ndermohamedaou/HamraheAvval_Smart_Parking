@@ -24,7 +24,7 @@ class Setting extends StatelessWidget {
               textDirection: TextDirection.rtl,
               child: AlertDialog(
                 title: AppBarTitleConfig(
-                  titleText: "می خواهید از حساب خود خارج شوید؟",
+                  titleText: logoutQa,
                   textStyles: TextStyle(
                       fontFamily: mainFontFamily, fontWeight: FontWeight.bold),
                 ),
@@ -43,7 +43,7 @@ class Setting extends StatelessWidget {
                 actions: [
                   TextButton(
                     child: Text(
-                      'بلی',
+                      agree,
                       style: TextStyle(fontFamily: mainFontFamily),
                     ),
                     onPressed: () {
@@ -53,7 +53,7 @@ class Setting extends StatelessWidget {
                   ),
                   TextButton(
                     child: Text(
-                      'خیر',
+                      deny,
                       style: TextStyle(fontFamily: mainFontFamily),
                     ),
                     onPressed: () {
@@ -128,7 +128,7 @@ class Setting extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   onPressed: () => viewDialog(),
                   child: Text(
-                    "خروج از حساب",
+                    logoutBtnText,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,

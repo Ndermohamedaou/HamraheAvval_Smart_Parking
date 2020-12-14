@@ -90,14 +90,14 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
           items: [
             BottomNavigationBarItem(
               title: Text(
-                'خانه',
+                home,
                 style: TextStyle(fontFamily: mainFontFamily),
               ),
               icon: Icon(LineAwesomeIcons.home),
             ),
             BottomNavigationBarItem(
               title: Text(
-                'تنظیمات',
+                settings,
                 style: TextStyle(fontFamily: mainFontFamily),
               ),
               icon: Icon(LineAwesomeIcons.hammer),

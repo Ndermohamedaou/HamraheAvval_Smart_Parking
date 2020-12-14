@@ -5,6 +5,11 @@
 // is this text for thing?
 import 'dart:ui';
 
+// Bottom Navigation text
+const String home = 'خانه';
+const String settings = 'تنظیمات';
+
+
 const String mainAppBarText = "انتظامات";
 const String Camera = "دوربین ها";
 const String subCamera = "دوربین های مدار بسته";
@@ -27,6 +32,11 @@ const String darkModeText =
 
 const aggregation =
     "با تایید این صفحه شما از حساب خود بیرون خواهید رفت! آیا میخواهید در این برنامه از حساب خود خارج شوید؟";
+const logoutBtnText =  "خروج از حساب";
+// Logout Alert text
+const String logoutQa = "می خواهید از حساب خود خارج شوید؟";
+const String agree = 'بلی';
+const String deny = 'خیر';
 
 // Camera Insertions some text
 const String pictureSubmission = "تایید تصویر";
@@ -43,6 +53,8 @@ const String forgetTextButtonHint = "گذرواژه خود را فراموش ک�
 const String viewScreenLightOrDark = 'حالت تیره';
 const String emptyTextFieldMsg = "فیلد نباید خالی باشد!";
 const String notAMemberText = "شما عضو سیستم نیستید";
+const String serverProblem = "مشکلی از سوی سرور پیش آمده";
+const String applicationError = "مشکل از داخل اپلیکیشن رخ داده!";
 
 // Confirmation
 const String fullName = "نام کامل";
