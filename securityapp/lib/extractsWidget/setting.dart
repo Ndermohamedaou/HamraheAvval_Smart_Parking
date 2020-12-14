@@ -19,7 +19,6 @@ class Setting extends StatelessWidget {
         child: Column(
           textDirection: TextDirection.rtl,
           children: [
-
             Container(
                 width: double.infinity,
                 height: 250,
@@ -28,10 +27,12 @@ class Setting extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Image.asset(
-                      imagePath,
-                      width: 150,
-                    ),
+                    imagePath == null
+                        ? Image.asset(
+                            "assets/images/profile.png",
+                            width: 150,
+                          )
+                        : FileImage(imagePath),
                     Text(username),
                     Text(email),
                   ],

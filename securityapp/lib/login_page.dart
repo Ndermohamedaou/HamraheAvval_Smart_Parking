@@ -7,6 +7,7 @@ import 'extractsWidget/login_extract_text_fields.dart';
 import 'package:dio/dio.dart';
 import 'package:toast/toast.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'classes/ApiAccess.dart';
 
 bool protectedPassword = true;
 // ignore: non_constant_identifier_names
@@ -31,13 +32,13 @@ class _LoginPageState extends State<LoginPage> {
   // Local Storage Super Secure!
   final lStorage = FlutterSecureStorage();
 
+  // if first visit be false
   void fetchingUserDetails(String uToken) async {
     // Token as req goes to server and get me user details
     try {
-      dio.options.headers['Content-Type'] = 'application/json';
-      dio.options.headers["Authorization"] = "Bearer ${uToken}";
-
-      Response response = await dio.get("/userInfo");
+      ApiAccess api = ApiAccess();
+      Map response = await api.gettingUsersInfo(uToken);
+        print(response);
       // show case
       // print(response.data);
       // TODO
@@ -46,21 +47,21 @@ class _LoginPageState extends State<LoginPage> {
       // await lStorage.write(key: "uToken", value: uToken);
       // fullName as String
       // email as String
-
     } catch (e) {
-      print(e);
+      Toast.show(notAMemberText, context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.BOTTOM,
+          textColor: Colors.white);
     }
   }
 
   // If user is new in application
   void confirmUser(uToken) async {
     try {
-      dio.options.headers['Content-Type'] = 'application/json';
-      // Sending user token to server and get user's info
-      dio.options.headers["Authorization"] = "Bearer ${uToken}";
-      // Getting response as map and passing it to confirmation page
-      Response response = await dio.get("http://10.0.2.2:8000/api/userInfo");
-      var userInfo = response.data;
+      ApiAccess api = ApiAccess();
+      Map response = await api.gettingUsersInfo(uToken);
+      var userInfo = response;
+      // print(response);
       Navigator.pushNamed(context, '/confirmation',
           arguments: {"userInfo": userInfo, "uToken": uToken});
     } catch (e) {
@@ -68,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
+      print(e);
     }
   }
 

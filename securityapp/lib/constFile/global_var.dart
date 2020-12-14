@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-String imagePath = "";
-String username="";
+dynamic imagePath;
+String username = "";
 String email = "";

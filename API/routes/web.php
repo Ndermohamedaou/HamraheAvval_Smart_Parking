@@ -19,12 +19,13 @@ Route::get('/', function () {
 
 Route::get('/add', function () {
 //    $user = \App\User::create([
-//       'name' => 'کیوان شاه کرمی',
-//       'email' => '902399'.'@mci.ir',
+//       'name' => 'keivan shahkarami',
+//       'email' => 'me@keiv.ir',
 //       'password' => bcrypt('123'),
-//       'role' => 'staff'
+//       'role' => 'staff',
+//        'last_login' => null
 //    ]);
-
+//
 //    \App\Models\StaffInfo::create([
 //        'user_id' => $user->_id,
 //        'name' => $user->name,
@@ -49,21 +50,31 @@ Route::get('/add', function () {
 //        'date' => verta()->today()->format('Y-m-d')
 //    ]);
 
-    \App\Models\Slot::create([
-        "status"=> 0,
-        "type"=> 0,
-        "floor"=> "1",
-        "id"=> "A4",
-        "building"=> "vanak"
+//    \App\Models\Slot::create([
+//        "status"=> 0,
+//        "type"=> 0,
+//        "floor"=> "1",
+//        "id"=> "A4",
+//        "building"=> "vanak"
+//    ]);
+//
+//    \App\Models\Slot::create([
+//        "status"=> 0,
+//        "type"=> 0,
+//        "floor"=> "2",
+//        "id"=> "B4",
+//        "building"=> "vanak"
+//    ]);
+
+    \App\Models\Plate::create([
+        'user_id' => '5fd51ff377270000b5000c46',
+        'plate0' => '21',
+        'plate1' => 'ب',
+        'plate2' => '577',
+        'plate3' => '31',
+        'status' => '1'
     ]);
 
-    \App\Models\Slot::create([
-        "status"=> 0,
-        "type"=> 0,
-        "floor"=> "2",
-        "id"=> "B4",
-        "building"=> "vanak"
-    ]);
 });
 
 Auth::routes();

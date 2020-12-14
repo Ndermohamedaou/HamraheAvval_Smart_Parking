@@ -9,7 +9,8 @@ import 'extractsWidget/login_extract_text_fields.dart';
 import 'package:dio/dio.dart';
 import 'extractsWidget/confirmation_sections.dart';
 import 'package:toast/toast.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'classes/SavingLocalStorage.dart';
+import 'classes/ApiAccess.dart';
 
 // Index of page for forward ahead with btn
 int pageIndex = 0;
@@ -41,46 +42,55 @@ class ConfirmationPage extends StatefulWidget {
 }
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
-  Dio dio = Dio();
-
-  // Local Storage Super Secure!
-  final lStorage = FlutterSecureStorage();
-
   // To sending confirm information
   void confirmationProcessing(email, pass, confirmPass, uToken) async {
     // I will use userInfo Map for storing data in local
     if (email != "" || pass != "" || confirmPass != "") {
       if (pass == confirmPass) {
         if (pass.length > 6 && confirmPass.length > 6) {
-          // Prepare require data to updating user info
-          // FormData userData = FormData.fromMap({"avatar": imgSource});
+          // Getting access to api
+          // Getting Update User Info function
+          ApiAccess api = ApiAccess();
+          // Prepare no require data to updating user info
           var formData = FormData();
-          formData.files.add(MapEntry(
-              "avatar",
-              await MultipartFile.fromFile(imgSource.path,
-                  filename: "userAvatar.png")));
-          try {
-            print(
-                "${email} -- ${pass} -- ${confirmPass} -- ${uToken} -- ${imgSource}");
-            dio.options.headers['content-type'] = 'application/json';
-            dio.options.headers['authorization'] = "Bearer ${uToken}";
-            Response response = await dio.post(
-                "http://10.0.2.2:8000/api/UpdateInfo?&email=${email}&password=${pass}",
-                data: formData);
-            // show case
-            print(response.data);
-            // TODO
-            // what does parameters will go to local storage? (with response List)
-            // Token as String
-            // await lStorage.write(key: "uToken", value: uToken);
-            // fullName as String
-            // email as String
 
+          if (imgSource == null) {
+            formData = null;
+          } else {
+            formData.files.add(MapEntry(
+                "avatar",
+                await MultipartFile.fromFile(imgSource.path,
+                    filename: "userAvatar.png")));
+          }
+          try {
+            // Getting return of Api Access class to have
+            // boolean to accepted or ignored !
+            bool modifier =
+                await api.updateUserInfo(formData, uToken, email, pass);
+            if (modifier) {
+              // Getting instance of my custom local storage class
+              LocalizationDataStorage lds = LocalizationDataStorage();
+              bool lStorageStatus = await lds.savingUInfo(
+                  uToken: uToken,
+                  email: email,
+                  password: pass,
+                  fullName: userInfo['name'],
+                  naturalCode: userInfo['melli_code'],
+                  personalCode: userInfo['personal_code'],
+                  avatar: formData);
+              if (lStorageStatus) {
+                Navigator.pushNamed(context, "/");
+              }
+            } else
+              Toast.show("شما در سیستم ثبت نشدید، بعدا امتحان کنید.", context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  textColor: Colors.white);
           } catch (e) {
-            // Toast.show(serverNotResponse, context,
-            //     duration: Toast.LENGTH_LONG,
-            //     gravity: Toast.BOTTOM,
-            //     textColor: Colors.white);
+            Toast.show(serverNotResponse, context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                textColor: Colors.white);
             print(e);
           }
         }
@@ -180,6 +190,7 @@ class __ConfirmationPageState extends State<_ConfirmationPage> {
     final image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       imgSource = image;
+      print(imgSource);
     });
   }
 

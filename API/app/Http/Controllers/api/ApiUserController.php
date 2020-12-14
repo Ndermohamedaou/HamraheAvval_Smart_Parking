@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Plate;
+use App\Models\Reserve;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -78,6 +80,72 @@ class ApiUserController extends Controller
         }
 
         return response($data);
+    }
 
+    public function getUserPlates()
+    {
+        $user = $this->User();
+
+        $data = [];
+
+        foreach ($user->getStaffinfo->getStaffPlates as $key => $value)
+        {
+            $data[$key] = [
+                'plate0' => $value->plate0,
+                'plate1' => $value->plate1,
+                'plate2' => $value->plate2,
+                'plate3' => $value->plate3,
+                'status' => $value->status
+            ];
+        }
+
+        return response($data);
+    }
+
+    public function addUserPlate(Request $request)
+    {
+        $user = $this->User();
+
+        $new = Plate::create([
+            'user_id' => $user->ID,
+            'plate0' => $request->plate0,
+            'plate1' => $request->plate1,
+            'plate2' => $request->plate2,
+            'plate3' => $request->plate3,
+        ]);
+
+        if ($new)
+        {
+            return response('200', 200);
+        }else{
+            return response('500', 500);
+        }
+    }
+
+    public function Reserve(Request $request)
+    {
+        $reserve_check = Reserve::where('date', $request->date)
+            ->where('slot', $request->slot)
+            ->where('building', $request->building)
+            ->first();
+
+        if ($reserve_check)
+        {
+            return response('AlreadyReserved');
+        }else{
+            $new = Plate::create([
+                'plate' => $request->plate,
+                'slot' => $request->slot,
+                'building' => $request->building,
+                'date' => $request->date
+            ]);
+
+            if ($new)
+            {
+                return response('200', 200);
+            }else{
+                return response('500', 500);
+            }
+        }
     }
 }

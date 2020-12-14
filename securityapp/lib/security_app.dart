@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'extractsWidget/home_screen.dart';
@@ -27,9 +30,11 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
 
   // This function will be link with global_var file in repo
   void loadingProfileImage() async {
-    imagePath = "assets/images/haDark.png";
-    username = "asn.codes";
-    email = "asn.codes@gmail.com";
+    final lStorage = FlutterSecureStorage();
+    // imagePath = (await lStorage.read(key: "avatar")) as File;
+    print(await lStorage.read(key: "avatar"));
+    username = await lStorage.read(key: "fullName");
+    email = await lStorage.read(key: "email");
   }
 
   @override

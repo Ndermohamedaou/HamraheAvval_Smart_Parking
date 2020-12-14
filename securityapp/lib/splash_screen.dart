@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'classes/SharedClass.dart';
 
@@ -36,7 +37,9 @@ class _SplashScreenState extends State<SplashScreen> {
             margin: EdgeInsets.only(top: 300),
             child: SpinKitFadingCube(
               size: 25,
-              color: themeChange.darkTheme ? HexColor('#48C3CA') : Colors.blue[700],
+              color: themeChange.darkTheme
+                  ? HexColor('#48C3CA')
+                  : Colors.blue[700],
             ),
           ),
         ),
@@ -51,19 +54,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigateUser() async {
-    if (2 > 3) {
+    final lStorage = FlutterSecureStorage();
+    var uToken = await lStorage.read(key: "uToken");
+    if (uToken != null) {
       Navigator.pushNamed(context, '/main');
     } else {
       Navigator.pushNamed(context, '/LoginPage');
     }
-    // TODO For authentication
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // var status = prefs.getBool('isLoggedIn') ?? false;
-    // print(status);
-    // if (status) {
-    //   Navigation.pushReplacement(context, "/Home");
-    // } else {
-    //   Navigation.pushReplacement(context, "/Login");
-    // }
   }
 }
