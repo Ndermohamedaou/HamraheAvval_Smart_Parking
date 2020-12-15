@@ -36,11 +36,11 @@ class _SearchPlateSectionState extends State<SearchPlateSection> {
             tabs: [
               Tab(
                 icon: Icon(Icons.directions_car),
-                text: "از طریق پلاک",
+                child: Text("از طریق پلاک", style: TextStyle(fontFamily: mainFontFamily),),
               ),
               Tab(
                 icon: Icon(Icons.wysiwyg),
-                text: "از طریق جایگاه",
+                child: Text("از طریق جایگاه", style: TextStyle(fontFamily: mainFontFamily),),
               ),
             ],
           ),
@@ -112,7 +112,10 @@ class _MainSectionState extends State<MainSection> {
                     margin: EdgeInsets.symmetric(horizontal: 25),
                     child: Text(
                       plateSearchDetail,
-                      style: TextStyle(fontFamily: mainFontFamily, fontSize: 15, color: Colors.grey.shade800),
+                      style: TextStyle(
+                          fontFamily: mainFontFamily,
+                          fontSize: 15,
+                          color: Colors.grey.shade500),
                     ),
                   )),
             ],
@@ -192,7 +195,6 @@ class _MainSectionState extends State<MainSection> {
             value: _value,
             style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.blue[500],
                 fontFamily: mainFontFamily,
                 fontSize: 22),
             items: dropdownMenu,

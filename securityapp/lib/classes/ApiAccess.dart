@@ -36,4 +36,9 @@ class ApiAccess {
         return false;
     }
   }
+
+  Future<Map> parkedCarsInfo()async{
+    Response response = await dio.post("${apiUrl}/searchSlot?");
+  }
+
 }

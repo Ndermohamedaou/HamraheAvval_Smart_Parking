@@ -32,4 +32,9 @@ class StaffInfo extends Model
     {
         return $this->hasMany('\App\Models\Reserve','plate','plate');
     }
+
+    public function getStaffPlates()
+    {
+        return $this->hasMany('\App\Models\Plate','user_id','user_id');
+    }
 }

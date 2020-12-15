@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Camera;
 use App\Models\Car;
 use App\Models\Slot;
 use Illuminate\Http\Request;
@@ -34,6 +35,7 @@ class DataController extends Controller
                     'type' => $v->type,
                     'floor' => $v->floor,
                     'id' => $v->id,
+                    'key' => $v->ID,
                     'building' => $v->building,
                 ];
             }
@@ -171,5 +173,10 @@ class DataController extends Controller
 
             return response($data, 200);
         }
+    }
+
+    public function getCameras()
+    {
+        return response(Camera::get(['ipCamera','type','status','location']));
     }
 }
