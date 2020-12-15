@@ -38,7 +38,7 @@ class _CameraInsertionState extends State<CameraInsertion> {
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {},
             child: Text(
-              'بازنشانی گذرواژه',
+              'ارسال تصوير',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,

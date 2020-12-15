@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
         // BaseUrl is abstraction of our url api
         // dio.options.baseUrl = "http://10.0.2.2:8000/api";
         Response response = await dio.post(
-            "http://10.0.2.2:8000/api/login?email=${email}&password=${pass}");
+            "${apiUrl}/login?email=${email}&password=${pass}");
         // if there is a user on server we will get 200
         if (response.data['status'] == "200") {
           // print(response.data);

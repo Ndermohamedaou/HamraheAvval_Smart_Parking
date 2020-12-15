@@ -77,7 +77,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   fullName: userInfo['name'],
                   naturalCode: userInfo['melli_code'],
                   personalCode: userInfo['personal_code'],
-                  avatar: formData);
+                  avatar: imgSource.path);
               if (lStorageStatus) {
                 Navigator.pushNamed(context, "/");
               }
@@ -124,6 +124,10 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   onPressed: () {
                     confirmationProcessing(
                         userEmail, userPassword, userConfirmPassword, uToken);
+                    setState(() {
+                      breakConfirm = false;
+                      pageIndex = 0;
+                    });
                   },
                   child: Text(
                     completingForm,
@@ -146,8 +150,6 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                 child: MaterialButton(
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   onPressed: () {
-                    // confirmationProcessing(
-                    //     userEmail, userPassword, userConfirmPassword);
                     _pageController.nextPage(
                         duration: _duration, curve: Curves.easeIn);
                     setState(() {

@@ -27,7 +27,7 @@ dependencies:
   flutter_spinkit: ^4.1.2
   toast: ^0.1.5
   flutter_secure_storage: ^3.3.5
-
+  persian_number_utility: ^0.2.5
 
 dev_dependencies:
   flutter_test:

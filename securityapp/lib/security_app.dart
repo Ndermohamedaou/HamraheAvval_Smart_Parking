@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -31,8 +29,7 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
   // This function will be link with global_var file in repo
   void loadingProfileImage() async {
     final lStorage = FlutterSecureStorage();
-    // imagePath = (await lStorage.read(key: "avatar")) as File;
-    // print(await lStorage.read(key: "avatar"));
+    imagePath = (await lStorage.read(key: "avatar"));
     username = await lStorage.read(key: "fullName");
     email = await lStorage.read(key: "email");
   }

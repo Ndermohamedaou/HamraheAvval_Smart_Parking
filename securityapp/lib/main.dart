@@ -15,6 +15,7 @@ import 'login_page.dart';
 import 'confirmation_page.dart';
 import 'forget_pass.dart';
 import 'splash_screen.dart';
+import 'search_plate_section.dart';
 
 void main() {
   runApp(MyApp());
@@ -39,7 +40,7 @@ class _MyAppState extends State<MyApp> {
   // Check local storage with preferences class
   void getCurrentAppTheme() async {
     themeChangeProvider.darkTheme =
-    await themeChangeProvider.darkThemePreferences.getTheme();
+        await themeChangeProvider.darkThemePreferences.getTheme();
   }
 
   @override
@@ -69,6 +70,7 @@ class _MyAppState extends State<MyApp> {
                 '/LoginPage': (context) => LoginPage(),
                 '/confirmation': (context) => ConfirmationPage(),
                 '/forgetPassword': (context) => ForgetPasswordPage(),
+                '/plateSearch': (context) => SearchPlateSection(),
               },
             ),
           );

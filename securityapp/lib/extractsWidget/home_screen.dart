@@ -3,6 +3,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:mjpeg/mjpeg.dart';
 import 'package:securityapp/constFile/texts.dart';
 import '../adding_data.dart';
+import 'package:securityapp/search_plate_section.dart';
 import '../constFile/ConstFile.dart';
 import 'extract_main_design.dart';
 
@@ -65,7 +66,29 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration: Duration(milliseconds: 500),
+                          transitionsBuilder:
+                              (context, animation, animationTime, child) {
+                            animation = CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.fastLinearToSlowEaseIn,
+                            );
+                            return ScaleTransition(
+                              alignment: Alignment.topRight,
+                              scale: animation,
+                              child: child,
+                            );
+                          },
+                          pageBuilder: (context, animation, animationTime) {
+                            return SearchPlateSection();
+                          },
+                        ),
+                      );
+                    },
                     child: service_card(
                       colour: cardStyleColor,
                       margin: cardStyleMargin,
@@ -94,7 +117,9 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+
+                    },
                     child: service_card(
                       colour: cardStyleColor,
                       margin: cardStyleMargin,

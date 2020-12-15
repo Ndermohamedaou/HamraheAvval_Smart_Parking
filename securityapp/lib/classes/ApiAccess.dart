@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:securityapp/constFile/ConstFile.dart';
 
 class ApiAccess {
   // Getting instance of Dio for relation between client and server
@@ -8,7 +9,7 @@ class ApiAccess {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer ${uToken}";
     // Get User info with Map Type
-    Response response = await dio.get("http://10.0.2.2:8000/api/userInfo");
+    Response response = await dio.get("${apiUrl}/userInfo");
     return response.data;
   }
 
@@ -17,8 +18,8 @@ class ApiAccess {
     if (avatar == null) {
       dio.options.headers['content-type'] = 'application/json';
       dio.options.headers['authorization'] = "Bearer ${uToken}";
-      Response response = await dio.post(
-          "http://10.0.2.2:8000/api/UpdateInfo?&email=${email}&password=${pass}");
+      Response response = await dio
+          .post("${apiUrl}/UpdateInfo?&email=${email}&password=${pass}");
       if (response.data['status'] == "200")
         return true;
       else
@@ -27,7 +28,7 @@ class ApiAccess {
       dio.options.headers['content-type'] = 'application/json';
       dio.options.headers['authorization'] = "Bearer ${uToken}";
       Response response = await dio.post(
-          "http://10.0.2.2:8000/api/UpdateInfo?&email=${email}&password=${pass}",
+          "${apiUrl}/UpdateInfo?&email=${email}&password=${pass}",
           data: avatar);
       if (response.data['status'] == "200") {
         return true;

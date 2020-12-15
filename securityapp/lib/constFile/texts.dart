@@ -9,7 +9,6 @@ import 'dart:ui';
 const String home = 'خانه';
 const String settings = 'تنظیمات';
 
-
 const String mainAppBarText = "انتظامات";
 const String Camera = "دوربین ها";
 const String subCamera = "دوربین های مدار بسته";
@@ -32,7 +31,7 @@ const String darkModeText =
 
 const aggregation =
     "با تایید این صفحه شما از حساب خود بیرون خواهید رفت! آیا میخواهید در این برنامه از حساب خود خارج شوید؟";
-const logoutBtnText =  "خروج از حساب";
+const logoutBtnText = "خروج از حساب";
 // Logout Alert text
 const String logoutQa = "می خواهید از حساب خود خارج شوید؟";
 const String agree = 'بلی';
@@ -88,3 +87,9 @@ const String themeModeSwitchDesc =
 const String ipAddressesList = 'آدرس های آی پی';
 const String ipAddressesListDesc =
     "برای دسترسی به تمامی آدرس های آی پی کلیک کنید";
+
+// Searching
+const String searchingPlate = "جست و جوی پلاک";
+const String searchPlateTitle = "جست و جو از طریق پلاک";
+const String plateSearchDetail =
+    "شما ميتوانيد از طریق پلاک وسیله نقلیه مورد نظر اقدام به جست و جو کنید";

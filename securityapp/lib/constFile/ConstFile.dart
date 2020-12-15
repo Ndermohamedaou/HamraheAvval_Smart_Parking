@@ -10,7 +10,10 @@ const String loginTextFontFamily = mainFontFamily;
 const double loginTextSize = 22;
 const double widthOfLoginLogo = 180;
 
-// Confirmation
+// API Section
+// API URL
+// This is not permanently, inorder to be localhost!
+const String apiUrl = "http://10.0.2.2:8000/api";
 
 // Main Color for back and scaffold
 HexColor backgroundColor = HexColor('#172438');
@@ -41,8 +44,5 @@ const double subTitleFontSize = 14;
 const IconData opt1Icon = Icons.keyboard;
 const IconData opt2Icon = Icons.camera;
 const Color bothIconNativeColor = Colors.black;
-
-
-
 
 HexColor backPanelColor = HexColor('#1a2e48');
