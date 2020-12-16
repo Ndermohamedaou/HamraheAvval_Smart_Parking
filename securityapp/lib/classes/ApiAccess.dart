@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:securityapp/constFile/ConstFile.dart';
 
 class ApiAccess {
@@ -37,8 +38,18 @@ class ApiAccess {
     }
   }
 
-  Future<Map> parkedCarsInfo()async{
-    Response response = await dio.post("${apiUrl}/searchSlot?");
+  Future<Map> parkedCarsInfo({uToken, sType, plates, slotNum}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer ${uToken}";
+    Response response;
+    if (sType == "plate") {
+      response = await dio.post(
+          "${apiUrl}/searchSlot?type=${sType}&plate0=${plates[0]}&plate1=${plates[1]}&plate2=${plates[2]}&plate3=${plates[3]}");
+      return response.data[0];
+    } else if (sType == "slot") {
+      response =
+          await dio.post("${apiUrl}/searchSlot?type=${sType}&slot=${slotNum}");
+      return response.data;
+    }
   }
-
 }

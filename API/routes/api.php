@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Api'], function () {
 Route::group(['middleware' => ['jwt'] , 'namespace' => 'Api'], function() {
 
     Route::group(['middleware' => ['APIStaffMiddleware']], function() {
-        Route::get('userInfo', 'ApiAuthController@getAuthenticatedUser');
+        Route::get('StaffInfo', 'ApiAuthController@getAuthenticatedUser'); //info staff ro az in estefade konid
         Route::post('UpdateInfo', 'ApiUserController@UpdateInfo');
         Route::get('getUserReserves', 'ApiUserController@getUserReserves');
         Route::get('Reserve', 'ApiUserController@Reserve');
@@ -36,7 +36,7 @@ Route::group(['middleware' => ['jwt'] , 'namespace' => 'Api'], function() {
     });
 
     Route::group(['middleware' => ['APISecurityMiddleware']], function() {
-        Route::get('userInfo', 'ApiAuthController@getAuthenticatedUser');
+        Route::get('userInfo', 'ApiAuthController@getAuthenticatedUser'); // info security ro az in estefade konid
         Route::post('UpdateInfo', 'ApiUserController@UpdateInfo');
         Route::get('/getSlots','DataController@getSlots');
         Route::get('/getCameras','DataController@getCameras');

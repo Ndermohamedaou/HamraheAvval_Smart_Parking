@@ -104,7 +104,7 @@ class DataController extends Controller
 
                 if ($slot->status == 1)
                 {
-                    $meta = Car::where('slot', $slot->id)->where('status', 1)->first();
+                    $meta = Car::where('slot', $slot->id)->where('status', 0)->first();
                     if ($meta)
                         $data['meta'] = [
                             'plate_en' => $meta->plate_en,
@@ -133,6 +133,8 @@ class DataController extends Controller
             $car = new Car();
 
             $car = $car->where('status', 1)->where('plate0', $this->PersianToEnglish($request->plate0));
+            
+            //dd($car);
 
             if ($request->plate1 != null)
             {
@@ -163,10 +165,10 @@ class DataController extends Controller
                    'car_img' => $value->car_img,
                    'confidence' => $value->confidence,
                    'camera_id' => $value->camera_id,
-                   'entry_datetime' => verta()->createTimestamp($value->entry_datetime)->format('Y-m-d H:i:s'),
+                   'entry_datetime' => verta()->createTimestamp((int)$value->entry_datetime)->format('Y-m-d H:i:s'),
                    'status' => $value->status,
                    'slot' => $value->slot,
-                   'exit_datetime' => empty($value->exit_datetime) ? '0' : verta()->createTimestamp($value->exit_datetime)->format('Y-m-d H:i:s'),
+                   'exit_datetime' => empty($value->exit_datetime) ? '0' : verta()->createTimestamp((int)$value->exit_datetime)->format('Y-m-d H:i:s'),
                    'device' => $value->device
                ];
             }

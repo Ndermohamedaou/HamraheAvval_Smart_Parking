@@ -43,6 +43,7 @@ class Styles {
       // cardColor: isDarkTheme ? Color(0xFF151515) : Colors.white,
       // canvasColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#f2f2f2'),
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
+
       appBarTheme: AppBarTheme(
         color: appBarBackgroundColor,
         elevation: 0.0,

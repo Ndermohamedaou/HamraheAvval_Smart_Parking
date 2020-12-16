@@ -33,9 +33,6 @@ class _LoginPageState extends State<LoginPage> {
   // Instance of local data
   LocalizationDataStorage lds = LocalizationDataStorage();
 
-  // Local Storage Super Secure!
-  final lStorage = FlutterSecureStorage();
-
   // if first visit be false
   void fetchingUserDetails(String uToken, uPass) async {
     // Token as req goes to server and get me user details
@@ -96,8 +93,8 @@ class _LoginPageState extends State<LoginPage> {
         // because AVD use this ip address as local IP!
         // BaseUrl is abstraction of our url api
         // dio.options.baseUrl = "http://10.0.2.2:8000/api";
-        Response response = await dio.post(
-            "${apiUrl}/login?email=${email}&password=${pass}");
+        Response response =
+            await dio.post("${apiUrl}/login?email=${email}&password=${pass}");
         // if there is a user on server we will get 200
         if (response.data['status'] == "200") {
           // print(response.data);

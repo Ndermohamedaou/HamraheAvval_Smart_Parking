@@ -33,7 +33,7 @@ class PlateController extends Controller
 
         $file = $request->file('plate');
         $fileName = Str::random(8).'-'.$file->getClientOriginalName();
-        $imagePath = public_path().'\\'.$fileName;
+        $imagePath = "/plates";
         $file->move(public_path($imagePath), $fileName);
 
         $service_api = new Client();

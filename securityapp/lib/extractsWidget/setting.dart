@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../constFile/ConstFile.dart';
 import '../constFile/texts.dart';
@@ -86,7 +87,9 @@ class Setting extends StatelessWidget {
                       radius: 50,
                       backgroundImage: imagePath == null
                           ? AssetImage("assets/images/profile.png")
-                          : FileImage(File(imagePath)),
+                          : imagePath is File
+                              ? FileImage(File(imagePath))
+                              : NetworkImage(imagePath),
                     ),
                     Text(
                       username,

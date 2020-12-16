@@ -26,17 +26,9 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
   // Following is a list for two page as Widget
   var screens = [HomeScreen(), Setting()];
 
-  // This function will be link with global_var file in repo
-  void loadingProfileImage() async {
-    final lStorage = FlutterSecureStorage();
-    imagePath = (await lStorage.read(key: "avatar"));
-    username = await lStorage.read(key: "fullName");
-    email = await lStorage.read(key: "email");
-  }
 
   @override
   Widget build(BuildContext context) {
-    loadingProfileImage();
     return Scaffold(
       appBar: AppBar(
         title: Center(

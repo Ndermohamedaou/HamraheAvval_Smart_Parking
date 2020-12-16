@@ -1,8 +1,15 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:securityapp/classes/AlphabetClassList.dart';
+import 'package:securityapp/classes/ApiAccess.dart';
+import 'package:toast/toast.dart';
+import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'constFile/dropDownItems.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'extractsWidget/login_extract_text_fields.dart';
 import 'titleStyle/titles.dart';
 import 'constFile/texts.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -12,9 +19,14 @@ String plate1 = "ط";
 String plate2 = "345";
 String plate3 = "11";
 String realPlate = "";
+List<String> platesList = [];
 AlphabetList alp = AlphabetList();
 List plateAlpList = alp.getAlphabet();
+ApiAccess apiParkedCars = ApiAccess();
+final lStorage = FlutterSecureStorage();
+int tabIndex = 0;
 int _value = 0;
+String slot;
 
 class SearchPlateSection extends StatefulWidget {
   @override
@@ -22,6 +34,37 @@ class SearchPlateSection extends StatefulWidget {
 }
 
 class _SearchPlateSectionState extends State<SearchPlateSection> {
+  void searchByPlate() async {
+    String uToken = await lStorage.read(key: "uToken");
+    // realPlate =
+    //     "${plate0.toEnglishDigit()} ${plateAlpList[_value].item} ${plate2.toEnglishDigit()} ${plate3.toEnglishDigit()}";
+    if (tabIndex == 0) {
+      try {
+        platesList = [plate0, plateAlpList[_value].item, plate2, plate3];
+        Map data = await apiParkedCars.parkedCarsInfo(
+            uToken: uToken, sType: "plate", plates: platesList);
+        Navigator.pushNamed(context, "/carDetails", arguments: data);
+      } catch (e) {
+        Toast.show("خطا در جست و جو", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            textColor: Colors.white);
+        print(e);
+      }
+    } else if(tabIndex == 1){
+      try {
+        Map data = await apiParkedCars.parkedCarsInfo(
+            uToken: uToken, sType: "slot", slotNum: "${slot}");
+        Navigator.pushNamed(context, "/carDetails", arguments: data['meta']);
+      } catch (e) {
+        Toast.show("خطا در جست و جو", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            textColor: Colors.white);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -33,14 +76,26 @@ class _SearchPlateSectionState extends State<SearchPlateSection> {
             style: TextStyle(fontFamily: mainFontFamily),
           ),
           bottom: TabBar(
+            onTap: (tab) {
+              setState(() {
+                tabIndex = tab;
+                print(tabIndex);
+              });
+            },
             tabs: [
               Tab(
                 icon: Icon(Icons.directions_car),
-                child: Text("از طریق پلاک", style: TextStyle(fontFamily: mainFontFamily),),
+                child: Text(
+                  "از طریق پلاک",
+                  style: TextStyle(fontFamily: mainFontFamily),
+                ),
               ),
               Tab(
                 icon: Icon(Icons.wysiwyg),
-                child: Text("از طریق جایگاه", style: TextStyle(fontFamily: mainFontFamily),),
+                child: Text(
+                  "از طریق جایگاه",
+                  style: TextStyle(fontFamily: mainFontFamily),
+                ),
               ),
             ],
           ),
@@ -54,16 +109,7 @@ class _SearchPlateSectionState extends State<SearchPlateSection> {
             child: MaterialButton(
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
-                setState(() {
-                  realPlate =
-                      "${plate0.toEnglishDigit()} ${plateAlpList[_value].value} ${plate2.toEnglishDigit()} ${plate3.toEnglishDigit()}";
-                });
-                // print("+++++++++++++++++++++++++++++");
-                // print("Your plak is: ${realPlate}");
-                // print("+++++++++++++++++++++++++++++");
-
-
-
+                searchByPlate();
               },
               child: Text(
                 searchingPlate,
@@ -91,8 +137,11 @@ class MainSection extends StatefulWidget {
 class _MainSectionState extends State<MainSection> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return SafeArea(
         child: TabBarView(
+      physics: NeverScrollableScrollPhysics(),
       children: [
         SingleChildScrollView(
           child: Column(
@@ -100,16 +149,21 @@ class _MainSectionState extends State<MainSection> {
               Container(
                 width: double.infinity,
                 height: 70,
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                margin:
+                    EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 5),
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 2.8),
+                    border: Border.all(
+                        color:
+                            themeChange.darkTheme ? Colors.white : Colors.black,
+                        width: 2.8),
                     borderRadius: BorderRadius.circular(8)),
-                child: buildRowPlate(),
+                child: buildRowPlate(themeChange.darkTheme),
               ),
               Directionality(
                   textDirection: TextDirection.rtl,
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 25),
+                    margin: EdgeInsets.only(right: 25, left: 10),
                     child: Text(
                       plateSearchDetail,
                       style: TextStyle(
@@ -123,14 +177,31 @@ class _MainSectionState extends State<MainSection> {
         ),
         SingleChildScrollView(
           child: Column(
-            children: [],
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                child: TextFields(
+                  lblText: "شماره جایگاه",
+                  textFieldIcon: Icons.contacts_outlined,
+                  textInputType: false,
+                  readOnly: false,
+                  // errText:
+                  // emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
+                  onChangeText: (setSlot) {
+                    setState(() {
+                      slot = setSlot;
+                    });
+                  },
+                ),
+              ),
+            ],
           ),
         )
       ],
     ));
   }
 
-  Row buildRowPlate() {
+  Row buildRowPlate(midTextColor) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -196,6 +267,7 @@ class _MainSectionState extends State<MainSection> {
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: mainFontFamily,
+                color: midTextColor ? Colors.white : Colors.black,
                 fontSize: 22),
             items: dropdownMenu,
             onChanged: (value) {
@@ -228,7 +300,10 @@ class _MainSectionState extends State<MainSection> {
             },
           ),
         ),
-        VerticalDivider(width: 1, color: Colors.black, thickness: 3),
+        VerticalDivider(
+            width: 1,
+            color: midTextColor ? Colors.white : Colors.black,
+            thickness: 3),
         Container(
           width: 50,
           height: 70,

@@ -6,7 +6,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Car extends Model
 {
-    protected $collection = 'Car';
+    protected $collection = 'car';
 
     protected $fillable = [
         'plate_en',

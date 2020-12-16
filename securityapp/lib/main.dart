@@ -16,6 +16,7 @@ import 'confirmation_page.dart';
 import 'forget_pass.dart';
 import 'splash_screen.dart';
 import 'search_plate_section.dart';
+import 'carDetailsPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -71,6 +72,7 @@ class _MyAppState extends State<MyApp> {
                 '/confirmation': (context) => ConfirmationPage(),
                 '/forgetPassword': (context) => ForgetPasswordPage(),
                 '/plateSearch': (context) => SearchPlateSection(),
+                '/carDetails': (context) => CarDetails(),
               },
             ),
           );
