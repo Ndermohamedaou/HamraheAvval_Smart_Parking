@@ -24,6 +24,7 @@ class _SlotsViewState extends State<SlotsView> {
     getSlotsFront();
 
     // print(data[1]['vanak']["1"][5]);
+    // print(data[1]['vanak']["1"].length);
 
     return DefaultTabController(
       length: 2,
@@ -66,29 +67,63 @@ class _SlotsViewState extends State<SlotsView> {
           child: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                child: GridView.builder(
-                  padding: ,
-                  itemCount: 20,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 10,
-                  ),
-                  itemBuilder: (BuildContext context, index){
-                    return(
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(10.0)
-                        ),
-                      )
-                    );
-                  },
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text("طبقه اول",
+                        style: TextStyle(
+                            fontFamily: mainFontFamily, fontSize: 25)),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      child: GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: data[1]['vanak']["1"].length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 5),
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 2, horizontal: 2),
+                                decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(20)),
+                                alignment: Alignment.center,
+                                child: Text(data[1]['vanak']["1"][index]["id"]),
+                              ),
+                            );
+                          }),
+                    ),
+                    Text("طبقه دوم",
+                        style: TextStyle(
+                            fontFamily: mainFontFamily, fontSize: 25)),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      child: GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: data[1]['vanak']["2"].length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 5),
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 2, horizontal: 2),
+                                decoration: BoxDecoration(
+                                    color: Colors.blue,
+                                    borderRadius: BorderRadius.circular(20)),
+                                alignment: Alignment.center,
+                                child: Text(data[1]['vanak']["2"][index]["id"]),
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
                 ),
               ),
-              Container(),
+              Container()
             ],
           ),
         ),
