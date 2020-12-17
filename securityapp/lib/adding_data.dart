@@ -45,19 +45,19 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                print('Static Entry');
-                Navigator.pushNamed(context, '/StaticInsertion');
-              },
-              child: OptionsViewer(
-                text: opt1,
-                desc: opt1Desc,
-                avatarIcon: opt1Icon,
-                avatarBgColor: mainIconColor,
-                iconColor: bothIconNativeColor,
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     print('Static Entry');
+            //     Navigator.pushNamed(context, '/StaticInsertion');
+            //   },
+            //   child: OptionsViewer(
+            //     text: opt1,
+            //     desc: opt1Desc,
+            //     avatarIcon: opt1Icon,
+            //     avatarBgColor: mainIconColor,
+            //     iconColor: bothIconNativeColor,
+            //   ),
+            // ),
             GestureDetector(
               onTap: () {
                 preparingImage();

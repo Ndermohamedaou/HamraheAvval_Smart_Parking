@@ -24,7 +24,7 @@ class PlateController extends Controller
         $user = $this->User();
 
         $validator = \Validator::make($request->all(), [
-            'plate' => 'mimes:jpeg,png'
+            'plate' => 'mimes:jpg,png'
         ]);
 
         if ($validator->fails()) {

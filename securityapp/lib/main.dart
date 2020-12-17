@@ -18,6 +18,7 @@ import 'splash_screen.dart';
 import 'search_plate_section.dart';
 import 'carDetailsPage.dart';
 import 'camera_grid.dart';
+import 'slots_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -74,7 +75,6 @@ class _MyAppState extends State<MyApp> {
                 '/forgetPassword': (context) => ForgetPasswordPage(),
                 '/plateSearch': (context) => SearchPlateSection(),
                 '/carDetails': (context) => CarDetails(),
-                '/cameraIp': (context) => CameraGridView(),
               },
             ),
           );

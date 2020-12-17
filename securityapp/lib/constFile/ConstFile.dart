@@ -43,7 +43,7 @@ const double fontSizeDialogButton = 22;
 const double titleFontSize = 20;
 const double subTitleFontSize = 14;
 const IconData opt1Icon = Icons.keyboard;
-const IconData opt2Icon = Icons.camera;
+const IconData opt2Icon = CupertinoIcons.photo_camera_solid;
 const Color bothIconNativeColor = Colors.black;
 
 // Searching Plate Options and icons and Colors and ets...

@@ -52,4 +52,27 @@ class ApiAccess {
       return response.data;
     }
   }
+
+  Future<bool> sendingCarImg({uToken, plate}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer ${uToken}";
+    Response response = await dio.post("${apiUrl}/uploadPlate", data: plate);
+    final status = response.data['status'];
+
+    bool successSend = false;
+    print(status);
+    if (status != null)
+      successSend = true;
+    else
+      successSend = false;
+
+    return successSend;
+  }
+
+  Future<List> getSlots({String uAuth}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer ${uAuth}";
+    Response response = await dio.get("${apiUrl}/getSlots");
+    return response.data;
+  }
 }

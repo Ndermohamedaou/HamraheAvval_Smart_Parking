@@ -19,6 +19,21 @@ class _CarDetailsState extends State<CarDetails> {
   Widget build(BuildContext context) {
     // Plates Data
     data = ModalRoute.of(context).settings.arguments;
+    String parkMode = "";
+    if (data['status'] == -1) {
+      setState(() {
+        parkMode = "رزور";
+      });
+    } else if (data['status'] == 1) {
+      setState(() {
+        parkMode = "پر";
+      });
+    } else if (data['status'] == 0) {
+      setState(() {
+        parkMode = "خالی";
+      });
+    }
+
     // Getting my conversion class (base64) 2 image
     Base64Convertor convert2Img = Base64Convertor();
 
@@ -37,18 +52,10 @@ class _CarDetailsState extends State<CarDetails> {
               PageViewContainer(
                 imgPath: [
                   imgShower(
-                    path: Image.memory(
-                      convert2Img.dataFromBase64String(data['car_img']),
-                      fit: BoxFit.cover,
-                    ),
+                    path: convert2Img.dataFromBase64String(data['Plate_img'], BoxFit.fitWidth),
                   ),
                   imgShower(
-                    path: Image.memory(
-                      convert2Img.dataFromBase64String(data['Plate_img']),
-                      alignment: Alignment.center,
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
+                      path: convert2Img.dataFromBase64String(data['car_img'], BoxFit.cover)),
                 ],
               ),
               OptionsViewer(
@@ -60,7 +67,7 @@ class _CarDetailsState extends State<CarDetails> {
               ),
               OptionsViewer(
                 text: opt2Status,
-                desc: data['status'] == 1 ? "پر" : "خالی",
+                desc: parkMode,
                 avatarIcon: slotStatus,
                 avatarBgColor: slotBgColorIconStatus,
                 iconColor: bothIconNativeColor,

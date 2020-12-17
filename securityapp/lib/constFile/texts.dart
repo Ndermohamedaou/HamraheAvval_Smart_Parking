@@ -98,3 +98,7 @@ const String opt1Search = "شماره جایگاه";
 const String opt2Status = "وضعیت جایگاه";
 const String opt3EntryTime = "زمان ورود";
 const String opt4ExitTime = "زمان خروج";
+
+// Adding plate
+const String sendingSuccessMsg = "تصویر با موفقیت ارسال شد";
+const String failedMsg = "تصویر ارسال نشد";
