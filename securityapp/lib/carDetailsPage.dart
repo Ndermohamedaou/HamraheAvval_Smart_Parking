@@ -1,14 +1,12 @@
-import 'dart:convert';
-import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/ConstFile.dart';
-import 'classes/SharedClass.dart';
 import 'extractsWidget/optStyle.dart';
 import 'extractsWidget/car_details_widget.dart';
+import 'classes/Base64Convertor.dart';
+import 'constFile/texts.dart';
 
+// Data from Searching Plate
 Map<String, Object> data = {};
 
 class CarDetails extends StatefulWidget {
@@ -19,29 +17,15 @@ class CarDetails extends StatefulWidget {
 class _CarDetailsState extends State<CarDetails> {
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
     // Plates Data
     data = ModalRoute.of(context).settings.arguments;
-    // print(base64Decode(data['car_img']));
-    // car_img = base64Decode(data['car_img']);
-    // plate_img = base64Decode(data['Plate_img']);
-
-    Widget properBASE64ImgConverting(String imgMemo) {
-      print(imgMemo.length);
-      if (imgMemo.length % 4 == 2) {
-        imgMemo += "==";
-      } else if (imgMemo.length % 4 == 3) {
-        imgMemo += "=";
-      }
-      final convertedImage = Base64Decoder().convert(imgMemo);
-      Widget image = Image.memory(convertedImage);
-      return image;
-    }
+    // Getting my conversion class (base64) 2 image
+    Base64Convertor convert2Img = Base64Convertor();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'جزئیات وسیله نقلیه',
+          appBarTitle,
           style: TextStyle(fontFamily: mainFontFamily),
         ),
       ),
@@ -52,49 +36,47 @@ class _CarDetailsState extends State<CarDetails> {
             children: [
               PageViewContainer(
                 imgPath: [
-                  imgShower(path: properBASE64ImgConverting(data['car_img'])),
-                  // imgShower(
-                  //   path: Image.memory(
-                  //     plate_img,
-                  //     alignment: Alignment.center,
-                  //     fit: BoxFit.fitWidth,
-                  //   ),
-                  // ),
+                  imgShower(
+                    path: Image.memory(
+                      convert2Img.dataFromBase64String(data['car_img']),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  imgShower(
+                    path: Image.memory(
+                      convert2Img.dataFromBase64String(data['Plate_img']),
+                      alignment: Alignment.center,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
                 ],
               ),
-              // GraphicalPlate(
-              //   // themeChange: themeChange,
-              //   plate0: data['plate0'],
-              //   plate1: data['plate1'],
-              //   plate2: data['plate2'],
-              //   plate3: data['plate3'],
-              // ),
               OptionsViewer(
-                text: "شماره جایگاه",
+                text: opt1Search,
                 desc: "جایگاه ${data['slot']}",
-                avatarIcon: CupertinoIcons.square_stack_3d_up,
-                avatarBgColor: HexColor("#460EBB"),
-                iconColor: Colors.white,
+                avatarIcon: slotIcon,
+                avatarBgColor: slotBgColorIcon,
+                iconColor: iconColor,
               ),
               OptionsViewer(
-                text: "وضعیت جایگاه",
+                text: opt2Status,
                 desc: data['status'] == 1 ? "پر" : "خالی",
-                avatarIcon: CupertinoIcons.app_fill,
-                avatarBgColor: HexColor('#9EA7C2'),
+                avatarIcon: slotStatus,
+                avatarBgColor: slotBgColorIconStatus,
                 iconColor: bothIconNativeColor,
               ),
               OptionsViewer(
-                text: "زمان ورود",
+                text: opt3EntryTime,
                 desc: "${data['entry_datetime']}",
-                avatarIcon: CupertinoIcons.time,
-                avatarBgColor: HexColor('#4E4F84'),
-                iconColor: Colors.white,
+                avatarIcon: entrySlotIcon,
+                avatarBgColor: entryBgColor,
+                iconColor: iconColorEntry,
               ),
               OptionsViewer(
-                text: "زمان خروج",
+                text: opt4ExitTime,
                 desc: "${data['exit_datetime']}",
-                avatarIcon: CupertinoIcons.time_solid,
-                avatarBgColor: HexColor('#BEB3D1'),
+                avatarIcon: exitIcon,
+                avatarBgColor: exitBgColorIcon,
                 iconColor: bothIconNativeColor,
               ),
             ],

@@ -89,7 +89,12 @@ const String ipAddressesListDesc =
     "برای دسترسی به تمامی آدرس های آی پی کلیک کنید";
 
 // Searching
+const String appBarTitle = 'جزئیات وسیله نقلیه';
 const String searchingPlate = "جست و جوی پلاک";
 const String searchPlateTitle = "جست و جو از طریق پلاک";
 const String plateSearchDetail =
     "شما ميتوانيد از طریق پلاک وسیله نقلیه مورد نظر اقدام به جست و جو کنید";
+const String opt1Search = "شماره جایگاه";
+const String opt2Status = "وضعیت جایگاه";
+const String opt3EntryTime = "زمان ورود";
+const String opt4ExitTime = "زمان خروج";

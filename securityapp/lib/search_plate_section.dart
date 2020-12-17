@@ -26,7 +26,8 @@ ApiAccess apiParkedCars = ApiAccess();
 final lStorage = FlutterSecureStorage();
 int tabIndex = 0;
 int _value = 0;
-String slot;
+String slot = "";
+dynamic emptyTextFieldErr = null;
 
 class SearchPlateSection extends StatefulWidget {
   @override
@@ -51,16 +52,23 @@ class _SearchPlateSectionState extends State<SearchPlateSection> {
             textColor: Colors.white);
         print(e);
       }
-    } else if(tabIndex == 1){
-      try {
-        Map data = await apiParkedCars.parkedCarsInfo(
-            uToken: uToken, sType: "slot", slotNum: "${slot}");
-        Navigator.pushNamed(context, "/carDetails", arguments: data['meta']);
-      } catch (e) {
-        Toast.show("خطا در جست و جو", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
+    } else if (tabIndex == 1) {
+      if (slot != "") {
+        try {
+          Map data = await apiParkedCars.parkedCarsInfo(
+              uToken: uToken, sType: "slot", slotNum: "${slot}");
+          Navigator.pushNamed(context, "/carDetails", arguments: data['meta']);
+        } catch (e) {
+          Toast.show("خطا در جست و جو", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              textColor: Colors.white);
+        }
+      } else {
+        print('sdsd');
+        setState(() {
+          emptyTextFieldErr = emptyTextFieldMsg;
+        });
       }
     }
   }
@@ -182,13 +190,13 @@ class _MainSectionState extends State<MainSection> {
                 margin: EdgeInsets.symmetric(vertical: 10),
                 child: TextFields(
                   lblText: "شماره جایگاه",
-                  textFieldIcon: Icons.contacts_outlined,
+                  textFieldIcon: Icons.wysiwyg,
                   textInputType: false,
                   readOnly: false,
-                  // errText:
-                  // emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
+                  errText: emptyTextFieldErr == null ? null : emptyTextFieldMsg,
                   onChangeText: (setSlot) {
                     setState(() {
+                      emptyTextFieldErr = null;
                       slot = setSlot;
                     });
                   },

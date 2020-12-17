@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -44,5 +45,24 @@ const double subTitleFontSize = 14;
 const IconData opt1Icon = Icons.keyboard;
 const IconData opt2Icon = Icons.camera;
 const Color bothIconNativeColor = Colors.black;
+
+// Searching Plate Options and icons and Colors and ets...
+// opt1
+const IconData slotIcon = CupertinoIcons.square_stack_3d_up;
+HexColor slotBgColorIcon = HexColor("#460EBB");
+const Color iconColor = Colors.white;
+
+// opt2
+const IconData slotStatus = CupertinoIcons.app_fill;
+HexColor slotBgColorIconStatus = HexColor('#9EA7C2');
+
+// opt3
+const IconData entrySlotIcon = CupertinoIcons.time;
+HexColor entryIconColor = HexColor('#4E4F84');
+Color entryBgColor = HexColor('#4E4F84');
+const Color iconColorEntry = Colors.white;
+// opt4
+const IconData exitIcon = CupertinoIcons.time_solid;
+HexColor exitBgColorIcon = HexColor('#BEB3D1');
 
 HexColor backPanelColor = HexColor('#1a2e48');

@@ -41,9 +41,7 @@ class HomeScreen extends StatelessWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      Mjpeg.startLiveView(
-                          //TODO Will be change with some state and functions
-                          url: "rtsp://192.168.1.109:554/11");
+                      Navigator.pushNamed(context, '/cameraIp');
                     },
                     child: service_card(
                       colour: cardStyleColor,
