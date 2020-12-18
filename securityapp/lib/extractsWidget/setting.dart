@@ -77,29 +77,44 @@ class Setting extends StatelessWidget {
           children: [
             Container(
                 width: double.infinity,
-                height: 150,
+                height: 200,
                 decoration: BoxDecoration(
                   color: cardStyleColor,
                 ),
                 child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: imagePath == null
-                          ? AssetImage("assets/images/profile.png")
-                          : imagePath is File
-                              ? FileImage(File(imagePath))
-                              : NetworkImage(imagePath),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: imagePath == null
+                            ? AssetImage("assets/images/profile.png")
+                            : imagePath is File
+                                ? FileImage(File(imagePath))
+                                : NetworkImage(imagePath),
+                      ),
                     ),
                     Text(
                       username,
                       style: TextStyle(
-                          color: Colors.white, fontFamily: mainFontFamily),
+                          color: Colors.white,
+                          fontFamily: mainFontFamily,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
                     ),
                     Text(
                       email,
                       style: TextStyle(
-                          color: Colors.white, fontFamily: mainFontFamily),
+                          color: Colors.grey.shade200,
+                          fontFamily: mainFontFamily,
+                          fontSize: 15),
+                    ),
+                    Text(
+                      personalCode,
+                      style: TextStyle(
+                          color: Colors.grey.shade200,
+                          fontFamily: mainFontFamily,
+                          fontSize: 15),
                     ),
                   ],
                 )),

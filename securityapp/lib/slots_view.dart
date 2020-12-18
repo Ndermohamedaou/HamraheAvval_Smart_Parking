@@ -77,81 +77,81 @@ class _SlotsViewState extends State<SlotsView> {
                     Text("طبقه اول",
                         style: TextStyle(
                             fontFamily: mainFontFamily, fontSize: 25)),
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: GridView.builder(
-                          shrinkWrap: true,
-                          itemCount: data[1]['vanak']["1"].length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 5),
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 2, horizontal: 2),
-                                decoration: BoxDecoration(
-                                    color: data[1]['vanak']["1"][index]
-                                                ['status'] ==
-                                            1
-                                        ? Colors.red
-                                        : data[1]['vanak']["1"][index]
-                                                    ['status'] ==
-                                                -1
-                                            ? Colors.orange
-                                            : data[1]['vanak']["1"][index]
-                                                        ['status'] ==
-                                                    0
-                                                ? Colors.blue
-                                                : Colors.white,
-                                    borderRadius: BorderRadius.circular(20)),
-                                alignment: Alignment.center,
-                                child: Text(data[1]['vanak']["1"][index]["id"]),
-                              ),
-                            );
-                          }),
-                    ),
+                    // Container(
+                    //   margin:
+                    //       EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    //   child: GridView.builder(
+                    //       shrinkWrap: true,
+                    //       itemCount: data[1]['vanak']["1"].length,
+                    //       gridDelegate:
+                    //           SliverGridDelegateWithFixedCrossAxisCount(
+                    //               crossAxisCount: 5),
+                    //       itemBuilder: (BuildContext context, int index) {
+                    //         return GestureDetector(
+                    //           onTap: () {},
+                    //           child: Container(
+                    //             margin: EdgeInsets.symmetric(
+                    //                 vertical: 2, horizontal: 2),
+                    //             decoration: BoxDecoration(
+                    //                 color: data[1]['vanak']["1"][index]
+                    //                             ['status'] ==
+                    //                         1
+                    //                     ? Colors.red
+                    //                     : data[1]['vanak']["1"][index]
+                    //                                 ['status'] ==
+                    //                             -1
+                    //                         ? Colors.orange
+                    //                         : data[1]['vanak']["1"][index]
+                    //                                     ['status'] ==
+                    //                                 0
+                    //                             ? Colors.blue
+                    //                             : Colors.white,
+                    //                 borderRadius: BorderRadius.circular(20)),
+                    //             alignment: Alignment.center,
+                    //             child: Text(data[1]['vanak']["1"][index]["id"]),
+                    //           ),
+                    //         );
+                    //       }),
+                    // ),
                     Text("طبقه دوم",
                         style: TextStyle(
                             fontFamily: mainFontFamily, fontSize: 25)),
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: GridView.builder(
-                          shrinkWrap: true,
-                          itemCount: data[1]['vanak']["2"].length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 5),
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 2, horizontal: 2),
-                                decoration: BoxDecoration(
-                                    color: data[1]['vanak']["1"][index]
-                                                ['status'] ==
-                                            1
-                                        ? Colors.red
-                                        : data[1]['vanak']["1"][index]
-                                                    ['status'] ==
-                                                -1
-                                            ? Colors.orange
-                                            : data[1]['vanak']["1"][index]
-                                                        ['status'] ==
-                                                    0
-                                                ? Colors.blue
-                                                : Colors.white,
-                                    borderRadius: BorderRadius.circular(20)),
-                                alignment: Alignment.center,
-                                child: Text(data[1]['vanak']["2"][index]["id"]),
-                              ),
-                            );
-                          }),
-                    ),
+                    // Container(
+                    //   margin:
+                    //       EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    //   child: GridView.builder(
+                    //       shrinkWrap: true,
+                    //       itemCount: data[1]['vanak']["2"].length,
+                    //       gridDelegate:
+                    //           SliverGridDelegateWithFixedCrossAxisCount(
+                    //               crossAxisCount: 5),
+                    //       itemBuilder: (BuildContext context, int index) {
+                    //         return GestureDetector(
+                    //           onTap: () {},
+                    //           child: Container(
+                    //             margin: EdgeInsets.symmetric(
+                    //                 vertical: 2, horizontal: 2),
+                    //             decoration: BoxDecoration(
+                    //                 color: data[1]['vanak']["1"][index]
+                    //                             ['status'] ==
+                    //                         1
+                    //                     ? Colors.red
+                    //                     : data[1]['vanak']["1"][index]
+                    //                                 ['status'] ==
+                    //                             -1
+                    //                         ? Colors.orange
+                    //                         : data[1]['vanak']["1"][index]
+                    //                                     ['status'] ==
+                    //                                 0
+                    //                             ? Colors.blue
+                    //                             : Colors.white,
+                    //                 borderRadius: BorderRadius.circular(20)),
+                    //             alignment: Alignment.center,
+                    //             child: Text(data[1]['vanak']["2"][index]["id"]),
+                    //           ),
+                    //         );
+                    //       }),
+                    // ),
                   ],
                 ),
               ),

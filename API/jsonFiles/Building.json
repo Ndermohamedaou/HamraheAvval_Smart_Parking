@@ -2,18 +2,21 @@
   "_id": {
     "$oid": "5fcf75807052a0eff0731d81"
   },
-  "name": "hamrah",
+  "name_en": "hamrah",
+  "name_fa": "همراه",
   "status": 1
 },{
   "_id": {
     "$oid": "5fcf75b47234990f38b6f263"
   },
-  "name": "vanak",
-  "status": 0
+  "name_en": "vanak",
+  "name_fa": "ونک",
+  "status": 1
 },{
   "_id": {
     "$oid": "5fcf75c37234990f38b6f264"
   },
-  "name": "setare",
-  "status": 0
+  "name_en": "setare",
+  "name_fa": "ستاره",
+  "status": 1
 }]

@@ -27,7 +27,7 @@ Route::group(['namespace' => 'Api'], function () {
 Route::group(['middleware' => ['jwt'] , 'namespace' => 'Api'], function() {
 
     Route::group(['middleware' => ['APIStaffMiddleware']], function() {
-        Route::get('StaffInfo', 'ApiAuthController@getAuthenticatedUser'); //info staff ro az in estefade konid
+        Route::get('userInfo', 'ApiAuthController@getAuthenticatedUser');
         Route::post('UpdateInfo', 'ApiUserController@UpdateInfo');
         Route::get('getUserReserves', 'ApiUserController@getUserReserves');
         Route::get('Reserve', 'ApiUserController@Reserve');
@@ -36,10 +36,11 @@ Route::group(['middleware' => ['jwt'] , 'namespace' => 'Api'], function() {
     });
 
     Route::group(['middleware' => ['APISecurityMiddleware']], function() {
-        Route::get('userInfo', 'ApiAuthController@getAuthenticatedUser'); // info security ro az in estefade konid
+        Route::get('userInfo', 'ApiAuthController@getAuthenticatedUser');
         Route::post('UpdateInfo', 'ApiUserController@UpdateInfo');
-        Route::get('/getSlots','DataController@getSlots');
+        Route::get('/getSlots/{building}','DataController@getSlots');
         Route::get('/getCameras','DataController@getCameras');
+        Route::get('/getBuildings','DataController@getBuildings');
         Route::post('/getSlotInfo','DataController@getSlotInfo');
         Route::post('/searchSlot','DataController@searchSlot');
         Route::post('/uploadPlate','PlateController@uploadPlate');

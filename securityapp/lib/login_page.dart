@@ -93,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
         // because AVD use this ip address as local IP!
         // BaseUrl is abstraction of our url api
         // dio.options.baseUrl = "http://10.0.2.2:8000/api";
+        // Check const file for API url if you want to change that
         Response response =
             await dio.post("${apiUrl}/login?email=${email}&password=${pass}");
         // if there is a user on server we will get 200

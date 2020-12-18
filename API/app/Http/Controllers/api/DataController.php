@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Building;
 use App\Models\Camera;
 use App\Models\Car;
 use App\Models\Slot;
@@ -19,26 +20,22 @@ class DataController extends Controller
         else return str_replace($fa_num, $en_num, $srting);
     }
 
-    public function getSlots()
+    public function getSlots($building)
     {
-        $buildings = Slot::raw()->distinct('building');
+        $buildings = Slot::where('building',$building)->get();
 
         $data = [];
 
         foreach ($buildings as $key => $value)
         {
-            $slots = Slot::where('building', $value)->get();
-
-            foreach ($slots as $k => $v) {
-                $data[$key][$value][$v->floor][] = [
-                    'status' => $v->status,
-                    'type' => $v->type,
-                    'floor' => $v->floor,
-                    'id' => $v->id,
-                    'key' => $v->ID,
-                    'building' => $v->building,
+                $data[$value->floor][] = [
+                    'status' => $value->status,
+                    'type' => $value->type,
+                    'floor' => $value->floor,
+                    'id' => $value->id,
+                    'key' => $value->ID,
+                    'building' => $value->building,
                 ];
-            }
         }
 
         return response($data);
@@ -104,7 +101,7 @@ class DataController extends Controller
 
                 if ($slot->status == 1)
                 {
-                    $meta = Car::where('slot', $slot->id)->where('status', 0)->first();
+                    $meta = Car::where('slot', $slot->id)->where('status', 1)->first();
                     if ($meta)
                         $data['meta'] = [
                             'plate_en' => $meta->plate_en,
@@ -130,11 +127,11 @@ class DataController extends Controller
                 return response('404',404);
             }
         }else{
+
             $car = new Car();
 
-            $car = $car->where('status', 1)->where('plate0', $this->PersianToEnglish($request->plate0));
-            
-            //dd($car);
+//            dd($request->all());
+            $car = $car->where('status', 1)->where('plate0', $this->PersianToEnglish($request->plate0))->first();
 
             if ($request->plate1 != null)
             {
@@ -152,6 +149,9 @@ class DataController extends Controller
             }
 
             $car = $car->get();
+
+//            dd($car);
+
             $data = [];
             foreach ($car as $key => $value)
             {
@@ -165,10 +165,10 @@ class DataController extends Controller
                    'car_img' => $value->car_img,
                    'confidence' => $value->confidence,
                    'camera_id' => $value->camera_id,
-                   'entry_datetime' => verta()->createTimestamp((int)$value->entry_datetime)->format('Y-m-d H:i:s'),
+                   'entry_datetime' => verta()->createTimestamp($value->entry_datetime)->format('Y-m-d H:i:s'),
                    'status' => $value->status,
                    'slot' => $value->slot,
-                   'exit_datetime' => empty($value->exit_datetime) ? '0' : verta()->createTimestamp((int)$value->exit_datetime)->format('Y-m-d H:i:s'),
+                   'exit_datetime' => empty($value->exit_datetime) ? '0' : verta()->createTimestamp($value->exit_datetime)->format('Y-m-d H:i:s'),
                    'device' => $value->device
                ];
             }
@@ -180,5 +180,12 @@ class DataController extends Controller
     public function getCameras()
     {
         return response(Camera::get(['ipCamera','type','status','location']));
+    }
+
+    public function getBuildings()
+    {
+        $buildings = Building::get(['name_en','name_fa','status']);
+
+        return response($buildings);
     }
 }
