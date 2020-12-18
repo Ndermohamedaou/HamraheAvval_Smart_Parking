@@ -41,7 +41,10 @@ class _SlotsViewState extends State<SlotsView> {
     // print(data[1]['vanak']["1"][2]['status']);
     // print(data[1]['vanak']["1"].length);
 
-    final spinnerIndicator = SpinKitFadingCube(size: 50, color: Colors.blue[700]);
+    print(data['1'].length);
+
+    final spinnerIndicator =
+        SpinKitFadingCube(size: 50, color: Colors.blue[700]);
 
     return Scaffold(
       appBar: AppBar(
@@ -55,24 +58,10 @@ class _SlotsViewState extends State<SlotsView> {
           child: Center(
             child: Column(
               children: [
-                Text("طبقه اول",
-                    style: TextStyle(fontFamily: mainFontFamily, fontSize: 25)),
-                // Text("${data["1"][0]["status"]}"),
                 data == null
                     ? spinnerIndicator
                     : FloorSlots(
                         data: data,
-                        slotsLen: data["1"].length,
-                        floor: 1,
-                      ),
-                Text("طبقه دوم",
-                    style: TextStyle(fontFamily: mainFontFamily, fontSize: 25)),
-                data == null
-                    ? spinnerIndicator
-                    : FloorSlots(
-                        data: data,
-                        slotsLen: data["2"].length,
-                        floor: 2,
                       ),
               ],
             ),
