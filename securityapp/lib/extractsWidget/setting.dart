@@ -117,13 +117,12 @@ class Setting extends StatelessWidget {
                           fontSize: 15),
                     ),
                     Text(
-                      securityManPosition,
+                      "ساختمان ${securityManPositionFA}",
                       style: TextStyle(
                           color: Colors.grey.shade200,
                           fontFamily: mainFontFamily,
                           fontSize: 15),
                     ),
-
                   ],
                 )),
             GestureDetector(

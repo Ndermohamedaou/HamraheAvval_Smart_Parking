@@ -20,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     startTimer();
   }
+
   // This function will be link with global_var file in repo
   void loadingProfileImage() async {
     final lStorage = FlutterSecureStorage();
@@ -28,8 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
     email = await lStorage.read(key: "email");
     personalCode = await lStorage.read(key: "personalCode");
     securityManPosition = await lStorage.read(key: "buildingName");
+    securityManPositionFA = await lStorage.read(key: "buildingNameFA");
   }
-
 
   @override
   Widget build(BuildContext context) {

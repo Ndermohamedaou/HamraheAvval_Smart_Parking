@@ -45,7 +45,8 @@ class ConfirmationPage extends StatefulWidget {
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
   // To sending confirm information
-  void confirmationProcessing(email, pass, confirmPass, uToken, buildingName) async {
+  void confirmationProcessing(
+      email, pass, confirmPass, uToken, buildingName, buildingNameFa) async {
     // I will use userInfo Map for storing data in local
     if (email != "" || pass != "" || confirmPass != "") {
       if (pass == confirmPass) {
@@ -79,6 +80,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   fullName: userInfo['name'],
                   naturalCode: userInfo['melli_code'],
                   buildingName: buildingName,
+                  buildingNameFA: buildingNameFa,
                   personalCode: userInfo['personal_code'],
                   avatar: imgSource.path);
               if (lStorageStatus) {
@@ -126,7 +128,12 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   onPressed: () {
                     confirmationProcessing(
-                        userEmail, userPassword, userConfirmPassword, uToken, buildings[_value]['name_en']);
+                        userEmail,
+                        userPassword,
+                        userConfirmPassword,
+                        uToken,
+                        buildings[_value]['name_en'],
+                        buildings[_value]['name_fa']);
                     setState(() {
                       breakConfirm = false;
                       pageIndex = 0;

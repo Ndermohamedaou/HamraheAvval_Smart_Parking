@@ -38,7 +38,7 @@ class _SetBuildingState extends State<SetBuilding> {
       ),
     ].toList();
 
-    void savingData({uToken, buildingName, uInfo}) async {
+    void savingData({uToken, buildingName, uInfo, buildingNameFa}) async {
       LocalizationDataStorage lds = LocalizationDataStorage();
       bool lStorageStatus = await lds.savingUInfo(
           uToken: uToken,
@@ -48,7 +48,8 @@ class _SetBuildingState extends State<SetBuilding> {
           naturalCode: uInfo['melli_code'],
           password: uInfo,
           avatar: uInfo['avatar'],
-          buildingName: buildingName);
+          buildingName: buildingName,
+          buildingNameFA: buildingNameFa);
 
       if (lStorageStatus) {
         Navigator.pushNamed(context, '/');
@@ -73,6 +74,7 @@ class _SetBuildingState extends State<SetBuilding> {
               savingData(
                   uToken: responseData['uToken'],
                   buildingName: buildings[_value]['name_en'],
+                  buildingNameFa: buildings[0]['name_fa'],
                   uInfo: responseData['res']);
             },
             child: Text(
