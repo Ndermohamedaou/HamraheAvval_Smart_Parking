@@ -14,7 +14,19 @@ const double widthOfLoginLogo = 180;
 // API Section
 // API URL
 // This is not permanently, inorder to be localhost!
-const String apiUrl = "http://10.0.2.2:8000/api";
+// "http://10.0.2.2:8000/api";
+// Check const file for API url if you want to change that
+// but if you want work with localhost we must use 10.0.2.2 IP address
+// because AVD use this ip address as local IP!
+// BaseUrl is abstraction of our url api
+// Avd local host
+const String avdLocalHost = "http://10.0.2.2:8000";
+// Physical Device
+const String physicalLocalHost = "http://192.168.1.51:8000";
+// iOS Simulator
+const String iosLocalHost = "http://127.0.0.1:8000";
+
+const String apiUrl = "$physicalLocalHost/api";
 
 // Main Color for back and scaffold
 HexColor backgroundColor = HexColor('#172438');

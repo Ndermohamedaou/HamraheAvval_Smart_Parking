@@ -35,10 +35,10 @@ class DarkThemeProvider with ChangeNotifier {
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
-      // primaryColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#f2f2f2'),
-      backgroundColor: isDarkTheme ? backgroundColor : HexColor('#f2f2f2'),
+      // primaryColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#F9F9F9'),
+      backgroundColor: isDarkTheme ? backgroundColor : HexColor('#F9F9F9'),
       scaffoldBackgroundColor:
-          isDarkTheme ? scaffoldBackgroundColor : HexColor('#f2f2f2'),
+          isDarkTheme ? scaffoldBackgroundColor : HexColor('#F9F9F9'),
       // textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
       // cardColor: isDarkTheme ? Color(0xFF151515) : Colors.white,
       // canvasColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#f2f2f2'),

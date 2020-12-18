@@ -21,6 +21,7 @@ class _SlotsViewState extends State<SlotsView> {
   // ignore: must_call_super
   void initState() {
     Timer(Duration(milliseconds: 1), () {
+      // To run await
       getSlots().then((results) {
         setState(() {
           data = results;
@@ -40,8 +41,7 @@ class _SlotsViewState extends State<SlotsView> {
   Widget build(BuildContext context) {
     // print(data[1]['vanak']["1"][2]['status']);
     // print(data[1]['vanak']["1"].length);
-
-    print(data['1'].length);
+    // print(data['1'].length);
 
     final spinnerIndicator =
         SpinKitFadingCube(size: 50, color: Colors.blue[700]);

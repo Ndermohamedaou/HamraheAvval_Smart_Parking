@@ -82,11 +82,6 @@ class _LoginPageState extends State<LoginPage> {
     if (email != "" || pass != "") {
       try {
         // Dio with post method to get response from local server
-        // but if you want work with localhost we must use 10.0.2.2 IP address
-        // because AVD use this ip address as local IP!
-        // BaseUrl is abstraction of our url api
-        // dio.options.baseUrl = "http://10.0.2.2:8000/api";
-        // Check const file for API url if you want to change that
         Response response =
             await dio.post("${apiUrl}/login?email=${email}&password=${pass}");
         // if there is a user on server we will get 200

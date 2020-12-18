@@ -165,10 +165,10 @@ class DataController extends Controller
                    'car_img' => $value->car_img,
                    'confidence' => $value->confidence,
                    'camera_id' => $value->camera_id,
-                   'entry_datetime' => verta()->createTimestamp($value->entry_datetime)->format('Y-m-d H:i:s'),
+                   'entry_datetime' => verta()->createTimestamp((int)$value->entry_datetime)->format('Y-m-d H:i:s'),
                    'status' => $value->status,
                    'slot' => $value->slot,
-                   'exit_datetime' => empty($value->exit_datetime) ? '0' : verta()->createTimestamp($value->exit_datetime)->format('Y-m-d H:i:s'),
+                   'exit_datetime' => empty($value->exit_datetime) ? '0' : verta()->createTimestamp((int)$value->exit_datetime)->format('Y-m-d H:i:s'),
                    'device' => $value->device
                ];
             }

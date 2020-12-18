@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
 import 'package:securityapp/classes/ApiAccess.dart';
+import 'package:securityapp/classes/SharedClass.dart';
 import 'package:securityapp/confirmation_page.dart';
 import 'package:toast/toast.dart';
 import 'classes/SavingLocalStorage.dart';
@@ -19,6 +22,7 @@ int _value = 0;
 class _SetBuildingState extends State<SetBuilding> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     // Getting Details of user for submit and saving in lds module
     responseData = ModalRoute.of(context).settings.arguments;
     buildings = responseData['buildings'];
@@ -96,6 +100,11 @@ class _SetBuildingState extends State<SetBuilding> {
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                width: 500,
+                decoration: BoxDecoration(
+                  color: HexColor("#f9f9f9"),
+                  borderRadius: BorderRadius.circular(20)
+                ),
                 child: Image.asset("assets/images/building.png",
                     width: double.infinity),
               ),
@@ -129,8 +138,7 @@ class _SetBuildingState extends State<SetBuilding> {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontFamily: mainFontFamily,
-                        // color: midTextColor ? Colors.white : Colors.black,
-                        color: Colors.black,
+                        color: themeChange.darkTheme ? Colors.white : Colors.black,
                         fontSize: 22),
                     items: dropdownMenu,
                     onChanged: (value) {
