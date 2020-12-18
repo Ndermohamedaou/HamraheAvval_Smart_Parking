@@ -40,6 +40,10 @@ class LocalizationDataStorage {
     return await lStorage.read(key: "uToken");
   }
 
+  Future<String> gettingUserSlot() async {
+    return await lStorage.read(key: "buildingName");
+  }
+
   // For logout and deleting all local information
   void deleteUuToken() async {
     lStorage.deleteAll();

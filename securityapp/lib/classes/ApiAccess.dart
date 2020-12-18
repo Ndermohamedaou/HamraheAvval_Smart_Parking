@@ -77,10 +77,10 @@ class ApiAccess {
     return successSend;
   }
 // TODO setting Building
-  Future<List> getSlots({String uAuth}) async {
+  Future<Map> getSlots({String uAuth, String slotName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer ${uAuth}";
-    Response response = await dio.get("${apiUrl}/getSlots");
+    Response response = await dio.get("${apiUrl}/getSlots/${slotName}");
     return response.data;
   }
 

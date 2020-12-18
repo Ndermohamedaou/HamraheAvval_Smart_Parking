@@ -74,7 +74,7 @@ class _SetBuildingState extends State<SetBuilding> {
               savingData(
                   uToken: responseData['uToken'],
                   buildingName: buildings[_value]['name_en'],
-                  buildingNameFa: buildings[0]['name_fa'],
+                  buildingNameFa: buildings[_value]['name_fa'],
                   uInfo: responseData['res']);
             },
             child: Text(
