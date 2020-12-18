@@ -68,10 +68,10 @@ class DataController extends Controller
                     'car_img' => $meta->car_img,
                     'confidence' => $meta->confidence,
                     'camera_id' => $meta->camera_id,
-                    'entry_datetime' => verta()->createTimestamp($meta->entry_datetime)->format('Y-m-d H:i:s'),
+                    'entry_datetime' => verta()->createTimestamp((int)$meta->entry_datetime)->format('Y-m-d H:i:s'),
                     'status' => $meta->status,
                     'slot' => $meta->slot,
-                    'exit_datetime' => empty($meta->exit_datetime) ? '0' : verta()->createTimestamp($meta->exit_datetime)->format('Y-m-d H:i:s'),
+                    'exit_datetime' => empty($meta->exit_datetime) ? '0' : verta()->createTimestamp((int)$meta->exit_datetime)->format('Y-m-d H:i:s'),
                     'device' => $meta->device
                 ];
             }
@@ -113,10 +113,10 @@ class DataController extends Controller
                             'car_img' => $meta->car_img,
                             'confidence' => $meta->confidence,
                             'camera_id' => $meta->camera_id,
-                            'entry_datetime' => verta()->createTimestamp($meta->entry_datetime)->format('Y-m-d H:i:s'),
+                            'entry_datetime' => verta()->createTimestamp((int)$meta->entry_datetime)->format('Y-m-d H:i:s'),
                             'status' => $meta->status,
                             'slot' => $meta->slot,
-                            'exit_datetime' => empty($meta->exit_datetime) ? '0' : verta()->createTimestamp($meta->exit_datetime)->format('Y-m-d H:i:s'),
+                            'exit_datetime' => empty($meta->exit_datetime) ? '0' : verta()->createTimestamp((int)$meta->exit_datetime)->format('Y-m-d H:i:s'),
                             'device' => $meta->device
                         ];
                 }

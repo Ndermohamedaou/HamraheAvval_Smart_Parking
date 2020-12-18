@@ -77,7 +77,7 @@ class Setting extends StatelessWidget {
           children: [
             Container(
                 width: double.infinity,
-                height: 200,
+                height: 220,
                 decoration: BoxDecoration(
                   color: cardStyleColor,
                 ),
@@ -116,6 +116,14 @@ class Setting extends StatelessWidget {
                           fontFamily: mainFontFamily,
                           fontSize: 15),
                     ),
+                    Text(
+                      securityManPosition,
+                      style: TextStyle(
+                          color: Colors.grey.shade200,
+                          fontFamily: mainFontFamily,
+                          fontSize: 15),
+                    ),
+
                   ],
                 )),
             GestureDetector(

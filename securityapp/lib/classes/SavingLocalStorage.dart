@@ -12,7 +12,8 @@ class LocalizationDataStorage {
       avatar,
       fullName,
       naturalCode,
-      personalCode}) async {
+      personalCode,
+      buildingName}) async {
     Map<String, dynamic> usersInfo = {
       "uToken": uToken,
       "email": email,
@@ -21,6 +22,7 @@ class LocalizationDataStorage {
       "fullName": fullName,
       "naturalCode": naturalCode,
       "personalCode": personalCode,
+      "buildingName": buildingName
     };
     usersInfo.forEach((key, value) async {
       await lStorage.write(key: key, value: value);

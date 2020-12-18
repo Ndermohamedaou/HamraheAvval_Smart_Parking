@@ -4,3 +4,4 @@ dynamic imagePath;
 String username = "";
 String email = "";
 String personalCode = "";
+String securityManPosition = "";

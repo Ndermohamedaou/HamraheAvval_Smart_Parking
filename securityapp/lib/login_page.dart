@@ -33,30 +33,20 @@ class _LoginPageState extends State<LoginPage> {
   // Instance of local data
   LocalizationDataStorage lds = LocalizationDataStorage();
 
+  ApiAccess api = ApiAccess();
+
   // if first visit be false
   void fetchingUserDetails(String uToken, uPass) async {
     // Token as req goes to server and get me user details
     try {
-      ApiAccess api = ApiAccess();
       Map response = await api.gettingUsersInfo(uToken);
+      List buildings = await api.getBuilding(uToken);
       // print(response);
-      bool lStorageStatus = await lds.savingUInfo(
-          uToken: uToken,
-          fullName: response['name'],
-          email: response['email'],
-          personalCode: response['personal_code'],
-          naturalCode: response['melli_code'],
-          password: uPass,
-          avatar: response['avatar']);
-
-      if (lStorageStatus) {
-        Navigator.pushNamed(context, '/');
-      } else {
-        Toast.show(applicationError, context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
-      }
+      Navigator.pushNamed(context, "/setBuilding", arguments: {
+        "res": response,
+        "buildings": buildings,
+        "uToken": uToken
+      });
     } catch (e) {
       Toast.show(notAMemberText, context,
           duration: Toast.LENGTH_LONG,
@@ -68,12 +58,15 @@ class _LoginPageState extends State<LoginPage> {
   // If user is new in application
   void confirmUser(uToken) async {
     try {
-      ApiAccess api = ApiAccess();
       Map response = await api.gettingUsersInfo(uToken);
       var userInfo = response;
+      List buildings = await api.getBuilding(uToken);
       // print(response);
-      Navigator.pushNamed(context, '/confirmation',
-          arguments: {"userInfo": userInfo, "uToken": uToken});
+      Navigator.pushNamed(context, '/confirmation', arguments: {
+        "userInfo": userInfo,
+        "uToken": uToken,
+        "buildings": buildings
+      });
     } catch (e) {
       Toast.show(serverProblem, context,
           duration: Toast.LENGTH_LONG,

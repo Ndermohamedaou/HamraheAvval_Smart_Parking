@@ -27,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     username = await lStorage.read(key: "fullName");
     email = await lStorage.read(key: "email");
     personalCode = await lStorage.read(key: "personalCode");
+    securityManPosition = await lStorage.read(key: "buildingName");
   }
 
 

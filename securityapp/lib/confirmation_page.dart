@@ -24,7 +24,9 @@ String userConfirmPassword = "";
 bool protectedPassword = true;
 Map<String, Object> userInfo;
 String uToken;
+List buildings;
 File imgSource;
+int _value = 0;
 // some validation in text fields
 IconData showMePass = Icons.remove_red_eye;
 dynamic emptyTextFieldErrEmail = null;
@@ -43,7 +45,7 @@ class ConfirmationPage extends StatefulWidget {
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
   // To sending confirm information
-  void confirmationProcessing(email, pass, confirmPass, uToken) async {
+  void confirmationProcessing(email, pass, confirmPass, uToken, buildingName) async {
     // I will use userInfo Map for storing data in local
     if (email != "" || pass != "" || confirmPass != "") {
       if (pass == confirmPass) {
@@ -76,6 +78,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   password: pass,
                   fullName: userInfo['name'],
                   naturalCode: userInfo['melli_code'],
+                  buildingName: buildingName,
                   personalCode: userInfo['personal_code'],
                   avatar: imgSource.path);
               if (lStorageStatus) {
@@ -123,7 +126,7 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   onPressed: () {
                     confirmationProcessing(
-                        userEmail, userPassword, userConfirmPassword, uToken);
+                        userEmail, userPassword, userConfirmPassword, uToken, buildings[_value]['name_en']);
                     setState(() {
                       breakConfirm = false;
                       pageIndex = 0;
@@ -202,6 +205,22 @@ class __ConfirmationPageState extends State<_ConfirmationPage> {
     userInfo = ModalRoute.of(context).settings.arguments;
     uToken = userInfo['uToken'];
     userInfo = userInfo['userInfo'];
+    buildings = userInfo['buildings'];
+
+    List<Widget> dropdownMenu = [
+      DropdownMenuItem(
+        child: Text('${buildings[0]['name_fa']}'),
+        value: 0,
+      ),
+      DropdownMenuItem(
+        child: Text('${buildings[1]['name_fa']}'),
+        value: 1,
+      ),
+      DropdownMenuItem(
+        child: Text('${buildings[2]['name_fa']}'),
+        value: 2,
+      ),
+    ].toList();
 
     return SafeArea(
       child: PageView(
@@ -222,6 +241,14 @@ class __ConfirmationPageState extends State<_ConfirmationPage> {
                 : FileImage(imgSource),
             gettingImage: () {
               galleryViewer();
+            },
+            // dropdown section in module
+            dropdownValue: _value,
+            dropdownMenu: dropdownMenu,
+            onChangeValueDropdown: (value) {
+              setState(() {
+                _value = value;
+              });
             },
           ),
           buildSingleChildScrollView(),

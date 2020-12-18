@@ -55,6 +55,11 @@ const String notAMemberText = "شما عضو سیستم نیستید";
 const String serverProblem = "مشکلی از سوی سرور پیش آمده";
 const String applicationError = "مشکل از داخل اپلیکیشن رخ داده!";
 
+// Building
+const String setBuildingText = "در چه ساختمانی هستید؟";
+const String buildingSubmission = "تایید ساختمان";
+const String buildingSubmissionTitle = 'ساختمان خود را تایید کنید';
+
 // Confirmation
 const String fullName = "نام کامل";
 const String confirmText = "بعدی";

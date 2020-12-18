@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../constFile/ConstFile.dart';
 import '../constFile/texts.dart';
@@ -11,13 +12,19 @@ class confirmInfoSec1 extends StatelessWidget {
       this.naturalCode,
       this.personalCode,
       this.gettingImage,
-      this.imageFile});
+      this.imageFile,
+      this.dropdownValue,
+      this.dropdownMenu,
+      this.onChangeValueDropdown});
 
   final String initName;
   final String naturalCode;
   final String personalCode;
   final Function gettingImage;
   var imageFile;
+  final int dropdownValue;
+  final List dropdownMenu;
+  final Function onChangeValueDropdown;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +71,34 @@ class confirmInfoSec1 extends StatelessWidget {
                     fontSize: 16,
                     color: Colors.grey,
                   ),
+                ),
+              ),
+              SizedBox(
+                height: 50,
+              ),
+              Directionality(
+                textDirection: TextDirection.rtl,
+                child: Container(
+                  width: double.infinity,
+                  height: 70,
+                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  child: DropdownButton(
+                      icon: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          child: Icon(
+                            CupertinoIcons.building_2_fill,
+                            color: Colors.blue[500],
+                            textDirection: TextDirection.rtl,
+                          )),
+                      value: dropdownValue,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: mainFontFamily,
+                          // color: midTextColor ? Colors.white : Colors.black,
+                          color: Colors.black,
+                          fontSize: 22),
+                      items: dropdownMenu,
+                      onChanged: onChangeValueDropdown),
                 ),
               ),
               SizedBox(

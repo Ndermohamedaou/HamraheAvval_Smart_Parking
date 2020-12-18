@@ -38,6 +38,14 @@ class ApiAccess {
     }
   }
 
+
+  Future<List> getBuilding(uToken) async{
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer ${uToken}";
+    Response response = await dio.get("${apiUrl}/getBuildings");
+    return response.data;
+  }
+
   Future<Map> parkedCarsInfo({uToken, sType, plates, slotNum}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer ${uToken}";
@@ -68,11 +76,12 @@ class ApiAccess {
 
     return successSend;
   }
-
+// TODO setting Building
   Future<List> getSlots({String uAuth}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer ${uAuth}";
     Response response = await dio.get("${apiUrl}/getSlots");
     return response.data;
   }
+
 }
