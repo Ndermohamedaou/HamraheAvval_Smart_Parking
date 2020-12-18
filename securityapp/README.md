@@ -1,16 +1,25 @@
 # securityapp
 
-A new Flutter application.
+if you want run this app on:
+Avd: 
 
-## Getting Started
+avdLocalHost => http://10.0.2.2:8000
 
-This project is a starting point for a Flutter application.
+Physical Device: 
 
-A few resources to get you started if this is your first Flutter project:
+API side run:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+php artisan serv --host 0.0.0.0 --port 8000
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+client side run:
+
+physicalLocalHost => ip of your workstation like "http://192.168.1.51:8000"
+
+iOS localhost:
+
+iosLocalHost => "http://127.0.0.1:8000"
+
+
+ 
+
+
