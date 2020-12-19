@@ -9,7 +9,8 @@ class CameraGridView extends StatefulWidget {
 
 class _CameraGridViewState extends State<CameraGridView> {
   VlcPlayerController controller;
-  String urlToStream = "https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4";
+  String urlToStream = "http://samples.mplayerhq.hu/MPEG-4/embedded_subs/1Video_2Audio_2SUBs_timed_text_streams_.mp4";
+  String urlToStream1 = "https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4";
   @override
   void initState() {
     controller = VlcPlayerController(
@@ -34,20 +35,37 @@ class _CameraGridViewState extends State<CameraGridView> {
             style: TextStyle(fontFamily: mainFontFamily),
           ),
         ),
-        body: Column(
-          children: [
-            SizedBox(
-              width: 640,
-              height: 360,
-              child: VlcPlayer(
-                aspectRatio: 16 / 9,
-                // put here your rtsp ip camera
-                url: urlToStream,
-                controller: controller,
-                placeholder: Center(child: CircularProgressIndicator()),
-              ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: VlcPlayer(
+                    aspectRatio: 16 / 9,
+                    // put here your rtsp ip camera
+                    url: urlToStream,
+                    controller: controller,
+                    placeholder: Center(child: CircularProgressIndicator()),
+                  ),
+                ),
+                SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: VlcPlayer(
+                    autoplay: true,
+                    aspectRatio: 16 / 9,
+                    // put here your rtsp ip camera
+                    url: urlToStream1,
+                    controller: controller,
+                    placeholder: Center(child: CircularProgressIndicator()),
+                  ),
+                ),
+
+              ],
             ),
-          ],
+          ),
         ));
   }
 }
