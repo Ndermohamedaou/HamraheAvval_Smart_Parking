@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_vlc_player/flutter_vlc_player.dart';
+// import 'package:flutter_vlc_player/flutter_vlc_player.dart';
 import 'package:securityapp/constFile/ConstFile.dart';
 
 class CameraGridView extends StatefulWidget {
@@ -9,7 +9,7 @@ class CameraGridView extends StatefulWidget {
 
 class _CameraGridViewState extends State<CameraGridView> {
 
-  VlcPlayerController _vlcPlayerController = VlcPlayerController();
+  // VlcPlayerController _vlcPlayerController = VlcPlayerController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,15 @@ class _CameraGridViewState extends State<CameraGridView> {
           style: TextStyle(fontFamily: mainFontFamily),
         ),
       ),
-      body: VlcPlayer(
-        controller: _vlcPlayerController,
-        placeholder: Center(child: CircularProgressIndicator()),
-        aspectRatio: 25.5,
-        url: "http://213.226.254.135:91/mjpg/video.mjpg",
+      body: Column(
+        children: [
+          // VlcPlayer(
+          //   controller: _vlcPlayerController,
+          //   placeholder: Center(child: CircularProgressIndicator()),
+          //   aspectRatio: 25.5,
+          //   url: "http://213.226.254.135:91/mjpg/video.mjpg",
+          // )
+        ],
       )
     );
   }

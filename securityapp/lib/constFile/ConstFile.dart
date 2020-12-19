@@ -26,7 +26,7 @@ const String physicalLocalHost = "http://192.168.1.51:8000";
 // iOS Simulator
 const String iosLocalHost = "http://127.0.0.1:8000";
 
-const String apiUrl = "$physicalLocalHost/api";
+const String apiUrl = "$avdLocalHost/api";
 
 // Main Color for back and scaffold
 HexColor backgroundColor = HexColor('#172438');
