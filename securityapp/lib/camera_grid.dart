@@ -51,7 +51,7 @@ class _CameraGridViewState extends State<CameraGridView> {
                   ),
                 ),
                 SizedBox(
-                  width: 200,
+                  width: double.infinity,
                   height: 200,
                   child: VlcPlayer(
                     autoplay: true,

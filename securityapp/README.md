@@ -1,6 +1,8 @@
 # Security App
 
-#### If you want run this app on:
+A future app for security mode!!
+
+## If you want run this app on:
 
 - **AVD**: 
 
@@ -25,3 +27,20 @@
     - iOS Localhost 
 
       `http://127.0.0.1:8000`
+
+### Main permission in AndroidManifest.xml
+
+- To access successfully to Internet:
+
+  - `<uses-permission android:name="android.permission.INTERNET" />`
+
+- To System alert window Realtime render:
+
+  - `<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>`
+
+- To access in the local storage in both subtitle or videos:
+
+  - ```xml
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    ```
