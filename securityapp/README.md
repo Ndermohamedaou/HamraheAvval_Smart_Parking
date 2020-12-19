@@ -1,25 +1,27 @@
-# securityapp
+# Security App
 
-if you want run this app on:
-Avd: 
+#### If you want run this app on:
 
-avdLocalHost => http://10.0.2.2:8000
+- **AVD**: 
 
-Physical Device: 
+  Android Virtual Device Localhost mean:
 
-API side run:
+  `http://10.0.2.2:8000`
 
-php artisan serv --host 0.0.0.0 --port 8000
+- **Physical** **Device**: 
 
-client side run:
+  - API will run with:
 
-physicalLocalHost => ip of your workstation like "http://192.168.1.51:8000"
+    `php artisan serv --host 0.0.0.0 --port 8000`
 
-iOS localhost:
+  - Client side run:
 
-iosLocalHost => "http://127.0.0.1:8000"
+    - Physical Device Localhost 
 
+    ​	`IP of your workstation like http://192.168.1.51:8000`
 
- 
+  - iOS localhost:
 
+    - iOS Localhost 
 
+      `http://127.0.0.1:8000`
