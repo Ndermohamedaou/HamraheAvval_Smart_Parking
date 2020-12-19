@@ -32,11 +32,15 @@ A future app for security mode!!
 
 - To access successfully to Internet:
 
-  - `<uses-permission android:name="android.permission.INTERNET" />`
+  - ``````xml
+    <uses-permission android:name="android.permission.INTERNET" />
+    ``````
 
 - To System alert window Realtime render:
 
-  - `<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>`
+  - `````xml
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    `````
 
 - To access in the local storage in both subtitle or videos:
 
