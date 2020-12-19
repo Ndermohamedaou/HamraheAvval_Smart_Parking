@@ -267,7 +267,7 @@ class _MainSectionState extends State<MainSection> {
           ),
         ),
         Container(
-          width: 50,
+          width: 60,
           height: 70,
           margin: EdgeInsets.only(top: 7),
           child: DropdownButton(
