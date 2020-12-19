@@ -26,7 +26,6 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
   // Following is a list for two page as Widget
   var screens = [HomeScreen(), Setting()];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
