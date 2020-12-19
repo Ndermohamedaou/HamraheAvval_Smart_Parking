@@ -22,11 +22,9 @@ A future app for security mode!!
 
     ​	`IP of your workstation like http://192.168.1.51:8000`
 
-  - iOS localhost:
+- Apple iOS Simulator:
 
-    - iOS Localhost 
-
-      `http://127.0.0.1:8000`
+  `http://127.0.0.1:8000`
 
 ### Main permission in AndroidManifest.xml
 
