@@ -8,6 +8,7 @@ import 'titleStyle/titles.dart';
 import 'constFile/texts.dart';
 import 'constFile/ConstFile.dart';
 import 'controller/safe_control_settings.dart';
+import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 
 class InputSecurityApp extends StatefulWidget {
   @override

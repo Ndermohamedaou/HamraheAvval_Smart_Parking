@@ -7,6 +7,8 @@ import '../camera_grid.dart';
 import '../constFile/ConstFile.dart';
 import '../slots_view.dart';
 import 'extract_main_design.dart';
+import 'package:flat_icons_flutter/flat_icons_flutter.dart';
+
 
 // Service Section in HomeScreen (main)
 class HomeScreen extends StatelessWidget {
@@ -69,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                       margin: cardStyleMargin,
                       borderRadius: cardStyleBorderRadius,
                       cardChild: ColContentClass(
-                        icon: LineAwesomeIcons.alternate_shield,
+                        icon: FlatIcons.video_camera,
                         iconSize: mainSecurityAppIconSize,
                         fontFamily: mainSecurityAppFontFamily,
                         fontSizeDesc: fontSizeDesc,
@@ -113,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                       margin: cardStyleMargin,
                       borderRadius: cardStyleBorderRadius,
                       cardChild: ColContentClass(
-                        icon: LineAwesomeIcons.car,
+                        icon: FlatIcons.search_1,
                         iconSize: mainSecurityAppIconSize,
                         fontFamily: mainSecurityAppFontFamily,
                         fontSizeDesc: fontSizeDesc,
@@ -164,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                       margin: cardStyleMargin,
                       borderRadius: cardStyleBorderRadius,
                       cardChild: ColContentClass(
-                        icon: LineAwesomeIcons.map_marked,
+                        icon: FlatIcons.map_location,
                         iconSize: mainSecurityAppIconSize,
                         fontFamily: mainSecurityAppFontFamily,
                         fontSizeDesc: fontSizeDesc,
@@ -208,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                       margin: cardStyleMargin,
                       borderRadius: cardStyleBorderRadius,
                       cardChild: ColContentClass(
-                        icon: LineAwesomeIcons.address_book,
+                        icon: FlatIcons.add_1,
                         iconSize: mainSecurityAppIconSize,
                         fontFamily: mainSecurityAppFontFamily,
                         fontSizeDesc: fontSizeDesc,

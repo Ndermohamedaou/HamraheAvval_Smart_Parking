@@ -18,7 +18,7 @@ class DarkModeWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
-          color: appBarBackgroundColor,
+          color: themeChange.darkTheme ? cardStyleColor : Colors.white,
           borderRadius: BorderRadius.circular(15.0)),
       child: Directionality(
         textDirection: TextDirection.rtl,
@@ -29,21 +29,16 @@ class DarkModeWidget extends StatelessWidget {
           },
           leading: Icon(
             CupertinoIcons.wand_stars,
-            color: Colors.white,
+            color: themeChange.darkTheme ? Colors.white : Colors.black,
             size: 30,
           ),
           title: Text(
             "حالت تاریک",
             style: TextStyle(
                 fontFamily: mainFontFamily,
-                fontSize: fontTitleSize,
-                color: Colors.white),
+                fontSize: 20,
+                color: themeChange.darkTheme ? Colors.white : Colors.black),
           ),
-          subtitle: Text(darkModeText,
-              style: TextStyle(
-                  fontFamily: mainFontFamily,
-                  fontSize: 15,
-                  color: Colors.white54)),
         ),
       ),
     );
