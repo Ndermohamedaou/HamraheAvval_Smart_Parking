@@ -44,7 +44,8 @@ class _SearchPlateSectionState extends State<SearchPlateSection> {
         platesList = [plate0, plateAlpList[_value].item, plate2, plate3];
         Map data = await apiParkedCars.parkedCarsInfo(
             uToken: uToken, sType: "plate", plates: platesList);
-        Navigator.pushNamed(context, "/carDetails", arguments: data);
+        print(data);
+        // Navigator.pushNamed(context, "/carDetails", arguments: data);
       } catch (e) {
         Toast.show("خطا در جست و جو", context,
             duration: Toast.LENGTH_LONG,
@@ -57,7 +58,8 @@ class _SearchPlateSectionState extends State<SearchPlateSection> {
         try {
           Map data = await apiParkedCars.parkedCarsInfo(
               uToken: uToken, sType: "slot", slotNum: "${slot}");
-          Navigator.pushNamed(context, "/carDetails", arguments: data['meta']);
+          print(data);
+          // Navigator.pushNamed(context, "/carDetails", arguments: data['meta']);
         } catch (e) {
           Toast.show("خطا در جست و جو", context,
               duration: Toast.LENGTH_LONG,
@@ -65,7 +67,6 @@ class _SearchPlateSectionState extends State<SearchPlateSection> {
               textColor: Colors.white);
         }
       } else {
-        print('sdsd');
         setState(() {
           emptyTextFieldErr = emptyTextFieldMsg;
         });

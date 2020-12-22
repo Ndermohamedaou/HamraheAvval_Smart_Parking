@@ -23,7 +23,8 @@ dependencies:
   toast: ^0.1.5
   flutter_secure_storage: ^3.3.5
   persian_number_utility: ^0.2.5
-  flutter_vlc_player: ^4.0.2
+  fijkplayer: ^0.8.7
+#  flutter_vlc_player: ^4.0.2
 
 dev_dependencies:
   flutter_test:

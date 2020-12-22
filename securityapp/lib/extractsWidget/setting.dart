@@ -1,15 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:securityapp/classes/SharedClass.dart';
+import 'package:securityapp/controller/safe_control_settings.dart';
 import '../constFile/ConstFile.dart';
 import '../constFile/texts.dart';
+import 'dark_mode.dart';
 import 'optStyle.dart';
 import '../constFile/global_var.dart';
 import 'package:securityapp/classes/SavingLocalStorage.dart';
-import 'package:securityapp/titleStyle/titles.dart';
 
 // Getting instance of lds class
 LocalizationDataStorage lds = LocalizationDataStorage();
@@ -18,57 +18,7 @@ LocalizationDataStorage lds = LocalizationDataStorage();
 class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    void viewDialog() {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return Directionality(
-              textDirection: TextDirection.rtl,
-              child: AlertDialog(
-                title: AppBarTitleConfig(
-                  titleText: logoutQa,
-                  textStyles: TextStyle(
-                      fontFamily: mainFontFamily, fontWeight: FontWeight.bold),
-                ),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: [
-                      AppBarTitleConfig(
-                        titleText: aggregation,
-                        textStyles: TextStyle(
-                          fontFamily: mainFontFamily,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    child: Text(
-                      agree,
-                      style: TextStyle(fontFamily: mainFontFamily),
-                    ),
-                    onPressed: () {
-                      lds.deleteUuToken();
-                      Navigator.pushNamed(context, '/');
-                    },
-                  ),
-                  TextButton(
-                    child: Text(
-                      deny,
-                      style: TextStyle(fontFamily: mainFontFamily),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            );
-          });
-    }
-
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return SingleChildScrollView(
       child: Container(
         margin: EdgeInsets.only(bottom: 12),
@@ -87,11 +37,12 @@ class Setting extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 10),
                       child: CircleAvatar(
                         radius: 50,
+                        backgroundColor: Colors.white,
                         backgroundImage: imagePath == null
                             ? AssetImage("assets/images/profile.png")
                             : imagePath is File
                                 ? FileImage(File(imagePath))
-                                : NetworkImage(imagePath),
+                                : AssetImage("assets/images/profile.png"),
                       ),
                     ),
                     Text(
@@ -125,18 +76,7 @@ class Setting extends StatelessWidget {
                     ),
                   ],
                 )),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/StylePage');
-              },
-              child: OptionsViewer(
-                text: themeModeSwitch,
-                desc: themeModeSwitchDesc,
-                avatarBgColor: Colors.purple,
-                avatarIcon: LineAwesomeIcons.lightbulb,
-                iconColor: Colors.white,
-              ),
-            ),
+            DarkModeWidget(themeChange: themeChange),
             OptionsViewer(
               text: ipAddressesList,
               desc: ipAddressesListDesc,
@@ -153,7 +93,7 @@ class Setting extends StatelessWidget {
                 color: Colors.red.shade800,
                 child: MaterialButton(
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                  onPressed: () => viewDialog(),
+                  onPressed: () => viewDialog(context),
                   child: Text(
                     logoutBtnText,
                     textAlign: TextAlign.center,

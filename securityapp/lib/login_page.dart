@@ -36,7 +36,8 @@ class _LoginPageState extends State<LoginPage> {
   ApiAccess api = ApiAccess();
 
   // if first visit be false
-  void fetchingUserDetails(String uToken, uPass) async {
+  void fetchingUserDetails(String uToken) async {
+    // print(uToken);
     // Token as req goes to server and get me user details
     try {
       Map response = await api.gettingUsersInfo(uToken);
@@ -48,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
         "uToken": uToken
       });
     } catch (e) {
-      Toast.show(notAMemberText, context,
+      Toast.show(e.toString(), context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
@@ -95,16 +96,11 @@ class _LoginPageState extends State<LoginPage> {
           } else {
             // if user is not **New** in app
             String userToken = response.data['token'];
-            fetchingUserDetails(userToken, pass);
+            fetchingUserDetails(userToken);
           }
-        } else {
-          Toast.show(notAMemberText, context,
-              duration: Toast.LENGTH_LONG,
-              gravity: Toast.BOTTOM,
-              textColor: Colors.white);
         }
       } catch (e) {
-        Toast.show(notAMemberText, context,
+        Toast.show(e.toString(), context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
             textColor: Colors.white);

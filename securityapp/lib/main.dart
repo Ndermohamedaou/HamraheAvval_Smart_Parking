@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'classes/SharedClass.dart';
 
@@ -10,7 +9,6 @@ import 'security_app.dart';
 import 'adding_data.dart';
 import 'static_insertion.dart';
 import 'camera_insertion.dart';
-import 'darkmode_page.dart';
 import 'login_page.dart';
 import 'confirmation_page.dart';
 import 'forget_pass.dart';
@@ -68,7 +66,6 @@ class _MyAppState extends State<MyApp> {
                 '/': (context) => SplashScreen(),
                 '/main': (context) => InputSecurityApp(),
                 '/addDataMethods': (context) => AdddingDataMethods(),
-                '/StylePage': (context) => ScreenStyle(),
                 '/StaticInsertion': (context) => StaticInsertion(),
                 '/CameraInsertion': (context) => CameraInsertion(),
                 '/LoginPage': (context) => LoginPage(),

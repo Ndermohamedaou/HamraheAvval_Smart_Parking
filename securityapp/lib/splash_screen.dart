@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'classes/SharedClass.dart';
-import 'constFile/global_var.dart';
+
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -21,16 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     startTimer();
   }
 
-  // This function will be link with global_var file in repo
-  void loadingProfileImage() async {
-    final lStorage = FlutterSecureStorage();
-    imagePath = (await lStorage.read(key: "avatar"));
-    username = await lStorage.read(key: "fullName");
-    email = await lStorage.read(key: "email");
-    personalCode = await lStorage.read(key: "personalCode");
-    securityManPosition = await lStorage.read(key: "buildingName");
-    securityManPositionFA = await lStorage.read(key: "buildingNameFA");
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +53,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void startTimer() {
     Timer(Duration(seconds: 3), () {
       navigateUser(); //It will redirect  after 3 seconds
-      loadingProfileImage();
     });
   }
 

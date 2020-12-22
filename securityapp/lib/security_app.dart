@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'extractsWidget/home_screen.dart';
@@ -8,7 +7,7 @@ import 'extractsWidget/setting.dart';
 import 'titleStyle/titles.dart';
 import 'constFile/texts.dart';
 import 'constFile/ConstFile.dart';
-import 'constFile/global_var.dart';
+import 'controller/safe_control_settings.dart';
 
 class InputSecurityApp extends StatefulWidget {
   @override
@@ -28,6 +27,8 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
 
   @override
   Widget build(BuildContext context) {
+    // Loading user image and details from LDS
+    loadingProfileImage();
     return Scaffold(
       appBar: AppBar(
         title: Center(
