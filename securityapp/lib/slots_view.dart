@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'classes/ApiAccess.dart';
 import 'constFile/ConstFile.dart';
 import 'classes/SavingLocalStorage.dart';
+import 'constFile/texts.dart';
 import 'extractsWidget/GraphicalSlotsWidget.dart';
 
 Map data;
@@ -20,14 +21,16 @@ class _SlotsViewState extends State<SlotsView> {
   @override
   // ignore: must_call_super
   void initState() {
-    Timer(Duration(milliseconds: 1), () {
-      // To run await
-      getSlots().then((results) {
-        setState(() {
+    // To run await
+    getSlots().then((results) {
+      setState(() {
+        Timer.periodic(new Duration(seconds: 20), (timer) {
           data = results;
         });
+        // print(data["-1"]);
       });
     });
+    // runs every 1 second
   }
 
   Future<Map> getSlots() async {
@@ -41,7 +44,8 @@ class _SlotsViewState extends State<SlotsView> {
   Widget build(BuildContext context) {
     // print(data[1]['vanak']["1"][2]['status']);
     // print(data[1]['vanak']["1"].length);
-    // print(data['1'].length);
+    // // final test:
+    // print(data["floors"]);
 
     final spinnerIndicator =
         SpinKitFadingCube(size: 50, color: Colors.blue[700]);
@@ -49,17 +53,18 @@ class _SlotsViewState extends State<SlotsView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'جایگاه های پارکینگ',
+          parkingSlots,
           style: TextStyle(fontFamily: mainFontFamily),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Center(
+          child: Container(
+            margin: EdgeInsets.only(top: 25),
             child: Column(
               children: [
                 data == null
-                    ? spinnerIndicator
+                    ? Center(child: spinnerIndicator)
                     : FloorSlots(
                         data: data,
                       ),

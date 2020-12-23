@@ -39,7 +39,8 @@ const cardStyleBorderRadius = 15.0;
 const double fontTitleSize = 24;
 const String titleFontFamily = mainFontFamily;
 var appBarBackgroundColor = HexColor('#1a2e48');
-HexColor cardStyleColor = HexColor('#1a2e48');
+HexColor cardStyleColorDark = HexColor('#1a2e48');
+HexColor cardStyleColorLight= HexColor('#f9f9f9');
 
 // Main security app :
 const double mainSecurityAppIconSize = 60;

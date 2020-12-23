@@ -2,29 +2,29 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:securityapp/classes/SharedClass.dart';
+import 'package:securityapp/extractsWidget/text_buildings.dart';
 import '../constFile/ConstFile.dart';
 import '../constFile/texts.dart';
 import 'login_extract_text_fields.dart';
 
 class confirmInfoSec1 extends StatelessWidget {
-  confirmInfoSec1(
-      {this.initName,
-      this.naturalCode,
-      this.personalCode,
-      this.gettingImage,
-      this.imageFile,
-      this.dropdownValue,
-      this.dropdownMenu,
-      this.onChangeValueDropdown});
+  confirmInfoSec1({
+    this.initName,
+    this.naturalCode,
+    this.personalCode,
+    this.gettingImage,
+    this.imageFile,
+    this.themeChange,
+  });
 
   final String initName;
   final String naturalCode;
   final String personalCode;
   final Function gettingImage;
   var imageFile;
-  final int dropdownValue;
-  final List dropdownMenu;
-  final Function onChangeValueDropdown;
+  final DarkThemeProvider themeChange;
 
   @override
   Widget build(BuildContext context) {
@@ -74,35 +74,7 @@ class confirmInfoSec1 extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 50,
-              ),
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Container(
-                  width: double.infinity,
-                  height: 70,
-                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  child: DropdownButton(
-                      icon: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 20),
-                          child: Icon(
-                            CupertinoIcons.building_2_fill,
-                            color: Colors.blue[500],
-                            textDirection: TextDirection.rtl,
-                          )),
-                      value: dropdownValue,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: mainFontFamily,
-                          // color: midTextColor ? Colors.white : Colors.black,
-                          color: Colors.black,
-                          fontSize: 22),
-                      items: dropdownMenu,
-                      onChanged: onChangeValueDropdown),
-                ),
-              ),
-              SizedBox(
-                height: 50,
+                height: 25,
               ),
               TextFields(
                 lblText: "شماره ملی",

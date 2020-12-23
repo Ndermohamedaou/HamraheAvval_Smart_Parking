@@ -16,10 +16,10 @@ class DarkModeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       decoration: BoxDecoration(
-          color: themeChange.darkTheme ? cardStyleColor : Colors.white,
-          borderRadius: BorderRadius.circular(15.0)),
+          // color: themeChange.darkTheme ? cardStyleColorDark : Colors.white,
+          borderRadius: BorderRadius.circular(1.0)),
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: ListTileSwitch(
@@ -27,16 +27,19 @@ class DarkModeWidget extends StatelessWidget {
           onChanged: (bool value) {
             themeChange.darkTheme = value;
           },
-          leading: Icon(
-            CupertinoIcons.wand_stars,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
-            size: 30,
+          leading: Container(
+            margin: EdgeInsets.only(right: 20),
+            child: Icon(
+              CupertinoIcons.wand_stars,
+              color: themeChange.darkTheme ? Colors.white : Colors.black,
+              size: 30,
+            ),
           ),
           title: Text(
             "حالت تاریک",
             style: TextStyle(
                 fontFamily: mainFontFamily,
-                fontSize: 20,
+                fontSize: 18,
                 color: themeChange.darkTheme ? Colors.white : Colors.black),
           ),
         ),

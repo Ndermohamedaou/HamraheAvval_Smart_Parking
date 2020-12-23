@@ -49,10 +49,11 @@ class _LoginPageState extends State<LoginPage> {
         "uToken": uToken
       });
     } catch (e) {
-      Toast.show(e.toString(), context,
+      Toast.show(receiveDataProblem, context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
+      print(e);
     }
   }
 
@@ -69,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
         "buildings": buildings
       });
     } catch (e) {
-      Toast.show(serverProblem, context,
+      Toast.show(receiveDataProblem, context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
@@ -86,8 +87,7 @@ class _LoginPageState extends State<LoginPage> {
         Response response =
             await dio.post("${apiUrl}/login?email=${email}&password=${pass}");
         // if there is a user on server we will get 200
-        if (response.data['status'] == "200") {
-          // print(response.data);
+        if (response.statusCode == 200) {
           // first visit ? navigated to new page
           // to put your email and confirm password
           if (response.data['first_visit']) {
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         }
       } catch (e) {
-        Toast.show(e.toString(), context,
+        Toast.show(serverProblem, context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
             textColor: Colors.white);

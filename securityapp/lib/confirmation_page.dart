@@ -3,6 +3,8 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'constFile/texts.dart';
 import 'extractsWidget/login_extract_text_fields.dart';
@@ -11,6 +13,7 @@ import 'extractsWidget/confirmation_sections.dart';
 import 'package:toast/toast.dart';
 import 'classes/SavingLocalStorage.dart';
 import 'classes/ApiAccess.dart';
+import 'extractsWidget/text_buildings.dart';
 
 // Index of page for forward ahead with btn
 int pageIndex = 0;
@@ -26,7 +29,9 @@ Map<String, Object> userInfo;
 String uToken;
 List buildings;
 File imgSource;
-int _value = 0;
+String _dropDownValue;
+String _dropDownFaValue;
+String currentOption = "";
 // some validation in text fields
 IconData showMePass = Icons.remove_red_eye;
 dynamic emptyTextFieldErrEmail = null;
@@ -46,7 +51,7 @@ class ConfirmationPage extends StatefulWidget {
 class _ConfirmationPageState extends State<ConfirmationPage> {
   // To sending confirm information
   void confirmationProcessing(
-      email, pass, confirmPass, uToken, buildingName, buildingNameFa) async {
+      {email, pass, confirmPass, uToken}) async {
     // I will use userInfo Map for storing data in local
     if (email != "" || pass != "" || confirmPass != "") {
       if (pass == confirmPass) {
@@ -79,15 +84,13 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   password: pass,
                   fullName: userInfo['name'],
                   naturalCode: userInfo['melli_code'],
-                  buildingName: buildingName,
-                  buildingNameFA: buildingNameFa,
                   personalCode: userInfo['personal_code'],
                   avatar: imgSource.path);
               if (lStorageStatus) {
-                Navigator.pushNamed(context, "/");
+                Navigator.pushNamed(context, "/LoginPage");
               }
             } else
-              Toast.show("شما در سیستم ثبت نشدید، بعدا امتحان کنید.", context,
+              Toast.show(cantSaveYou, context,
                   duration: Toast.LENGTH_LONG,
                   gravity: Toast.BOTTOM,
                   textColor: Colors.white);
@@ -128,12 +131,11 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
                   padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   onPressed: () {
                     confirmationProcessing(
-                        userEmail,
-                        userPassword,
-                        userConfirmPassword,
-                        uToken,
-                        buildings[_value]['name_en'],
-                        buildings[_value]['name_fa']);
+                      email: userEmail,
+                      pass: userPassword,
+                      confirmPass: userConfirmPassword,
+                      uToken: uToken,
+                    );
                     setState(() {
                       breakConfirm = false;
                       pageIndex = 0;
@@ -208,26 +210,13 @@ class __ConfirmationPageState extends State<_ConfirmationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     // Getting Arguments from login page all about user info.
     userInfo = ModalRoute.of(context).settings.arguments;
     uToken = userInfo['uToken'];
-    userInfo = userInfo['userInfo'];
     buildings = userInfo['buildings'];
-
-    List<Widget> dropdownMenu = [
-      DropdownMenuItem(
-        child: Text('${buildings[0]['name_fa']}'),
-        value: 0,
-      ),
-      DropdownMenuItem(
-        child: Text('${buildings[1]['name_fa']}'),
-        value: 1,
-      ),
-      DropdownMenuItem(
-        child: Text('${buildings[2]['name_fa']}'),
-        value: 2,
-      ),
-    ].toList();
+    // Will able to deprecate userInfo Map
+    userInfo = userInfo['userInfo'];
 
     return SafeArea(
       child: PageView(
@@ -248,14 +237,6 @@ class __ConfirmationPageState extends State<_ConfirmationPage> {
                 : FileImage(imgSource),
             gettingImage: () {
               galleryViewer();
-            },
-            // dropdown section in module
-            dropdownValue: _value,
-            dropdownMenu: dropdownMenu,
-            onChangeValueDropdown: (value) {
-              setState(() {
-                _value = value;
-              });
             },
           ),
           buildSingleChildScrollView(),

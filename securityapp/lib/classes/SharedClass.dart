@@ -38,7 +38,7 @@ class Styles {
       // primaryColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#F9F9F9'),
       backgroundColor: isDarkTheme ? backgroundColor : HexColor('#F9F9F9'),
       scaffoldBackgroundColor:
-          isDarkTheme ? scaffoldBackgroundColor : HexColor('#F9F9F9'),
+          isDarkTheme ? scaffoldBackgroundColor : HexColor('#F1EFF1'),
       // textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
       // cardColor: isDarkTheme ? Color(0xFF151515) : Colors.white,
       // canvasColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#f2f2f2'),

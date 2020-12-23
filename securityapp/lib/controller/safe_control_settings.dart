@@ -18,6 +18,18 @@ void loadingProfileImage() async {
   securityManPositionFA = await lStorage.read(key: "buildingNameFA");
 }
 
+getUserDetailLds() {
+  Map<String, dynamic> userDetails = {
+    "imagePath": imagePath,
+    "username": username,
+    "email": email,
+    "personalCode": personalCode,
+    "securityManPosition": securityManPosition,
+    "securityManPositionFA": securityManPositionFA
+  };
+  return userDetails;
+}
+
 // Getting logout
 void viewDialog(context) {
   showDialog(

@@ -18,6 +18,8 @@ import 'carDetailsPage.dart';
 import 'camera_grid.dart';
 import 'slots_view.dart';
 import 'set_building.dart';
+import 'edit_profile.dart';
+import 'profile_details.dart';
 
 void main() {
   runApp(MyApp());
@@ -73,7 +75,9 @@ class _MyAppState extends State<MyApp> {
                 '/forgetPassword': (context) => ForgetPasswordPage(),
                 '/plateSearch': (context) => SearchPlateSection(),
                 '/carDetails': (context) => CarDetails(),
-                '/setBuilding': (context) => SetBuilding()
+                '/setBuilding': (context) => SetBuilding(),
+                '/editProfile': (context) => EditProfile(),
+                '/profile_details': (context) => ProfileDetails(),
               },
             ),
           );

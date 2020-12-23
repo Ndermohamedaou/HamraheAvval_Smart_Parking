@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,15 +27,13 @@ class Setting extends StatelessWidget {
           textDirection: TextDirection.rtl,
           children: [
             Container(
-                width: double.infinity,
-                height: 220,
-                decoration: BoxDecoration(
-                  color: cardStyleColor,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(top: 20),
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: FlatButton(
+                  // onPressed: () => Navigator.pushNamed(context, "/editProfile"),
+                  child: ListTile(
+                    leading: Container(
                       child: CircleAvatar(
                         radius: 50,
                         backgroundColor: Colors.white,
@@ -45,67 +44,89 @@ class Setting extends StatelessWidget {
                                 : AssetImage("assets/images/profile.png"),
                       ),
                     ),
-                    Text(
-                      username,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: mainFontFamily,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                    title: Container(
+                      child: Text(
+                        username,
+                        style: TextStyle(
+                            fontFamily: mainFontFamily,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
                     ),
-                    Text(
+                    subtitle: Text(
                       email,
-                      style: TextStyle(
-                          color: Colors.grey.shade200,
-                          fontFamily: mainFontFamily,
-                          fontSize: 15),
+                      style:
+                          TextStyle(fontFamily: mainFontFamily, fontSize: 15),
                     ),
-                    Text(
-                      personalCode,
-                      style: TextStyle(
-                          color: Colors.grey.shade200,
-                          fontFamily: mainFontFamily,
-                          fontSize: 15),
-                    ),
-                    Text(
-                      "ساختمان ${securityManPositionFA}",
-                      style: TextStyle(
-                          color: Colors.grey.shade200,
-                          fontFamily: mainFontFamily,
-                          fontSize: 15),
-                    ),
-                  ],
-                )),
-            DarkModeWidget(themeChange: themeChange),
-            OptionsViewer(
-              text: ipAddressesList,
-              desc: ipAddressesListDesc,
-              avatarBgColor: Colors.yellow,
-              avatarIcon: Icons.privacy_tip_outlined,
-              iconColor: Colors.black,
-            ),
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              child: Material(
-                elevation: 5.0,
-                borderRadius: BorderRadius.circular(16.0),
-                color: Colors.red.shade800,
-                child: MaterialButton(
-                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                  onPressed: () => viewDialog(context),
-                  child: Text(
-                    logoutBtnText,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: loginTextFontFamily,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
             ),
+            DarkModeWidget(themeChange: themeChange),
+            // OptionsViewer(
+            //   text: ipAddressesList,
+            //   desc: ipAddressesListDesc,
+            //   avatarBgColor: Colors.yellow,
+            //   avatarIcon: Icons.privacy_tip_outlined,
+            //   iconColor: Colors.black,
+            // ),
+
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: Container(
+                child: FlatButton(
+                  onPressed: () => Navigator.pushNamed(context, '/profile_details'),
+                  child: ListTile(
+                    leading: Icon(Icons.perm_identity_outlined, size: 30),
+                    title: Text(
+                      "پروفايل من",
+                      style:
+                          TextStyle(fontFamily: mainFontFamily, fontSize: 18),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Divider(height: 20, thickness: 1),
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 15),
+                child: ListTile(
+                  leading: Icon(Icons.privacy_tip_outlined, size: 30),
+                  title: Text(
+                    "نسخه",
+                    style: TextStyle(fontFamily: mainFontFamily, fontSize: 18),
+                  ),
+                  subtitle: Text(
+                    "1.0.1",
+                    style: TextStyle(fontFamily: mainFontFamily, fontSize: 15),
+                  ),
+                ),
+              ),
+            ),
+            // Container(
+            //   width: double.infinity,
+            //   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            //   child: Material(
+            //     elevation: 5.0,
+            //     borderRadius: BorderRadius.circular(16.0),
+            //     color: Colors.red.shade800,
+            //     child: MaterialButton(
+            //       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            //       onPressed: () => viewDialog(context),
+            //       child: Text(
+            //         logoutBtnText,
+            //         textAlign: TextAlign.center,
+            //         style: TextStyle(
+            //             color: Colors.white,
+            //             fontFamily: loginTextFontFamily,
+            //             fontSize: 18,
+            //             fontWeight: FontWeight.bold),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

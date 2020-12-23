@@ -37,15 +37,13 @@ class SearchPlateSection extends StatefulWidget {
 class _SearchPlateSectionState extends State<SearchPlateSection> {
   void searchByPlate() async {
     String uToken = await lStorage.read(key: "uToken");
-    // realPlate =
-    //     "${plate0.toEnglishDigit()} ${plateAlpList[_value].item} ${plate2.toEnglishDigit()} ${plate3.toEnglishDigit()}";
+
     if (tabIndex == 0) {
       try {
         platesList = [plate0, plateAlpList[_value].item, plate2, plate3];
         Map data = await apiParkedCars.parkedCarsInfo(
             uToken: uToken, sType: "plate", plates: platesList);
-        print(data);
-        // Navigator.pushNamed(context, "/carDetails", arguments: data);
+        Navigator.pushNamed(context, "/carDetails", arguments: data);
       } catch (e) {
         Toast.show("خطا در جست و جو", context,
             duration: Toast.LENGTH_LONG,
@@ -58,8 +56,16 @@ class _SearchPlateSectionState extends State<SearchPlateSection> {
         try {
           Map data = await apiParkedCars.parkedCarsInfo(
               uToken: uToken, sType: "slot", slotNum: "${slot}");
-          print(data);
-          // Navigator.pushNamed(context, "/carDetails", arguments: data['meta']);
+          // print(data["status"]["status"]);
+          if (data["status"]["status"] == 0)
+            Toast.show("جایگاه خالی است", context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                textColor: Colors.white);
+          else {
+            Navigator.pushNamed(context, "/carDetails",
+                arguments: data['meta']);
+          }
         } catch (e) {
           Toast.show("خطا در جست و جو", context,
               duration: Toast.LENGTH_LONG,

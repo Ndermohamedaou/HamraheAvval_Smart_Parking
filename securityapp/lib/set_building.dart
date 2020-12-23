@@ -9,6 +9,8 @@ import 'package:toast/toast.dart';
 import 'classes/SavingLocalStorage.dart';
 import 'constFile/ConstFile.dart';
 import 'constFile/texts.dart';
+import 'controller/set_building.dart';
+import 'extractsWidget/text_buildings.dart';
 
 class SetBuilding extends StatefulWidget {
   @override
@@ -16,8 +18,9 @@ class SetBuilding extends StatefulWidget {
 }
 
 Map responseData;
-List buildings;
-int _value = 0;
+String _dropDownValue;
+String _dropDownFaValue;
+String currentOption = "";
 
 class _SetBuildingState extends State<SetBuilding> {
   @override
@@ -26,44 +29,6 @@ class _SetBuildingState extends State<SetBuilding> {
     // Getting Details of user for submit and saving in lds module
     responseData = ModalRoute.of(context).settings.arguments;
     buildings = responseData['buildings'];
-
-    List<Widget> dropdownMenu = [
-      DropdownMenuItem(
-        child: Text('${buildings[0]['name_fa']}'),
-        value: 0,
-      ),
-      DropdownMenuItem(
-        child: Text('${buildings[1]['name_fa']}'),
-        value: 1,
-      ),
-      DropdownMenuItem(
-        child: Text('${buildings[2]['name_fa']}'),
-        value: 2,
-      ),
-    ].toList();
-
-    void savingData({uToken, buildingName, uInfo, buildingNameFa}) async {
-      LocalizationDataStorage lds = LocalizationDataStorage();
-      bool lStorageStatus = await lds.savingUInfo(
-          uToken: uToken,
-          fullName: uInfo['name'],
-          email: uInfo['email'],
-          personalCode: uInfo['personal_code'],
-          naturalCode: uInfo['melli_code'],
-          password: uInfo,
-          avatar: uInfo['avatar'],
-          buildingName: buildingName,
-          buildingNameFA: buildingNameFa);
-
-      if (lStorageStatus) {
-        Navigator.pushNamed(context, '/');
-      } else {
-        Toast.show(applicationError, context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
-      }
-    }
 
     return Scaffold(
       bottomNavigationBar: Container(
@@ -75,10 +40,12 @@ class _SetBuildingState extends State<SetBuilding> {
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
+              // Saving data from user info side
               savingData(
+                  context: context,
                   uToken: responseData['uToken'],
-                  buildingName: buildings[_value]['name_en'],
-                  buildingNameFa: buildings[_value]['name_fa'],
+                  buildingName: _dropDownValue,
+                  buildingNameFa: _dropDownFaValue,
                   uInfo: responseData['res']);
             },
             child: Text(
@@ -108,17 +75,6 @@ class _SetBuildingState extends State<SetBuilding> {
                     width: double.infinity),
               ),
               SizedBox(height: 20),
-              Container(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  buildingSubmissionTitle,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontFamily: mainFontFamily,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
               Directionality(
                 textDirection: TextDirection.rtl,
                 child: Container(
@@ -126,25 +82,47 @@ class _SetBuildingState extends State<SetBuilding> {
                   height: 70,
                   margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   child: DropdownButton(
-                    icon: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
-                        child: Icon(
-                          CupertinoIcons.building_2_fill,
-                          color: Colors.blue[500],
-                          textDirection: TextDirection.rtl,
-                        )),
-                    value: _value,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontFamily: mainFontFamily,
-                        color:
-                            themeChange.darkTheme ? Colors.white : Colors.black,
-                        fontSize: 22),
-                    items: dropdownMenu,
-                    onChanged: (value) {
-                      setState(() {
-                        _value = value;
-                      });
+                    hint: _dropDownValue == null
+                        ? BuildingsCustomText(
+                            text: setBuildingText,
+                            textColor: themeChange.darkTheme
+                                ? Colors.white
+                                : Colors.grey,
+                          )
+                        : BuildingsCustomText(
+                            text: _dropDownFaValue,
+                            textColor: themeChange.darkTheme
+                                ? Colors.white
+                                : Colors.grey,
+                          ),
+                    isExpanded: true,
+                    iconSize: 30.0,
+                    icon: DropdownIcon(),
+                    dropdownColor: HexColor("#7280C6"),
+                    items: buildings.map(
+                      (val) {
+                        return DropdownMenuItem(
+                          value: val['name_en'],
+                          onTap: () {
+                            setState(() {
+                              _dropDownFaValue = val['name_fa'];
+                            });
+                          },
+                          child: BuildingsCustomText(
+                            text: val['name_fa'],
+                            textColor: Colors.white,
+                          ),
+                        );
+                      },
+                    ).toList(),
+                    onChanged: (val) {
+                      setState(
+                        () {
+                          _dropDownValue = val;
+                          print(_dropDownValue);
+                          print(_dropDownFaValue);
+                        },
+                      );
                     },
                   ),
                 ),

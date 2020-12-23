@@ -22,7 +22,7 @@ class OptionsViewer extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
-          color: cardStyleColor, borderRadius: BorderRadius.circular(16.0)),
+          color: cardStyleColorDark, borderRadius: BorderRadius.circular(16.0)),
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: ListTile(

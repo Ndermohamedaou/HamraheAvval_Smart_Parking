@@ -53,10 +53,12 @@ const String viewScreenLightOrDark = 'حالت تیره';
 const String emptyTextFieldMsg = "فیلد نباید خالی باشد!";
 const String notAMemberText = "شما عضو سیستم نیستید";
 const String serverProblem = "مشکلی از سوی سرور پیش آمده";
+const String receiveDataProblem = "مشکلی در دریافت اطلاعات کاربر وجود دارد";
 const String applicationError = "مشکل از داخل اپلیکیشن رخ داده!";
+const String unCorrectUserOrPass = "شناسه پرسنلی یا گذرواژه شما اشتباه است";
 
 // Building
-const String setBuildingText = "در چه ساختمانی هستید؟";
+const String setBuildingText = 'ساختمان خود را انتخاب کنید';
 const String buildingSubmission = "تایید ساختمان";
 const String buildingSubmissionTitle = 'ساختمان خود را تایید کنید';
 
@@ -67,6 +69,7 @@ const String fullNameMsg =
     "این قسمت مربوط به نام کاربری شما نمی باشد، بلکه نام کامل شما را نشان میدهید";
 const String naturalCodeTooltip =
     "شما نمیتوانید به صورت مستقیم این فیلد را تغییر دهید";
+const String cantSaveYou = "شما در سیستم ثبت نشدید، بعدا امتحان کنید.";
 
 const String completingForm = "ثبت اطلاعات";
 const String nextConfirmPage = "بعدی";
@@ -107,3 +110,9 @@ const String opt4ExitTime = "زمان خروج";
 // Adding plate
 const String sendingSuccessMsg = "تصویر با موفقیت ارسال شد";
 const String failedMsg = "تصویر ارسال نشد";
+
+// Slots
+const String parkingSlots = 'جایگاه های پارکینگ';
+
+// Cameras
+const String camerasTitle = "دوربین ها";

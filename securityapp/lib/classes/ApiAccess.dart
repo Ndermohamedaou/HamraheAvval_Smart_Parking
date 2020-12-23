@@ -51,7 +51,7 @@ class ApiAccess {
     Response response;
     if (sType == "plate") {
       response = await dio.post(
-          "${apiUrl}/searchSlot?type=${sType}&plate0=${plates[0]}&plate1=${plates[1]}&plate2=${plates[2]}&plate3=${plates[3]}");
+          "${apiUrl}/searchSlot?type=$sType&plate0=${plates[0]}&plate1=${plates[1]}&plate2=${plates[2]}&plate3=${plates[3]}");
       return response.data[0];
     } else if (sType == "slot") {
       response =

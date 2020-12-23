@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:securityapp/classes/SharedClass.dart';
 import 'package:securityapp/constFile/texts.dart';
 import '../adding_data.dart';
 import 'package:securityapp/search_plate_section.dart';
@@ -9,11 +12,11 @@ import '../slots_view.dart';
 import 'extract_main_design.dart';
 import 'package:flat_icons_flutter/flat_icons_flutter.dart';
 
-
 // Service Section in HomeScreen (main)
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return Container(
       margin: EdgeInsets.only(bottom: 12),
       child: Column(
@@ -41,50 +44,51 @@ class HomeScreen extends StatelessWidget {
             flex: 4,
             child: Row(
               children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: Duration(milliseconds: 500),
-                          transitionsBuilder:
-                              (context, animation, animationTime, child) {
-                            animation = CurvedAnimation(
-                              parent: animation,
-                              curve: Curves.fastLinearToSlowEaseIn,
-                            );
-                            return ScaleTransition(
-                              alignment: Alignment.topLeft,
-                              scale: animation,
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (context, animation, animationTime) {
-                            return CameraGridView();
-                          },
-                        ),
-                      );
-                    },
-                    child: service_card(
-                      colour: cardStyleColor,
-                      margin: cardStyleMargin,
-                      borderRadius: cardStyleBorderRadius,
-                      cardChild: ColContentClass(
-                        icon: FlatIcons.video_camera,
-                        iconSize: mainSecurityAppIconSize,
-                        fontFamily: mainSecurityAppFontFamily,
-                        fontSizeDesc: fontSizeDesc,
-                        fontSizeTitle: fontSizeTitle,
-                        iconColor: mainIconColor,
-                        textTitle: Camera,
-                        textTitleColor: textTitleColor,
-                        textDesc: subCamera,
-                        textDescColor: textDescColor,
-                      ),
-                    ),
-                  ),
-                ),
+                // Expanded(
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       Navigator.push(
+                //         context,
+                //         PageRouteBuilder(
+                //           transitionDuration: Duration(milliseconds: 500),
+                //           transitionsBuilder:
+                //               (context, animation, animationTime, child) {
+                //             animation = CurvedAnimation(
+                //               parent: animation,
+                //               curve: Curves.fastLinearToSlowEaseIn,
+                //             );
+                //             return ScaleTransition(
+                //               alignment: Alignment.topLeft,
+                //               scale: animation,
+                //               child: child,
+                //             );
+                //           },
+                //           pageBuilder: (context, animation, animationTime) {
+                //             return CameraGridView();
+                //           },
+                //         ),
+                //       );
+                //     },
+                //     child: service_card(
+                //       colour:
+                //           themeChange.darkTheme ? cardStyleColorDark : cardStyleColorLight,
+                //       margin: cardStyleMargin,
+                //       borderRadius: cardStyleBorderRadius,
+                //       cardChild: ColContentClass(
+                //         icon: FlatIcons.video_camera,
+                //         iconSize: mainSecurityAppIconSize,
+                //         fontFamily: mainSecurityAppFontFamily,
+                //         fontSizeDesc: fontSizeDesc,
+                //         fontSizeTitle: fontSizeTitle,
+                //         iconColor: mainIconColor,
+                //         textTitle: Camera,
+                //         textTitleColor: themeChange.darkTheme ? cardStyleColorLight : cardStyleColorDark,
+                //         textDesc: subCamera,
+                //         textDescColor: themeChange.darkTheme ? cardStyleColorLight : cardStyleColorDark,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
@@ -111,7 +115,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     child: service_card(
-                      colour: cardStyleColor,
+                      colour: themeChange.darkTheme ? cardStyleColorDark : cardStyleColorLight,
                       margin: cardStyleMargin,
                       borderRadius: cardStyleBorderRadius,
                       cardChild: ColContentClass(
@@ -122,9 +126,9 @@ class HomeScreen extends StatelessWidget {
                         fontSizeTitle: fontSizeTitle,
                         iconColor: mainIconColor,
                         textTitle: plakSearcher,
-                        textTitleColor: textTitleColor,
+                        textTitleColor: themeChange.darkTheme ? HexColor('#f9f9f9'): cardStyleColorDark,
                         textDesc: subPlakSearcher,
-                        textDescColor: textDescColor,
+                        textDescColor: themeChange.darkTheme ? HexColor('#f9f9f9') : cardStyleColorDark,
                       ),
                     ),
                   ),
@@ -162,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     child: service_card(
-                      colour: cardStyleColor,
+                      colour: themeChange.darkTheme ? cardStyleColorDark : cardStyleColorLight,
                       margin: cardStyleMargin,
                       borderRadius: cardStyleBorderRadius,
                       cardChild: ColContentClass(
@@ -173,9 +177,9 @@ class HomeScreen extends StatelessWidget {
                         fontSizeTitle: fontSizeTitle,
                         iconColor: mainIconColor,
                         textTitle: garageSituation,
-                        textTitleColor: textTitleColor,
+                        textTitleColor: themeChange.darkTheme ? cardStyleColorLight : cardStyleColorDark,
                         textDesc: subGarageSituation,
-                        textDescColor: textDescColor,
+                        textDescColor: themeChange.darkTheme ? cardStyleColorLight : cardStyleColorDark,
                       ),
                     ),
                   ),
@@ -206,7 +210,7 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     child: service_card(
-                      colour: cardStyleColor,
+                      colour: themeChange.darkTheme ? cardStyleColorDark : cardStyleColorLight,
                       margin: cardStyleMargin,
                       borderRadius: cardStyleBorderRadius,
                       cardChild: ColContentClass(
@@ -217,9 +221,9 @@ class HomeScreen extends StatelessWidget {
                         fontSizeTitle: fontSizeTitle,
                         iconColor: mainIconColor,
                         textTitle: addingVehicle,
-                        textTitleColor: textTitleColor,
+                        textTitleColor: themeChange.darkTheme ? cardStyleColorLight : cardStyleColorDark,
                         textDesc: subAddingVehicle,
-                        textDescColor: textDescColor,
+                        textDescColor: themeChange.darkTheme ? cardStyleColorLight : cardStyleColorDark,
                       ),
                     ),
                   ),
