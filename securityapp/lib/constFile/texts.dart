@@ -17,7 +17,7 @@ const String subPlakSearcher = "جست و جوی وسایل نقلیه";
 const String garageSituation = "جایگاه پارکینگ";
 const String subGarageSituation = "موقعیت جایگاه ها";
 const String addingVehicle = "اضافه کردن خودرو";
-const String subAddingVehicle = "دستی یا تصویر برداری";
+const String subAddingVehicle = "تصویر برداری";
 const String opt1 = 'وارد کردن اطلاعات به صورت دستی';
 const String opt1Desc =
     "شما در این روش میتوانید به صورت دستی تمام فیلد های مورد نظر را پر کنید و داده ها را به دیتابیس داخلی وارد نمایید";
@@ -116,3 +116,7 @@ const String parkingSlots = 'جایگاه های پارکینگ';
 
 // Cameras
 const String camerasTitle = "دوربین ها";
+
+// Alert result of sending pic
+const String submissionTitleText = "پلاک شما ثبت شد";
+const String thanks = "مرسی";

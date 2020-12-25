@@ -81,3 +81,165 @@ void viewDialog(context) {
         );
       });
 }
+
+void insertPicSubmit(
+  context,
+  title,
+) {}
+
+Widget buildRowPlate(plate0, plate1, plate2, plate3) {
+  return Container(
+    width: double.infinity,
+    height: 70,
+    decoration: BoxDecoration(
+        border: Border.all(color: Colors.black, width: 2.8),
+        borderRadius: BorderRadius.circular(8)),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: 50,
+          height: 70,
+          decoration: BoxDecoration(
+            color: Colors.blue[900],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(height: 2),
+              Image.asset(
+                "assets/images/iranFlag.png",
+                width: 35,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'I.R.',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    'I R A N',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: 50,
+          height: 70,
+          margin: EdgeInsets.only(top: 0),
+          child: TextFormField(
+            showCursor: false,
+            readOnly: true,
+            style: TextStyle(
+                fontSize: 26,
+                fontFamily: mainFontFamily,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            initialValue: plate0,
+            decoration:
+                InputDecoration(counterText: "", border: InputBorder.none),
+            maxLength: 2,
+          ),
+        ),
+        Container(
+          width: 30,
+          height: 70,
+          child: TextFormField(
+            showCursor: false,
+            readOnly: true,
+            style: TextStyle(
+                fontSize: 26,
+                fontFamily: mainFontFamily,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            initialValue: plate1,
+            decoration:
+                InputDecoration(counterText: "", border: InputBorder.none),
+            maxLength: 2,
+          ),
+        ),
+        Container(
+          width: 50,
+          height: 70,
+          margin: EdgeInsets.only(top: 0, right: 0),
+          child: TextFormField(
+            readOnly: true,
+            initialValue: plate2,
+            style: TextStyle(
+                fontSize: 26,
+                fontFamily: mainFontFamily,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            decoration:
+                InputDecoration(counterText: "", border: InputBorder.none),
+            maxLength: 3,
+          ),
+        ),
+        VerticalDivider(width: 1, color: Colors.black, thickness: 3),
+        Container(
+          width: 50,
+          height: 70,
+          // margin: EdgeInsets.only(top: 0, right: 10),
+          child: TextFormField(
+            readOnly: true,
+            initialValue: plate3,
+            style: TextStyle(
+                fontSize: 26,
+                fontFamily: mainFontFamily,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+            decoration:
+                InputDecoration(counterText: "", border: InputBorder.none),
+            maxLength: 2,
+          ),
+        ),
+      ],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      textBaseline: TextBaseline.alphabetic,
+    ),
+  );
+}
+
+void showSearchResult(context, senderStatus) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          submissionTitleText,
+          style: TextStyle(
+              fontFamily: mainFontFamily, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: [
+              Text(
+                "${senderStatus["slot"]} :شماره جایگاه",
+                style: TextStyle(fontFamily: mainFontFamily, fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              buildRowPlate(
+                  senderStatus["plate_fa0"],
+                  senderStatus["plate_fa1"],
+                  senderStatus["plate_fa2"],
+                  senderStatus["plate_fa3"])
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: Text(thanks, style: TextStyle(fontFamily: mainFontFamily)),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      );
+    },
+  );
+}

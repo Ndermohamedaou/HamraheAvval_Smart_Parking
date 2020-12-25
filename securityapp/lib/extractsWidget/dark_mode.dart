@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:securityapp/classes/SharedClass.dart';
 import 'package:securityapp/constFile/ConstFile.dart';
@@ -16,7 +17,7 @@ class DarkModeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+      margin: EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
           // color: themeChange.darkTheme ? cardStyleColorDark : Colors.white,
           borderRadius: BorderRadius.circular(1.0)),
@@ -29,18 +30,25 @@ class DarkModeWidget extends StatelessWidget {
           },
           leading: Container(
             margin: EdgeInsets.only(right: 20),
-            child: Icon(
-              CupertinoIcons.wand_stars,
-              color: themeChange.darkTheme ? Colors.white : Colors.black,
-              size: 30,
+            child: Container(
+              width: 35,
+              height: 35,
+              decoration: BoxDecoration(
+                  color: HexColor("#0075FF"),
+                  borderRadius: BorderRadius.circular(8)),
+              child: Icon(
+                CupertinoIcons.wand_stars,
+                color: Colors.white,
+                size: 20,
+              ),
             ),
           ),
           title: Text(
             "حالت تاریک",
             style: TextStyle(
-                fontFamily: mainFontFamily,
-                fontSize: 18,
-                color: themeChange.darkTheme ? Colors.white : Colors.black),
+              fontFamily: mainFontFamily,
+              fontSize: 18,
+            ),
           ),
         ),
       ),

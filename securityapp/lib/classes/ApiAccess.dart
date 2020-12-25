@@ -60,23 +60,22 @@ class ApiAccess {
     }
   }
 
-  Future<bool> sendingCarImg({uToken, plate}) async {
+  Future<Map> sendingCarImg({uToken, plate}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer ${uToken}";
     Response response = await dio.post("${apiUrl}/uploadPlate", data: plate);
-    final status = response.data['status'];
+    // final status = response.data['status'];
+    //
+    // bool successSend = false;
+    // print(status);
+    // if (status != null)
+    //   successSend = true;
+    // else
+    //   successSend = false;
 
-    bool successSend = false;
-    print(status);
-    if (status != null)
-      successSend = true;
-    else
-      successSend = false;
-
-    return successSend;
+    return response.data;
   }
 
-// TODO setting Building
   Future<Map> getSlots({String uAuth, String slotName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer ${uAuth}";

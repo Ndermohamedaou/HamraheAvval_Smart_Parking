@@ -50,8 +50,7 @@ class ConfirmationPage extends StatefulWidget {
 
 class _ConfirmationPageState extends State<ConfirmationPage> {
   // To sending confirm information
-  void confirmationProcessing(
-      {email, pass, confirmPass, uToken}) async {
+  void confirmationProcessing({email, pass, confirmPass, uToken}) async {
     // I will use userInfo Map for storing data in local
     if (email != "" || pass != "" || confirmPass != "") {
       if (pass == confirmPass) {
@@ -76,24 +75,25 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
             bool modifier =
                 await api.updateUserInfo(formData, uToken, email, pass);
             if (modifier) {
-              // Getting instance of my custom local storage class
-              LocalizationDataStorage lds = LocalizationDataStorage();
-              bool lStorageStatus = await lds.savingUInfo(
-                  uToken: uToken,
-                  email: email,
-                  password: pass,
-                  fullName: userInfo['name'],
-                  naturalCode: userInfo['melli_code'],
-                  personalCode: userInfo['personal_code'],
-                  avatar: imgSource.path);
-              if (lStorageStatus) {
-                Navigator.pushNamed(context, "/LoginPage");
-              }
-            } else
-              Toast.show(cantSaveYou, context,
-                  duration: Toast.LENGTH_LONG,
-                  gravity: Toast.BOTTOM,
-                  textColor: Colors.white);
+              Navigator.pushNamed(context, "/LoginPage");
+            }
+            // Getting instance of my custom local storage class
+            // LocalizationDataStorage lds = LocalizationDataStorage();
+            // bool lStorageStatus = await lds.savingUInfo(
+            //     uToken: uToken,
+            //     email: email,
+            //     password: pass,
+            //     fullName: userInfo['name'],
+            //     naturalCode: userInfo['melli_code'],
+            //     personalCode: userInfo['personal_code'],
+            //     avatar: imgSource.path);
+            //   if (lStorageStatus) {
+            //   }
+            // } else
+            //   Toast.show(cantSaveYou, context,
+            //       duration: Toast.LENGTH_LONG,
+            //       gravity: Toast.BOTTOM,
+            //       textColor: Colors.white);
           } catch (e) {
             Toast.show(serverNotResponse, context,
                 duration: Toast.LENGTH_LONG,

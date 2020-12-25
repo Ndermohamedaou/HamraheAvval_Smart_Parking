@@ -23,7 +23,7 @@ const double widthOfLoginLogo = 180;
 const portNum = "8000";
 const String avdLocalHost = "http://10.0.2.2:$portNum";
 // Physical Device
-const String physicalLocalHost = "http://25.73.255.184:$portNum";
+const String physicalLocalHost = "http://192.168.1.5:$portNum";
 // iOS Simulator
 const String iosLocalHost = "http://127.0.0.1:$portNum";
 

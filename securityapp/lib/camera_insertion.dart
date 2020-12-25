@@ -3,11 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:securityapp/titleStyle/titles.dart';
 import 'classes/SavingLocalStorage.dart';
 import 'package:toast/toast.dart';
+import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'constFile/texts.dart';
 import 'classes/ApiAccess.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
+
+import 'controller/safe_control_settings.dart';
 
 HexColor backPanelColor = HexColor('#1a2e48');
 Map<String, Object> source;
@@ -37,15 +43,12 @@ class _CameraInsertionState extends State<CameraInsertion> {
       String uToken = await lds.gettingUserToken();
       // print(uToken);
       // Sending Req to API
-      bool senderStatus =
+      Map senderStatus =
           await api.sendingCarImg(uToken: uToken, plate: formData);
 
-      if (senderStatus) {
-        Toast.show(sendingSuccessMsg, context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
+      if (senderStatus != null) {
         Navigator.pop(context);
+        showSearchResult(context, senderStatus);
       } else {
         Toast.show(failedMsg, context,
             duration: Toast.LENGTH_LONG,
