@@ -76,6 +76,14 @@ class ApiAccess {
     return response.data;
   }
 
+  Future<Map> submittingCarPlate({uToken, plate}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer ${uToken}";
+    Response response =
+        await dio.post("${apiUrl}/uploadPlate?plate", data: {"plate": plate});
+    return response.data;
+  }
+
   Future<Map> getSlots({String uAuth, String slotName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer ${uAuth}";

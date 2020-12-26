@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,29 +37,50 @@ class _CameraInsertionState extends State<CameraInsertion> {
   // Prepare img to send it on api
   Future sendingImage(rawImage) async {
     try {
-      print(rawImage.path);
+      // print(rawImage.path);
       // Converting img file to form data
-      FormData formData = await convertingImg(rawImage);
+      // FormData formData = await convertingImg(rawImage);
+
+      final bytesImg = rawImage.readAsBytesSync();
+
+      String _img64 = base64Encode(bytesImg);
+
+      // print(_img64);
+
       ApiAccess api = ApiAccess();
       // Getting User Token
       LocalizationDataStorage lds = LocalizationDataStorage();
       String uToken = await lds.gettingUserToken();
-      // print(uToken);
-      // Sending Req to API
-      Map senderStatus =
-          await api.sendingCarImg(uToken: uToken, plate: formData);
 
-      if (senderStatus != null) {
+      Map res = await api.submittingCarPlate(uToken: uToken, plate: _img64);
+
+      if (res != null) {
         Navigator.pop(context);
-        showSearchResult(context, senderStatus);
+        showSearchResult(context, res);
       } else {
         Toast.show(failedMsg, context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
             textColor: Colors.white);
       }
+
+      // print(uToken);
+      // Sending Req to API
+      // Map senderStatus =
+      //     await api.sendingCarImg(uToken: uToken, plate: formData);
+      // print(senderStatus);
+      // if (senderStatus != null) {
+      //   Navigator.pop(context);
+      //   showSearchResult(context, senderStatus);
+      // } else {
+      //   Toast.show(failedMsg, context,
+      //       duration: Toast.LENGTH_LONG,
+      //       gravity: Toast.BOTTOM,
+      //       textColor: Colors.white);
+      // }
+
     } catch (e) {
-      Toast.show(serverNotResponse, context,
+      Toast.show(e.toString(), context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
