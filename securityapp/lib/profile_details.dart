@@ -37,9 +37,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               background: Image(
                 image: imagePath == null
                     ? AssetImage("assets/images/profile.png")
-                    : imagePath is File
-                        ? FileImage(File(imagePath))
-                        : AssetImage("assets/images/profile.png"),
+                    : NetworkImage(imagePath),
                 fit: BoxFit.cover,
               ),
             ),
@@ -154,13 +152,15 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                             Divider(height: 20, thickness: 1),
                             Container(
                               width: double.infinity,
-                              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
                               child: Material(
                                 elevation: 5.0,
                                 borderRadius: BorderRadius.circular(16.0),
                                 color: Colors.red.shade800,
                                 child: MaterialButton(
-                                  padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                  padding: EdgeInsets.fromLTRB(
+                                      20.0, 15.0, 20.0, 15.0),
                                   onPressed: () => viewDialog(context),
                                   child: Text(
                                     logoutBtnText,

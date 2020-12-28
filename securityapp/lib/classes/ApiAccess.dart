@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:securityapp/constFile/ConstFile.dart';
@@ -18,9 +20,9 @@ class ApiAccess {
     // if user does not choice any avatar for profile
     if (avatar == null) {
       dio.options.headers['content-type'] = 'application/json';
-      dio.options.headers['authorization'] = "Bearer ${uToken}";
-      Response response = await dio
-          .post("${apiUrl}/UpdateInfo?&email=${email}&password=${pass}");
+      dio.options.headers['authorization'] = "Bearer $uToken";
+      Response response = await dio.post("$apiUrl/UpdateInfo",
+          data: {"avatar": avatar, "email": email, "password": pass});
       if (response.data['status'] == "200")
         return true;
       else
@@ -28,9 +30,8 @@ class ApiAccess {
     } else {
       dio.options.headers['content-type'] = 'application/json';
       dio.options.headers['authorization'] = "Bearer ${uToken}";
-      Response response = await dio.post(
-          "${apiUrl}/UpdateInfo?&email=${email}&password=${pass}",
-          data: avatar);
+      Response response = await dio.post("$apiUrl/UpdateInfo",
+          data: {"avatar": avatar, "email": email, "password": pass});
       if (response.data['status'] == "200") {
         return true;
       } else
@@ -76,18 +77,24 @@ class ApiAccess {
     return response.data;
   }
 
-  Future<Map> submittingCarPlate({uToken, plate}) async {
+  Future<Map> submittingCarPlate({uToken, plate, cameraState}) async {
     dio.options.headers['content-type'] = 'application/json';
-    dio.options.headers['authorization'] = "Bearer ${uToken}";
-    Response response =
-        await dio.post("${apiUrl}/uploadPlate?plate", data: {"plate": plate});
-    return response.data;
+    dio.options.headers['authorization'] = "Bearer $uToken";
+    Response response = await dio.post("$apiUrl/uploadPlate?plate",
+        data: {"plate": plate, "cameraState": cameraState});
+    // In this section we want get Map form data
+    // but server String base Json in Client
+    // So, i decode json form to usual Map data
+    Map realS = jsonDecode(response.data);
+    print(realS);
+    // print(realS['plate_fa0']);
+    return realS;
   }
 
   Future<Map> getSlots({String uAuth, String slotName}) async {
     dio.options.headers['content-type'] = 'application/json';
-    dio.options.headers['authorization'] = "Bearer ${uAuth}";
-    Response response = await dio.get("${apiUrl}/getSlots/${slotName}");
+    dio.options.headers['authorization'] = "Bearer $uAuth";
+    Response response = await dio.get("$apiUrl/getSlots/$slotName");
     return response.data;
   }
 }

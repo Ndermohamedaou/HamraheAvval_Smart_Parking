@@ -27,11 +27,16 @@ class CameraInsertion extends StatefulWidget {
 }
 
 class _CameraInsertionState extends State<CameraInsertion> {
+  // Again Sending To submit entry time
   Future preparingImage() async {
     final image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      source['img'] = image;
-    });
+    if (image != null) {
+      setState(() {
+        source['img'] = image;
+      });
+    } else {
+      source['img'] = null;
+    }
   }
 
   // Prepare img to send it on api
@@ -52,11 +57,34 @@ class _CameraInsertionState extends State<CameraInsertion> {
       LocalizationDataStorage lds = LocalizationDataStorage();
       String uToken = await lds.gettingUserToken();
 
-      Map res = await api.submittingCarPlate(uToken: uToken, plate: _img64);
+      Map res = await api.submittingCarPlate(
+          uToken: uToken, plate: _img64, cameraState: "0");
+      int status = res['status'];
+      print("*****************");
+      print(res);
+      print("*****************");
+      String msg = "";
+      if (status == 200) {
+        setState(() {
+          msg = submissionMsg;
+        });
+      } else if (status == 350) {
+        setState(() {
+          msg = notEmptyMsg;
+        });
+      } else if (status == 100) {
+        setState(() {
+          msg = recentlyUsedMsg;
+        });
+      } else if (status == 150) {
+        setState(() {
+          msg = badImgEquality;
+        });
+      }
 
       if (res != null) {
         Navigator.pop(context);
-        showSearchResult(context, res);
+        showSearchResult(context, res, msg);
       } else {
         Toast.show(failedMsg, context,
             duration: Toast.LENGTH_LONG,
@@ -80,11 +108,13 @@ class _CameraInsertionState extends State<CameraInsertion> {
       // }
 
     } catch (e) {
-      Toast.show(e.toString(), context,
+      Toast.show("تصویر نادرست است", context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
+      print("************************");
       print(e);
+      print("************************");
     }
   }
 
@@ -169,13 +199,14 @@ class _CameraInsertionBodyState extends State<CameraInsertionBody> {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.file(
-                  source['img'],
-                  alignment: Alignment.center,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(15),
+                  child: source != null
+                      ? Image.file(
+                          source['img'],
+                          alignment: Alignment.center,
+                          fit: BoxFit.fitWidth,
+                        )
+                      : Text("لطفا تصویر خود را وارد کنید")),
             )
           ],
         ),

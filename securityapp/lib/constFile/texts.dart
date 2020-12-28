@@ -16,13 +16,13 @@ const String plakSearcher = "جست و جوی پلاک";
 const String subPlakSearcher = "جست و جوی وسایل نقلیه";
 const String garageSituation = "جایگاه پارکینگ";
 const String subGarageSituation = "موقعیت جایگاه ها";
-const String addingVehicle = "اضافه کردن خودرو";
+const String addingVehicle = "ورود و خروج خودرو";
 const String subAddingVehicle = "تصویر برداری";
-const String opt1 = 'وارد کردن اطلاعات به صورت دستی';
+const String opt1 = 'ثبت خروج خودرو';
 const String opt1Desc =
-    "شما در این روش میتوانید به صورت دستی تمام فیلد های مورد نظر را پر کنید و داده ها را به دیتابیس داخلی وارد نمایید";
+    "در صورتی که خودرو از پارکینگ خارج شده باشد شما باید این خروج را تایید کنید";
 
-const String opt2 = 'وارد کردن با استفاده دوربین';
+const String opt2 = 'ثبت ورود خودرو';
 const String opt2Desc =
     "در این روش  شما باید از دوربین پشتی خود برای تصویر برداری از وسیله نقلیه مورد نظر استفاده کنید";
 
@@ -119,4 +119,13 @@ const String camerasTitle = "دوربین ها";
 
 // Alert result of sending pic
 const String submissionTitleText = "پلاک شما ثبت شد";
-const String thanks = "مرسی";
+const String thanks = "تایید";
+const String submissionMsg = "ثبت شد";
+const String notEmptyMsg = "پارکینگ پر است";
+const String recentlyUsedMsg = "این پلاک قبلا ثبت شده است";
+const String badImgEquality = "کیفیت تصویر خوب نیست";
+const String failedResponse = "اطلاعات پلاک یافت نشد";
+const String exitSubmissionText = "ثبت خروج خودرو";
+const String sending = 'ارسال تصوير';
+const String cameraText = "دوربین";
+const String galleryText = "گالری";

@@ -7,7 +7,7 @@ import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'security_app.dart';
 import 'adding_data.dart';
-import 'static_insertion.dart';
+import 'carExitComplete.dart';
 import 'camera_insertion.dart';
 import 'login_page.dart';
 import 'confirmation_page.dart';

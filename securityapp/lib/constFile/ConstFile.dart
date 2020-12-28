@@ -56,8 +56,8 @@ const double fontSizeDialogButton = 22;
 // Data insertion options vars :
 const double titleFontSize = 20;
 const double subTitleFontSize = 14;
-const IconData opt1Icon = Icons.keyboard;
-const IconData opt2Icon = CupertinoIcons.photo_camera_solid;
+const IconData opt1Icon = Icons.camera_outlined;
+const IconData opt2Icon = Icons.enhance_photo_translate_rounded;
 const Color bothIconNativeColor = Colors.black;
 
 // Searching Plate Options and icons and Colors and ets...
@@ -78,5 +78,6 @@ const Color iconColorEntry = Colors.white;
 // opt4
 const IconData exitIcon = CupertinoIcons.time_solid;
 HexColor exitBgColorIcon = HexColor('#BEB3D1');
-
+const double fontDialogSize = 20;
+const double iconDialogSize = 40;
 HexColor backPanelColor = HexColor('#1a2e48');

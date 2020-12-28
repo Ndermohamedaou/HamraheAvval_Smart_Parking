@@ -22,15 +22,15 @@ class _SlotsViewState extends State<SlotsView> {
   // ignore: must_call_super
   void initState() {
     // To run await
-    getSlots().then((results) {
-      setState(() {
-        Timer.periodic(new Duration(seconds: 20), (timer) {
-          data = results;
-        });
-        // print(data["-1"]);
-      });
+
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      settingSlotsUpdatePerInterval();
     });
-    // runs every 1 second
+    // For initialized in first time to see this section
+    getSlots().then((results) {
+      settingSlotsUpdatePerInterval();
+    });
+    // runs every 20 second
   }
 
   Future<Map> getSlots() async {
@@ -38,6 +38,15 @@ class _SlotsViewState extends State<SlotsView> {
     String slot = await lds.gettingUserSlot();
     data = await api.getSlots(uAuth: uToken, slotName: slot);
     return data;
+  }
+
+  settingSlotsUpdatePerInterval() {
+    getSlots().then((results) {
+      setState(() {
+        data = results;
+        // print(data["-1"]);
+      });
+    });
   }
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:securityapp/constFile/global_var.dart';
 import 'extractsWidget/home_screen.dart';
 import 'extractsWidget/setting.dart';
 import 'titleStyle/titles.dart';
@@ -30,6 +31,7 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
   Widget build(BuildContext context) {
     // Loading user image and details from LDS
     loadingProfileImage();
+    print(imagePath);
     return Scaffold(
       appBar: AppBar(
         title: Center(

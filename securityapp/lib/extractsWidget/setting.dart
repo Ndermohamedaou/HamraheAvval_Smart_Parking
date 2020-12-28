@@ -35,14 +35,11 @@ class Setting extends StatelessWidget {
                 child: ListTile(
                   leading: Container(
                     child: CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-                      backgroundImage: imagePath == null
-                          ? AssetImage("assets/images/profile.png")
-                          : imagePath is File
-                              ? FileImage(File(imagePath))
-                              : AssetImage("assets/images/profile.png"),
-                    ),
+                        radius: 50,
+                        backgroundColor: Colors.white,
+                        backgroundImage: imagePath == null
+                            ? AssetImage("assets/images/profile.png")
+                            : NetworkImage(imagePath)),
                   ),
                   title: Transform.translate(
                     offset: Offset(20, 0),

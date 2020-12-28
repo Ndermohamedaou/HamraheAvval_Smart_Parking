@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:securityapp/classes/SavingLocalStorage.dart';
 import 'package:securityapp/constFile/ConstFile.dart';
 import 'package:securityapp/constFile/global_var.dart';
@@ -204,14 +205,14 @@ Widget buildRowPlate(plate0, plate1, plate2, plate3) {
   );
 }
 
-void showSearchResult(context, senderStatus) {
+void showSearchResult(context, senderStatus, statusMsg) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(
-          submissionTitleText,
+          statusMsg,
           style: TextStyle(
               fontFamily: mainFontFamily, fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,

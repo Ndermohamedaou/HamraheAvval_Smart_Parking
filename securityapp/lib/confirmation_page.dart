@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,12 +9,9 @@ import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'constFile/texts.dart';
 import 'extractsWidget/login_extract_text_fields.dart';
-import 'package:dio/dio.dart';
 import 'extractsWidget/confirmation_sections.dart';
 import 'package:toast/toast.dart';
-import 'classes/SavingLocalStorage.dart';
 import 'classes/ApiAccess.dart';
-import 'extractsWidget/text_buildings.dart';
 
 // Index of page for forward ahead with btn
 int pageIndex = 0;
@@ -59,41 +57,19 @@ class _ConfirmationPageState extends State<ConfirmationPage> {
           // Getting Update User Info function
           ApiAccess api = ApiAccess();
           // Prepare no require data to updating user info
-          var formData = FormData();
 
-          if (imgSource == null) {
-            formData = null;
-          } else {
-            formData.files.add(MapEntry(
-                "avatar",
-                await MultipartFile.fromFile(imgSource.path,
-                    filename: "userAvatar.png")));
-          }
+          final byteImg = imgSource.readAsBytesSync();
+          String _img64 = base64Encode(byteImg);
+          print("*********************");
+          print(base64Encode(byteImg));
           try {
             // Getting return of Api Access class to have
             // boolean to accepted or ignored !
             bool modifier =
-                await api.updateUserInfo(formData, uToken, email, pass);
+                await api.updateUserInfo(_img64, uToken, email, pass);
             if (modifier) {
               Navigator.pushNamed(context, "/LoginPage");
             }
-            // Getting instance of my custom local storage class
-            // LocalizationDataStorage lds = LocalizationDataStorage();
-            // bool lStorageStatus = await lds.savingUInfo(
-            //     uToken: uToken,
-            //     email: email,
-            //     password: pass,
-            //     fullName: userInfo['name'],
-            //     naturalCode: userInfo['melli_code'],
-            //     personalCode: userInfo['personal_code'],
-            //     avatar: imgSource.path);
-            //   if (lStorageStatus) {
-            //   }
-            // } else
-            //   Toast.show(cantSaveYou, context,
-            //       duration: Toast.LENGTH_LONG,
-            //       gravity: Toast.BOTTOM,
-            //       textColor: Colors.white);
           } catch (e) {
             Toast.show(serverNotResponse, context,
                 duration: Toast.LENGTH_LONG,
