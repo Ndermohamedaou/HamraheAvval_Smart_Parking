@@ -27,6 +27,7 @@ dependencies:
   flutter_vlc_player: ^4.0.2
   flutter_mjpeg: ^1.2.9
   flutter_swiper: ^1.1.6
+  lottie: ^0.7.0+1
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +44,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/lottie/
 
   fonts:
     - family: BYekan

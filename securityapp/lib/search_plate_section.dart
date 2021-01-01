@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'classes/AlphabetClassList.dart';
 import 'classes/ApiAccess.dart';
@@ -161,6 +162,11 @@ class _MainSectionState extends State<MainSection> {
         SingleChildScrollView(
           child: Column(
             children: [
+              themeChange.darkTheme
+                  ? Lottie.asset("assets/lottie/carSearchingDark.json",
+                      width: 300)
+                  : Lottie.asset("assets/lottie/carSearchingLight.json",
+                      width: 300),
               Container(
                 width: double.infinity,
                 height: 70,
@@ -193,6 +199,7 @@ class _MainSectionState extends State<MainSection> {
         SingleChildScrollView(
           child: Column(
             children: [
+              Lottie.asset("assets/lottie/searchSlotsLight.json", width: 180),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 child: TextFields(

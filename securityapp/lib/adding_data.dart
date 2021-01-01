@@ -8,6 +8,7 @@ import 'constFile/ConstFile.dart';
 import 'titleStyle/titles.dart';
 import 'extractsWidget/optStyle.dart';
 import 'constFile/texts.dart';
+import 'package:lottie/lottie.dart';
 
 class AdddingDataMethods extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return Directionality(
-              textDirection: TextDirection.ltr,
+              textDirection: TextDirection.rtl,
               child: AlertDialog(
                 backgroundColor: themeChange.darkTheme
                     ? scaffoldBackgroundColor
@@ -53,6 +54,7 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      Lottie.asset("assets/lottie/carCheckingLight.json"),
                       FlatButton(
                         onPressed: () {
                           preparingImage(navigation, ImageSource.camera);
@@ -120,37 +122,41 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          textDirection: TextDirection.rtl,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: () {
-                // preparingImage("CameraInsertion");
-                selectedMethod("CameraInsertion");
-              },
-              child: OptionsViewer(
-                text: opt2,
-                desc: opt2Desc,
-                avatarIcon: opt2Icon,
-                avatarBgColor: mainIconColor,
-                iconColor: bothIconNativeColor,
+        child: SingleChildScrollView(
+          child: Column(
+            textDirection: TextDirection.rtl,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Lottie.asset(
+                  "assets/lottie/contribute-to-empty-slot.json"),
+              GestureDetector(
+                onTap: () {
+                  // preparingImage("CameraInsertion");
+                  selectedMethod("CameraInsertion");
+                },
+                child: OptionsViewer(
+                  text: opt2,
+                  desc: opt2Desc,
+                  avatarIcon: opt2Icon,
+                  avatarBgColor: mainIconColor,
+                  iconColor: bothIconNativeColor,
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                // preparingImage("StaticInsertion");
-                selectedMethod("StaticInsertion");
-              },
-              child: OptionsViewer(
-                text: opt1,
-                desc: opt1Desc,
-                avatarIcon: opt1Icon,
-                avatarBgColor: mainIconColor,
-                iconColor: bothIconNativeColor,
+              GestureDetector(
+                onTap: () {
+                  // preparingImage("StaticInsertion");
+                  selectedMethod("StaticInsertion");
+                },
+                child: OptionsViewer(
+                  text: opt1,
+                  desc: opt1Desc,
+                  avatarIcon: opt1Icon,
+                  avatarBgColor: mainIconColor,
+                  iconColor: bothIconNativeColor,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

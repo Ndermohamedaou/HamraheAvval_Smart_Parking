@@ -36,7 +36,7 @@ class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
       // primaryColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#F9F9F9'),
-      backgroundColor: isDarkTheme ? backgroundColor : HexColor('#F9F9F9'),
+      backgroundColor: isDarkTheme ? backgroundColor : HexColor('#0000'),
       scaffoldBackgroundColor:
           isDarkTheme ? scaffoldBackgroundColor : HexColor('#F1EFF1'),
       textSelectionColor: isDarkTheme ? Colors.white : Colors.black,

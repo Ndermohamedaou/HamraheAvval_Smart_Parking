@@ -27,9 +27,7 @@ class _SlotsViewState extends State<SlotsView> {
       settingSlotsUpdatePerInterval();
     });
     // For initialized in first time to see this section
-    getSlots().then((results) {
-      settingSlotsUpdatePerInterval();
-    });
+    settingSlotsUpdatePerInterval();
     // runs every 20 second
   }
 

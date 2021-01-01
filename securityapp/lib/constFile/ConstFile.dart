@@ -81,3 +81,5 @@ HexColor exitBgColorIcon = HexColor('#BEB3D1');
 const double fontDialogSize = 20;
 const double iconDialogSize = 40;
 HexColor backPanelColor = HexColor('#1a2e48');
+
+const Color plateNoColor = Colors.black;
