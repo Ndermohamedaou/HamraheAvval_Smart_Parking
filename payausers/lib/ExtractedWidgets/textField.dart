@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class TextFields extends StatelessWidget {
   TextFields(
@@ -63,7 +64,7 @@ class TextFields extends StatelessWidget {
               onPressed: iconPressed,
               child: Icon(
                 textFieldIcon,
-                color: Colors.blue[900],
+                color: HexColor('#216DCD'),
               ),
             ),
           ),

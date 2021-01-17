@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 30),
               TextFields(
                 lblText: personalCodePlaceHolder,
-                textFieldIcon: Icons.contacts_outlined,
+                textFieldIcon: Icons.account_circle,
                 textInputType: false,
                 readOnly: false,
                 // errText:
