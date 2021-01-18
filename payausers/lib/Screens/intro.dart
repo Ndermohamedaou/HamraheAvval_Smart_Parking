@@ -13,7 +13,7 @@ class IntroPage extends StatefulWidget {
 class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
-    void navigatedToLogin() => Navigator.pushNamed(context, '/login');
+    void navigatedToLogin() => Navigator.pushNamed(context, '/themeSelector');
     return Scaffold(
         body: MainIntro(),
         bottomNavigationBar:
@@ -29,32 +29,11 @@ class MainIntro extends StatefulWidget {
 class _MainIntroState extends State<MainIntro> {
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
     return SafeArea(
       child: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: ListTile(
-                  title: Text(
-                    "حالت تاریک یا روشن",
-                    style:
-                        TextStyle(fontSize: 20, fontFamily: mainFaFontFamily),
-                  ),
-                  leading: Container(
-                    width: 60,
-                    child: Switch(
-                      activeColor: Colors.blue[700],
-                      value: themeChange.darkTheme,
-                      onChanged: (bool value) {
-                        themeChange.darkTheme = value;
-                      },
-                    ),
-                  ),
-                ),
-              ),
               Container(
                 margin: EdgeInsets.only(top: 50),
                 child: Image.asset("assets/images/meaning_intro_vector.png"),

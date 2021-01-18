@@ -44,6 +44,7 @@ class _MyAppState extends State<MyApp> {
             initialRoute: '/',
             routes: {
               '/': (context) => IntroPage(),
+              '/themeSelector': (context) => ThemeModeSelectorPage(),
               '/login': (context) => LoginPage(),
               '/dashboard': (context) => DashboardPage(),
             },
