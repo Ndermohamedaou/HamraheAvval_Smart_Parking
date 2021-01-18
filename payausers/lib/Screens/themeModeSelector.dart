@@ -68,7 +68,7 @@ class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
                     ThemeModeComponent(
                         lottieFile: lightLottie,
                         onActive: () => themeChange.darkTheme = false,
-                        color: "#FFFFFF"),
+                        color: "#197EFF"),
                     ThemeModeComponent(
                         lottieFile: darkLottie,
                         onActive: () => themeChange.darkTheme = true,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +40,9 @@ class _MyAppState extends State<MyApp> {
       },
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, Widget child) {
+          SystemChrome.setSystemUIOverlayStyle(themeChangeProvider.darkTheme
+              ? SystemUiOverlayStyle.light
+              : SystemUiOverlayStyle.dark);
           return MaterialApp(
             theme: Styles.themeData(themeChangeProvider.darkTheme, context),
             initialRoute: '/',

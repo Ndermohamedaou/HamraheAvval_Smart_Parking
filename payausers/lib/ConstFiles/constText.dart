@@ -16,3 +16,9 @@ const forgetPass = "گذرواژه خود را فراموش کرده اید؟";
 
 // Dark Mode message
 const themeMsg = "یک حالت را انتخاب کنید";
+
+// Bottom Navigation texts
+const settingsText = "تنظیمات";
+const reserveText = "رزورها";
+const transactionText = "ترددها";
+const dashboardText = "داشبرد";

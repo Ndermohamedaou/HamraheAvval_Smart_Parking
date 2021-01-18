@@ -19,3 +19,7 @@ HexColor forgetOptionColor = HexColor("#285C9D");
 HexColor lockDownColor = HexColor("#2985F8");
 
 HexColor appBarColor = HexColor("#216DCD");
+
+// Bottom navigation bar color details
+HexColor lightBar = HexColor("#FFFFFF");
+HexColor darkBar = HexColor("#191A1B");
