@@ -36,9 +36,8 @@ class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
       // primaryColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#F9F9F9'),
-      backgroundColor: isDarkTheme ? mainBgColorLight : HexColor('#0000'),
-      scaffoldBackgroundColor:
-      isDarkTheme ? mainBgColorLight : HexColor('#F1EFF1'),
+      backgroundColor: isDarkTheme ? mainBgColorLight : mainBgColorDark,
+      scaffoldBackgroundColor: isDarkTheme ? mainBgColorDark : mainBgColorLight,
       textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
       // cardColor: isDarkTheme ? Color(0xFF151515) : Colors.white,
       // canvasColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#f2f2f2'),

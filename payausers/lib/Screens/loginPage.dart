@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:provider/provider.dart';
 
 String personalCode = "";
 String password = "";
@@ -21,14 +23,21 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    // Setting dark theme provider class
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    final String mainImgLogoLightMode =
+        "assets/images/Titile_Logo_Mark_light.png";
+    final String mainImgLogoDarkMode =
+        "assets/images/Titile_Logo_Mark_dark.png";
+    final String mainLogo =
+        themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
+    // Final Navigation to? it's super temporary
     void navigatedToDashboard() => Navigator.pushNamed(context, '/dashboard');
     return Scaffold(
       appBar: AppBar(
         title: Text(
           loginAppBarText,
-          style: TextStyle(
-            fontFamily: mainFaFontFamily,
-          ),
+          style: TextStyle(fontFamily: mainFaFontFamily, color: Colors.white),
         ),
         backgroundColor: appBarColor,
       ),
@@ -39,10 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: Center(
-                  child: Image.asset(
-                    "assets/images/Titile_Logo_Mark.png",
-                    width: 200,
-                  ),
+                  child: Image.asset(mainLogo, width: 250),
                 ),
               ),
               SizedBox(height: 30),
@@ -98,6 +104,27 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 },
               ),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: FlatButton(
+                    onPressed: () {
+                      print("Forgot Btn Clicked!!");
+                    },
+                    child: Row(
+                      textDirection: TextDirection.rtl,
+                      children: [
+                        Icon(Icons.lock, color: lockDownColor),
+                        SizedBox(width: 10),
+                        Text(
+                          forgetPass,
+                          style: TextStyle(
+                              fontFamily: mainFaFontFamily,
+                              color: forgetOptionColor),
+                          textAlign: TextAlign.right,
+                        )
+                      ],
+                    )),
+              )
             ],
           ),
         ),

@@ -17,7 +17,7 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
         body: MainIntro(),
         bottomNavigationBar:
-            BottomButton(text: loginAppBarText, ontapped: navigatedToLogin));
+            BottomButton(text: nextLevel1, ontapped: navigatedToLogin));
   }
 }
 
@@ -65,6 +65,7 @@ class _MainIntroState extends State<MainIntro> {
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     color: titleTextColor,
+                    fontWeight: FontWeight.bold,
                     fontSize: titleTextSize),
               ),
               SizedBox(height: 7),

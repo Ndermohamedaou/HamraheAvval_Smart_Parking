@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 // Screens
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
+import 'Screens/dashboard.dart';
+import 'Screens/themeModeSelector.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,10 +40,12 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, Widget child) {
           return MaterialApp(
+            theme: Styles.themeData(themeChangeProvider.darkTheme, context),
             initialRoute: '/',
             routes: {
               '/': (context) => IntroPage(),
               '/login': (context) => LoginPage(),
+              '/dashboard': (context) => DashboardPage(),
             },
           );
         },
