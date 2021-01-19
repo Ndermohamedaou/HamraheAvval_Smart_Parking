@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 // Screens
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
-import 'Screens/dashboard.dart';
 import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
 
