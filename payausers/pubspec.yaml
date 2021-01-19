@@ -17,6 +17,7 @@ dependencies:
   hexcolor: ^1.0.6
   line_awesome_flutter: ^1.0.1
   dio: ^3.0.10
+  xml2json: ^4.4.0
   shared_preferences: ^0.5.12+4
   provider: ^4.3.2+2
   image_picker: ^0.6.7+14

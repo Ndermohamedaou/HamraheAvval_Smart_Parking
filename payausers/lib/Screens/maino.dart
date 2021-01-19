@@ -6,6 +6,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/dashboard.dart';
+import 'package:payausers/Classes/Weather.dart';
 
 class Maino extends StatefulWidget {
   @override
@@ -14,15 +15,49 @@ class Maino extends StatefulWidget {
 
 int tabBarIndex = 0;
 
+WeatherForcaster wf = WeatherForcaster();
+
+Map weatherData;
+
 var _pageController = PageController();
 
 class _MainoState extends State<Maino> {
   @override
+  // ignore: must_call_super
+  void initState() {
+    getWeather().then((value) {
+      setState(() {
+        weatherData = value;
+      });
+      print(weatherData);
+    });
+  }
+
+  // Getting weather today
+  Future<Map> getWeather() async {
+    weatherData = await wf.getWeather();
+    return weatherData;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    //  Dark Theme Changer
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
         ? SystemUiOverlayStyle.light
         : SystemUiOverlayStyle.dark);
+
+    // Date name
+    // result['main']['sadana-services']['weather-service']['day'][2]
+    //       ['day-name']['__cdata']
+    // min Temp
+    // result['main']['sadana-services']['weather-service']['day'][2]
+    //       ['min-temp']['__cdata']
+//     // max Temo
+// result['main']['sadana-services']['weather-service']['day'][2]
+//           ['max-temp']['__cdata']
+
     return Scaffold(
       body: SafeArea(
           child: PageView(
