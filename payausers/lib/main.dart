@@ -8,6 +8,7 @@ import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
 import 'Screens/dashboard.dart';
 import 'Screens/themeModeSelector.dart';
+import 'Screens/maino.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,7 +51,7 @@ class _MyAppState extends State<MyApp> {
               '/': (context) => IntroPage(),
               '/themeSelector': (context) => ThemeModeSelectorPage(),
               '/login': (context) => LoginPage(),
-              '/dashboard': (context) => DashboardPage(),
+              '/dashboard': (context) => Maino(),
             },
           );
         },

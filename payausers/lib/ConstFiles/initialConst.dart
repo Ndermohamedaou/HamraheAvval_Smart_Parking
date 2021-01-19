@@ -6,6 +6,8 @@ HexColor mainBgColorDark = HexColor("#000000");
 
 // Main Persian font
 const mainFaFontFamily = "BYekan";
+
+HexColor mainTitleColor = HexColor("#1D75E3");
 // Intro title
 HexColor titleTextColor = HexColor("#216DCD");
 const double titleTextSize = 25;
@@ -23,3 +25,4 @@ HexColor appBarColor = HexColor("#216DCD");
 // Bottom navigation bar color details
 HexColor lightBar = HexColor("#FFFFFF");
 HexColor darkBar = HexColor("#191A1B");
+HexColor bgColorTrendingUp = HexColor("#D9E1F3");

@@ -22,3 +22,6 @@ const settingsText = "تنظیمات";
 const reserveText = "رزورها";
 const transactionText = "ترددها";
 const dashboardText = "داشبرد";
+
+// Dashboard
+const todayWeather = "آب و هوای امروز";
