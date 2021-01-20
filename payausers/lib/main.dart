@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Screens/reserveView.dart';
 import 'package:provider/provider.dart';
 
 // Screens
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
               '/themeSelector': (context) => ThemeModeSelectorPage(),
               '/login': (context) => LoginPage(),
               '/dashboard': (context) => Maino(),
+              '/addReserve': (context) => ReservedTab()
             },
           );
         },

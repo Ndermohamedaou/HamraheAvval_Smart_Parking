@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-
 // Intro main title
 const introTitle1Text = "کاربران پایا";
 const loginToAccount = "ورود به حساب خود";
@@ -24,4 +21,20 @@ const transactionText = "ترددها";
 const dashboardText = "داشبرد";
 
 // Dashboard
-const todayWeather = "آب و هوای امروز";
+const qrUserCode = " کد QR زیر را اسکن کنید";
+// tiles texts
+const qty = "تعداد";
+const transactionsText = "کل ترددها";
+const String untilTodayText = "تا به امروز";
+const allReserveText = "کل رزروها";
+const yourPlateText = "پلاک های شما";
+const inSystemText = "پلاک های شما در سامانه";
+
+// Date and Time Picker texts
+const choseReserveDate = "تاریخ رزرو خود را انتخاب کنید";
+const openCalender = "باز کردن تقویم";
+const choseTime = "محدوده ساعتی را مشخص کنید";
+
+// Reserve
+const String reserveTextTitle = "رزروها";
+const String noReserveThere = "!شما رزروی ندارید";

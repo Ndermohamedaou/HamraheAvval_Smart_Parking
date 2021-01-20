@@ -6,7 +6,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/dashboard.dart';
-import 'package:payausers/Classes/Weather.dart';
+import 'package:payausers/Screens/Tabs/reservedTab.dart';
 
 class Maino extends StatefulWidget {
   @override
@@ -15,30 +15,9 @@ class Maino extends StatefulWidget {
 
 int tabBarIndex = 0;
 
-WeatherForcaster wf = WeatherForcaster();
-
-Map weatherData;
-
 var _pageController = PageController();
 
 class _MainoState extends State<Maino> {
-  @override
-  // ignore: must_call_super
-  void initState() {
-    getWeather().then((value) {
-      setState(() {
-        weatherData = value;
-      });
-      print(weatherData);
-    });
-  }
-
-  // Getting weather today
-  Future<Map> getWeather() async {
-    weatherData = await wf.getWeather();
-    return weatherData;
-  }
-
   @override
   Widget build(BuildContext context) {
     //  Dark Theme Changer
@@ -48,28 +27,26 @@ class _MainoState extends State<Maino> {
         ? SystemUiOverlayStyle.light
         : SystemUiOverlayStyle.dark);
 
-    // Date name
-    // result['main']['sadana-services']['weather-service']['day'][2]
-    //       ['day-name']['__cdata']
-    // min Temp
-    // result['main']['sadana-services']['weather-service']['day'][2]
-    //       ['min-temp']['__cdata']
-//     // max Temo
-// result['main']['sadana-services']['weather-service']['day'][2]
-//           ['max-temp']['__cdata']
-
     return Scaffold(
       body: SafeArea(
-          child: PageView(
-        controller: _pageController,
-        children: [
-          Dashboard(
-            fullnameMeme: "علیرضا سلطانی نشان",
-            userPersonalCodeMeme: "۹۸۱۱۱۰۳۳۳۰۲۰۱۶",
-            avatarMeme: Image.asset("assets/images/Avatar.png"),
-          ),
-        ],
-      )),
+        child: PageView(
+          controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            Dashboard(
+              fullnameMeme: "علیرضا سلطانی نشان",
+              userPersonalCodeMeme: "۹۸۱۱۱۰۳۳۳۰۲۰۱۶",
+              avatarMeme: Image.asset("assets/images/Avatar.png"),
+            ),
+            Container(child: Text("ترددها")),
+            ReservedTab(
+              mainThemeColor: themeChange,
+            ),
+            Container(child: Text("افزودن پلاک")),
+            Container(child: Text("تنظیمات"))
+          ],
+        ),
+      ),
       bottomNavigationBar: Directionality(
         textDirection: TextDirection.rtl,
         child: BottomNavigationBar(
@@ -111,14 +88,17 @@ class _MainoState extends State<Maino> {
               ),
             ),
             BottomNavigationBarItem(
-              title: Text(
-                '',
+              title: Container(
+                child: Text(
+                  'رزرو کنید',
+                  style: TextStyle(fontFamily: mainFaFontFamily),
+                ),
               ),
               icon: CircleAvatar(
                 backgroundColor: loginBtnColor,
                 radius: 25,
                 child: Icon(
-                  Icons.add,
+                  Icons.add_business_outlined,
                   color: Colors.white,
                 ),
               ),

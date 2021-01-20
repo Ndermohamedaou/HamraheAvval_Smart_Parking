@@ -26,3 +26,7 @@ HexColor appBarColor = HexColor("#216DCD");
 HexColor lightBar = HexColor("#FFFFFF");
 HexColor darkBar = HexColor("#191A1B");
 HexColor bgColorTrendingUp = HexColor("#D9E1F3");
+
+// Tile font size
+const double mainFontSize = 18;
+const double subFontSize = 12;

@@ -4,6 +4,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles.dart';
 import 'package:payausers/ExtractedWidgets/userLeading.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard(
@@ -20,11 +21,12 @@ class Dashboard extends StatelessWidget {
     final double itemWidth = size.width;
     // Check if device be in Portrate or Landscape
     final double widthSizedResponse = size.width < 500
-        ? (itemWidth / itemHeight) / 2.49
-        : (itemWidth / itemHeight) / 6.5;
+        ? size.width <= 375
+            ? (itemWidth / itemHeight) / 2.9
+            : (itemWidth / itemHeight) / 2
+        : (itemWidth / itemHeight) / 5.4;
 
-    print(size.width);
-
+    // print(size.width);
     return Container(
         child: SingleChildScrollView(
       child: Column(
@@ -39,7 +41,7 @@ class Dashboard extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
           Directionality(
             textDirection: TextDirection.rtl,
@@ -51,7 +53,7 @@ class Dashboard extends StatelessWidget {
                   width: 26,
                   height: 26,
                   child: Icon(
-                    Icons.trending_up_sharp,
+                    Icons.qr_code,
                     color: Colors.blue,
                   ),
                   decoration: BoxDecoration(
@@ -59,7 +61,7 @@ class Dashboard extends StatelessWidget {
                       color: bgColorTrendingUp),
                 ),
                 Text(
-                  todayWeather,
+                  qrUserCode,
                   style: TextStyle(
                       fontFamily: mainFaFontFamily,
                       fontSize: 20,
@@ -67,6 +69,24 @@ class Dashboard extends StatelessWidget {
                       color: mainTitleColor),
                 ),
               ],
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          // QRCode Section
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+                color: HexColor("#EBEAFA"),
+                borderRadius: BorderRadius.circular(10.0)),
+            child: QrImage(
+              data: "https://pub.dev/packages/qr_flutter",
+              version: QrVersions.auto,
+              padding: EdgeInsets.all(20),
+              foregroundColor: HexColor("#000000"),
             ),
           ),
           SizedBox(
@@ -87,9 +107,9 @@ class Dashboard extends StatelessWidget {
                   tileColor: "#FEEBE7",
                   icon: Icons.directions_car,
                   iconColor: HexColor("#AC292E"),
-                  text: "تعداد",
-                  subText: "کل ترددها",
-                  subSubText: "امروز",
+                  text: qty,
+                  subText: transactionsText,
+                  subSubText: untilTodayText,
                   subSubTextColor: HexColor("#AC292E"),
                   lenOfStuff: "20",
                 ),
@@ -97,9 +117,9 @@ class Dashboard extends StatelessWidget {
                   tileColor: "#EDE5FC",
                   icon: Icons.book,
                   iconColor: HexColor("#6C2BDF"),
-                  text: "تعداد",
-                  subText: "کل رزروها",
-                  subSubText: "تا به امروز",
+                  text: qty,
+                  subText: allReserveText,
+                  subSubText: untilTodayText,
                   subSubTextColor: HexColor("#6C2BDF"),
                   lenOfStuff: "13",
                 ),
@@ -116,9 +136,9 @@ class Dashboard extends StatelessWidget {
                   tileColor: "#E2EEFE",
                   icon: Icons.layers_sharp,
                   iconColor: HexColor("#216DCD"),
-                  text: "تعداد",
-                  subText: "پلاک های شما",
-                  subSubText: "پلاک هایی که در \n سامانه ثبت کرده اید",
+                  text: qty,
+                  subText: yourPlateText,
+                  subSubText: inSystemText,
                   subSubTextColor: HexColor("#216DCD"),
                   lenOfStuff: "5",
                 ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
-import 'package:payausers/ConstFiles/initialConst.dart';
 
 class ThemeModeComponent extends StatelessWidget {
   const ThemeModeComponent(
@@ -19,10 +18,9 @@ class ThemeModeComponent extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.only(right: 10, left: 10),
-            child: Lottie.asset(lottieFile, width: 300),
+            child: Lottie.asset(lottieFile),
             decoration: BoxDecoration(
-                color: HexColor(color),
-                borderRadius: BorderRadius.circular(10)),
+                color: HexColor(color), borderRadius: BorderRadius.circular(0)),
           ),
         ],
       ),

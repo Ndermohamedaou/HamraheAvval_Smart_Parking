@@ -48,31 +48,28 @@ class DashboardTiles extends StatelessWidget {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               TextPos(
-                mainText: text,
-                fontColor: Colors.black,
-                size: 20,
-              ),
+                  mainText: text, fontColor: Colors.black, size: mainFontSize),
               TextPos(
                 mainText: subText,
                 fontColor: Colors.black,
-                size: 20,
+                size: mainFontSize,
               ),
               TextPos(
                 mainText: subSubText,
                 fontColor: subSubTextColor,
-                size: 12,
+                size: subFontSize,
               ),
             ]),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            margin: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             alignment: Alignment.bottomLeft,
             child: Text(
               lenOfStuff != null ? lenOfStuff : "",
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   color: Colors.black,
-                  fontSize: 20),
+                  fontSize: 18),
             ),
           ),
         ],
