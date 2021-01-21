@@ -5,6 +5,8 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:provider/provider.dart';
+import 'package:payausers/Screens/Tabs/settings.dart';
+// Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -77,7 +79,7 @@ class _MainoState extends State<Maino> {
               mainThemeColor: themeChange,
             ),
             Container(child: Text("افزودن پلاک")),
-            Container(child: Text("تنظیمات"))
+            Settings(fullNameMeme: name, avatarMeme: avatar)
           ],
         ),
       ),
@@ -124,7 +126,7 @@ class _MainoState extends State<Maino> {
             BottomNavigationBarItem(
               title: Container(
                 child: Text(
-                  'رزرو کنید',
+                  reserveText,
                   style: TextStyle(fontFamily: mainFaFontFamily),
                 ),
               ),
@@ -139,11 +141,11 @@ class _MainoState extends State<Maino> {
             ),
             BottomNavigationBarItem(
               title: Text(
-                reserveText,
+                "افزودن پلاک",
                 style: TextStyle(fontFamily: mainFaFontFamily),
               ),
               icon: Icon(
-                Icons.local_library,
+                Icons.post_add_sharp,
               ),
             ),
             BottomNavigationBarItem(
@@ -155,9 +157,12 @@ class _MainoState extends State<Maino> {
                 Icons.account_circle,
               ),
             ),
+
           ],
         ),
       ),
     );
   }
 }
+
+

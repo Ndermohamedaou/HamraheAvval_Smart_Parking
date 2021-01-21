@@ -24,7 +24,7 @@ class Dashboard extends StatelessWidget {
     final double widthSizedResponse = size.width < 500
         ? size.width <= 375
             ? (itemWidth / itemHeight) / 2.9
-            : (itemWidth / itemHeight) / 2.4
+            : (itemWidth / itemHeight) / 2.5
         : (itemWidth / itemHeight) / 5;
 
     // print(size.width);

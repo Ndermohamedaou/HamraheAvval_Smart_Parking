@@ -13,6 +13,8 @@ const forgetPass = "گذرواژه خود را فراموش کرده اید؟";
 
 // Login
 const String emptyTextFieldMsg = "فیلد نباید خالی باشد!";
+const wrongPersonalOrPassword = "کد پرسنلی یا گذرواژه اشتباه است";
+const serverNotRespond = "مشکل در برقراری ارتباط با سرور";
 
 // Confirm page
 const notMatch = "گذرواژه های باهم یکسان نیستند";
@@ -47,3 +49,7 @@ const choseTime = "محدوده ساعتی را مشخص کنید";
 // Reserve
 const String reserveTextTitle = "رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
+
+
+// Logout
+const logoutBtnText = "خروج از حساب";

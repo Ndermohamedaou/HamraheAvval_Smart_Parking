@@ -79,11 +79,11 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     // Confirmation
-    void goToConfirm(token) async{
+    void goToConfirm(token) async {
       try {
         Map userInfo = await api.getStaffInfo(token: token);
         Navigator.pushNamed(context, "/confirm", arguments: userInfo);
-      }catch(e){
+      } catch (e) {
         Toast.show("Can't Confirm you", context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
@@ -93,6 +93,10 @@ class _LoginPageState extends State<LoginPage> {
 
     // Login process
     void navigatedToDashboard({email, pass}) async {
+      setState(() {
+        email = email.trim();
+        pass = pass.trim();
+      });
       if (email != "" || pass != "") {
         try {
           Map getLoginThridParity =
@@ -100,19 +104,18 @@ class _LoginPageState extends State<LoginPage> {
           if (getLoginThridParity["status"] == "200") {
             // Checking First visit
             if (getLoginThridParity["first_visit"]) {
-              print("First visit is true");
-            } else {
-              // getUserAccInfo(getLoginThridParity['token']);
               goToConfirm(getLoginThridParity['token']);
+            } else {
+              getUserAccInfo(getLoginThridParity['token']);
             }
           } else {
-            Toast.show("Error in login", context,
+            Toast.show(serverNotRespond, context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
           }
         } catch (e) {
-          Toast.show(e.toString(), context,
+          Toast.show(wrongPersonalOrPassword, context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);
