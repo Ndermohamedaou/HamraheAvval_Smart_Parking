@@ -8,10 +8,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard(
-      {this.fullnameMeme, this.userPersonalCodeMeme, this.avatarMeme});
+      {this.fullnameMeme, this.userPersonalCodeMeme, this.avatarMeme, this.userQRCode});
   final String fullnameMeme;
   final String userPersonalCodeMeme;
-  final Widget avatarMeme;
+  final String avatarMeme;
+  final String userQRCode;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class Dashboard extends StatelessWidget {
     final double widthSizedResponse = size.width < 500
         ? size.width <= 375
             ? (itemWidth / itemHeight) / 2.9
-            : (itemWidth / itemHeight) / 2.63
+            : (itemWidth / itemHeight) / 2.4
         : (itemWidth / itemHeight) / 5;
 
     // print(size.width);
@@ -83,7 +84,7 @@ class Dashboard extends StatelessWidget {
                 color: HexColor("#EBEAFA"),
                 borderRadius: BorderRadius.circular(10.0)),
             child: QrImage(
-              data: "https://pub.dev/packages/qr_flutter",
+              data: userQRCode,
               version: QrVersions.auto,
               padding: EdgeInsets.all(20),
               foregroundColor: HexColor("#000000"),

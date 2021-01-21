@@ -20,6 +20,9 @@ HexColor loginBtnTxtColor = HexColor("#FFFFFF");
 HexColor forgetOptionColor = HexColor("#285C9D");
 HexColor lockDownColor = HexColor("#2985F8");
 
+// Confirm
+const double circleAvatarRadiusSize = 100;
+
 HexColor appBarColor = HexColor("#216DCD");
 
 // Bottom navigation bar color details

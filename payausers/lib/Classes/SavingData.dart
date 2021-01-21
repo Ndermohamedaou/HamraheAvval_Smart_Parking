@@ -23,7 +23,7 @@ class SavingData {
       "role": role,
       "personal_code": personal_code,
       "melli_code": melli_code,
-      "avatar": "avatar",
+      "avatar": avatar,
       "section": section
     };
     staffInfo.forEach((key, value) async {
@@ -31,5 +31,26 @@ class SavingData {
     });
     String uToken = await lStorage.read(key: "token");
     return uToken != null ? true : false;
+  }
+
+  // Future<bool> savingPlate({plates}) async {
+  //   int plateIndexer = 0;
+  //   plates.forEacht((plate) async {
+  //     dynamic plateQty = [
+  //       plate["plate0"],
+  //       plate["plate1"],
+  //       plate["plate2"],
+  //       plate["plate3"]
+  //     ];
+  //     await lStorage.write(key: "plate${plateIndexer}", value: plateQty);
+  //     plateIndexer += 1;
+  //   });
+  //   List plateTest = await lStorage.read(key: "plate0") as List;
+  //   print(plateTest);
+  //   return plateTest != [] ? true : false;
+  // }
+
+  Future<String> getToken (){
+    return lStorage.read(key: "token");
   }
 }

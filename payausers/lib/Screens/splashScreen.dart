@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigatedToRoot() async {
     final lStorage = FlutterSecureStorage();
-    final userToken = await lStorage.read(key: "uToken");
+    final userToken = await lStorage.read(key: "token");
     if (userToken != null)
       Navigator.pushNamed(context, "/dashboard");
     else

@@ -11,6 +11,15 @@ const personalCodePlaceHolder = "کد پرسنلی";
 const passwordPlaceHolder = "گذرواژه";
 const forgetPass = "گذرواژه خود را فراموش کرده اید؟";
 
+// Login
+const String emptyTextFieldMsg = "فیلد نباید خالی باشد!";
+
+// Confirm page
+const notMatch = "گذرواژه های باهم یکسان نیستند";
+const serverNotResponse = "مشکلی از سوی سرور رخ داده است";
+const confirmLogin = "تایید اطلاعات";
+const userEmailLbl = "آدرس ایمیل";
+const String causeOfEmail = 'برای بازنشانی گذرواژه ایمیل خود را وارد کنید';
 // Dark Mode message
 const themeMsg = "یک حالت را انتخاب کنید";
 

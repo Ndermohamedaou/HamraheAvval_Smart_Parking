@@ -6,7 +6,7 @@ class UserLeading extends StatelessWidget {
 
   final String fullname;
   final String userPersonalCode;
-  final Widget avatarImg;
+  final String avatarImg;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +17,6 @@ class UserLeading extends StatelessWidget {
         ),
         subtitle: Text(userPersonalCode,
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 12)),
-        leading: avatarImg);
+        leading: CircleAvatar(backgroundImage: NetworkImage(avatarImg),));
   }
 }

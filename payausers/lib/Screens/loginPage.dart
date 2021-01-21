@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:payausers/Classes/SavingData.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -12,6 +15,7 @@ import 'package:toast/toast.dart';
 String personalCode = "";
 String password = "";
 dynamic emptyTextFieldErrPersonalCode = null;
+dynamic emptyTextFieldErrEmail = null;
 dynamic emptyTextFieldErrPassword = null;
 
 IconData showMePass = Icons.remove_red_eye;
@@ -39,8 +43,33 @@ class _LoginPageState extends State<LoginPage> {
 
     // If user is not new
     void getUserAccInfo(token) async {
+      SavingData savingData = SavingData();
       try {
         Map userInfo = await api.getStaffInfo(token: token);
+        // Convert plate list from api to lStorage
+        final List userPlates = userInfo["plates"] as List;
+
+        bool result = await savingData.LDS(
+            token: token,
+            user_id: userInfo["user_id"],
+            email: userInfo["email"],
+            name: userInfo["name"],
+            role: userInfo['role'],
+            avatar: userInfo["avatar"],
+            melli_code: userInfo['melli_code'],
+            personal_code: userInfo['personal_code'],
+            section: userInfo["section"]);
+
+        // bool savingUserPlate = await savingData.savingPlate(plates: userPlates);
+
+        if (result) {
+          Navigator.pushNamed(context, "/dashboard");
+        } else {
+          Toast.show("Your info can not saved", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              textColor: Colors.white);
+        }
       } catch (e) {
         Toast.show("Error in Get User info!", context,
             duration: Toast.LENGTH_LONG,
@@ -49,29 +78,50 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
+    // Confirmation
+    void goToConfirm(token) async{
+      try {
+        Map userInfo = await api.getStaffInfo(token: token);
+        Navigator.pushNamed(context, "/confirm", arguments: userInfo);
+      }catch(e){
+        Toast.show("Can't Confirm you", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            textColor: Colors.white);
+      }
+    }
+
     // Login process
     void navigatedToDashboard({email, pass}) async {
-      try {
-        Map getLoginThridParity =
-            await api.getAccessToLogin(email: email, password: pass);
-        if (getLoginThridParity["status"] == "200") {
-          // Checking First visit
-          if (getLoginThridParity["first_visit"]) {
-            print("First visit is true");
+      if (email != "" || pass != "") {
+        try {
+          Map getLoginThridParity =
+              await api.getAccessToLogin(email: email, password: pass);
+          if (getLoginThridParity["status"] == "200") {
+            // Checking First visit
+            if (getLoginThridParity["first_visit"]) {
+              print("First visit is true");
+            } else {
+              // getUserAccInfo(getLoginThridParity['token']);
+              goToConfirm(getLoginThridParity['token']);
+            }
           } else {
-            getUserAccInfo(getLoginThridParity['token']);
+            Toast.show("Error in login", context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                textColor: Colors.white);
           }
-        } else {
-          Toast.show("Error in login", context,
+        } catch (e) {
+          Toast.show(e.toString(), context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);
         }
-      } catch (e) {
-        Toast.show(e.toString(), context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
+      } else {
+        setState(() {
+          emptyTextFieldErrEmail = emptyTextFieldMsg;
+          emptyTextFieldErrPassword = emptyTextFieldMsg;
+        });
       }
     }
 
@@ -101,8 +151,8 @@ class _LoginPageState extends State<LoginPage> {
                 textFieldIcon: Icons.account_circle,
                 textInputType: false,
                 readOnly: false,
-                // errText:
-                //     emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
+                errText:
+                    emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
                 onChangeText: (onChangeUsername) {
                   setState(() {
                     emptyTextFieldErrPersonalCode = null;
@@ -115,9 +165,9 @@ class _LoginPageState extends State<LoginPage> {
                 lblText: passwordPlaceHolder,
                 maxLen: 20,
                 readOnly: false,
-                // errText: emptyTextFieldErrPassword == null
-                //     ? null
-                //     : emptyTextFieldMsg,
+                errText: emptyTextFieldErrPassword == null
+                    ? null
+                    : emptyTextFieldMsg,
                 textInputType: protectedPassword,
                 textFieldIcon:
                     password == "" ? Icons.vpn_key_outlined : showMePass,

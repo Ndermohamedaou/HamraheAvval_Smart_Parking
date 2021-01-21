@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
+import 'Screens/confirmInfo.dart';
 import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
 
@@ -53,6 +54,7 @@ class _MyAppState extends State<MyApp> {
               '/': (context) => IntroPage(),
               '/themeSelector': (context) => ThemeModeSelectorPage(),
               '/login': (context) => LoginPage(),
+              '/confirm': (context) => ConfirmScreen(),
               '/dashboard': (context) => Maino(),
               '/addReserve': (context) => ReservedTab()
             },

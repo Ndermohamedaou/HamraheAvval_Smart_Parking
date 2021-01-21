@@ -7,6 +7,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Maino extends StatefulWidget {
   @override
@@ -14,10 +15,42 @@ class Maino extends StatefulWidget {
 }
 
 int tabBarIndex = 0;
+String userId = "";
+String name = "";
+String personalCode = "";
+String avatar = "";
 
 var _pageController = PageController();
 
 class _MainoState extends State<Maino> {
+  FlutterSecureStorage lds = FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    getStaffInfoFromLocal().then((value) {
+      setState(() {
+        userId = value["userId"];
+        name = value["name"];
+        personalCode = value["personalCode"];
+        avatar = value["avatar"];
+      });
+    });
+  }
+
+  Future<Map> getStaffInfoFromLocal() async {
+    final userId = await lds.read(key: "user_id");
+    final name = await lds.read(key: "name");
+    final personalCode = await lds.read(key: "personal_code");
+    final avatar = await lds.read(key: "avatar");
+    return {
+      "userId": userId,
+      "name": name,
+      "personalCode": personalCode,
+      "avatar": avatar
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     //  Dark Theme Changer
@@ -34,9 +67,10 @@ class _MainoState extends State<Maino> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             Dashboard(
-              fullnameMeme: "علیرضا سلطانی نشان",
-              userPersonalCodeMeme: "۹۸۱۱۱۰۳۳۳۰۲۰۱۶",
-              avatarMeme: Image.asset("assets/images/Avatar.png"),
+              userQRCode: userId,
+              fullnameMeme: name,
+              userPersonalCodeMeme: personalCode,
+              avatarMeme: avatar,
             ),
             Container(child: Text("ترددها")),
             ReservedTab(
