@@ -3,7 +3,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class BottomButton extends StatelessWidget {
-  const BottomButton({@required this.ontapped, this.text});
+  const BottomButton({this.ontapped, this.text});
 
   final Function ontapped;
   final String text;
@@ -18,7 +18,9 @@ class BottomButton extends StatelessWidget {
         color: loginBtnColor,
         child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: ontapped,
+            onPressed: (){
+              ontapped();
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

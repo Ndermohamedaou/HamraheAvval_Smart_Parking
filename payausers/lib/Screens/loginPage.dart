@@ -5,6 +5,9 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:payausers/Classes/ApiAccess.dart';
+import 'package:toast/toast.dart';
 
 String personalCode = "";
 String password = "";
@@ -23,6 +26,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    // LStorage
+    final lStorage = FlutterSecureStorage();
+    // Accessing to Api
+    ApiAccess api = ApiAccess();
     // Setting dark theme provider class
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final String mainImgLogoLightMode =
@@ -32,15 +39,32 @@ class _LoginPageState extends State<LoginPage> {
     final String mainLogo =
         themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
     // Final Navigation to? it's super temporary
-    void navigatedToDashboard() => Navigator.pushNamed(context, '/dashboard');
+
+    void prepareUserAccount(token) async {
+      print(token);
+    }
+
+    void navigatedToDashboard({email, pass}) async {
+      try {
+        Map getLoginThridParity =
+            await api.getAccessToLogin(email: email, password: pass);
+        if (getLoginThridParity["status"] == "200") {
+          if (getLoginThridParity["first_visit"]) {
+            print("First visit is true");
+          } else {
+            prepareUserAccount(getLoginThridParity['token']);
+          }
+        }
+        // Navigator.pushNamed(context, '/dashboard');
+      } catch (e) {
+        Toast.show(e.toString(), context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            textColor: Colors.white);
+      }
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          loginAppBarText,
-          style: TextStyle(fontFamily: mainFaFontFamily, color: Colors.white),
-        ),
-        backgroundColor: appBarColor,
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -129,8 +153,37 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-      bottomNavigationBar:
-          BottomButton(text: finalLoginText, ontapped: navigatedToDashboard),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Material(
+          elevation: 10.0,
+          borderRadius: BorderRadius.circular(8.0),
+          color: loginBtnColor,
+          child: MaterialButton(
+              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              onPressed: () {
+                navigatedToDashboard(email: personalCode, pass: password);
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    finalLoginText,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: loginBtnTxtColor,
+                        fontFamily: mainFaFontFamily,
+                        fontSize: btnSized,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Icon(
+                    Icons.chevron_right,
+                    color: Colors.white,
+                  )
+                ],
+              )),
+        ),
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:payausers/Screens/reserveView.dart';
 import 'package:provider/provider.dart';
 
 // Screens
+import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
 import 'Screens/themeModeSelector.dart';
@@ -46,8 +47,9 @@ class _MyAppState extends State<MyApp> {
               : SystemUiOverlayStyle.dark);
           return MaterialApp(
             theme: Styles.themeData(themeChangeProvider.darkTheme, context),
-            initialRoute: '/',
+            initialRoute: '/splashScreen',
             routes: {
+              '/splashScreen': (context)=> SplashScreen(),
               '/': (context) => IntroPage(),
               '/themeSelector': (context) => ThemeModeSelectorPage(),
               '/login': (context) => LoginPage(),
