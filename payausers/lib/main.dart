@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
             theme: Styles.themeData(themeChangeProvider.darkTheme, context),
             initialRoute: '/splashScreen',
             routes: {
-              '/splashScreen': (context)=> SplashScreen(),
+              '/splashScreen': (context) => SplashScreen(),
               '/': (context) => IntroPage(),
               '/themeSelector': (context) => ThemeModeSelectorPage(),
               '/login': (context) => LoginPage(),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/controller/loginController.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -26,8 +26,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    // LStorage
-    final lStorage = FlutterSecureStorage();
     // Accessing to Api
     ApiAccess api = ApiAccess();
     // Setting dark theme provider class
@@ -38,24 +36,37 @@ class _LoginPageState extends State<LoginPage> {
         "assets/images/Titile_Logo_Mark_dark.png";
     final String mainLogo =
         themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
-    // Final Navigation to? it's super temporary
 
-    void prepareUserAccount(token) async {
-      print(token);
+    // If user is not new
+    void getUserAccInfo(token) async {
+      try {
+        Map userInfo = await api.getStaffInfo(token: token);
+      } catch (e) {
+        Toast.show("Error in Get User info!", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            textColor: Colors.white);
+      }
     }
 
+    // Login process
     void navigatedToDashboard({email, pass}) async {
       try {
         Map getLoginThridParity =
             await api.getAccessToLogin(email: email, password: pass);
         if (getLoginThridParity["status"] == "200") {
+          // Checking First visit
           if (getLoginThridParity["first_visit"]) {
             print("First visit is true");
           } else {
-            prepareUserAccount(getLoginThridParity['token']);
+            getUserAccInfo(getLoginThridParity['token']);
           }
+        } else {
+          Toast.show("Error in login", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              textColor: Colors.white);
         }
-        // Navigator.pushNamed(context, '/dashboard');
       } catch (e) {
         Toast.show(e.toString(), context,
             duration: Toast.LENGTH_LONG,
