@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
@@ -6,25 +7,18 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
 import 'package:provider/provider.dart';
-import 'package:time_range/time_range.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:toast/toast.dart';
 
 // Show which date clicked and prepare to send it to API
 String datePickedByUser = "";
+String selectedPlate = "";
 String startTime = "";
 String endTime = "";
 List userPlates = [];
-bool selectedPlate = false;
-DateTime dt;
-
-int year;
-int day;
-int month;
-int hour;
-final clockArr = [];
 
 class ReservedTab extends StatefulWidget {
   @override
@@ -43,14 +37,11 @@ class _ReservedTabState extends State<ReservedTab> {
     persianDatePicker = PersianDatePicker(
       controller: textEditingController,
       datetime: "${DateTime.now()}",
-      outputFormat: 'YYYY-MM-DD',
       fontFamily: mainFaFontFamily,
       onChange: (String oldDate, String newDate) {
         setState(() {
-          dt = newDate as DateTime;
-          year = dt.year;
-          month = dt.month;
-          day = dt.day;
+          datePickedByUser = newDate;
+          print("This is new date $newDate");
         });
       },
     ).init();
@@ -70,16 +61,39 @@ class _ReservedTabState extends State<ReservedTab> {
     return plates;
   }
 
+  void reserveMe(st, et, pt) async {
+    if(st !="" && et!="" && pt!="") {
+      ApiAccess api = ApiAccess();
+      FlutterSecureStorage lds = FlutterSecureStorage();
+      final userToken = await lds.read(key: "token");
+      try {
+        String reserveResult = await api.reserveByUser(
+            token: userToken, startTime: st, endTime: et, plateNo: pt);
+        if (reserveResult == "200") {
+          // print(reserveResult);
+          Navigator.pop(context);
+          Toast.show(
+              "رزرو شما با موفقیت انجام شد و نتیجه آن به صورت پیامک به شما اعلام خواهد شد",
+              context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              textColor: Colors.white);
+        }
+      } catch (e) {
+        print(e);
+      }
+    }else
+      Toast.show(
+          "ورودی اطلاعات ناقص است",
+          context,
+          duration: Toast.LENGTH_LONG,
+          gravity: Toast.BOTTOM,
+          textColor: Colors.white);
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-
-    // List dateArr = ;
-    // year = dateArr[0] as int;
-
-    // print(startTime.split(""));
-
-    // final DateTest = DateTime(dateArr[0], dateArr[1], dateArr[2]);
 
     Widget plates = Column(
       children: [
@@ -93,7 +107,15 @@ class _ReservedTabState extends State<ReservedTab> {
             return Builder(
               builder: (BuildContext context) {
                 return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        selectedPlate = i['plate_en'];
+                      });
+                      Toast.show("پلاک انتخاب شد", context,
+                          duration: Toast.LENGTH_LONG,
+                          gravity: Toast.BOTTOM,
+                          textColor: Colors.white);
+                    },
                     child: Column(
                       children: [
                         Container(
@@ -129,8 +151,6 @@ class _ReservedTabState extends State<ReservedTab> {
 
     final plateContext = userPlates.isEmpty ? searchingProcess : plates;
 
-    // print(DateTime.now());
-    // print(datePickedByUser);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -184,56 +204,52 @@ class _ReservedTabState extends State<ReservedTab> {
                   ),
                 ],
               ),
-              Container(
-                // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: TimeRange(
-                      fromTitle: Text(
-                        'از',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
-                            fontFamily: mainFaFontFamily),
-                      ),
-                      toTitle: Text(
-                        'تا',
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
-                            fontFamily: mainFaFontFamily),
-                      ),
-                      titlePadding: 20,
-                      textStyle: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          fontFamily: mainFaFontFamily),
-                      activeTextStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: mainFaFontFamily),
-                      borderColor: Colors.blue[500],
-                      backgroundColor: Colors.transparent,
-                      activeBackgroundColor: Colors.blue,
-                      firstTime: TimeOfDay(hour: 00, minute: 00),
-                      lastTime: TimeOfDay(hour: 23, minute: 00),
-                      timeStep: 60,
-                      timeBlock: 60,
-                      onRangeCompleted: (range) {
-                        setState(() {
-                          startTime = range.start.format(context);
-                          endTime = range.end.format(context);
-                          // print(range.start.period);
-                          // print(startTime.split("AM")[0]);
-                          // print(endTime.split("AM")[0]);
-                          //
-                        });
-                      }),
+              ElevatedButton(
+                onPressed: () {
+                  DatePicker.showTimePicker(
+                    context,
+                    showTitleActions: true,
+                    showSecondsColumn: false,
+                    currentTime: DateTime.now(),
+                    onChanged: (date) {
+                      // print(date);
+                    },
+                    onConfirm: (date) {
+                      setState(() {
+                        startTime = "${date.hour}:${date.minute}";
+                      });
+                    },
+                  );
+                },
+                child: Text(
+                  'زمان شروع را انتخاب کنید',
+                  style: TextStyle(fontFamily: mainFaFontFamily),
                 ),
               ),
-              Text(
-                "$startTime - $endTime",
-                style: TextStyle(
-                    fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+              ElevatedButton(
+                onPressed: () {
+                  DatePicker.showTimePicker(
+                    context,
+                    showTitleActions: true,
+                    showSecondsColumn: false,
+                    currentTime: DateTime.now(),
+                    onChanged: (date) {
+                      // print(date);
+                    },
+                    onConfirm: (date) {
+                      setState(() {
+                        endTime = "${date.hour}:${date.minute}";
+                      });
+                    },
+                  );
+                },
+                child: Text(
+                  'زمان پایان را انتخاب کنید',
+                  style: TextStyle(fontFamily: mainFaFontFamily),
+                ),
               ),
+              Text("$startTime - $endTime",
+                  style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
               plateContext,
             ],
           ),
@@ -248,14 +264,18 @@ class _ReservedTabState extends State<ReservedTab> {
           child: MaterialButton(
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
-                print(startTime);
+                final pickDate = datePickedByUser.split("/");
 
-                // final pickDate = datePickedByUser.split("/");
-                // print(pickDate[0]);
-                // print(pickDate[1]);
-                // print(pickDate[2]);
+                final strDateTimeStart =
+                    "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $startTime";
+                final strDateTimeEnd =
+                    "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $endTime";
 
-                // DateTime(pickDate[0] as int, pickDate[1] as int, pickDate[2] as int, );
+                // print(strDateTimeStart);
+                // print(strDateTimeEnd);
+                // print(selectedPlate);
+
+                reserveMe(strDateTimeStart, strDateTimeEnd, selectedPlate);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

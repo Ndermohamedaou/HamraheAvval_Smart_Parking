@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                 textColor: Colors.white);
           }
         } catch (e) {
-          Toast.show(wrongPersonalOrPassword, context,
+          Toast.show(e.toString(), context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);

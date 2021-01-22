@@ -39,4 +39,13 @@ class ApiAccess {
     print(response.data);
     return response.data;
   }
+
+  Future<String> reserveByUser({token, startTime, endTime, plateNo}) async{
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.post(
+        "$baseUrl/Reserve?reserveTimeStart=$startTime&reserveTimeEnd=$endTime&plate=$plateNo");
+    return response.data;
+  }
+
 }
