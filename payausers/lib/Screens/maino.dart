@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
+
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'Tabs/addUserPlate.dart';
+import 'Tabs/userTraffic.dart';
 
 class Maino extends StatefulWidget {
   @override
@@ -21,6 +26,9 @@ String userId = "";
 String name = "";
 String personalCode = "";
 String avatar = "";
+String userToken = "";
+List userTraffic = [];
+
 
 var _pageController = PageController();
 
@@ -37,11 +45,19 @@ class _MainoState extends State<Maino> {
         personalCode = value["personalCode"];
         avatar = value["avatar"];
       });
+      getUserTrafficLogsApi(userToken).then((logs) {
+        setState(() {
+          print(logs);
+          userTraffic = logs;
+        });
+      });
     });
+
   }
 
   Future<Map> getStaffInfoFromLocal() async {
     final userId = await lds.read(key: "user_id");
+    userToken = await lds.read(key: "token");
     final name = await lds.read(key: "name");
     final personalCode = await lds.read(key: "personal_code");
     final avatar = await lds.read(key: "avatar");
@@ -52,6 +68,13 @@ class _MainoState extends State<Maino> {
       "avatar": avatar
     };
   }
+
+  Future<List> getUserTrafficLogsApi(token) async {
+    ApiAccess api = ApiAccess();
+    List trafficLog = await api.getUserTrafficLogs(token: token);
+    return trafficLog;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,11 +97,13 @@ class _MainoState extends State<Maino> {
               userPersonalCodeMeme: personalCode,
               avatarMeme: avatar,
             ),
-            Container(child: Text("ترددها")),
+            UserTraffic(
+              userTrafficLog: userTraffic,
+            ),
             ReservedTab(
               mainThemeColor: themeChange,
             ),
-            Container(child: Text("افزودن پلاک")),
+            AddUserPlate(),
             Settings(fullNameMeme: name, avatarMeme: avatar)
           ],
         ),
@@ -157,12 +182,9 @@ class _MainoState extends State<Maino> {
                 Icons.account_circle,
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 }
-
-

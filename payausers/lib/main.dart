@@ -11,6 +11,8 @@ import 'Screens/loginPage.dart';
 import 'Screens/confirmInfo.dart';
 import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
+import 'Screens/myPlate.dart';
+import 'Screens/settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,7 +58,9 @@ class _MyAppState extends State<MyApp> {
               '/login': (context) => LoginPage(),
               '/confirm': (context) => ConfirmScreen(),
               '/dashboard': (context) => Maino(),
-              '/addReserve': (context) => ReservedTab()
+              '/addReserve': (context) => ReservedTab(),
+              '/myPlate': (context) => MYPlateScreen(),
+              '/settings': (context) => SettingsPage(),
             },
           );
         },

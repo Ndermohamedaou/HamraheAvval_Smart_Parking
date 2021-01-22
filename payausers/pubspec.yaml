@@ -15,6 +15,7 @@ dependencies:
 
   cupertino_icons: ^1.0.0
   hexcolor: ^1.0.6
+  carousel_slider: ^2.3.1
   time_range: ^0.5.0
   line_awesome_flutter: ^1.0.1
   dio: ^3.0.10
@@ -22,6 +23,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   provider: ^4.3.2+2
   image_picker: ^0.6.7+14
+  date_format: ^1.0.9
   list_tile_switch: ^0.0.2
   flutter_spinkit: ^4.1.2
   toast: ^0.1.5

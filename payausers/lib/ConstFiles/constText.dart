@@ -50,6 +50,23 @@ const choseTime = "محدوده ساعتی را مشخص کنید";
 const String reserveTextTitle = "رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
 
+// User Traffic
+const trafficsLogText = "لیست تردد های شما";
 
+// Add user plate
+const addUserPlate = "افزودن پلاک من";
+const correctEntry =
+    "در وارد کردن شماره پلاک خود دقت کنید که اطلاعات به درستی وارد سامانه شود";
+const moreThanPlateAdded = "شما نمی توانید بیشتر از ۳ پلاک را ثبت کنید";
+const userPlateAdded = "پلاک شما با موفقیت ثبت شد";
+const serverNotRespondToAdd = "خطا در افزودن پلاک";
+const unCorrectPlateNumber = "پلاک وارد شده صحیح نیست";
+
+// Settings
+const myPlateText = "پلاک های من";
+const themeModeSwitch = "حالت تاریک یا روشن";
 // Logout
 const logoutBtnText = "خروج از حساب";
+
+// My plate
+const searchingProcessText = "در حال جست و جو";

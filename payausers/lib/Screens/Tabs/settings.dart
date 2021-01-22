@@ -1,18 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logoutBtn.dart';
+import 'package:list_tile_switch/list_tile_switch.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatelessWidget {
   const Settings({this.fullNameMeme, this.avatarMeme});
 
   final fullNameMeme;
   final avatarMeme;
+
   @override
   Widget build(BuildContext context) {
-    print(avatarMeme);
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    final themeIconLeading = themeChange.darkTheme
+        ? Icon(Icons.brightness_5, color: Colors.yellow)
+        : Icon(Icons.bedtime, color: Colors.blue);
     return SafeArea(
       child: CustomScrollView(
         slivers: [
@@ -45,7 +52,7 @@ class Settings extends StatelessWidget {
                           Icons.settings,
                           color: Colors.white,
                         )),
-                    onTap: () => print("settings"),
+                    onTap: () => Navigator.pushNamed(context, "/settings"),
                   ),
                 ),
               ),
@@ -59,6 +66,48 @@ class Settings extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            Container(
+                                width: double.infinity,
+                                height: 55,
+                                color:
+                                    themeChange.darkTheme ? darkBar : lightBar,
+                                child: FlatButton(
+                                  onPressed: () =>
+                                      Navigator.pushNamed(context, "/myPlate"),
+                                  child: ListTile(
+                                    title: Text(
+                                      myPlateText,
+                                      style: TextStyle(
+                                          fontFamily: mainFaFontFamily,
+                                          fontSize: 15),
+                                    ),
+                                    leading: Icon(
+                                      Icons.car_repair,
+                                      color: HexColor("#D800BF"),
+                                      size: 30,
+                                    ),
+                                  ),
+                                )),
+                            SizedBox(height: 10),
+                            Container(
+                              color: themeChange.darkTheme ? darkBar : lightBar,
+                              child: Container(
+                                margin: EdgeInsets.symmetric(horizontal: 15),
+                                child: ListTileSwitch(
+                                  leading: themeIconLeading,
+                                  value: themeChange.darkTheme,
+                                  onChanged: (bool state) {
+                                    themeChange.darkTheme = state;
+                                  },
+                                  title: Text(
+                                    themeModeSwitch,
+                                    style: TextStyle(
+                                        fontFamily: mainFaFontFamily,
+                                        fontSize: 15),
+                                  ),
+                                ),
+                              ),
+                            ),
                             LogoutBtn(),
                           ],
                         ),
