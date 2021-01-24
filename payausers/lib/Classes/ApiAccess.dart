@@ -55,4 +55,13 @@ class ApiAccess {
         await dio.post("$baseUrl/UpdateStaffInfo", data: {"avatar": uAvatar});
     return response.data['status'];
   }
+
+  Future<String> changingUserPassword({token, curPass, newPass}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.post(
+        "$baseUrl/changePassword?current_password=$curPass&new_password=$newPass");
+    print("From API CLASS $response.data");
+    return response.data;
+  }
 }

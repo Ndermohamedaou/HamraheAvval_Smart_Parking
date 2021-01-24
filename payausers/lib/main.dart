@@ -4,6 +4,7 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/Screens/reserveView.dart';
 import 'package:provider/provider.dart';
 
+
 // Screens
 import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';
@@ -13,6 +14,7 @@ import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
 import 'Screens/myPlate.dart';
 import 'Screens/settings.dart';
+import 'Screens/changePassword.dart';
 
 void main() {
   runApp(MyApp());
@@ -61,6 +63,7 @@ class _MyAppState extends State<MyApp> {
               '/addReserve': (context) => ReservedTab(),
               '/myPlate': (context) => MYPlateScreen(),
               '/settings': (context) => SettingsPage(),
+              '/changePassword': (context) => ChangePassPage(),
             },
           );
         },

@@ -201,51 +201,68 @@ class _ReservedTabState extends State<ReservedTab> {
                   ),
                 ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  DatePicker.showTimePicker(
-                    context,
-                    locale: LocaleType.fa,
-                    showTitleActions: true,
-                    showSecondsColumn: false,
-                    currentTime: DateTime.now(),
-                    onChanged: (date) {
-                      // print(date);
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                textDirection: TextDirection.rtl,
+                children: [
+                  Text(
+                    'از',
+                    style:
+                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      DatePicker.showTimePicker(
+                        context,
+                        locale: LocaleType.fa,
+                        showTitleActions: true,
+                        showSecondsColumn: false,
+                        currentTime: DateTime.now(),
+                        onChanged: (date) {
+                          // print(date);
+                        },
+                        onConfirm: (date) {
+                          setState(() {
+                            startTime = "${date.hour}:${date.minute}";
+                          });
+                        },
+                      );
                     },
-                    onConfirm: (date) {
-                      setState(() {
-                        startTime = "${date.hour}:${date.minute}";
-                      });
+                    child: Text(
+                      startTime == "" ? "انتخاب" : startTime,
+                      style: TextStyle(fontFamily: mainFaFontFamily),
+                    ),
+                  ),
+                  Text(
+                    'تا',
+                    style:
+                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      DatePicker.showTimePicker(
+                        context,
+                        showTitleActions: true,
+                        showSecondsColumn: false,
+                        currentTime: DateTime.now(),
+                        onChanged: (date) {
+                          // print(date);
+                        },
+                        onConfirm: (date) {
+                          setState(() {
+                            endTime = "${date.hour}:${date.minute}";
+                          });
+                        },
+                      );
                     },
-                  );
-                },
-                child: Text(
-                  'زمان شروع را انتخاب کنید',
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
+                    child: Text(
+                      endTime == "" ? "انتخاب" : endTime,
+                      style: TextStyle(fontFamily: mainFaFontFamily),
+                    ),
+                  ),
+                ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  DatePicker.showTimePicker(
-                    context,
-                    showTitleActions: true,
-                    showSecondsColumn: false,
-                    currentTime: DateTime.now(),
-                    onChanged: (date) {
-                      // print(date);
-                    },
-                    onConfirm: (date) {
-                      setState(() {
-                        endTime = "${date.hour}:${date.minute}";
-                      });
-                    },
-                  );
-                },
-                child: Text(
-                  'زمان پایان را انتخاب کنید',
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-              ),
+
               Text("$startTime - $endTime",
                   style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
               plateContext,

@@ -73,11 +73,23 @@ const submitAvatarChanged = "ثبت تغییرات";
 const changeAvatarScreen = "آواتار جدید برای خودت تنظیم کن";
 const personalCodeText = "شناسه پرسنلی";
 const melliCodeText = "شناسه ملی";
-const readOnlyInfo ="اطلاعات فقط برای نمایش هستند";
+const readOnlyInfo = "اطلاعات فقط برای نمایش هستند";
 const sendSuccessful = "...آواتار جدید با موفقیت ثبت شد، تا چند ثانیه دیگر";
 const sendFailed = "آواتار جدید ثبت نشد";
 const sendServerFailed = "آواتار در سرور ثبت نشد";
 const sendDenied = "ثبت تصویر جدید لغو شد";
+const chPass = "تغییر گذرواژه";
 
+// Changing password
+const changePassText = "ویرایش گذرواژه";
+const setNewPassText = "ثبت گذرواژه جدید";
+const curPass = "گذرواژه جاری";
+const newPass = "گذرواژه جدید";
+const confNewPass = "تکرار گذرواژه جدید";
+const notEnouthLen = "گذرواژه شما کمتر از 6 واژه است";
+const conFailed = "مشکل در برقراری ارتباط";
+const failedToUpdatePass = "گذرواژه جدید ثبت نشد";
+const doesNotChange = "تغییری صورت نگرفت";
+const changeSuccess = "گذرواژه جدید شما با موفقیت ثبت شد";
 // My plate
 const searchingProcessText = "در حال جست و جو";
