@@ -27,8 +27,9 @@ String name = "";
 String personalCode = "";
 String avatar = "";
 String userToken = "";
+String userSection = "";
+String userRole = "";
 List userTraffic = [];
-
 
 var _pageController = PageController();
 
@@ -44,6 +45,8 @@ class _MainoState extends State<Maino> {
         name = value["name"];
         personalCode = value["personalCode"];
         avatar = value["avatar"];
+        userSection = value["section"];
+        userRole = value["role"];
       });
       getUserTrafficLogsApi(userToken).then((logs) {
         setState(() {
@@ -52,7 +55,6 @@ class _MainoState extends State<Maino> {
         });
       });
     });
-
   }
 
   Future<Map> getStaffInfoFromLocal() async {
@@ -61,11 +63,15 @@ class _MainoState extends State<Maino> {
     final name = await lds.read(key: "name");
     final personalCode = await lds.read(key: "personal_code");
     final avatar = await lds.read(key: "avatar");
+    String section = await lds.read(key: "section");
+    String role = await lds.read(key: "role");
     return {
       "userId": userId,
       "name": name,
       "personalCode": personalCode,
-      "avatar": avatar
+      "avatar": avatar,
+      "section": section,
+      "role": role
     };
   }
 
@@ -74,7 +80,6 @@ class _MainoState extends State<Maino> {
     List trafficLog = await api.getUserTrafficLogs(token: token);
     return trafficLog;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +101,8 @@ class _MainoState extends State<Maino> {
               fullnameMeme: name,
               userPersonalCodeMeme: personalCode,
               avatarMeme: avatar,
+              section: userSection,
+              role: userRole,
             ),
             UserTraffic(
               userTrafficLog: userTraffic,

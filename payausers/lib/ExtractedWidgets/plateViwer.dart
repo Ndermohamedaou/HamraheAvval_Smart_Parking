@@ -19,7 +19,7 @@ class PlateViewer extends StatelessWidget {
         width: double.infinity,
         height: 70,
         // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        margin: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 5),
+        margin: EdgeInsets.only(top: 10, right: 20, left: 10, bottom: 5),
         decoration: BoxDecoration(
             border: Border.all(
                 color: themeChange ? Colors.white : Colors.black, width: 2.8),
@@ -36,7 +36,7 @@ class PlateViewer extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(height: 2),
+                  SizedBox(height: 1),
                   Image.asset(
                     "assets/images/iranFlag.png",
                     width: 35,
@@ -58,7 +58,7 @@ class PlateViewer extends StatelessWidget {
               ),
             ),
             Container(
-              width: 50,
+              width: 40,
               height: 70,
               margin: EdgeInsets.only(top: 12),
               child: Text(

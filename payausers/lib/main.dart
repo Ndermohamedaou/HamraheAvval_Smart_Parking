@@ -61,7 +61,6 @@ class _MyAppState extends State<MyApp> {
               '/addReserve': (context) => ReservedTab(),
               '/myPlate': (context) => MYPlateScreen(),
               '/settings': (context) => SettingsPage(),
-
             },
           );
         },

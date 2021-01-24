@@ -8,11 +8,18 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard(
-      {this.fullnameMeme, this.userPersonalCodeMeme, this.avatarMeme, this.userQRCode});
+      {this.fullnameMeme,
+      this.userPersonalCodeMeme,
+      this.avatarMeme,
+      this.userQRCode,
+      this.section,
+      this.role});
   final String fullnameMeme;
   final String userPersonalCodeMeme;
   final String avatarMeme;
   final String userQRCode;
+  final String section;
+  final String role;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +28,19 @@ class Dashboard extends StatelessWidget {
     final double itemHeight = (size.height - kToolbarHeight) / 4;
     final double itemWidth = size.width;
     // Check if device be in Portrate or Landscape
-    final double widthSizedResponse = size.width < 500
-        ? size.width <= 375
-            ? (itemWidth / itemHeight) / 2.9
-            : (itemWidth / itemHeight) / 2.5
-        : (itemWidth / itemHeight) / 5;
+    final double widthSizedResponse = size.width >= 450 && size.width < 700
+        ? (itemWidth / itemHeight) / 2.3
+        : size.width <= 375
+            ? (itemWidth / itemHeight) / 2.8
+            : (itemWidth / itemHeight) / 3;
+
+    // final test = size.width >= 450 && size.width < 600
+    //     ? "Screen Is Big"
+    //     : size.width <= 375
+    //         ? "Screen to little"
+    //         : "Screen or landscape or display is very big";
+
+    // print(test);
 
     // print(size.width);
     return Container(
@@ -130,8 +145,9 @@ class Dashboard extends StatelessWidget {
                   iconColor: HexColor('#66D29F'),
                   text: "موقعیت",
                   subText: "فعلی شما",
-                  subSubText: "",
+                  subSubText: role,
                   subSubTextColor: HexColor("#66D29F"),
+                  lenOfStuff: section,
                 ),
                 DashboardTiles(
                   tileColor: "#E2EEFE",

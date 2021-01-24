@@ -49,6 +49,7 @@ const choseTime = "محدوده ساعتی را مشخص کنید";
 // Reserve
 const String reserveTextTitle = "رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
+const String dataEntryUnCorrect = "ورودی اطلاعات ناقص است";
 
 // User Traffic
 const trafficsLogText = "لیست تردد های شما";
@@ -67,6 +68,11 @@ const myPlateText = "پلاک های من";
 const themeModeSwitch = "حالت تاریک یا روشن";
 // Logout
 const logoutBtnText = "خروج از حساب";
+// Main Settings
+const submitAvatarChanged = "ثبت تغییرات";
+const changeAvatarScreen = "آواتار جدید برای خودت تنظیم کن";
+const personalCodeText = "شناسه پرسنلی";
+const melliCodeText = "شناسه ملی";
 
 // My plate
 const searchingProcessText = "در حال جست و جو";

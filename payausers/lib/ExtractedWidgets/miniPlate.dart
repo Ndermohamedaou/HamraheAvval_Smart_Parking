@@ -9,7 +9,8 @@ class MiniPlate extends StatelessWidget {
       this.plate3,
       this.buildingName,
       this.startedTime,
-      this.endedTime, this.slotNo});
+      this.endedTime,
+      this.slotNo});
 
   final String plate0;
   final String plate1;
@@ -51,6 +52,7 @@ class MiniPlate extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 10),
@@ -141,17 +143,18 @@ class MiniPlate extends StatelessWidget {
                         " ساختمان: $buildingName",
                         style: TextStyle(
                             fontFamily: mainFaFontFamily, color: Colors.white),
-                      ),Text(
+                      ),
+                      Text(
                         " جایگاه: $slotNo",
                         style: TextStyle(
                             fontFamily: mainFaFontFamily, color: Colors.white),
                       ),
                     ],
                   )
-
                 ],
               ),
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "از",

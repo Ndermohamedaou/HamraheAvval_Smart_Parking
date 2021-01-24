@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
@@ -26,7 +25,7 @@ class ReservedTab extends StatefulWidget {
 }
 
 class _ReservedTabState extends State<ReservedTab> {
-  // our text controller
+  // our text controller‍
   final TextEditingController textEditingController = TextEditingController();
 
   PersianDatePickerWidget persianDatePicker;
@@ -62,7 +61,7 @@ class _ReservedTabState extends State<ReservedTab> {
   }
 
   void reserveMe(st, et, pt) async {
-    if(st !="" && et!="" && pt!="") {
+    if (st != "" && et != "" && pt != "") {
       ApiAccess api = ApiAccess();
       FlutterSecureStorage lds = FlutterSecureStorage();
       final userToken = await lds.read(key: "token");
@@ -82,10 +81,8 @@ class _ReservedTabState extends State<ReservedTab> {
       } catch (e) {
         print(e);
       }
-    }else
-      Toast.show(
-          "ورودی اطلاعات ناقص است",
-          context,
+    } else
+      Toast.show(dataEntryUnCorrect, context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
@@ -208,6 +205,7 @@ class _ReservedTabState extends State<ReservedTab> {
                 onPressed: () {
                   DatePicker.showTimePicker(
                     context,
+                    locale: LocaleType.fa,
                     showTitleActions: true,
                     showSecondsColumn: false,
                     currentTime: DateTime.now(),
