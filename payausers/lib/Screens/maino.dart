@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -39,6 +41,13 @@ class _MainoState extends State<Maino> {
   @override
   void initState() {
     super.initState();
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      READYLOCALVAR();
+    });
+    READYLOCALVAR();
+  }
+
+  void READYLOCALVAR() {
     getStaffInfoFromLocal().then((value) {
       setState(() {
         userId = value["userId"];

@@ -14,6 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:toast/toast.dart';
 
+// Controller to Convert image
+import 'package:payausers/controller/changeAvatar.dart';
+
 String userAvatar = "";
 String userIdentify = "";
 String userName = "";
@@ -73,22 +76,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   @override
-  String img2Base64(img) {
-    final byteImg = img.readAsBytesSync();
-    String _img64 = base64Encode(byteImg);
-    return _img64;
-  }
-
-  Future<String> sendingImage(img) async {
-    final uToken = await lds.read(key: "token");
-    String imgConverted = img2Base64(img);
-    print("Conversion IMAGE TO -----> \n $imgConverted");
-    String takenSuccessful =
-        await api.updatingUserAvatar(token: uToken, uAvatar: imgConverted);
-    print(takenSuccessful);
-    return takenSuccessful;
-  }
-
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
@@ -107,24 +94,24 @@ class _SettingsPageState extends State<SettingsPage> {
           final testAvatar = await lds.read(key: "avatar");
           print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
           if (testAvatar != "") {
-            Toast.show("آواتار جدید با موفقیت ثبت شد", context,
+            Toast.show(sendSuccessful, context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
           } else {
-            Toast.show("آواتار جدید ثبت نشد", context,
+            Toast.show(sendFailed, context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
           }
         } else {
-          Toast.show("آواتار در سرور ثبت نشد", context,
+          Toast.show(sendServerFailed, context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);
         }
       } catch (e) {
-        Toast.show("ثبت تصویر جدید لغو شد", context,
+        Toast.show(sendDenied, context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
             textColor: Colors.white);
@@ -210,10 +197,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("اطلاعات فقط برای نمایش هستند",
+                    Text(readOnlyInfo,
                         style: TextStyle(
                             fontFamily: mainFaFontFamily,
-                            fontSize: 18,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w100,
                             color: Colors.grey)),
                   ],
                 ),
@@ -251,7 +239,9 @@ class _SettingsPageState extends State<SettingsPage> {
           color: Colors.blue,
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             child: Text(
               submitAvatarChanged,
               textAlign: TextAlign.center,
