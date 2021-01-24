@@ -28,19 +28,20 @@ class Dashboard extends StatelessWidget {
     final double itemHeight = (size.height - kToolbarHeight) / 4;
     final double itemWidth = size.width;
     // Check if device be in Portrate or Landscape
-    final double widthSizedResponse = size.width >= 450 && size.width < 700
-        ? (itemWidth / itemHeight) / 2.3
-        : size.width <= 375
+    final double widthSizedResponse = size.width >= 350 && size.width < 600
+        ? (itemWidth / itemHeight) / 2.5
+        : size.width <= 340
             ? (itemWidth / itemHeight) / 2.8
-            : (itemWidth / itemHeight) / 3;
+            : (itemWidth / itemHeight) / 5;
 
-    // final test = size.width >= 450 && size.width < 600
+    // final test = size.width >= 350 && size.width < 600
     //     ? "Screen Is Big"
     //     : size.width <= 375
     //         ? "Screen to little"
     //         : "Screen or landscape or display is very big";
-
+    //
     // print(test);
+    // print(size.width);
 
     // print(size.width);
     return Container(
