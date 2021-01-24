@@ -99,108 +99,111 @@ class _MainoState extends State<Maino> {
         ? SystemUiOverlayStyle.light
         : SystemUiOverlayStyle.dark);
 
-    return  Scaffold(
-      body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            Dashboard(
-              userQRCode: userId,
-              fullnameMeme: name,
-              userPersonalCodeMeme: personalCode,
-              avatarMeme: avatar,
-              section: userSection,
-              role: userRole,
-            ),
-            UserTraffic(
-              userTrafficLog: userTraffic,
-            ),
-            ReservedTab(
-              mainThemeColor: themeChange,
-            ),
-            AddUserPlate(),
-            Settings(fullNameMeme: name, avatarMeme: avatar)
-          ],
+    return WillPopScope(
+      child: Scaffold(
+        body: SafeArea(
+          child: PageView(
+            controller: _pageController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Dashboard(
+                userQRCode: userId,
+                fullnameMeme: name,
+                userPersonalCodeMeme: personalCode,
+                avatarMeme: avatar,
+                section: userSection,
+                role: userRole,
+              ),
+              UserTraffic(
+                userTrafficLog: userTraffic,
+              ),
+              ReservedTab(
+                mainThemeColor: themeChange,
+              ),
+              AddUserPlate(),
+              Settings(fullNameMeme: name, avatarMeme: avatar)
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: Directionality(
-        textDirection: TextDirection.rtl,
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: themeChange.darkTheme ? darkBar : lightBar,
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: HexColor('#C9C9C9'),
-          selectedIconTheme: IconThemeData(color: Colors.blue),
-          iconSize: 25,
-          // unselectedIconTheme: IconThemeData(size: 25),
-          selectedFontSize: 14,
-          unselectedFontSize: 14,
-          currentIndex: tabBarIndex,
-          onTap: (indexValue) {
-            setState(() {
-              tabBarIndex = indexValue;
-              _pageController.animateToPage(tabBarIndex,
-                  duration: Duration(milliseconds: 3), curve: Curves.ease);
-              print(tabBarIndex);
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-              title: Text(
-                dashboardText,
-                style: TextStyle(fontFamily: mainFaFontFamily),
-              ),
-              icon: Icon(
-                Icons.view_quilt,
-              ),
-            ),
-            BottomNavigationBarItem(
-              title: Text(
-                transactionText,
-                style: TextStyle(fontFamily: mainFaFontFamily),
-              ),
-              icon: Icon(
-                Icons.view_day,
-              ),
-            ),
-            BottomNavigationBarItem(
-              title: Container(
-                child: Text(
-                  reserveText,
+        bottomNavigationBar: Directionality(
+          textDirection: TextDirection.rtl,
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: themeChange.darkTheme ? darkBar : lightBar,
+            selectedItemColor: Colors.blue,
+            unselectedItemColor: HexColor('#C9C9C9'),
+            selectedIconTheme: IconThemeData(color: Colors.blue),
+            iconSize: 25,
+            // unselectedIconTheme: IconThemeData(size: 25),
+            selectedFontSize: 14,
+            unselectedFontSize: 14,
+            currentIndex: tabBarIndex,
+            onTap: (indexValue) {
+              setState(() {
+                tabBarIndex = indexValue;
+                _pageController.animateToPage(tabBarIndex,
+                    duration: Duration(milliseconds: 3), curve: Curves.ease);
+                print(tabBarIndex);
+              });
+            },
+            items: [
+              BottomNavigationBarItem(
+                title: Text(
+                  dashboardText,
                   style: TextStyle(fontFamily: mainFaFontFamily),
                 ),
-              ),
-              icon: CircleAvatar(
-                backgroundColor: loginBtnColor,
-                radius: 25,
-                child: Icon(
-                  Icons.add_business_outlined,
-                  color: Colors.white,
+                icon: Icon(
+                  Icons.view_quilt,
                 ),
               ),
-            ),
-            BottomNavigationBarItem(
-              title: Text(
-                "افزودن پلاک",
-                style: TextStyle(fontFamily: mainFaFontFamily),
+              BottomNavigationBarItem(
+                title: Text(
+                  transactionText,
+                  style: TextStyle(fontFamily: mainFaFontFamily),
+                ),
+                icon: Icon(
+                  Icons.view_day,
+                ),
               ),
-              icon: Icon(
-                Icons.post_add_sharp,
+              BottomNavigationBarItem(
+                title: Container(
+                  child: Text(
+                    reserveText,
+                    style: TextStyle(fontFamily: mainFaFontFamily),
+                  ),
+                ),
+                icon: CircleAvatar(
+                  backgroundColor: loginBtnColor,
+                  radius: 25,
+                  child: Icon(
+                    Icons.add_business_outlined,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              title: Text(
-                settingsText,
-                style: TextStyle(fontFamily: mainFaFontFamily),
+              BottomNavigationBarItem(
+                title: Text(
+                  "افزودن پلاک",
+                  style: TextStyle(fontFamily: mainFaFontFamily),
+                ),
+                icon: Icon(
+                  Icons.post_add_sharp,
+                ),
               ),
-              icon: Icon(
-                Icons.account_circle,
+              BottomNavigationBarItem(
+                title: Text(
+                  settingsText,
+                  style: TextStyle(fontFamily: mainFaFontFamily),
+                ),
+                icon: Icon(
+                  Icons.account_circle,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+      onWillPop: () async => false,
     );
   }
 }
