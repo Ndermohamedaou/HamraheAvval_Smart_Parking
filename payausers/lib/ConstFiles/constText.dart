@@ -50,6 +50,8 @@ const choseTime = "محدوده ساعتی را مشخص کنید";
 const String reserveTextTitle = "رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
 const String dataEntryUnCorrect = "ورودی اطلاعات ناقص است";
+const titleOfReserve = "رزرو شما با موفقیت انجام شد";
+const resultOfReserve = "نتیجه آن به صورت پیامک به شما اعلام خواهد شد";
 
 // User Traffic
 const trafficsLogText = "لیست تردد های شما";

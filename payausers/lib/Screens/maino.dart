@@ -99,7 +99,7 @@ class _MainoState extends State<Maino> {
         ? SystemUiOverlayStyle.light
         : SystemUiOverlayStyle.dark);
 
-    return Scaffold(
+    return  Scaffold(
       body: SafeArea(
         child: PageView(
           controller: _pageController,

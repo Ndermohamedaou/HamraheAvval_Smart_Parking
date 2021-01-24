@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
@@ -11,6 +12,7 @@ import 'package:persian_datepicker/persian_datepicker.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:toast/toast.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 // Show which date clicked and prepare to send it to API
 String datePickedByUser = "";
@@ -70,13 +72,27 @@ class _ReservedTabState extends State<ReservedTab> {
             token: userToken, startTime: st, endTime: et, plateNo: pt);
         if (reserveResult == "200") {
           // print(reserveResult);
-          Navigator.pop(context);
-          Toast.show(
-              "رزرو شما با موفقیت انجام شد و نتیجه آن به صورت پیامک به شما اعلام خواهد شد",
-              context,
-              duration: Toast.LENGTH_LONG,
-              gravity: Toast.BOTTOM,
-              textColor: Colors.white);
+          Alert(
+            context: context,
+            type: AlertType.success,
+            title: titleOfReserve,
+            desc: resultOfReserve,
+            buttons: [
+              DialogButton(
+                child: Text(
+                  "تایید",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontFamily: mainFaFontFamily),
+                ),
+                onPressed: () => Navigator.popUntil(
+                    context, ModalRoute.withName("/dashboard")),
+                width: 120,
+              )
+            ],
+          ).show();
+          // Navigator.pop(context);
         }
       } catch (e) {
         print(e);
@@ -192,7 +208,7 @@ class _ReservedTabState extends State<ReservedTab> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 40),
+                    margin: EdgeInsets.only(top: 20),
                     child: Text(
                       choseTime,
                       style: TextStyle(
@@ -201,71 +217,78 @@ class _ReservedTabState extends State<ReservedTab> {
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                textDirection: TextDirection.rtl,
-                children: [
-                  Text(
-                    'از',
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      DatePicker.showTimePicker(
-                        context,
-                        locale: LocaleType.fa,
-                        showTitleActions: true,
-                        showSecondsColumn: false,
-                        currentTime: DateTime.now(),
-                        onChanged: (date) {
-                          // print(date);
-                        },
-                        onConfirm: (date) {
-                          setState(() {
-                            startTime = "${date.hour}:${date.minute}";
-                          });
-                        },
-                      );
-                    },
-                    child: Text(
-                      startTime == "" ? "انتخاب" : startTime,
-                      style: TextStyle(fontFamily: mainFaFontFamily),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    Text(
+                      'از',
+                      style:
+                          TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
                     ),
-                  ),
-                  Text(
-                    'تا',
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      DatePicker.showTimePicker(
-                        context,
-                        showTitleActions: true,
-                        showSecondsColumn: false,
-                        currentTime: DateTime.now(),
-                        onChanged: (date) {
-                          // print(date);
-                        },
-                        onConfirm: (date) {
-                          setState(() {
-                            endTime = "${date.hour}:${date.minute}";
-                          });
-                        },
-                      );
-                    },
-                    child: Text(
-                      endTime == "" ? "انتخاب" : endTime,
-                      style: TextStyle(fontFamily: mainFaFontFamily),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        DatePicker.showTimePicker(
+                          context,
+                          locale: LocaleType.fa,
+                          showTitleActions: true,
+                          showSecondsColumn: false,
+                          currentTime: DateTime.now(),
+                          onChanged: (date) {
+                            // print(date);
+                          },
+                          onConfirm: (date) {
+                            setState(() {
+                              startTime = "${date.hour}:${date.minute}";
+                            });
+                          },
+                        );
+                      },
+                      child: Text(
+                        startTime == "" ? "انتخاب" : startTime,
+                        style: TextStyle(fontFamily: mainFaFontFamily),
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      'تا',
+                      style:
+                          TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        DatePicker.showTimePicker(
+                          context,
+                          showTitleActions: true,
+                          showSecondsColumn: false,
+                          currentTime: DateTime.now(),
+                          onChanged: (date) {
+                            // print(date);
+                          },
+                          onConfirm: (date) {
+                            setState(() {
+                              endTime = "${date.hour}:${date.minute}";
+                            });
+                          },
+                        );
+                      },
+                      child: Text(
+                        endTime == "" ? "انتخاب" : endTime,
+                        style: TextStyle(fontFamily: mainFaFontFamily),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-
               Text("$startTime - $endTime",
                   style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-              plateContext,
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: plateContext,
+              ),
             ],
           ),
         ),
