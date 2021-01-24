@@ -85,6 +85,7 @@ class _SettingsPageState extends State<SettingsPage> {
         imgSource = image;
       });
       try {
+        // Go to Controller/changeAvatar.dart
         String result = await sendingImage(imgSource);
         if (result == "200") {
           final uToken = await lds.read(key: "token");

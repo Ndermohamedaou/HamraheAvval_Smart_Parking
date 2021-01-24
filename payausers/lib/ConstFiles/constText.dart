@@ -74,7 +74,7 @@ const changeAvatarScreen = "آواتار جدید برای خودت تنظیم �
 const personalCodeText = "شناسه پرسنلی";
 const melliCodeText = "شناسه ملی";
 const readOnlyInfo ="اطلاعات فقط برای نمایش هستند";
-const sendSuccessful = "آواتار جدید با موفقیت ثبت شد";
+const sendSuccessful = "...آواتار جدید با موفقیت ثبت شد، تا چند ثانیه دیگر";
 const sendFailed = "آواتار جدید ثبت نشد";
 const sendServerFailed = "آواتار در سرور ثبت نشد";
 const sendDenied = "ثبت تصویر جدید لغو شد";
