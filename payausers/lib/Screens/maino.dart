@@ -50,7 +50,7 @@ class _MainoState extends State<Maino> {
       });
       getUserTrafficLogsApi(userToken).then((logs) {
         setState(() {
-          print(logs);
+          // print(logs);
           userTraffic = logs;
         });
       });

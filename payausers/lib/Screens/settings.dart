@@ -1,12 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Screens/maino.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:toast/toast.dart';
 
 String userAvatar = "";
 String userIdentify = "";
@@ -16,6 +22,9 @@ String userMelli = "";
 String userPersonal = "";
 String userRole = "";
 String userSection = "";
+File imgSource;
+ApiAccess api = ApiAccess();
+FlutterSecureStorage lds = FlutterSecureStorage();
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -64,10 +73,64 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   @override
+  String img2Base64(img) {
+    final byteImg = img.readAsBytesSync();
+    String _img64 = base64Encode(byteImg);
+    return _img64;
+  }
+
+  Future<String> sendingImage(img) async {
+    final uToken = await lds.read(key: "token");
+    String imgConverted = img2Base64(img);
+    print("Conversion IMAGE TO -----> \n $imgConverted");
+    String takenSuccessful =
+        await api.updatingUserAvatar(token: uToken, uAvatar: imgConverted);
+    print(takenSuccessful);
+    return takenSuccessful;
+  }
+
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    // print("This is => $userAvatar");
+    Future galleryViewer() async {
+      final image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        imgSource = image;
+      });
+      try {
+        String result = await sendingImage(imgSource);
+        if (result == "200") {
+          final uToken = await lds.read(key: "token");
+          final userDetails = await api.getStaffInfo(token: uToken);
+          final userAvatarChanged = userDetails["avatar"];
+          await lds.write(key: "avatar", value: userAvatarChanged);
+          final testAvatar = await lds.read(key: "avatar");
+          print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
+          if (testAvatar != "") {
+            Toast.show("آواتار جدید با موفقیت ثبت شد", context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                textColor: Colors.white);
+          } else {
+            Toast.show("آواتار جدید ثبت نشد", context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                textColor: Colors.white);
+          }
+        } else {
+          Toast.show("آواتار در سرور ثبت نشد", context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              textColor: Colors.white);
+        }
+      } catch (e) {
+        Toast.show("ثبت تصویر جدید لغو شد", context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            textColor: Colors.white);
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -102,12 +165,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                     SettingCircle(
-                      uA: userAvatar,
+                      uA: imgSource == null
+                          ? NetworkImage(userAvatar)
+                          : FileImage(imgSource),
                       uId: userId,
                     ),
-                    SizedBox(height: 5),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () => galleryViewer(),
                       child: Text(
                         changeAvatarScreen,
                         style: TextStyle(
@@ -116,7 +180,6 @@ class _SettingsPageState extends State<SettingsPage> {
                             color: Colors.blue),
                       ),
                     ),
-                    SizedBox(height: 18),
                     Divider(
                       color: Colors.black38,
                       thickness: 1,
@@ -251,14 +314,14 @@ class TextShow extends StatelessWidget {
 class SettingCircle extends StatelessWidget {
   const SettingCircle({this.uA, this.uId});
 
-  final String uA;
+  final ImageProvider uA;
   final String uId;
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: 75,
-      backgroundImage: NetworkImage(uA),
+      backgroundImage: uA,
       child: Container(
         margin: EdgeInsets.only(top: 110, left: 110),
         width: 70,

@@ -40,7 +40,7 @@ class ApiAccess {
     return response.data;
   }
 
-  Future<String> reserveByUser({token, startTime, endTime, plateNo}) async{
+  Future<String> reserveByUser({token, startTime, endTime, plateNo}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post(
@@ -48,4 +48,11 @@ class ApiAccess {
     return response.data;
   }
 
+  Future<String> updatingUserAvatar({token, uAvatar}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response =
+        await dio.post("$baseUrl/UpdateStaffInfo", data: {"avatar": uAvatar});
+    return response.data['status'];
+  }
 }

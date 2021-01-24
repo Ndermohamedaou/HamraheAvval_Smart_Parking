@@ -10,6 +10,13 @@ class UserLeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("This is Avatar =>>>>>>> $avatarImg");
+    Widget uA = avatarImg.isEmpty
+        ? CircleAvatar(
+            backgroundColor: Colors.red, child: Icon(Icons.account_circle))
+        : CircleAvatar(
+            backgroundImage: NetworkImage(avatarImg),
+          );
     return ListTile(
         title: Text(
           fullname,
@@ -17,6 +24,6 @@ class UserLeading extends StatelessWidget {
         ),
         subtitle: Text(userPersonalCode,
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 12)),
-        leading: CircleAvatar(backgroundImage: NetworkImage(avatarImg),));
+        leading: uA);
   }
 }

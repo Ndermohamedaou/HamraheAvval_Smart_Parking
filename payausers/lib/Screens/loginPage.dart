@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
       try {
         Map userInfo = await api.getStaffInfo(token: token);
         // Convert plate list from api to lStorage
-        final List userPlates = userInfo["plates"] as List;
+        // final List userPlates = userInfo["plates"] as List;
 
         bool result = await savingData.LDS(
             token: token,
