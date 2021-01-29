@@ -19,7 +19,7 @@ class PlateViewer extends StatelessWidget {
         width: double.infinity,
         height: 70,
         // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        margin: EdgeInsets.only(top: 10, right: 20, left: 10, bottom: 5),
+        margin: EdgeInsets.only(top: 10, right: 13, left: 10, bottom: 5),
         decoration: BoxDecoration(
             border: Border.all(
                 color: themeChange ? Colors.white : Colors.black, width: 2.8),

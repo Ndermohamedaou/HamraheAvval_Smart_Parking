@@ -230,7 +230,8 @@ class _SettingsPageState extends State<SettingsPage> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: FlatButton(
-                  onPressed: () => Navigator.pushNamed(context, "/changePassword"),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, "/changePassword"),
                   child: Center(
                     child: Text(
                       chPass,

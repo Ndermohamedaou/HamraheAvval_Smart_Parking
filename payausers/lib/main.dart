@@ -4,7 +4,6 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/Screens/reserveView.dart';
 import 'package:provider/provider.dart';
 
-
 // Screens
 import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';

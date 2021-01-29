@@ -42,7 +42,7 @@ class _ReservedTabState extends State<ReservedTab> {
       onChange: (String oldDate, String newDate) {
         setState(() {
           datePickedByUser = newDate;
-          print("This is new date $newDate");
+          // print("This is new date $newDate");
         });
       },
     ).init();
@@ -62,6 +62,29 @@ class _ReservedTabState extends State<ReservedTab> {
     return plates;
   }
 
+  void testAlert() {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: titleOfReserve,
+      desc: resultOfReserve,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "تایید",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: mainFaFontFamily),
+          ),
+          onPressed: () =>
+              Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
   void reserveMe(st, et, pt) async {
     if (st != "" && et != "" && pt != "") {
       ApiAccess api = ApiAccess();
@@ -71,31 +94,14 @@ class _ReservedTabState extends State<ReservedTab> {
         String reserveResult = await api.reserveByUser(
             token: userToken, startTime: st, endTime: et, plateNo: pt);
         if (reserveResult == "200") {
-          // print(reserveResult);
-          Alert(
-            context: context,
-            type: AlertType.success,
-            title: titleOfReserve,
-            desc: resultOfReserve,
-            buttons: [
-              DialogButton(
-                child: Text(
-                  "تایید",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: mainFaFontFamily),
-                ),
-                onPressed: () => Navigator.popUntil(
-                    context, ModalRoute.withName("/dashboard")),
-                width: 120,
-              )
-            ],
-          ).show();
-          // Navigator.pop(context);
+          // print("======$reserveResult======");
+          testAlert();
         }
       } catch (e) {
-        print(e);
+        Toast.show(dataEntryUnCorrect, context,
+            duration: Toast.LENGTH_LONG,
+            gravity: Toast.BOTTOM,
+            textColor: Colors.white);
       }
     } else
       Toast.show(dataEntryUnCorrect, context,
@@ -312,7 +318,7 @@ class _ReservedTabState extends State<ReservedTab> {
                 // print(strDateTimeStart);
                 // print(strDateTimeEnd);
                 // print(selectedPlate);
-
+                // testAlert();
                 reserveMe(strDateTimeStart, strDateTimeEnd, selectedPlate);
               },
               child: Row(

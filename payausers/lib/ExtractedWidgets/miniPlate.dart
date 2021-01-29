@@ -26,7 +26,7 @@ class MiniPlate extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 100,
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         boxShadow: [

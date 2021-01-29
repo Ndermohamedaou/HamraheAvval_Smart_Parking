@@ -40,6 +40,7 @@ const String untilTodayText = "تا به امروز";
 const allReserveText = "کل رزروها";
 const yourPlateText = "پلاک های شما";
 const inSystemText = "پلاک های شما در سامانه";
+const emptyPlateNumber = "عدم دریافت اطلاعات";
 
 // Date and Time Picker texts
 const choseReserveDate = "تاریخ رزرو خود را انتخاب کنید";
@@ -58,8 +59,7 @@ const trafficsLogText = "لیست تردد های شما";
 
 // Add user plate
 const addUserPlate = "افزودن پلاک من";
-const correctEntry =
-    "در وارد کردن شماره پلاک خود دقت کنید که اطلاعات به درستی وارد سامانه شود";
+const correctEntry = "از صحت پلاک خود اطمینان حاصل کنید";
 const moreThanPlateAdded = "شما نمی توانید بیشتر از ۳ پلاک را ثبت کنید";
 const userPlateAdded = "پلاک شما با موفقیت ثبت شد";
 const serverNotRespondToAdd = "خطا در افزودن پلاک";

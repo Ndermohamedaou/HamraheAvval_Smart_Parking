@@ -13,13 +13,17 @@ class Dashboard extends StatelessWidget {
       this.avatarMeme,
       this.userQRCode,
       this.section,
-      this.role});
+      this.role,
+      this.userPlateNumber,
+      this.userTrafficNumber});
   final String fullnameMeme;
   final String userPersonalCodeMeme;
   final String avatarMeme;
   final String userQRCode;
   final String section;
   final String role;
+  final String userPlateNumber;
+  final String userTrafficNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -28,20 +32,27 @@ class Dashboard extends StatelessWidget {
     final double itemHeight = (size.height - kToolbarHeight) / 4;
     final double itemWidth = size.width;
     // Check if device be in Portrate or Landscape
-    final double widthSizedResponse = size.width >= 350 && size.width < 600
+    final double widthSizedResponse = size.width >= 410 && size.width < 600
         ? (itemWidth / itemHeight) / 2.5
-        : size.width <= 340
-            ? (itemWidth / itemHeight) / 2.8
-            : (itemWidth / itemHeight) / 5;
+        : size.width >= 390 && size.width <= 409
+            ? (itemWidth / itemHeight) / 2.2
+            : size.width <= 380
+                ? (itemWidth / itemHeight) / 2.8
+                : size.width >= 700 && size.width < 1000
+                    ? (itemWidth / itemHeight) / 6
+                    : (itemWidth / itemHeight) / 5;
+
+    // final double testedWidth = size.width >= 350 && size.width < 600?
+    // (itemWidth / itemHeight) / 2.5 : size.width >= 350 && size.width < 600?
 
     // final test = size.width >= 350 && size.width < 600
     //     ? "Screen Is Big"
     //     : size.width <= 375
     //         ? "Screen to little"
     //         : "Screen or landscape or display is very big";
-    //
+
     // print(test);
-    // print(size.width);
+    print(size.width);
 
     // print(size.width);
     return Container(
@@ -128,7 +139,7 @@ class Dashboard extends StatelessWidget {
                   subText: transactionsText,
                   subSubText: untilTodayText,
                   subSubTextColor: HexColor("#AC292E"),
-                  lenOfStuff: "20",
+                  lenOfStuff: userTrafficNumber,
                 ),
                 DashboardTiles(
                   tileColor: "#EDE5FC",
@@ -158,7 +169,7 @@ class Dashboard extends StatelessWidget {
                   subText: yourPlateText,
                   subSubText: inSystemText,
                   subSubTextColor: HexColor("#216DCD"),
-                  lenOfStuff: "5",
+                  lenOfStuff: userPlateNumber,
                 ),
               ],
             ),

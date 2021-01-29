@@ -20,103 +20,100 @@ class Settings extends StatelessWidget {
     final themeIconLeading = themeChange.darkTheme
         ? Icon(Icons.brightness_5, color: Colors.yellow)
         : Icon(Icons.bedtime, color: Colors.blue);
-    return SafeArea(
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 400.0,
-            floating: false,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(
-                fullNameMeme,
-                style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 15),
-              ),
-              background: Image(
-                image: NetworkImage(avatarMeme),
-                fit: BoxFit.cover,
-              ),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          expandedHeight: 400.0,
+          floating: false,
+          pinned: true,
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Text(
+              fullNameMeme,
+              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 15),
             ),
-            leading: Container(
-              margin: EdgeInsets.all(10),
-              child: ClipOval(
-                child: Material(
-                  color: Colors.blue, // button color
-                  child: InkWell(
-                    splashColor: Colors.blue[300], // inkwell color
-                    child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: Icon(
-                          Icons.settings,
-                          color: Colors.white,
-                        )),
-                    onTap: () => Navigator.pushNamed(context, "/settings"),
-                  ),
+            background: Image(
+              image: NetworkImage(avatarMeme),
+              fit: BoxFit.cover,
+            ),
+          ),
+          leading: Container(
+            margin: EdgeInsets.all(10),
+            child: ClipOval(
+              child: Material(
+                color: Colors.blue, // button color
+                child: InkWell(
+                  splashColor: Colors.blue[300], // inkwell color
+                  child: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: Icon(
+                        Icons.settings,
+                        color: Colors.white,
+                      )),
+                  onTap: () => Navigator.pushNamed(context, "/settings"),
                 ),
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-                (context, index) => Container(
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Container(
-                                width: double.infinity,
-                                height: 55,
-                                color:
-                                    themeChange.darkTheme ? darkBar : lightBar,
-                                child: FlatButton(
-                                  onPressed: () =>
-                                      Navigator.pushNamed(context, "/myPlate"),
-                                  child: ListTile(
-                                    title: Text(
-                                      myPlateText,
-                                      style: TextStyle(
-                                          fontFamily: mainFaFontFamily,
-                                          fontSize: 15),
-                                    ),
-                                    leading: Icon(
-                                      Icons.car_repair,
-                                      color: HexColor("#D800BF"),
-                                      size: 30,
-                                    ),
-                                  ),
-                                )),
-                            SizedBox(height: 10),
-                            Container(
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+              (context, index) => Container(
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                              width: double.infinity,
+                              height: 55,
                               color: themeChange.darkTheme ? darkBar : lightBar,
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 15),
-                                child: ListTileSwitch(
-                                  leading: themeIconLeading,
-                                  value: themeChange.darkTheme,
-                                  onChanged: (bool state) {
-                                    themeChange.darkTheme = state;
-                                  },
+                              child: FlatButton(
+                                onPressed: () =>
+                                    Navigator.pushNamed(context, "/myPlate"),
+                                child: ListTile(
                                   title: Text(
-                                    themeModeSwitch,
+                                    myPlateText,
                                     style: TextStyle(
                                         fontFamily: mainFaFontFamily,
                                         fontSize: 15),
                                   ),
+                                  leading: Icon(
+                                    Icons.car_repair,
+                                    color: HexColor("#D800BF"),
+                                    size: 30,
+                                  ),
+                                ),
+                              )),
+                          SizedBox(height: 10),
+                          Container(
+                            color: themeChange.darkTheme ? darkBar : lightBar,
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 15),
+                              child: ListTileSwitch(
+                                leading: themeIconLeading,
+                                value: themeChange.darkTheme,
+                                onChanged: (bool state) {
+                                  themeChange.darkTheme = state;
+                                },
+                                title: Text(
+                                  themeModeSwitch,
+                                  style: TextStyle(
+                                      fontFamily: mainFaFontFamily,
+                                      fontSize: 15),
                                 ),
                               ),
                             ),
-                            LogoutBtn(),
-                          ],
-                        ),
+                          ),
+                          LogoutBtn(),
+                        ],
                       ),
                     ),
-                childCount: 1),
-          )
-        ],
-      ),
+                  ),
+              childCount: 1),
+        )
+      ],
     );
   }
 }

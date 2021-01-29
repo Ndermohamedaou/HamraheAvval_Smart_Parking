@@ -9,6 +9,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
@@ -32,6 +33,11 @@ String userToken = "";
 String userSection = "";
 String userRole = "";
 List userTraffic = [];
+String lenOfTrafic = "";
+String lenOfReserve = "";
+String lenOfUserPlate = "";
+
+ApiAccess api = ApiAccess();
 
 var _pageController = PageController();
 
@@ -45,6 +51,7 @@ class _MainoState extends State<Maino> {
       READYLOCALVAR();
     });
     READYLOCALVAR();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   void READYLOCALVAR() {
@@ -63,31 +70,62 @@ class _MainoState extends State<Maino> {
           userTraffic = logs;
         });
       });
+      getLenUserPlates().then((userLens) {
+        setState(() {
+          lenOfUserPlate = userLens["platesNum"];
+          lenOfTrafic = userLens["userTrafficNum"];
+        });
+      });
     });
   }
 
   Future<Map> getStaffInfoFromLocal() async {
+    String readyAvatar = "";
     final userId = await lds.read(key: "user_id");
     userToken = await lds.read(key: "token");
     final name = await lds.read(key: "name");
     final personalCode = await lds.read(key: "personal_code");
-    final avatar = await lds.read(key: "avatar");
+    final localAvatar = await lds.read(key: "avatar");
     String section = await lds.read(key: "section");
     String role = await lds.read(key: "role");
+
+    try {
+      String serverAvatar = await api.getUserAvatar(token: userToken);
+      // Coreponding
+      if (localAvatar != serverAvatar) {
+        setState(() async {
+          readyAvatar = serverAvatar;
+        });
+        await lds.write(key: "avatar", value: serverAvatar);
+      }
+    } catch (e) {
+      readyAvatar = await lds.read(key: "avatar");
+    }
+
     return {
       "userId": userId,
       "name": name,
       "personalCode": personalCode,
-      "avatar": avatar,
+      "avatar": readyAvatar != "" ? readyAvatar : localAvatar,
       "section": section,
       "role": role
     };
   }
 
   Future<List> getUserTrafficLogsApi(token) async {
-    ApiAccess api = ApiAccess();
     List trafficLog = await api.getUserTrafficLogs(token: token);
     return trafficLog;
+  }
+
+  Future<Map> getLenUserPlates() async {
+    List userPlateList = await api.getUserPlate(token: userToken);
+    // Traffic Logs
+    List userTrafficLeng = await api.getUserTrafficLogs(token: userToken);
+
+    final lenUserPlate = userPlateList.length.toString();
+    final lenUserTrafficNo = userTrafficLeng.length.toString();
+
+    return {"platesNum": lenUserPlate, "userTrafficNum": lenUserTrafficNo};
   }
 
   @override
@@ -99,30 +137,42 @@ class _MainoState extends State<Maino> {
         ? SystemUiOverlayStyle.light
         : SystemUiOverlayStyle.dark);
 
+    // Number of user plate
+    final plateNo = lenOfUserPlate != "" ? lenOfUserPlate : emptyPlateNumber;
+    // Number of Users traffics
+    final userTrafficStatus =
+        lenOfTrafic != "" ? lenOfTrafic : emptyPlateNumber;
+
     return WillPopScope(
       child: Scaffold(
-        body: SafeArea(
-          child: PageView(
-            controller: _pageController,
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              Dashboard(
-                userQRCode: userId,
-                fullnameMeme: name,
-                userPersonalCodeMeme: personalCode,
-                avatarMeme: avatar,
-                section: userSection,
-                role: userRole,
-              ),
-              UserTraffic(
-                userTrafficLog: userTraffic,
-              ),
-              ReservedTab(
-                mainThemeColor: themeChange,
-              ),
-              AddUserPlate(),
-              Settings(fullNameMeme: name, avatarMeme: avatar)
-            ],
+        body: DoubleBackToCloseApp(
+          child: SafeArea(
+            child: PageView(
+              controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Dashboard(
+                    userQRCode: userId,
+                    fullnameMeme: name,
+                    userPersonalCodeMeme: personalCode,
+                    avatarMeme: avatar,
+                    section: userSection,
+                    role: userRole,
+                    userPlateNumber: plateNo,
+                    userTrafficNumber: userTrafficStatus),
+                UserTraffic(
+                  userTrafficLog: userTraffic,
+                ),
+                ReservedTab(
+                  mainThemeColor: themeChange,
+                ),
+                AddUserPlate(),
+                Settings(fullNameMeme: name, avatarMeme: avatar)
+              ],
+            ),
+          ),
+          snackBar: const SnackBar(
+            content: Text(''),
           ),
         ),
         bottomNavigationBar: Directionality(

@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void startingTimer() {
-    Timer(Duration(milliseconds: 500), () {
+    Timer(Duration(microseconds: 5), () {
       navigatedToRoot(); //It will redirect  after 3 seconds
     });
   }
