@@ -22,6 +22,8 @@ String startTime = "";
 String endTime = "";
 List userPlates = [];
 dynamic themeChange;
+int index = 0;
+List truthList = [true, false, false];
 
 class ReservedTab extends StatefulWidget {
   @override
@@ -64,28 +66,34 @@ class _ReservedTabState extends State<ReservedTab> {
     return plates;
   }
 
-  // void testAlert() {
-  //   Alert(
-  //     context: context,
-  //     type: AlertType.success,
-  //     title: titleOfReserve,
-  //     desc: resultOfReserve,
-  //     buttons: [
-  //       DialogButton(
-  //         child: Text(
-  //           "تایید",
-  //           style: TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 20,
-  //               fontFamily: mainFaFontFamily),
-  //         ),
-  //         onPressed: () =>
-  //             Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
-  //         width: 120,
-  //       )
-  //     ],
-  //   ).show();
-  // }
+  void alert() {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: titleOfReserve,
+      desc: resultOfReserve,
+      style: AlertStyle(
+          backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
+          titleStyle: TextStyle(
+            fontFamily: mainFaFontFamily,
+          ),
+          descStyle: TextStyle(fontFamily: mainFaFontFamily)),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "تایید",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontFamily: mainFaFontFamily),
+          ),
+          onPressed: () =>
+              Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
 
   void reserveMe(st, et, pt) async {
     if (st != "" && et != "" && pt != "") {
@@ -97,13 +105,7 @@ class _ReservedTabState extends State<ReservedTab> {
             token: userToken, startTime: st, endTime: et, plateNo: pt);
         if (reserveResult == "200") {
           // print("======$reserveResult======");
-          alertShowInDisplay(
-              context: context,
-              title: titleOfReserve,
-              desc: resultOfReserve,
-              curTheme: themeChange.darkTheme,
-              action: () => Navigator.popUntil(
-                  context, ModalRoute.withName("/dashboard")));
+          alert();
         }
       } catch (e) {
         Toast.show(dataEntryUnCorrect, context,
@@ -149,12 +151,21 @@ class _ReservedTabState extends State<ReservedTab> {
                           width: MediaQuery.of(context).size.width,
                           margin: EdgeInsets.symmetric(horizontal: 5.0),
                           // decoration: BoxDecoration(color: Colors.amber),
-                          child: PlateViewer(
-                              plate0: i['plate0'] != null ? i['plate0'] : "-",
-                              plate1: i['plate1'] != null ? i['plate1'] : "-",
-                              plate2: i['plate2'] != null ? i['plate2'] : "-",
-                              plate3: i['plate3'] != null ? i['plate3'] : "-",
-                              themeChange: themeChange.darkTheme),
+
+                          child: Column(
+                            children: [
+                              PlateViewer(
+                                  plate0:
+                                      i['plate0'] != null ? i['plate0'] : "-",
+                                  plate1:
+                                      i['plate1'] != null ? i['plate1'] : "-",
+                                  plate2:
+                                      i['plate2'] != null ? i['plate2'] : "-",
+                                  plate3:
+                                      i['plate3'] != null ? i['plate3'] : "-",
+                                  themeChange: themeChange.darkTheme),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 10,

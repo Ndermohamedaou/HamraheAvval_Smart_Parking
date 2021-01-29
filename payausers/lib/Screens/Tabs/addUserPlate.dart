@@ -7,14 +7,17 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/alert.dart';
 import 'package:payausers/ExtractedWidgets/dropdownMenu.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
 
 String plate0 = "";
 String plate1 = "";
 String plate2 = "";
 String plate3 = "";
+dynamic themeChange;
 int _value = 0;
 AlphabetList alp = AlphabetList();
 
@@ -32,7 +35,7 @@ class _AddUserPlateState extends State<AddUserPlate> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    themeChange = Provider.of<DarkThemeProvider>(context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
@@ -280,16 +283,16 @@ class _AddUserPlateState extends State<AddUserPlate> {
       try {
         String result =
             await api.addUserPlate(token: uToken, lsPlate: orderedPlate);
-        if (result == "MaxPlateCount")
-          Toast.show(moreThanPlateAdded, context,
-              duration: Toast.LENGTH_LONG,
-              gravity: Toast.BOTTOM,
-              textColor: Colors.white);
-        else
-          Toast.show(userPlateAdded, context,
-              duration: Toast.LENGTH_LONG,
-              gravity: Toast.BOTTOM,
-              textColor: Colors.white);
+        if (result == "MaxPlateCount") {
+          alert(
+              aType: AlertType.warning,
+              title: warnningOnAddPlate,
+              desc: moreThanPlateAdded);
+        } else
+          alert(
+              aType: AlertType.success,
+              title: successAlert,
+              desc: userPlateAdded);
       } catch (e) {
         Toast.show(serverNotRespondToAdd, context,
             duration: Toast.LENGTH_LONG,
@@ -302,5 +305,34 @@ class _AddUserPlateState extends State<AddUserPlate> {
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
     }
+  }
+
+  void alert({title, desc, aType}) {
+    Alert(
+      context: context,
+      type: aType,
+      title: title,
+      desc: desc,
+      style: AlertStyle(
+          backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
+          titleStyle: TextStyle(
+            fontFamily: mainFaFontFamily,
+          ),
+          descStyle: TextStyle(fontFamily: mainFaFontFamily)),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "تایید",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontFamily: mainFaFontFamily),
+          ),
+          onPressed: () =>
+              Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 }

@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-void alertShowInDisplay({context, title, desc, Function action, curTheme}) {
+void alertShowInDisplay({context, title, desc, Function action}) {
+  final themeChange = Provider.of<DarkThemeProvider>(context);
   Alert(
     context: context,
     type: AlertType.success,
     title: title,
     desc: desc,
     style: AlertStyle(
-        backgroundColor: curTheme ? darkBar : Colors.white,
+        backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
         titleStyle: TextStyle(
           fontFamily: mainFaFontFamily,
         ),
