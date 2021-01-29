@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:toast/toast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:payausers/ExtractedWidgets/alert.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 // Show which date clicked and prepare to send it to API
 String datePickedByUser = "";
@@ -21,6 +21,12 @@ String selectedPlate = "";
 String startTime = "";
 String endTime = "";
 List userPlates = [];
+Map endUserSelectedPlate = {
+  "plate0": "",
+  "plate1": "",
+  "plate2": "",
+  "plate3": "",
+};
 dynamic themeChange;
 int index = 0;
 List truthList = [true, false, false];
@@ -139,11 +145,17 @@ class _ReservedTabState extends State<ReservedTab> {
                     onTap: () {
                       setState(() {
                         selectedPlate = i['plate_en'];
+                        endUserSelectedPlate['plate0'] = i['plate0'];
+                        endUserSelectedPlate['plate1'] = i['plate1'];
+                        endUserSelectedPlate['plate2'] = i['plate2'];
+                        endUserSelectedPlate['plate3'] = i['plate3'];
                       });
+                      // print(endUserSelectedPlate);
                       Toast.show("پلاک انتخاب شد", context,
                           duration: Toast.LENGTH_LONG,
                           gravity: Toast.BOTTOM,
                           textColor: Colors.white);
+                      Navigator.pop(context);
                     },
                     child: Column(
                       children: [
@@ -230,6 +242,7 @@ class _ReservedTabState extends State<ReservedTab> {
                 style: TextStyle(
                     fontFamily: mainFaFontFamily, fontSize: subTitleSize),
               ),
+              SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -310,10 +323,80 @@ class _ReservedTabState extends State<ReservedTab> {
               ),
               Text("$startTime - $endTime",
                   style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+              // Container(
+              //   margin: EdgeInsets.only(top: 20),
+              //   child: plateContext,
+              // ),
+              SizedBox(height: 50),
               Container(
-                margin: EdgeInsets.only(top: 20),
-                child: plateContext,
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Text(
+                        "پلاک خود را انتخاب کنید",
+                        style: TextStyle(
+                            fontFamily: mainFaFontFamily,
+                            fontSize: subTitleSize),
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              FlatButton(
+                  onPressed: () {
+                    showMaterialModalBottomSheet(
+                      context: context,
+                      enableDrag: true,
+                      bounce: true,
+                      duration: const Duration(milliseconds: 550),
+                      builder: (context) => SingleChildScrollView(
+                        controller: ModalScrollController.of(context),
+                        child: Column(
+                          children: [
+                            Row(
+                              textDirection: TextDirection.rtl,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(top: 20, right: 20),
+                                  child: Text(
+                                    "پلاک های شما",
+                                    style: TextStyle(
+                                        fontFamily: mainFaFontFamily,
+                                        fontSize: subTitleSize),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20, left: 20),
+                                  child: Icon(Icons.card_giftcard),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 100),
+                            plateContext
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  color: endUserSelectedPlate != null ? null : Colors.blue,
+                  child: selectedPlate != ""
+                      ? PlateViewer(
+                          plate0: endUserSelectedPlate['plate0'],
+                          plate1: endUserSelectedPlate['plate1'],
+                          plate2: endUserSelectedPlate['plate2'],
+                          plate3: endUserSelectedPlate['plate3'],
+                          themeChange: themeChange.darkTheme)
+                      : Text(
+                          "پلاک خود را انتخاب کنید",
+                          style: TextStyle(
+                              fontFamily: mainFaFontFamily,
+                              color: Colors.white),
+                          textDirection: TextDirection.ltr,
+                        ))
             ],
           ),
         ),
