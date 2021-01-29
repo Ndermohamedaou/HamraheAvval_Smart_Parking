@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
         // bool savingUserPlate = await savingData.savingPlate(plates: userPlates);
 
         if (result) {
-          Navigator.pushNamed(context, "/dashboard");
+          Navigator.pushNamed(context, "/loginCheckout");
         } else {
           Toast.show("Your info can not saved", context,
               duration: Toast.LENGTH_LONG,

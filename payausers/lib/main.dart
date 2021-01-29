@@ -14,6 +14,7 @@ import 'Screens/maino.dart';
 import 'Screens/myPlate.dart';
 import 'Screens/settings.dart';
 import 'Screens/changePassword.dart';
+import 'Screens/loginCheckout.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,6 +59,7 @@ class _MyAppState extends State<MyApp> {
               '/themeSelector': (context) => ThemeModeSelectorPage(),
               '/login': (context) => LoginPage(),
               '/confirm': (context) => ConfirmScreen(),
+              '/loginCheckout': (context) => LoginCheckingoutPage(),
               '/dashboard': (context) => Maino(),
               '/addReserve': (context) => ReservedTab(),
               '/myPlate': (context) => MYPlateScreen(),

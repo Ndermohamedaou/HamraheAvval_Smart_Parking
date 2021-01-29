@@ -39,6 +39,9 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+
+    print(userPlates);
+
     Widget plates = Column(
       children: [
         Lottie.asset("assets/lottie/loadingUserPlate.json"),
@@ -56,12 +59,11 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
                   margin: EdgeInsets.symmetric(horizontal: 5.0),
                   // decoration: BoxDecoration(color: Colors.amber),
                   child: PlateViewer(
-                    plate0: i['plate0'],
-                    plate1: i['plate1'],
-                    plate2: i['plate2'],
-                    plate3: i['plate3'],
-                    themeChange: themeChange.darkTheme
-                  ),
+                      plate0: i['plate0'] != null ? i['plate0'] : "",
+                      plate1: i['plate1'] != null ? i['plate1'] : "",
+                      plate2: i['plate2'] != null ? i['plate2'] : "",
+                      plate3: i['plate3'] != null ? i['plate3'] : "",
+                      themeChange: themeChange.darkTheme),
                 );
               },
             );
@@ -91,9 +93,8 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: Icon(Icons.arrow_back_ios_rounded)
-                    ),
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(Icons.arrow_back_ios_rounded)),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
