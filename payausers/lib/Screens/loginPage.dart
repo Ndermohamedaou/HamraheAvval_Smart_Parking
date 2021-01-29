@@ -109,13 +109,13 @@ class _LoginPageState extends State<LoginPage> {
               getUserAccInfo(getLoginThridParity['token']);
             }
           } else {
-            Toast.show(serverNotRespond, context,
+            Toast.show("خطا در ورود", context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
           }
         } catch (e) {
-          Toast.show(e.toString(), context,
+          Toast.show(serverNotRespond, context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);

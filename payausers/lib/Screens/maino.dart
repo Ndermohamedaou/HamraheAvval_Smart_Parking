@@ -143,6 +143,8 @@ class _MainoState extends State<Maino> {
     final userTrafficStatus =
         lenOfTrafic != "" ? lenOfTrafic : emptyPlateNumber;
 
+    final String userReseveStatusLen = emptyPlateNumber;
+
     return WillPopScope(
       child: Scaffold(
         body: DoubleBackToCloseApp(
@@ -152,14 +154,16 @@ class _MainoState extends State<Maino> {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 Dashboard(
-                    userQRCode: userId,
-                    fullnameMeme: name,
-                    userPersonalCodeMeme: personalCode,
-                    avatarMeme: avatar,
-                    section: userSection,
-                    role: userRole,
-                    userPlateNumber: plateNo,
-                    userTrafficNumber: userTrafficStatus),
+                  userQRCode: userId,
+                  fullnameMeme: name,
+                  userPersonalCodeMeme: personalCode,
+                  avatarMeme: avatar,
+                  section: userSection,
+                  role: userRole,
+                  userPlateNumber: plateNo,
+                  userTrafficNumber: userTrafficStatus,
+                  userReserveNumber: userReseveStatusLen,
+                ),
                 UserTraffic(
                   userTrafficLog: userTraffic,
                 ),

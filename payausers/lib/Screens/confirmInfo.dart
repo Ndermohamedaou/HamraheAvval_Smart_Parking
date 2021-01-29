@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/controller/changeAvatar.dart';
 
 Map<String, Object> userInfo;
 File imgSource;
@@ -31,8 +32,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     userInfo = ModalRoute.of(context).settings.arguments;
     // print(userInfo);
 
+    // Todo for next time
     void gettingLogin({email, pass, rePass, avatar}) async {
-
+      final _img64 = img2Base64(avatar);
     }
 
     // Convert Image to base 64

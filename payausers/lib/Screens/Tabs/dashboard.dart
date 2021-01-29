@@ -15,7 +15,8 @@ class Dashboard extends StatelessWidget {
       this.section,
       this.role,
       this.userPlateNumber,
-      this.userTrafficNumber});
+      this.userTrafficNumber,
+      this.userReserveNumber});
   final String fullnameMeme;
   final String userPersonalCodeMeme;
   final String avatarMeme;
@@ -24,6 +25,7 @@ class Dashboard extends StatelessWidget {
   final String role;
   final String userPlateNumber;
   final String userTrafficNumber;
+  final String userReserveNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +151,7 @@ class Dashboard extends StatelessWidget {
                   subText: allReserveText,
                   subSubText: untilTodayText,
                   subSubTextColor: HexColor("#6C2BDF"),
-                  lenOfStuff: "13",
+                  lenOfStuff: userReserveNumber,
                 ),
                 DashboardTiles(
                   tileColor: "#E0FFED",

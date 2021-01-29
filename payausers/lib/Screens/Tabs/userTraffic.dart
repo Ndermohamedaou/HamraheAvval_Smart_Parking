@@ -31,7 +31,9 @@ class UserTraffic extends StatelessWidget {
                   plate1: userTrafficLog[index]["plate1"],
                   plate2: userTrafficLog[index]["plate2"],
                   plate3: userTrafficLog[index]["plate3"],
-                  buildingName: userTrafficLog[index]["building"],
+                  buildingName: userTrafficLog[index]["building"] != null
+                      ? userTrafficLog[index]["building"]
+                      : "",
                   startedTime: userTrafficLog[index]["entry_datetime"],
                   endedTime: userTrafficLog[index]["exit_datetime"],
                   slotNo: userTrafficLog[index]["slot"],
