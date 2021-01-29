@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:toast/toast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:payausers/ExtractedWidgets/alert.dart';
 
 // Show which date clicked and prepare to send it to API
 String datePickedByUser = "";
@@ -20,6 +21,7 @@ String selectedPlate = "";
 String startTime = "";
 String endTime = "";
 List userPlates = [];
+dynamic themeChange;
 
 class ReservedTab extends StatefulWidget {
   @override
@@ -62,28 +64,28 @@ class _ReservedTabState extends State<ReservedTab> {
     return plates;
   }
 
-  void testAlert() {
-    Alert(
-      context: context,
-      type: AlertType.success,
-      title: titleOfReserve,
-      desc: resultOfReserve,
-      buttons: [
-        DialogButton(
-          child: Text(
-            "تایید",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontFamily: mainFaFontFamily),
-          ),
-          onPressed: () =>
-              Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
-          width: 120,
-        )
-      ],
-    ).show();
-  }
+  // void testAlert() {
+  //   Alert(
+  //     context: context,
+  //     type: AlertType.success,
+  //     title: titleOfReserve,
+  //     desc: resultOfReserve,
+  //     buttons: [
+  //       DialogButton(
+  //         child: Text(
+  //           "تایید",
+  //           style: TextStyle(
+  //               color: Colors.white,
+  //               fontSize: 20,
+  //               fontFamily: mainFaFontFamily),
+  //         ),
+  //         onPressed: () =>
+  //             Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
+  //         width: 120,
+  //       )
+  //     ],
+  //   ).show();
+  // }
 
   void reserveMe(st, et, pt) async {
     if (st != "" && et != "" && pt != "") {
@@ -95,7 +97,13 @@ class _ReservedTabState extends State<ReservedTab> {
             token: userToken, startTime: st, endTime: et, plateNo: pt);
         if (reserveResult == "200") {
           // print("======$reserveResult======");
-          testAlert();
+          alertShowInDisplay(
+              context: context,
+              title: titleOfReserve,
+              desc: resultOfReserve,
+              curTheme: themeChange.darkTheme,
+              action: () => Navigator.popUntil(
+                  context, ModalRoute.withName("/dashboard")));
         }
       } catch (e) {
         Toast.show(dataEntryUnCorrect, context,
@@ -112,7 +120,7 @@ class _ReservedTabState extends State<ReservedTab> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    themeChange = Provider.of<DarkThemeProvider>(context);
 
     Widget plates = Column(
       children: [
@@ -142,10 +150,10 @@ class _ReservedTabState extends State<ReservedTab> {
                           margin: EdgeInsets.symmetric(horizontal: 5.0),
                           // decoration: BoxDecoration(color: Colors.amber),
                           child: PlateViewer(
-                              plate0: i['plate0'],
-                              plate1: i['plate1'],
-                              plate2: i['plate2'],
-                              plate3: i['plate3'],
+                              plate0: i['plate0'] != null ? i['plate0'] : "-",
+                              plate1: i['plate1'] != null ? i['plate1'] : "-",
+                              plate2: i['plate2'] != null ? i['plate2'] : "-",
+                              plate3: i['plate3'] != null ? i['plate3'] : "-",
                               themeChange: themeChange.darkTheme),
                         ),
                         SizedBox(
@@ -196,6 +204,7 @@ class _ReservedTabState extends State<ReservedTab> {
                 ),
               ),
               FlatButton(
+                  color: Colors.blue,
                   onPressed: () {
                     FocusScope.of(context).requestFocus(new FocusNode());
                     showModalBottomSheet(
@@ -224,9 +233,8 @@ class _ReservedTabState extends State<ReservedTab> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   textDirection: TextDirection.rtl,
                   children: [
                     Text(
