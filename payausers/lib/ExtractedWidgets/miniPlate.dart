@@ -56,7 +56,7 @@ class MiniPlate extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.only(top: 10),
-                    width: 180,
+                    width: 185,
                     height: 50,
                     decoration: BoxDecoration(
                         color: Colors.white60,

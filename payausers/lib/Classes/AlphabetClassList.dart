@@ -4,6 +4,32 @@ class AlphabetList {
 
   AlphabetList({this.value, this.item});
 
+  Map getAlp() {
+    return {
+      "Alef": "الف",
+      "B": "ب",
+      "Jim": "ج",
+      "De": "د",
+      "Z": "ز",
+      "Sin": "س",
+      "Sad": "ص",
+      "Ta": "ط",
+      "Ain": "ع",
+      "F": "ف",
+      "Gh": "ق",
+      "Ke": "ک",
+      "L": "ل",
+      "M": "م",
+      "N": "ن",
+      "V": "و",
+      "H": "ه",
+      "Y": "ی",
+      "Zh": "ژ",
+      "D": "D",
+      "S": "S",
+    };
+  }
+
   List<AlphabetList> getAlphabet() {
     return [
       AlphabetList(item: "الف", value: "Alef"), //0

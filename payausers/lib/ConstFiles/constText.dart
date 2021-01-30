@@ -103,3 +103,4 @@ const doesNotChange = "تغییری صورت نگرفت";
 const changeSuccess = "گذرواژه جدید شما با موفقیت ثبت شد";
 // My plate
 const searchingProcessText = "درحال یافتن پلاک";
+const searchingUserTraffics = "در حال یافتن اطلاعات تردد";

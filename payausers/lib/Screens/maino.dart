@@ -33,6 +33,7 @@ String userToken = "";
 String userSection = "";
 String userRole = "";
 List userTraffic = [];
+List userReserved = [];
 String lenOfTrafic = "";
 String lenOfReserve = "";
 String lenOfUserPlate = "";
@@ -76,6 +77,11 @@ class _MainoState extends State<Maino> {
           lenOfTrafic = userLens["userTrafficNum"];
         });
       });
+      getUserReservedHistory().then((reserves) {
+        setState(() {
+          userReserved = reserves;
+        });
+      });
     });
   }
 
@@ -115,6 +121,16 @@ class _MainoState extends State<Maino> {
   Future<List> getUserTrafficLogsApi(token) async {
     List trafficLog = await api.getUserTrafficLogs(token: token);
     return trafficLog;
+  }
+
+  Future<List> getUserReservedHistory() async {
+    try {
+      List reservedList = await api.userReserveHistory(token: userToken);
+      print(reservedList);
+      return reservedList;
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<Map> getLenUserPlates() async {
@@ -166,9 +182,7 @@ class _MainoState extends State<Maino> {
               UserTraffic(
                 userTrafficLog: userTraffic,
               ),
-              ReservedTab(
-                mainThemeColor: themeChange,
-              ),
+              ReservedTab(mainThemeColor: themeChange, reserves: userReserved),
               AddUserPlate(),
               Settings(fullNameMeme: name, avatarMeme: avatar)
             ],

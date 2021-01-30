@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:payausers/Classes/AlphabetClassList.dart';
+import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/miniPlate.dart';
+
+AlphabetList alp = AlphabetList();
 
 class ReservedTab extends StatelessWidget {
-  const ReservedTab({this.mainThemeColor});
+  const ReservedTab({this.mainThemeColor, this.reserves});
 
   final mainThemeColor;
+  final List reserves;
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +21,54 @@ class ReservedTab extends StatelessWidget {
     var notThere = mainThemeColor.darkTheme
         ? "assets/lottie/reserve_dark.json"
         : "assets/lottie/reserve_light.json";
+
+    // String rawPlate = reserves[0]["plate"];
+    // var splitedPlate = rawPlate.split("-");
+    // print("--------======-------");
+    // print(splitedPlate[2].substring(0, 3));
+
+    // print(alp.getAlp()["Sad"]);
+
+    Widget emptyListManagerShower = Column(
+      children: [
+        Center(
+            child: Container(
+                margin: EdgeInsets.all(50),
+                width: 250,
+                height: 250,
+                child: Lottie.asset(notThere))),
+        Text(choseTime,
+            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+      ],
+    );
+
+    Widget mainUserReserveHistory = ListView.builder(
+      shrinkWrap: true,
+      itemCount: reserves.length,
+      itemBuilder: (BuildContext context, index) {
+        List perment = reserves[index]['plate'].split("-");
+        return (Column(
+          children: [
+            MiniPlate(
+              plate0: "${perment[0]}",
+              plate1: "${alp.getAlp()[perment[1]]}",
+              plate2: "${perment[2].substring(0, 3)}",
+              plate3: "${perment[2].substring(3, 5)}",
+              buildingName: reserves[index]["building"] != null
+                  ? reserves[index]["building"]
+                  : "",
+              startedTime: reserves[index]["reserveTimeStart"],
+              endedTime: reserves[index]["reserveTimeEnd"],
+              slotNo: reserves[index]["slot"],
+            ),
+          ],
+        ));
+      },
+    );
+
+    final finalContext =
+        reserves != [] ? mainUserReserveHistory : emptyListManagerShower;
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -54,19 +108,7 @@ class ReservedTab extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
-              children: [
-                Center(
-                    child: Container(
-                        margin: EdgeInsets.all(50),
-                        width: 250,
-                        height: 250,
-                        child: Lottie.asset(notThere))),
-                Text(choseTime,
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-              ],
-            )
+            finalContext
           ],
         ),
       ),

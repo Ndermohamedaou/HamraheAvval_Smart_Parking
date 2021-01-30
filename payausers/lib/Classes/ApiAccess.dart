@@ -73,6 +73,13 @@ class ApiAccess {
     return response.data['status'];
   }
 
+  Future<List> userReserveHistory({token}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.get("$baseUrl/getUserReserves");
+    return response.data;
+  }
+
   Future<String> changingUserPassword({token, curPass, newPass}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
