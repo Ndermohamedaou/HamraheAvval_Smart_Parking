@@ -279,6 +279,7 @@ class _AddUserPlateState extends State<AddUserPlate> {
       List orderedPlate = [p0, p1, p2, p3];
       ApiAccess api = ApiAccess();
       FlutterSecureStorage lds = FlutterSecureStorage();
+      // print("This is from App method => ${orderedPlate[3]}");
       final uToken = await lds.read(key: "token");
       try {
         String result =

@@ -147,36 +147,31 @@ class _MainoState extends State<Maino> {
 
     return WillPopScope(
       child: Scaffold(
-        body: DoubleBackToCloseApp(
-          child: SafeArea(
-            child: PageView(
-              controller: _pageController,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                Dashboard(
-                  userQRCode: userId,
-                  fullnameMeme: name,
-                  userPersonalCodeMeme: personalCode,
-                  avatarMeme: avatar,
-                  section: userSection,
-                  role: userRole,
-                  userPlateNumber: plateNo,
-                  userTrafficNumber: userTrafficStatus,
-                  userReserveNumber: userReseveStatusLen,
-                ),
-                UserTraffic(
-                  userTrafficLog: userTraffic,
-                ),
-                ReservedTab(
-                  mainThemeColor: themeChange,
-                ),
-                AddUserPlate(),
-                Settings(fullNameMeme: name, avatarMeme: avatar)
-              ],
-            ),
-          ),
-          snackBar: const SnackBar(
-            content: Text(''),
+        body: SafeArea(
+          child: PageView(
+            controller: _pageController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Dashboard(
+                userQRCode: userId,
+                fullnameMeme: name,
+                userPersonalCodeMeme: personalCode,
+                avatarMeme: avatar,
+                section: userSection,
+                role: userRole,
+                userPlateNumber: plateNo,
+                userTrafficNumber: userTrafficStatus,
+                userReserveNumber: userReseveStatusLen,
+              ),
+              UserTraffic(
+                userTrafficLog: userTraffic,
+              ),
+              ReservedTab(
+                mainThemeColor: themeChange,
+              ),
+              AddUserPlate(),
+              Settings(fullNameMeme: name, avatarMeme: avatar)
+            ],
           ),
         ),
         bottomNavigationBar: Directionality(

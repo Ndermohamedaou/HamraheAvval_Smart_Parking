@@ -42,9 +42,17 @@ class ApiAccess {
   Future<String> addUserPlate({token, lsPlate}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
-    print(lsPlate);
+    // print("This is from API Class => ${lsPlate[3]}");
     Response response = await dio.post(
-        "$baseUrl/addUserPlate?plate${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}");
+        "$baseUrl/addUserPlate?plate0=${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}");
+    // print(response.data);
+    return response.data;
+  }
+
+  Future<String> delUserPlate({token, id}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.post("$baseUrl/delUserPlate?id=$id");
     print(response.data);
     return response.data;
   }

@@ -55,7 +55,7 @@ class UserTraffic extends StatelessWidget {
 
     final plateContext = userTrafficLog.isEmpty ? searchingProcess : traffics;
 
-    print(userTrafficLog.length);
+    // print(userTrafficLog.length);
     return SafeArea(
         child: SingleChildScrollView(
       child: Column(

@@ -6,10 +6,15 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 List userPlates = [];
+ApiAccess api = ApiAccess();
+FlutterSecureStorage lds = FlutterSecureStorage();
 
 class MYPlateScreen extends StatefulWidget {
   @override
@@ -40,36 +45,88 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    print(userPlates);
+    // print(userPlates);
 
-    Widget plates = Column(
-      children: [
-        Lottie.asset("assets/lottie/loadingUserPlate.json"),
-        CarouselSlider(
-          options: CarouselOptions(
-              height: 90.0,
-              autoPlayAnimationDuration: Duration(milliseconds: 800),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enableInfiniteScroll: false),
-          items: userPlates.map((i) {
-            return Builder(
-              builder: (BuildContext context) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.symmetric(horizontal: 5.0),
-                  // decoration: BoxDecoration(color: Colors.amber),
-                  child: PlateViewer(
-                      plate0: i['plate0'] != null ? i['plate0'] : "",
-                      plate1: i['plate1'] != null ? i['plate1'] : "",
-                      plate2: i['plate2'] != null ? i['plate2'] : "",
-                      plate3: i['plate3'] != null ? i['plate3'] : "",
-                      themeChange: themeChange.darkTheme),
-                );
-              },
-            );
-          }).toList(),
-        )
-      ],
+    void alert({title, desc, aType}) {
+      Alert(
+        context: context,
+        type: aType,
+        title: title,
+        desc: desc,
+        style: AlertStyle(
+            backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
+            titleStyle: TextStyle(
+              fontFamily: mainFaFontFamily,
+            ),
+            descStyle: TextStyle(fontFamily: mainFaFontFamily)),
+        buttons: [
+          DialogButton(
+            child: Text(
+              "تایید",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontFamily: mainFaFontFamily),
+            ),
+            onPressed: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
+            width: 120,
+          )
+        ],
+      ).show();
+    }
+
+    void delUserPlate(id) async {
+      try {
+        final userToken = await lds.read(key: "token");
+        final delStatus = await api.delUserPlate(token: userToken, id: id);
+        if (delStatus == "200") {
+          alert(
+              aType: AlertType.success,
+              title: delProcSucTitle,
+              desc: delProcDesc);
+        }
+      } catch (e) {
+        alert(
+            aType: AlertType.warning,
+            title: delProcFailTitle,
+            desc: delProcFailDesc);
+      }
+    }
+
+    Widget plates = ListView.builder(
+      shrinkWrap: true,
+      itemCount: userPlates.length,
+      itemBuilder: (BuildContext context, index) {
+        return (Slidable(
+          actionPane: SlidableDrawerActionPane(),
+          actionExtentRatio: 0.25,
+          child: Container(
+              color: themeChange.darkTheme ? darkBar : lightBar,
+              child: PlateViewer(
+                  plate0: userPlates[index]['plate0'] != null
+                      ? userPlates[index]['plate0']
+                      : "",
+                  plate1: userPlates[index]['plate1'] != null
+                      ? userPlates[index]['plate1']
+                      : "",
+                  plate2: userPlates[index]['plate2'] != null
+                      ? userPlates[index]['plate2']
+                      : "",
+                  plate3: userPlates[index]['plate3'] != null
+                      ? userPlates[index]['plate3']
+                      : "",
+                  themeChange: themeChange.darkTheme)),
+          actions: <Widget>[
+            IconSlideAction(
+              caption: 'پاک کردن',
+              color: Colors.red,
+              icon: Icons.delete,
+              onTap: () => delUserPlate(userPlates[index]['id']),
+            ),
+          ],
+        ));
+      },
     );
 
     Widget searchingProcess = Column(

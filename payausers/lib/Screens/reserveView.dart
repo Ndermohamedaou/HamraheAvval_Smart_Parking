@@ -382,7 +382,7 @@ class _ReservedTabState extends State<ReservedTab> {
                       ),
                     );
                   },
-                  color: endUserSelectedPlate != null ? null : Colors.blue,
+                  color: selectedPlate != "" ? null : Colors.blue,
                   child: selectedPlate != ""
                       ? PlateViewer(
                           plate0: endUserSelectedPlate['plate0'],

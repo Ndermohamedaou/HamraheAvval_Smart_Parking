@@ -67,6 +67,12 @@ const userPlateAdded = "پلاک شما با موفقیت ثبت شد";
 const serverNotRespondToAdd = "خطا در افزودن پلاک";
 const unCorrectPlateNumber = "پلاک وارد شده صحیح نیست";
 
+// Delete User plate section in Swap
+const delProcSucTitle = "با موفقیت حذف شد";
+const delProcDesc = "پلاک موردنظر شما با موفیت حذف شد";
+// if warning had happend
+const delProcFailTitle = "عملیات با شکست مواجه شد";
+const delProcFailDesc = "پلاک شما در دیتابیس حذف نشد";
 // Settings
 const myPlateText = "پلاک های من";
 const themeModeSwitch = "حالت تاریک یا روشن";
@@ -96,4 +102,4 @@ const failedToUpdatePass = "گذرواژه جدید ثبت نشد";
 const doesNotChange = "تغییری صورت نگرفت";
 const changeSuccess = "گذرواژه جدید شما با موفقیت ثبت شد";
 // My plate
-const searchingProcessText = "در حال جست و جو";
+const searchingProcessText = "درحال یافتن پلاک";
