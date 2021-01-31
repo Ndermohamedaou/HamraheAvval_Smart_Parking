@@ -6,6 +6,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/miniPlate.dart';
+import 'package:payausers/ExtractedWidgets/miniReserveHistory.dart';
 
 AlphabetList alp = AlphabetList();
 
@@ -49,11 +50,12 @@ class ReservedTab extends StatelessWidget {
         List perment = reserves[index]['plate'].split("-");
         return (Column(
           children: [
-            MiniPlate(
+            MiniReserveHistory(
               plate0: "${perment[0]}",
               plate1: "${alp.getAlp()[perment[1]]}",
               plate2: "${perment[2].substring(0, 3)}",
               plate3: "${perment[2].substring(3, 5)}",
+              status: reserves[index]['status'],
               buildingName: reserves[index]["building"] != null
                   ? reserves[index]["building"]
                   : "",
