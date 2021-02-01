@@ -6,11 +6,44 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 
 class PlatePicker extends StatelessWidget {
   const PlatePicker({this.mainContext, this.plateForShow, this.selectedPlate});
+
   final mainContext;
   final plateForShow;
   final selectedPlate;
+
   @override
   Widget build(BuildContext context) {
+    final titlePlateText = plateForShow != null
+        ? Container(
+            margin: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        "پلاک پیش فرض",
+                        style: TextStyle(
+                          fontFamily: mainFaFontFamily,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+        : Text(
+            "شما پلاک پیش فرضی ندارید",
+            style: TextStyle(
+              fontFamily: mainFaFontFamily,
+              fontSize: 18,
+            ),
+          );
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -23,6 +56,8 @@ class PlatePicker extends StatelessWidget {
             ),
           ),
           SizedBox(height: 60),
+          titlePlateText,
+          SizedBox(height: 20),
           plateForShow,
           SizedBox(height: 40),
           FlatButton(
@@ -61,22 +96,13 @@ class PlatePicker extends StatelessWidget {
                 ),
               );
             },
-            color: selectedPlate != "" ? null : HexColor("#6f03fc"),
-            child: selectedPlate != ""
-                ? null
-
-                // PlateViewer(
-                //     plate0: endUserSelectedPlate['plate0'],
-                //     plate1: endUserSelectedPlate['plate1'],
-                //     plate2: endUserSelectedPlate['plate2'],
-                //     plate3: endUserSelectedPlate['plate3'],
-                //     themeChange: themeChange.darkTheme)
-                : Text(
-                    "پلاک خود را انتخاب کنید",
-                    style: TextStyle(
-                        fontFamily: mainFaFontFamily, color: Colors.white),
-                    textDirection: TextDirection.ltr,
-                  ),
+            color: HexColor("#6f03fc"),
+            child: Text(
+              "پلاک خود را انتخاب کنید",
+              style:
+                  TextStyle(fontFamily: mainFaFontFamily, color: Colors.white),
+              textDirection: TextDirection.ltr,
+            ),
           ),
         ],
       ),

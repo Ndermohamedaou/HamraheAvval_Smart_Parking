@@ -50,6 +50,7 @@ const choosePlate = "انتخاب پلاک";
 const entryTime = "زمان ورود";
 const exitTime = "زمان خروج";
 const lateToloadPlate = "چند لحظه منتظر بمانید";
+const emptyUserPlate = "شما در حال حاضر پلاکی ندارید";
 
 // Date and Time Picker texts
 const choseReserveDate = "تاریخ رزرو خود را انتخاب کنید";
