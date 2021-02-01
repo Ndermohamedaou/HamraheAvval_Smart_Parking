@@ -42,7 +42,7 @@ void alert({bool themeChange, context, title, desc}) {
   ).show();
 }
 
-void reserveMe(st, et, pt, context, bool themeChange) async {
+void reserveMe({st, et, pt, context, bool themeChange}) async {
   if (st != "" && et != "" && pt != "") {
     ApiAccess api = ApiAccess();
     FlutterSecureStorage lds = FlutterSecureStorage();

@@ -47,6 +47,7 @@ const chooseDate = "انتخاب تاریخ رزرو";
 const openCalender = "بازکردن تقویم";
 const chooseTime = "انتخاب زمان";
 const choosePlate = "انتخاب پلاک";
+const summery = "مرور رزور جایگاه";
 const entryTime = "زمان ورود";
 const exitTime = "زمان خروج";
 const lateToloadPlate = "چند لحظه منتظر بمانید";

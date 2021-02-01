@@ -230,6 +230,51 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     Widget finalPlateViewInContainer =
         finalSelectedString == "" ? byDefaultPlateGraphy : selectedPlateGraphy;
 
+    Map defaultUserPlateMap = userPlates.isEmpty
+        ? {
+            "plate0": "-",
+            "plate1": "-",
+            "plate2": "-",
+            "plate3": "-",
+          }
+        : {
+            "plate0": userPlates[0]['plate0'],
+            "plate1": userPlates[0]['plate1'],
+            "plate2": userPlates[0]['plate2'],
+            "plate3": userPlates[0]['plate3'],
+          };
+
+    final switchingPlate = finalSelectedString == ""
+        ? defaultUserPlateMap
+        : {
+            "plate0": finalSelectedPlate['plate0'],
+            "plate1": finalSelectedPlate['plate1'],
+            "plate2": finalSelectedPlate['plate2'],
+            "plate3": finalSelectedPlate['plate3'],
+          };
+
+    void gettingReserve() {
+      final pickDate = datePickedByUser.split("/");
+
+      final strDateTimeStart =
+          "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $startTime";
+      final strDateTimeEnd =
+          "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $endTime";
+
+      final reallyPlate = finalSelectedString == ""
+          ? bydefaultSelectedString
+          : finalSelectedString;
+
+      // print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
+
+      reserveMe(
+          context: context,
+          st: strDateTimeEnd,
+          et: strDateTimeEnd,
+          pt: reallyPlate,
+          themeChange: themeChange.darkTheme);
+    }
+
     List<Widget> mainTakenReserve = [
       DateUserPicker(pressedDate: openCalend, pickedDateText: datePickedByUser),
       TimerPicker(
@@ -274,10 +319,17 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         mainContext: finalPlateContext,
         plateForShow: finalPlateViewInContainer,
       ),
-      Summery()
+      Summery(
+        themeChange: themeChange.darkTheme,
+        datePickedByUser: datePickedByUser,
+        startTime: startTime,
+        endTime: endTime,
+        finalSelectedPlateToSending: switchingPlate,
+        sendToSubmit: () {
+          gettingReserve();
+        },
+      )
     ];
-
-
 
     return Scaffold(
       body: SafeArea(

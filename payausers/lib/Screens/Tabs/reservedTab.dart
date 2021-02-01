@@ -56,7 +56,7 @@ class ReservedTab extends StatelessWidget {
               plate1: "${alp.getAlp()[perment[1]]}",
               plate2: "${perment[2].substring(0, 3)}",
               plate3: "${perment[2].substring(3, 5)}",
-              status: reserves[index]['status'],
+              // status: reserves[index]['status'],
               buildingName: reserves[index]["building"] != null
                   ? reserves[index]["building"]
                   : "",
