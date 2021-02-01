@@ -5,10 +5,8 @@ import 'package:payausers/Classes/SavingData.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/controller/loginController.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:toast/toast.dart';
 

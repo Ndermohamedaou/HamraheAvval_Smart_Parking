@@ -34,6 +34,16 @@ class _AddUserPlateState extends State<AddUserPlate> {
   }
 
   @override
+  void dispose() {
+    plate0 = "";
+    plate1 = "";
+    plate2 = "";
+    plate3 = "";
+    _value = 0;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     themeChange = Provider.of<DarkThemeProvider>(context);
     return GestureDetector(

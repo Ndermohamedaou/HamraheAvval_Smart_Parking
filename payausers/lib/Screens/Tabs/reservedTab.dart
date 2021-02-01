@@ -45,6 +45,7 @@ class ReservedTab extends StatelessWidget {
 
     Widget mainUserReserveHistory = ListView.builder(
       shrinkWrap: true,
+      reverse: true,
       itemCount: reserves.length,
       itemBuilder: (BuildContext context, index) {
         List perment = reserves[index]['plate'].split("-");
@@ -102,7 +103,7 @@ class ReservedTab extends StatelessWidget {
                                 color: Colors.white,
                               )),
                           onTap: () =>
-                              Navigator.pushNamed(context, "/addReserve"),
+                              Navigator.pushNamed(context, "/reserveEditaion"),
                         ),
                       ),
                     ),

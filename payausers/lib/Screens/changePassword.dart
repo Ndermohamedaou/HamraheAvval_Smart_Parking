@@ -217,4 +217,15 @@ class _ChangePassPageState extends State<ChangePassPage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    currentPassword = "";
+    newPassword = "";
+    confirmNewPassword = "";
+    emptyTextFieldErrCurPassword = null;
+    emptyTextFieldErrNewPassword = null;
+    emptyTextFieldErrConfNewPassword = null;
+    super.dispose();
+  }
 }

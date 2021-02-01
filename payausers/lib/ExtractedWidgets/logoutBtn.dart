@@ -6,6 +6,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:payausers/Screens/maino.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 class LogoutBtn extends StatelessWidget {
@@ -23,6 +25,7 @@ class LogoutBtn extends StatelessWidget {
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
+      Navigator.pushNamed(context, '/splashScreen');
       exit(0);
     }
 

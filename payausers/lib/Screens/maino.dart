@@ -9,7 +9,6 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
@@ -24,7 +23,8 @@ class Maino extends StatefulWidget {
   _MainoState createState() => _MainoState();
 }
 
-int tabBarIndex = 0;
+int tabBarIndex;
+var _pageController;
 String userId = "";
 String name = "";
 String personalCode = "";
@@ -40,14 +40,14 @@ String lenOfUserPlate = "";
 
 ApiAccess api = ApiAccess();
 
-var _pageController = PageController();
-
 class _MainoState extends State<Maino> {
   FlutterSecureStorage lds = FlutterSecureStorage();
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
+    tabBarIndex = 0;
     Timer.periodic(Duration(seconds: 10), (timer) {
       READYLOCALVAR();
     });
@@ -80,6 +80,7 @@ class _MainoState extends State<Maino> {
       getUserReservedHistory().then((reserves) {
         setState(() {
           userReserved = reserves;
+          lenOfReserve = reserves.length.toString();
         });
       });
     });
@@ -126,7 +127,7 @@ class _MainoState extends State<Maino> {
   Future<List> getUserReservedHistory() async {
     try {
       List reservedList = await api.userReserveHistory(token: userToken);
-      print(reservedList);
+      // print(reservedList);
       return reservedList;
     } catch (e) {
       print(e);
@@ -159,7 +160,8 @@ class _MainoState extends State<Maino> {
     final userTrafficStatus =
         lenOfTrafic != "" ? lenOfTrafic : emptyPlateNumber;
 
-    final String userReseveStatusLen = emptyPlateNumber;
+    final String userReseveStatusLen =
+        lenOfReserve != "" ? lenOfReserve : emptyPlateNumber;
 
     return WillPopScope(
       child: Scaffold(
@@ -206,7 +208,7 @@ class _MainoState extends State<Maino> {
                 tabBarIndex = indexValue;
                 _pageController.animateToPage(tabBarIndex,
                     duration: Duration(milliseconds: 3), curve: Curves.ease);
-                print(tabBarIndex);
+                // print(tabBarIndex);
               });
             },
             items: [

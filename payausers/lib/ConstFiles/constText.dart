@@ -42,9 +42,17 @@ const yourPlateText = "پلاک های شما";
 const inSystemText = "پلاک های شما در سامانه";
 const emptyPlateNumber = "عدم دریافت اطلاعات";
 
+// Reserve Section
+const chooseDate = "انتخاب تاریخ رزرو";
+const openCalender = "بازکردن تقویم";
+const chooseTime = "انتخاب زمان";
+const choosePlate = "انتخاب پلاک";
+const entryTime = "زمان ورود";
+const exitTime = "زمان خروج";
+const lateToloadPlate = "چند لحظه منتظر بمانید";
+
 // Date and Time Picker texts
 const choseReserveDate = "تاریخ رزرو خود را انتخاب کنید";
-const openCalender = "باز کردن تقویم";
 const choseTime = "محدوده ساعتی را مشخص کنید";
 
 // Reserve

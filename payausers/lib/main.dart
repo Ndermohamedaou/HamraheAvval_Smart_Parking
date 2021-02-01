@@ -11,10 +11,13 @@ import 'Screens/loginPage.dart';
 import 'Screens/confirmInfo.dart';
 import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
+import 'Screens/addUserPlateAlternative.dart';
 import 'Screens/myPlate.dart';
 import 'Screens/settings.dart';
 import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
+
+import 'Screens/reservePageEdit.dart';
 
 void main() {
   runApp(MyApp());
@@ -65,6 +68,8 @@ class _MyAppState extends State<MyApp> {
               '/myPlate': (context) => MYPlateScreen(),
               '/settings': (context) => SettingsPage(),
               '/changePassword': (context) => ChangePassPage(),
+              '/reserveEditaion': (context) => ReserveEditaion(),
+              '/addUserplateAlternative': (context) => AddUserPlatAlternative(),
             },
           );
         },
