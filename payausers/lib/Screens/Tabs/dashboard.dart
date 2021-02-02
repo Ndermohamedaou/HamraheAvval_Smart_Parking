@@ -33,7 +33,7 @@ class Dashboard extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight) / 4;
     final double itemWidth = size.width;
-    // Check if device be in Portrate or Landscape
+    // Check if device be in portrait or Landscape
     final double widthSizedResponse = size.width >= 410 && size.width < 600
         ? (itemWidth / itemHeight) / 2.35
         : size.width >= 390 && size.width <= 409

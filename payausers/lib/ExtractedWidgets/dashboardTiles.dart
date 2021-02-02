@@ -28,12 +28,13 @@ class DashboardTiles extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4.0), color: HexColor(tileColor)),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                 child: Icon(icon, size: 33, color: iconColor),
                 width: 60,
                 height: 60,
@@ -45,24 +46,27 @@ class DashboardTiles extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(right: 10),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              TextPos(
-                  mainText: text, fontColor: Colors.black, size: mainFontSize),
-              TextPos(
-                mainText: subText,
-                fontColor: Colors.black,
-                size: mainFontSize,
-              ),
-              TextPos(
-                mainText: subSubText,
-                fontColor: subSubTextColor,
-                size: subFontSize,
-              ),
-            ]),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextPos(
+                      mainText: text,
+                      fontColor: Colors.black,
+                      size: mainFontSize),
+                  TextPos(
+                    mainText: subText,
+                    fontColor: Colors.black,
+                    size: mainFontSize,
+                  ),
+                  TextPos(
+                    mainText: subSubText,
+                    fontColor: subSubTextColor,
+                    size: subFontSize,
+                  ),
+                ]),
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            margin: EdgeInsets.symmetric(horizontal: 10),
             alignment: Alignment.bottomLeft,
             child: Text(
               lenOfStuff != null ? lenOfStuff : "",
