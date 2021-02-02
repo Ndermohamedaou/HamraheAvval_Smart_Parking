@@ -98,7 +98,7 @@ class _MainoState extends State<Maino> {
 
     try {
       String serverAvatar = await api.getUserAvatar(token: userToken);
-      // Coreponding
+      // Correspondence local Avatar with Server side avatar
       if (localAvatar != serverAvatar) {
         setState(() async {
           readyAvatar = serverAvatar;

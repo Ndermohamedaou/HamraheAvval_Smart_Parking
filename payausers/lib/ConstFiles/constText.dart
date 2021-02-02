@@ -40,7 +40,7 @@ const String untilTodayText = "تا به امروز";
 const allReserveText = "کل رزروها";
 const yourPlateText = "پلاک های شما";
 const inSystemText = "پلاک های شما در سامانه";
-const emptyPlateNumber = "عدم دریافت اطلاعات";
+const emptyPlateNumber = "-";
 
 // Reserve Section
 const chooseDate = "انتخاب تاریخ رزرو";
