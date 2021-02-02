@@ -171,15 +171,17 @@ class _MainoState extends State<Maino> {
             physics: NeverScrollableScrollPhysics(),
             children: [
               Dashboard(
-                userQRCode: userId,
-                fullnameMeme: name,
-                userPersonalCodeMeme: personalCode,
-                avatarMeme: avatar,
-                section: userSection,
-                role: userRole,
-                userPlateNumber: plateNo,
-                userTrafficNumber: userTrafficStatus,
-                userReserveNumber: userReseveStatusLen,
+                userQRCode: userId != "" ? userId : "-",
+                fullnameMeme: name != "" ? name : "-",
+                userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
+                avatarMeme: avatar != "" ? avatar : "-",
+                section: userSection != "" ? userSection : "-",
+                role: userRole != "" ? userRole : "-",
+                userPlateNumber: plateNo != "" ? plateNo : "-",
+                userTrafficNumber:
+                    userTrafficStatus != "" ? userTrafficStatus : "-",
+                userReserveNumber:
+                    userReseveStatusLen != "" ? userReseveStatusLen : "-",
               ),
               UserTraffic(
                 userTrafficLog: userTraffic,
