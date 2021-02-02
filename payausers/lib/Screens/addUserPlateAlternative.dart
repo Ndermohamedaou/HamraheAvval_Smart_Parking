@@ -46,10 +46,10 @@ class _AddUserPlatAlternative extends State<AddUserPlatAlternative> {
   @override
   Widget build(BuildContext context) {
     themeChange = Provider.of<DarkThemeProvider>(context);
-    return Scaffold(
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: SafeArea(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: SafeArea(
             child: SingleChildScrollView(
           child: Column(
             children: [
@@ -250,37 +250,37 @@ class _AddUserPlatAlternative extends State<AddUserPlatAlternative> {
             ],
           ),
         )),
-      ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        child: Material(
-          elevation: 10.0,
-          borderRadius: BorderRadius.circular(8.0),
-          color: HexColor("#34D15F"),
-          child: MaterialButton(
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () {
-                sendNewUserPlate(
-                    plate0, alp.getAlphabet()[_value].item, plate2, plate3);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "ثبت پلاک",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: loginBtnTxtColor,
-                        fontFamily: mainFaFontFamily,
-                        fontSize: btnSized,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: Colors.white,
-                  )
-                ],
-              )),
+        bottomNavigationBar: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          child: Material(
+            elevation: 10.0,
+            borderRadius: BorderRadius.circular(8.0),
+            color: HexColor("#34D15F"),
+            child: MaterialButton(
+                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                onPressed: () {
+                  sendNewUserPlate(
+                      plate0, alp.getAlphabet()[_value].item, plate2, plate3);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "ثبت پلاک",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: loginBtnTxtColor,
+                          fontFamily: mainFaFontFamily,
+                          fontSize: btnSized,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Colors.white,
+                    )
+                  ],
+                )),
+          ),
         ),
       ),
     );

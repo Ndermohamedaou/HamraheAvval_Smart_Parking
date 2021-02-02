@@ -170,6 +170,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     // else
     Widget addPlateNotExists = Column(
       children: [
+        SizedBox(height: 25),
         Directionality(
           textDirection: TextDirection.rtl,
           child: ElevatedButton.icon(
@@ -185,6 +186,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
             ),
           ),
         ),
+        SizedBox(height: 50),
       ],
     );
     // In final:
