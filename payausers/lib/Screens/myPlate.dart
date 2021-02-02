@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
@@ -5,9 +6,10 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
+import 'package:payausers/controller/alert.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -46,45 +48,18 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     // print(userPlates);
-
-    void alert({title, desc, aType}) {
-      Alert(
-        context: context,
-        type: aType,
-        title: title,
-        desc: desc,
-        style: AlertStyle(
-            backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
-            titleStyle: TextStyle(
-              fontFamily: mainFaFontFamily,
-            ),
-            descStyle: TextStyle(fontFamily: mainFaFontFamily)),
-        buttons: [
-          DialogButton(
-            child: Text(
-              "تایید",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontFamily: mainFaFontFamily),
-            ),
-            onPressed: () =>
-                Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
-            width: 120,
-          )
-        ],
-      ).show();
-    }
-
     void delUserPlate(id) async {
       try {
         final userToken = await lds.read(key: "token");
         final delStatus = await api.delUserPlate(token: userToken, id: id);
         if (delStatus == "200") {
           alert(
+              context: context,
               aType: AlertType.success,
               title: delProcSucTitle,
-              desc: delProcDesc);
+              desc: delProcDesc,
+              themeChange: themeChange,
+              dstRoute: "dashboard");
         }
       } catch (e) {
         alert(
@@ -101,6 +76,8 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
         return (Slidable(
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
+          fastThreshold: 1.25,
+          movementDuration: Duration(milliseconds: 200),
           child: Container(
               color: themeChange.darkTheme ? darkBar : lightBar,
               child: PlateViewer(
@@ -122,7 +99,36 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
               caption: 'پاک کردن',
               color: Colors.red,
               icon: Icons.delete,
-              onTap: () => delUserPlate(userPlates[index]['id']),
+              onTap: () {
+                showAdaptiveActionSheet(
+                  context: context,
+                  title: Text(
+                    'پاک شود؟',
+                    style:
+                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
+                  ),
+                  actions: <BottomSheetAction>[
+                    BottomSheetAction(
+                        title: 'پاک کردن',
+                        textStyle: TextStyle(
+                          fontFamily: mainFaFontFamily,
+                          fontSize: 20,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        onPressed: () {
+                          delUserPlate(userPlates[index]['id']);
+                        }),
+                  ],
+                  cancelAction: CancelAction(
+                    title: 'لغو',
+                    textStyle: TextStyle(
+                        fontFamily: mainFaFontFamily,
+                        color: Colors.blue,
+                        fontSize: 20),
+                  ), // onPressed parameter is optional by default will dismiss the ActionSheet
+                );
+              },
             ),
           ],
         ));

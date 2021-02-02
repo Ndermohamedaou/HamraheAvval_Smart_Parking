@@ -8,7 +8,7 @@ void checkInternetConnection({context}) async {
   Dio dio = Dio();
   try {
     await dio
-        .get("http://tms6.tvu.ac.ir:7001/Student/Pages/acmstd/loginPage.jsp");
+        .get("www.google.com");
   } catch (e) {
     showStatusInCaseOfFlush(
         context: context,

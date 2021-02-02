@@ -41,6 +41,7 @@ dependencies:
   flutter_slidable:
   ticketview: ^1.0.0
   flushbar: ^1.10.4
+  adaptive_action_sheet: ^1.0.11
 
 
 
