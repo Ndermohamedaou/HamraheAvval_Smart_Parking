@@ -35,7 +35,7 @@ class Dashboard extends StatelessWidget {
     final double itemWidth = size.width;
     // Check if device be in Portrate or Landscape
     final double widthSizedResponse = size.width >= 410 && size.width < 600
-        ? (itemWidth / itemHeight) / 2.5
+        ? (itemWidth / itemHeight) / 2.35
         : size.width >= 390 && size.width <= 409
             ? (itemWidth / itemHeight) / 2.4
             : size.width <= 380
