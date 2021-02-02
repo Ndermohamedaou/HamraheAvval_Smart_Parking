@@ -1,13 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/miniPlate.dart';
-import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:provider/provider.dart';
 
 class UserTraffic extends StatelessWidget {
@@ -23,6 +21,7 @@ class UserTraffic extends StatelessWidget {
         ListView.builder(
           shrinkWrap: true,
           itemCount: userTrafficLog.length,
+          primary: false,
           itemBuilder: (BuildContext context, index) {
             return (Column(
               children: [

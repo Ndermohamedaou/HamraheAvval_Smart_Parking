@@ -46,26 +46,29 @@ class ReservedTab extends StatelessWidget {
     Widget mainUserReserveHistory = ListView.builder(
       shrinkWrap: true,
       reverse: true,
-      itemCount: reserves.length,
+      primary: false,
+      itemCount: reserves.length != null ? reserves.length : 0,
       itemBuilder: (BuildContext context, index) {
         List perment = reserves[index]['plate'].split("-");
-        return (Column(
-          children: [
-            MiniReserveHistory(
-              plate0: "${perment[0]}",
-              plate1: "${alp.getAlp()[perment[1]]}",
-              plate2: "${perment[2].substring(0, 3)}",
-              plate3: "${perment[2].substring(3, 5)}",
-              // status: reserves[index]['status'],
-              buildingName: reserves[index]["building"] != null
-                  ? reserves[index]["building"]
-                  : "",
-              startedTime: reserves[index]["reserveTimeStart"],
-              endedTime: reserves[index]["reserveTimeEnd"],
-              slotNo: reserves[index]["slot"],
-            ),
-          ],
-        ));
+        return SingleChildScrollView(
+          child: (Column(
+            children: [
+              MiniReserveHistory(
+                plate0: "${perment[0]}",
+                plate1: "${alp.getAlp()[perment[1]]}",
+                plate2: "${perment[2].substring(0, 3)}",
+                plate3: "${perment[2].substring(3, 5)}",
+                // status: reserves[index]['status'],
+                buildingName: reserves[index]["building"] != null
+                    ? reserves[index]["building"]
+                    : "",
+                startedTime: reserves[index]["reserveTimeStart"],
+                endedTime: reserves[index]["reserveTimeEnd"],
+                slotNo: reserves[index]["slot"],
+              ),
+            ],
+          )),
+        );
       },
     );
 
