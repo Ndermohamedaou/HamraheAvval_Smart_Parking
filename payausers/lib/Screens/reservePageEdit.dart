@@ -9,6 +9,7 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -256,25 +257,36 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
           };
 
     void gettingReserve() {
-      final pickDate = datePickedByUser.split("/");
+      if (datePickedByUser.isNotEmpty ||
+          startTime.isNotEmpty ||
+          endTime.isNotEmpty) {
+        final pickDate = datePickedByUser.split("/");
 
-      final strDateTimeStart =
-          "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $startTime";
-      final strDateTimeEnd =
-          "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $endTime";
+        final strDateTimeStart =
+            "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $startTime";
+        final strDateTimeEnd =
+            "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $endTime";
 
-      final reallyPlate = finalSelectedString == ""
-          ? bydefaultSelectedString
-          : finalSelectedString;
+        final reallyPlate = finalSelectedString == ""
+            ? bydefaultSelectedString
+            : finalSelectedString;
 
-      // print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
-      // Go to controller
-      reserveMe(
-          context: context,
-          st: strDateTimeEnd,
-          et: strDateTimeEnd,
-          pt: reallyPlate,
-          themeChange: themeChange.darkTheme);
+        // print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
+        // Go to controller
+        reserveMe(
+            context: context,
+            st: strDateTimeEnd,
+            et: strDateTimeEnd,
+            pt: reallyPlate,
+            themeChange: themeChange.darkTheme);
+      } else {
+        showStatusInCaseOfFlush(
+            context: context,
+            title: defectiveInfo,
+            msg: defectiveInfoMsg,
+            iconColor: Colors.red,
+            icon: Icons.details_outlined);
+      }
     }
 
     List<Widget> mainTakenReserve = [
@@ -323,9 +335,9 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       ),
       Summery(
         themeChange: themeChange.darkTheme,
-        datePickedByUser: datePickedByUser,
-        startTime: startTime,
-        endTime: endTime,
+        datePickedByUser: datePickedByUser != "" ? datePickedByUser : "-",
+        startTime: startTime != "" ? startTime : "-",
+        endTime: endTime != "" ? endTime : "-",
         finalSelectedPlateToSending: switchingPlate,
         sendToSubmit: () {
           gettingReserve();

@@ -24,6 +24,15 @@ void sendNewUserPlate(p0, p1, p2, p3, context, themeChange, dst) async {
             context: context,
             themeChange: themeChange,
             dstRoute: dst);
+      }
+      if (result == "PlateExists") {
+        alert(
+            aType: AlertType.error,
+            title: existUserPlateTitleErr,
+            desc: existUserPlateDescErr,
+            context: context,
+            themeChange: themeChange,
+            dstRoute: dst);
       } else
         alert(
             aType: AlertType.success,

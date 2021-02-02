@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +8,8 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/controller/connectivityCheck.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
 
@@ -23,6 +26,7 @@ class Maino extends StatefulWidget {
   _MainoState createState() => _MainoState();
 }
 
+dynamic themeChange;
 int tabBarIndex;
 var _pageController;
 String userId = "";
@@ -46,6 +50,7 @@ class _MainoState extends State<Maino> {
   @override
   void initState() {
     super.initState();
+    checkInternetConnection(context: context);
     _pageController = PageController();
     tabBarIndex = 0;
     Timer.periodic(Duration(seconds: 10), (timer) {
@@ -96,18 +101,19 @@ class _MainoState extends State<Maino> {
     String section = await lds.read(key: "section");
     String role = await lds.read(key: "role");
 
-    try {
-      String serverAvatar = await api.getUserAvatar(token: userToken);
-      // Correspondence local Avatar with Server side avatar
-      if (localAvatar != serverAvatar) {
-        setState(() async {
-          readyAvatar = serverAvatar;
-        });
-        await lds.write(key: "avatar", value: serverAvatar);
-      }
-    } catch (e) {
-      readyAvatar = await lds.read(key: "avatar");
-    }
+    // try {
+    //   String serverAvatar = await api.getUserAvatar(token: userToken);
+    //   // Correspondence local Avatar with Server side avatar
+    //   if (localAvatar != serverAvatar) {
+    //     setState(() async {
+    //       readyAvatar = serverAvatar;
+    //     });
+    //     await lds.write(key: "avatar", value: serverAvatar);
+    //   }
+    // } catch (e) {
+    //   print(e);
+    //   readyAvatar = await lds.read(key: "avatar");
+    // }
 
     return {
       "userId": userId,
@@ -148,7 +154,7 @@ class _MainoState extends State<Maino> {
   @override
   Widget build(BuildContext context) {
     //  Dark Theme Changer
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    themeChange = Provider.of<DarkThemeProvider>(context);
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
         ? SystemUiOverlayStyle.light
@@ -174,7 +180,7 @@ class _MainoState extends State<Maino> {
                 userQRCode: userId != "" ? userId : "-",
                 fullnameMeme: name != "" ? name : "-",
                 userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
-                avatarMeme: avatar != "" ? avatar : "-",
+                avatarMeme: avatar != null ? avatar : null,
                 section: userSection != "" ? userSection : "-",
                 role: userRole != "" ? userRole : "-",
                 userPlateNumber: plateNo != "" ? plateNo : "-",

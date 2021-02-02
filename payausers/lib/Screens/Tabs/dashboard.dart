@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles.dart';
 import 'package:payausers/ExtractedWidgets/userLeading.dart';
+import 'package:payausers/Screens/addUserPlateAlternative.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flushbar/flushbar.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard(
@@ -17,6 +22,7 @@ class Dashboard extends StatelessWidget {
       this.userPlateNumber,
       this.userTrafficNumber,
       this.userReserveNumber});
+
   final String fullnameMeme;
   final String userPersonalCodeMeme;
   final String avatarMeme;
@@ -44,19 +50,6 @@ class Dashboard extends StatelessWidget {
                     ? (itemWidth / itemHeight) / 6
                     : (itemWidth / itemHeight) / 5;
 
-    // final double testedWidth = size.width >= 350 && size.width < 600?
-    // (itemWidth / itemHeight) / 2.5 : size.width >= 350 && size.width < 600?
-
-    // final test = size.width >= 350 && size.width < 600
-    //     ? "Screen Is Big"
-    //     : size.width <= 375
-    //         ? "Screen to little"
-    //         : "Screen or landscape or display is very big";
-
-    // print(test);
-    print(size.width);
-
-    // print(size.width);
     return Container(
         child: SingleChildScrollView(
       child: Column(

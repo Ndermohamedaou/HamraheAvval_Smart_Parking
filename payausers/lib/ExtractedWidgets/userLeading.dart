@@ -10,10 +10,14 @@ class UserLeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("This is Avatar =>>>>>>> $avatarImg");
+    // print("This is Avatar =>>>>>>> $avatarImg");
     Widget uA = avatarImg.isEmpty
         ? CircleAvatar(
-            backgroundColor: Colors.red, child: Icon(Icons.account_circle))
+            backgroundColor: Colors.blue,
+            child: Icon(
+              Icons.account_circle,
+              color: Colors.white,
+            ))
         : CircleAvatar(
             backgroundImage: NetworkImage(avatarImg),
           );

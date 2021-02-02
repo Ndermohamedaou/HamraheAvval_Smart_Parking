@@ -1,3 +1,13 @@
+// Internet connectivity Section
+const connectionFailedTitle = "مشکل در برقرار ارتباط با سرویس دهنده";
+const connectionFailed =
+    "اتصال خود را به اینترنت بررسی کنید یا از خاموش بودن VPN خود اطمینان حاصل کنید";
+
+
+// Defective INFO
+const defectiveInfo =  "ورودی اطلاعات ناقص است";
+const defectiveInfoMsg =  "لطفا اطلاعات را با دقت وارد کنید";
+
 // Intro main title
 const introTitle1Text = "کاربران پایا";
 const loginToAccount = "ورود به حساب خود";
@@ -44,7 +54,7 @@ const emptyPlateNumber = "-";
 
 // Add user Plate
 const yourPlateNumber = "شماره پلاک وسیله نقلیه شما";
-const submitPlate= "ثبت پلاک";
+const submitPlate = "ثبت پلاک";
 const submitTextForAlert = "تایید";
 
 // Reserve Section
@@ -81,6 +91,8 @@ const successAlert = "عملیات با موفقیت انجام شد";
 const userPlateAdded = "پلاک شما با موفقیت ثبت شد";
 const serverNotRespondToAdd = "خطا در افزودن پلاک";
 const unCorrectPlateNumber = "پلاک وارد شده صحیح نیست";
+const existUserPlateTitleErr = "پلاک تکراری";
+const existUserPlateDescErr = "شما نمی توانید پلاک تکراری وارد کنید";
 
 // Delete User plate section in Swap
 const delProcSucTitle = "با موفقیت حذف شد";
