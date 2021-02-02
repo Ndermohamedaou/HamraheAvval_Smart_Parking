@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/alert.dart';
 import 'package:payausers/ExtractedWidgets/dropdownMenu.dart';
+import 'package:payausers/controller/addPlateController.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
@@ -76,7 +75,7 @@ class _AddUserPlateState extends State<AddUserPlate> {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      "شماره پلاک وسیله نقلیه شما",
+                      yourPlateNumber,
                       style: TextStyle(
                           fontFamily: mainFaFontFamily, fontSize: subTitleSize),
                     ),
@@ -250,18 +249,18 @@ class _AddUserPlateState extends State<AddUserPlate> {
                 child: Material(
                   elevation: 10.0,
                   borderRadius: BorderRadius.circular(8.0),
-                  color: HexColor("#34D15F"),
+                  color: primarySubmitBtnColor,
                   child: MaterialButton(
                       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       onPressed: () {
                         sendNewUserPlate(plate0, alp.getAlphabet()[_value].item,
-                            plate2, plate3);
+                            plate2, plate3, context, themeChange, "dashboard");
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "ثبت پلاک",
+                            submitPlate,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: loginBtnTxtColor,
@@ -282,68 +281,5 @@ class _AddUserPlateState extends State<AddUserPlate> {
         ),
       )),
     );
-  }
-
-  void sendNewUserPlate(p0, p1, p2, p3) async {
-    if (p0.length == 2 && p2.length == 3 && p3.length == 2) {
-      List orderedPlate = [p0, p1, p2, p3];
-      ApiAccess api = ApiAccess();
-      FlutterSecureStorage lds = FlutterSecureStorage();
-      // print("This is from App method => ${orderedPlate[3]}");
-      final uToken = await lds.read(key: "token");
-      try {
-        String result =
-            await api.addUserPlate(token: uToken, lsPlate: orderedPlate);
-        if (result == "MaxPlateCount") {
-          alert(
-              aType: AlertType.warning,
-              title: warnningOnAddPlate,
-              desc: moreThanPlateAdded);
-        } else
-          alert(
-              aType: AlertType.success,
-              title: successAlert,
-              desc: userPlateAdded);
-      } catch (e) {
-        Toast.show(serverNotRespondToAdd, context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
-      }
-    } else {
-      Toast.show(unCorrectPlateNumber, context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.BOTTOM,
-          textColor: Colors.white);
-    }
-  }
-
-  void alert({title, desc, aType}) {
-    Alert(
-      context: context,
-      type: aType,
-      title: title,
-      desc: desc,
-      style: AlertStyle(
-          backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
-          titleStyle: TextStyle(
-            fontFamily: mainFaFontFamily,
-          ),
-          descStyle: TextStyle(fontFamily: mainFaFontFamily)),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "تایید",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontFamily: mainFaFontFamily),
-          ),
-          onPressed: () =>
-              Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
-          width: 120,
-        )
-      ],
-    ).show();
   }
 }

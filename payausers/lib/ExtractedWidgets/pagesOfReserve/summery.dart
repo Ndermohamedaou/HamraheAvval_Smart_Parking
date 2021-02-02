@@ -146,7 +146,7 @@ class Summery extends StatelessWidget {
                     child: Material(
                       elevation: 10.0,
                       borderRadius: BorderRadius.circular(8.0),
-                      color: HexColor("#34D15F"),
+                      color: primarySubmitBtnColor,
                       child: MaterialButton(
                           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: sendToSubmit,

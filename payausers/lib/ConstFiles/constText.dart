@@ -42,6 +42,11 @@ const yourPlateText = "پلاک های شما";
 const inSystemText = "پلاک های شما در سامانه";
 const emptyPlateNumber = "-";
 
+// Add user Plate
+const yourPlateNumber = "شماره پلاک وسیله نقلیه شما";
+const submitPlate= "ثبت پلاک";
+const submitTextForAlert = "تایید";
+
 // Reserve Section
 const chooseDate = "انتخاب تاریخ رزرو";
 const openCalender = "بازکردن تقویم";

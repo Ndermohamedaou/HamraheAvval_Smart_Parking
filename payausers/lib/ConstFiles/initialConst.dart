@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 // Main Background color
 HexColor mainBgColorLight = HexColor("#F9F9F9");
 HexColor mainBgColorDark = HexColor("#000000");
+
+// Primary color (CTR)
+const primarySubmitBtnColor = Colors.green;
 
 // Main Persian font
 const mainFaFontFamily = "BYekan";
