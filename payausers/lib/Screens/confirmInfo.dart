@@ -1,13 +1,24 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:payausers/Classes/ApiAccess.dart';
+import 'package:payausers/Classes/SavingData.dart';
+import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/controller/changeAvatar.dart';
+import 'package:payausers/controller/alert.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:toast/toast.dart';
 
 Map<String, Object> userInfo;
+Map<String, Object> modalRoute;
+
 File imgSource;
 String email = "";
 String password = "";
@@ -16,6 +27,9 @@ dynamic emptyTextFieldErrEmailCode = null;
 dynamic emptyTextFieldErrEmail = null;
 dynamic emptyTextFieldErrPassword = null;
 dynamic emptyTextFieldErrRePassword = null;
+ApiAccess api = ApiAccess();
+FlutterSecureStorage lds = FlutterSecureStorage();
+SavingData savingData = SavingData();
 
 IconData showMePass = Icons.remove_red_eye;
 bool protectedPassword = true;
@@ -28,13 +42,87 @@ class ConfirmScreen extends StatefulWidget {
 class _ConfirmScreenState extends State<ConfirmScreen> {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     // Getting Arguments from login page all about user info.
-    userInfo = ModalRoute.of(context).settings.arguments;
-    // print(userInfo);
+    modalRoute = ModalRoute.of(context).settings.arguments;
 
-    // Todo for next time
-    void gettingLogin({email, pass, rePass, avatar}) async {
+    userInfo = modalRoute["userInfo"];
+    final currentPass = modalRoute["curPass"];
+    final uToken = modalRoute["token"];
+
+    print(userInfo);
+
+    void gettingLogin({uToken, email, curPass, pass, rePass, avatar}) async {
       final _img64 = img2Base64(avatar);
+      if (email != "" || pass != "" || rePass != "") {
+        if (pass.length > 6 && rePass.length > 6) {
+          if (pass == rePass) {
+            try {
+              final result = await api.updateStaffInfoInConfrimation(
+                  token: uToken,
+                  email: email,
+                  curPass: curPass,
+                  newPass: pass,
+                  avatar: _img64);
+              if (result == "200") {
+                // Saving data to local
+                Map staffInfo = await api.getStaffInfo(token: uToken);
+                bool result = await savingData.LDS(
+                    token: uToken,
+                    user_id: staffInfo["user_id"],
+                    email: staffInfo["email"],
+                    name: staffInfo["name"],
+                    role: staffInfo['role'],
+                    avatar: staffInfo["avatar"],
+                    melli_code: staffInfo['melli_code'],
+                    personal_code: staffInfo['personal_code'],
+                    section: staffInfo["section"]);
+
+                if (result) {
+                  Navigator.pushNamed(context, "/loginCheckout");
+                } else {
+                  Toast.show("Your info can not saved", context,
+                      duration: Toast.LENGTH_LONG,
+                      gravity: Toast.BOTTOM,
+                      textColor: Colors.white);
+                }
+              }
+            } catch (e) {
+              showStatusInCaseOfFlush(
+                context: context,
+                msg: e.toString(),
+              );
+            }
+          } else {
+            showStatusInCaseOfFlush(
+                context: context,
+                msg: "گذرواژه جدید باید با تکرار آن یکسان باشد",
+                icon: Icons.workspaces_outline,
+                iconColor: Colors.red);
+          }
+        } else {
+          showStatusInCaseOfFlush(
+              context: context,
+              msg: "گذرواژه شما باید بیشتر از 6 حرف باشد",
+              icon: Icons.vpn_key_outlined,
+              iconColor: Colors.yellow.shade800);
+        }
+      } else {
+        alert(
+            context: context,
+            themeChange: themeChange,
+            aType: AlertType.warning,
+            dstRoute: "confirm",
+            title: "ورودی اطلاعات برای ثبت ناقص است",
+            desc:
+                "شما نمی توانید فیلد های مهمی که در این صفحه وجود دارد را خالی رها کنید");
+      }
+      setState(() {
+        emptyTextFieldErrEmailCode = null;
+        emptyTextFieldErrEmail = null;
+        emptyTextFieldErrPassword = null;
+        emptyTextFieldErrRePassword = null;
+      });
     }
 
     // Convert Image to base 64
@@ -203,7 +291,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
                 gettingLogin(
+                    uToken: uToken,
                     email: email,
+                    curPass: currentPass,
                     pass: password,
                     rePass: rePassword,
                     avatar: imgSource);

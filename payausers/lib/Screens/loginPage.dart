@@ -80,7 +80,11 @@ class _LoginPageState extends State<LoginPage> {
     void goToConfirm(token) async {
       try {
         Map userInfo = await api.getStaffInfo(token: token);
-        Navigator.pushNamed(context, "/confirm", arguments: userInfo);
+        Navigator.pushNamed(context, "/confirm", arguments: {
+          "userInfo": userInfo,
+          "curPass": password,
+          "token": token
+        });
       } catch (e) {
         Toast.show("Can't Confirm you", context,
             duration: Toast.LENGTH_LONG,
