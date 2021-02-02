@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:payausers/controller/connectivityCheck.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
+import 'package:connectivity/connectivity.dart';
 
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
@@ -46,11 +48,18 @@ ApiAccess api = ApiAccess();
 
 class _MainoState extends State<Maino> {
   FlutterSecureStorage lds = FlutterSecureStorage();
+  String _connectionStatus = 'Un';
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
-    checkInternetConnection(context: context);
+
+    initConnectivity();
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+
     _pageController = PageController();
     tabBarIndex = 0;
     Timer.periodic(Duration(seconds: 10), (timer) {
@@ -58,6 +67,47 @@ class _MainoState extends State<Maino> {
     });
     READYLOCALVAR();
     SystemChannels.textInput.invokeMethod('TextInput.hide');
+  }
+
+  @override
+  void dispose() {
+    initConnectivity();
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+    if (!mounted) {
+      return Future.value(null);
+    }
+
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+        break;
+      case ConnectivityResult.mobile:
+        break;
+      case ConnectivityResult.none:
+        showStatusInCaseOfFlush(
+            context: context,
+            title: connectionFailedTitle,
+            msg: connectionFailed,
+            iconColor: Colors.blue,
+            icon: Icons.wifi_off_rounded);
+        break;
+      default:
+        setState(() => _connectionStatus = 'Failed to get connectivity.');
+        break;
+    }
   }
 
   void READYLOCALVAR() {

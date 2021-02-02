@@ -47,7 +47,7 @@ class ReservedTab extends StatelessWidget {
       shrinkWrap: true,
       reverse: true,
       primary: false,
-      itemCount: reserves.length != 0 ? reserves.length : 0,
+      itemCount: reserves != null ? reserves.length : null,
       itemBuilder: (BuildContext context, index) {
         List perment = reserves[index]['plate'].split("-");
         return SingleChildScrollView(
@@ -73,7 +73,9 @@ class ReservedTab extends StatelessWidget {
     );
 
     final finalContext =
-        reserves.isNotEmpty ? mainUserReserveHistory : emptyListManagerShower;
+        reserves != null ? mainUserReserveHistory : emptyListManagerShower;
+
+    // print(reserves != null ? "Null nist" : "Nulle");
 
     return SafeArea(
       child: SingleChildScrollView(
