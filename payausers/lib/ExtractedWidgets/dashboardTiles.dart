@@ -34,7 +34,7 @@ class DashboardTiles extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Icon(icon, size: 33, color: iconColor),
                 width: 60,
                 height: 60,
