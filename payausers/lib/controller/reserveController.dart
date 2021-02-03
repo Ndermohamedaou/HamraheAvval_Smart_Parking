@@ -6,6 +6,8 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
 
+import '../ConstFiles/constText.dart';
+
 Future<List> gettingMyPlates() async {
   ApiAccess api = ApiAccess();
   FlutterSecureStorage lds = FlutterSecureStorage();
@@ -14,11 +16,10 @@ Future<List> gettingMyPlates() async {
   return plates;
 }
 
-// TODO Check this alert to show it to users
-void alert({bool themeChange, context, title, desc}) {
+void alert({bool themeChange, context, title, desc, tAlert}) {
   Alert(
     context: context,
-    type: AlertType.success,
+    type: tAlert,
     title: title,
     desc: desc,
     style: AlertStyle(
@@ -50,13 +51,21 @@ void reserveMe({st, et, pt, context, bool themeChange}) async {
     try {
       String reserveResult = await api.reserveByUser(
           token: userToken, startTime: st, endTime: et, plateNo: pt);
+      print("$reserveResult");
       if (reserveResult == "200") {
-        // print("======$reserveResult======");
         alert(
             context: context,
             themeChange: themeChange,
+            tAlert: AlertType.success,
             title: titleOfReserve,
             desc: resultOfReserve);
+      } else if (reserveResult == "AlreadyReserved") {
+        alert(
+            context: context,
+            tAlert: AlertType.warning,
+            themeChange: themeChange,
+            title: titleOfFailedReserve,
+            desc: descOfFailedReserve);
       }
     } catch (e) {
       Toast.show(dataEntryUnCorrect, context,
