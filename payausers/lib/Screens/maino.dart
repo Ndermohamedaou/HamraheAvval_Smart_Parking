@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,12 +7,10 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/controller/connectivityCheck.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
 import 'package:connectivity/connectivity.dart';
-
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
@@ -48,6 +44,7 @@ ApiAccess api = ApiAccess();
 
 class _MainoState extends State<Maino> {
   FlutterSecureStorage lds = FlutterSecureStorage();
+  // Check internet connection
   String _connectionStatus = 'Un';
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -56,6 +53,7 @@ class _MainoState extends State<Maino> {
   void initState() {
     super.initState();
 
+    // Initialize Connection Subscription
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
@@ -72,10 +70,12 @@ class _MainoState extends State<Maino> {
   @override
   void dispose() {
     initConnectivity();
+    // Close init
     _connectivitySubscription.cancel();
     super.dispose();
   }
 
+  // Checker Function internet connection
   Future<void> initConnectivity() async {
     ConnectivityResult result;
     try {

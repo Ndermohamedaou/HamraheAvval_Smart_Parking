@@ -275,7 +275,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         // Go to controller
         reserveMe(
             context: context,
-            st: strDateTimeEnd,
+            st: strDateTimeStart,
             et: strDateTimeEnd,
             pt: reallyPlate,
             themeChange: themeChange.darkTheme);

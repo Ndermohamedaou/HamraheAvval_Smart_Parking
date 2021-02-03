@@ -1,15 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles.dart';
 import 'package:payausers/ExtractedWidgets/userLeading.dart';
-import 'package:payausers/Screens/addUserPlateAlternative.dart';
-import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flushbar/flushbar.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard(
@@ -47,8 +42,8 @@ class Dashboard extends StatelessWidget {
             : size.width <= 380
                 ? (itemWidth / itemHeight) / 2.8
                 : size.width >= 700 && size.width < 1000
-                    ? (itemWidth / itemHeight) / 6
-                    : (itemWidth / itemHeight) / 5;
+                    ? (itemWidth / itemHeight) / 2
+                    : (itemWidth / itemHeight) / 3;
 
     return Container(
         child: SingleChildScrollView(

@@ -7,9 +7,13 @@ ApiAccess api = ApiAccess();
 FlutterSecureStorage lds = FlutterSecureStorage();
 
 String img2Base64(img) {
-  final byteImg = img.readAsBytesSync();
-  String _img64 = base64Encode(byteImg);
-  return _img64;
+  if (img != null) {
+    final byteImg = img.readAsBytesSync();
+    String _img64 = base64Encode(byteImg);
+    return _img64;
+  } else {
+    return "";
+  }
 }
 
 Future<String> sendingImage(img) async {

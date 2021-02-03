@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -99,12 +98,14 @@ class _SettingsPageState extends State<SettingsPage> {
           if (testAvatar != "") {
             showStatusInCaseOfFlush(
                 context: context,
+                title: "",
                 msg: sendSuccessful,
                 iconColor: Colors.green,
                 icon: Icons.done_outline);
           } else {
             showStatusInCaseOfFlush(
                 context: context,
+                title: "",
                 msg: sendFailed,
                 iconColor: Colors.red,
                 icon: Icons.remove_done);
@@ -119,6 +120,7 @@ class _SettingsPageState extends State<SettingsPage> {
         print(e);
         showStatusInCaseOfFlush(
             context: context,
+            title: "",
             msg: sendDenied,
             iconColor: Colors.red,
             icon: Icons.remove_done);
