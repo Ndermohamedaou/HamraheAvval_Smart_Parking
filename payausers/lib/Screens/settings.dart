@@ -141,7 +141,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     Container(
                       margin:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

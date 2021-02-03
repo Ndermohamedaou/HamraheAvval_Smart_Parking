@@ -186,7 +186,8 @@ class _MainoState extends State<Maino> {
       // print(reservedList);
       return reservedList;
     } catch (e) {
-      print(e);
+      // print(e);
+      return [];
     }
   }
 
@@ -242,7 +243,10 @@ class _MainoState extends State<Maino> {
               UserTraffic(
                 userTrafficLog: userTraffic,
               ),
-              ReservedTab(mainThemeColor: themeChange, reserves: userReserved),
+              ReservedTab(
+                mainThemeColor: themeChange,
+                reserves: userReserved,
+              ),
               AddUserPlate(),
               Settings(fullNameMeme: name, avatarMeme: avatar)
             ],

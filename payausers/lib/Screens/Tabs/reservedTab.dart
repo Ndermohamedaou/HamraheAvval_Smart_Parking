@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/miniPlate.dart';
 import 'package:payausers/ExtractedWidgets/miniReserveHistory.dart';
 
 AlphabetList alp = AlphabetList();
@@ -66,7 +64,9 @@ class ReservedTab extends StatelessWidget {
     );
 
     final finalContext =
-        reserves != null ? mainUserReserveHistory : emptyListManagerShower;
+        reserves.length != 0 ? mainUserReserveHistory : emptyListManagerShower;
+
+    // print("this is $reserves");
 
     return SafeArea(
       child: SingleChildScrollView(

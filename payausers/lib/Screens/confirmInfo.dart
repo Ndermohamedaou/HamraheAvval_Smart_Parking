@@ -50,10 +50,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     final currentPass = modalRoute["curPass"];
     final uToken = modalRoute["token"];
 
-    print(userInfo);
+    // print(userInfo);
 
     void gettingLogin({uToken, email, curPass, pass, rePass, avatar}) async {
-      final _img64 = img2Base64(avatar);
+      final _img64 = img2Base64(avatar == null ? "" : avatar);
       if (email != "" || pass != "" || rePass != "") {
         if (pass.length > 6 && rePass.length > 6) {
           if (pass == rePass) {
@@ -89,25 +89,35 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               }
             } catch (e) {
               showStatusInCaseOfFlush(
-                context: context,
-                msg: e.toString(),
-              );
+                  context: context,
+                  title: "",
+                  msg: e.toString(),
+                  icon: Icons.workspaces_outline,
+                  iconColor: Colors.red);
             }
           } else {
             showStatusInCaseOfFlush(
                 context: context,
-                msg: "گذرواژه جدید باید با تکرار آن یکسان باشد",
+                title: "گذرواژه جدید باید با تکرار آن یکسان باشد",
+                msg: "",
                 icon: Icons.workspaces_outline,
                 iconColor: Colors.red);
           }
         } else {
           showStatusInCaseOfFlush(
               context: context,
-              msg: "گذرواژه شما باید بیشتر از 6 حرف باشد",
+              title: "گذرواژه شما باید بیشتر از 6 حرف باشد",
+              msg: "",
               icon: Icons.vpn_key_outlined,
               iconColor: Colors.yellow.shade800);
         }
       } else {
+        setState(() {
+          emptyTextFieldErrEmailCode = null;
+          emptyTextFieldErrEmail = null;
+          emptyTextFieldErrPassword = null;
+          emptyTextFieldErrRePassword = null;
+        });
         alert(
             context: context,
             themeChange: themeChange,
@@ -117,12 +127,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
             desc:
                 "شما نمی توانید فیلد های مهمی که در این صفحه وجود دارد را خالی رها کنید");
       }
-      setState(() {
-        emptyTextFieldErrEmailCode = null;
-        emptyTextFieldErrEmail = null;
-        emptyTextFieldErrPassword = null;
-        emptyTextFieldErrRePassword = null;
-      });
     }
 
     // Convert Image to base 64
