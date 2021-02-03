@@ -33,24 +33,7 @@ class SavingData {
     return uToken != null ? true : false;
   }
 
-  // Future<bool> savingPlate({plates}) async {
-  //   int plateIndexer = 0;
-  //   plates.forEacht((plate) async {
-  //     dynamic plateQty = [
-  //       plate["plate0"],
-  //       plate["plate1"],
-  //       plate["plate2"],
-  //       plate["plate3"]
-  //     ];
-  //     await lStorage.write(key: "plate${plateIndexer}", value: plateQty);
-  //     plateIndexer += 1;
-  //   });
-  //   List plateTest = await lStorage.read(key: "plate0") as List;
-  //   print(plateTest);
-  //   return plateTest != [] ? true : false;
-  // }
-
-  Future<String> getToken (){
+  Future<String> getToken() {
     return lStorage.read(key: "token");
   }
 }

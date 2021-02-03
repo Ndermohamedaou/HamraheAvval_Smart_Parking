@@ -27,7 +27,7 @@ class ApiAccess {
       "current_password": curPass,
       "new_password": newPass
     });
-    return response.data;
+    return response.data['status'];
   }
 
   Future<String> getUserAvatar({token}) async {
