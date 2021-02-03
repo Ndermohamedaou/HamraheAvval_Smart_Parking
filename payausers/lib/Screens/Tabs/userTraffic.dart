@@ -47,12 +47,13 @@ class UserTraffic extends StatelessWidget {
     Widget searchingProcess = Column(
       children: [
         Lottie.asset("assets/lottie/searching.json"),
-        Text(searchingUserTraffics,
+        Text(userTrafficNull,
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
       ],
     );
 
-    final plateContext = userTrafficLog.isEmpty ? searchingProcess : traffics;
+    final plateContext =
+        userTrafficLog.length == 0 ? searchingProcess : traffics;
 
     // print(userTrafficLog.length);
     return SafeArea(

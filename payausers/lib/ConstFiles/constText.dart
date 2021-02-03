@@ -134,3 +134,4 @@ const changeSuccess = "گذرواژه جدید شما با موفقیت ثبت �
 // My plate
 const searchingProcessText = "درحال یافتن پلاک";
 const searchingUserTraffics = "در حال یافتن اطلاعات تردد";
+const userTrafficNull = "تردد شما خالی می باشد";

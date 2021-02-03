@@ -66,9 +66,7 @@ class ReservedTab extends StatelessWidget {
     );
 
     final finalContext =
-        reserves?.isNotEmpty ? mainUserReserveHistory : emptyListManagerShower;
-
-    // print(reserves?.isEmpty ? "Nulle" : "null nist");
+        reserves != null ? mainUserReserveHistory : emptyListManagerShower;
 
     return SafeArea(
       child: SingleChildScrollView(
