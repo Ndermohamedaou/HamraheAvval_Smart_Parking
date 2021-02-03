@@ -17,6 +17,8 @@ import 'package:toast/toast.dart';
 // Controller to Convert image
 import 'package:payausers/controller/changeAvatar.dart';
 
+import '../controller/flushbarStatus.dart';
+
 String userAvatar = "";
 String userIdentify = "";
 String userName = "";
@@ -93,17 +95,19 @@ class _SettingsPageState extends State<SettingsPage> {
           final userAvatarChanged = userDetails["avatar"];
           await lds.write(key: "avatar", value: userAvatarChanged);
           final testAvatar = await lds.read(key: "avatar");
-          print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
+          // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
           if (testAvatar != "") {
-            Toast.show(sendSuccessful, context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                textColor: Colors.white);
+            showStatusInCaseOfFlush(
+                context: context,
+                msg: sendSuccessful,
+                iconColor: Colors.green,
+                icon: Icons.done_outline);
           } else {
-            Toast.show(sendFailed, context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                textColor: Colors.white);
+            showStatusInCaseOfFlush(
+                context: context,
+                msg: sendFailed,
+                iconColor: Colors.red,
+                icon: Icons.remove_done);
           }
         } else {
           Toast.show(sendServerFailed, context,
@@ -112,10 +116,12 @@ class _SettingsPageState extends State<SettingsPage> {
               textColor: Colors.white);
         }
       } catch (e) {
-        Toast.show(sendDenied, context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
+        print(e);
+        showStatusInCaseOfFlush(
+            context: context,
+            msg: sendDenied,
+            iconColor: Colors.red,
+            icon: Icons.remove_done);
       }
     }
 

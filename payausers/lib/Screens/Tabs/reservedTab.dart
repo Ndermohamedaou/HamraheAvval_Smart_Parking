@@ -23,13 +23,6 @@ class ReservedTab extends StatelessWidget {
         ? "assets/lottie/reserve_dark.json"
         : "assets/lottie/reserve_light.json";
 
-    // String rawPlate = reserves[0]["plate"];
-    // var splitedPlate = rawPlate.split("-");
-    // print("--------======-------");
-    // print(splitedPlate[2].substring(0, 3));
-
-    // print(alp.getAlp()["Sad"]);
-
     Widget emptyListManagerShower = Column(
       children: [
         Center(
@@ -73,9 +66,9 @@ class ReservedTab extends StatelessWidget {
     );
 
     final finalContext =
-        reserves != null ? mainUserReserveHistory : emptyListManagerShower;
+        reserves?.isNotEmpty ? mainUserReserveHistory : emptyListManagerShower;
 
-    // print(reserves != null ? "Null nist" : "Nulle");
+    // print(reserves?.isEmpty ? "Nulle" : "null nist");
 
     return SafeArea(
       child: SingleChildScrollView(

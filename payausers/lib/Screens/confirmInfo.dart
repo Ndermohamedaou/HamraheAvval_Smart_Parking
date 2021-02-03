@@ -250,7 +250,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               ),
               SizedBox(height: 20),
               TextFields(
-                lblText: passwordPlaceHolder,
+                lblText: passwordPlaceHolderNew,
                 maxLen: 20,
                 readOnly: false,
                 errText: emptyTextFieldErrPassword == null

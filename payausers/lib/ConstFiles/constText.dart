@@ -3,10 +3,9 @@ const connectionFailedTitle = "مشکل در برقرار ارتباط با سر
 const connectionFailed =
     "اتصال خود را به اینترنت بررسی کنید یا از خاموش بودن VPN خود اطمینان حاصل کنید";
 
-
 // Defective INFO
-const defectiveInfo =  "ورودی اطلاعات ناقص است";
-const defectiveInfoMsg =  "لطفا اطلاعات را با دقت وارد کنید";
+const defectiveInfo = "ورودی اطلاعات ناقص است";
+const defectiveInfoMsg = "لطفا اطلاعات را با دقت وارد کنید";
 
 // Intro main title
 const introTitle1Text = "کاربران پایا";
@@ -18,7 +17,8 @@ const loginAppBarText = "ورود به حساب";
 const finalLoginText = "ورود";
 const welcomeToInfo = "برای ورود \n اطلاعات خود را وارد کنید";
 const personalCodePlaceHolder = "کد پرسنلی";
-const passwordPlaceHolder = "گذرواژه";
+const passwordPlaceHolder = "گذرواژه جدید";
+const passwordPlaceHolderNew = "تکرار گذرواژه جدید";
 const forgetPass = "گذرواژه خود را فراموش کرده اید؟";
 
 // Login
