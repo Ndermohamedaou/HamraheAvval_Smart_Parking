@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -223,34 +224,45 @@ class _MainoState extends State<Maino> {
 
     return WillPopScope(
       child: Scaffold(
-        body: SafeArea(
-          child: PageView(
-            controller: _pageController,
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              Dashboard(
-                userQRCode: userId != "" ? userId : "-",
-                fullnameMeme: name != "" ? name : "-",
-                userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
-                avatarMeme: avatar != null ? avatar : null,
-                section: userSection != "" ? userSection : "-",
-                role: userRole != "" ? userRole : "-",
-                userPlateNumber: plateNo != "" ? plateNo : "-",
-                userTrafficNumber:
-                    userTrafficStatus != "" ? userTrafficStatus : "-",
-                userReserveNumber:
-                    userReseveStatusLen != "" ? userReseveStatusLen : "-",
+        body: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text(
+              'برای خروج دوبار روی بازگشت کلیک کنید',
+              style: TextStyle(
+                fontFamily: mainFaFontFamily,
               ),
-              UserTraffic(
-                userTrafficLog: userTraffic,
-              ),
-              ReservedTab(
-                mainThemeColor: themeChange,
-                reserves: userReserved,
-              ),
-              AddUserPlate(),
-              Settings(fullNameMeme: name, avatarMeme: avatar)
-            ],
+              textAlign: TextAlign.right,
+            ),
+          ),
+          child: SafeArea(
+            child: PageView(
+              controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Dashboard(
+                  userQRCode: userId != "" ? userId : "-",
+                  fullnameMeme: name != "" ? name : "-",
+                  userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
+                  avatarMeme: avatar != null ? avatar : null,
+                  section: userSection != "" ? userSection : "-",
+                  role: userRole != "" ? userRole : "-",
+                  userPlateNumber: plateNo != "" ? plateNo : "-",
+                  userTrafficNumber:
+                      userTrafficStatus != "" ? userTrafficStatus : "-",
+                  userReserveNumber:
+                      userReseveStatusLen != "" ? userReseveStatusLen : "-",
+                ),
+                UserTraffic(
+                  userTrafficLog: userTraffic,
+                ),
+                ReservedTab(
+                  mainThemeColor: themeChange,
+                  reserves: userReserved,
+                ),
+                AddUserPlate(),
+                Settings(fullNameMeme: name, avatarMeme: avatar)
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: Directionality(
@@ -331,8 +343,10 @@ class _MainoState extends State<Maino> {
           ),
         ),
       ),
-      onWillPop: () =>
-          SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+      onWillPop: () {
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        // exit(0);
+      },
     );
   }
 }

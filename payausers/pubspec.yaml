@@ -36,6 +36,7 @@ dependencies:
   flutter_time_picker_spinner: ^1.0.6+1
   rflutter_alert: ^1.1.0
   double_back_to_close_app: 
+  double_back_to_close:
   flutter_phoenix: ^0.1.0
   modal_bottom_sheet: ^1.0.0+1
   flutter_slidable:
