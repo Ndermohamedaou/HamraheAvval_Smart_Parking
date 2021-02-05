@@ -223,130 +223,130 @@ class _MainoState extends State<Maino> {
         lenOfReserve != "" ? lenOfReserve : emptyPlateNumber;
 
     return WillPopScope(
-      child: Scaffold(
-        body: DoubleBackToCloseApp(
-          snackBar: SnackBar(
-            content: Text(
-              'برای خروج دوبار روی بازگشت کلیک کنید',
-              style: TextStyle(
-                fontFamily: mainFaFontFamily,
+        child: Scaffold(
+          body: DoubleBackToCloseApp(
+            snackBar: SnackBar(
+              content: Text(
+                'برای خروج دوبار روی بازگشت کلیک کنید',
+                style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                ),
+                textAlign: TextAlign.right,
               ),
-              textAlign: TextAlign.right,
+            ),
+            child: SafeArea(
+              child: PageView(
+                controller: _pageController,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  Dashboard(
+                    userQRCode: userId != "" ? userId : "-",
+                    fullnameMeme: name != "" ? name : "-",
+                    userPersonalCodeMeme:
+                        personalCode != "" ? personalCode : "-",
+                    avatarMeme: avatar != null ? avatar : null,
+                    section: userSection != "" ? userSection : "-",
+                    role: userRole != "" ? userRole : "-",
+                    userPlateNumber: plateNo != "" ? plateNo : "-",
+                    userTrafficNumber:
+                        userTrafficStatus != "" ? userTrafficStatus : "-",
+                    userReserveNumber:
+                        userReseveStatusLen != "" ? userReseveStatusLen : "-",
+                  ),
+                  UserTraffic(
+                    userTrafficLog: userTraffic,
+                  ),
+                  ReservedTab(
+                    mainThemeColor: themeChange,
+                    reserves: userReserved,
+                  ),
+                  AddUserPlate(),
+                  Settings(fullNameMeme: name, avatarMeme: avatar)
+                ],
+              ),
             ),
           ),
-          child: SafeArea(
-            child: PageView(
-              controller: _pageController,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                Dashboard(
-                  userQRCode: userId != "" ? userId : "-",
-                  fullnameMeme: name != "" ? name : "-",
-                  userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
-                  avatarMeme: avatar != null ? avatar : null,
-                  section: userSection != "" ? userSection : "-",
-                  role: userRole != "" ? userRole : "-",
-                  userPlateNumber: plateNo != "" ? plateNo : "-",
-                  userTrafficNumber:
-                      userTrafficStatus != "" ? userTrafficStatus : "-",
-                  userReserveNumber:
-                      userReseveStatusLen != "" ? userReseveStatusLen : "-",
+          bottomNavigationBar: Directionality(
+            textDirection: TextDirection.rtl,
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: themeChange.darkTheme ? darkBar : lightBar,
+              selectedItemColor: Colors.blue,
+              unselectedItemColor: HexColor('#C9C9C9'),
+              selectedIconTheme: IconThemeData(color: Colors.blue),
+              iconSize: 25,
+              // unselectedIconTheme: IconThemeData(size: 25),
+              selectedFontSize: 14,
+              unselectedFontSize: 14,
+              currentIndex: tabBarIndex,
+              onTap: (indexValue) {
+                setState(() {
+                  tabBarIndex = indexValue;
+                  _pageController.animateToPage(tabBarIndex,
+                      duration: Duration(milliseconds: 3), curve: Curves.ease);
+                  // print(tabBarIndex);
+                });
+              },
+              items: [
+                BottomNavigationBarItem(
+                  title: Text(
+                    dashboardText,
+                    style: TextStyle(fontFamily: mainFaFontFamily),
+                  ),
+                  icon: Icon(
+                    Icons.view_quilt,
+                  ),
                 ),
-                UserTraffic(
-                  userTrafficLog: userTraffic,
+                BottomNavigationBarItem(
+                  title: Text(
+                    transactionText,
+                    style: TextStyle(fontFamily: mainFaFontFamily),
+                  ),
+                  icon: Icon(
+                    Icons.view_day,
+                  ),
                 ),
-                ReservedTab(
-                  mainThemeColor: themeChange,
-                  reserves: userReserved,
+                BottomNavigationBarItem(
+                  title: Container(
+                    child: Text(
+                      reserveText,
+                      style: TextStyle(fontFamily: mainFaFontFamily),
+                    ),
+                  ),
+                  icon: CircleAvatar(
+                    backgroundColor: loginBtnColor,
+                    radius: 25,
+                    child: Icon(
+                      Icons.add_business_outlined,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                AddUserPlate(),
-                Settings(fullNameMeme: name, avatarMeme: avatar)
+                BottomNavigationBarItem(
+                  title: Text(
+                    "افزودن پلاک",
+                    style: TextStyle(fontFamily: mainFaFontFamily),
+                  ),
+                  icon: Icon(
+                    Icons.post_add_sharp,
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  title: Text(
+                    settingsText,
+                    style: TextStyle(fontFamily: mainFaFontFamily),
+                  ),
+                  icon: Icon(
+                    Icons.account_circle,
+                  ),
+                ),
               ],
             ),
           ),
         ),
-        bottomNavigationBar: Directionality(
-          textDirection: TextDirection.rtl,
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: themeChange.darkTheme ? darkBar : lightBar,
-            selectedItemColor: Colors.blue,
-            unselectedItemColor: HexColor('#C9C9C9'),
-            selectedIconTheme: IconThemeData(color: Colors.blue),
-            iconSize: 25,
-            // unselectedIconTheme: IconThemeData(size: 25),
-            selectedFontSize: 14,
-            unselectedFontSize: 14,
-            currentIndex: tabBarIndex,
-            onTap: (indexValue) {
-              setState(() {
-                tabBarIndex = indexValue;
-                _pageController.animateToPage(tabBarIndex,
-                    duration: Duration(milliseconds: 3), curve: Curves.ease);
-                // print(tabBarIndex);
-              });
-            },
-            items: [
-              BottomNavigationBarItem(
-                title: Text(
-                  dashboardText,
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-                icon: Icon(
-                  Icons.view_quilt,
-                ),
-              ),
-              BottomNavigationBarItem(
-                title: Text(
-                  transactionText,
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-                icon: Icon(
-                  Icons.view_day,
-                ),
-              ),
-              BottomNavigationBarItem(
-                title: Container(
-                  child: Text(
-                    reserveText,
-                    style: TextStyle(fontFamily: mainFaFontFamily),
-                  ),
-                ),
-                icon: CircleAvatar(
-                  backgroundColor: loginBtnColor,
-                  radius: 25,
-                  child: Icon(
-                    Icons.add_business_outlined,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              BottomNavigationBarItem(
-                title: Text(
-                  "افزودن پلاک",
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-                icon: Icon(
-                  Icons.post_add_sharp,
-                ),
-              ),
-              BottomNavigationBarItem(
-                title: Text(
-                  settingsText,
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-                icon: Icon(
-                  Icons.account_circle,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      onWillPop: () {
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-        // exit(0);
-      },
-    );
+        onWillPop: () =>
+            SystemChannels.platform.invokeMethod('SystemNavigator.pop')
+        // exit(0),
+        );
   }
 }

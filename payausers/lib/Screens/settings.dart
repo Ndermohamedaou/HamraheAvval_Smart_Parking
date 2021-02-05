@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/optionViewer.dart';
 import 'package:payausers/Screens/maino.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -80,8 +82,8 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    Future galleryViewer() async {
-      final image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    Future galleryViewer(ImageSource changeType) async {
+      final image = await ImagePicker.pickImage(source: changeType);
       setState(() {
         imgSource = image;
       });
@@ -167,7 +169,27 @@ class _SettingsPageState extends State<SettingsPage> {
                       uId: userId,
                     ),
                     FlatButton(
-                      onPressed: () => galleryViewer(),
+                      onPressed: () {
+                        showMaterialModalBottomSheet(
+                          context: context,
+                          enableDrag: true,
+                          bounce: true,
+                          duration: const Duration(milliseconds: 550),
+                          builder: (context) => SingleChildScrollView(
+                            controller: ModalScrollController.of(context),
+                            child: GalleryViewerOption(
+                              cameraChoose: () {
+                                Navigator.pop(context);
+                                galleryViewer(ImageSource.camera);
+                              },
+                              galleryChoose: () {
+                                Navigator.pop(context);
+                                galleryViewer(ImageSource.gallery);
+                              },
+                            ),
+                          ),
+                        );
+                      },
                       child: Text(
                         changeAvatarScreen,
                         style: TextStyle(
