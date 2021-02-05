@@ -68,7 +68,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
           } else {
             showStatusInCaseOfFlush(
                 context: context,
-                title: "گذرواژه نامعتبر",
+                title: notValidPassText,
                 msg: passwordCheckerText,
                 icon: Icons.email,
                 iconColor: Colors.deepOrange);

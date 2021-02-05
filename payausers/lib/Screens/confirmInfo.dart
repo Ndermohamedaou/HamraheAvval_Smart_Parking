@@ -12,6 +12,7 @@ import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/validator/textValidator.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
@@ -57,43 +58,55 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
       if (email != "" || pass != "" || rePass != "") {
         if (pass.length > 6 && rePass.length > 6) {
           if (pass == rePass) {
-            try {
-              final result = await api.updateStaffInfoInConfrimation(
-                  token: uToken,
-                  email: email,
-                  curPass: curPass,
-                  newPass: pass,
-                  avatar: _img64);
-              if (result == "200") {
-                // Saving data to local
-                Map staffInfo = await api.getStaffInfo(token: uToken);
-                bool result = await savingData.LDS(
-                    token: uToken,
-                    user_id: staffInfo["user_id"],
-                    email: staffInfo["email"],
-                    name: staffInfo["name"],
-                    role: staffInfo['role'],
-                    avatar: staffInfo["avatar"],
-                    melli_code: staffInfo['melli_code'],
-                    personal_code: staffInfo['personal_code'],
-                    section: staffInfo["section"]);
+            bool testPass = passwordRegex(pass);
+            bool testRePass = passwordRegex(rePass);
 
-                if (result) {
-                  Navigator.pushNamed(context, "/loginCheckout");
-                } else {
-                  Toast.show("Your info can not saved", context,
-                      duration: Toast.LENGTH_LONG,
-                      gravity: Toast.BOTTOM,
-                      textColor: Colors.white);
+            if (testPass && testRePass) {
+              try {
+                final result = await api.updateStaffInfoInConfrimation(
+                    token: uToken,
+                    email: email,
+                    curPass: curPass,
+                    newPass: pass,
+                    avatar: _img64);
+                if (result == "200") {
+                  // Saving data to local
+                  Map staffInfo = await api.getStaffInfo(token: uToken);
+                  bool result = await savingData.LDS(
+                      token: uToken,
+                      user_id: staffInfo["user_id"],
+                      email: staffInfo["email"],
+                      name: staffInfo["name"],
+                      role: staffInfo['role'],
+                      avatar: staffInfo["avatar"],
+                      melli_code: staffInfo['melli_code'],
+                      personal_code: staffInfo['personal_code'],
+                      section: staffInfo["section"]);
+
+                  if (result) {
+                    Navigator.pushNamed(context, "/loginCheckout");
+                  } else {
+                    Toast.show("Your info can not saved", context,
+                        duration: Toast.LENGTH_LONG,
+                        gravity: Toast.BOTTOM,
+                        textColor: Colors.white);
+                  }
                 }
+              } catch (e) {
+                showStatusInCaseOfFlush(
+                    context: context,
+                    title: "",
+                    msg: e.toString(),
+                    icon: Icons.workspaces_outline,
+                    iconColor: Colors.red);
               }
-            } catch (e) {
+            } else {
               showStatusInCaseOfFlush(
                   context: context,
-                  title: "",
-                  msg: e.toString(),
-                  icon: Icons.workspaces_outline,
-                  iconColor: Colors.red);
+                  title: notValidPassText,
+                  msg: passwordCheckerText,
+                  icon: Icons.email,
+                  iconColor: Colors.deepOrange);
             }
           } else {
             showStatusInCaseOfFlush(
