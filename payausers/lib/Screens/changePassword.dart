@@ -1,11 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:lottie/lottie.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/validator/textValidator.dart';
 import 'package:toast/toast.dart';
 
 String currentPassword = "";
@@ -47,18 +47,31 @@ class _ChangePassPageState extends State<ChangePassPage> {
     void changePass({curPass, newPass, confPass}) async {
       if (curPass != "" || newPass != "" || confPass != "") {
         if (newPass.length >= 6 && newPass.length >= 6) {
-          final result = await sendPassword(curPass, newPass);
-          if (result == "200") {
-            Navigator.pop(context);
-            Toast.show(changeSuccess, context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                textColor: Colors.white);
+          // \-- test passwords for complex for with regex
+          bool testNewPass = passwordRegex(newPass);
+          bool testConfPass = passwordRegex(confPass);
+          // --/
+          if (testNewPass && testConfPass) {
+            final result = await sendPassword(curPass, newPass);
+            if (result == "200") {
+              Navigator.pop(context);
+              Toast.show(changeSuccess, context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  textColor: Colors.white);
+            } else {
+              Toast.show(failedToUpdatePass, context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  textColor: Colors.white);
+            }
           } else {
-            Toast.show(failedToUpdatePass, context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                textColor: Colors.white);
+            showStatusInCaseOfFlush(
+                context: context,
+                title: "گذرواژه نامعتبر",
+                msg: passwordCheckerText,
+                icon: Icons.email,
+                iconColor: Colors.deepOrange);
           }
         } else {
           Toast.show(notEnouthLen, context,
