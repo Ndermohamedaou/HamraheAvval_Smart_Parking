@@ -212,8 +212,30 @@ class _SettingsPageState extends State<SettingsPage> {
                       thickness: 1,
                     ),
                     SizedBox(height: 5),
-                    TextShow(
-                      title: userEmail,
+                    Container(
+                      margin: EdgeInsets.only(right: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          Text(
+                            userEmail,
+                            style: TextStyle(
+                              fontFamily: mainFaFontFamily,
+                              fontSize: 20,
+                            ),
+                          ),
+                          FlatButton(
+                            minWidth: 10,
+                            onPressed: () =>
+                                Navigator.pushNamed(context, "/changeEmail"),
+                            child: Icon(
+                              Icons.edit,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 5),
                     Divider(

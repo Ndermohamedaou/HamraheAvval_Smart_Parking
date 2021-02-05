@@ -16,8 +16,8 @@ import 'Screens/myPlate.dart';
 import 'Screens/settings.dart';
 import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
-
 import 'Screens/reservePageEdit.dart';
+import 'Screens/changeUserEmail.dart';
 
 void main() {
   runApp(MyApp());
@@ -70,6 +70,7 @@ class _MyAppState extends State<MyApp> {
               '/changePassword': (context) => ChangePassPage(),
               '/reserveEditaion': (context) => ReserveEditaion(),
               '/addUserplateAlternative': (context) => AddUserPlatAlternative(),
+              '/changeEmail': (context) => ModifyUserEmail(),
             },
           );
         },
