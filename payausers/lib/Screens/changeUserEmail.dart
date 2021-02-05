@@ -5,16 +5,14 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
-import 'package:payausers/Screens/confirmInfo.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
+import 'package:payausers/controller/validator/textValidator.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-String newEmail = "";
-dynamic emptyTextFieldErrEmail = null;
-bool emailValid = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-    .hasMatch(newEmail);
+String newEmail;
+dynamic emptyTextFieldErrEmail;
 
 ApiAccess api = ApiAccess();
 FlutterSecureStorage lds = FlutterSecureStorage();
@@ -26,29 +24,63 @@ class ModifyUserEmail extends StatefulWidget {
 
 class _ModifyUserEmailState extends State<ModifyUserEmail> {
   @override
+  void initState() {
+    newEmail = "";
+    emptyTextFieldErrEmail = null;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    newEmail = "";
+    emptyTextFieldErrEmail = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     void modifyUserEmail(newEmailSubmission) async {
       if (newEmailSubmission != "") {
-        final uToken = await lds.read(key: "token");
-        var result =
-            await api.modifyUserEmail(token: uToken, email: newEmailSubmission);
-        if (result == "200") {
-          await lds.write(key: "email", value: newEmailSubmission);
-          alert(
-              context: context,
-              tAlert: AlertType.success,
-              title: "عملیات با موفقیت انجام شد",
-              desc: "ایمیل شما با موفقیت ویرایش شد",
-              themeChange: themeChange.darkTheme);
+        bool gettingEmailIsEmail = emailValidator(newEmailSubmission);
+
+        if (gettingEmailIsEmail) {
+          final uToken = await lds.read(key: "token");
+          try {
+            var result = await api.modifyUserEmail(
+                token: uToken, email: newEmailSubmission);
+            if (result == "200") {
+              await lds.write(key: "email", value: newEmailSubmission);
+              alert(
+                  context: context,
+                  tAlert: AlertType.success,
+                  title: successChangedEmailTitle,
+                  desc: successChangedEmailDesc,
+                  themeChange: themeChange.darkTheme);
+            } else {
+              alert(
+                  context: context,
+                  tAlert: AlertType.error,
+                  title: failedChangedEmailTitle,
+                  desc: failedChangedEmailDesc,
+                  themeChange: themeChange.darkTheme);
+            }
+          } catch (e) {
+            alert(
+                context: context,
+                tAlert: AlertType.error,
+                title: failedChangedServerEmailTitle,
+                desc: failedChangedServerEmailDesc,
+                themeChange: themeChange.darkTheme);
+          }
         } else {
-          alert(
+          showStatusInCaseOfFlush(
               context: context,
-              tAlert: AlertType.error,
-              title: "عملیات با شکست رو به رو شد",
-              desc: "باری دیگر عمل ویرایش ایمیل خود را انجام دهید",
-              themeChange: themeChange.darkTheme);
+              title: emailSubmissionStructureError,
+              msg: emailSubmissionStructureErrorDesc,
+              icon: Icons.email,
+              iconColor: Colors.deepOrange);
         }
       } else {
         setState(() {

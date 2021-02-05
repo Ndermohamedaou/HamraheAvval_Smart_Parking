@@ -3,7 +3,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-void alert({context, title, desc, aType, themeChange, dstRoute}) {
+void alert({context, title, desc, aType, themeChange, dstRoute, tAlert}) {
   Alert(
     context: context,
     type: aType,
@@ -20,9 +20,7 @@ void alert({context, title, desc, aType, themeChange, dstRoute}) {
         child: Text(
           submitTextForAlert,
           style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontFamily: mainFaFontFamily),
+              color: Colors.black, fontSize: 20, fontFamily: mainFaFontFamily),
         ),
         onPressed: () =>
             Navigator.popUntil(context, ModalRoute.withName("/$dstRoute")),

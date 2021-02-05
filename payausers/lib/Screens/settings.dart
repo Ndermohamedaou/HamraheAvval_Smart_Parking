@@ -221,12 +221,12 @@ class _SettingsPageState extends State<SettingsPage> {
                           Text(
                             userEmail,
                             style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              fontSize: 20,
+                              fontFamily: mainEnFontFamily,
+                              fontSize: 16,
                             ),
                           ),
                           FlatButton(
-                            minWidth: 10,
+                            minWidth: 5,
                             onPressed: () =>
                                 Navigator.pushNamed(context, "/changeEmail"),
                             child: Icon(
@@ -342,9 +342,9 @@ class Rowed extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 20)),
+              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 16)),
           Text(realPost,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 20)),
+              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 16)),
         ],
       ),
     );
@@ -364,7 +364,7 @@ class TextShow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Text(title,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 20)),
+              style: TextStyle(fontFamily: mainEnFontFamily, fontSize: 16)),
         ],
       ),
     );

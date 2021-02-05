@@ -10,6 +10,7 @@ const primarySubmitBtnColor = Colors.green;
 
 // Main Persian font
 const mainFaFontFamily = "BYekan";
+const mainEnFontFamily = "OpenSans";
 
 HexColor mainTitleColor = HexColor("#1D75E3");
 // Intro title

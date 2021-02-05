@@ -135,3 +135,16 @@ const changeSuccess = "گذرواژه جدید شما با موفقیت ثبت �
 const searchingProcessText = "درحال یافتن پلاک";
 const searchingUserTraffics = "در حال یافتن اطلاعات تردد";
 const userTrafficNull = "تردد شما خالی می باشد";
+
+// Settings -> change user email texts
+const successChangedEmailTitle = "عملیات با موفقیت انجام شد";
+const successChangedEmailDesc = "ایمیل شما با موفقیت ویرایش شد";
+const failedChangedEmailTitle = "باری دیگر عمل ویرایش ایمیل خود را انجام دهید";
+const failedChangedEmailDesc = "عملیات با موفقیت انجام شد";
+// Settings -> change user email texts -> alert
+const emailSubmissionStructureError = "خطا در بررسی آدرس ایمیل شما";
+const emailSubmissionStructureErrorDesc =
+    "ایمیل خود را از نظر ساختاری بررسی کنید تا تحت عنوان آدرسی استاندارد ارسال شود";
+const failedChangedServerEmailTitle = "مشکل از سوی سرور";
+const failedChangedServerEmailDesc =
+    "سرویس دهنده نمیتواند به سرویس گیرنده سرویس دهد";
