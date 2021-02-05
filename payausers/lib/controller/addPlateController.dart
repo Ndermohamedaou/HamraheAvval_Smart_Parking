@@ -33,7 +33,8 @@ void sendNewUserPlate(p0, p1, p2, p3, context, themeChange, dst) async {
             context: context,
             themeChange: themeChange,
             dstRoute: dst);
-      } else
+      }
+      if (result == "200") {
         alert(
             aType: AlertType.success,
             title: successAlert,
@@ -41,6 +42,7 @@ void sendNewUserPlate(p0, p1, p2, p3, context, themeChange, dst) async {
             context: context,
             themeChange: themeChange,
             dstRoute: dst);
+      }
     } catch (e) {
       Toast.show(serverNotRespondToAdd, context,
           duration: Toast.LENGTH_LONG,
