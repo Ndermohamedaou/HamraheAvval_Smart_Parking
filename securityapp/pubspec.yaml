@@ -15,6 +15,7 @@ dependencies:
   hexcolor: ^1.0.6
   line_awesome_flutter: ^1.0.1
   dio: ^3.0.10
+  double_back_to_close_app: 
   shared_preferences: ^0.5.12+4
   provider: ^4.3.2+2
   image_picker: ^0.6.7+14
@@ -28,6 +29,7 @@ dependencies:
   flutter_mjpeg: ^1.2.9
   flutter_swiper: ^1.1.6
   lottie: ^0.7.0+1
+  image_native_resizer: ^0.1.2
 
 dev_dependencies:
   flutter_test:

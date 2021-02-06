@@ -1,20 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:securityapp/titleStyle/titles.dart';
 import 'classes/SavingLocalStorage.dart';
 import 'package:toast/toast.dart';
-import 'classes/SharedClass.dart';
 import 'constFile/ConstFile.dart';
 import 'constFile/texts.dart';
 import 'classes/ApiAccess.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:image_native_resizer/image_native_resizer.dart';
 
 import 'controller/safe_control_settings.dart';
 
@@ -46,8 +44,18 @@ class _CameraInsertionState extends State<CameraInsertion> {
       // Converting img file to form data
       // FormData formData = await convertingImg(rawImage);
 
-      final bytesImg = rawImage.readAsBytesSync();
-
+      // Ready for resize image to low and middle quality
+      final reSizeImgPath = await ImageNativeResizer.resize(
+        imagePath: rawImage.path,
+        maxWidth: 512,
+        maxHeight: 512,
+        quality: 50,
+      );
+      // Ready to convert Img uri path to Image File
+      File resizedImgFile = File(reSizeImgPath);
+      // Ready to convert image file to byte code
+      final bytesImg = resizedImgFile.readAsBytesSync();
+      // Ready to encode byty image to base64
       String _img64 = base64Encode(bytesImg);
 
       // print(_img64);
@@ -60,9 +68,9 @@ class _CameraInsertionState extends State<CameraInsertion> {
       Map res = await api.submittingCarPlate(
           uToken: uToken, plate: _img64, cameraState: "0");
       int status = res['status'];
-      print("*****************");
-      print(res);
-      print("*****************");
+      // print("*****************");
+      // print(res);
+      // print("*****************");
       String msg = "";
       if (status == 200) {
         setState(() {

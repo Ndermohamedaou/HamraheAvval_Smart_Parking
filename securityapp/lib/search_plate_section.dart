@@ -15,10 +15,10 @@ import 'titleStyle/titles.dart';
 import 'constFile/texts.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
-String plate0 = "12";
-String plate1 = "ط";
-String plate2 = "345";
-String plate3 = "11";
+String plate0 = "";
+String plate1 = "";
+String plate2 = "";
+String plate3 = "";
 String realPlate = "";
 List<String> platesList = [];
 AlphabetList alp = AlphabetList();

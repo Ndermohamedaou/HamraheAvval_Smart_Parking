@@ -25,7 +25,7 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
       final image = await ImagePicker.pickImage(source: method);
       setState(() {
         _image = image;
-        print(_image.path);
+        // print(_image.path);
         if (_image != null) {
           Navigator.pushNamed(context, '/$navigatedPage',
               arguments: {"img": _image});
@@ -127,8 +127,7 @@ class _AdddingDataMethodsState extends State<AdddingDataMethods> {
             textDirection: TextDirection.rtl,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Lottie.asset(
-                  "assets/lottie/contribute-to-empty-slot.json"),
+              Lottie.asset("assets/lottie/contribute-to-empty-slot.json"),
               GestureDetector(
                 onTap: () {
                   // preparingImage("CameraInsertion");

@@ -1,8 +1,11 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:securityapp/constFile/global_var.dart';
+import 'constFile/ConstFile.dart';
 import 'extractsWidget/home_screen.dart';
 import 'extractsWidget/setting.dart';
 import 'titleStyle/titles.dart';
@@ -32,69 +35,84 @@ class _InputSecurityAppState extends State<InputSecurityApp> {
     // Loading user image and details from LDS
     loadingProfileImage();
     print(imagePath);
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: AppBarTitleConfig(
-            titleText: mainAppBarText,
-            textStyles: TextStyle(
-                fontSize: fontTitleSize,
-                fontFamily: titleFontFamily,
-                color: Colors.white),
+    return WillPopScope(
+      onWillPop: () =>
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Center(
+            child: AppBarTitleConfig(
+              titleText: mainAppBarText,
+              textStyles: TextStyle(
+                  fontSize: fontTitleSize,
+                  fontFamily: titleFontFamily,
+                  color: Colors.white),
+            ),
+          ),
+          leadingWidth: 0,
+          leading: Text(''),
+        ),
+        body: DoubleBackToCloseApp(
+          snackBar: SnackBar(
+            content: Text(
+              'برای خروج دوبار روی بازگشت کلیک کنید',
+              style: TextStyle(
+                fontFamily: mainFontFamily,
+              ),
+              textAlign: TextAlign.right,
+            ),
+          ),
+          child: SafeArea(
+            child: PageView(
+              onPageChanged: (value) {
+                setState(() {
+                  tabBarIndex = value;
+                });
+              },
+              controller: _pageController,
+              children: screens,
+            ),
           ),
         ),
-        leadingWidth: 0,
-        leading: Text(''),
-      ),
-      body: SafeArea(
-        child: PageView(
-          onPageChanged: (value) {
-            setState(() {
-              tabBarIndex = value;
-            });
-          },
-          controller: _pageController,
-          children: screens,
-        ),
-      ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: HexColor('#0b172a'),
-          selectedItemColor: HexColor('#21d9ad'),
-          unselectedItemColor: HexColor('#545c69'),
-          selectedFontSize: 14,
-          unselectedFontSize: 14,
-          iconSize: 30,
-          unselectedIconTheme: IconThemeData(size: 25),
-          currentIndex: tabBarIndex,
-          onTap: (currentIndex) {
-            setState(() {
-              tabBarIndex = currentIndex;
-              _pageController.animateToPage(tabBarIndex,
-                  duration: Duration(milliseconds: 500), curve: Curves.ease);
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-              title: Text(
-                home,
-                style: TextStyle(fontFamily: mainFontFamily),
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: HexColor('#0b172a'),
+            selectedItemColor: HexColor('#21d9ad'),
+            unselectedItemColor: HexColor('#545c69'),
+            selectedFontSize: 14,
+            unselectedFontSize: 14,
+            iconSize: 30,
+            unselectedIconTheme: IconThemeData(size: 25),
+            currentIndex: tabBarIndex,
+            onTap: (currentIndex) {
+              setState(() {
+                tabBarIndex = currentIndex;
+                _pageController.animateToPage(tabBarIndex,
+                    duration: Duration(milliseconds: 500), curve: Curves.ease);
+              });
+            },
+            items: [
+              BottomNavigationBarItem(
+                title: Text(
+                  home,
+                  style: TextStyle(fontFamily: mainFontFamily),
+                ),
+                icon: Icon(LineAwesomeIcons.home),
               ),
-              icon: Icon(LineAwesomeIcons.home),
-            ),
-            BottomNavigationBarItem(
-              title: Text(
-                settings,
-                style: TextStyle(fontFamily: mainFontFamily),
+              BottomNavigationBarItem(
+                title: Text(
+                  settings,
+                  style: TextStyle(fontFamily: mainFontFamily),
+                ),
+                icon: Icon(LineAwesomeIcons.hammer),
               ),
-              icon: Icon(LineAwesomeIcons.hammer),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
