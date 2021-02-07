@@ -41,6 +41,8 @@ List userReserved = [];
 String lenOfTrafic = "";
 String lenOfReserve = "";
 String lenOfUserPlate = "";
+String locationBuilding = "";
+String slotNumberInSituation = "";
 
 ApiAccess api = ApiAccess();
 
@@ -140,6 +142,10 @@ class _MainoState extends State<Maino> {
           lenOfReserve = reserves.length.toString();
         });
       });
+      getUserCarSituation().then((situation) {
+        locationBuilding = situation["locationBuilding"];
+        slotNumberInSituation = situation["slotNo"];
+      });
     });
   }
 
@@ -204,6 +210,22 @@ class _MainoState extends State<Maino> {
     return {"platesNum": lenUserPlate, "userTrafficNum": lenUserTrafficNo};
   }
 
+  // User car plate situation function
+  Future<Map> getUserCarSituation() async {
+    Map staffSitu;
+    try {
+      staffSitu = await api.getStaffInfo(token: userToken);
+      // User Car Plate situation
+      return {
+        "locationBuilding": staffSitu["location"]["building"],
+        "slotNo": staffSitu["location"]["slot"],
+      };
+    } catch (e) {
+      staffSitu = await api.getStaffInfo(token: userToken);
+      return {"locationBuilding": staffSitu["location"], "slotNo": ""};
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //  Dark Theme Changer
@@ -245,8 +267,10 @@ class _MainoState extends State<Maino> {
                     userPersonalCodeMeme:
                         personalCode != "" ? personalCode : "-",
                     avatarMeme: avatar != null ? avatar : null,
-                    section: userSection != "" ? userSection : "-",
-                    role: userRole != "" ? userRole : "-",
+                    section: locationBuilding != "" ? locationBuilding : "-",
+                    role: slotNumberInSituation != ""
+                        ? slotNumberInSituation
+                        : "-",
                     userPlateNumber: plateNo != "" ? plateNo : "-",
                     userTrafficNumber:
                         userTrafficStatus != "" ? userTrafficStatus : "-",

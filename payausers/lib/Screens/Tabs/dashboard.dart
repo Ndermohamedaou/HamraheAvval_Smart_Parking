@@ -146,9 +146,9 @@ class Dashboard extends StatelessWidget {
                   icon: Icons.account_balance,
                   iconColor: HexColor('#66D29F'),
                   text: "موقعیت",
-                  subText: "فعلی شما",
+                  subText: "جایگاه",
                   subSubText: role,
-                  subSubTextColor: HexColor("#66D29F"),
+                  subSubTextColor: HexColor("#69D8A0"),
                   lenOfStuff: section,
                 ),
                 DashboardTiles(
