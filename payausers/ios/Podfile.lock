@@ -7,6 +7,8 @@ PODS:
     - Flutter
   - hexcolor (0.0.1):
     - Flutter
+  - image_native_resizer (0.0.1):
+    - Flutter
   - image_picker (0.0.1):
     - Flutter
   - Reachability (3.2)
@@ -18,6 +20,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - hexcolor (from `.symlinks/plugins/hexcolor/ios`)
+  - image_native_resizer (from `.symlinks/plugins/image_native_resizer/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
@@ -34,6 +37,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   hexcolor:
     :path: ".symlinks/plugins/hexcolor/ios"
+  image_native_resizer:
+    :path: ".symlinks/plugins/image_native_resizer/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   shared_preferences:
@@ -44,6 +49,7 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
+  image_native_resizer: 9f91c5cb7e4388d929f53bc44d2b834bd0e7fe22
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d

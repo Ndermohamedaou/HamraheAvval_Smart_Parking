@@ -88,35 +88,45 @@ class _SettingsPageState extends State<SettingsPage> {
         imgSource = image;
       });
       try {
-        // Go to Controller/changeAvatar.dart
-        String result = await sendingImage(imgSource);
-        if (result == "200") {
-          final uToken = await lds.read(key: "token");
-          final userDetails = await api.getStaffInfo(token: uToken);
-          final userAvatarChanged = userDetails["avatar"];
-          await lds.write(key: "avatar", value: userAvatarChanged);
-          final testAvatar = await lds.read(key: "avatar");
-          // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
-          if (testAvatar != "") {
-            showStatusInCaseOfFlush(
-                context: context,
-                title: "",
-                msg: sendSuccessful,
-                iconColor: Colors.green,
-                icon: Icons.done_outline);
+        if (imgSource != null) {
+          // Go to Controller/changeAvatar.dart
+          String result = await sendingImage(imgSource);
+          if (result == "200") {
+            // print(result);
+            final uToken = await lds.read(key: "token");
+            final userDetails = await api.getStaffInfo(token: uToken);
+            final userAvatarChanged = userDetails["avatar"];
+            await lds.write(key: "avatar", value: userAvatarChanged);
+            final testAvatar = await lds.read(key: "avatar");
+            // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
+            if (testAvatar != "") {
+              showStatusInCaseOfFlush(
+                  context: context,
+                  title: "",
+                  msg: sendSuccessful,
+                  iconColor: Colors.green,
+                  icon: Icons.done_outline);
+            } else {
+              showStatusInCaseOfFlush(
+                  context: context,
+                  title: "",
+                  msg: sendFailed,
+                  iconColor: Colors.red,
+                  icon: Icons.remove_done);
+            }
           } else {
-            showStatusInCaseOfFlush(
-                context: context,
-                title: "",
-                msg: sendFailed,
-                iconColor: Colors.red,
-                icon: Icons.remove_done);
+            Toast.show(sendServerFailed, context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                textColor: Colors.white);
           }
         } else {
-          Toast.show(sendServerFailed, context,
-              duration: Toast.LENGTH_LONG,
-              gravity: Toast.BOTTOM,
-              textColor: Colors.white);
+          showStatusInCaseOfFlush(
+              context: context,
+              title: "",
+              msg: sendDenied,
+              iconColor: Colors.red,
+              icon: Icons.remove_done);
         }
       } catch (e) {
         print(e);
@@ -203,17 +213,19 @@ class _SettingsPageState extends State<SettingsPage> {
                       thickness: 1,
                     ),
                     SizedBox(height: 5),
-                    TextShow(
-                      title: userName,
+                    Container(
+                      margin: EdgeInsets.only(top: 10),
+                      child: TextShow(
+                        title: userName,
+                      ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 10),
                     Divider(
                       color: Colors.black38,
                       thickness: 1,
                     ),
-                    SizedBox(height: 5),
                     Container(
-                      margin: EdgeInsets.only(right: 10),
+                      margin: EdgeInsets.only(right: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         textDirection: TextDirection.rtl,
@@ -237,7 +249,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 5),
                     Divider(
                       color: Colors.black38,
                       thickness: 1,
@@ -266,7 +277,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 color: themeChange.darkTheme ? darkBar : lightBar,
                 child: Column(
                   children: [
-                    SizedBox(height: 5),
+                    SizedBox(height: 10),
                     Rowed(
                       title: personalCodeText,
                       realPost: userPersonal,
