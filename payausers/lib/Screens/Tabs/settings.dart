@@ -16,6 +16,7 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Avatar Meme: $avatarMeme");
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final themeIconLeading = themeChange.darkTheme
         ? Icon(Icons.brightness_5, color: Colors.yellow)

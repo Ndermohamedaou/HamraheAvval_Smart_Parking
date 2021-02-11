@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
@@ -159,19 +158,19 @@ class _MainoState extends State<Maino> {
     String section = await lds.read(key: "section");
     String role = await lds.read(key: "role");
 
-    // try {
-    //   String serverAvatar = await api.getUserAvatar(token: userToken);
-    //   // Correspondence local Avatar with Server side avatar
-    //   if (localAvatar != serverAvatar) {
-    //     setState(() async {
-    //       readyAvatar = serverAvatar;
-    //     });
-    //     await lds.write(key: "avatar", value: serverAvatar);
-    //   }
-    // } catch (e) {
-    //   print(e);
-    //   readyAvatar = await lds.read(key: "avatar");
-    // }
+    try {
+      String serverAvatar = await api.getUserAvatar(token: userToken);
+      // Correspondence local Avatar with Server side avatar
+      if (localAvatar != serverAvatar) {
+        setState(() async {
+          readyAvatar = serverAvatar;
+        });
+        await lds.write(key: "avatar", value: serverAvatar);
+      }
+    } catch (e) {
+      print(e);
+      readyAvatar = await lds.read(key: "avatar");
+    }
 
     return {
       "userId": userId,
@@ -285,7 +284,12 @@ class _MainoState extends State<Maino> {
                     reserves: userReserved,
                   ),
                   AddUserPlate(),
-                  Settings(fullNameMeme: name, avatarMeme: avatar)
+                  Settings(
+                    fullNameMeme: name,
+                    avatarMeme: avatar != ""
+                        ? avatar
+                        : "https://style.anu.edu.au/_anu/4/images/placeholders/person.png",
+                  ),
                 ],
               ),
             ),

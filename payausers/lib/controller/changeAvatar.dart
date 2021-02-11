@@ -9,22 +9,26 @@ ApiAccess api = ApiAccess();
 FlutterSecureStorage lds = FlutterSecureStorage();
 
 Future<String> img2Base64(img) async {
-  if (img != null) {
-    // Ready for resize image to low and middle quality
-    final reSizeImgPath = await ImageNativeResizer.resize(
-      imagePath: img.path,
-      maxWidth: 512,
-      maxHeight: 512,
-      quality: 50,
-    );
-    // Ready to convert Img uri path to Image File
-    File resizedImgFile = File(reSizeImgPath);
-    // Ready to convert image file to byte code
-    final byteImg = resizedImgFile.readAsBytesSync();
-    String _img64 = base64Encode(byteImg);
+  try {
+    if (img != null) {
+      // Ready for resize image to low and middle quality
+      final reSizeImgPath = await ImageNativeResizer.resize(
+        imagePath: img.path,
+        maxWidth: 512,
+        maxHeight: 512,
+        quality: 50,
+      );
+      // Ready to convert Img uri path to Image File
+      File resizedImgFile = File(reSizeImgPath);
+      // Ready to convert image file to byte code
+      final byteImg = resizedImgFile.readAsBytesSync();
+      String _img64 = base64Encode(byteImg);
 
-    return _img64;
-  } else {
+      return _img64;
+    } else {
+      return "";
+    }
+  } catch (e) {
     return "";
   }
 }
