@@ -73,7 +73,7 @@ class DashboardTiles extends StatelessWidget {
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   color: Colors.black,
-                  fontSize: 18),
+                  fontSize: 20),
             ),
           ),
         ],

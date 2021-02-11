@@ -40,7 +40,7 @@ class Dashboard extends StatelessWidget {
         : size.width >= 390 && size.width <= 409
             ? (itemWidth / itemHeight) / 2.4
             : size.width <= 380
-                ? (itemWidth / itemHeight) / 2.8
+                ? (itemWidth / itemHeight) / 3.2
                 : size.width >= 700 && size.width < 1000
                     ? (itemWidth / itemHeight) / 6
                     : (itemWidth / itemHeight) / 5;
