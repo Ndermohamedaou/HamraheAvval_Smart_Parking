@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class UserLeading extends StatelessWidget {
-  const UserLeading({this.fullname, this.userPersonalCode, this.avatarImg});
+  const UserLeading(
+      {this.imgPressed, this.fullname, this.userPersonalCode, this.avatarImg});
 
+  final Function imgPressed;
   final String fullname;
   final String userPersonalCode;
   final String avatarImg;
@@ -18,8 +20,13 @@ class UserLeading extends StatelessWidget {
               Icons.account_circle,
               color: Colors.white,
             ))
-        : CircleAvatar(
-            backgroundImage: NetworkImage(avatarImg),
+        : FlatButton(
+            onPressed: imgPressed,
+            minWidth: 50,
+            height: 50,
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(avatarImg),
+            ),
           );
     return ListTile(
         title: Text(

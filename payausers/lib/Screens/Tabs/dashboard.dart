@@ -8,7 +8,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard(
-      {this.fullnameMeme,
+      {this.openUserDashSettings,
+      this.fullnameMeme,
       this.userPersonalCodeMeme,
       this.avatarMeme,
       this.userQRCode,
@@ -17,7 +18,7 @@ class Dashboard extends StatelessWidget {
       this.userPlateNumber,
       this.userTrafficNumber,
       this.userReserveNumber});
-
+  final Function openUserDashSettings;
   final String fullnameMeme;
   final String userPersonalCodeMeme;
   final String avatarMeme;
@@ -36,7 +37,7 @@ class Dashboard extends StatelessWidget {
     final double itemWidth = size.width;
     // Check if device be in portrait or Landscape
     final double widthSizedResponse = size.width >= 410 && size.width < 600
-        ? (itemWidth / itemHeight) / 2.5
+        ? (itemWidth / itemHeight) / 3
         : size.width >= 390 && size.width <= 409
             ? (itemWidth / itemHeight) / 2.4
             : size.width <= 380
@@ -53,6 +54,7 @@ class Dashboard extends StatelessWidget {
           Directionality(
             textDirection: TextDirection.rtl,
             child: UserLeading(
+              imgPressed: openUserDashSettings,
               fullname: fullnameMeme,
               userPersonalCode: userPersonalCodeMeme,
               avatarImg: avatarMeme,
@@ -61,52 +63,53 @@ class Dashboard extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 10, right: 20),
-                  width: 26,
-                  height: 26,
-                  child: Icon(
-                    Icons.qr_code,
-                    color: Colors.blue,
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: bgColorTrendingUp),
-                ),
-                Text(
-                  qrUserCode,
-                  style: TextStyle(
-                      fontFamily: mainFaFontFamily,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: mainTitleColor),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          // QRCode Section
-          Container(
-            alignment: Alignment.center,
-            width: 200,
-            height: 200,
-            decoration: BoxDecoration(
-                color: HexColor("#EBEAFA"),
-                borderRadius: BorderRadius.circular(10.0)),
-            child: QrImage(
-              data: userQRCode,
-              version: QrVersions.auto,
-              padding: EdgeInsets.all(20),
-              foregroundColor: HexColor("#000000"),
-            ),
-          ),
+          // Directionality(
+          //   textDirection: TextDirection.rtl,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     children: [
+          //       Container(
+          //         margin: EdgeInsets.only(left: 10, right: 20),
+          //         width: 26,
+          //         height: 26,
+          //         child: Icon(
+          //           Icons.qr_code,
+          //           color: Colors.blue,
+          //         ),
+          //         decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(5),
+          //             color: bgColorTrendingUp),
+          //       ),
+          //       Text(
+          //         qrUserCode,
+          //         style: TextStyle(
+          //             fontFamily: mainFaFontFamily,
+          //             fontSize: 20,
+          //             fontWeight: FontWeight.bold,
+          //             color: mainTitleColor),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // // QRCode Section
+          // Container(
+          //   alignment: Alignment.center,
+          //   width: 200,
+          //   height: 200,
+          //   decoration: BoxDecoration(
+          //       color: HexColor("#EBEAFA"),
+          //       borderRadius: BorderRadius.circular(10.0)),
+          //   child: QrImage(
+          //     data: userQRCode,
+          //     version: QrVersions.auto,
+          //     padding: EdgeInsets.all(20),
+          //     foregroundColor: HexColor("#000000"),
+          //   ),
+          // ),
+
           SizedBox(
             height: 20,
           ),

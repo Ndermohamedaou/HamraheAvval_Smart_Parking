@@ -261,6 +261,14 @@ class _MainoState extends State<Maino> {
                 physics: NeverScrollableScrollPhysics(),
                 children: [
                   Dashboard(
+                    openUserDashSettings: () {
+                      setState(() {
+                        tabBarIndex = 4;
+                      });
+                      _pageController.animateToPage(4,
+                          duration: Duration(milliseconds: 1),
+                          curve: Curves.easeOut);
+                    },
                     userQRCode: userId != "" ? userId : "-",
                     fullnameMeme: name != "" ? name : "-",
                     userPersonalCodeMeme:
