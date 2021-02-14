@@ -1,7 +1,6 @@
 # PAYA PMS
 
 
- ![alt text](https://github.com/Asncodes-80/flutter_parcking/blob/master/docs/Banners/Paya%20users%20banner/readyToShow.jpg) 
  
 
 A future app for security mode!!
