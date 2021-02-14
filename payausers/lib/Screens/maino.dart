@@ -243,6 +243,13 @@ class _MainoState extends State<Maino> {
     final String userReseveStatusLen =
         lenOfReserve != "" ? lenOfReserve : emptyPlateNumber;
 
+    final String mainImgLogoLightMode =
+        "assets/images/Titile_Logo_Mark_light.png";
+    final String mainImgLogoDarkMode =
+        "assets/images/Titile_Logo_Mark_dark.png";
+    final String mainLogo =
+        themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
+
     return WillPopScope(
         child: Scaffold(
           body: DoubleBackToCloseApp(
@@ -270,6 +277,7 @@ class _MainoState extends State<Maino> {
                           curve: Curves.easeOut);
                     },
                     userQRCode: userId != "" ? userId : "-",
+                    temporarLogo: mainLogo,
                     fullnameMeme: name != "" ? name : "-",
                     userPersonalCodeMeme:
                         personalCode != "" ? personalCode : "-",

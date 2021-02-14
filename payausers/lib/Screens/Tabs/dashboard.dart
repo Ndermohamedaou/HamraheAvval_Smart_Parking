@@ -12,6 +12,7 @@ class Dashboard extends StatelessWidget {
       this.fullnameMeme,
       this.userPersonalCodeMeme,
       this.avatarMeme,
+      this.temporarLogo,
       this.userQRCode,
       this.section,
       this.role,
@@ -23,6 +24,7 @@ class Dashboard extends StatelessWidget {
   final String userPersonalCodeMeme;
   final String avatarMeme;
   final String userQRCode;
+  final String temporarLogo;
   final String section;
   final String role;
   final String userPlateNumber;
@@ -62,6 +64,10 @@ class Dashboard extends StatelessWidget {
           ),
           SizedBox(
             height: 10,
+          ),
+          Image.asset(
+            temporarLogo,
+            width: 150,
           ),
           // Directionality(
           //   textDirection: TextDirection.rtl,
