@@ -16,6 +16,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:payausers/Classes/Filter.dart';
 
 import 'Tabs/addUserPlate.dart';
 import 'Tabs/userTraffic.dart';
@@ -42,6 +43,8 @@ String lenOfReserve = "";
 String lenOfUserPlate = "";
 String locationBuilding = "";
 String slotNumberInSituation = "";
+//reserve Special pices
+int showPiceces = 0;
 
 ApiAccess api = ApiAccess();
 
@@ -298,6 +301,7 @@ class _MainoState extends State<Maino> {
                   ReservedTab(
                     mainThemeColor: themeChange,
                     reserves: userReserved,
+                    // filter: ,
                   ),
                   AddUserPlate(),
                   Settings(

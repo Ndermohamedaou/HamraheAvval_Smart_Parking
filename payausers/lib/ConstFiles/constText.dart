@@ -153,3 +153,9 @@ const emailSubmissionStructureErrorDesc =
 const failedChangedServerEmailTitle = "مشکل از سوی سرور";
 const failedChangedServerEmailDesc =
     "سرویس دهنده نمیتواند به سرویس گیرنده سرویس دهد";
+
+List<String> lsMenuReserveShower = [
+  "نمایش ۱۰ رزرو",
+  "نمایش ۱۰۰ رزرو",
+  "نمایش تمام رزور ها"
+];

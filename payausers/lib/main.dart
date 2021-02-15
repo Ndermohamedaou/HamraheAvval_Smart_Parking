@@ -18,6 +18,7 @@ import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
 import 'Screens/reservePageEdit.dart';
 import 'Screens/changeUserEmail.dart';
+import 'Screens/pageLengthIndex.dart';
 
 void main() {
   runApp(MyApp());
@@ -71,6 +72,7 @@ class _MyAppState extends State<MyApp> {
               '/reserveEditaion': (context) => ReserveEditaion(),
               '/addUserplateAlternative': (context) => AddUserPlatAlternative(),
               '/changeEmail': (context) => ModifyUserEmail(),
+              '/listLengthSettingPage': (context) => ChangePageIndex(),
             },
           );
         },

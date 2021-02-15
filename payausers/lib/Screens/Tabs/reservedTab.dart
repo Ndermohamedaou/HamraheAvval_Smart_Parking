@@ -3,8 +3,8 @@ import 'package:lottie/lottie.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/miniReserveHistory.dart';
+import 'package:payausers/Classes/Filter.dart';
 
 AlphabetList alp = AlphabetList();
 
@@ -66,8 +66,6 @@ class ReservedTab extends StatelessWidget {
     final finalContext =
         reserves.length != 0 ? mainUserReserveHistory : emptyListManagerShower;
 
-    // print("this is $reserves");
-
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -86,6 +84,26 @@ class ReservedTab extends StatelessWidget {
                           fontSize: subTitleSize,
                           fontWeight: FontWeight.bold),
                     ),
+                    // PopupMenuButton(
+                    //   icon: Icon(Icons.more_vert),
+                    //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                    //     PopupMenuItem(
+                    //       child: Directionality(
+                    //         textDirection: TextDirection.rtl,
+                    //         child: ListTile(
+                    //           onTap: () => Navigator.pushNamed(
+                    //               context, "/listLengthSettingPage",
+                    //               arguments: reserves.length),
+                    //           // leading: Icon(Icons.add),
+                    //           title: Text(
+                    //             "تنظیمات این صفحه",
+                    //             style: TextStyle(fontFamily: mainFaFontFamily),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     ClipOval(
                       child: Material(
                         color: Colors.blue, // button color
