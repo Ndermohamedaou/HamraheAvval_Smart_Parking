@@ -1,0 +1,71 @@
+name: securityapp
+description: A new Flutter project.
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Custom hex color
+  hexcolor: ^1.0.6
+  # Connection with API
+  dio: 
+  # Provide provider model in theme mode
+  provider:
+  # Alerts
+  toast:
+  flushbar:
+  rflutter_alert: 
+  # Saving user data in LDS
+  flutter_secure_storage:
+  shared_preferences: ^0.5.12+4
+  #  Custom Cupertino Icons
+  cupertino_icons: 
+  # Side Menu in Main
+  shrink_sidemenu: ^1.0.0+3
+  liquid_ui:
+  # Pick Image and send by base64 to API
+  image_picker:
+  # Have Responsive size in any Devices
+  sizer: ^1.1.8
+  # Animation in case of JSON
+  lottie:
+  # Nice Switch
+  xlive_switch: ^1.0.5
+  # case of any menu 
+  fab_circular_menu: ^1.0.1
+  # use for animated Icon in BTNS
+  animated_icon_button: ^0.3.0
+  # Dot in page view
+  dots_indicator: ^1.2.0
+
+  
+  double_back_to_close_app:
+  connectivity:
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+   - assets/
+   - assets/images/
+   - assets/animation/
+
+  fonts:
+    - family: IranSans
+      fonts:
+        - asset: assets/fonts/iranSans/IRAN-Sans-Regular.ttf
+        - asset: assets/fonts/iranSans/IRAN-Sans-Bold.ttf
