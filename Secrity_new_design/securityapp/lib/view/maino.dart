@@ -1,15 +1,19 @@
-import 'package:animated_icon_button/animated_icon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:liquid_ui/liquid_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
+import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/shrinkMenuBuilder.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:sizer/sizer.dart';
+
+String token = "";
+String fullname = "";
+// LocalStorage Controller Class
+LoadingLocalData LLDs = LoadingLocalData();
 
 class Maino extends StatefulWidget {
   @override
@@ -17,6 +21,18 @@ class Maino extends StatefulWidget {
 }
 
 class _MainoState extends State<Maino> {
+  @override
+  void initState() {
+    LLDs.gettingStaffInfoInLocal().then((local) {
+      setState(() {
+        token = local["token"];
+        fullname = local["fullname"];
+      });
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
@@ -36,6 +52,8 @@ class _MainoState extends State<Maino> {
         menu: buildMenu(
             themeChange: themeChange,
             context: context,
+            // Will Change from api in lds + avatar
+            fullname: fullname,
             changeTheme: (bool val) {
               themeChange.darkTheme = val;
             }),

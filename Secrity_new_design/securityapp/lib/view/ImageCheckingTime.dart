@@ -67,6 +67,7 @@ class _ImageCheckingState extends State<ImageChecking> {
           SentSituation(
             send: () => Navigator.pop(context),
             icon: Icons.delete_outline,
+            color: Colors.white,
             iconColor: Colors.black,
             text: abort,
             textColor: Colors.black,

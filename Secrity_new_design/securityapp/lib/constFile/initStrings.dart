@@ -62,3 +62,34 @@ const cameraBtnText = "دوربین";
 const galleryBtnText = "آلبوم تصاویر";
 const send = "ارسال";
 const abort = "لفو";
+
+// Error handle
+const emptyTextFieldMsg = "فیلد نباید خالی باشد!";
+// Login Auth checker msg
+const loginIsFailedByUsernameorPassTitle = "مشکل در ورود";
+const loginIsFailedByUsernameorPassDsc =
+    "شناسه پرسنلی یا گذرواژه خود را بررسی کنید";
+// building for users
+const submitMsg = "ثبت ساختمان و ورود";
+
+// If Saving data has problem
+const savingProblemTitle = "عملیات ناموفق";
+const savingProblemDsc =
+    "عملیات ذخیره سازی داده های شما به مشکل برخورده است، لطفا با توسعه دهنده در ارتباط باشید";
+
+// Strings in Confirmation
+const submitUpdateStaffInfo = "بروزرسانی اطلاعات جدید";
+
+// Update user info
+const emptyBoxTitle = "برخی از فیلد ها خالی هستند";
+const emptyBoxDsc = "باید تمامی فیلد های خواسته شده را پر کنید";
+const notMathPassTitle = "مشکل در مطابقت";
+const notMathPassDsc = "گذرواژه ها باهم یکسان نیستند";
+const emailValTitle = "آدرس پست الکترونیکی نامعتبر";
+const emailValDsc = "آدرس پست الکترونیکی شما معتبر و استاندارد نمی باشند";
+const passValTitle = "گذرواژه های نامعتبر";
+const passValDsc =
+    "گذواژه شما باید ترکیبی از حروف بزرگ و کوچک، اعداد و علامت هایی باشد مانند زیر \n 1234asD@";
+const updaingProblemTitle = "مشکلی در بارگذاری اطلاعات";
+const updaingProblemDsc =
+    "ممکن است ارتباط شما با سرویس دهنده قطع شده باشد یا اینکه مشکل از سرویس دهنده باشد";

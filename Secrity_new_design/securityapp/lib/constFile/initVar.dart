@@ -33,3 +33,4 @@ HexColor littleRecPlateColor = HexColor("#00478E");
 
 // API
 // BASE URL
+const baseURL = "http://188.213.64.78:8000/api";

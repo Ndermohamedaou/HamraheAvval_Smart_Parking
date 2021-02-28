@@ -9,7 +9,7 @@ import 'package:sizer/sizer.dart';
 import 'package:xlive_switch/xlive_switch.dart';
 
 Widget buildMenu(
-    {DarkThemeProvider themeChange, context, Function changeTheme}) {
+    {DarkThemeProvider themeChange, context, Function changeTheme, fullname}) {
   return SingleChildScrollView(
     padding: const EdgeInsets.symmetric(vertical: 50.0),
     child: Directionality(
@@ -26,10 +26,25 @@ Widget buildMenu(
                 CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 35.0,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, profile),
+                    child: Container(
+                      margin: EdgeInsets.only(top: 40, left: 30),
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: mainCTA,
+                        child: Icon(
+                          Icons.mode_edit,
+                          color: Colors.black,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 SizedBox(height: 16.0),
                 LText(
-                  "\l.lead{سلام},\n\l.lead.bold{علیرضا سلطانی نشان}",
+                  "\l.lead{سلام},\n\l.lead.bold{$fullname}",
                   baseStyle: TextStyle(
                       fontFamily: mainFont,
                       color:

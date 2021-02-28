@@ -16,6 +16,9 @@ import 'package:securityapp/view/searchResults.dart';
 import 'package:securityapp/view/entryCheck.dart';
 import 'package:securityapp/view/introPages/exitCheck.dart';
 import 'package:securityapp/view/ImageCheckingTime.dart';
+import 'package:securityapp/view/profile.dart';
+import 'package:securityapp/view/buildingForUsers.dart';
+import 'package:securityapp/view/confirmation.dart';
 
 void main() {
   runApp(MyApp());
@@ -69,6 +72,9 @@ class _MyAppState extends State<MyApp> {
                     entryCheck: (context) => EntryCheck(),
                     exitCheck: (context) => ExitCheck(),
                     imgChecker: (context) => ImageChecking(),
+                    profile: (context) => Profile(),
+                    buildingsRoute: (context) => Buildings(),
+                    confirmationRoute: (context) => Confirmation(),
                   },
                 ),
               );

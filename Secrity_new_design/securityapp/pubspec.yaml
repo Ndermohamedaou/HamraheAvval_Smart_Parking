@@ -44,6 +44,7 @@ dependencies:
   animated_icon_button: ^0.3.0
   # Dot in page view
   dots_indicator: ^1.2.0
+  adaptive_action_sheet:
 
   
   double_back_to_close_app:

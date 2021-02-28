@@ -7,3 +7,6 @@ const searchResults = "searchResults";
 const entryCheck = "entryCheck";
 const exitCheck = "exitCheck";
 const imgChecker = "imgChecker";
+const profile = "profile";
+const buildingsRoute = "buildings";
+const confirmationRoute = "confirmationRoute";

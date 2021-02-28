@@ -1,56 +1,51 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class SavingData {
-// LStorage
+class LocalizationDataStorage {
+  // Local Storage Super Secure!
   final lStorage = FlutterSecureStorage();
 
-  // Saving data in local storage
-  Future<bool> LDS(
-      {token,
-      user_id,
-      name,
+  // Saving ls data function
+  Future<bool> savingUInfo(
+      {uToken,
+      userId,
       email,
-      role,
-      personal_code,
-      melli_code,
       avatar,
-      section}) async {
-    Map<String, dynamic> staffInfo = {
-      "token": token,
-      "user_id": user_id,
-      "name": name,
+      fullName,
+      naturalCode,
+      personalCode,
+      buildingName,
+      buildingNameFA}) async {
+    Map<String, dynamic> usersInfo = {
+      "uToken": uToken,
+      "userId": userId,
       "email": email,
-      "role": role,
-      "personal_code": personal_code,
-      "melli_code": melli_code,
       "avatar": avatar,
-      "section": section
+      "fullName": fullName,
+      "naturalCode": naturalCode,
+      "personalCode": personalCode,
+      "buildingName": buildingName,
+      "buildingNameFA": buildingNameFA
     };
-    staffInfo.forEach((key, value) async {
+    usersInfo.forEach((key, value) async {
       await lStorage.write(key: key, value: value);
     });
-    String uToken = await lStorage.read(key: "token");
-    return uToken != null ? true : false;
+    String userToken = await lStorage.read(key: "uToken");
+    if (userToken != "") {
+      return true;
+    } else
+      return false;
   }
 
-  // Future<bool> savingPlate({plates}) async {
-  //   int plateIndexer = 0;
-  //   plates.forEacht((plate) async {
-  //     dynamic plateQty = [
-  //       plate["plate0"],
-  //       plate["plate1"],
-  //       plate["plate2"],
-  //       plate["plate3"]
-  //     ];
-  //     await lStorage.write(key: "plate${plateIndexer}", value: plateQty);
-  //     plateIndexer += 1;
-  //   });
-  //   List plateTest = await lStorage.read(key: "plate0") as List;
-  //   print(plateTest);
-  //   return plateTest != [] ? true : false;
-  // }
+  Future<String> gettingUserToken() async {
+    return await lStorage.read(key: "uToken");
+  }
 
-  Future<String> getToken() {
-    return lStorage.read(key: "token");
+  Future<String> gettingUserSlot() async {
+    return await lStorage.read(key: "buildingName");
+  }
+
+  // For logout and deleting all local information
+  void deleteUuToken() async {
+    lStorage.deleteAll();
   }
 }
