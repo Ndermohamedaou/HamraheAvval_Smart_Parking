@@ -89,10 +89,10 @@ class _LoginState extends State<Login> {
           );
         } else {
           // print(initUser);
-          // if (initUser["first_visit"])
-          updateStaffInfo(initUser["token"]);
-          // else
-          // staffWillNavigateBuildings(initUser["token"]);
+          if (initUser["first_visit"])
+            updateStaffInfo(initUser["token"]);
+          else
+            staffWillNavigateBuildings(initUser["token"]);
         }
       } else {
         setState(() {

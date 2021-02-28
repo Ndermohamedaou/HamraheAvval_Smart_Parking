@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/localDataController.dart';
+import 'package:securityapp/controller/slotController.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/shrinkMenuBuilder.dart';
@@ -14,6 +15,10 @@ String token = "";
 String fullname = "";
 // LocalStorage Controller Class
 LoadingLocalData LLDs = LoadingLocalData();
+
+// Slot Viewer
+SlotsViewer slotView = SlotsViewer();
+Map slotsMap = {};
 
 class Maino extends StatefulWidget {
   @override
@@ -30,12 +35,18 @@ class _MainoState extends State<Maino> {
       });
     });
 
+    slotView.gettingSlots().then((slots) => setState(() {
+          slotsMap = slots;
+        }));
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+
+    print(slotsMap);
 
     final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 

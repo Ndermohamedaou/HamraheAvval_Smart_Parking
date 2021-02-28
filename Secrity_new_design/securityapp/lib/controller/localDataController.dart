@@ -6,7 +6,6 @@ class LoadingLocalData {
     String token = await lStorage.read(key: "uToken");
     String fullname = await lStorage.read(key: "fullName");
     // String personalCode = await lStorage.read(key: "personalCode");
-    print(token);
     return {"token": token, "fullname": fullname};
   }
 }
