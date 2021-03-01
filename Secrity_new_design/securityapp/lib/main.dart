@@ -19,7 +19,6 @@ import 'package:securityapp/view/ImageCheckingTime.dart';
 import 'package:securityapp/view/profile.dart';
 import 'package:securityapp/view/buildingForUsers.dart';
 import 'package:securityapp/view/confirmation.dart';
-import 'view/CustomSplash.dart';
 
 void main() {
   runApp(MyApp());

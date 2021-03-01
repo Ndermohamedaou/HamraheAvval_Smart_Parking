@@ -66,6 +66,7 @@ class _ProfileState extends State<Profile> {
   @override
   void dispose() {
     imgSource = null;
+    timer.cancel();
     super.dispose();
   }
 
@@ -191,6 +192,10 @@ class _ProfileState extends State<Profile> {
                         children: [
                           SizedBox(
                             height: 2.0.h,
+                          ),
+                          TilsInfo(
+                            textTitle: "ساختمان",
+                            textSubtitle: buildingsFarsiName,
                           ),
                           TilsInfo(
                             textTitle: "حساب کاربری",

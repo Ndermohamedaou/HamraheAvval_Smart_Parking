@@ -14,6 +14,11 @@ HexColor appBarColor = HexColor("#2AAFB7");
 HexColor floatingActionPoint = HexColor("#919BA0");
 HexColor logoutColor = HexColor("#A72222");
 
+// Color for reseveer
+HexColor timing = HexColor("#E1B231");
+HexColor reserved = HexColor("#00CC6A");
+HexColor empty = HexColor("#FFFFFF");
+
 // searching results
 HexColor lightOptionBg = HexColor("#F2F2F2");
 HexColor darkOptionBg = HexColor("#3A4750");

@@ -45,8 +45,8 @@ dependencies:
   # Dot in page view
   dots_indicator: ^1.2.0
   adaptive_action_sheet:
-  # Sexy Splash Screen 
-  custom_splash: ^0.0.2
+  # Animated GridView
+  auto_animated: ^2.1.0
 
   
   double_back_to_close_app:
