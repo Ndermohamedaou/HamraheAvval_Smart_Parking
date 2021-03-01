@@ -1,13 +1,36 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
+import 'package:securityapp/constFile/initStrings.dart';
+import 'package:securityapp/controller/gettingLogin.dart';
+import 'package:securityapp/controller/imgConversion.dart';
+import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/widgets/CustomText.dart';
+import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:sizer/sizer.dart';
 
+// Conversion Image
+ConvertImage convert = ConvertImage();
 File imgSource;
+// Local Storage Controller Class
+LoadingLocalData LLDs = LoadingLocalData();
+// Auth Users for updaing avatar of Staff
+AuthUsers auth = AuthUsers();
+
+String token = "";
+String fullname = "";
+String avatar = "";
+String email = "";
+String naturalCode = "";
+String persCode = "";
+String buildingsFarsiName = "";
+
+Timer timer;
 
 class Profile extends StatefulWidget {
   @override
@@ -18,6 +41,25 @@ class _ProfileState extends State<Profile> {
   // Will getting user local data from Flutter Secure Storage
   @override
   void initState() {
+    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+      LLDs.gettingStaffInfoInLocal().then((local) {
+        setState(() {
+          avatar = local["avatar"];
+        });
+      });
+    });
+
+    LLDs.gettingStaffInfoInLocal().then((local) {
+      setState(() {
+        token = local["token"];
+        fullname = local["fullname"];
+        avatar = local["avatar"];
+        email = local["email"];
+        naturalCode = local["naturalCode"];
+        persCode = local["personalCode"];
+        buildingsFarsiName = local["buildingNameFA"];
+      });
+    });
     super.initState();
   }
 
@@ -34,10 +76,35 @@ class _ProfileState extends State<Profile> {
       maxHeight: 500,
       imageQuality: 50,
     );
-    setState(() {
-      imgSource = image;
-    });
-    print(imgSource);
+    // setState(() {
+    //   imgSource = image;
+    // });
+    String _img64 = await convert.img2Base64(img: image);
+    // print(_img64);
+    bool result = await auth.updateStaffAvatar(avatar: _img64, token: token);
+    if (result) {
+      showStatusInCaseOfFlush(
+        context: context,
+        title: successSendTitle,
+        msg: successSendDsc,
+        icon: Icons.supervised_user_circle,
+        iconColor: Colors.red,
+      );
+      // Getting Staff Info from Server for avatar
+      Map staffInfo = await auth.gettingStaffInfo(token);
+      var newImageAvatar = staffInfo["avatar"];
+      // Saving Data
+      final lStorage = FlutterSecureStorage();
+      await lStorage.write(key: "avatar", value: newImageAvatar);
+    } else {
+      showStatusInCaseOfFlush(
+        context: context,
+        title: failureSendTitle,
+        msg: failureSendDsc,
+        icon: Icons.supervised_user_circle,
+        iconColor: Colors.red,
+      );
+    }
   }
 
   @override
@@ -52,17 +119,23 @@ class _ProfileState extends State<Profile> {
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               title: CustomText(
-                text: "علیرضا سلطانی نشان",
+                text: fullname,
                 fw: FontWeight.bold,
                 size: 10.0.sp,
               ),
-              background: imgSource != null
-                  ? Image.file(
-                      imgSource,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset("assets/images/profileTest.png",
-                      fit: BoxFit.cover),
+              background: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xff7c94b6),
+                  image: new DecorationImage(
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.8), BlendMode.dstATop),
+                    image: new NetworkImage(
+                      avatar,
+                    ),
+                  ),
+                ),
+              ),
             ),
             actions: [
               IconButton(
@@ -121,18 +194,19 @@ class _ProfileState extends State<Profile> {
                           ),
                           TilsInfo(
                             textTitle: "حساب کاربری",
-                            // TODO
-                            textSubtitle: "Alireza.Codes",
+                            textSubtitle: fullname,
                           ),
                           TilsInfo(
                             textTitle: "آدرس پست الکترونیکی",
-                            // TODO
-                            textSubtitle: "asn80.asn@gmail.com",
+                            textSubtitle: email,
                           ),
                           TilsInfo(
                             textTitle: "کد پرسنلی",
-                            // TODO
-                            textSubtitle: "9823123",
+                            textSubtitle: persCode,
+                          ),
+                          TilsInfo(
+                            textTitle: "کد ملی",
+                            textSubtitle: naturalCode,
                           ),
                         ],
                       ),

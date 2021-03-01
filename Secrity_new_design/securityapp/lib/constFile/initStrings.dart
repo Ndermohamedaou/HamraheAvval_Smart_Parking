@@ -93,3 +93,9 @@ const passValDsc =
 const updaingProblemTitle = "مشکلی در بارگذاری اطلاعات";
 const updaingProblemDsc =
     "ممکن است ارتباط شما با سرویس دهنده قطع شده باشد یا اینکه مشکل از سرویس دهنده باشد";
+
+// Profile -> Uploading avatar
+const successSendTitle = "عملیات موفقیت آمیز";
+const successSendDsc = "آواتار شما تا چند لحظه دیگر آپلود خواهد شد";
+const failureSendTitle = "عملیات با شکست مواجه شد";
+const failureSendDsc = "آواتار شما ثبت نشد";

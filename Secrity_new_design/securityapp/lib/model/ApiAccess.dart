@@ -44,6 +44,17 @@ class ApiAccess {
     }
   }
 
+  Future<bool> updateAvatar({uToken, uAvatar}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer $uToken";
+    Response res =
+        await dio.post("$baseURL/UpdateInfo", data: {"avatar": uAvatar});
+    if (res.data['status'] == "200")
+      return true;
+    else
+      return false;
+  }
+
   Future<List> getBuilding(uToken) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";

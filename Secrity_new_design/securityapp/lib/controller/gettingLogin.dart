@@ -44,4 +44,12 @@ class AuthUsers {
       return false;
     }
   }
+
+  Future<bool> updateStaffAvatar({token, avatar}) async {
+    try {
+      return await api.updateAvatar(uAvatar: avatar, uToken: token);
+    } catch (e) {
+      return false;
+    }
+  }
 }

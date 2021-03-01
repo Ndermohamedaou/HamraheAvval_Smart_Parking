@@ -13,6 +13,7 @@ import 'package:sizer/sizer.dart';
 
 String token = "";
 String fullname = "";
+String avatar = "";
 // LocalStorage Controller Class
 LoadingLocalData LLDs = LoadingLocalData();
 
@@ -32,6 +33,7 @@ class _MainoState extends State<Maino> {
       setState(() {
         token = local["token"];
         fullname = local["fullname"];
+        avatar = local["avatar"];
       });
     });
 
@@ -46,7 +48,8 @@ class _MainoState extends State<Maino> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    print(slotsMap);
+    // print(slotsMap);
+    // print(avatar);
 
     final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
@@ -64,6 +67,7 @@ class _MainoState extends State<Maino> {
             themeChange: themeChange,
             context: context,
             // Will Change from api in lds + avatar
+            avatar: avatar,
             fullname: fullname,
             changeTheme: (bool val) {
               themeChange.darkTheme = val;

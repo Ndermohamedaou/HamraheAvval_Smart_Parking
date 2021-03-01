@@ -8,8 +8,13 @@ import 'package:securityapp/widgets/CustomText.dart';
 import 'package:sizer/sizer.dart';
 import 'package:xlive_switch/xlive_switch.dart';
 
-Widget buildMenu(
-    {DarkThemeProvider themeChange, context, Function changeTheme, fullname}) {
+Widget buildMenu({
+  DarkThemeProvider themeChange,
+  avatar,
+  context,
+  Function changeTheme,
+  fullname,
+}) {
   return SingleChildScrollView(
     padding: const EdgeInsets.symmetric(vertical: 50.0),
     child: Directionality(
@@ -25,6 +30,10 @@ Widget buildMenu(
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.white,
+                  backgroundImage: avatar != ""
+                      ? NetworkImage(avatar)
+                      : AssetImage(
+                          "assets/images/isgpp_avatar_placeholder.png"),
                   radius: 35.0,
                   child: GestureDetector(
                     onTap: () => Navigator.pushNamed(context, profile),
