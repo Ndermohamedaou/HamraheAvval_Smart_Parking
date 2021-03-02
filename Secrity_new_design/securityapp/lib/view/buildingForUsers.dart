@@ -8,6 +8,7 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/gettingLogin.dart';
 import 'package:securityapp/model/ApiAccess.dart';
 import 'package:securityapp/model/LDS.dart';
+import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/bottomBtn.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
@@ -21,6 +22,9 @@ List buildingsList = [];
 Map userInfo = {};
 // Saving data
 LocalizationDataStorage LDS = LocalizationDataStorage();
+// Sqflite
+SavedSecurity saveSecurity = SavedSecurity();
+
 String dropItemSelected = "";
 String _dropDownEnValue;
 String _dropDownFaValue;
@@ -99,6 +103,7 @@ class _BuildingsState extends State<Buildings> {
           buildingName: _dropDownEnValue,
           buildingNameFA: _dropDownFaValue,
         );
+        saveSecurity.createSavedSecurity();
 
         if (savingStatus)
           Navigator.pushNamed(context, mainoRoute);

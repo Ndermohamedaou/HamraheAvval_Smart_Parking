@@ -10,6 +10,7 @@ import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/controller/gettingLogin.dart';
 import 'package:securityapp/controller/imgConversion.dart';
 import 'package:securityapp/controller/localDataController.dart';
+import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:sizer/sizer.dart';
@@ -21,6 +22,9 @@ File imgSource;
 LoadingLocalData LLDs = LoadingLocalData();
 // Auth Users for updaing avatar of Staff
 AuthUsers auth = AuthUsers();
+
+// Local Sql
+SavedSecurity seveSecurity = SavedSecurity();
 
 String token = "";
 String fullname = "";
@@ -77,9 +81,6 @@ class _ProfileState extends State<Profile> {
       maxHeight: 500,
       imageQuality: 50,
     );
-    // setState(() {
-    //   imgSource = image;
-    // });
     String _img64 = await convert.img2Base64(img: image);
     // print(_img64);
     bool result = await auth.updateStaffAvatar(avatar: _img64, token: token);
@@ -88,8 +89,8 @@ class _ProfileState extends State<Profile> {
         context: context,
         title: successSendTitle,
         msg: successSendDsc,
-        icon: Icons.supervised_user_circle,
-        iconColor: Colors.red,
+        icon: Icons.done_all,
+        iconColor: Colors.green,
       );
       // Getting Staff Info from Server for avatar
       Map staffInfo = await auth.gettingStaffInfo(token);
@@ -102,10 +103,17 @@ class _ProfileState extends State<Profile> {
         context: context,
         title: failureSendTitle,
         msg: failureSendDsc,
-        icon: Icons.supervised_user_circle,
+        icon: Icons.close,
         iconColor: Colors.red,
       );
     }
+  }
+
+  void logout() async {
+    final lStorage = FlutterSecureStorage();
+    await lStorage.deleteAll();
+    await seveSecurity.delAllSavedSecurity();
+    exit(0);
   }
 
   @override
@@ -223,9 +231,7 @@ class _ProfileState extends State<Profile> {
       bottomNavigationBar: Container(
         height: 10.0.h,
         child: MaterialButton(
-          onPressed: () {
-            // Will be logout
-          },
+          onPressed: () => logout(),
           color: Colors.red,
           child: CustomText(
             text: "خروج از حساب",

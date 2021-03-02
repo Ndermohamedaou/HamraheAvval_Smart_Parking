@@ -1,4 +1,5 @@
-import 'package:dots_indicator/dots_indicator.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initStrings.dart';
@@ -30,7 +31,19 @@ class _SearchResultsState extends State<SearchResults> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    Map info = ModalRoute.of(context).settings.arguments;
+    String plateImg = info["Plate_img"] != null ? info["Plate_img"] : "";
+    String carImg = info["car_img"] != null ? info["car_img"] : "";
+    var slotNum = info['slot'];
+    var slotStatus = info['status'] == -1
+        ? "رزور شده"
+        : info['slot'] == 1
+            ? "پر"
+            : "خالی";
+    var entryTime = info["entry_datetime"];
+    var exitTime = info["exit_datetime"];
 
+    // print(info);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -46,17 +59,25 @@ class _SearchResultsState extends State<SearchResults> {
                       text: resultSearch,
                       size: 14.0.sp,
                     ),
-                    Icon(Icons.arrow_back)
+                    GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(Icons.arrow_back))
                   ],
                 ),
               ),
               Container(
                 width: double.infinity,
-                height: 200,
+                height: 40.0.h,
                 child: PageView(
                   children: [
-                    Image.asset("assets/images/searchPlate.png"),
-                    Image.asset("assets/images/searchPlate.png"),
+                    Image.memory(
+                      base64.decode(plateImg),
+                      fit: BoxFit.contain,
+                    ),
+                    Image.memory(
+                      base64.decode(carImg),
+                      fit: BoxFit.contain,
+                    ),
                   ],
                 ),
               ),
@@ -97,7 +118,7 @@ class _SearchResultsState extends State<SearchResults> {
                               iconBg: slotNumberBg,
                               iconColor: Colors.white,
                               title: slotNumberResult,
-                              // subtitle: "",
+                              subtitle: slotNum,
                             ),
                             SizedBox(height: 1.25.h),
                             Divider(
@@ -109,7 +130,7 @@ class _SearchResultsState extends State<SearchResults> {
                               iconBg: slotStatusBg,
                               iconColor: Colors.white,
                               title: slotStatusResult,
-                              // subtitle: "",
+                              subtitle: slotStatus,
                             ),
                           ],
                         ),
@@ -141,7 +162,7 @@ class _SearchResultsState extends State<SearchResults> {
                               iconBg: entrySlotBg,
                               iconColor: Colors.white,
                               title: entryTimeResult,
-                              // subtitle: "",
+                              subtitle: entryTime,
                             ),
                             SizedBox(height: 1.25.h),
                             Divider(
@@ -153,7 +174,7 @@ class _SearchResultsState extends State<SearchResults> {
                               iconBg: exitSlotBg,
                               iconColor: Colors.white,
                               title: exitTimeResult,
-                              // subtitle: "",
+                              subtitle: exitTime,
                             ),
                           ],
                         ),

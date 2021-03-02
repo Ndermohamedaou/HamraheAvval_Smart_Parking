@@ -7,6 +7,7 @@ import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
+import 'package:securityapp/widgets/alert.dart';
 import 'package:securityapp/widgets/capturingButton.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,7 +29,8 @@ class _ExitCheckState extends State<ExitCheck> {
         imageQuality: 50,
       );
       if (image != null)
-        Navigator.pushNamed(context, imgChecker, arguments: {"img": image});
+        Navigator.pushNamed(context, imgChecker,
+            arguments: {"img": image, "cameraStatus": "1"});
     }
 
     return WillPopScope(
@@ -42,6 +44,7 @@ class _ExitCheckState extends State<ExitCheck> {
               expandedHeight: 30.0.h,
               floating: false,
               pinned: true,
+              backgroundColor: mainCTA,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: CustomText(
@@ -93,15 +96,27 @@ class _ExitCheckState extends State<ExitCheck> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CapturingOption(
-                                  capture: () =>
-                                      gettingPhoto(ImageSource.camera),
+                                  capture: () {
+                                    alertCheckTip(
+                                        context: context,
+                                        onPressed: () {
+                                          gettingPhoto(ImageSource.camera);
+                                          Navigator.pop(context);
+                                        });
+                                  },
                                   icon: Icons.photo_camera_outlined,
                                   text: cameraBtnText,
                                 ),
                                 SizedBox(width: 5.0.w),
                                 CapturingOption(
-                                  capture: () =>
-                                      gettingPhoto(ImageSource.gallery),
+                                  capture: () {
+                                    alertCheckTip(
+                                        context: context,
+                                        onPressed: () {
+                                          gettingPhoto(ImageSource.gallery);
+                                          Navigator.pop(context);
+                                        });
+                                  },
                                   icon: Icons.photo_album_outlined,
                                   text: galleryBtnText,
                                 )

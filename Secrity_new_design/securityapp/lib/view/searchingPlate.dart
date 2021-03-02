@@ -1,13 +1,16 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
+import 'package:securityapp/controller/searchingController.dart';
 import 'package:securityapp/model/classes/AlphabetClassList.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/dorpdownMenuItem.dart';
+import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:securityapp/widgets/searchingButton.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,6 +21,7 @@ String plate3 = "";
 int _value = 0;
 AlphabetList alp = AlphabetList();
 DropdownItems ddi = DropdownItems();
+SearchingCar searchMethod = SearchingCar();
 
 class SearchByPlate extends StatefulWidget {
   @override
@@ -36,6 +40,7 @@ class _SearchByPlateState extends State<SearchByPlate> {
     plate1 = "";
     plate2 = "";
     plate3 = "";
+    _value = 0;
     super.dispose();
   }
 
@@ -43,10 +48,36 @@ class _SearchByPlateState extends State<SearchByPlate> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    void SearchedByPlate({plate0, plate1, plate2, plate3}) {
-      // init Flutter Secure Storage
-      // First getting token form Flutter local storage
-      print("${plate0} ${plate1} ${plate2} ${plate3}");
+    void SearchedByPlate({plate0, plate1, plate2, plate3}) async {
+      if (plate0 != "" && plate1 != "" && plate2 != "" && plate3 != "") {
+        // init Flutter Secure Storage
+        // First getting token form Flutter local storage
+        final lStorage = FlutterSecureStorage();
+        final token = await lStorage.read(key: "uToken");
+        // print("${plate0} ${plate1} ${plate2} ${plate3}");
+        List plateArr = [plate0, plate1, plate2, plate3];
+        List result =
+            await searchMethod.searchingByPlate(token: token, plates: plateArr);
+        // print(result);
+        if (result.isNotEmpty)
+          Navigator.pushNamed(context, searchResults, arguments: result[0]);
+        else
+          showStatusInCaseOfFlush(
+            context: context,
+            title: notFoundTitle,
+            msg: notFoundDsc,
+            icon: Icons.close,
+            iconColor: Colors.red,
+          );
+      } else {
+        showStatusInCaseOfFlush(
+          context: context,
+          title: emptyPlateTitle,
+          msg: emptyPlateDsc,
+          icon: Icons.close,
+          iconColor: Colors.red,
+        );
+      }
     }
 
     return WillPopScope(
@@ -142,7 +173,7 @@ class _SearchByPlateState extends State<SearchByPlate> {
                                     Container(
                                       width: 13.0.w,
                                       height: 70,
-                                      margin: EdgeInsets.only(top: 0),
+                                      margin: EdgeInsets.only(top: 5),
                                       child: TextFormField(
                                         style: TextStyle(
                                             letterSpacing: 5,
@@ -190,7 +221,7 @@ class _SearchByPlateState extends State<SearchByPlate> {
                                     Container(
                                       width: 20.0.w,
                                       height: 70,
-                                      margin: EdgeInsets.only(top: 0),
+                                      margin: EdgeInsets.only(top: 5),
                                       child: TextFormField(
                                         initialValue: plate2,
                                         style: TextStyle(
@@ -221,7 +252,7 @@ class _SearchByPlateState extends State<SearchByPlate> {
                                       width: 14.0.w,
                                       height: 70,
                                       margin:
-                                          EdgeInsets.only(top: 3, right: 10),
+                                          EdgeInsets.only(top: 5, right: 10),
                                       child: TextFormField(
                                         initialValue: plate3,
                                         style: TextStyle(
@@ -260,7 +291,7 @@ class _SearchByPlateState extends State<SearchByPlate> {
                               SearchBtn(
                                 searchPressed: () => SearchedByPlate(
                                   plate0: plate0,
-                                  plate1: _value,
+                                  plate1: alp.getAlphabet()[_value].item,
                                   plate2: plate2,
                                   plate3: plate3,
                                 ),

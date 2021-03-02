@@ -10,3 +10,5 @@ const imgChecker = "imgChecker";
 const profile = "profile";
 const buildingsRoute = "buildings";
 const confirmationRoute = "confirmationRoute";
+const bookmarkRoute = "bookmarkRoute";
+const imgProcessRoute = "imgProcessRoute";

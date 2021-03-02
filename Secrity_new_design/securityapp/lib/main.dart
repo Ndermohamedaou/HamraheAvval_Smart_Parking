@@ -19,6 +19,8 @@ import 'package:securityapp/view/ImageCheckingTime.dart';
 import 'package:securityapp/view/profile.dart';
 import 'package:securityapp/view/buildingForUsers.dart';
 import 'package:securityapp/view/confirmation.dart';
+import 'view/bookmarked.dart';
+import 'view/imgProcessResult.dart';
 
 void main() {
   runApp(MyApp());
@@ -75,6 +77,8 @@ class _MyAppState extends State<MyApp> {
                     profile: (context) => Profile(),
                     buildingsRoute: (context) => Buildings(),
                     confirmationRoute: (context) => Confirmation(),
+                    bookmarkRoute: (context) => Bookmarked(),
+                    imgProcessRoute: (context) => ImgProcessingResult(),
                   },
                 ),
               );

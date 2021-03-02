@@ -9,10 +9,12 @@ import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
+import 'package:securityapp/widgets/alert.dart';
 import 'package:securityapp/widgets/capturingButton.dart';
 import 'package:sizer/sizer.dart';
 
 File imgSource;
+dynamic themeChange;
 
 class EntryCheck extends StatefulWidget {
   @override
@@ -22,7 +24,7 @@ class EntryCheck extends StatefulWidget {
 class _EntryCheckState extends State<EntryCheck> {
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    themeChange = Provider.of<DarkThemeProvider>(context);
 
     Future gettingPhoto(ImageSource sourceType) async {
       final image = await ImagePicker.pickImage(
@@ -32,7 +34,8 @@ class _EntryCheckState extends State<EntryCheck> {
         imageQuality: 50,
       );
       if (image != null)
-        Navigator.pushNamed(context, imgChecker, arguments: {"img": image});
+        Navigator.pushNamed(context, imgChecker,
+            arguments: {"img": image, "cameraStatus": "0"});
     }
 
     return WillPopScope(
@@ -46,6 +49,7 @@ class _EntryCheckState extends State<EntryCheck> {
               expandedHeight: 40.0.h,
               floating: false,
               pinned: true,
+              backgroundColor: mainCTA,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: CustomText(
@@ -97,15 +101,27 @@ class _EntryCheckState extends State<EntryCheck> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CapturingOption(
-                                  capture: () =>
-                                      gettingPhoto(ImageSource.camera),
+                                  capture: () {
+                                    alertCheckTip(
+                                        context: context,
+                                        onPressed: () {
+                                          gettingPhoto(ImageSource.camera);
+                                          Navigator.pop(context);
+                                        });
+                                  },
                                   icon: Icons.photo_camera_outlined,
                                   text: cameraBtnText,
                                 ),
                                 SizedBox(width: 5.0.w),
                                 CapturingOption(
-                                  capture: () =>
-                                      gettingPhoto(ImageSource.gallery),
+                                  capture: () {
+                                    alertCheckTip(
+                                        context: context,
+                                        onPressed: () {
+                                          gettingPhoto(ImageSource.gallery);
+                                          Navigator.pop(context);
+                                        });
+                                  },
                                   icon: Icons.photo_album_outlined,
                                   text: galleryBtnText,
                                 )

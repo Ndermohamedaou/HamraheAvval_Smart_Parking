@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/controller/slotController.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
+import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/shrinkMenuBuilder.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
@@ -23,6 +27,9 @@ LoadingLocalData LLDs = LoadingLocalData();
 SlotsViewer slotView = SlotsViewer();
 Map slotsMap = {};
 
+// Set for getting data
+Timer timer;
+
 class Maino extends StatefulWidget {
   @override
   _MainoState createState() => _MainoState();
@@ -31,6 +38,20 @@ class Maino extends StatefulWidget {
 class _MainoState extends State<Maino> {
   @override
   void initState() {
+    timer = Timer.periodic(Duration(seconds: 60), (timer) => findContent());
+    findContent();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  // Section for finding content function
+  void findContent() {
+    // Getting data from Secure storage
     LLDs.gettingStaffInfoInLocal().then((local) {
       setState(() {
         token = local["token"];
@@ -38,12 +59,10 @@ class _MainoState extends State<Maino> {
         avatar = local["avatar"];
       });
     });
-
+    // getting tiles of slot grid
     slotView.gettingSlots().then((slots) => setState(() {
           slotsMap = slots;
         }));
-
-    super.initState();
   }
 
   @override
@@ -51,10 +70,6 @@ class _MainoState extends State<Maino> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
 
-    // Specific Color
-
-    // print(slotsMap);
-    // print(avatar);
     // Config Animated list
     final options = LiveOptions(
       // Start animation after (default zero)
@@ -73,7 +88,7 @@ class _MainoState extends State<Maino> {
       // Repeat the animation of the appearance
       // when scrolling in the opposite direction (default false)
       // To get the effect as in a showcase for ListView, set true
-      reAnimateOnVisibility: true,
+      reAnimateOnVisibility: false,
     );
 
     final gridContext = slotsMap.isEmpty
@@ -114,7 +129,9 @@ class _MainoState extends State<Maino> {
                       options: options,
                       primary: false,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: slotsMap[slotsMap["floors"][item]].length,
+                      itemCount: slotsMap[slotsMap["floors"][item]] != null
+                          ? slotsMap[slotsMap["floors"][item]].length
+                          : 0,
                       shrinkWrap: true,
                       itemBuilder: (
                         BuildContext context,
@@ -136,13 +153,13 @@ class _MainoState extends State<Maino> {
                             decoration: BoxDecoration(
                                 color: slotsMap[slotsMap["floors"][item]][index]
                                             ["status"] ==
-                                        -1
-                                    ? reserved
+                                        0
+                                    ? empty
                                     : slotsMap[slotsMap["floors"][item]][index]
                                                 ["status"] ==
                                             1
-                                        ? timing
-                                        : empty,
+                                        ? fullSlot
+                                        : reserve,
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
                                   width: 1,
@@ -182,8 +199,13 @@ class _MainoState extends State<Maino> {
 
     final slotsContainer = slotsMap.isNotEmpty
         ? gridContext
-        : CustomText(
-            text: "در حال دریافت اطلاعات",
+        : Column(
+            children: [
+              Lottie.asset("assets/animation/buildings.json"),
+              CustomText(
+                text: "در حال دریافت اطلاعات",
+              ),
+            ],
           );
 
     return WillPopScope(

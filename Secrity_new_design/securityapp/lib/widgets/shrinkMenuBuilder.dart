@@ -87,7 +87,13 @@ Widget buildMenu({
             icon: Icons.logout,
             pressedMenu: () => Navigator.pushNamed(context, exitCheck),
           ),
-          SizedBox(height: 100),
+          ListMenu(
+            themeChange: themeChange,
+            text: saved,
+            icon: Icons.bookmark,
+            pressedMenu: () => Navigator.pushNamed(context, bookmarkRoute),
+          ),
+          SizedBox(height: 50),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             child: Row(
@@ -103,7 +109,14 @@ Widget buildMenu({
                 )
               ],
             ),
-          )
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),
+            child: CustomText(
+              text:
+                  "\u00a9 2021 ، پیاده سازی و توسعه یافته توسط صنایع ارتباطی پایا",
+            ),
+          ),
         ],
       ),
     ),

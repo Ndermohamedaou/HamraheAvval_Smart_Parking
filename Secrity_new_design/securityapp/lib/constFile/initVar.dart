@@ -15,9 +15,12 @@ HexColor floatingActionPoint = HexColor("#919BA0");
 HexColor logoutColor = HexColor("#A72222");
 
 // Color for reseveer
-HexColor timing = HexColor("#E1B231");
-HexColor reserved = HexColor("#00CC6A");
-HexColor empty = HexColor("#FFFFFF");
+// -1 reserve
+HexColor reserve = HexColor("#E1B231");
+// 0 empty
+HexColor empty = HexColor("#00CC6A");
+// 1 full
+HexColor fullSlot = HexColor("#B21122");
 
 // searching results
 HexColor lightOptionBg = HexColor("#F2F2F2");
@@ -38,4 +41,6 @@ HexColor littleRecPlateColor = HexColor("#00478E");
 
 // API
 // BASE URL
-const baseURL = "http://188.213.64.78:8000/api";
+const localIp = "http://192.168.1.5:8000/api";
+const publicIp = "http://188.213.64.78:8000/api";
+const baseURL = localIp;

@@ -62,22 +62,24 @@ class ApiAccess {
     return response.data;
   }
 
-  // ignore: missing_return
-  Future<Map> parkedCarsInfo({uToken, sType, plates, slotNum}) async {
-    // Searching by Plate
+  // Searching by Plate
+  Future<List> searchingByPlate({uToken, List plates}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
-    Response response;
-    if (sType == "plate") {
-      response = await dio.post(
-          "$baseURL/searchSlot?type=$sType&plate0=${plates[0]}&plate1=${plates[1]}&plate2=${plates[2]}&plate3=${plates[3]}");
-      return response.data[0];
-      // Searching by Slot
-    } else if (sType == "slot") {
-      response =
-          await dio.post("$baseURL/searchSlot?type=$sType&slot=$slotNum");
-      return response.data;
-    }
+
+    Response res = await dio.post(
+        "$baseURL/searchSlot?type=plate&plate0=${plates[0]}&plate1=${plates[1]}&plate2=${plates[2]}&plate3=${plates[3]}");
+    return res.data;
+  }
+
+  // Searching by Slot
+  Future<Map> searchingBySlot({uToken, slotNum}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer $uToken";
+
+    Response res =
+        await dio.post("$baseURL/searchSlot?type=slot&slot=$slotNum");
+    return res.data;
   }
 
   Future<Map> sendingCarImg({uToken, plate}) async {

@@ -1,14 +1,18 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
+import 'package:securityapp/controller/searchingController.dart';
 import 'package:securityapp/widgets/CustomText.dart';
+import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:securityapp/widgets/searchingButton.dart';
 import 'package:securityapp/widgets/textField.dart';
 import 'package:sizer/sizer.dart';
 
 String slotNumber;
+SearchingCar searchMethod = SearchingCar();
 
 class SearchingBySlot extends StatefulWidget {
   @override
@@ -29,14 +33,38 @@ class _SearchingBySlotState extends State<SearchingBySlot> {
 
   @override
   Widget build(BuildContext context) {
-    void searchedBySlot({slotNum}) {
-      // init flutter secure storage
-      // Getting Token from LDS
-      // Prepare token with slot number to send it in API
-      print(slotNum);
-      // If all things is okay
-      // getting all data from api and send it to following path
-      // Navigation.pushNamed(context, searchResult, arguments: {...});
+    void searchedBySlot({slotNum}) async {
+      if (slotNum != "") {
+        // init Flutter Secure Storage
+        // First getting token form Flutter local storage
+        final lStorage = FlutterSecureStorage();
+        final token = await lStorage.read(key: "uToken");
+        Map result =
+            await searchMethod.searchingBySlot(token: token, slot: slotNum);
+        // print(result["meta"]);
+        if (result["meta"] != null)
+          Navigator.pushNamed(
+            context,
+            searchResults,
+            arguments: result["meta"],
+          );
+        else
+          showStatusInCaseOfFlush(
+            context: context,
+            title: notFoundTitle,
+            msg: notFoundDsc,
+            icon: Icons.close,
+            iconColor: Colors.red,
+          );
+      } else {
+        showStatusInCaseOfFlush(
+          context: context,
+          title: "جست و جوی مورد خالی غیر ممکن است",
+          msg: "حداقل یک جایگاه را برای جست و جو انتخاب کنید",
+          icon: Icons.close,
+          iconColor: Colors.red,
+        );
+      }
     }
 
     return WillPopScope(

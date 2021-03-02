@@ -1,5 +1,12 @@
 import 'dart:io';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initVar.dart';
+import 'package:securityapp/controller/imgConversion.dart';
+import 'package:securityapp/controller/localDataController.dart';
+import 'package:securityapp/controller/sendImgCheckerProcess.dart';
+import 'package:securityapp/model/sqfliteLocalCheck.dart';
+import 'package:securityapp/widgets/alert.dart';
 import 'package:securityapp/widgets/sentSituation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +15,12 @@ import 'package:securityapp/widgets/capturingButton.dart';
 
 Map<dynamic, dynamic> imgSent;
 File img;
+String token = "";
+// Image conversion class
+ConvertImage imgConvertion = ConvertImage();
+SavedSecurity saveSecurity = SavedSecurity();
+LoadingLocalData LLDs = LoadingLocalData();
+ImgProcessing imgProcessing = ImgProcessing();
 
 class ImageChecking extends StatefulWidget {
   @override
@@ -23,6 +36,8 @@ class _ImageCheckingState extends State<ImageChecking> {
 
   @override
   void dispose() {
+    token = "";
+    imgSent = {};
     super.dispose();
   }
 
@@ -31,6 +46,26 @@ class _ImageCheckingState extends State<ImageChecking> {
     imgSent = ModalRoute.of(context).settings.arguments;
     img = imgSent['img'];
 
+    // print(imgSent["cameraStatus"]);
+
+    void sendChecker({img, status}) async {
+      // print(img);
+      // print(status);
+      final lStorage = FlutterSecureStorage();
+      String token = await lStorage.read(key: "uToken");
+      String _img64 = await imgConvertion.img2Base64(img: img);
+      Map result = await imgProcessing.sendingImage(
+          token: token, img: _img64, state: status);
+      if (result.isEmpty) {
+        bool saveResult = await saveSecurity.addSavedSecurity(
+            img: _img64, trafficType: status);
+        if (saveResult) alertSayStatus(context: context);
+      } else {
+        Navigator.pushNamed(context, imgProcessRoute,
+            arguments: {"res": result, "img": _img64});
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -38,12 +73,15 @@ class _ImageCheckingState extends State<ImageChecking> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 10.0.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.file(
                     img,
-                    fit: BoxFit.cover,
+                    width: 100.0.w,
+                    height: 70.0.h,
+                    fit: BoxFit.fitWidth,
                   ),
                 ],
               ),
@@ -56,7 +94,8 @@ class _ImageCheckingState extends State<ImageChecking> {
         textDirection: TextDirection.rtl,
         children: [
           SentSituation(
-            send: () {},
+            send: () => sendChecker(
+                img: imgSent["img"], status: imgSent["cameraStatus"]),
             icon: Icons.done_all,
             iconColor: Colors.white,
             color: mainCTA,
