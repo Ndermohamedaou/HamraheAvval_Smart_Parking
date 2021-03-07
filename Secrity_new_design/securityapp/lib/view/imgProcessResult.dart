@@ -21,9 +21,22 @@ class _ImgProcessingResultState extends State<ImgProcessingResult> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+
     source = ModalRoute.of(context).settings.arguments;
+    // Getting result Map
     Map result = source['res'];
+    // Getting Image from Localy
     String img = source['img'];
+    // source["status"] is status of submission
+    String statusOfSent = source["status"] != null ? source["status"] : "";
+    String processTitle = statusOfSent == "0"
+        ? "ثبت ورود"
+        : statusOfSent == "1"
+            ? "ثبت خروج"
+            : "";
+    // Preparing slot number with result Map
+    String slotNum =
+        result["slot"] != null ? result["slot"] : "خطار در دریافت شماره جایگاه";
 
     final status = result['status'] == 1200 || result['status'] == 200
         ? submissionMsg
@@ -37,12 +50,12 @@ class _ImgProcessingResultState extends State<ImgProcessingResult> {
                         ? notEmptyMsg
                         : result['status'] == 100
                             ? recentlyUsedMsg
-                            : "اررور";
+                            : "خطا در دریافت و محاسبه وضعیت ارسال و ثبت";
 
     return Scaffold(
       appBar: AppBar(
         title: CustomText(
-          text: "نتیجه پردازش",
+          text: "نتیجه پردازش در $processTitle",
         ),
         centerTitle: true,
         backgroundColor: mainCTA,
@@ -59,6 +72,18 @@ class _ImgProcessingResultState extends State<ImgProcessingResult> {
                 children: [
                   CustomText(
                     text: status,
+                    size: 14.0.sp,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10.0.w),
+              child: Row(
+                textDirection: TextDirection.rtl,
+                children: [
+                  CustomText(
+                    text: "شماره جایگاه : $slotNum",
                     size: 14.0.sp,
                   ),
                 ],

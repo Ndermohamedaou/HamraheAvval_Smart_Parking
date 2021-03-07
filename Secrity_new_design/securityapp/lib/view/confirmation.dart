@@ -168,7 +168,7 @@ class _ConfirmationState extends State<Confirmation> {
   }
 
   void updateStaffInfo({avatar, email, pass, rePass, uToken}) async {
-    if (email != "" && pass != "" && rePass != "") {
+    if (email != "" && pass != "" && rePass != "" && avatar != null) {
       bool valEmail = emailValidator(email);
       if (valEmail) {
         if (pass == rePass && pass.length > 6 && rePass.length > 6) {

@@ -41,18 +41,25 @@ class _BookmarkedState extends State<Bookmarked> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    void sendItAgain({img, status}) async {
+    void sendItAgain({savedId, img, status}) async {
       final lStorage = FlutterSecureStorage();
       final token = await lStorage.read(key: "uToken");
       // print(token);
       // print(status);
-      // print(img);
+      print(savedId);
       Map result = await imgProcessing.sendingImage(
           token: token, img: img, state: status);
-      if (result.isNotEmpty)
+      if (result.isNotEmpty) {
         Navigator.pushNamed(context, imgProcessRoute,
-            arguments: {"res": result, "img": img});
-      else
+            arguments: {"res": result, "img": img, "status": status});
+        // Deleting by id if sending is successful
+        bool delSaved = await saveSecurity.delSavedSecurity(id: savedId);
+        if (delSaved) {
+          // Getting relist from local data
+          final reList = await saveSecurity.readySavedSecurity();
+          setState(() => savedList = reList);
+        }
+      } else
         showStatusInCaseOfFlush(
           context: context,
           title: notSendAgainTitle,
@@ -80,6 +87,7 @@ class _BookmarkedState extends State<Bookmarked> {
                   ),
                   FlatButton(
                     onPressed: () => sendItAgain(
+                      savedId: savedList[index]['id'],
                       img: savedList[index]['img'],
                       status: savedList[index]['trafficType'],
                     ),
@@ -96,7 +104,7 @@ class _BookmarkedState extends State<Bookmarked> {
               ),
             ),
           ),
-          actions: <Widget>[
+          actions: [
             IconSlideAction(
               caption: 'پاک کردن',
               color: Colors.red,

@@ -62,7 +62,7 @@ class _ImageCheckingState extends State<ImageChecking> {
         if (saveResult) alertSayStatus(context: context);
       } else {
         Navigator.pushNamed(context, imgProcessRoute,
-            arguments: {"res": result, "img": _img64});
+            arguments: {"res": result, "img": _img64, "status": status});
       }
     }
 

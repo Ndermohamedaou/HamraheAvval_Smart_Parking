@@ -43,4 +43,4 @@ HexColor littleRecPlateColor = HexColor("#00478E");
 // BASE URL
 const localIp = "http://192.168.1.5:8000/api";
 const publicIp = "http://188.213.64.78:8000/api";
-const baseURL = localIp;
+const baseURL = publicIp;
