@@ -48,16 +48,6 @@ class PlatePicker extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 40),
-          Text(
-            choosePlate,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: subTitleSize,
-            ),
-          ),
-          SizedBox(height: 60),
-          titlePlateText,
-          SizedBox(height: 20),
           plateForShow,
           SizedBox(height: 40),
           FlatButton(
@@ -96,7 +86,7 @@ class PlatePicker extends StatelessWidget {
                 ),
               );
             },
-            color: HexColor("#6f03fc"),
+            color: mainCTA,
             child: Text(
               "پلاک خود را انتخاب کنید",
               style:

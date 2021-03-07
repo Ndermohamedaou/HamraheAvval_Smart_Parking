@@ -146,32 +146,18 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
     final plateContext = userPlates.isEmpty ? searchingProcess : plates;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: mainCTA,
+        title: Text(
+          myPlateText,
+          style:
+              TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(Icons.arrow_back_ios_rounded)),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        myPlateText,
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: subTitleSize),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              plateContext
-            ],
+            children: [plateContext],
           ),
         ),
       ),

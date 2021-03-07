@@ -17,6 +17,27 @@ class GalleryViewerOption extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 10),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    Text(
+                      "روش انتخاب تصویر",
+                      style: TextStyle(
+                        fontFamily: mainFaFontFamily,
+                        fontSize: 18,
+                        color: mainSectionCTA,
+                      ),
+                    ),
+                    Icon(
+                      Icons.photo,
+                      color: mainSectionCTA,
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

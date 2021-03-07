@@ -203,13 +203,13 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       textDirection: TextDirection.rtl,
                       children: [
-                        Icon(Icons.lock, color: lockDownColor),
+                        Icon(Icons.lock, color: mainSectionCTA),
                         SizedBox(width: 10),
                         Text(
                           forgetPass,
                           style: TextStyle(
                               fontFamily: mainFaFontFamily,
-                              color: forgetOptionColor),
+                              color: mainSectionCTA),
                           textAlign: TextAlign.right,
                         )
                       ],
@@ -224,7 +224,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Material(
           elevation: 10.0,
           borderRadius: BorderRadius.circular(8.0),
-          color: loginBtnColor,
+          color: mainCTA,
           child: MaterialButton(
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {

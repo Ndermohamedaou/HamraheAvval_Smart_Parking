@@ -10,6 +10,7 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/optionViewer.dart';
+import 'package:payausers/Screens/confirmInfo.dart';
 import 'package:payausers/Screens/maino.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -80,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    // final themeChange = Provider.of<DarkThemeProvider>(context);
 
     Future galleryViewer(ImageSource changeType) async {
       final image = await ImagePicker.pickImage(source: changeType);
@@ -140,170 +141,99 @@ class _SettingsPageState extends State<SettingsPage> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: mainCTA,
+        title: Text(
+          settingsText,
+          style:
+              TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: double.infinity,
-                height: 400,
-                decoration: BoxDecoration(
-                    color: themeChange.darkTheme ? darkBar : lightBar),
-                child: Column(
-                  children: [
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                              onTap: () => Navigator.pop(context),
-                              child: Icon(Icons.arrow_back_ios_rounded)),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              settingsText,
-                              style: TextStyle(
-                                  fontFamily: mainFaFontFamily,
-                                  fontSize: subTitleSize),
-                            ),
-                          ),
-                        ],
+              SizedBox(height: 20),
+              SettingCircle(
+                uA: imgSource == null
+                    ? NetworkImage(userAvatar)
+                    : FileImage(imgSource),
+                uId: userId,
+              ),
+              FlatButton(
+                onPressed: () {
+                  showMaterialModalBottomSheet(
+                    context: context,
+                    enableDrag: true,
+                    bounce: true,
+                    duration: const Duration(milliseconds: 550),
+                    builder: (context) => SingleChildScrollView(
+                      controller: ModalScrollController.of(context),
+                      child: GalleryViewerOption(
+                        cameraChoose: () {
+                          Navigator.pop(context);
+                          galleryViewer(ImageSource.camera);
+                        },
+                        galleryChoose: () {
+                          Navigator.pop(context);
+                          galleryViewer(ImageSource.gallery);
+                        },
                       ),
                     ),
-                    SettingCircle(
-                      uA: imgSource == null
-                          ? NetworkImage(userAvatar)
-                          : FileImage(imgSource),
-                      uId: userId,
-                    ),
-                    FlatButton(
-                      onPressed: () {
-                        showMaterialModalBottomSheet(
-                          context: context,
-                          enableDrag: true,
-                          bounce: true,
-                          duration: const Duration(milliseconds: 550),
-                          builder: (context) => SingleChildScrollView(
-                            controller: ModalScrollController.of(context),
-                            child: GalleryViewerOption(
-                              cameraChoose: () {
-                                Navigator.pop(context);
-                                galleryViewer(ImageSource.camera);
-                              },
-                              galleryChoose: () {
-                                Navigator.pop(context);
-                                galleryViewer(ImageSource.gallery);
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text(
-                        changeAvatarScreen,
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 18,
-                            color: Colors.blue),
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.black38,
-                      thickness: 1,
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: TextShow(
-                        title: userName,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Divider(
-                      color: Colors.black38,
-                      thickness: 1,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        textDirection: TextDirection.rtl,
-                        children: [
-                          Text(
-                            userEmail,
-                            style: TextStyle(
-                              fontFamily: mainEnFontFamily,
-                              fontSize: 16,
-                            ),
-                          ),
-                          FlatButton(
-                            minWidth: 5,
-                            onPressed: () =>
-                                Navigator.pushNamed(context, "/changeEmail"),
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.black38,
-                      thickness: 1,
-                    ),
-                  ],
+                  );
+                },
+                child: Text(
+                  changeAvatarScreen,
+                  style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      fontSize: 18,
+                      color: Colors.blue),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(right: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(readOnlyInfo,
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w100,
-                            color: Colors.grey)),
-                  ],
+              TilsInfo(
+                textTitle: "نام کاربری",
+                textSubtitle: userName,
+              ),
+              TilsInfo(
+                textTitle: "نشانی پست الکترونیکی",
+                textSubtitle: userEmail,
+              ),
+              TilsInfo(
+                textTitle: "شناسه پرسنلی",
+                textSubtitle: personalCodeText,
+              ),
+              TilsInfo(
+                textTitle: "شناسه ملی",
+                textSubtitle: melliCodeText,
+              ),
+              FlatButton(
+                onPressed: () => Navigator.pushNamed(context, "/changeEmail"),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    "ویرایش پست الکترونیکی",
+                    style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      color: mainSectionCTA,
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                width: double.infinity,
-                height: 86,
-                color: themeChange.darkTheme ? darkBar : lightBar,
-                child: Column(
-                  children: [
-                    SizedBox(height: 10),
-                    Rowed(
-                      title: personalCodeText,
-                      realPost: userPersonal,
+              FlatButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, "/changePassword"),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    chPass,
+                    style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      color: Colors.red,
+                      fontSize: 18,
                     ),
-                    Divider(
-                      color: Colors.black38,
-                      thickness: 1,
-                    ),
-                    Rowed(title: melliCodeText, realPost: userMelli),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: FlatButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, "/changePassword"),
-                  child: Center(
-                    child: Text(
-                      chPass,
-                      style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 18,
-                          color: Colors.red),
-                      textAlign: TextAlign.center,
-                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
@@ -317,7 +247,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(16.0),
-          color: Colors.blue,
+          color: mainCTA,
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
@@ -334,49 +264,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class Rowed extends StatelessWidget {
-  const Rowed({this.title, this.realPost});
-
-  final title;
-  final realPost;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 16)),
-          Text(realPost,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 16)),
-        ],
-      ),
-    );
-  }
-}
-
-class TextShow extends StatelessWidget {
-  const TextShow({this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(title,
-              style: TextStyle(fontFamily: mainEnFontFamily, fontSize: 16)),
-        ],
       ),
     );
   }
@@ -405,6 +292,33 @@ class SettingCircle extends StatelessWidget {
           version: QrVersions.auto,
           padding: EdgeInsets.all(4),
           foregroundColor: HexColor("#000000"),
+        ),
+      ),
+    );
+  }
+}
+
+class TilsInfo extends StatelessWidget {
+  const TilsInfo({
+    this.textTitle,
+    this.textSubtitle,
+  });
+
+  final textTitle;
+  final textSubtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: ListTile(
+        title: Text(
+          textTitle != null ? textTitle : "",
+          style: TextStyle(fontFamily: mainFaFontFamily),
+        ),
+        subtitle: Text(
+          textSubtitle != null ? textSubtitle : "",
+          style: TextStyle(fontFamily: mainFaFontFamily),
         ),
       ),
     );

@@ -22,14 +22,6 @@ class TimerPicker extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 40),
-          Text(
-            chooseTime,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: subTitleSize,
-            ),
-          ),
           SizedBox(height: 60),
           Container(
             child: Lottie.asset("assets/lottie/timePick.json", width: 150),
@@ -40,8 +32,7 @@ class TimerPicker extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: starterTimePressed,
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(HexColor("#6f03fc"))),
+                  backgroundColor: MaterialStateProperty.all(mainCTA)),
               icon: Icon(Icons.timer, size: 18),
               label: Text(
                 entryTime,
@@ -63,8 +54,7 @@ class TimerPicker extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: endTimePressed,
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(HexColor("#6f03fc"))),
+                  backgroundColor: MaterialStateProperty.all(mainCTA)),
               icon: Icon(Icons.timer_off, size: 18),
               label: Text(
                 exitTime,

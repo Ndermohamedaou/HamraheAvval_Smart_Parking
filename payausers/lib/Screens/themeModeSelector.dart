@@ -34,7 +34,7 @@ class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
                   child: Text(
                     themeChangeText,
                     style: TextStyle(
-                        color: titleTextColor,
+                        color: mainCTA,
                         fontFamily: mainFaFontFamily,
                         fontSize: titleTextSize,
                         fontWeight: FontWeight.bold),

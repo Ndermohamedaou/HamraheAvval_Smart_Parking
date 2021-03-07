@@ -106,9 +106,9 @@ class ReservedTab extends StatelessWidget {
                     // ),
                     ClipOval(
                       child: Material(
-                        color: Colors.blue, // button color
+                        color: mainCTA, // button color
                         child: InkWell(
-                          splashColor: Colors.blue[300], // inkwell color
+                          splashColor: mainSectionCTA, // inkwell color
                           child: SizedBox(
                               width: 46,
                               height: 46,

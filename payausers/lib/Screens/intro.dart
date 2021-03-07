@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
-import 'package:provider/provider.dart';
-import '../Classes/ThemeColor.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -43,7 +41,7 @@ class _MainIntroState extends State<MainIntro> {
                 introTitle1Text,
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
-                    color: titleTextColor,
+                    color: mainCTA,
                     fontWeight: FontWeight.bold,
                     fontSize: titleTextSize),
               ),

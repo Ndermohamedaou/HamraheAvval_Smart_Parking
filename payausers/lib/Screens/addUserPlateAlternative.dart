@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/alert.dart';
 import 'package:payausers/ExtractedWidgets/dropdownMenu.dart';
 import 'package:payausers/controller/addPlateController.dart';
 import 'package:provider/provider.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:toast/toast.dart';
 
 String plate0 = "";
 String plate1 = "";
@@ -50,34 +44,25 @@ class _AddUserPlatAlternative extends State<AddUserPlatAlternative> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: mainCTA,
+          title: Text(
+            addUserPlate,
+            style:
+                TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+          ),
+        ),
         body: SafeArea(
             child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 20),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        addUserPlate,
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: subTitleSize),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         yourPlateNumber,
                         style: TextStyle(

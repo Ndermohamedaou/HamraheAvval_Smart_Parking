@@ -319,9 +319,9 @@ class _MainoState extends State<Maino> {
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               backgroundColor: themeChange.darkTheme ? darkBar : lightBar,
-              selectedItemColor: Colors.blue,
+              selectedItemColor: mainSectionCTA,
               unselectedItemColor: HexColor('#C9C9C9'),
-              selectedIconTheme: IconThemeData(color: Colors.blue),
+              selectedIconTheme: IconThemeData(color: mainSectionCTA),
               iconSize: 25,
               // unselectedIconTheme: IconThemeData(size: 25),
               selectedFontSize: 14,
@@ -362,7 +362,7 @@ class _MainoState extends State<Maino> {
                     ),
                   ),
                   icon: CircleAvatar(
-                    backgroundColor: loginBtnColor,
+                    backgroundColor: mainSectionCTA,
                     radius: 25,
                     child: Icon(
                       Icons.add_business_outlined,

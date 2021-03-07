@@ -15,25 +15,6 @@ class DateUserPicker extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Directionality(
-          //   textDirection: TextDirection.rtl,
-          //   child: Flushbar(
-          //     title: "This is title",
-          //     message: "This is super simple snakbar",
-          //     flushbarPosition: FlushbarPosition.TOP,
-          //     duration: Duration(seconds: 4),
-          //     isDismissible: true,
-          //     borderRadius: 8,
-          //   ),
-          // ),
-          SizedBox(height: 40),
-          Text(
-            chooseDate,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: subTitleSize,
-            ),
-          ),
           SizedBox(height: 40),
           Lottie.asset("assets/lottie/datePick.json", width: double.infinity),
           Directionality(
@@ -41,8 +22,7 @@ class DateUserPicker extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: pressedDate,
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(HexColor("#6f03fc"))),
+                  backgroundColor: MaterialStateProperty.all(mainCTA)),
               icon: Icon(Icons.calendar_today, size: 18),
               label: Text(
                 openCalender,

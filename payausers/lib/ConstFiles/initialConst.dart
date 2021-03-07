@@ -5,6 +5,10 @@ import 'package:hexcolor/hexcolor.dart';
 HexColor mainBgColorLight = HexColor("#F9F9F9");
 HexColor mainBgColorDark = HexColor("#000000");
 
+// main app bar bg color
+HexColor mainCTA = HexColor("#4AC4CB");
+HexColor mainSectionCTA = HexColor("#ee934b");
+
 // Primary color (CTR)
 const primarySubmitBtnColor = Colors.green;
 

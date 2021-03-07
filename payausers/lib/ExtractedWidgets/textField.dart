@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class TextFields extends StatelessWidget {
   TextFields(
@@ -42,20 +41,20 @@ class TextFields extends StatelessWidget {
           validator: validate,
           obscureText: textInputType,
           textAlign: TextAlign.center,
-          cursorColor: Colors.blue[900],
+          cursorColor: mainCTA,
           decoration: InputDecoration(
             errorText: errText,
             errorStyle: TextStyle(fontFamily: mainFaFontFamily),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Colors.blue[900],
+                color: mainCTA,
                 width: 2,
               ),
             ),
-            fillColor: Colors.blue[900],
+            fillColor: mainCTA,
             labelText: lblText,
             //TODO Fill this section for extract my custom Widget
-            labelStyle: TextStyle(fontFamily: mainFaFontFamily),
+            labelStyle: TextStyle(fontFamily: mainFaFontFamily, color: mainCTA),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
             ),
@@ -64,7 +63,7 @@ class TextFields extends StatelessWidget {
               onPressed: iconPressed,
               child: Icon(
                 textFieldIcon,
-                color: HexColor('#216DCD'),
+                color: mainCTA,
               ),
             ),
           ),

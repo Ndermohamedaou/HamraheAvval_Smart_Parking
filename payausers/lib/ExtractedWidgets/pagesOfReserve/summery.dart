@@ -27,18 +27,10 @@ class Summery extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 40),
-          Text(
-            summery,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: subTitleSize,
-            ),
-          ),
           TicketView(
             backgroundPadding:
                 EdgeInsets.symmetric(vertical: 24, horizontal: 40),
-            backgroundColor: Colors.blue,
+            backgroundColor: mainSectionCTA,
             contentBackgroundColor: themeChange ? darkBar : lightBar,
             contentPadding: EdgeInsets.symmetric(vertical: 44, horizontal: 20),
             drawArc: true,

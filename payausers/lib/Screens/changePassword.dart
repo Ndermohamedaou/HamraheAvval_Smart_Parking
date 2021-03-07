@@ -90,30 +90,19 @@ class _ChangePassPageState extends State<ChangePassPage> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: mainCTA,
+        title: Text(
+          changePassText,
+          style:
+              TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(Icons.arrow_back_ios_rounded)),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        changePassText,
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: subTitleSize),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              SizedBox(height: 20),
               TextFields(
                 lblText: curPass,
                 maxLen: 20,
@@ -209,7 +198,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
         child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(16.0),
-          color: Colors.blue,
+          color: mainCTA,
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () => changePass(

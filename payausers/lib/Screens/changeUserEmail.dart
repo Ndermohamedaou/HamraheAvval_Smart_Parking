@@ -90,30 +90,18 @@ class _ModifyUserEmailState extends State<ModifyUserEmail> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: mainCTA,
+        title: Text(
+          "ویرایش آدرس ایمیل",
+          style:
+              TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(Icons.arrow_back_ios_rounded)),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        "ویرایش آدرس ایمیل",
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: subTitleSize),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(
                 height: 40,
               ),
@@ -141,7 +129,7 @@ class _ModifyUserEmailState extends State<ModifyUserEmail> {
         child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(16.0),
-          color: Colors.blue,
+          color: mainCTA,
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {

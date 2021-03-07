@@ -178,8 +178,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
             onPressed: () =>
                 Navigator.pushNamed(context, "/addUserplateAlternative"),
             style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(HexColor("#6f03fc"))),
+                backgroundColor: MaterialStateProperty.all(mainCTA)),
             icon: Icon(Icons.add, size: 18),
             label: Text(
               "اضافه کردن پلاک",
@@ -345,7 +344,25 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       )
     ];
 
+    final appBarTitleSpecific = curIndex == 0
+        ? chooseDate
+        : curIndex == 1
+            ? chooseTime
+            : curIndex == 2
+                ? choosePlate
+                : curIndex == 3
+                    ? summery
+                    : "";
+
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          appBarTitleSpecific,
+          style: TextStyle(fontFamily: mainFaFontFamily),
+        ),
+        backgroundColor: mainCTA,
+      ),
       body: SafeArea(
         child: PageView(
           controller: _controller,
@@ -365,9 +382,9 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
           children: [
             ClipOval(
               child: Material(
-                color: Colors.blue, // button color
+                color: mainCTA, // button color
                 child: InkWell(
-                  splashColor: Colors.blue[300], // inkwell color
+                  splashColor: mainSectionCTA, // inkwell color
                   child: SizedBox(
                       width: 46,
                       height: 46,
@@ -396,37 +413,37 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   child: Icon(
                     Icons.date_range_outlined,
-                    color: curIndex == 0 ? Colors.blue : null,
+                    color: curIndex == 0 ? mainSectionCTA : null,
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   child: Icon(
                     Icons.timer_outlined,
-                    color: curIndex == 1 ? Colors.blue : null,
+                    color: curIndex == 1 ? mainSectionCTA : null,
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   child: Icon(
                     Icons.view_carousel_outlined,
-                    color: curIndex == 2 ? Colors.blue : null,
+                    color: curIndex == 2 ? mainSectionCTA : null,
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
                   child: Icon(
                     Icons.featured_play_list_outlined,
-                    color: curIndex == 3 ? Colors.blue : null,
+                    color: curIndex == 3 ? mainSectionCTA : null,
                   ),
                 ),
               ],
             ),
             ClipOval(
               child: Material(
-                color: Colors.blue, // button color
+                color: mainCTA, // button color
                 child: InkWell(
-                  splashColor: Colors.blue[300], // inkwell color
+                  splashColor: mainSectionCTA, // inkwell color
                   child: SizedBox(
                       width: 46,
                       height: 46,
