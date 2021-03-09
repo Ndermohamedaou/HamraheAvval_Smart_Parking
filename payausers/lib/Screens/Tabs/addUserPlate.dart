@@ -57,7 +57,10 @@ class _AddUserPlateState extends State<AddUserPlate> {
                     child: Text(
                       addUserPlate,
                       style: TextStyle(
-                          fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+                        fontFamily: mainFaFontFamily,
+                        fontSize: subTitleSize,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

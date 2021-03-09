@@ -15,7 +15,7 @@ class UserTraffic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    // final themeChange = Provider.of<DarkThemeProvider>(context);
     Widget traffics = Column(
       children: [
         ListView.builder(
@@ -72,7 +72,10 @@ class UserTraffic extends StatelessWidget {
                   child: Text(
                     trafficsLogText,
                     style: TextStyle(
-                        fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+                      fontFamily: mainFaFontFamily,
+                      fontSize: subTitleSize,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

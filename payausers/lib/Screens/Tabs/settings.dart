@@ -27,6 +27,7 @@ class Settings extends StatelessWidget {
           expandedHeight: 400.0,
           floating: false,
           pinned: true,
+          backgroundColor: mainCTA,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
             title: Text(

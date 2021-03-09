@@ -409,32 +409,44 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
             ),
             Row(
               children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(
-                    Icons.date_range_outlined,
-                    color: curIndex == 0 ? mainSectionCTA : null,
+                GestureDetector(
+                  onTap: () => navigatedIcon(0),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(
+                      Icons.date_range_outlined,
+                      color: curIndex == 0 ? mainSectionCTA : null,
+                    ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(
-                    Icons.timer_outlined,
-                    color: curIndex == 1 ? mainSectionCTA : null,
+                GestureDetector(
+                  onTap: () => navigatedIcon(1),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(
+                      Icons.timer_outlined,
+                      color: curIndex == 1 ? mainSectionCTA : null,
+                    ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(
-                    Icons.view_carousel_outlined,
-                    color: curIndex == 2 ? mainSectionCTA : null,
+                GestureDetector(
+                  onTap: () => navigatedIcon(2),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(
+                      Icons.view_carousel_outlined,
+                      color: curIndex == 2 ? mainSectionCTA : null,
+                    ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(
-                    Icons.featured_play_list_outlined,
-                    color: curIndex == 3 ? mainSectionCTA : null,
+                GestureDetector(
+                  onTap: () => navigatedIcon(3),
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(
+                      Icons.featured_play_list_outlined,
+                      color: curIndex == 3 ? mainSectionCTA : null,
+                    ),
                   ),
                 ),
               ],
@@ -470,5 +482,10 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         ),
       ),
     );
+  }
+
+  void navigatedIcon(pageIndex) {
+    _controller.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 }
