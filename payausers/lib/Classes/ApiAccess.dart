@@ -38,12 +38,12 @@ class ApiAccess {
     return response.data['status'];
   }
 
-  Future<String> getUserAvatar({token}) async {
-    dio.options.headers['Content-Type'] = 'application/json';
-    dio.options.headers["Authorization"] = "Bearer $token";
-    Response response = await dio.get("$baseUrl/staffInfo");
-    return response.data['avatar'];
-  }
+  // Future<String> getUserAvatar({token}) async {
+  //   dio.options.headers['Content-Type'] = 'application/json';
+  //   dio.options.headers["Authorization"] = "Bearer $token";
+  //   Response response = await dio.get("$baseUrl/staffInfo");
+  //   return response.data['avatar'];
+  // }
 
   Future<List> getUserPlate({token}) async {
     dio.options.headers['Content-Type'] = 'application/json';

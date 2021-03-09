@@ -303,7 +303,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         child: Material(
           elevation: 10.0,
           borderRadius: BorderRadius.circular(8.0),
-          color: loginBtnColor,
+          color: mainCTA,
           child: MaterialButton(
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {

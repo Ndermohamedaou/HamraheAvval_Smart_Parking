@@ -16,7 +16,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:payausers/Classes/Filter.dart';
 
 import 'Tabs/addUserPlate.dart';
 import 'Tabs/userTraffic.dart';
@@ -26,6 +25,7 @@ class Maino extends StatefulWidget {
   _MainoState createState() => _MainoState();
 }
 
+Timer timer;
 dynamic themeChange;
 int tabBarIndex;
 var _pageController;
@@ -36,6 +36,7 @@ String avatar = "";
 String userToken = "";
 String userSection = "";
 String userRole = "";
+String email = "";
 List userTraffic = [];
 List userReserved = [];
 String lenOfTrafic = "";
@@ -66,7 +67,7 @@ class _MainoState extends State<Maino> {
 
     _pageController = PageController();
     tabBarIndex = 0;
-    Timer.periodic(Duration(seconds: 10), (timer) {
+    timer = Timer.periodic(Duration(seconds: 10), (timer) {
       READYLOCALVAR();
     });
     READYLOCALVAR();
@@ -75,6 +76,9 @@ class _MainoState extends State<Maino> {
 
   @override
   void dispose() {
+    _pageController.dispose();
+    timer.cancel();
+
     initConnectivity();
     // Close init
     _connectivitySubscription.cancel();
@@ -125,6 +129,7 @@ class _MainoState extends State<Maino> {
         avatar = value["avatar"];
         userSection = value["section"];
         userRole = value["role"];
+        email = value["email"];
       });
       getUserTrafficLogsApi(userToken).then((logs) {
         setState(() {
@@ -153,7 +158,9 @@ class _MainoState extends State<Maino> {
 
   Future<Map> getStaffInfoFromLocal() async {
     String readyAvatar = "";
+    String readyEmail = "";
     final userId = await lds.read(key: "user_id");
+    final localEmail = await lds.read(key: "email");
     userToken = await lds.read(key: "token");
     final name = await lds.read(key: "name");
     final personalCode = await lds.read(key: "personal_code");
@@ -162,17 +169,28 @@ class _MainoState extends State<Maino> {
     String role = await lds.read(key: "role");
 
     try {
-      String serverAvatar = await api.getUserAvatar(token: userToken);
-      // Correspondence local Avatar with Server side avatar
+      Map staffInfo = await api.getStaffInfo(token: userToken);
+      String serverAvatar = staffInfo['avatar'];
+      String serverEmail = staffInfo['email'];
+      // print(staffInfo);
+      // Matching local Avatar with Server side
+      // avatar if anythings has change it will update!
       if (localAvatar != serverAvatar) {
-        setState(() async {
+        setState(() {
           readyAvatar = serverAvatar;
         });
         await lds.write(key: "avatar", value: serverAvatar);
       }
+      if (localEmail != serverEmail) {
+        setState(() {
+          readyEmail = serverEmail;
+        });
+        await lds.write(key: "email", value: serverEmail);
+      }
     } catch (e) {
-      print(e);
+      // print(e);
       readyAvatar = await lds.read(key: "avatar");
+      readyEmail = await lds.read(key: "email");
     }
 
     return {
@@ -180,6 +198,7 @@ class _MainoState extends State<Maino> {
       "name": name,
       "personalCode": personalCode,
       "avatar": readyAvatar != "" ? readyAvatar : localAvatar,
+      "email": readyEmail != "" ? readyEmail : email,
       "section": section,
       "role": role
     };
@@ -328,12 +347,8 @@ class _MainoState extends State<Maino> {
               unselectedFontSize: 14,
               currentIndex: tabBarIndex,
               onTap: (indexValue) {
-                setState(() {
-                  tabBarIndex = indexValue;
-                  _pageController.animateToPage(tabBarIndex,
-                      duration: Duration(milliseconds: 3), curve: Curves.ease);
-                  // print(tabBarIndex);
-                });
+                setState(() => tabBarIndex = indexValue);
+                pageControllerFunc(tabBarIndex);
               },
               items: [
                 BottomNavigationBarItem(
@@ -396,5 +411,10 @@ class _MainoState extends State<Maino> {
             SystemChannels.platform.invokeMethod('SystemNavigator.pop')
         // exit(0),
         );
+  }
+
+  void pageControllerFunc(index) {
+    _pageController.animateToPage(index,
+        duration: Duration(milliseconds: 1), curve: Curves.ease);
   }
 }
