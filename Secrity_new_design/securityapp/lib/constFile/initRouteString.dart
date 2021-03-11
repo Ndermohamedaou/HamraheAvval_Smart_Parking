@@ -12,3 +12,4 @@ const buildingsRoute = "buildings";
 const confirmationRoute = "confirmationRoute";
 const bookmarkRoute = "bookmarkRoute";
 const imgProcessRoute = "imgProcessRoute";
+const editPage = "edit";

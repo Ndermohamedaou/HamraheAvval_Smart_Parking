@@ -21,6 +21,7 @@ import 'package:securityapp/view/buildingForUsers.dart';
 import 'package:securityapp/view/confirmation.dart';
 import 'view/bookmarked.dart';
 import 'view/imgProcessResult.dart';
+import 'package:securityapp/view/editePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -79,6 +80,7 @@ class _MyAppState extends State<MyApp> {
                     confirmationRoute: (context) => Confirmation(),
                     bookmarkRoute: (context) => Bookmarked(),
                     imgProcessRoute: (context) => ImgProcessingResult(),
+                    editPage: (context) => EditPage(),
                   },
                 ),
               );

@@ -11,7 +11,6 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/controller/slotController.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
-import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/shrinkMenuBuilder.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';

@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initStrings.dart';
+import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/gettingLogin.dart';
 import 'package:securityapp/controller/imgConversion.dart';
 import 'package:securityapp/controller/localDataController.dart';
@@ -33,6 +34,7 @@ String email = "";
 String naturalCode = "";
 String persCode = "";
 String buildingsFarsiName = "";
+double mainSliverBgSize = 40.0.h;
 
 Timer timer;
 
@@ -51,8 +53,21 @@ class _ProfileState extends State<Profile> {
           avatar = local["avatar"];
         });
       });
+      loadStaffInfo();
     });
+    loadStaffInfo();
+    super.initState();
+  }
 
+  @override
+  void dispose() {
+    imgSource = null;
+    mainSliverBgSize = 40.0.h;
+    timer.cancel();
+    super.dispose();
+  }
+
+  void loadStaffInfo() {
     LLDs.gettingStaffInfoInLocal().then((local) {
       setState(() {
         token = local["token"];
@@ -64,14 +79,6 @@ class _ProfileState extends State<Profile> {
         buildingsFarsiName = local["buildingNameFA"];
       });
     });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    imgSource = null;
-    timer.cancel();
-    super.dispose();
   }
 
   Future gettingPhoto(ImageSource sourceType) async {
@@ -81,31 +88,34 @@ class _ProfileState extends State<Profile> {
       maxHeight: 500,
       imageQuality: 50,
     );
-    String _img64 = await convert.img2Base64(img: image);
-    // print(_img64);
-    bool result = await auth.updateStaffAvatar(avatar: _img64, token: token);
-    if (result) {
-      showStatusInCaseOfFlush(
-        context: context,
-        title: successSendTitle,
-        msg: successSendDsc,
-        icon: Icons.done_all,
-        iconColor: Colors.green,
-      );
-      // Getting Staff Info from Server for avatar
-      Map staffInfo = await auth.gettingStaffInfo(token);
-      var newImageAvatar = staffInfo["avatar"];
-      // Saving Data
-      final lStorage = FlutterSecureStorage();
-      await lStorage.write(key: "avatar", value: newImageAvatar);
-    } else {
-      showStatusInCaseOfFlush(
-        context: context,
-        title: failureSendTitle,
-        msg: failureSendDsc,
-        icon: Icons.close,
-        iconColor: Colors.red,
-      );
+
+    if (image != null) {
+      String _img64 = await convert.img2Base64(img: image);
+      // print(_img64);
+      bool result = await auth.updateStaffAvatar(avatar: _img64, token: token);
+      if (result) {
+        showStatusInCaseOfFlush(
+          context: context,
+          title: successSendTitle,
+          msg: successSendDsc,
+          icon: Icons.done_all,
+          iconColor: Colors.green,
+        );
+        // Getting Staff Info from Server for avatar
+        Map staffInfo = await auth.gettingStaffInfo(token);
+        var newImageAvatar = staffInfo["avatar"];
+        // Saving Data
+        final lStorage = FlutterSecureStorage();
+        await lStorage.write(key: "avatar", value: newImageAvatar);
+      } else {
+        showStatusInCaseOfFlush(
+          context: context,
+          title: failureSendTitle,
+          msg: failureSendDsc,
+          icon: Icons.close,
+          iconColor: Colors.red,
+        );
+      }
     }
   }
 
@@ -122,31 +132,40 @@ class _ProfileState extends State<Profile> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 40.0.h,
+            expandedHeight: mainSliverBgSize,
             floating: false,
             pinned: true,
+            backgroundColor: mainCTA,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
+              collapseMode: CollapseMode.parallax,
               title: CustomText(
                 text: fullname,
                 fw: FontWeight.bold,
                 size: 10.0.sp,
               ),
-              background: Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xff7c94b6),
-                  image: new DecorationImage(
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                        Colors.black.withOpacity(0.8), BlendMode.dstATop),
-                    image: new NetworkImage(
-                      avatar,
+              background: GestureDetector(
+                onTap: () => setState(() => mainSliverBgSize = 60.0.h),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xff7c94b6),
+                    image: new DecorationImage(
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                          Colors.black.withOpacity(0.8), BlendMode.dstATop),
+                      image: new NetworkImage(
+                        avatar,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
             actions: [
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () => Navigator.pushNamed(context, editPage),
+              ),
               IconButton(
                   icon: Icon(Icons.camera_alt),
                   onPressed: () {
@@ -231,7 +250,30 @@ class _ProfileState extends State<Profile> {
       bottomNavigationBar: Container(
         height: 10.0.h,
         child: MaterialButton(
-          onPressed: () => logout(),
+          onPressed: () => showAdaptiveActionSheet(
+            context: context,
+            title: CustomText(
+              text: "آیا می خواهید حساب خود خارج شوید؟",
+              fw: FontWeight.bold,
+              size: 14.0.sp,
+            ),
+            actions: <BottomSheetAction>[
+              BottomSheetAction(
+                  title: CustomText(
+                    text: "خروج",
+                    color: Colors.red,
+                    fw: FontWeight.bold,
+                    align: TextAlign.center,
+                  ),
+                  onPressed: () => logout()),
+            ],
+            cancelAction: CancelAction(
+              title: const CustomText(
+                text: 'لغو',
+                color: Colors.blue,
+              ),
+            ),
+          ),
           color: Colors.red,
           child: CustomText(
             text: "خروج از حساب",

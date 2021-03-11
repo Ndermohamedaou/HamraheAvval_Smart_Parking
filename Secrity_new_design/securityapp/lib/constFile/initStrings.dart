@@ -82,6 +82,9 @@ const savingProblemDsc =
 // Strings in Confirmation
 const submitUpdateStaffInfo = "بروزرسانی اطلاعات جدید";
 
+// Email
+const emailText = "آدرس پست الکترونیکی";
+
 // Update user info
 const emptyBoxTitle = "برخی از فیلد ها خالی هستند";
 const emptyBoxDsc = "باید تمامی فیلد های خواسته شده را پر کنید";
@@ -132,3 +135,28 @@ const notFoundInfoForThis = "اطلاعاتی در مورد این پلاک مو
 const failedResponse = "اطلاعات پلاک یافت نشد";
 const notEmptyMsg = "پارکینگ پر است";
 const recentlyUsedMsg = "این پلاک قبلا ثبت شده است";
+
+const editedEmailSubmited = "آدرس پست الکترونیکی شما با موفقیت ویرایش شد";
+const failureEmailSubmit = "ویرایش آدرس پست الکترونیکی شما با شکست رو به رو شد";
+const emptyMsgTitle = "فیلد خالی نمیتوان پذیرفت";
+const emptyMsgDsc = "لطفا فیلد آدرس پست الکترونیکی خود را پر کنید";
+
+const emailRegexFailedTitle = "آدرس پست الکترونیکی نامعتبر";
+const emailRegexFailedDsc = "آدرس پست الکترونیکی وارد شده نامعتبر است";
+
+// Change New Password
+const passChangedTitle = "ویرایش گذرواژه موفقیت آمیز بود";
+const passChangedDsc = "گذرواژه جدید شما در سرویس دهنده با موفقیت ثبت شد";
+const passNotChangedTitle = "ویرایش گذرواژه جدید ما مشکل مواجه شده است";
+const passNotChangedDsc =
+    "ثبت گذرواژه جدید شما با مشکل رو به رو شده است، لطفا بعدا مراجعه کنید";
+
+const passInvalidTitle = "گذواژه جدید شما نامعبتر است";
+const passInvalidDsc =
+    "لطفا گدرواژه ای معتبر وارد کنید که ترکیبی از حروف بزرگ و کوچک اعلائم و اعداد باشد";
+
+const passNoEnoughLenTitle = "طول گذرواژه کم است";
+const passNoEnoughLenDsc = "گذرواژه شما باید بیشتر یا مساوی ۶ کارکتر باشد";
+
+const passNotMatchTitle = "گذرواژه های ناهمسان";
+const passNotMatchDsc = "گذرواژه های شما با یکدیگر همسان نیست";

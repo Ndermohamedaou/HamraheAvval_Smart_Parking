@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  modal_bottom_sheet: 
   # Custom hex color
   hexcolor: ^1.0.6
   # Connection with API
