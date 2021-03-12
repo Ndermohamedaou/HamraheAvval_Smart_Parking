@@ -43,8 +43,11 @@ dependencies:
   flutter_slidable:
   ticketview: ^1.0.0
   flushbar: ^1.10.4
+  liquid_ui:
   adaptive_action_sheet: ^1.0.11
   connectivity: ^2.0.2
+  # Have Responsive size in any Devices
+  sizer: ^1.1.8
 
 
 

@@ -29,12 +29,12 @@ class UserLeading extends StatelessWidget {
             ),
           );
     return ListTile(
-        title: Text(
-          fullname,
-          style: TextStyle(fontFamily: mainFaFontFamily),
-        ),
-        subtitle: Text(userPersonalCode,
-            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 12)),
+        // title: Text(
+        //   fullname,
+        //   style: TextStyle(fontFamily: mainFaFontFamily),
+        // ),
+        // subtitle: Text(userPersonalCode,
+        //     style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 12)),
         leading: uA);
   }
 }

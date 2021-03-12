@@ -73,15 +73,17 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   // Saving data to local
                   Map staffInfo = await api.getStaffInfo(token: uToken);
                   bool result = await savingData.LDS(
-                      token: uToken,
-                      user_id: staffInfo["user_id"],
-                      email: staffInfo["email"],
-                      name: staffInfo["name"],
-                      role: staffInfo['role'],
-                      avatar: staffInfo["avatar"],
-                      melli_code: staffInfo['melli_code'],
-                      personal_code: staffInfo['personal_code'],
-                      section: staffInfo["section"]);
+                    token: uToken,
+                    user_id: staffInfo["user_id"],
+                    email: staffInfo["email"],
+                    name: staffInfo["name"],
+                    role: staffInfo['role'],
+                    avatar: staffInfo["avatar"],
+                    melli_code: staffInfo['melli_code'],
+                    personal_code: staffInfo['personal_code'],
+                    section: staffInfo["section"],
+                    lastLogin: staffInfo["last_login"],
+                  );
 
                   if (result) {
                     Navigator.pushNamed(context, "/loginCheckout");

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+// Card Color
+HexColor mainCardColor = HexColor("#AA642A");
+HexColor persCodeColor = HexColor("#814B00");
+HexColor lastVisitColor = HexColor("#0C4C4E");
+
 // Main Background color
 HexColor mainBgColorLight = HexColor("#F9F9F9");
 HexColor mainBgColorDark = HexColor("#000000");

@@ -48,15 +48,17 @@ class _LoginPageState extends State<LoginPage> {
         // final List userPlates = userInfo["plates"] as List;
 
         bool result = await savingData.LDS(
-            token: token,
-            user_id: userInfo["user_id"],
-            email: userInfo["email"],
-            name: userInfo["name"],
-            role: userInfo['role'],
-            avatar: userInfo["avatar"],
-            melli_code: userInfo['melli_code'],
-            personal_code: userInfo['personal_code'],
-            section: userInfo["section"]);
+          token: token,
+          user_id: userInfo["user_id"],
+          email: userInfo["email"],
+          name: userInfo["name"],
+          role: userInfo['role'],
+          avatar: userInfo["avatar"],
+          melli_code: userInfo['melli_code'],
+          personal_code: userInfo['personal_code'],
+          section: userInfo["section"],
+          lastLogin: userInfo["last_login"],
+        );
 
         // bool savingUserPlate = await savingData.savingPlate(plates: userPlates);
 

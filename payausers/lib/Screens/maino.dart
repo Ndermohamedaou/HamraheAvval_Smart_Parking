@@ -37,6 +37,7 @@ String userToken = "";
 String userSection = "";
 String userRole = "";
 String email = "";
+String lastLogin = "";
 List userTraffic = [];
 List userReserved = [];
 String lenOfTrafic = "";
@@ -130,6 +131,7 @@ class _MainoState extends State<Maino> {
         userSection = value["section"];
         userRole = value["role"];
         email = value["email"];
+        lastLogin = value["lastLogin"];
       });
       getUserTrafficLogsApi(userToken).then((logs) {
         setState(() {
@@ -167,6 +169,7 @@ class _MainoState extends State<Maino> {
     final localAvatar = await lds.read(key: "avatar");
     String section = await lds.read(key: "section");
     String role = await lds.read(key: "role");
+    String lastLogin = await lds.read(key: "lastLogin");
 
     try {
       Map staffInfo = await api.getStaffInfo(token: userToken);
@@ -200,7 +203,8 @@ class _MainoState extends State<Maino> {
       "avatar": readyAvatar != "" ? readyAvatar : localAvatar,
       "email": readyEmail != "" ? readyEmail : email,
       "section": section,
-      "role": role
+      "role": role,
+      "lastLogin": lastLogin,
     };
   }
 
@@ -284,53 +288,50 @@ class _MainoState extends State<Maino> {
                 textAlign: TextAlign.right,
               ),
             ),
-            child: SafeArea(
-              child: PageView(
-                controller: _pageController,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  Dashboard(
-                    openUserDashSettings: () {
-                      setState(() {
-                        tabBarIndex = 4;
-                      });
-                      _pageController.animateToPage(4,
-                          duration: Duration(milliseconds: 1),
-                          curve: Curves.easeOut);
-                    },
-                    userQRCode: userId != "" ? userId : "-",
-                    temporarLogo: mainLogo,
-                    fullnameMeme: name != "" ? name : "-",
-                    userPersonalCodeMeme:
-                        personalCode != "" ? personalCode : "-",
-                    avatarMeme: avatar != null ? avatar : null,
-                    section: locationBuilding != "" ? locationBuilding : "-",
-                    role: slotNumberInSituation != ""
-                        ? slotNumberInSituation
-                        : "-",
-                    userPlateNumber: plateNo != "" ? plateNo : "-",
-                    userTrafficNumber:
-                        userTrafficStatus != "" ? userTrafficStatus : "-",
-                    userReserveNumber:
-                        userReseveStatusLen != "" ? userReseveStatusLen : "-",
-                  ),
-                  UserTraffic(
-                    userTrafficLog: userTraffic,
-                  ),
-                  ReservedTab(
-                    mainThemeColor: themeChange,
-                    reserves: userReserved,
-                    // filter: ,
-                  ),
-                  AddUserPlate(),
-                  Settings(
-                    fullNameMeme: name,
-                    avatarMeme: avatar != ""
-                        ? avatar
-                        : "https://style.anu.edu.au/_anu/4/images/placeholders/person.png",
-                  ),
-                ],
-              ),
+            child: PageView(
+              controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Dashboard(
+                  openUserDashSettings: () {
+                    setState(() {
+                      tabBarIndex = 4;
+                    });
+                    _pageController.animateToPage(4,
+                        duration: Duration(milliseconds: 1),
+                        curve: Curves.easeOut);
+                  },
+                  lastLogin: lastLogin,
+                  userQRCode: userId != "" ? userId : "-",
+                  temporarLogo: mainLogo,
+                  fullnameMeme: name != "" ? name : "-",
+                  userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
+                  avatarMeme: avatar != null ? avatar : null,
+                  section: locationBuilding != "" ? locationBuilding : "-",
+                  role:
+                      slotNumberInSituation != "" ? slotNumberInSituation : "-",
+                  userPlateNumber: plateNo != "" ? plateNo : "-",
+                  userTrafficNumber:
+                      userTrafficStatus != "" ? userTrafficStatus : "-",
+                  userReserveNumber:
+                      userReseveStatusLen != "" ? userReseveStatusLen : "-",
+                ),
+                UserTraffic(
+                  userTrafficLog: userTraffic,
+                ),
+                ReservedTab(
+                  mainThemeColor: themeChange,
+                  reserves: userReserved,
+                  // filter: ,
+                ),
+                AddUserPlate(),
+                Settings(
+                  fullNameMeme: name,
+                  avatarMeme: avatar != ""
+                      ? avatar
+                      : "https://style.anu.edu.au/_anu/4/images/placeholders/person.png",
+                ),
+              ],
             ),
           ),
           bottomNavigationBar: Directionality(
@@ -400,7 +401,7 @@ class _MainoState extends State<Maino> {
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
-                    Icons.account_circle,
+                    Icons.settings,
                   ),
                 ),
               ],

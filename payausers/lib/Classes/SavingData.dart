@@ -5,16 +5,18 @@ class SavingData {
   final lStorage = FlutterSecureStorage();
 
   // Saving data in local storage
-  Future<bool> LDS(
-      {token,
-      user_id,
-      name,
-      email,
-      role,
-      personal_code,
-      melli_code,
-      avatar,
-      section}) async {
+  Future<bool> LDS({
+    token,
+    user_id,
+    name,
+    email,
+    role,
+    personal_code,
+    melli_code,
+    avatar,
+    section,
+    lastLogin,
+  }) async {
     Map<String, dynamic> staffInfo = {
       "token": token,
       "user_id": user_id,
@@ -24,7 +26,8 @@ class SavingData {
       "personal_code": personal_code,
       "melli_code": melli_code,
       "avatar": avatar,
-      "section": section
+      "section": section,
+      "lastLogin": lastLogin,
     };
     staffInfo.forEach((key, value) async {
       await lStorage.write(key: key, value: value);
