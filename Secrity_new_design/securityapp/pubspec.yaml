@@ -51,6 +51,8 @@ dependencies:
   # Local Sqlite db
   sqflite: ^1.3.0
   flutter_slidable:
+  # For Socket communication
+  socket_io_client: any
   
 
   

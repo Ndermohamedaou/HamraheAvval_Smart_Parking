@@ -148,6 +148,7 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainCTA,
+        centerTitle: true,
         title: Text(
           myPlateText,
           style:

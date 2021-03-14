@@ -92,6 +92,7 @@ class _ModifyUserEmailState extends State<ModifyUserEmail> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainCTA,
+        centerTitle: true,
         title: Text(
           "ویرایش آدرس ایمیل",
           style:

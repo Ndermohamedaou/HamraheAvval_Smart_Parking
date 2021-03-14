@@ -143,6 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainCTA,
+        centerTitle: true,
         title: Text(
           settingsText,
           style:

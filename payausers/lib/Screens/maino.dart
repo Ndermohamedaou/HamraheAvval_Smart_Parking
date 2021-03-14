@@ -38,15 +38,22 @@ String userSection = "";
 String userRole = "";
 String email = "";
 String lastLogin = "";
+
+// Traffic List
 List userTraffic = [];
+int userTrafficListLen = userTraffic.length;
+
+// Reserve View both list and length
 List userReserved = [];
+int userReservedListLen = userReserved.length;
+
 String lenOfTrafic = "";
 String lenOfReserve = "";
 String lenOfUserPlate = "";
 String locationBuilding = "";
 String slotNumberInSituation = "";
 //reserve Special pices
-int showPiceces = 0;
+// int showPiceces = 0;
 
 ApiAccess api = ApiAccess();
 
@@ -72,6 +79,13 @@ class _MainoState extends State<Maino> {
       READYLOCALVAR();
     });
     READYLOCALVAR();
+
+    // getUserReservedHistory().then((reserves) {
+    //   setState(() {
+    //     userReservedListLen = reserves.length;
+    //   });
+    // });
+
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
@@ -121,6 +135,7 @@ class _MainoState extends State<Maino> {
     }
   }
 
+  // ignore: non_constant_identifier_names
   void READYLOCALVAR() {
     getStaffInfoFromLocal().then((value) {
       setState(() {
@@ -289,6 +304,21 @@ class _MainoState extends State<Maino> {
               ),
             ),
             child: PageView(
+              // Getting Reserve length
+              onPageChanged: (pageIndex) {
+                getUserReservedHistory().then((reserves) {
+                  setState(() {
+                    userReservedListLen = reserves.length;
+                  });
+                });
+
+                // Getting Traffic length
+                getUserTrafficLogsApi(userToken).then((logs) {
+                  setState(() {
+                    userTrafficListLen = userTraffic.length;
+                  });
+                });
+              },
               controller: _pageController,
               physics: NeverScrollableScrollPhysics(),
               children: [
@@ -318,11 +348,63 @@ class _MainoState extends State<Maino> {
                 ),
                 UserTraffic(
                   userTrafficLog: userTraffic,
+                  trafficListLen: userTrafficListLen,
+                  filterOn10: () {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                    userTrafficListLen > 5
+                        ? setState(() => userTrafficListLen = 5)
+                        : userTrafficListLen;
+                    Navigator.pop(context);
+                  },
+                  filterOn20: () {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                    userReservedListLen > 20
+                        ? setState(() => userTrafficListLen = 20)
+                        : userTrafficListLen;
+                    Navigator.pop(context);
+                  },
+                  filterOn50: () {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                    userReservedListLen > 50
+                        ? setState(() => userTrafficListLen = 50)
+                        : userTrafficListLen;
+                    Navigator.pop(context);
+                  },
+                  noFilter: () {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                    Navigator.pop(context);
+                  },
                 ),
                 ReservedTab(
                   mainThemeColor: themeChange,
                   reserves: userReserved,
-                  // filter: ,
+                  reservListLen: userReservedListLen,
+                  filterOn10: () {
+                    setState(() => userReservedListLen = userReserved.length);
+                    userReservedListLen > 5
+                        ? setState(() => userReservedListLen = 5)
+                        : userReservedListLen;
+                    Navigator.pop(context);
+                  },
+                  filterOn20: () {
+                    setState(() => userReservedListLen = userReserved.length);
+                    userReservedListLen > 20
+                        ? setState(() => userReservedListLen = 20)
+                        : userReservedListLen;
+                    Navigator.pop(context);
+                  },
+                  filterOn50: () {
+                    setState(() => userReservedListLen = userReserved.length);
+                    userReservedListLen > 50
+                        ? setState(() => userReservedListLen = 50)
+                        : userReservedListLen;
+                    Navigator.pop(context);
+                  },
+                  noFilter: () {
+                    setState(() => userReservedListLen = userReserved.length);
+                    // print(userReserved.length);
+                    Navigator.pop(context);
+                  },
                 ),
                 AddUserPlate(),
                 Settings(

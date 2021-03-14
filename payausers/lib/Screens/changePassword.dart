@@ -92,6 +92,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainCTA,
+        centerTitle: true,
         title: Text(
           changePassText,
           style:

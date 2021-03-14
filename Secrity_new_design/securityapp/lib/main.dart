@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_ui/liquid_ui.dart';
+import 'package:securityapp/model/classes/StreamNotifire.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
@@ -25,7 +27,21 @@ import 'package:securityapp/view/editePage.dart';
 
 void main() {
   runApp(MyApp());
+  // connectSocket();
 }
+
+StreamSocket streamSocket = StreamSocket();
+
+// for set socket settings with nspc and endpoint in a channel
+// void connectSocket() {
+//   IO.Socket socket = IO.io("http://188.213.64.78:8000/home");
+
+//   socket.onConnect((_) {
+//     print('Connected!');
+//   });
+//   socket.on("NewEntry", (data) => streamSocket.addResponse);
+//   socket.onDisconnect((_) => print("Disconnected!"));
+// }
 
 class MyApp extends StatefulWidget {
   @override
