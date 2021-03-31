@@ -45,26 +45,18 @@ class _SearchResultsState extends State<SearchResults> {
 
     // print(info);
     return Scaffold(
+      appBar: AppBar(
+        title: CustomText(
+          text: resultSearch,
+          size: 14.0.sp,
+        ),
+        centerTitle: true,
+        backgroundColor: mainCTA,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    CustomText(
-                      text: resultSearch,
-                      size: 14.0.sp,
-                    ),
-                    GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(Icons.arrow_back))
-                  ],
-                ),
-              ),
               Container(
                 width: double.infinity,
                 height: 40.0.h,

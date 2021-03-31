@@ -19,4 +19,14 @@ class SearchingCar {
       return {};
     }
   }
+
+  Future<Map> searchingByPersonalCode({token, persCode}) async {
+    try {
+      return await api.searchingByPersonalCode(
+          uToken: token, persCode: persCode);
+    } catch (e) {
+      print("Error from searching by Personal Code: $e");
+      return {};
+    }
+  }
 }

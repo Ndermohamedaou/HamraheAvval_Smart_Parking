@@ -53,6 +53,8 @@ dependencies:
   flutter_slidable:
   # For Socket communication
   socket_io_client: any
+  # Getting Notifications
+  flutter_local_notifications: any
   
 
   

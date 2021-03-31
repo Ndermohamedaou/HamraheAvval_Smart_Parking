@@ -3,6 +3,7 @@ const mainoRoute = "maino";
 const loginRoute = "login";
 const searchByPlateRoute = "plateSearch";
 const searchBySlotRoute = "slotSearch";
+const searchByPersCodeRoute = "personalSearch";
 const searchResults = "searchResults";
 const entryCheck = "entryCheck";
 const exitCheck = "exitCheck";

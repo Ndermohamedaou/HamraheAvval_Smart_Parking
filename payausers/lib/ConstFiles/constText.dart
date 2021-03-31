@@ -22,6 +22,7 @@ const loginAppBarText = "ورود به حساب";
 const finalLoginText = "ورود";
 const welcomeToInfo = "برای ورود \n اطلاعات خود را وارد کنید";
 const personalCodePlaceHolder = "کد پرسنلی";
+const passwordTextFieldPlace = "گذرواژه";
 const passwordPlaceHolder = "گذرواژه جدید";
 const passwordPlaceHolderNew = "تکرار گذرواژه جدید";
 const forgetPass = "گذرواژه خود را فراموش کرده اید؟";

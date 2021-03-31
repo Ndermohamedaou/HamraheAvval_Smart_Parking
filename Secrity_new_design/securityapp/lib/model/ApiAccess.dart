@@ -82,6 +82,16 @@ class ApiAccess {
     return res.data;
   }
 
+  // Searching by Slot
+  Future<Map> searchingByPersonalCode({uToken, persCode}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer $uToken";
+
+    Response res = await dio
+        .post("$baseURL/searchSlot?type=personal_code&personal_code=$persCode");
+    return res.data;
+  }
+
   Future<Map> sendingCarImg({uToken, plate}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";

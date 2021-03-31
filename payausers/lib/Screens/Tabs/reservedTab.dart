@@ -214,7 +214,7 @@ class ReservedTab extends StatelessWidget {
                       width: 46,
                       height: 46,
                       child: Icon(
-                        Icons.topic,
+                        Icons.filter_alt_outlined,
                         color: Colors.white,
                       )),
                   onTap: () => filterSection(),

@@ -8,6 +8,7 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/searchingController.dart';
 import 'package:securityapp/model/classes/AlphabetClassList.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
+import 'package:securityapp/view/searchingByPersonalCode.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/dorpdownMenuItem.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
@@ -335,6 +336,21 @@ class _SearchByPlateState extends State<SearchByPlate> {
                         ModalRoute.of(context).settings.name;
                     if (currentRoutePath != "slotSearch") {
                       Navigator.pushNamed(context, searchBySlotRoute);
+                    } else
+                      null;
+                  }),
+              IconButton(
+                  tooltip: personalCodeSearchText,
+                  icon: Icon(
+                    Icons.person_add_alt_1_rounded,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    final currentRoutePath =
+                        ModalRoute.of(context).settings.name;
+                    if (currentRoutePath != "personalSearch") {
+                      Navigator.pushNamed(context, searchByPersCodeRoute);
                     } else
                       null;
                   }),

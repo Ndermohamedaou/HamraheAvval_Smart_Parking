@@ -11,42 +11,44 @@ import 'package:securityapp/widgets/searchingButton.dart';
 import 'package:securityapp/widgets/textField.dart';
 import 'package:sizer/sizer.dart';
 
-String slotNumber;
+String personalCodeString;
 SearchingCar searchMethod = SearchingCar();
 
-class SearchingBySlot extends StatefulWidget {
+class SearchingByPersonalCode extends StatefulWidget {
   @override
-  _SearchingBySlotState createState() => _SearchingBySlotState();
+  _SearchingByPersonalCodeState createState() =>
+      _SearchingByPersonalCodeState();
 }
 
-class _SearchingBySlotState extends State<SearchingBySlot> {
+class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
   @override
   void initState() {
-    slotNumber = "";
+    personalCodeString = "";
     super.initState();
   }
 
   @override
   void dispose() {
+    personalCodeString = "";
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    void searchedBySlot({slotNum}) async {
-      if (slotNum != "") {
+    void searchedBySlot({staffPersonalCode}) async {
+      if (staffPersonalCode != "") {
         // init Flutter Secure Storage
         // First getting token form Flutter local storage
         final lStorage = FlutterSecureStorage();
         final token = await lStorage.read(key: "uToken");
-        Map result =
-            await searchMethod.searchingBySlot(token: token, slot: slotNum);
+        Map result = await searchMethod.searchingByPersonalCode(
+            token: token, persCode: staffPersonalCode);
         // print(result["meta"]);
         if (result["meta"] != null)
           Navigator.pushNamed(
             context,
             searchResults,
-            arguments: result["meta"],
+            arguments: result["meta"][0],
           );
         else
           showStatusInCaseOfFlush(
@@ -81,14 +83,15 @@ class _SearchingBySlotState extends State<SearchingBySlot> {
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: CustomText(
-                  text: slotText,
+                  text: personalCodeSearchText,
                   size: 10.0.sp,
                   fw: FontWeight.bold,
                   color: Colors.black,
                 ),
                 background: Image(
-                    image: AssetImage("assets/images/searchSlot.png"),
-                    fit: BoxFit.cover),
+                  image: AssetImage("assets/images/searchingByPersCode.png"),
+                  fit: BoxFit.fitWidth,
+                ),
               ),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
@@ -107,27 +110,28 @@ class _SearchingBySlotState extends State<SearchingBySlot> {
                             children: [
                               SizedBox(height: 4.45.h),
                               TextFields(
-                                keyType: TextInputType.name,
-                                lblText: slotNumberInSearch,
-                                textFieldIcon: Icons.playlist_add_check_rounded,
+                                keyType: TextInputType.number,
+                                lblText: persCodeInSearch,
+                                textFieldIcon: Icons.person_add_alt_1_rounded,
                                 textInputType: false,
                                 readOnly: false,
-                                onChangeText: (onChangeSlot) =>
-                                    setState(() => slotNumber = onChangeSlot),
+                                onChangeText: (onChangePersCode) => setState(
+                                    () =>
+                                        personalCodeString = onChangePersCode),
                               ),
                               Container(
                                 margin: EdgeInsets.symmetric(horizontal: 30),
                                 width: 85.0.w,
                                 child: CustomText(
-                                  text: slotSearchTip,
+                                  text: persCodeSearchTip,
                                   size: 11.0.sp,
                                   color: Colors.grey,
                                 ),
                               ),
                               SizedBox(height: 5.0.h),
                               SearchBtn(
-                                searchPressed: () =>
-                                    searchedBySlot(slotNum: slotNumber),
+                                searchPressed: () => searchedBySlot(
+                                    staffPersonalCode: personalCodeString),
                               ),
                             ],
                           ),

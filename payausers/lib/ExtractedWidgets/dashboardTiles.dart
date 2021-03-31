@@ -13,7 +13,7 @@ class DashboardTiles extends StatelessWidget {
       this.iconColor,
       this.lenOfStuff});
 
-  final String tileColor;
+  final tileColor;
   final String text;
   final String subText;
   final String subSubText;
@@ -26,7 +26,14 @@ class DashboardTiles extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.0), color: HexColor(tileColor)),
+        borderRadius: BorderRadius.circular(28.0),
+        // color: HexColor(tileColor),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          stops: [0.1, 0.9],
+          colors: tileColor,
+        ),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -51,11 +58,11 @@ class DashboardTiles extends StatelessWidget {
                 children: [
                   TextPos(
                       mainText: text,
-                      fontColor: Colors.black,
+                      fontColor: Colors.white,
                       size: mainFontSize),
                   TextPos(
                     mainText: subText,
-                    fontColor: Colors.black,
+                    fontColor: Colors.white,
                     size: mainFontSize,
                   ),
                   TextPos(
@@ -72,7 +79,7 @@ class DashboardTiles extends StatelessWidget {
               lenOfStuff != null ? lenOfStuff : "",
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 20),
             ),
           ),

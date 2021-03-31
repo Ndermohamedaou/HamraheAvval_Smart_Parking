@@ -20,6 +20,8 @@ const homeText = "نمایش جایگاه ها";
 const searchText = "جست و جوی پلاک";
 // Side Menu -- Slot text
 const slotText = "جست و جوی جايگاه";
+// Side Menu -- searching With Personal code
+const personalCodeSearchText = "جست و جوی با کد پرسنلی";
 // Side Menu -- Enter text
 const enterText = "ثبت ورود";
 // Side Menu -- Exit text
@@ -43,7 +45,13 @@ const plateSearchTip =
 // Slots Search
 const slotSearchTip =
     "شماره جایگاه را وارد کرده تا موقعیت وسیله نقلیه متناسب با شماره جایگاه وارد شده را دریافت کنید";
+
+const persCodeSearchTip =
+    "شناسه پرسنلی فرد مورد نظر را وارد کرده تا موقعیت وسیله نقلیه متناسب را دریافت کنید";
+
 const slotNumberInSearch = "شماره جایگاه";
+
+const persCodeInSearch = "شناسه پرسنلی";
 
 // Search Results
 const resultSearch = "نتیجه جست و جوی شما";
