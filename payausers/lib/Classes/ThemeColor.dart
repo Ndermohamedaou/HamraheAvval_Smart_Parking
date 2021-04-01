@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +15,17 @@ class DarkThemePreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool(theme_status) ?? false;
   }
+
+  // Getting lock state in application
+  setLockAppState(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("lock_state", value);
+  }
+
+  Future<bool> getLockState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool("lock_state") ?? false;
+  }
 }
 
 // whenever we use dark UI theme changed
@@ -28,6 +38,16 @@ class DarkThemeProvider with ChangeNotifier {
   set darkTheme(bool value) {
     _darkTheme = value;
     darkThemePreferences.setDarkTheme(value);
+    notifyListeners();
+  }
+
+  bool _appLock = false;
+
+  bool get appLock => _appLock;
+
+  set appLock(bool value) {
+    _appLock = value;
+    darkThemePreferences.setLockAppState(value);
     notifyListeners();
   }
 }

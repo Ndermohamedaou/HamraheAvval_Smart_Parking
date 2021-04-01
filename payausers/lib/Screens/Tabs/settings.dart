@@ -191,7 +191,6 @@ class Settings extends StatelessWidget {
                                   ),
                                   leading: Icon(
                                     Icons.car_repair,
-                                    // color: HexColor("#D800BF"),
                                     size: 30,
                                   ),
                                 ),
@@ -200,7 +199,7 @@ class Settings extends StatelessWidget {
                             color: Colors.grey,
                             thickness: 0.25,
                             indent: 20,
-                            height: 1,
+                            height: 0,
                           ),
                           Container(
                             color: themeChange.darkTheme ? darkBar : lightBar,
@@ -221,16 +220,41 @@ class Settings extends StatelessWidget {
                               ),
                             ),
                           ),
-                          // LogoutBtn(),
-                          // SizedBox(height: 10),
-
+                          Divider(
+                            color: Colors.grey,
+                            thickness: .25,
+                            indent: 20,
+                            height: 0,
+                          ),
+                          Container(
+                              width: double.infinity,
+                              height: 55,
+                              color: themeChange.darkTheme ? darkBar : lightBar,
+                              child: FlatButton(
+                                onPressed: () => Navigator.pushNamed(
+                                    context, "/setBiometric"),
+                                child: ListTile(
+                                  title: Text(
+                                    "تنظیم بایومتریک",
+                                    style: TextStyle(
+                                        fontFamily: mainFaFontFamily,
+                                        fontSize: 15),
+                                  ),
+                                  leading: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: Image.asset(
+                                      "assets/images/privacy.png",
+                                      width: 25,
+                                    ),
+                                  ),
+                                ),
+                              )),
                           Divider(
                             color: Colors.grey,
                             thickness: 0.25,
                             indent: 20,
-                            height: 1,
+                            height: 0,
                           ),
-
                           Container(
                               width: double.infinity,
                               height: 55,
@@ -251,7 +275,6 @@ class Settings extends StatelessWidget {
                                   ),
                                 ),
                               )),
-
                           Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),

@@ -11,6 +11,8 @@ PODS:
     - Flutter
   - image_picker (0.0.1):
     - Flutter
+  - local_auth (0.0.1):
+    - Flutter
   - Reachability (3.2)
   - shared_preferences (0.0.1):
     - Flutter
@@ -22,6 +24,7 @@ DEPENDENCIES:
   - hexcolor (from `.symlinks/plugins/hexcolor/ios`)
   - image_native_resizer (from `.symlinks/plugins/image_native_resizer/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - local_auth (from `.symlinks/plugins/local_auth/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
 SPEC REPOS:
@@ -41,6 +44,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_native_resizer/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
+  local_auth:
+    :path: ".symlinks/plugins/local_auth/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
 
@@ -51,6 +56,7 @@ SPEC CHECKSUMS:
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
   image_native_resizer: 9f91c5cb7e4388d929f53bc44d2b834bd0e7fe22
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
+  local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
 

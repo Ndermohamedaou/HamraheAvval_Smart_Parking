@@ -48,6 +48,10 @@ dependencies:
   connectivity: ^2.0.2
   # Have Responsive size in any Devices
   sizer: ^1.1.8
+  # Local Auth
+  local_auth: any
+  # For OPT Password view
+  otp_screen: ^0.0.3
 
 
 

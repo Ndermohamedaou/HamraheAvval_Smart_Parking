@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 30),
               TextFields(
-                lblText: passwordTextFieldPlace,
+                lblText: personalCodePlaceHolder,
                 textFieldIcon: Icons.account_circle,
                 textInputType: false,
                 readOnly: false,
@@ -169,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20),
               TextFields(
-                lblText: passwordPlaceHolder,
+                lblText: passwordTextFieldPlace,
                 maxLen: 20,
                 readOnly: false,
                 errText: emptyTextFieldErrPassword == null

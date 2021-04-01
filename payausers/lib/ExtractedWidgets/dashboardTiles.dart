@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class DashboardTiles extends StatelessWidget {
@@ -75,12 +74,15 @@ class DashboardTiles extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             alignment: Alignment.bottomLeft,
-            child: Text(
-              lenOfStuff != null ? lenOfStuff : "",
-              style: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                  color: Colors.white,
-                  fontSize: 20),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                lenOfStuff != null ? lenOfStuff : "",
+                style: TextStyle(
+                    fontFamily: mainFaFontFamily,
+                    color: Colors.white,
+                    fontSize: 15),
+              ),
             ),
           ),
         ],

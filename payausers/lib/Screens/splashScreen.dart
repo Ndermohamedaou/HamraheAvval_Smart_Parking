@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void startingTimer() {
-    Timer(Duration(microseconds: 5), () {
+    Timer(Duration(milliseconds: 1000), () {
       navigatedToRoot(); //It will redirect  after 5 microseconds
     });
   }
@@ -46,9 +46,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void navigatedToRoot() async {
     final lStorage = FlutterSecureStorage();
     final userToken = await lStorage.read(key: "token");
-    if (userToken != null)
-      Navigator.pushNamed(context, "/dashboard");
-    else
+    final local_auth_pasas = await lStorage.read(key: "local_lock");
+    if (userToken != null) {
+      if (local_auth_pasas != null) // And And our boolean lock status show
+        Navigator.pushNamed(context, "/localAuth");
+      else
+        Navigator.pushNamed(context, "/dashboard");
+    } else
       Navigator.pushNamed(context, '/');
   }
 }
