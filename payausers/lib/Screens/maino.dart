@@ -82,7 +82,7 @@ class _MainoState extends State<Maino> {
 
     // getUserReservedHistory().then((reserves) {
     //   setState(() {
-    //     userReservedListLen = reserves.length;
+    // userReservedListLen = reserves.length;
     //   });
     // });
 
@@ -358,14 +358,14 @@ class _MainoState extends State<Maino> {
                   },
                   filterOn20: () {
                     setState(() => userTrafficListLen = userTraffic.length);
-                    userReservedListLen > 20
+                    userTrafficListLen > 20
                         ? setState(() => userTrafficListLen = 20)
                         : userTrafficListLen;
                     Navigator.pop(context);
                   },
                   filterOn50: () {
                     setState(() => userTrafficListLen = userTraffic.length);
-                    userReservedListLen > 50
+                    userTrafficListLen > 50
                         ? setState(() => userTrafficListLen = 50)
                         : userTrafficListLen;
                     Navigator.pop(context);

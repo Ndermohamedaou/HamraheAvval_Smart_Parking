@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
@@ -87,10 +88,12 @@ class Settings extends StatelessWidget {
                     minWidth: 45.0.w,
                     onPressed: () async {
                       FlutterSecureStorage lds = FlutterSecureStorage();
-
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
                       SystemChannels.platform
                           .invokeMethod('SystemNavigator.pop');
                       await lds.deleteAll();
+                      prefs.clear();
                       Navigator.pushNamed(context, '/splashScreen');
                       exit(0);
                     },

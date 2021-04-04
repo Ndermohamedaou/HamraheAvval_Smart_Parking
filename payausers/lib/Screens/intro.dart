@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
@@ -27,33 +28,37 @@ class MainIntro extends StatefulWidget {
 class _MainIntroState extends State<MainIntro> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 50),
-                child: Image.asset("assets/images/meaning_intro_vector.png"),
-              ),
-              SizedBox(height: 20),
-              Text(
-                introTitle1Text,
-                style: TextStyle(
-                    fontFamily: mainFaFontFamily,
-                    color: mainCTA,
-                    fontWeight: FontWeight.bold,
-                    fontSize: titleTextSize),
-              ),
-              SizedBox(height: 7),
-              Text(
-                "به اپلیکیشن کاربران پایا خوش آمدید",
-                style: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                  fontSize: subTitleSize,
+    return WillPopScope(
+      onWillPop: () =>
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 50),
+                  child: Image.asset("assets/images/meaning_intro_vector.png"),
                 ),
-              ),
-            ],
+                SizedBox(height: 20),
+                Text(
+                  introTitle1Text,
+                  style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      color: mainCTA,
+                      fontWeight: FontWeight.bold,
+                      fontSize: titleTextSize),
+                ),
+                SizedBox(height: 7),
+                Text(
+                  "به اپلیکیشن کاربران پایا خوش آمدید",
+                  style: TextStyle(
+                    fontFamily: mainFaFontFamily,
+                    fontSize: subTitleSize,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
@@ -24,13 +25,17 @@ class _SplashScreenState extends State<SplashScreen> {
     final mainTitleLogo = themeChange.darkTheme
         ? "assets/images/Titile_Logo_Mark_dark.png"
         : "assets/images/Titile_Logo_Mark_light.png";
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Container(
-            child: Image.asset(
-              mainTitleLogo,
-              width: 200,
+    return WillPopScope(
+      onWillPop: () =>
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+      child: Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Container(
+              child: Image.asset(
+                mainTitleLogo,
+                width: 200,
+              ),
             ),
           ),
         ),

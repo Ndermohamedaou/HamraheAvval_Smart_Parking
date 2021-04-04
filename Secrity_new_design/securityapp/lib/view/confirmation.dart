@@ -78,91 +78,99 @@ class _ConfirmationState extends State<Confirmation> {
       });
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (index) => setState(() => pageIndex = index),
-          children: [
-            MainProfile(
-              avatarView: imageSource,
-              avatarPressed: () {
-                showAdaptiveActionSheet(
-                  context: context,
-                  title: CustomText(
-                    text: ": انتخاب تصویر با استفاده از",
-                    fw: FontWeight.bold,
-                    size: 14.0.sp,
-                  ),
-                  actions: <BottomSheetAction>[
-                    BottomSheetAction(
+    return WillPopScope(
+      onWillPop: () {
+        if (pageIndex >= 1)
+          _pageController.animateToPage(pageIndex - 1,
+              duration: Duration(milliseconds: 600), curve: Curves.decelerate);
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) => setState(() => pageIndex = index),
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              MainProfile(
+                avatarView: imageSource,
+                avatarPressed: () {
+                  showAdaptiveActionSheet(
+                    context: context,
+                    title: CustomText(
+                      text: ": انتخاب تصویر با استفاده از",
+                      fw: FontWeight.bold,
+                      size: 14.0.sp,
+                    ),
+                    actions: <BottomSheetAction>[
+                      BottomSheetAction(
+                          title: CustomText(
+                            text: "گالری",
+                          ),
+                          onPressed: () {
+                            gettingPhoto(ImageSource.gallery);
+                            Navigator.pop(context);
+                          }),
+                      BottomSheetAction(
                         title: CustomText(
-                          text: "گالری",
+                          text: "دوربین",
                         ),
                         onPressed: () {
-                          gettingPhoto(ImageSource.gallery);
+                          gettingPhoto(ImageSource.camera);
                           Navigator.pop(context);
-                        }),
-                    BottomSheetAction(
-                      title: CustomText(
-                        text: "دوربین",
+                        },
                       ),
-                      onPressed: () {
-                        gettingPhoto(ImageSource.camera);
-                        Navigator.pop(context);
-                      },
+                    ],
+                    cancelAction: CancelAction(
+                      title: const CustomText(
+                        text: 'لغو',
+                        color: Colors.red,
+                      ),
                     ),
-                  ],
-                  cancelAction: CancelAction(
-                    title: const CustomText(
-                      text: 'لغو',
-                      color: Colors.red,
-                    ),
-                  ),
-                );
-              },
-              userEmail: email,
-              onChangeEmail: (changedEmail) {
-                setState(() => email = changedEmail);
-              },
-            ),
-            Password(
-              pass: password,
-              onChangePass: (onPass) => setState(() => password = onPass),
-              rePass: rePassword,
-              onChangeRePass: (onRePass) =>
-                  setState(() => rePassword = onRePass),
-              passIconPressed: () {
-                setState(() {
-                  protectedPassword
-                      ? protectedPassword = false
-                      : protectedPassword = true;
-                  // Changing eye icon pressing
-                  showMePass == Icons.remove_red_eye
-                      ? showMePass = Icons.remove_red_eye_outlined
-                      : showMePass = Icons.remove_red_eye;
-                });
-              },
-              protectedPassword: protectedPassword,
-              showMePass: showMePass,
-            ),
-          ],
+                  );
+                },
+                userEmail: email,
+                onChangeEmail: (changedEmail) {
+                  setState(() => email = changedEmail);
+                },
+              ),
+              Password(
+                pass: password,
+                onChangePass: (onPass) => setState(() => password = onPass),
+                rePass: rePassword,
+                onChangeRePass: (onRePass) =>
+                    setState(() => rePassword = onRePass),
+                passIconPressed: () {
+                  setState(() {
+                    protectedPassword
+                        ? protectedPassword = false
+                        : protectedPassword = true;
+                    // Changing eye icon pressing
+                    showMePass == Icons.remove_red_eye
+                        ? showMePass = Icons.remove_red_eye_outlined
+                        : showMePass = Icons.remove_red_eye;
+                  });
+                },
+                protectedPassword: protectedPassword,
+                showMePass: showMePass,
+              ),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomButton(
-        color: mainCTA,
-        onTapped: () {
-          pageIndex == 1
-              ? updateStaffInfo(
-                  avatar: imageSource,
-                  email: email,
-                  uToken: token,
-                  pass: password,
-                  rePass: rePassword,
-                )
-              : nextPageIndex();
-        },
-        text: pageIndex == 1 ? submitUpdateStaffInfo : next,
+        bottomNavigationBar: BottomButton(
+          color: mainCTA,
+          onTapped: () {
+            pageIndex == 1
+                ? updateStaffInfo(
+                    avatar: imageSource,
+                    email: email,
+                    uToken: token,
+                    pass: password,
+                    rePass: rePassword,
+                  )
+                : nextPageIndex();
+          },
+          text: pageIndex == 1 ? submitUpdateStaffInfo : next,
+        ),
       ),
     );
   }
