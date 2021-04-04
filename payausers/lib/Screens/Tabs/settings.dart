@@ -90,12 +90,12 @@ class Settings extends StatelessWidget {
                       FlutterSecureStorage lds = FlutterSecureStorage();
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
-                      SystemChannels.platform
-                          .invokeMethod('SystemNavigator.pop');
+                      // SystemChannels.platform
+                      //     .invokeMethod('SystemNavigator.pop');
                       await lds.deleteAll();
                       prefs.clear();
-                      Navigator.pushNamed(context, '/splashScreen');
-                      exit(0);
+                      Navigator.popUntil(context, ModalRoute.withName("/"));
+                      // exit(0);
                     },
                     child: Text(
                       "بلی",
