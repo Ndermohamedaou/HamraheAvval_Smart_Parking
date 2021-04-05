@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:sizer/sizer.dart';
 
 class DashboardTiles extends StatelessWidget {
   const DashboardTiles(
@@ -41,9 +42,9 @@ class DashboardTiles extends StatelessWidget {
             children: [
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Icon(icon, size: 33, color: iconColor),
-                width: 60,
-                height: 60,
+                child: Icon(icon, size: 8.0.w, color: iconColor),
+                width: 12.0.w,
+                height: 12.0.w,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100)),

@@ -50,7 +50,7 @@ class Dashboard extends StatelessWidget {
                 ? (itemWidth / itemHeight) / 3.2
                 : size.width >= 700 && size.width < 1000
                     ? (itemWidth / itemHeight) / 6
-                    : (itemWidth / itemHeight) / 5;
+                    : (itemWidth / itemHeight) / 2.0.w;
 
     return SafeArea(
         child: SingleChildScrollView(

@@ -23,6 +23,8 @@ class _LocalAuthEnterState extends State<LocalAuthEnter> {
     super.initState();
 
     checkBiometric().then((checkBiomatricAvailable) {
+      print(
+          "==================================================================");
       print(checkBiomatricAvailable);
       if (checkBiomatricAvailable) {
         _authenticateWithBiometrics();
@@ -62,12 +64,12 @@ class _LocalAuthEnterState extends State<LocalAuthEnter> {
       });
       if (authenticated) Navigator.pushNamed(context, "/dashboard");
     } on PlatformException catch (e) {
-      print(e);
+      print("Erorr from auth because: $e");
       setState(() {
         isAuthenticating = false;
         authorized = "Error - ${e.message}";
       });
-      return;
+      return null;
     }
     if (!mounted) return;
 
