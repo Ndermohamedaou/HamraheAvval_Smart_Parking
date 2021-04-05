@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: Center(
-                  child: Image.asset(mainLogo, width: 250),
+                  child: Image.asset(mainLogo, width: 170),
                 ),
               ),
               SizedBox(height: 30),
