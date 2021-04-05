@@ -22,12 +22,22 @@ class _LocalAuthEnterState extends State<LocalAuthEnter> {
   void initState() {
     super.initState();
 
-    _authenticateWithBiometrics();
+    checkBiometric().then((checkBiomatricAvailable) {
+      print(checkBiomatricAvailable);
+      if (checkBiomatricAvailable) {
+        _authenticateWithBiometrics();
+      } else
+        return null;
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  Future<bool> checkBiometric() async {
+    return await auth.canCheckBiometrics;
   }
 
   Future<void> _authenticateWithBiometrics() async {
@@ -87,8 +97,13 @@ class _LocalAuthEnterState extends State<LocalAuthEnter> {
 
   @override
   Widget build(BuildContext context) {
+    // Set Orientation to Portrait Mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Scaffold(
-      // backgroundColor: Colors.redz,
+      // backgroundColor: Colors.red
       body: WillPopScope(
         onWillPop: () =>
             SystemChannels.platform.invokeMethod('SystemNavigator.pop'),

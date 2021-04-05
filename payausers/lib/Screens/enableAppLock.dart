@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
@@ -14,6 +15,12 @@ class SavingAppLock extends StatefulWidget {
 class _SavingAppLockState extends State<SavingAppLock> {
   @override
   Widget build(BuildContext context) {
+    // Set Orientation to Portrait Mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
+
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     // Setting Pass
