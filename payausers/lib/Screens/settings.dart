@@ -81,7 +81,12 @@ class _SettingsPageState extends State<SettingsPage> {
     // final themeChange = Provider.of<DarkThemeProvider>(context);
 
     Future galleryViewer(ImageSource changeType) async {
-      final image = await ImagePicker.pickImage(source: changeType);
+      final image = await ImagePicker.pickImage(
+        source: changeType,
+        maxWidth: 512,
+        maxHeight: 512,
+        imageQuality: 50,
+      );
       setState(() {
         imgSource = image;
       });

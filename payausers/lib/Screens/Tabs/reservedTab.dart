@@ -6,6 +6,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/miniReserveHistory.dart';
 import 'package:sizer/sizer.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 AlphabetList alp = AlphabetList();
 
@@ -18,6 +19,8 @@ class ReservedTab extends StatelessWidget {
     this.filterOn20,
     this.filterOn50,
     this.noFilter,
+    this.reserveRefreshController,
+    this.refreshFunction,
   });
 
   final mainThemeColor;
@@ -27,6 +30,8 @@ class ReservedTab extends StatelessWidget {
   final Function filterOn20;
   final Function filterOn50;
   final Function noFilter;
+  final reserveRefreshController;
+  final refreshFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -161,46 +166,52 @@ class ReservedTab extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          reserveTextTitle,
-                          style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              fontSize: subTitleSize,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        ClipOval(
-                          child: Material(
-                            color: mainCTA, // button color
-                            child: InkWell(
-                              splashColor: mainSectionCTA, // inkwell color
-                              child: SizedBox(
-                                  width: 46,
-                                  height: 46,
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                  )),
-                              onTap: () => Navigator.pushNamed(
-                                  context, "/reserveEditaion"),
+        child: LiquidPullToRefresh(
+          onRefresh: refreshFunction,
+          showChildOpacityTransition: false,
+          backgroundColor: Colors.white,
+          color: mainCTA,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            reserveTextTitle,
+                            style: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                fontSize: subTitleSize,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          ClipOval(
+                            child: Material(
+                              color: mainCTA, // button color
+                              child: InkWell(
+                                splashColor: mainSectionCTA, // inkwell color
+                                child: SizedBox(
+                                    width: 46,
+                                    height: 46,
+                                    child: Icon(
+                                      Icons.add,
+                                      color: Colors.white,
+                                    )),
+                                onTap: () => Navigator.pushNamed(
+                                    context, "/reserveEditaion"),
+                              ),
                             ),
                           ),
-                        ),
-                      ]),
+                        ]),
+                  ),
                 ),
-              ),
-              filterBar,
-              finalContext
-            ],
+                filterBar,
+                finalContext
+              ],
+            ),
           ),
         ),
       ),

@@ -349,6 +349,9 @@ class _MainoState extends State<Maino> {
                 UserTraffic(
                   userTrafficLog: userTraffic,
                   trafficListLen: userTrafficListLen,
+                  refreshFunction: () async {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                  },
                   filterOn10: () {
                     setState(() => userTrafficListLen = userTraffic.length);
                     userTrafficListLen > 5
@@ -376,9 +379,13 @@ class _MainoState extends State<Maino> {
                   },
                 ),
                 ReservedTab(
+                  // reserveRefreshController: _reserveRefreshController,
                   mainThemeColor: themeChange,
                   reserves: userReserved,
                   reservListLen: userReservedListLen,
+                  refreshFunction: () async {
+                    setState(() => userReservedListLen = userReserved.length);
+                  },
                   filterOn10: () {
                     setState(() => userReservedListLen = userReserved.length);
                     userReservedListLen > 5

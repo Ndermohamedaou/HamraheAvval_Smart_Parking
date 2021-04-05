@@ -17,11 +17,11 @@ dependencies:
   hexcolor: ^1.0.6
   carousel_slider: ^2.3.1
   time_range: ^0.5.0
-  dio: ^3.0.10
+  dio: ^4.0.0
   shared_preferences: ^0.5.12+4
   provider: ^4.3.2+2
   image_picker: 
-  image_native_resizer: ^0.1.2
+  # image_native_resizer: ^0.1.2
   flutter_datetime_picker: ^1.5.0
   list_tile_switch: ^0.0.2
   toast: ^0.1.5
@@ -38,7 +38,7 @@ dependencies:
   flushbar: ^1.10.4
   liquid_ui:
   adaptive_action_sheet: ^1.0.11
-  connectivity: ^2.0.2
+  connectivity: ^3.0.3
   # Have Responsive size in any Devices
   sizer: ^1.1.8
   # Local Auth
@@ -46,6 +46,7 @@ dependencies:
   # For OPT Password view
   otp_screen: ^0.0.3
   cool_alert: ^1.0.3
+  liquid_pull_to_refresh: ^1.2.0
 
 
 dev_dependencies:

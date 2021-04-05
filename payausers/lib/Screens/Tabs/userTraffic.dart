@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -15,6 +16,7 @@ class UserTraffic extends StatelessWidget {
     this.filterOn20,
     this.filterOn50,
     this.noFilter,
+    this.refreshFunction,
   });
 
   final List userTrafficLog;
@@ -23,6 +25,7 @@ class UserTraffic extends StatelessWidget {
   final Function filterOn20;
   final Function filterOn50;
   final Function noFilter;
+  final refreshFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -147,31 +150,37 @@ class UserTraffic extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      trafficsLogText,
-                      style: TextStyle(
-                        fontFamily: mainFaFontFamily,
-                        fontSize: subTitleSize,
-                        fontWeight: FontWeight.bold,
+          child: LiquidPullToRefresh(
+        onRefresh: refreshFunction,
+        showChildOpacityTransition: false,
+        backgroundColor: Colors.white,
+        color: mainCTA,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        trafficsLogText,
+                        style: TextStyle(
+                          fontFamily: mainFaFontFamily,
+                          fontSize: subTitleSize,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            filterBar,
-            plateContext,
-          ],
+              filterBar,
+              plateContext,
+            ],
+          ),
         ),
       )),
       floatingActionButton: userTrafficLog.length != 0
