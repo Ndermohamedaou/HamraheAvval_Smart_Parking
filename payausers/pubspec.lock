@@ -42,7 +42,7 @@ packages:
       name: carousel_slider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.4"
   characters:
     dependency: transitive
     description:
@@ -106,6 +106,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  cool_alert:
+    dependency: "direct main"
+    description:
+      name: cool_alert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   crypto:
     dependency: transitive
     description:
@@ -127,13 +134,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.10"
-  double_back_to_close:
-    dependency: "direct main"
-    description:
-      name: double_back_to_close
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2+mit"
   double_back_to_close_app:
     dependency: "direct main"
     description:
@@ -162,13 +162,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.1"
-  flat_icons_flutter:
-    dependency: "direct main"
+  flare_dart:
+    dependency: transitive
     description:
-      name: flat_icons_flutter
+      name: flare_dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "2.3.4"
+  flare_flutter:
+    dependency: transitive
+    description:
+      name: flare_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.6"
   flushbar:
     dependency: "direct main"
     description:
@@ -188,13 +195,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.0"
-  flutter_phoenix:
-    dependency: "direct main"
-    description:
-      name: flutter_phoenix
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -216,25 +216,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.7"
-  flutter_spinkit:
-    dependency: "direct main"
-    description:
-      name: flutter_spinkit
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.1.2+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_time_picker_spinner:
-    dependency: "direct main"
-    description:
-      name: flutter_time_picker_spinner
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.6+1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -296,13 +282,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
-  line_awesome_flutter:
-    dependency: "direct main"
-    description:
-      name: line_awesome_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   liquid_ui:
     dependency: "direct main"
     description:
@@ -422,13 +401,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.7"
-  petitparser:
-    dependency: transitive
-    description:
-      name: petitparser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.0"
   platform:
     dependency: transitive
     description:
@@ -630,20 +602,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
-  xml:
-    dependency: transitive
-    description:
-      name: xml
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.5.1"
-  xml2json:
-    dependency: "direct main"
-    description:
-      name: xml2json
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.4.0"
   zone_local:
     dependency: transitive
     description:

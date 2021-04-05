@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -125,6 +126,23 @@ class Settings extends StatelessWidget {
       );
     }
 
+    void firstStepToSetBiometric() {
+      CoolAlert.show(
+        context: context,
+        backgroundColor: mainCTA,
+        type: CoolAlertType.info,
+        title: "!لازم است بدانید",
+        text: biometricInfoToCheck,
+        confirmBtnTextStyle: TextStyle(fontFamily: mainFaFontFamily),
+        confirmBtnColor: mainCTA,
+        confirmBtnText: "مرحله بعدی",
+        onConfirmBtnTap: () {
+          Navigator.pop(context);
+          Navigator.pushNamed(context, "/setBiometric");
+        },
+      );
+    }
+
     // print("Avatar Meme: $avatarMeme");
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final themeIconLeading = themeChange.darkTheme
@@ -232,8 +250,7 @@ class Settings extends StatelessWidget {
                               height: 55,
                               color: themeChange.darkTheme ? darkBar : lightBar,
                               child: FlatButton(
-                                onPressed: () => Navigator.pushNamed(
-                                    context, "/setBiometric"),
+                                onPressed: () => firstStepToSetBiometric(),
                                 child: ListTile(
                                   title: Text(
                                     "تنظیم بایومتریک",
