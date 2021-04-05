@@ -210,7 +210,7 @@ class Settings extends StatelessWidget {
                                   ),
                                   leading: Icon(
                                     Icons.car_repair,
-                                    size: 30,
+                                    size: 25,
                                   ),
                                 ),
                               )),
@@ -246,27 +246,26 @@ class Settings extends StatelessWidget {
                             height: 0,
                           ),
                           Container(
-                              width: double.infinity,
-                              height: 55,
-                              color: themeChange.darkTheme ? darkBar : lightBar,
-                              child: FlatButton(
-                                onPressed: () => firstStepToSetBiometric(),
-                                child: ListTile(
-                                  title: Text(
-                                    "تنظیم بایومتریک",
-                                    style: TextStyle(
-                                        fontFamily: mainFaFontFamily,
-                                        fontSize: 15),
-                                  ),
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: Image.asset(
-                                      "assets/images/privacy.png",
-                                      width: 25,
-                                    ),
-                                  ),
+                            width: double.infinity,
+                            height: 55,
+                            color: themeChange.darkTheme ? darkBar : lightBar,
+                            child: FlatButton(
+                              onPressed: () => firstStepToSetBiometric(),
+                              child: ListTile(
+                                title: Text(
+                                  "تنظیم بایومتریک",
+                                  style: TextStyle(
+                                      fontFamily: mainFaFontFamily,
+                                      fontSize: 15),
                                 ),
-                              )),
+                                leading: Icon(
+                                  Icons.lock_outline,
+                                  color: Colors.orangeAccent,
+                                  size: 25,
+                                ),
+                              ),
+                            ),
+                          ),
                           Divider(
                             color: Colors.grey,
                             thickness: 0.25,
@@ -289,7 +288,7 @@ class Settings extends StatelessWidget {
                                   leading: Icon(
                                     Icons.logout,
                                     color: Colors.red,
-                                    size: 30,
+                                    size: 25,
                                   ),
                                 ),
                               )),
