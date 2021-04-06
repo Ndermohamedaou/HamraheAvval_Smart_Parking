@@ -52,7 +52,7 @@ void reserveMe({st, et, pt, context, bool themeChange}) async {
     try {
       String reserveResult = await api.reserveByUser(
           token: userToken, startTime: st, endTime: et, plateNo: pt);
-      print("$reserveResult");
+      // print("$reserveResult");
       if (reserveResult == "200") {
         alert(
             context: context,
