@@ -32,47 +32,44 @@ class TextFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: TextFormField(
-          readOnly: readOnly,
-          keyboardType: keyType,
-          initialValue: initValue,
-          maxLength: maxLen,
-          validator: validate,
-          obscureText: textInputType,
-          textAlign: TextAlign.center,
-          cursorColor: Colors.blue[900],
-          decoration: InputDecoration(
-            errorText: errText,
-            errorStyle: TextStyle(fontFamily: mainFaFontFamily),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.blue[900],
-                width: 2,
-              ),
-            ),
-            fillColor: Colors.blue[900],
-            labelText: lblText,
-            //TODO Fill this section for extract my custom Widget
-            labelStyle: TextStyle(fontFamily: mainFaFontFamily),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            suffixIcon: FlatButton(
-              minWidth: 10,
-              onPressed: iconPressed,
-              child: Icon(
-                textFieldIcon,
-                color: HexColor('#216DCD'),
-              ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: TextFormField(
+        readOnly: readOnly,
+        keyboardType: keyType,
+        initialValue: initValue,
+        maxLength: maxLen,
+        validator: validate,
+        obscureText: textInputType,
+        textAlign: TextAlign.center,
+        cursorColor: Colors.blue[900],
+        decoration: InputDecoration(
+          errorText: errText,
+          errorStyle: TextStyle(fontFamily: mainFaFontFamily),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.blue[900],
+              width: 2,
             ),
           ),
-          onChanged: onChangeText,
-          onEditingComplete: enteringEditing,
+          fillColor: Colors.blue[900],
+          labelText: lblText,
+          //TODO Fill this section for extract my custom Widget
+          labelStyle: TextStyle(fontFamily: mainFaFontFamily),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          suffixIcon: FlatButton(
+            minWidth: 10,
+            onPressed: iconPressed,
+            child: Icon(
+              textFieldIcon,
+              color: HexColor('#216DCD'),
+            ),
+          ),
         ),
+        onChanged: onChangeText,
+        onEditingComplete: enteringEditing,
       ),
     );
   }

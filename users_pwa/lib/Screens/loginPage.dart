@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 30),
               TextFields(
-                keyType: TextInputType.emailAddress,
+                keyType: TextInputType.multiline,
                 lblText: personalCodePlaceHolder,
                 textFieldIcon: Icons.account_circle,
                 textInputType: false,

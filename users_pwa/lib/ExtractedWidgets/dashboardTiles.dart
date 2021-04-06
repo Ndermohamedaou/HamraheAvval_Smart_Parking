@@ -50,16 +50,13 @@ class DashboardTiles extends StatelessWidget {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  TextPos(mainText: text, fontColor: Colors.black, size: 15.0),
                   TextPos(
-                      mainText: text, fontColor: Colors.black, size: 15.0.sp),
-                  TextPos(
-                      mainText: subText,
-                      fontColor: Colors.black,
-                      size: 13.0.sp),
+                      mainText: subText, fontColor: Colors.black, size: 13.0),
                   TextPos(
                       mainText: subSubText,
                       fontColor: subSubTextColor,
-                      size: 11.0.sp),
+                      size: 11.0),
                 ]),
           ),
           Container(
@@ -70,7 +67,7 @@ class DashboardTiles extends StatelessWidget {
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   color: Colors.black,
-                  fontSize: 10.0.sp),
+                  fontSize: 10.0),
             ),
           ),
         ],

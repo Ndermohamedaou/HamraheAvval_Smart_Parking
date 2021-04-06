@@ -43,9 +43,13 @@ class Dashboard extends StatelessWidget {
             ? (itemWidth / itemHeight) / 2.4
             : size.width <= 380
                 ? (itemWidth / itemHeight) / 3.2
-                : size.width >= 700 && size.width < 1000
+                : size.width > 1000
                     ? (itemWidth / itemHeight) / 6
-                    : (itemWidth / itemHeight) / 5;
+                    : size.width >= 700 && size.width < 1000
+                        ? (itemWidth / itemHeight) / 6
+                        : (itemWidth / itemHeight) / 5;
+
+    final countGridItem = size.width > 1000 ? 4 : 2;
 
     return Container(
         child: SingleChildScrollView(
@@ -121,7 +125,7 @@ class Dashboard extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 5),
             child: GridView.count(
-              crossAxisCount: 2,
+              crossAxisCount: countGridItem,
               padding: const EdgeInsets.all(4.0),
               mainAxisSpacing: 4.0,
               crossAxisSpacing: 4.0,
