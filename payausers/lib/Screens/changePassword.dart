@@ -34,7 +34,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
       try {
         final result = await api.changingUserPassword(
             token: uToken, curPass: currentPassword, newPass: newPassword);
-        print(result);
+        // print(result);
         return result;
       } catch (e) {
         Toast.show(doesNotChange, context,

@@ -72,6 +72,14 @@ class _MyAppState extends State<MyApp> {
                   : SystemUiOverlayStyle.dark);
               return LiquidApp(
                 materialApp: MaterialApp(
+                  // For set app fontSize by default size without system fontSize
+                  builder: (BuildContext context, Widget child) {
+                    final MediaQueryData data = MediaQuery.of(context);
+                    return MediaQuery(
+                      data: data.copyWith(textScaleFactor: 1),
+                      child: child,
+                    );
+                  },
                   theme:
                       Styles.themeData(themeChangeProvider.darkTheme, context),
                   initialRoute: '/splashScreen',

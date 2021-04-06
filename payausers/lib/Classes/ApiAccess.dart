@@ -56,7 +56,7 @@ class ApiAccess {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getUserTraffic");
-    print(response.data);
+    // print(response.data);
     return response.data;
   }
 
@@ -74,7 +74,7 @@ class ApiAccess {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post("$baseUrl/delUserPlate?id=$id");
-    print(response.data);
+    // print(response.data);
     return response.data;
   }
 
@@ -106,7 +106,7 @@ class ApiAccess {
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post(
         "$baseUrl/changePassword?current_password=$curPass&new_password=$newPass");
-    print("From API CLASS $response.data");
+    // print("From API CLASS $response.data");
     return response.data;
   }
 }
