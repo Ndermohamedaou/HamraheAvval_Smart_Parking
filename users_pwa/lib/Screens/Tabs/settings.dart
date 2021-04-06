@@ -26,6 +26,10 @@ class Settings extends StatelessWidget {
         ? Icon(Icons.brightness_5, color: Colors.yellow)
         : Icon(Icons.bedtime, color: Colors.blue);
 
+    var size = MediaQuery.of(context).size;
+
+    final sliverTabSize = size.width > 1000 ? 1000.0 : 400.0;
+
     void logoutSection() {
       showMaterialModalBottomSheet(
         context: context,
@@ -127,7 +131,7 @@ class Settings extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-            expandedHeight: 400.0,
+            expandedHeight: 400,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
