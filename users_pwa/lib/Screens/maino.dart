@@ -45,6 +45,7 @@ String locationBuilding = "";
 String slotNumberInSituation = "";
 //reserve Special pices
 int showPiceces = 0;
+String lastLogin = "";
 
 ApiAccess api = ApiAccess();
 
@@ -133,6 +134,7 @@ class _MainoState extends State<Maino> {
         avatar = value["avatar"];
         userSection = value["section"];
         userRole = value["role"];
+        lastLogin = value["lastLogin"];
       });
       getUserTrafficLogsApi(userToken).then((logs) {
         setState(() {
@@ -170,6 +172,7 @@ class _MainoState extends State<Maino> {
     final localAvatar = prefs.getString("avatar");
     String section = prefs.getString("section");
     String role = prefs.getString("role");
+    String lastLogin = prefs.getString("lastLogin");
 
     try {
       String serverAvatar = await api.getUserAvatar(token: userToken);
@@ -192,7 +195,8 @@ class _MainoState extends State<Maino> {
       "personalCode": personalCode,
       "avatar": readyAvatar != "" ? readyAvatar : localAvatar,
       "section": section,
-      "role": role
+      "role": role,
+      "lastLogin": lastLogin,
     };
   }
 
@@ -291,6 +295,7 @@ class _MainoState extends State<Maino> {
                           duration: Duration(milliseconds: 1),
                           curve: Curves.easeOut);
                     },
+                    lastLogin: lastLogin,
                     userQRCode: userId != "" ? userId : "-",
                     temporarLogo: mainLogo,
                     fullnameMeme: name != "" ? name : "-",
@@ -381,9 +386,12 @@ class _MainoState extends State<Maino> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  title: Text(
-                    "افزودن پلاک",
-                    style: TextStyle(fontFamily: mainFaFontFamily),
+                  title: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      "افزودن پلاک",
+                      style: TextStyle(fontFamily: mainFaFontFamily),
+                    ),
                   ),
                   icon: Icon(
                     Icons.post_add_sharp,

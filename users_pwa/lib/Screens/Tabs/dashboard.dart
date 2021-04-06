@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
+import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles.dart';
+import 'package:payausers/ExtractedWidgets/userCard.dart';
 import 'package:payausers/ExtractedWidgets/userLeading.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard(
-      {this.openUserDashSettings,
-      this.fullnameMeme,
-      this.userPersonalCodeMeme,
-      this.avatarMeme,
-      this.temporarLogo,
-      this.userQRCode,
-      this.section,
-      this.role,
-      this.userPlateNumber,
-      this.userTrafficNumber,
-      this.userReserveNumber});
+  const Dashboard({
+    this.openUserDashSettings,
+    this.fullnameMeme,
+    this.userPersonalCodeMeme,
+    this.avatarMeme,
+    this.temporarLogo,
+    this.userQRCode,
+    this.section,
+    this.role,
+    this.userPlateNumber,
+    this.userTrafficNumber,
+    this.userReserveNumber,
+    this.lastLogin,
+  });
   final Function openUserDashSettings;
   final String fullnameMeme;
   final String userPersonalCodeMeme;
@@ -28,6 +32,7 @@ class Dashboard extends StatelessWidget {
   final String userPlateNumber;
   final String userTrafficNumber;
   final String userReserveNumber;
+  final String lastLogin;
 
   @override
   Widget build(BuildContext context) {
@@ -68,56 +73,12 @@ class Dashboard extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Image.asset(
-            temporarLogo,
-            width: 150,
+          UserCard(
+            qrCodeString: qrUserCode,
+            fullname: fullnameMeme,
+            persCode: userPersonalCodeMeme,
+            lastVisit: lastLogin,
           ),
-          // Directionality(
-          //   textDirection: TextDirection.rtl,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.start,
-          //     children: [
-          //       Container(
-          //         margin: EdgeInsets.only(left: 10, right: 20),
-          //         width: 26,
-          //         height: 26,
-          //         child: Icon(
-          //           Icons.qr_code,
-          //           color: Colors.blue,
-          //         ),
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(5),
-          //             color: bgColorTrendingUp),
-          //       ),
-          //       Text(
-          //         qrUserCode,
-          //         style: TextStyle(
-          //             fontFamily: mainFaFontFamily,
-          //             fontSize: 20,
-          //             fontWeight: FontWeight.bold,
-          //             color: mainTitleColor),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // // QRCode Section
-          // Container(
-          //   alignment: Alignment.center,
-          //   width: 200,
-          //   height: 200,
-          //   decoration: BoxDecoration(
-          //       color: HexColor("#EBEAFA"),
-          //       borderRadius: BorderRadius.circular(10.0)),
-          //   child: QrImage(
-          //     data: userQRCode,
-          //     version: QrVersions.auto,
-          //     padding: EdgeInsets.all(20),
-          //     foregroundColor: HexColor("#000000"),
-          //   ),
-          // ),
 
           SizedBox(
             height: 20,
@@ -134,9 +95,9 @@ class Dashboard extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 DashboardTiles(
-                  tileColor: "#FEEBE7",
+                  tileColor: [trafficsTileC1, trafficsTileC2],
                   icon: Icons.directions_car,
-                  iconColor: HexColor("#AC292E"),
+                  iconColor: trafficsTileC1,
                   text: qty,
                   subText: transactionsText,
                   subSubText: untilTodayText,
@@ -144,29 +105,29 @@ class Dashboard extends StatelessWidget {
                   lenOfStuff: userTrafficNumber,
                 ),
                 DashboardTiles(
-                  tileColor: "#EDE5FC",
+                  tileColor: [reservesTileC1, reservesTileC2],
                   icon: Icons.book,
-                  iconColor: HexColor("#6C2BDF"),
+                  iconColor: reservesTileC1,
                   text: qty,
                   subText: allReserveText,
                   subSubText: untilTodayText,
-                  subSubTextColor: HexColor("#6C2BDF"),
+                  subSubTextColor: Colors.white,
                   lenOfStuff: userReserveNumber,
                 ),
                 DashboardTiles(
-                  tileColor: "#E0FFED",
+                  tileColor: [currentLocationTileC1, currentLocationTileC2],
                   icon: Icons.account_balance,
-                  iconColor: HexColor('#66D29F'),
+                  iconColor: currentLocationTileC1,
                   text: "موقعیت",
                   subText: "جایگاه",
                   subSubText: role,
-                  subSubTextColor: HexColor("#69D8A0"),
+                  subSubTextColor: currentLocationTileC1,
                   lenOfStuff: section,
                 ),
                 DashboardTiles(
-                  tileColor: "#E2EEFE",
+                  tileColor: [userPlateNumberTileC1, userPlateNumberTileC2],
                   icon: Icons.layers_sharp,
-                  iconColor: HexColor("#216DCD"),
+                  iconColor: userPlateNumberTileC1,
                   text: qty,
                   subText: yourPlateText,
                   subSubText: inSystemText,

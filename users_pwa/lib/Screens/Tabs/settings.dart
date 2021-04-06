@@ -1,19 +1,15 @@
 import 'dart:html';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/logoutBtn.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 import 'package:sizer/sizer.dart';
 
 class Settings extends StatelessWidget {
@@ -69,7 +65,7 @@ class Settings extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontSize: 16.0.sp,
+                  fontSize: 25.0,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
@@ -80,8 +76,8 @@ class Settings extends StatelessWidget {
                 child: Text(
                   logoutMsg,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: mainFaFontFamily, fontSize: 14.0.sp),
+                  style:
+                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 20.0),
                 ),
               ),
               SizedBox(height: 2.0.h),
@@ -91,7 +87,7 @@ class Settings extends StatelessWidget {
                 children: [
                   MaterialButton(
                     color: mainCTA,
-                    minWidth: 45.0.w,
+                    minWidth: 100.0,
                     onPressed: () async {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
@@ -102,20 +98,20 @@ class Settings extends StatelessWidget {
                       "بلی",
                       style: TextStyle(
                           fontFamily: mainFaFontFamily,
-                          fontSize: 14.0.sp,
+                          fontSize: 14.0,
                           color: Colors.white),
                     ),
                   ),
                   SizedBox(width: 10),
                   MaterialButton(
-                    minWidth: 45.0.w,
+                    minWidth: 100.0,
                     color: Colors.white,
                     onPressed: () => Navigator.pop(context),
                     child: Text(
                       "خیر",
                       style: TextStyle(
                           fontFamily: mainFaFontFamily,
-                          fontSize: 14.0.sp,
+                          fontSize: 14.0,
                           color: Colors.black),
                     ),
                   ),

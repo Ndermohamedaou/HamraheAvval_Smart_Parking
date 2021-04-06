@@ -2,16 +2,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SavingData {
   // Saving data in local storage
-  Future<bool> LDS(
-      {token,
-      user_id,
-      name,
-      email,
-      role,
-      personal_code,
-      melli_code,
-      avatar,
-      section}) async {
+  Future<bool> LDS({
+    token,
+    user_id,
+    name,
+    email,
+    role,
+    personal_code,
+    melli_code,
+    avatar,
+    section,
+    lastLogin,
+  }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     Map<String, dynamic> staffInfo = {
@@ -23,18 +25,19 @@ class SavingData {
       "personal_code": personal_code,
       "melli_code": melli_code,
       "avatar": avatar,
-      "section": section
+      "section": section,
+      "lastLogin": lastLogin,
     };
     staffInfo.forEach((key, value) async {
       await prefs.setString(key, value);
     });
-    String uToken = await prefs.getString("token");
+    String uToken = prefs.getString("token");
     return uToken != null ? true : false;
   }
 
   Future<String> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    return await prefs.getString("token");
+    return prefs.getString("token");
   }
 }

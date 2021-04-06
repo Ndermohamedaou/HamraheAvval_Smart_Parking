@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:sizer/sizer.dart';
 
 class DashboardTiles extends StatelessWidget {
   const DashboardTiles(
@@ -14,7 +13,7 @@ class DashboardTiles extends StatelessWidget {
       this.iconColor,
       this.lenOfStuff});
 
-  final String tileColor;
+  final tileColor;
   final String text;
   final String subText;
   final String subSubText;
@@ -27,7 +26,14 @@ class DashboardTiles extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4.0), color: HexColor(tileColor)),
+        borderRadius: BorderRadius.circular(28.0),
+        // color: HexColor(tileColor),
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          stops: [0.1, 0.9],
+          colors: tileColor,
+        ),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -36,9 +42,9 @@ class DashboardTiles extends StatelessWidget {
             children: [
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Icon(icon, size: 33, color: iconColor),
-                width: 60,
-                height: 60,
+                child: Icon(icon, size: 33.0, color: iconColor),
+                width: 60.0,
+                height: 60.0,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100)),
@@ -50,24 +56,34 @@ class DashboardTiles extends StatelessWidget {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextPos(mainText: text, fontColor: Colors.black, size: 15.0),
                   TextPos(
-                      mainText: subText, fontColor: Colors.black, size: 13.0),
+                      mainText: text,
+                      fontColor: Colors.white,
+                      size: mainFontSize),
                   TextPos(
-                      mainText: subSubText,
-                      fontColor: subSubTextColor,
-                      size: 11.0),
+                    mainText: subText,
+                    fontColor: Colors.white,
+                    size: mainFontSize,
+                  ),
+                  TextPos(
+                    mainText: subSubText,
+                    fontColor: subSubTextColor,
+                    size: subFontSize,
+                  ),
                 ]),
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             alignment: Alignment.bottomLeft,
-            child: Text(
-              lenOfStuff != null ? lenOfStuff : "",
-              style: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                  color: Colors.black,
-                  fontSize: 10.0),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                lenOfStuff != null ? lenOfStuff : "",
+                style: TextStyle(
+                    fontFamily: mainFaFontFamily,
+                    color: Colors.white,
+                    fontSize: 15),
+              ),
             ),
           ),
         ],

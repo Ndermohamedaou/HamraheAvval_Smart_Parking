@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+// Card Color
+HexColor mainCardColor = HexColor("#AA642A");
+HexColor persCodeColor = HexColor("#814B00");
+HexColor lastVisitColor = HexColor("#0C4C4E");
+
 // Main Background color
 HexColor mainBgColorLight = HexColor("#F9F9F9");
 HexColor mainBgColorDark = HexColor("#000000");
 
-// Primary color (CTR)
-const primarySubmitBtnColor = Colors.green;
+// Dashboard Gradient Colors
+HexColor trafficsTileC1 = HexColor("#FF5B48");
+HexColor trafficsTileC2 = HexColor("#FF837E");
+HexColor reservesTileC1 = HexColor("#7414BC");
+HexColor reservesTileC2 = HexColor("#5C329F");
+HexColor currentLocationTileC1 = HexColor("#007AFF");
+HexColor currentLocationTileC2 = HexColor("#419FF9");
+HexColor userPlateNumberTileC1 = HexColor("#00CCFF");
+HexColor userPlateNumberTileC2 = HexColor("#00BBFF");
 
 // main app bar bg color
 HexColor mainCTA = HexColor("#4AC4CB");
 HexColor mainSectionCTA = HexColor("#ee934b");
+
+// Primary color (CTR)
+const primarySubmitBtnColor = Colors.green;
 
 // Main Persian font
 const mainFaFontFamily = "BYekan";
