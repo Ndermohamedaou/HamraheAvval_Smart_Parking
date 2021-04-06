@@ -94,29 +94,10 @@ class _SettingsPageState extends State<SettingsPage> {
       // Getting user token from LDS
       SharedPreferences prefs = await SharedPreferences.getInstance();
       // Getting Files as Image source
-      // FilePickerResult result =
-      //     await FilePicker.platform.pickFiles(type: FileType.image);
-
-      final img = await ImagePicker().getImage(
-        source: ImageSource.gallery,
-      );
-
-      final reSizeImgPath = await ImageNativeResizer.resize(
-        imagePath: img.path,
-        maxWidth: 512,
-        maxHeight: 512,
-        quality: 30,
-      );
-      // Ready to convert Img uri path to Image File
-      File resizedImgFile = File(reSizeImgPath);
-      // Ready to convert image file to byte code
-      final bytesImg = resizedImgFile.readAsBytesSync();
-      // Ready to encode byty image to base64
-      String _img64 = base64Encode(bytesImg);
-
-      // // print(await img.readAsBytes());
-      // var byteImg = await img.readAsBytes();
-      // String _img64 = base64Encode(byteImg);
+      FilePickerResult result =
+          await FilePicker.platform.pickFiles(type: FileType.image);
+      var byteImg = result.files.single.bytes;
+      String _img64 = base64Encode(byteImg);
 
       try {
         if (_img64 != null) {
