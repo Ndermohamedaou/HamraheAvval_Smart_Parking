@@ -22,7 +22,7 @@ import 'package:toast/toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file/memory.dart';
 import 'package:image_native_resizer/image_native_resizer.dart';
-
+import 'package:image_picker/image_picker.dart';
 // Controller to Convert image
 import 'package:payausers/controller/changeAvatar.dart';
 
@@ -94,63 +94,76 @@ class _SettingsPageState extends State<SettingsPage> {
       // Getting user token from LDS
       SharedPreferences prefs = await SharedPreferences.getInstance();
       // Getting Files as Image source
-      FilePickerResult result =
-          await FilePicker.platform.pickFiles(type: FileType.image);
-      var byteImg = result.files.single.bytes;
-      String _img64 = base64Encode(byteImg);
+      // FilePickerResult result =
+      //     await FilePicker.platform.pickFiles(type: FileType.image);
+      // var byteImg = result.files.single.bytes;
+      // String _img64 = base64Encode(byteImg);
 
-      try {
-        if (_img64 != null) {
-          // Go to Controller/changeAvatar.dart
-          String result = await sendingImage(_img64);
-          print("Result of sending $result");
-          if (result == "200") {
-            // print(result);
-            final uToken = prefs.getString("token");
-            final userDetails = await api.getStaffInfo(token: uToken);
-            final userAvatarChanged = userDetails["avatar"];
-            print(userAvatarChanged);
-            await prefs.setString("avatar", userAvatarChanged);
-            final testAvatar = prefs.getString("avatar");
-            // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
-            if (testAvatar != "") {
-              showStatusInCaseOfFlush(
-                  context: context,
-                  title: "",
-                  msg: sendSuccessful,
-                  iconColor: Colors.green,
-                  icon: Icons.done_outline);
-            } else {
-              showStatusInCaseOfFlush(
-                  context: context,
-                  title: "",
-                  msg: sendFailed,
-                  iconColor: Colors.red,
-                  icon: Icons.remove_done);
-            }
-          } else {
-            Toast.show(sendServerFailed, context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                textColor: Colors.white);
-          }
-        } else {
-          showStatusInCaseOfFlush(
-              context: context,
-              title: "",
-              msg: sendDenied,
-              iconColor: Colors.red,
-              icon: Icons.remove_done);
-        }
-      } catch (e) {
-        print(e);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: "",
-            msg: sendDenied,
-            iconColor: Colors.red,
-            icon: Icons.remove_done);
-      }
+      final image = await ImagePicker().getImage(source: ImageSource.gallery);
+      setState(() => imgSource = File(image.path));
+      print(imgSource);
+      // try {
+      final byteImg = imgSource.readAsBytesSync();
+      String _img64 = base64Encode(byteImg);
+      print(_img64);
+      //   String _img64 = base64Encode(byteImg);
+      //   print(_img64);
+      // } catch (e) {
+      //   print(e);
+      // }
+
+      // try {
+      //   if (_img64 != null) {
+      //     // Go to Controller/changeAvatar.dart
+      //     String result = await sendingImage(_img64);
+      //     print("Result of sending $result");
+      //     if (result == "200") {
+      //       // print(result);
+      //       final uToken = prefs.getString("token");
+      //       final userDetails = await api.getStaffInfo(token: uToken);
+      //       final userAvatarChanged = userDetails["avatar"];
+      //       print(userAvatarChanged);
+      //       await prefs.setString("avatar", userAvatarChanged);
+      //       final testAvatar = prefs.getString("avatar");
+      //       // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
+      //       if (testAvatar != "") {
+      //         showStatusInCaseOfFlush(
+      //             context: context,
+      //             title: "",
+      //             msg: sendSuccessful,
+      //             iconColor: Colors.green,
+      //             icon: Icons.done_outline);
+      //       } else {
+      //         showStatusInCaseOfFlush(
+      //             context: context,
+      //             title: "",
+      //             msg: sendFailed,
+      //             iconColor: Colors.red,
+      //             icon: Icons.remove_done);
+      //       }
+      //     } else {
+      //       Toast.show(sendServerFailed, context,
+      //           duration: Toast.LENGTH_LONG,
+      //           gravity: Toast.BOTTOM,
+      //           textColor: Colors.white);
+      //     }
+      //   } else {
+      //     showStatusInCaseOfFlush(
+      //         context: context,
+      //         title: "",
+      //         msg: sendDenied,
+      //         iconColor: Colors.red,
+      //         icon: Icons.remove_done);
+      //   }
+      // } catch (e) {
+      //   print(e);
+      //   showStatusInCaseOfFlush(
+      //       context: context,
+      //       title: "",
+      //       msg: sendDenied,
+      //       iconColor: Colors.red,
+      //       icon: Icons.remove_done);
+      // }
     }
 
     return Scaffold(

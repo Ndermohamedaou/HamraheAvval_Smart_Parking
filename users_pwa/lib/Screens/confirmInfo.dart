@@ -145,13 +145,13 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
     // Convert Image to base 64 File Image
     void galleryViewer() async {
-      FilePickerResult result =
-          await FilePicker.platform.pickFiles(type: FileType.image);
-      var byteImg = result.files.single.bytes;
-      String _img64 = base64Encode(byteImg);
-      setState(() {
-        _image64 = _img64;
-      });
+      // FilePickerResult result =
+      //     await FilePicker.platform.pickFiles(type: FileType.image);
+      // var byteImg = result.files.single.bytes;
+      // String _img64 = base64Encode(byteImg);
+      // setState(() {
+      //   _image64 = _img64;
+      // });
     }
 
     return Scaffold(
