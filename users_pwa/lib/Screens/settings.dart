@@ -7,6 +7,7 @@ import 'package:image_native_resizer/image_native_resizer.dart';
 // Image Picker modules
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 //
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
@@ -36,7 +37,7 @@ String userMelli = "";
 String userPersonal = "";
 String userRole = "";
 String userSection = "";
-File imgSource;
+String imgSource;
 ApiAccess api = ApiAccess();
 
 class SettingsPage extends StatefulWidget {
@@ -93,77 +94,73 @@ class _SettingsPageState extends State<SettingsPage> {
     Future galleryViewer() async {
       // Getting user token from LDS
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      // Getting Files as Image source
-      // FilePickerResult result =
-      //     await FilePicker.platform.pickFiles(type: FileType.image);
-      // var byteImg = result.files.single.bytes;
-      // String _img64 = base64Encode(byteImg);
-
+      // Getting image as byte async code
+      // final byteImage = await ImagePickerWeb.getImage(
+      //   outputType: ImageType.bytes,
+      // );
+      // // Convert to Base64
+      // String _img64 = base64Encode(byteImage);
+      // // Use again in program
+      // setState(() => imgSource = _img64);
+      //
       final image = await ImagePicker().getImage(source: ImageSource.gallery);
-      setState(() => imgSource = File(image.path));
-      print(imgSource);
-      // try {
-      final byteImg = imgSource.readAsBytesSync();
-      String _img64 = base64Encode(byteImg);
-      print(_img64);
-      //   String _img64 = base64Encode(byteImg);
-      //   print(_img64);
-      // } catch (e) {
-      //   print(e);
-      // }
+      File _im = File(image.path);
 
-      // try {
-      //   if (_img64 != null) {
-      //     // Go to Controller/changeAvatar.dart
-      //     String result = await sendingImage(_img64);
-      //     print("Result of sending $result");
-      //     if (result == "200") {
-      //       // print(result);
-      //       final uToken = prefs.getString("token");
-      //       final userDetails = await api.getStaffInfo(token: uToken);
-      //       final userAvatarChanged = userDetails["avatar"];
-      //       print(userAvatarChanged);
-      //       await prefs.setString("avatar", userAvatarChanged);
-      //       final testAvatar = prefs.getString("avatar");
-      //       // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
-      //       if (testAvatar != "") {
-      //         showStatusInCaseOfFlush(
-      //             context: context,
-      //             title: "",
-      //             msg: sendSuccessful,
-      //             iconColor: Colors.green,
-      //             icon: Icons.done_outline);
-      //       } else {
-      //         showStatusInCaseOfFlush(
-      //             context: context,
-      //             title: "",
-      //             msg: sendFailed,
-      //             iconColor: Colors.red,
-      //             icon: Icons.remove_done);
-      //       }
-      //     } else {
-      //       Toast.show(sendServerFailed, context,
-      //           duration: Toast.LENGTH_LONG,
-      //           gravity: Toast.BOTTOM,
-      //           textColor: Colors.white);
-      //     }
-      //   } else {
-      //     showStatusInCaseOfFlush(
-      //         context: context,
-      //         title: "",
-      //         msg: sendDenied,
-      //         iconColor: Colors.red,
-      //         icon: Icons.remove_done);
-      //   }
-      // } catch (e) {
-      //   print(e);
-      //   showStatusInCaseOfFlush(
-      //       context: context,
-      //       title: "",
-      //       msg: sendDenied,
-      //       iconColor: Colors.red,
-      //       icon: Icons.remove_done);
-      // }
+      // final byte =- _im.toByteData();
+      //
+
+      try {
+        if (_img64 != null) {
+          // Go to Controller/changeAvatar.dart
+          String result = await sendingImage(_img64);
+          print("Result of sending $result");
+          if (result == "200") {
+            // print(result);
+            final uToken = prefs.getString("token");
+            final userDetails = await api.getStaffInfo(token: uToken);
+            final userAvatarChanged = userDetails["avatar"];
+            print(userAvatarChanged);
+            await prefs.setString("avatar", userAvatarChanged);
+            final testAvatar = prefs.getString("avatar");
+            // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
+            if (testAvatar != "") {
+              showStatusInCaseOfFlush(
+                  context: context,
+                  title: "",
+                  msg: sendSuccessful,
+                  iconColor: Colors.green,
+                  icon: Icons.done_outline);
+            } else {
+              showStatusInCaseOfFlush(
+                  context: context,
+                  title: "",
+                  msg: sendFailed,
+                  iconColor: Colors.red,
+                  icon: Icons.remove_done);
+            }
+          } else {
+            Toast.show(sendServerFailed, context,
+                duration: Toast.LENGTH_LONG,
+                gravity: Toast.BOTTOM,
+                textColor: Colors.white);
+          }
+        } else {
+          showStatusInCaseOfFlush(
+              context: context,
+              title: "",
+              msg: sendDenied,
+              iconColor: Colors.red,
+              icon: Icons.remove_done);
+        }
+      } catch (e) {
+        print(e);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: "",
+            msg: sendDenied,
+            iconColor: Colors.red,
+            icon: Icons.remove_done);
+      }
     }
 
     return Scaffold(
@@ -202,7 +199,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     SettingCircle(
                       uA: imgSource == null
                           ? NetworkImage(userAvatar)
-                          : FileImage(imgSource),
+                          : MemoryImage(base64Decode(imgSource)),
                       uId: userId,
                     ),
                     FlatButton(

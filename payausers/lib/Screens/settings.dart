@@ -203,11 +203,11 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               TilsInfo(
                 textTitle: "شناسه پرسنلی",
-                textSubtitle: personalCodeText,
+                textSubtitle: userPersonal,
               ),
               TilsInfo(
                 textTitle: "شناسه ملی",
-                textSubtitle: melliCodeText,
+                textSubtitle: userMelli,
               ),
               FlatButton(
                 onPressed: () => Navigator.pushNamed(context, "/changeEmail"),
