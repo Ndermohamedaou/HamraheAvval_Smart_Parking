@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/controller/changeAvatar.dart';
@@ -16,7 +18,7 @@ class _LoadingChangeAvatarState extends State<LoadingChangeAvatar> {
   @override
   void initState() {
     super.initState();
-    changeAvatar();
+    Timer(Duration(seconds: 2), () => changeAvatar());
   }
 
   void changeAvatar() async {
