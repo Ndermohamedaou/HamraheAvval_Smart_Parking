@@ -131,7 +131,7 @@ class Settings extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-            expandedHeight: 400,
+            expandedHeight: sliverTabSize,
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
