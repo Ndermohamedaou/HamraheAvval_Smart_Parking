@@ -88,8 +88,8 @@ class Dashboard extends StatelessWidget {
             child: GridView.count(
               crossAxisCount: countGridItem,
               padding: const EdgeInsets.all(4.0),
-              mainAxisSpacing: 4.0,
-              crossAxisSpacing: 4.0,
+              mainAxisSpacing: 16.0,
+              crossAxisSpacing: 16.0,
               childAspectRatio: widthSizedResponse,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
