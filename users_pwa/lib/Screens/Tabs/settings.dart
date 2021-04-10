@@ -28,14 +28,13 @@ class Settings extends StatelessWidget {
 
     var size = MediaQuery.of(context).size;
 
-    final sliverTabSize = size.width > 1000 ? 1000.0 : 400.0;
+    final sliverTabSize = size.width > 1000 ? 500.0 : 400.0;
 
     void logoutSection() {
       showMaterialModalBottomSheet(
         context: context,
         enableDrag: true,
         bounce: true,
-        // backgroundColor: ,
         duration: const Duration(milliseconds: 550),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
