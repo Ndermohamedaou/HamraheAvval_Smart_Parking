@@ -58,9 +58,7 @@ class PlateViewer extends StatelessWidget {
               ),
             ),
             Container(
-              width: 40,
-              height: 70,
-              margin: EdgeInsets.only(top: 12),
+              margin: EdgeInsets.only(top: 0),
               child: Text(
                 plate0,
                 style: TextStyle(
@@ -71,9 +69,6 @@ class PlateViewer extends StatelessWidget {
               ),
             ),
             Container(
-              width: 60,
-              height: 70,
-              margin: EdgeInsets.only(top: 12),
               child: Text(
                 plate1,
                 style: TextStyle(
@@ -84,9 +79,6 @@ class PlateViewer extends StatelessWidget {
               ),
             ),
             Container(
-              width: 50,
-              height: 70,
-              margin: EdgeInsets.only(top: 12, right: 0),
               child: Text(
                 plate2,
                 style: TextStyle(
@@ -101,11 +93,10 @@ class PlateViewer extends StatelessWidget {
                 color: themeChange ? Colors.white : Colors.black,
                 thickness: 3),
             Container(
-              width: 50,
-              height: 70,
-              margin: EdgeInsets.only(top: 12, left: 10),
+              margin: EdgeInsets.only(right: 10),
               child: Text(
                 plate3,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 26,
                     fontFamily: mainFaFontFamily,
