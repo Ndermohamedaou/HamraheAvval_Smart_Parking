@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/SavingData.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Classes/imageConvertor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
@@ -28,7 +29,10 @@ dynamic emptyTextFieldErrEmailCode = null;
 dynamic emptyTextFieldErrEmail = null;
 dynamic emptyTextFieldErrPassword = null;
 dynamic emptyTextFieldErrRePassword = null;
+
 ApiAccess api = ApiAccess();
+ImgConversion convertable = ImgConversion();
+
 SavingData savingData = SavingData();
 
 IconData showMePass = Icons.remove_red_eye;
@@ -145,10 +149,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
     // Convert Image to base 64 File Image
     void galleryViewer() async {
-      FilePickerResult result =
-          await FilePicker.platform.pickFiles(type: FileType.image);
-      var byteImg = result.files.single.bytes;
-      String _img64 = base64Encode(byteImg);
+      final pickedImage =
+          await ImagePickerWeb.getImage(outputType: ImageType.bytes);
+
+      String _img64 = await convertable.img2Base64(pickedImage);
       setState(() {
         _image64 = _img64;
       });

@@ -57,59 +57,71 @@ class PlateViewer extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              width: 40,
-              height: 70,
-              margin: EdgeInsets.only(top: 12),
-              child: Text(
-                plate0,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: mainFaFontFamily,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                width: 40,
+                height: 70,
+                margin: EdgeInsets.only(top: 20),
+                child: Text(
+                  plate0,
+                  style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: mainFaFontFamily,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            Container(
-              width: 60,
-              height: 70,
-              margin: EdgeInsets.only(top: 12),
-              child: Text(
-                plate1,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: mainFaFontFamily,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                width: 60,
+                height: 70,
+                margin: EdgeInsets.only(top: 20),
+                child: Text(
+                  plate1,
+                  style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: mainFaFontFamily,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            Container(
-              width: 50,
-              height: 70,
-              margin: EdgeInsets.only(top: 12, right: 0),
-              child: Text(
-                plate2,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: mainFaFontFamily,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                width: 50,
+                height: 70,
+                margin: EdgeInsets.only(top: 20, right: 0),
+                child: Text(
+                  plate2,
+                  style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: mainFaFontFamily,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             VerticalDivider(
                 width: 1,
                 color: themeChange ? Colors.white : Colors.black,
                 thickness: 3),
-            Container(
-              width: 50,
-              height: 70,
-              margin: EdgeInsets.only(top: 12, left: 10),
-              child: Text(
-                plate3,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: mainFaFontFamily,
-                    fontWeight: FontWeight.bold),
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                width: 50,
+                height: 70,
+                margin: EdgeInsets.only(top: 20, left: 0, right: 20),
+                child: Text(
+                  plate3,
+                  style: TextStyle(
+                      fontSize: 26,
+                      fontFamily: mainFaFontFamily,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],

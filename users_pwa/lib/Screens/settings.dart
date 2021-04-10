@@ -1,28 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:image_native_resizer/image_native_resizer.dart';
-// Image Picker modules
-import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_for_web/image_picker_for_web.dart';
-//
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/optionViewer.dart';
 import 'package:payausers/Screens/maino.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:file/memory.dart';
-import 'package:image_native_resizer/image_native_resizer.dart';
-
 // Controller to Convert image
 import 'package:payausers/controller/changeAvatar.dart';
 
@@ -36,7 +25,7 @@ String userMelli = "";
 String userPersonal = "";
 String userRole = "";
 String userSection = "";
-File imgSource;
+String imgSource;
 ApiAccess api = ApiAccess();
 
 class SettingsPage extends StatefulWidget {
@@ -93,16 +82,14 @@ class _SettingsPageState extends State<SettingsPage> {
     Future galleryViewer() async {
       // Getting user token from LDS
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      // Getting Files as Image source
-      FilePickerResult result =
-          await FilePicker.platform.pickFiles(type: FileType.image);
-      var byteImg = result.files.single.bytes;
-      String _img64 = base64Encode(byteImg);
+
+      final pickedImage =
+          await ImagePickerWeb.getImage(outputType: ImageType.bytes);
 
       try {
-        if (_img64 != null) {
+        if (pickedImage != null) {
           // Go to Controller/changeAvatar.dart
-          String result = await sendingImage(_img64);
+          String result = await sendingImage(pickedImage);
           print("Result of sending $result");
           if (result == "200") {
             // print(result);
@@ -189,7 +176,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     SettingCircle(
                       uA: imgSource == null
                           ? NetworkImage(userAvatar)
-                          : FileImage(imgSource),
+                          : MemoryImage(base64Decode(imgSource)),
                       uId: userId,
                     ),
                     FlatButton(
