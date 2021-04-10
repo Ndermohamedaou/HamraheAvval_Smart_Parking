@@ -6,7 +6,6 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
-import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:provider/provider.dart';
