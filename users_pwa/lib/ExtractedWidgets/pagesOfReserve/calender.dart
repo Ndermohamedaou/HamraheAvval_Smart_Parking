@@ -15,7 +15,7 @@ class DateUserPicker extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 40),
-          Image.network(
+          Image.asset(
             "assets/images/calenderGif.gif",
             width: 30.0.w,
           ),

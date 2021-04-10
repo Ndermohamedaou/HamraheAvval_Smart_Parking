@@ -22,7 +22,7 @@ class ReservedTab extends StatelessWidget {
           margin: EdgeInsets.all(50),
           width: 250,
           height: 250,
-          child: Image.network(
+          child: Image.asset(
             "assets/images/loading.gif",
             width: 40.0.w,
           ),
@@ -82,26 +82,6 @@ class ReservedTab extends StatelessWidget {
                           fontSize: subTitleSize,
                           fontWeight: FontWeight.bold),
                     ),
-                    // PopupMenuButton(
-                    //   icon: Icon(Icons.more_vert),
-                    //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                    //     PopupMenuItem(
-                    //       child: Directionality(
-                    //         textDirection: TextDirection.rtl,
-                    //         child: ListTile(
-                    //           onTap: () => Navigator.pushNamed(
-                    //               context, "/listLengthSettingPage",
-                    //               arguments: reserves.length),
-                    //           // leading: Icon(Icons.add),
-                    //           title: Text(
-                    //             "تنظیمات این صفحه",
-                    //             style: TextStyle(fontFamily: mainFaFontFamily),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                     ClipOval(
                       child: Material(
                         color: mainCTA, // button color

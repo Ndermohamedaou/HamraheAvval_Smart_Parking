@@ -46,7 +46,7 @@ class UserTraffic extends StatelessWidget {
 
     Widget searchingProcess = Column(
       children: [
-        Image.network(
+        Image.asset(
           "assets/images/loading.gif",
           width: 40.0.w,
         ),
