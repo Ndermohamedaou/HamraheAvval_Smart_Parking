@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import "package:sizer/sizer.dart";
 
 class LoginCheckingoutPage extends StatefulWidget {
   @override
@@ -11,7 +10,6 @@ class LoginCheckingoutPage extends StatefulWidget {
 class _LoginCheckingoutPageState extends State<LoginCheckingoutPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     startingTimer();
   }
@@ -21,7 +19,7 @@ class _LoginCheckingoutPageState extends State<LoginCheckingoutPage> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Image.network("assets/images/checkingOut.gif"),
+          child: Image.asset("assets/images/checkingOut.gif"),
         ),
       ),
     );
