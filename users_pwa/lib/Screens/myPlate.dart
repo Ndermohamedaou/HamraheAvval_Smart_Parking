@@ -6,6 +6,7 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
+import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,7 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
     ApiAccess api = ApiAccess();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final userToken = prefs.getString("token");
+    final userToken = await prefs.getString("token");
     final plates = await api.getUserPlate(token: userToken);
     return plates;
   }
@@ -121,7 +122,7 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
                         fontFamily: mainFaFontFamily,
                         color: Colors.blue,
                         fontSize: 20),
-                  ),
+                  ), // onPressed parameter is optional by default will dismiss the ActionSheet
                 );
               },
             ),
@@ -144,19 +145,32 @@ class _MYPlateScreenState extends State<MYPlateScreen> {
     final plateContext = userPlates.isEmpty ? searchingProcess : plates;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mainCTA,
-        centerTitle: true,
-        title: Text(
-          myPlateText,
-          style:
-              TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
-        ),
-      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            children: [plateContext],
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(Icons.arrow_back_ios_rounded)),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        myPlateText,
+                        style: TextStyle(
+                            fontFamily: mainFaFontFamily,
+                            fontSize: subTitleSize),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              plateContext
+            ],
           ),
         ),
       ),
