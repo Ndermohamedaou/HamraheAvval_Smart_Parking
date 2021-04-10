@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+import 'package:payausers/ConstFiles/constText.dart';
+import 'package:payausers/controller/changeAvatar.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
+
+List byteImg = [];
+
+class LoadingChangeAvatar extends StatefulWidget {
+  @override
+  _LoadingChangeAvatarState createState() => _LoadingChangeAvatarState();
+}
+
+class _LoadingChangeAvatarState extends State<LoadingChangeAvatar> {
+  @override
+  void initState() {
+    super.initState();
+    changeAvatar();
+  }
+
+  void changeAvatar() async {
+    // Getting user token from LDS
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print(byteImg);
+    try {
+      if (byteImg != null) {
+        // Go to Controller/changeAvatar.dart
+        String result = await sendingImage(byteImg);
+        print("Result of sending $result");
+        if (result == "200") {
+          // print(result);
+          final uToken = prefs.getString("token");
+          final userDetails = await api.getStaffInfo(token: uToken);
+          final userAvatarChanged = userDetails["avatar"];
+          print(userAvatarChanged);
+          await prefs.setString("avatar", userAvatarChanged);
+          final testAvatar = prefs.getString("avatar");
+          // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
+          Navigator.pop(context);
+          if (testAvatar != "") {
+            showStatusInCaseOfFlush(
+                context: context,
+                title: "",
+                msg: sendSuccessful,
+                iconColor: Colors.green,
+                icon: Icons.done_outline);
+          } else {
+            showStatusInCaseOfFlush(
+                context: context,
+                title: "",
+                msg: sendFailed,
+                iconColor: Colors.red,
+                icon: Icons.remove_done);
+          }
+        } else {
+          Toast.show(sendServerFailed, context,
+              duration: Toast.LENGTH_LONG,
+              gravity: Toast.BOTTOM,
+              textColor: Colors.white);
+        }
+      } else {
+        showStatusInCaseOfFlush(
+            context: context,
+            title: "",
+            msg: sendDenied,
+            iconColor: Colors.red,
+            icon: Icons.remove_done);
+      }
+    } catch (e) {
+      print(e);
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "",
+          msg: sendDenied,
+          iconColor: Colors.red,
+          icon: Icons.remove_done);
+      Navigator.popUntil(context, ModalRoute.withName("/settings"));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    byteImg = ModalRoute.of(context).settings.arguments;
+
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+}

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
+import 'package:payausers/Classes/ChangeAvatar.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -11,11 +12,7 @@ import 'package:payausers/Screens/maino.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
 // Controller to Convert image
-import 'package:payausers/controller/changeAvatar.dart';
-
-import '../controller/flushbarStatus.dart';
 
 String userAvatar = "";
 String userIdentify = "";
@@ -86,58 +83,10 @@ class _SettingsPageState extends State<SettingsPage> {
       final pickedImage =
           await ImagePickerWeb.getImage(outputType: ImageType.bytes);
 
-      try {
-        if (pickedImage != null) {
-          // Go to Controller/changeAvatar.dart
-          String result = await sendingImage(pickedImage);
-          print("Result of sending $result");
-          if (result == "200") {
-            // print(result);
-            final uToken = prefs.getString("token");
-            final userDetails = await api.getStaffInfo(token: uToken);
-            final userAvatarChanged = userDetails["avatar"];
-            print(userAvatarChanged);
-            await prefs.setString("avatar", userAvatarChanged);
-            final testAvatar = prefs.getString("avatar");
-            // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
-            if (testAvatar != "") {
-              showStatusInCaseOfFlush(
-                  context: context,
-                  title: "",
-                  msg: sendSuccessful,
-                  iconColor: Colors.green,
-                  icon: Icons.done_outline);
-            } else {
-              showStatusInCaseOfFlush(
-                  context: context,
-                  title: "",
-                  msg: sendFailed,
-                  iconColor: Colors.red,
-                  icon: Icons.remove_done);
-            }
-          } else {
-            Toast.show(sendServerFailed, context,
-                duration: Toast.LENGTH_LONG,
-                gravity: Toast.BOTTOM,
-                textColor: Colors.white);
-          }
-        } else {
-          showStatusInCaseOfFlush(
-              context: context,
-              title: "",
-              msg: sendDenied,
-              iconColor: Colors.red,
-              icon: Icons.remove_done);
-        }
-      } catch (e) {
-        print(e);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: "",
-            msg: sendDenied,
-            iconColor: Colors.red,
-            icon: Icons.remove_done);
-      }
+      ChangeArg ch = ChangeArg(pickedImage);
+
+      Navigator.pushNamed(context, "/loadedTimeToChangeAvatar",
+          arguments: ch.byteImg);
     }
 
     return Scaffold(

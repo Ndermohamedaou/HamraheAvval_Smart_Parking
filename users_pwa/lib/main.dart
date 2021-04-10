@@ -6,6 +6,7 @@ import 'package:payausers/Screens/reserveView.dart';
 import 'package:provider/provider.dart';
 
 // Screens
+import 'Screens/loadingChangeAvatar.dart';
 import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
@@ -86,6 +87,8 @@ class _MyAppState extends State<MyApp> {
                       AddUserPlatAlternative(),
                   '/changeEmail': (context) => ModifyUserEmail(),
                   '/listLengthSettingPage': (context) => ChangePageIndex(),
+                  '/loadedTimeToChangeAvatar': (context) =>
+                      LoadingChangeAvatar(),
                 },
               );
             },
