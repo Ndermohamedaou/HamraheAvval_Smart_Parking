@@ -134,6 +134,7 @@ class Settings extends StatelessWidget {
             expandedHeight: sliverTabSize,
             floating: false,
             pinned: true,
+            backgroundColor: mainCTA,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               title: Text(
