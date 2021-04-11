@@ -35,12 +35,36 @@ SavingData savingData = SavingData();
 IconData showMePass = Icons.remove_red_eye;
 bool protectedPassword = true;
 
+// Is okay i go to confirm for 1st
+bool isConfirm = false;
+
 class ConfirmScreen extends StatefulWidget {
   @override
   _ConfirmScreenState createState() => _ConfirmScreenState();
 }
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
+  @override
+  void initState() {
+    imgSource = null;
+    email = "";
+    password = "";
+    rePassword = "";
+    emptyTextFieldErrEmailCode = null;
+    emptyTextFieldErrEmail = null;
+    emptyTextFieldErrPassword = null;
+    emptyTextFieldErrRePassword = null;
+
+    showMePass = Icons.remove_red_eye;
+    protectedPassword = true;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
@@ -63,6 +87,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
             if (testPass && testRePass) {
               try {
+                setState(() => isConfirm = true);
                 final result = await api.updateStaffInfoInConfrimation(
                     token: uToken,
                     email: email,
@@ -95,6 +120,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   }
                 }
               } catch (e) {
+                setState(() => isConfirm = false);
                 showStatusInCaseOfFlush(
                     context: context,
                     title: "",
@@ -309,26 +335,38 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           child: MaterialButton(
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               onPressed: () {
-                gettingLogin(
-                    uToken: uToken,
-                    email: email,
-                    curPass: currentPass,
-                    pass: password,
-                    rePass: rePassword,
-                    avatar: imgSource);
+                !isConfirm
+                    ? gettingLogin(
+                        uToken: uToken,
+                        email: email,
+                        curPass: currentPass,
+                        pass: password,
+                        rePass: rePassword,
+                        avatar: imgSource)
+                    : null;
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    confirmLogin,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: loginBtnTxtColor,
-                        fontFamily: mainFaFontFamily,
-                        fontSize: btnSized,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  isConfirm
+                      ? Container(
+                          width: 10,
+                          height: 10,
+                          child: CircularProgressIndicator(
+                            backgroundColor: mainCTA,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        )
+                      : Text(
+                          confirmLogin,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: loginBtnTxtColor,
+                              fontFamily: mainFaFontFamily,
+                              fontSize: btnSized,
+                              fontWeight: FontWeight.bold),
+                        ),
                   Icon(
                     Icons.chevron_right,
                     color: Colors.white,
