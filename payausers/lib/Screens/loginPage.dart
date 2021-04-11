@@ -15,6 +15,7 @@ String password = "";
 dynamic emptyTextFieldErrPersonalCode = null;
 dynamic emptyTextFieldErrEmail = null;
 dynamic emptyTextFieldErrPassword = null;
+bool isLogin = false;
 
 IconData showMePass = Icons.remove_red_eye;
 
@@ -26,6 +27,28 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    personalCode = "";
+    password = "";
+    emptyTextFieldErrPersonalCode = null;
+    emptyTextFieldErrEmail = null;
+    emptyTextFieldErrPassword = null;
+    isLogin = false;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    personalCode = "";
+    password = "";
+    emptyTextFieldErrPersonalCode = null;
+    emptyTextFieldErrEmail = null;
+    emptyTextFieldErrPassword = null;
+    isLogin = false;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Accessing to Api
@@ -103,6 +126,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       if (email != "" || pass != "") {
         try {
+          setState(() => isLogin = true);
           Map getLoginThridParity =
               await api.getAccessToLogin(email: email, password: pass);
           if (getLoginThridParity["status"] == "200") {
@@ -119,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                 textColor: Colors.white);
           }
         } catch (e) {
+          setState(() => isLogin = false);
           Toast.show("شماره پرسنلی یا گذرواژه اشتباه است", context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
@@ -216,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                         )
                       ],
                     )),
-              )
+              ),
             ],
           ),
         ),
@@ -229,21 +254,31 @@ class _LoginPageState extends State<LoginPage> {
           color: mainCTA,
           child: MaterialButton(
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () {
-                navigatedToDashboard(email: personalCode, pass: password);
-              },
+              onPressed: () => !isLogin
+                  ? navigatedToDashboard(email: personalCode, pass: password)
+                  : null,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    finalLoginText,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: loginBtnTxtColor,
-                        fontFamily: mainFaFontFamily,
-                        fontSize: btnSized,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  isLogin
+                      ? Container(
+                          width: 10,
+                          height: 10,
+                          child: CircularProgressIndicator(
+                            backgroundColor: mainCTA,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        )
+                      : Text(
+                          finalLoginText,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: loginBtnTxtColor,
+                              fontFamily: mainFaFontFamily,
+                              fontSize: btnSized,
+                              fontWeight: FontWeight.bold),
+                        ),
                   Icon(
                     Icons.chevron_right,
                     color: Colors.white,
