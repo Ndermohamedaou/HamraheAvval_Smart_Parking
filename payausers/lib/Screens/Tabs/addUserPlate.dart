@@ -24,17 +24,17 @@ class AddUserPlate extends StatefulWidget {
 class _AddUserPlateState extends State<AddUserPlate> {
   @override
   void initState() {
+    plate0 = "";
+    plate1 = "";
+    plate2 = "";
+    plate3 = "";
+    _value = 0;
     SystemChannels.textInput.invokeMethod('TextInput.hide');
     super.initState();
   }
 
   @override
   void dispose() {
-    plate0 = "";
-    plate1 = "";
-    plate2 = "";
-    plate3 = "";
-    _value = 0;
     super.dispose();
   }
 
