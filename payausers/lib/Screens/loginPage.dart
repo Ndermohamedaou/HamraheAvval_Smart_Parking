@@ -40,12 +40,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    personalCode = "";
-    password = "";
-    emptyTextFieldErrPersonalCode = null;
-    emptyTextFieldErrEmail = null;
-    emptyTextFieldErrPassword = null;
-    isLogin = false;
     super.dispose();
   }
 
