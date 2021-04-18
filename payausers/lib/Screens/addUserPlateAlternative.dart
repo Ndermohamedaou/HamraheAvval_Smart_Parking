@@ -40,12 +40,18 @@ class _AddUserPlatAlternative extends State<AddUserPlatAlternative> {
 
   @override
   Widget build(BuildContext context) {
+    Map navigationArg = ModalRoute.of(context).settings.arguments != null
+        ? ModalRoute.of(context).settings.arguments
+        : {"route": "pop"};
+    final routeModalArg = navigationArg["route"];
+
     themeChange = Provider.of<DarkThemeProvider>(context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: mainCTA,
+          centerTitle: true,
           title: Text(
             addUserPlate,
             style:
@@ -245,8 +251,19 @@ class _AddUserPlatAlternative extends State<AddUserPlatAlternative> {
             child: MaterialButton(
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 onPressed: () {
-                  sendNewUserPlate(plate0, alp.getAlphabet()[_value].item,
-                      plate2, plate3, context, themeChange, "reserveEditaion");
+                  // Define a popor for chosing between
+                  //  my plates tab in dashboard and in main reserver route
+                  String navigationRoutePoper =
+                      routeModalArg == "pop" ? "" : "reserveEditaion";
+                  sendNewUserPlate(
+                    plate0,
+                    alp.getAlphabet()[_value].item,
+                    plate2,
+                    plate3,
+                    context,
+                    themeChange,
+                    navigationRoutePoper,
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

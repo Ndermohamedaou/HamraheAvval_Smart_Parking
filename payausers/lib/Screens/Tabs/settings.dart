@@ -195,32 +195,6 @@ class Settings extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Container(
-                              width: double.infinity,
-                              height: 55,
-                              color: themeChange.darkTheme ? darkBar : lightBar,
-                              child: FlatButton(
-                                onPressed: () =>
-                                    Navigator.pushNamed(context, "/myPlate"),
-                                child: ListTile(
-                                  title: Text(
-                                    myPlateText,
-                                    style: TextStyle(
-                                        fontFamily: mainFaFontFamily,
-                                        fontSize: 15),
-                                  ),
-                                  leading: Icon(
-                                    Icons.car_repair,
-                                    size: 25,
-                                  ),
-                                ),
-                              )),
-                          Divider(
-                            color: Colors.grey,
-                            thickness: 0.25,
-                            indent: 20,
-                            height: 0,
-                          ),
-                          Container(
                             color: themeChange.darkTheme ? darkBar : lightBar,
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 15),

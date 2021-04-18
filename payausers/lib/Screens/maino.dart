@@ -17,7 +17,7 @@ import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'Tabs/addUserPlate.dart';
+import 'Tabs/userPlate.dart';
 import 'Tabs/userTraffic.dart';
 
 class Maino extends StatefulWidget {
@@ -477,7 +477,7 @@ class _MainoState extends State<Maino> {
                 ),
                 BottomNavigationBarItem(
                   title: Text(
-                    "افزودن پلاک",
+                    myPlateText,
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(

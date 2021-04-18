@@ -22,8 +22,9 @@ void alert({context, title, desc, aType, themeChange, dstRoute, tAlert}) {
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontFamily: mainFaFontFamily),
         ),
-        onPressed: () =>
-            Navigator.popUntil(context, ModalRoute.withName("/$dstRoute")),
+        onPressed: () => dstRoute != ""
+            ? Navigator.popUntil(context, ModalRoute.withName("/$dstRoute"))
+            : Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
         width: 120,
       )
     ],

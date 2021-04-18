@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -28,6 +30,13 @@ class _AddUserPlateState extends State<AddUserPlate> {
   void initState() {
     super.initState();
 
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      gettingPlateRealTime();
+    });
+    gettingPlateRealTime();
+  }
+
+  void gettingPlateRealTime() {
     gettingMyPlates().then((plate) {
       setState(() {
         userPlates = plate;
@@ -61,6 +70,7 @@ class _AddUserPlateState extends State<AddUserPlate> {
               themeChange: themeChange,
               dstRoute: "dashboard");
         }
+        gettingMyPlates();
       } catch (e) {
         alert(
             aType: AlertType.warning,
@@ -79,7 +89,6 @@ class _AddUserPlateState extends State<AddUserPlate> {
           fastThreshold: 1.25,
           movementDuration: Duration(milliseconds: 200),
           child: Container(
-              color: themeChange.darkTheme ? darkBar : lightBar,
               child: PlateViewer(
                   plate0: userPlates[index]['plate0'] != null
                       ? userPlates[index]['plate0']
@@ -126,7 +135,7 @@ class _AddUserPlateState extends State<AddUserPlate> {
                         fontFamily: mainFaFontFamily,
                         color: Colors.blue,
                         fontSize: 20),
-                  ), // onPressed parameter is optional by default will dismiss the ActionSheet
+                  ),
                 );
               },
             ),
@@ -192,8 +201,9 @@ class AppBarAsNavigate extends StatelessWidget {
                       Icons.add,
                       color: Colors.white,
                     )),
-                onTap: () =>
-                    Navigator.pushNamed(context, "/addUserplateAlternative"),
+                onTap: () => Navigator.pushNamed(
+                    context, "/addUserplateAlternative",
+                    arguments: {"route": "pop"}),
               ),
             ),
           ),
