@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
                     emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
                 onChangeText: (onChangeUsername) {
                   setState(() {
-                    emptyTextFieldErrPersonalCode = null;
+                    emptyTextFieldErrEmail = null;
                     personalCode = onChangeUsername;
                   });
                 },
