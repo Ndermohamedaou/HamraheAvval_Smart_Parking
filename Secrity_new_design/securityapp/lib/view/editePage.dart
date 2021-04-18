@@ -286,6 +286,7 @@ class _EditPageState extends State<EditPage> {
                 onChangeText: (newPassChange) =>
                     setState(() => newPass = newPassChange),
               ),
+              SizedBox(height: 10),
               TextFields(
                 initValue: confrimNewPass,
                 lblText: "تکرار گذرواژه",
