@@ -26,3 +26,8 @@ A future app for security mode!!
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     ```
 
+- Use Biometric mobile users assets :
+
+  - ```xml
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    ```
