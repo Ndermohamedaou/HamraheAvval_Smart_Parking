@@ -21,7 +21,6 @@ Map<String, Object> userInfo;
 Map<String, Object> modalRoute;
 
 File imgSource;
-String email = "";
 String password = "";
 String rePassword = "";
 dynamic emptyTextFieldErrEmailCode = null;
@@ -47,14 +46,13 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   @override
   void initState() {
     imgSource = null;
-    email = "";
     password = "";
     rePassword = "";
     emptyTextFieldErrEmailCode = null;
     emptyTextFieldErrEmail = null;
     emptyTextFieldErrPassword = null;
     emptyTextFieldErrRePassword = null;
-
+    isConfirm = false;
     showMePass = Icons.remove_red_eye;
     protectedPassword = true;
     super.initState();
@@ -77,9 +75,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
     // print(userInfo);
 
-    void gettingLogin({uToken, email, curPass, pass, rePass, avatar}) async {
+    void gettingLogin({uToken, curPass, pass, rePass, avatar}) async {
       final _img64 = await img2Base64(avatar);
-      if (email != "" && pass != "" && rePass != "") {
+      if (pass != "" && rePass != "") {
         if (pass.length > 6 && rePass.length > 6) {
           if (pass == rePass) {
             bool testPass = passwordRegex(pass);
@@ -90,7 +88,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 setState(() => isConfirm = true);
                 final result = await api.updateStaffInfoInConfrimation(
                     token: uToken,
-                    email: email,
                     curPass: curPass,
                     newPass: pass,
                     avatar: _img64);
@@ -237,20 +234,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 ),
               ),
               SizedBox(height: 30),
-              TextFields(
-                lblText: userEmailLbl,
-                textFieldIcon: Icons.account_circle,
-                textInputType: false,
-                readOnly: false,
-                errText:
-                    emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
-                onChangeText: (onChangeUsername) {
-                  setState(() {
-                    emptyTextFieldErrEmailCode = null;
-                    email = onChangeUsername;
-                  });
-                },
-              ),
               Container(
                 alignment: Alignment.topRight,
                 margin: EdgeInsets.fromLTRB(0, 10, 40, 0),
@@ -338,7 +321,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 !isConfirm
                     ? gettingLogin(
                         uToken: uToken,
-                        email: email,
                         curPass: currentPass,
                         pass: password,
                         rePass: rePassword,
