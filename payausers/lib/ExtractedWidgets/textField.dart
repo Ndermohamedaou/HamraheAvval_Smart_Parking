@@ -43,6 +43,7 @@ class TextFields extends StatelessWidget {
           textAlign: TextAlign.center,
           cursorColor: mainCTA,
           decoration: InputDecoration(
+            counterText: "",
             errorText: errText,
             errorStyle: TextStyle(fontFamily: mainFaFontFamily),
             focusedBorder: OutlineInputBorder(
