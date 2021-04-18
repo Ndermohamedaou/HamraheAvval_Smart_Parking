@@ -210,21 +210,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 textSubtitle: userMelli,
               ),
               FlatButton(
-                onPressed: () => Navigator.pushNamed(context, "/changeEmail"),
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "ویرایش پست الکترونیکی",
-                    style: TextStyle(
-                      fontFamily: mainFaFontFamily,
-                      color: mainSectionCTA,
-                      fontSize: 18,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              FlatButton(
                 onPressed: () =>
                     Navigator.pushNamed(context, "/changePassword"),
                 child: Container(
