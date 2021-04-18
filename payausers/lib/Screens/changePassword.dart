@@ -24,6 +24,24 @@ class ChangePassPage extends StatefulWidget {
 
 class _ChangePassPageState extends State<ChangePassPage> {
   @override
+  void initState() {
+    currentPassword = "";
+    newPassword = "";
+    confirmNewPassword = "";
+    showMePass = Icons.remove_red_eye;
+    emptyTextFieldErrCurPassword = null;
+    emptyTextFieldErrNewPassword = null;
+    emptyTextFieldErrConfNewPassword = null;
+    protectedPassword = true;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Sending to api
     // ignore: missing_return
@@ -45,25 +63,35 @@ class _ChangePassPageState extends State<ChangePassPage> {
     }
 
     void changePass({curPass, newPass, confPass}) async {
-      if (curPass != "" || newPass != "" || confPass != "") {
-        if (newPass.length >= 6 && newPass.length >= 6) {
+      if (curPass != "" && newPass != "" && confPass != "") {
+        if (newPass.length >= 6 && confPass.length >= 6) {
           // \-- test passwords for complex for with regex
           bool testNewPass = passwordRegex(newPass);
           bool testConfPass = passwordRegex(confPass);
-          // --/
+          // print(testNewPass); --/
+
           if (testNewPass && testConfPass) {
-            final result = await sendPassword(curPass, newPass);
-            if (result == "200") {
-              Navigator.pop(context);
-              Toast.show(changeSuccess, context,
-                  duration: Toast.LENGTH_LONG,
-                  gravity: Toast.BOTTOM,
-                  textColor: Colors.white);
+            if (newPass == confPass) {
+              final result = await sendPassword(curPass, newPass);
+              if (result == "200") {
+                Navigator.pop(context);
+                Toast.show(changeSuccess, context,
+                    duration: Toast.LENGTH_LONG,
+                    gravity: Toast.BOTTOM,
+                    textColor: Colors.white);
+              } else {
+                Toast.show(failedToUpdatePass, context,
+                    duration: Toast.LENGTH_LONG,
+                    gravity: Toast.BOTTOM,
+                    textColor: Colors.white);
+              }
             } else {
-              Toast.show(failedToUpdatePass, context,
-                  duration: Toast.LENGTH_LONG,
-                  gravity: Toast.BOTTOM,
-                  textColor: Colors.white);
+              showStatusInCaseOfFlush(
+                  context: context,
+                  title: notMatchPassTitle,
+                  msg: notMatchPassDsc,
+                  icon: Icons.email,
+                  iconColor: Colors.deepOrange);
             }
           } else {
             showStatusInCaseOfFlush(
@@ -79,8 +107,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
               gravity: Toast.BOTTOM,
               textColor: Colors.white);
         }
-      }
-      {
+      } else {
         setState(() {
           emptyTextFieldErrCurPassword = emptyTextFieldMsg;
           emptyTextFieldErrNewPassword = emptyTextFieldMsg;
@@ -132,6 +159,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   });
                 },
               ),
+              SizedBox(height: 10),
               TextFields(
                 lblText: newPass,
                 maxLen: 20,
@@ -160,6 +188,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   });
                 },
               ),
+              SizedBox(height: 10),
               TextFields(
                 lblText: confNewPass,
                 maxLen: 20,
@@ -219,16 +248,5 @@ class _ChangePassPageState extends State<ChangePassPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    currentPassword = "";
-    newPassword = "";
-    confirmNewPassword = "";
-    emptyTextFieldErrCurPassword = null;
-    emptyTextFieldErrNewPassword = null;
-    emptyTextFieldErrConfNewPassword = null;
-    super.dispose();
   }
 }

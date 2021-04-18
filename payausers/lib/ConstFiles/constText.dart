@@ -5,8 +5,11 @@ const connectionFailed =
 
 const notValidPassText = "گذرواژه نامعتبر";
 const passwordCheckerText =
-    "گذرواژه شما باید حداقل یک کلمه کوچک یک کلمه بزرگ یک عدد و یک علامت را دارا باشد مانند \n 1234563Ds@/";
+    "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد";
 // 12345678asD@
+// Not Match Password Message
+const notMatchPassTitle = "عدم مطابقت گذواژه جدید با تایید آن";
+const notMatchPassDsc = "گذرواژه جدید و تایید آن بایستی با یکدیگر یکسان باشند";
 
 // Defective INFO
 const defectiveInfo = "ورودی اطلاعات ناقص است";
@@ -134,7 +137,7 @@ const newPass = "گذرواژه جدید";
 const confNewPass = "تکرار گذرواژه جدید";
 const notEnouthLen = "گذرواژه شما کمتر از 6 واژه است";
 const conFailed = "مشکل در برقراری ارتباط";
-const failedToUpdatePass = "گذرواژه جدید ثبت نشد";
+const failedToUpdatePass = "گذرواژه جاری اشتباه است";
 const doesNotChange = "تغییری صورت نگرفت";
 const changeSuccess = "گذرواژه جدید شما با موفقیت ثبت شد";
 // My plate
