@@ -25,7 +25,6 @@ ConvertImage imgConvertion = ConvertImage();
 AuthUsers auth = AuthUsers();
 
 // Level 1
-String email = "";
 File imageSource;
 
 // Level 2
@@ -54,7 +53,6 @@ class _ConfirmationState extends State<Confirmation> {
   void dispose() {
     pageIndex = 0;
     _pageController.dispose();
-    email = "";
     password = "";
     rePassword = "";
     showMePass = Icons.vpn_key;
@@ -128,10 +126,6 @@ class _ConfirmationState extends State<Confirmation> {
                     ),
                   );
                 },
-                userEmail: email,
-                onChangeEmail: (changedEmail) {
-                  setState(() => email = changedEmail);
-                },
               ),
               Password(
                 pass: password,
@@ -162,7 +156,6 @@ class _ConfirmationState extends State<Confirmation> {
             pageIndex == 1
                 ? updateStaffInfo(
                     avatar: imageSource,
-                    email: email,
                     uToken: token,
                     pass: password,
                     rePass: rePassword,
@@ -175,38 +168,26 @@ class _ConfirmationState extends State<Confirmation> {
     );
   }
 
-  void updateStaffInfo({avatar, email, pass, rePass, uToken}) async {
-    if (email != "" && pass != "" && rePass != "" && avatar != null) {
-      bool valEmail = emailValidator(email);
-      if (valEmail) {
-        if (pass == rePass && pass.length > 6 && rePass.length > 6) {
-          bool valPass = passwordRegex(pass);
-          bool valRePass = passwordRegex(rePass);
-          if (valPass && valRePass) {
-            // Finlly go to update api
-            String _img64 = await imgConvertion.img2Base64(img: avatar);
-            bool result = await auth.updateStaffInfo(
-              avatar: _img64,
-              email: email,
-              pass: pass,
-              token: token,
-            );
-            if (result)
-              Navigator.pushNamed(context, buildingsRoute, arguments: token);
-            else {
-              showStatusInCaseOfFlush(
-                context: context,
-                title: updaingProblemTitle,
-                msg: updaingProblemDsc,
-                icon: Icons.edit_attributes_outlined,
-                iconColor: Colors.red,
-              );
-            }
-          } else {
+  void updateStaffInfo({avatar, pass, rePass, uToken}) async {
+    if (pass != "" && rePass != "" && avatar != null) {
+      if (pass == rePass && pass.length > 6 && rePass.length > 6) {
+        bool valPass = passwordRegex(pass);
+        bool valRePass = passwordRegex(rePass);
+        if (valPass && valRePass) {
+          // Finlly go to update api
+          String _img64 = await imgConvertion.img2Base64(img: avatar);
+          bool result = await auth.updateStaffInfo(
+            avatar: _img64,
+            pass: pass,
+            token: token,
+          );
+          if (result)
+            Navigator.pushNamed(context, buildingsRoute, arguments: token);
+          else {
             showStatusInCaseOfFlush(
               context: context,
-              title: passValTitle,
-              msg: passValDsc,
+              title: updaingProblemTitle,
+              msg: updaingProblemDsc,
               icon: Icons.edit_attributes_outlined,
               iconColor: Colors.red,
             );
@@ -214,8 +195,8 @@ class _ConfirmationState extends State<Confirmation> {
         } else {
           showStatusInCaseOfFlush(
             context: context,
-            title: notMathPassTitle,
-            msg: notMathPassDsc,
+            title: passValTitle,
+            msg: passValDsc,
             icon: Icons.edit_attributes_outlined,
             iconColor: Colors.red,
           );
@@ -223,8 +204,8 @@ class _ConfirmationState extends State<Confirmation> {
       } else {
         showStatusInCaseOfFlush(
           context: context,
-          title: emailValTitle,
-          msg: emailValDsc,
+          title: notMathPassTitle,
+          msg: notMathPassDsc,
           icon: Icons.edit_attributes_outlined,
           iconColor: Colors.red,
         );

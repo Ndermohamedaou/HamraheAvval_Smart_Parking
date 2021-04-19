@@ -8,14 +8,10 @@ class MainProfile extends StatelessWidget {
   const MainProfile({
     this.avatarView,
     this.avatarPressed,
-    this.userEmail,
-    this.onChangeEmail,
   });
 
   final avatarView;
   final Function avatarPressed;
-  final userEmail;
-  final onChangeEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -62,14 +58,6 @@ class MainProfile extends StatelessWidget {
             ),
           ),
           SizedBox(height: 5.0.h),
-          TextFields(
-              initValue: userEmail,
-              keyType: TextInputType.emailAddress,
-              lblText: "ایمیل خود را وارد کنید",
-              textFieldIcon: Icons.account_circle,
-              textInputType: false,
-              readOnly: false,
-              onChangeText: onChangeEmail),
         ],
       ),
     );

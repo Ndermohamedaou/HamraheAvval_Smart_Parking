@@ -30,11 +30,10 @@ class AuthUsers {
     }
   }
 
-  Future<bool> updateStaffInfo({avatar, email, pass, token}) async {
+  Future<bool> updateStaffInfo({avatar, pass, token}) async {
     try {
       bool result = await api.updateUserInfo(
         avatar: avatar,
-        email: email,
         pass: pass,
         uToken: token,
       );

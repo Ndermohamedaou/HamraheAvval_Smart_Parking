@@ -61,6 +61,7 @@ class LoginMain extends StatelessWidget {
               iconPressed: passIconPressed,
               onChangeText: onChangedPassword,
             ),
+            SizedBox(height: 3.0.h),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
