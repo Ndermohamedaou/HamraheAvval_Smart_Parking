@@ -24,6 +24,7 @@ import 'Screens/changeUserEmail.dart';
 import 'Screens/pageLengthIndex.dart';
 import 'package:payausers/Screens/reserveView.dart';
 import 'package:payausers/Screens/set_biometric.dart';
+import 'package:payausers/Screens/termsOfServicePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -87,6 +88,7 @@ class _MyAppState extends State<MyApp> {
                     '/splashScreen': (context) => SplashScreen(),
                     '/': (context) => IntroPage(),
                     '/themeSelector': (context) => ThemeModeSelectorPage(),
+                    '/termsAndLicense': (context) => TermsOfServiceView(),
                     '/login': (context) => LoginPage(),
                     '/confirm': (context) => ConfirmScreen(),
                     '/loginCheckout': (context) => LoginCheckingoutPage(),

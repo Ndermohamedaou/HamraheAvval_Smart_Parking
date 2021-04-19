@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
+import 'package:sizer/sizer.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class BottomButton extends StatelessWidget {
-  const BottomButton({this.ontapped, this.text});
+  const BottomButton({this.ontapped, this.text, this.hasCondition = true});
 
   final Function ontapped;
   final String text;
+  final bool hasCondition;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class BottomButton extends StatelessWidget {
         child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
-              ontapped();
+              hasCondition ? ontapped() : null;
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,7 +31,7 @@ class BottomButton extends StatelessWidget {
                   style: TextStyle(
                       color: loginBtnTxtColor,
                       fontFamily: mainFaFontFamily,
-                      fontSize: btnSized,
+                      fontSize: 15.0.sp,
                       fontWeight: FontWeight.bold),
                 ),
                 Icon(

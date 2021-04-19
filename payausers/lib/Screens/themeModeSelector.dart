@@ -18,7 +18,7 @@ class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     // Navigatoed to Login
-    void goToNext() => Navigator.pushNamed(context, '/login');
+    void goToNext() => Navigator.pushNamed(context, '/termsAndLicense');
     // Checked if you are have Dark or Light Mode
     const String lightLottie = "assets/lottie/36236-sun-icon.json";
     const String darkLottie = "assets/lottie/darkModeLottie.json";
