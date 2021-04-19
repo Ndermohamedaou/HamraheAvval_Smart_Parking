@@ -176,6 +176,7 @@ class _MainoState extends State<Maino> {
   Future<Map> getStaffInfoFromLocal() async {
     String readyAvatar = "";
     String readyEmail = "";
+    String readyUserId = "";
     final userId = await lds.read(key: "user_id");
     final localEmail = await lds.read(key: "email");
     userToken = await lds.read(key: "token");
@@ -188,8 +189,11 @@ class _MainoState extends State<Maino> {
 
     try {
       Map staffInfo = await api.getStaffInfo(token: userToken);
+      // Getting server info to check if they had change
       String serverAvatar = staffInfo['avatar'];
       String serverEmail = staffInfo['email'];
+      String serverUserId = staffInfo["user_id"];
+
       // print(staffInfo);
       // Matching local Avatar with Server side
       // avatar if anythings has change it will update!
@@ -199,20 +203,30 @@ class _MainoState extends State<Maino> {
         });
         await lds.write(key: "avatar", value: serverAvatar);
       }
+      // If local if changed by HR
       if (localEmail != serverEmail) {
         setState(() {
           readyEmail = serverEmail;
         });
         await lds.write(key: "email", value: serverEmail);
       }
+      // If userID for QR-code had change from API
+      if (userId != serverUserId) {
+        setState(() {
+          readyUserId = serverUserId;
+        });
+        await lds.write(key: "user_id", value: serverUserId);
+      }
     } catch (e) {
       // print(e);
+      // IF users connection had problem, use LocalData
       readyAvatar = await lds.read(key: "avatar");
       readyEmail = await lds.read(key: "email");
+      readyUserId = await lds.read(key: "user_id");
     }
 
     return {
-      "userId": userId,
+      "userId": readyUserId != "" ? readyUserId : userId,
       "name": name,
       "personalCode": personalCode,
       "avatar": readyAvatar != "" ? readyAvatar : localAvatar,
