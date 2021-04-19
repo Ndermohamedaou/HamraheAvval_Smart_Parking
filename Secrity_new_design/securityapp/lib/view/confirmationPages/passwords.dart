@@ -43,6 +43,7 @@ class Password extends StatelessWidget {
             iconPressed: passIconPressed,
             onChangeText: onChangePass,
           ),
+          SizedBox(height: 20),
           TextFields(
             initValue: rePass,
             lblText: "تکرار گذرواژه",
