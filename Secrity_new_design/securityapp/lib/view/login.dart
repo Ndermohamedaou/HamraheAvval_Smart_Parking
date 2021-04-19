@@ -86,6 +86,7 @@ class _LoginState extends State<Login> {
             await auth.gettingLogin(persCode: personalCode, pass: password);
         // Invalid (Validation Process Check)
         if (initUser["status"] == "null") {
+          setState(() => isLogin = false);
           showStatusInCaseOfFlush(
             context: context,
             title: loginIsFailedByUsernameorPassTitle,
@@ -94,7 +95,6 @@ class _LoginState extends State<Login> {
             iconColor: Colors.red,
           );
         } else {
-          setState(() => isLogin = false);
           // print(initUser);
           if (initUser["first_visit"])
             updateStaffInfo(initUser["token"]);
@@ -102,7 +102,6 @@ class _LoginState extends State<Login> {
             staffWillNavigateBuildings(initUser["token"]);
         }
       } else {
-        setState(() => isLogin = false);
         setState(() {
           emptyTextFieldErrPersCode = emptyTextFieldMsg;
           emptyTextFieldErrPassword = emptyTextFieldMsg;
@@ -167,6 +166,7 @@ class _LoginState extends State<Login> {
         ),
         bottomNavigationBar: BottomButton(
           color: mainCTA,
+          loadingState: isLogin,
           onTapped: () {
             pageIndex == 3
                 ? loginTo(personalCode: personalCode, password: password)

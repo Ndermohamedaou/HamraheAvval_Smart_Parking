@@ -3,10 +3,16 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:sizer/sizer.dart';
 
 class BottomButton extends StatelessWidget {
-  const BottomButton({this.text, this.color, this.onTapped});
+  const BottomButton({
+    this.text,
+    this.color,
+    this.loadingState = false,
+    this.onTapped,
+  });
 
   final String text;
   final color;
+  final bool loadingState;
   final Function onTapped;
 
   @override
@@ -19,19 +25,29 @@ class BottomButton extends StatelessWidget {
         color: color,
         child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: onTapped,
+            onPressed: !loadingState ? onTapped : null,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: mainFont,
-                      fontSize: 14.0.sp,
-                      fontWeight: FontWeight.bold),
-                ),
+                loadingState
+                    ? Container(
+                        width: 10,
+                        height: 10,
+                        child: CircularProgressIndicator(
+                          backgroundColor: mainCTA,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: mainFont,
+                            fontSize: 14.0.sp,
+                            fontWeight: FontWeight.bold),
+                      ),
                 Icon(
                   Icons.chevron_right,
                   color: Colors.white,
