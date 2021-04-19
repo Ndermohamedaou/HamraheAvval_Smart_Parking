@@ -75,6 +75,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getCurrentAppTheme();
+    getCurrentAppLockPassStatus();
 
     // init and getting instace
     localNotif = FlutterLocalNotificationsPlugin();
@@ -102,9 +103,16 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  // Getting app theme dark or light in provider
   void getCurrentAppTheme() async {
     themeChangeProvider.darkTheme =
         await themeChangeProvider.darkThemePreferences.getTheme();
+  }
+
+  // Getting app Lock state for locking app with OTP Password
+  void getCurrentAppLockPassStatus() async {
+    themeChangeProvider.appLock =
+        await themeChangeProvider.darkThemePreferences.getLockState();
   }
 
   @override

@@ -52,9 +52,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void navigatedToRoot() async {
     final lStorage = FlutterSecureStorage();
     final userToken = await lStorage.read(key: "uToken");
-    if (userToken != null)
-      Navigator.pushNamed(context, mainoRoute);
-    else
+    final local_auth_pasas = await lStorage.read(key: "local_lock");
+
+    if (userToken != null) {
+      if (local_auth_pasas != null) // And And our boolean lock status show
+        Navigator.pushNamed(context, localAuthLocker);
+      else
+        Navigator.pushNamed(context, mainoRoute);
+    } else
       Navigator.pushNamed(context, loginRoute);
   }
 }

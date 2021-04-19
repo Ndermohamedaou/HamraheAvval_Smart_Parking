@@ -1,5 +1,6 @@
 const splashScreenRoute = "splashScreen";
 const mainoRoute = "maino";
+const localAuthLocker = "localAuth";
 const loginRoute = "login";
 const searchByPlateRoute = "plateSearch";
 const searchBySlotRoute = "slotSearch";
