@@ -68,7 +68,9 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     persianDatePicker = PersianDatePicker(
       controller: textEditingController,
       datetime: "${DateTime.now()}",
+      currentDayBackgroundColor: mainCTA,
       fontFamily: mainFaFontFamily,
+      minDatetime: "${DateTime.now()}",
       onChange: (String oldDate, String newDate) {
         setState(() {
           datePickedByUser = newDate;
