@@ -17,6 +17,7 @@ class UserTraffic extends StatelessWidget {
     this.filterOn50,
     this.noFilter,
     this.refreshFunction,
+    this.loadingTraffics,
   });
 
   final List userTrafficLog;
@@ -26,6 +27,7 @@ class UserTraffic extends StatelessWidget {
   final Function filterOn50;
   final Function noFilter;
   final refreshFunction;
+  final bool loadingTraffics;
 
   @override
   Widget build(BuildContext context) {
@@ -61,17 +63,31 @@ class UserTraffic extends StatelessWidget {
     Widget searchingProcess = Column(
       children: [
         Lottie.asset(
+          "assets/lottie/noData.json",
+          width: 180,
+          height: 180,
+        ),
+        Text("شما ترددی ندارید",
+            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+      ],
+    );
+
+    Widget notFoundTrafficData = Column(
+      children: [
+        Lottie.asset(
           "assets/lottie/notFoundTraffics.json",
           width: 180,
           height: 180,
         ),
-        Text(userTrafficNull,
+        Text("عدم برقراری ارتباط با سرویس دهنده",
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
       ],
     );
 
     final plateContext =
         userTrafficLog.length == 0 ? searchingProcess : traffics;
+
+    final trafficView = loadingTraffics ? plateContext : notFoundTrafficData;
 
     void filterSection() {
       showMaterialModalBottomSheet(
@@ -182,7 +198,7 @@ class UserTraffic extends StatelessWidget {
                 ),
               ),
               filterBar,
-              plateContext,
+              trafficView,
             ],
           ),
         ),

@@ -52,9 +52,10 @@ String lenOfReserve = "";
 String lenOfUserPlate = "";
 String locationBuilding = "";
 String slotNumberInSituation = "";
+// Loading Buffer
+bool isLoadTraffics = false;
 //reserve Special pices
 // int showPiceces = 0;
-
 ApiAccess api = ApiAccess();
 
 class _MainoState extends State<Maino> {
@@ -79,13 +80,6 @@ class _MainoState extends State<Maino> {
       READYLOCALVAR();
     });
     READYLOCALVAR();
-
-    // getUserReservedHistory().then((reserves) {
-    //   setState(() {
-    // userReservedListLen = reserves.length;
-    //   });
-    // });
-
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
@@ -238,8 +232,14 @@ class _MainoState extends State<Maino> {
   }
 
   Future<List> getUserTrafficLogsApi(token) async {
-    List trafficLog = await api.getUserTrafficLogs(token: token);
-    return trafficLog;
+    try {
+      setState(() => isLoadTraffics = true);
+      List trafficLog = await api.getUserTrafficLogs(token: token);
+      return trafficLog;
+    } catch (e) {
+      setState(() => isLoadTraffics = false);
+      return [];
+    }
   }
 
   Future<List> getUserReservedHistory() async {
@@ -391,6 +391,7 @@ class _MainoState extends State<Maino> {
                     setState(() => userTrafficListLen = userTraffic.length);
                     Navigator.pop(context);
                   },
+                  loadingTraffics: isLoadTraffics,
                 ),
                 ReservedTab(
                   // reserveRefreshController: _reserveRefreshController,
