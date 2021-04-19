@@ -43,11 +43,11 @@ class ReservedTab extends StatelessWidget {
     Widget emptyListManagerShower = Column(
       children: [
         Center(
-            child: Container(
-                margin: EdgeInsets.all(50),
-                width: 250,
-                height: 250,
-                child: Lottie.asset(notThere))),
+            child: Lottie.asset(
+          notThere,
+          width: 180,
+          height: 180,
+        )),
         Text(choseTime,
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
       ],

@@ -146,7 +146,11 @@ class _AddUserPlateState extends State<AddUserPlate> {
 
     Widget searchingProcess = Column(
       children: [
-        Lottie.asset("assets/lottie/searching.json"),
+        Lottie.asset(
+          "assets/lottie/searching.json",
+          width: 200,
+          height: 200,
+        ),
         Text(searchingProcessText,
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
       ],

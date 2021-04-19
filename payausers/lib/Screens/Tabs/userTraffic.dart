@@ -60,7 +60,11 @@ class UserTraffic extends StatelessWidget {
 
     Widget searchingProcess = Column(
       children: [
-        Lottie.asset("assets/lottie/searching.json"),
+        Lottie.asset(
+          "assets/lottie/notFoundTraffics.json",
+          width: 180,
+          height: 180,
+        ),
         Text(userTrafficNull,
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
       ],
