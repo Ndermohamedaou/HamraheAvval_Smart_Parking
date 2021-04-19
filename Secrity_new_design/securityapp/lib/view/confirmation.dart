@@ -19,6 +19,8 @@ import 'confirmationPages/passwords.dart';
 var token = "";
 int pageIndex = 0;
 var _pageController;
+// Is Confirm?
+bool isConfirm = false;
 
 // Image conversion class
 ConvertImage imgConvertion = ConvertImage();
@@ -45,6 +47,7 @@ class _ConfirmationState extends State<Confirmation> {
     _pageController = PageController();
     showMePass = Icons.remove_red_eye;
     protectedPassword = true;
+    isConfirm = false;
 
     super.initState();
   }
@@ -152,6 +155,7 @@ class _ConfirmationState extends State<Confirmation> {
         ),
         bottomNavigationBar: BottomButton(
           color: mainCTA,
+          loadingState: isConfirm,
           onTapped: () {
             pageIndex == 1
                 ? updateStaffInfo(
@@ -174,6 +178,8 @@ class _ConfirmationState extends State<Confirmation> {
         bool valPass = passwordRegex(pass);
         bool valRePass = passwordRegex(rePass);
         if (valPass && valRePass) {
+          // Created Is Confrimation
+          setState(() => isConfirm = true);
           // Finlly go to update api
           String _img64 = await imgConvertion.img2Base64(img: avatar);
           bool result = await auth.updateStaffInfo(
@@ -184,6 +190,7 @@ class _ConfirmationState extends State<Confirmation> {
           if (result)
             Navigator.pushNamed(context, buildingsRoute, arguments: token);
           else {
+            setState(() => isConfirm = false);
             showStatusInCaseOfFlush(
               context: context,
               title: updaingProblemTitle,
