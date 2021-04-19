@@ -50,6 +50,7 @@ class _LoginState extends State<Login> {
     showMePass = Icons.remove_red_eye;
     protectedPassword = true;
     acceptedTerms = false;
+    isLogin = false;
 
     super.initState();
   }
