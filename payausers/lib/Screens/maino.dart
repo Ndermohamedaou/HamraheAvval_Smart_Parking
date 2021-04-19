@@ -71,6 +71,9 @@ class _MainoState extends State<Maino> {
   void initState() {
     super.initState();
 
+    isLoadTraffics = false;
+    isLoadReserves = false;
+
     // Initialize Connection Subscription
     initConnectivity();
     _connectivitySubscription =
