@@ -343,29 +343,13 @@ class _EditPageState extends State<EditPage> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 width: double.infinity,
-                height: 30.0.h,
+                height: 15.0.h,
                 decoration: BoxDecoration(
                   color: themeChange.darkTheme ? darkOptionBg : lightOptionBg,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: 2.0.w),
-                    FlatButton(
-                      onPressed: () => openEmailEdit(),
-                      child: OptionTile(
-                        title: "ویرایش آدرس پست الکترونیکی",
-                        subtitle:
-                            "آدرس پست الکترونیکی برای پشتیبانی از زمانی است که گذرواژه خود را فراموش کرده اید",
-                        icon: Icons.email,
-                        iconColor: Colors.white,
-                        iconBg: Colors.orange,
-                      ),
-                    ),
-                    Divider(
-                      height: 2,
-                      thickness: 1,
-                    ),
                     SizedBox(height: 2.0.w),
                     FlatButton(
                       onPressed: () => openPasswordChanger(),

@@ -133,7 +133,7 @@ class _MyAppState extends State<MyApp> {
                   },
                   theme:
                       Styles.themeData(themeChangeProvider.darkTheme, context),
-                  initialRoute: confirmationRoute,
+                  initialRoute: editPage,
                   routes: {
                     splashScreenRoute: (context) => SplashScreen(),
                     loginRoute: (context) => Login(),
