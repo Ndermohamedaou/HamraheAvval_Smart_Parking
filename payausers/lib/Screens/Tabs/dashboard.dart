@@ -71,7 +71,7 @@ class Dashboard extends StatelessWidget {
             height: 10,
           ),
           UserCard(
-            qrCodeString: qrUserCode,
+            qrCodeString: userQRCode,
             fullname: fullnameMeme,
             persCode: userPersonalCodeMeme,
             lastVisit: lastLogin,
@@ -139,4 +139,3 @@ class Dashboard extends StatelessWidget {
     ));
   }
 }
-
