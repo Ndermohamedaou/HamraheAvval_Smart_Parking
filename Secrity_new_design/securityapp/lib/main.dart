@@ -17,7 +17,7 @@ import 'package:securityapp/view/searchingPlate.dart';
 import 'package:securityapp/view/searchingSlot.dart';
 import 'package:securityapp/view/searchResults.dart';
 import 'package:securityapp/view/entryCheck.dart';
-import 'package:securityapp/view/introPages/exitCheck.dart';
+import 'package:securityapp/view/exitCheck.dart';
 import 'package:securityapp/view/ImageCheckingTime.dart';
 import 'package:securityapp/view/profile.dart';
 import 'package:securityapp/view/buildingForUsers.dart';

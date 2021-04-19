@@ -12,6 +12,7 @@ import 'package:securityapp/widgets/bottomBtn.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
 
 import 'introPages/login.dart';
+import 'introPages/terms_of_service.dart';
 
 int pageIndex = 0;
 var _pageController = PageController();
@@ -24,9 +25,12 @@ IconData showMePass = Icons.remove_red_eye;
 // info error handle
 dynamic emptyTextFieldErrPersCode = null;
 dynamic emptyTextFieldErrPassword = null;
-
 // Add Auth Controller Class
 AuthUsers auth = AuthUsers();
+// Checked Terms
+bool acceptedTerms = false;
+// Is Login?
+bool isLogin = false;
 
 class Login extends StatefulWidget {
   @override
@@ -45,6 +49,7 @@ class _LoginState extends State<Login> {
     emptyTextFieldErrPassword = null;
     showMePass = Icons.remove_red_eye;
     protectedPassword = true;
+    acceptedTerms = false;
 
     super.initState();
   }
@@ -76,6 +81,7 @@ class _LoginState extends State<Login> {
 
     void loginTo({personalCode, password}) async {
       if (personalCode != "" && password != "") {
+        setState(() => isLogin = true);
         Map initUser =
             await auth.gettingLogin(persCode: personalCode, pass: password);
         // Invalid (Validation Process Check)
@@ -88,6 +94,7 @@ class _LoginState extends State<Login> {
             iconColor: Colors.red,
           );
         } else {
+          setState(() => isLogin = false);
           // print(initUser);
           if (initUser["first_visit"])
             updateStaffInfo(initUser["token"]);
@@ -95,6 +102,7 @@ class _LoginState extends State<Login> {
             staffWillNavigateBuildings(initUser["token"]);
         }
       } else {
+        setState(() => isLogin = false);
         setState(() {
           emptyTextFieldErrPersCode = emptyTextFieldMsg;
           emptyTextFieldErrPassword = emptyTextFieldMsg;
@@ -109,6 +117,7 @@ class _LoginState extends State<Login> {
         body: PageView(
           onPageChanged: (index) => setState(() => pageIndex = index),
           controller: _pageController,
+          physics: NeverScrollableScrollPhysics(),
           children: [
             Intro(),
             ThemeChange(
@@ -116,6 +125,12 @@ class _LoginState extends State<Login> {
                   setState(() => themeChange.darkTheme = false),
               darkThemePressed: () =>
                   setState(() => themeChange.darkTheme = true),
+            ),
+            Terms(
+              themeChange: themeChange.darkTheme,
+              acceptedTerms: acceptedTerms,
+              setCheckTerms: (bool value) =>
+                  setState(() => acceptedTerms = value),
             ),
             LoginMain(
               personalCode: personalCode,
@@ -153,19 +168,33 @@ class _LoginState extends State<Login> {
         bottomNavigationBar: BottomButton(
           color: mainCTA,
           onTapped: () {
-            pageIndex == 2
+            pageIndex == 3
                 ? loginTo(personalCode: personalCode, password: password)
                 : nextPageIndex();
           },
-          text: pageIndex == 2 ? loginText : next,
+          text: pageIndex == 3
+              ? loginText
+              : pageIndex == 2
+                  ? !acceptedTerms
+                      ? "الزام در پذیرش ضوابط"
+                      : loginText
+                  : next,
         ),
       ),
     );
   }
 
   void nextPageIndex() {
-    setState(() => pageIndex += 1);
-    _pageController.animateToPage(pageIndex,
-        duration: Duration(milliseconds: 600), curve: Curves.decelerate);
+    if (pageIndex == 2 && acceptedTerms) {
+      setState(() => pageIndex += 1);
+      _pageController.animateToPage(pageIndex,
+          duration: Duration(milliseconds: 600), curve: Curves.decelerate);
+    } else if (pageIndex != 2) {
+      setState(() => pageIndex += 1);
+      _pageController.animateToPage(pageIndex,
+          duration: Duration(milliseconds: 600), curve: Curves.decelerate);
+    } else if (pageIndex == 2 && !acceptedTerms) {
+      null;
+    }
   }
 }
