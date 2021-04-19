@@ -21,6 +21,7 @@ class ReservedTab extends StatelessWidget {
     this.noFilter,
     this.reserveRefreshController,
     this.refreshFunction,
+    this.loadingReserves,
   });
 
   final mainThemeColor;
@@ -32,6 +33,7 @@ class ReservedTab extends StatelessWidget {
   final Function noFilter;
   final reserveRefreshController;
   final refreshFunction;
+  final bool loadingReserves;
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +41,6 @@ class ReservedTab extends StatelessWidget {
     var notThere = mainThemeColor.darkTheme
         ? "assets/lottie/reserve_dark.json"
         : "assets/lottie/reserve_light.json";
-
-    Widget emptyListManagerShower = Column(
-      children: [
-        Center(
-            child: Lottie.asset(
-          notThere,
-          width: 180,
-          height: 180,
-        )),
-        Text(choseTime,
-            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-      ],
-    );
 
     Widget mainUserReserveHistory = ListView.builder(
       shrinkWrap: true,
@@ -82,8 +71,34 @@ class ReservedTab extends StatelessWidget {
       },
     );
 
+    Widget notFoundReservedData = Column(
+      children: [
+        Lottie.asset(
+          "assets/lottie/noData.json",
+          width: 180,
+          height: 180,
+        ),
+        Text("شما رزروی انجام نداده اید",
+            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+      ],
+    );
+
+    Widget internetProblem = Column(
+      children: [
+        Lottie.asset(
+          "assets/lottie/notFoundTraffics.json",
+          width: 180,
+          height: 180,
+        ),
+        Text("عدم برقراری ارتباط با سرویس دهنده",
+            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+      ],
+    );
+
     final finalContext =
-        reserves.length != 0 ? mainUserReserveHistory : emptyListManagerShower;
+        reserves.length != 0 ? mainUserReserveHistory : notFoundReservedData;
+
+    final reservedView = loadingReserves ? finalContext : internetProblem;
 
     void filterSection() {
       showMaterialModalBottomSheet(
@@ -209,7 +224,7 @@ class ReservedTab extends StatelessWidget {
                   ),
                 ),
                 filterBar,
-                finalContext
+                reservedView
               ],
             ),
           ),

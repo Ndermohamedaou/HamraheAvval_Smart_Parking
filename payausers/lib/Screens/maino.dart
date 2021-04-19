@@ -52,8 +52,10 @@ String lenOfReserve = "";
 String lenOfUserPlate = "";
 String locationBuilding = "";
 String slotNumberInSituation = "";
+
 // Loading Buffer
 bool isLoadTraffics = false;
+bool isLoadReserves = false;
 //reserve Special pices
 // int showPiceces = 0;
 ApiAccess api = ApiAccess();
@@ -244,10 +246,12 @@ class _MainoState extends State<Maino> {
 
   Future<List> getUserReservedHistory() async {
     try {
+      setState(() => isLoadReserves = true);
       List reservedList = await api.userReserveHistory(token: userToken);
       // print(reservedList);
       return reservedList;
     } catch (e) {
+      setState(() => isLoadReserves = false);
       // print(e);
       return [];
     }
@@ -427,6 +431,7 @@ class _MainoState extends State<Maino> {
                     // print(userReserved.length);
                     Navigator.pop(context);
                   },
+                  loadingReserves: isLoadReserves,
                 ),
                 AddUserPlate(),
                 Settings(
