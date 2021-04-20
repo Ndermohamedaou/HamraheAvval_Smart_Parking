@@ -49,8 +49,7 @@ dependencies:
   otp_screen: ^0.0.3
   cool_alert: ^1.0.3
   liquid_pull_to_refresh: ^1.2.0
-  # analog_clock: ^0.0.4
-
+  numberpicker: ^2.1.1
 
 dev_dependencies:
   flutter_test:

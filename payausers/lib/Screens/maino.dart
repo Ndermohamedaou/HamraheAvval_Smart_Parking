@@ -255,7 +255,7 @@ class _MainoState extends State<Maino> {
       return reservedList;
     } catch (e) {
       setState(() => isLoadReserves = false);
-      // print(e);
+      print(e);
       return [];
     }
   }

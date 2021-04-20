@@ -240,7 +240,7 @@ class Settings extends StatelessWidget {
                           ),
                           Divider(
                             color: Colors.grey,
-                            thickness: .39,
+                            thickness: .25,
                             indent: 20,
                             height: 0,
                           ),

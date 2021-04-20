@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class TimerPicker extends StatelessWidget {
-  const TimerPicker(
-      {this.context,
-      this.starterTimePressed,
-      this.endTimePressed,
-      this.startTimeText,
-      this.endTimeText});
+  const TimerPicker({
+    this.context,
+    this.startTimeText,
+    this.endTimeText,
+    this.changeStartTime,
+    this.changeEndTime,
+  });
   final context;
-  final Function starterTimePressed;
-  final Function endTimePressed;
-  final String startTimeText;
-  final String endTimeText;
-
+  final int startTimeText;
+  final int endTimeText;
+  final Function changeStartTime;
+  final Function changeEndTime;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -27,51 +27,65 @@ class TimerPicker extends StatelessWidget {
             child: Lottie.asset("assets/lottie/timePick.json", width: 150),
           ),
           SizedBox(height: 30),
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: ElevatedButton.icon(
-              onPressed: starterTimePressed,
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(mainCTA)),
-              icon: Icon(Icons.timer, size: 18),
-              label: Text(
-                entryTime,
-                style: TextStyle(fontFamily: mainFaFontFamily),
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
           Text(
-            startTimeText,
+            "ساعت شروع",
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: subTitleSize,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 40),
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: ElevatedButton.icon(
-              onPressed: endTimePressed,
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(mainCTA)),
-              icon: Icon(Icons.timer_off, size: 18),
-              label: Text(
-                exitTime,
-                style: TextStyle(fontFamily: mainFaFontFamily),
-              ),
-            ),
-          ),
-          SizedBox(height: 20),
+          SizedBox(height: 30),
+          HourPicker(hourTime: startTimeText, changedTime: changeStartTime),
+          SizedBox(height: 30),
           Text(
-            endTimeText,
+            "ساعت پایان",
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: subTitleSize,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
+          SizedBox(height: 30),
+          HourPicker(hourTime: endTimeText, changedTime: changeEndTime),
         ],
       ),
+    );
+  }
+}
+
+class HourPicker extends StatelessWidget {
+  const HourPicker({
+    Key key,
+    this.hourTime,
+    this.changedTime,
+  }) : super(key: key);
+
+  final int hourTime;
+  final Function changedTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return NumberPicker(
+      haptics: true,
+      value: hourTime,
+      minValue: 1,
+      maxValue: 24,
+      axis: Axis.horizontal,
+      textStyle: TextStyle(
+        fontFamily: mainFaFontFamily,
+      ),
+      selectedTextStyle: TextStyle(
+        fontFamily: mainFaFontFamily,
+        color: mainSectionCTA,
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: Colors.grey, width: 2),
+      ),
+      onChanged: changedTime,
     );
   }
 }

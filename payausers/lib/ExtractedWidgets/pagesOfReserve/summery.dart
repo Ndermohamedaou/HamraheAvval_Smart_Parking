@@ -78,7 +78,7 @@ class Summery extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        startTime,
+                        "$startTime",
                         style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           fontSize: 16,
@@ -100,7 +100,7 @@ class Summery extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        endTime,
+                        "$endTime",
                         style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           fontSize: 16,
