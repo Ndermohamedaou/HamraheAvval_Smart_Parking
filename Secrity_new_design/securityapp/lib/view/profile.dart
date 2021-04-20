@@ -14,6 +14,7 @@ import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 // Conversion Image
@@ -120,10 +121,12 @@ class _ProfileState extends State<Profile> {
   }
 
   void logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
     final lStorage = FlutterSecureStorage();
     await lStorage.deleteAll();
     await seveSecurity.delAllSavedSecurity();
-    exit(0);
+    Navigator.popUntil(context, ModalRoute.withName(splashScreenRoute));
   }
 
   @override
