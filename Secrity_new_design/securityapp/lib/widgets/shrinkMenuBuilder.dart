@@ -6,7 +6,6 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:sizer/sizer.dart';
-import 'package:xlive_switch/xlive_switch.dart';
 
 Widget buildMenu({
   DarkThemeProvider themeChange,
