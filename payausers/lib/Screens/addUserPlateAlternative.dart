@@ -40,10 +40,14 @@ class _AddUserPlatAlternative extends State<AddUserPlatAlternative> {
 
   @override
   Widget build(BuildContext context) {
-    Map navigationArg = ModalRoute.of(context).settings.arguments != null
+    final Map navigationArg = ModalRoute.of(context).settings.arguments != null
         ? ModalRoute.of(context).settings.arguments
-        : {"route": "pop"};
+        : {"route": "poper"};
+
+    print("Navigation arg ===> $navigationArg");
     final routeModalArg = navigationArg["route"];
+
+    print(routeModalArg == "pop" ? "" : "reserveEditaion");
 
     themeChange = Provider.of<DarkThemeProvider>(context);
     return GestureDetector(

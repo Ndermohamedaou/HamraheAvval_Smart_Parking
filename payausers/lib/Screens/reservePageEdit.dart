@@ -270,7 +270,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
             ? bydefaultSelectedString
             : finalSelectedString;
 
-        print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
+        // print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
         // Go to controller
         reserveMe(
             context: context,
