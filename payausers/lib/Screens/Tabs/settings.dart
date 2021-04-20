@@ -220,8 +220,6 @@ class Settings extends StatelessWidget {
                             height: 0,
                           ),
                           Container(
-                            width: double.infinity,
-                            height: 55,
                             color: themeChange.darkTheme ? darkBar : lightBar,
                             child: FlatButton(
                               onPressed: () => firstStepToSetBiometric(),
@@ -242,7 +240,7 @@ class Settings extends StatelessWidget {
                           ),
                           Divider(
                             color: Colors.grey,
-                            thickness: 0.25,
+                            thickness: .39,
                             indent: 20,
                             height: 0,
                           ),
