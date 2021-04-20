@@ -9,6 +9,7 @@ HexColor darkBgColor = HexColor("#303841");
 HexColor sideColorLight = HexColor("#EEEEEE");
 HexColor sideColorDark = HexColor("#3A4750");
 HexColor mainCTA = HexColor("#4AC4CB");
+HexColor mainSectionCTA = HexColor("#ee934b");
 HexColor floatingAction = HexColor("#919BA0");
 HexColor appBarColor = HexColor("#2AAFB7");
 HexColor floatingActionPoint = HexColor("#919BA0");

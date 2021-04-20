@@ -29,7 +29,9 @@ const exitText = "ثبت خروج";
 // Side Menu -- Saved
 const saved = "اطلاعات ذخیره شده";
 // Side Menu -- Theme text
-const themeText = "تم تاریک";
+const themeText = "محیط روشن / تاریک";
+// Settings text
+const initSettingsText = "تنظیمات";
 
 // Home <<Slots View>>
 // APP bar

@@ -100,22 +100,11 @@ Widget buildMenu({
             icon: Icons.bookmark,
             pressedMenu: () => Navigator.pushNamed(context, bookmarkRoute),
           ),
-          SizedBox(height: 50),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: [
-                XlivSwitch(
-                  value: themeChange.darkTheme,
-                  onChanged: changeTheme,
-                ),
-                SizedBox(width: 10),
-                CustomText(
-                  text: themeText,
-                  size: 13.0.sp,
-                )
-              ],
-            ),
+          ListMenu(
+            themeChange: themeChange,
+            text: initSettingsText,
+            icon: Icons.settings,
+            pressedMenu: () => Navigator.pushNamed(context, settingsRoute),
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),

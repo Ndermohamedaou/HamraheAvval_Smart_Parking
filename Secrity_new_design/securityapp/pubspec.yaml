@@ -59,6 +59,7 @@ dependencies:
   flutter_local_notifications: any
   # For OPT Password view
   otp_screen: ^0.0.3
+  list_tile_switch: ^0.0.2
   
 
   

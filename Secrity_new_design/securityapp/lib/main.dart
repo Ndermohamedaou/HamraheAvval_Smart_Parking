@@ -26,6 +26,10 @@ import 'view/bookmarked.dart';
 import 'view/imgProcessResult.dart';
 import 'package:securityapp/view/editePage.dart';
 import 'package:securityapp/view/searchingByPersonalCode.dart';
+import 'package:securityapp/view/settingsView.dart';
+import 'package:securityapp/view/setAppLock.dart';
+import 'package:securityapp/view/savingAppLockPass.dart';
+import 'package:securityapp/view/localAuthEnter.dart';
 
 void main() {
   runApp(MyApp());
@@ -157,7 +161,11 @@ class _MyAppState extends State<MyApp> {
                     confirmationRoute: (context) => Confirmation(),
                     bookmarkRoute: (context) => Bookmarked(),
                     imgProcessRoute: (context) => ImgProcessingResult(),
+                    settingsRoute: (context) => SettingsView(),
                     editPage: (context) => EditPage(),
+                    setAppLock: (context) => SetAppLockOTPView(),
+                    savingAppLockPass: (context) => SavingAppLock(),
+                    localAuthLocker: (context) => LocalAuthEnter(),
                     searchByPersCodeRoute: (context) =>
                         SearchingByPersonalCode(),
                   },

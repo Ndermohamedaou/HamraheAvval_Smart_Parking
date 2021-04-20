@@ -219,14 +219,12 @@ class _MainoState extends State<Maino> {
             color: themeChange.darkTheme ? Colors.white : Colors.black),
         type: SideMenuType.slideNRotate,
         menu: buildMenu(
-            themeChange: themeChange,
-            context: context,
-            // Will Change from api in lds + avatar
-            avatar: avatar,
-            fullname: fullname,
-            changeTheme: (bool val) {
-              themeChange.darkTheme = val;
-            }),
+          themeChange: themeChange,
+          context: context,
+          // Will Change from api in lds + avatar
+          avatar: avatar,
+          fullname: fullname,
+        ),
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
