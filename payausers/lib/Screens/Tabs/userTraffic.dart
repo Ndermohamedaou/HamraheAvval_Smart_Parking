@@ -62,8 +62,8 @@ class UserTraffic extends StatelessWidget {
 
     Widget searchingProcess = Column(
       children: [
-        Lottie.asset(
-          "assets/lottie/noData.json",
+        Image.asset(
+          "assets/images/emptyBox.png",
           width: 180,
           height: 180,
         ),
