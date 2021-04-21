@@ -81,7 +81,7 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight: 40.0.h,
+              // expandedHeight: 40.0.h,
               floating: false,
               pinned: true,
               backgroundColor: mainCTA,
@@ -90,12 +90,12 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
                 title: CustomText(
                   text: searchingByPhotoCapturing,
                   fw: FontWeight.bold,
-                  size: 10.0.sp,
+                  size: 12.0.sp,
                 ),
-                background: Image(
-                  image: AssetImage("assets/images/checking.png"),
-                  fit: BoxFit.cover,
-                ),
+                // background: Image(
+                //   image: AssetImage("assets/images/checking.png"),
+                //   fit: BoxFit.cover,
+                // ),
               ),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
