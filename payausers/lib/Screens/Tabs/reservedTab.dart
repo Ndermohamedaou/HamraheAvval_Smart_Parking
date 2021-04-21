@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
+import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/miniReserveHistory.dart';
+import 'package:payausers/ExtractedWidgets/plateViwer.dart';
+import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
+import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/Screens/addUserPlateAlternative.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -37,6 +43,36 @@ class ReservedTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    void openDetailsInModal({
+      List plate,
+      startTime,
+      endTime,
+      building,
+      slot,
+    }) {
+      showMaterialModalBottomSheet(
+        context: context,
+        enableDrag: true,
+        bounce: true,
+        duration: const Duration(milliseconds: 550),
+        builder: (context) => SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: SingleChildScrollView(
+            child: ReserveInDetails(
+              plate: plate,
+              startTime: startTime,
+              endTime: endTime,
+              building: building,
+              slot: slot,
+              themeChange: themeChange,
+              delReserve: () => print("Delete Success full"),
+            ),
+          ),
+        ),
+      );
+    }
+
     Widget mainUserReserveHistory = ListView.builder(
       shrinkWrap: true,
       reverse: true,
@@ -44,24 +80,36 @@ class ReservedTab extends StatelessWidget {
       itemCount: reserves != null ? reservListLen : null,
       itemBuilder: (BuildContext context, index) {
         List perment = reserves[index]['plate'].split("-");
+        var plate0 = "${perment[0]}";
+        var plate1 = "${alp.getAlp()[perment[1]]}";
+        var plate2 = "${perment[2].substring(0, 3)}";
+        var plate3 = "${perment[2].substring(3, 5)}";
+        List orderedPlate = [plate0, plate1, plate2, plate3];
         return SingleChildScrollView(
-          child: (Column(
-            children: [
-              MiniReserveHistory(
-                plate0: "${perment[0]}",
-                plate1: "${alp.getAlp()[perment[1]]}",
-                plate2: "${perment[2].substring(0, 3)}",
-                plate3: "${perment[2].substring(3, 5)}",
-                status: reserves[index]['status'],
-                buildingName: reserves[index]["building"] != null
-                    ? reserves[index]["building"]
-                    : "",
-                startedTime: reserves[index]["reserveTimeStart"],
-                endedTime: reserves[index]["reserveTimeEnd"],
-                slotNo: reserves[index]["slot"],
-              ),
-            ],
-          )),
+          child: GestureDetector(
+            onTap: () => openDetailsInModal(
+              plate: orderedPlate,
+              building: reserves[index]["building"] != null
+                  ? reserves[index]["building"]
+                  : "",
+              slot: reserves[index]["slot"],
+              startTime: reserves[index]["reserveTimeStart"],
+              endTime: reserves[index]["reserveTimeEnd"],
+            ),
+            child: (Column(
+              children: [
+                ReserveHistoryView(
+                  historyBuildingName: reserves[index]["building"] != null
+                      ? reserves[index]["building"]
+                      : "",
+                  reserveStatusColor: reserves[index]['status'],
+                  historySlotName: reserves[index]["slot"],
+                  historyStartTime: reserves[index]["reserveTimeStart"],
+                  historyEndTime: reserves[index]["reserveTimeEnd"],
+                ),
+              ],
+            )),
+          ),
         );
       },
     );
