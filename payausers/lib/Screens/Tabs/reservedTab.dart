@@ -37,11 +37,6 @@ class ReservedTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Change Lottie Background with dark/light theme
-    var notThere = mainThemeColor.darkTheme
-        ? "assets/lottie/reserve_dark.json"
-        : "assets/lottie/reserve_light.json";
-
     Widget mainUserReserveHistory = ListView.builder(
       shrinkWrap: true,
       reverse: true,
@@ -73,8 +68,8 @@ class ReservedTab extends StatelessWidget {
 
     Widget notFoundReservedData = Column(
       children: [
-        Lottie.asset(
-          "assets/lottie/noData.json",
+        Image.asset(
+          "assets/images/emptyBox.png",
           width: 180,
           height: 180,
         ),
