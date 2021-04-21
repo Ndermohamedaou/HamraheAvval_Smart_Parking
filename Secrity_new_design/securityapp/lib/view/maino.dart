@@ -38,8 +38,8 @@ class Maino extends StatefulWidget {
 class _MainoState extends State<Maino> {
   @override
   void initState() {
-    timer = Timer.periodic(Duration(seconds: 60), (timer) => findContent());
-    findContent();
+    // timer = Timer.periodic(Duration(seconds: 60), (timer) => findContent());
+    // findContent();
     super.initState();
   }
 

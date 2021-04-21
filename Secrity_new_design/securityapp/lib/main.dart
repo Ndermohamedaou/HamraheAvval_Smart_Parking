@@ -145,7 +145,7 @@ class _MyAppState extends State<MyApp> {
                   },
                   theme:
                       Styles.themeData(themeChangeProvider.darkTheme, context),
-                  initialRoute: splashScreenRoute,
+                  initialRoute: mainoRoute,
                   routes: {
                     splashScreenRoute: (context) => SplashScreen(),
                     loginRoute: (context) => Login(),

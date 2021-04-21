@@ -77,9 +77,10 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              expandedHeight: 30.0.h,
+              expandedHeight: 29.0.h,
               floating: false,
               pinned: true,
+              backgroundColor: Colors.transparent,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: CustomText(
@@ -90,7 +91,7 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
                 ),
                 background: Image(
                   image: AssetImage("assets/images/searchingByPersCode.png"),
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.cover,
                 ),
               ),
               leading: IconButton(
