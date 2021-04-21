@@ -149,27 +149,8 @@ class _SearchingBySlotState extends State<SearchingBySlot> {
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {
-                  final currentRoutePath = ModalRoute.of(context).settings.name;
-                  if (currentRoutePath != "plateSearch") {
-                    Navigator.pushNamed(context, searchByPlateRoute);
-                  } else
-                    null;
-                }),
-            IconButton(
-                tooltip: slotText,
-                icon: Icon(
-                  Icons.playlist_add_check_rounded,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                onPressed: () {
-                  final currentRoutePath = ModalRoute.of(context).settings.name;
-                  if (currentRoutePath != "slotSearch") {
-                    Navigator.pushNamed(context, searchBySlotRoute);
-                  } else
-                    null;
-                }),
+                onPressed: () =>
+                    Navigator.pushNamed(context, searchByPlateRoute)),
             IconButton(
                 tooltip: personalCodeSearchText,
                 icon: Icon(
@@ -177,13 +158,17 @@ class _SearchingBySlotState extends State<SearchingBySlot> {
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {
-                  final currentRoutePath = ModalRoute.of(context).settings.name;
-                  if (currentRoutePath != "personalSearch") {
-                    Navigator.pushNamed(context, searchByPersCodeRoute);
-                  } else
-                    null;
-                }),
+                onPressed: () =>
+                    Navigator.pushNamed(context, searchByPersCodeRoute)),
+            IconButton(
+                tooltip: searchingByPhotoCapturing,
+                icon: Icon(
+                  Icons.camera_enhance,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () =>
+                    Navigator.pushNamed(context, searchByCameraRoute)),
           ],
         ),
       ),

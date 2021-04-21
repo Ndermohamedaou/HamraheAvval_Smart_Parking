@@ -5,6 +5,7 @@ const loginRoute = "login";
 const searchByPlateRoute = "plateSearch";
 const searchBySlotRoute = "slotSearch";
 const searchByPersCodeRoute = "personalSearch";
+const searchByCameraRoute = "cameraSearch";
 const searchResults = "searchResults";
 const entryCheck = "entryCheck";
 const exitCheck = "exitCheck";

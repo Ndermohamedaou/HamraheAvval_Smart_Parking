@@ -22,6 +22,8 @@ const searchText = "جست و جوی پلاک";
 const slotText = "جست و جوی جايگاه";
 // Side Menu -- searching With Personal code
 const personalCodeSearchText = "جست و جوی با کد پرسنلی";
+// Side Menu -- searching With Personal code
+const searchingByPhotoCapturing = "جست و جوی با گرفتن عکس";
 // Side Menu -- Enter text
 const enterText = "ثبت ورود";
 // Side Menu -- Exit text
@@ -50,6 +52,9 @@ const slotSearchTip =
 
 const persCodeSearchTip =
     "شناسه پرسنلی فرد مورد نظر را وارد کرده تا موقعیت وسیله نقلیه متناسب را دریافت کنید";
+
+const searchingByCameraTextTooltip =
+    "شما در این قسمت باید با استفاده از دوربین تلفن همراه یا از آلبوم تصاویر خود، تصویر وسیله نقلیه مورد نظر را وارد کرده تا مشخصات آن را مشاهده نمایید";
 
 const slotNumberInSearch = "شماره جایگاه";
 

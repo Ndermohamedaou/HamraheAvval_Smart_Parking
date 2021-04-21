@@ -154,13 +154,8 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {
-                  final currentRoutePath = ModalRoute.of(context).settings.name;
-                  if (currentRoutePath != "plateSearch") {
-                    Navigator.pushNamed(context, searchByPlateRoute);
-                  } else
-                    null;
-                }),
+                onPressed: () =>
+                    Navigator.pushNamed(context, searchByPlateRoute)),
             IconButton(
                 tooltip: slotText,
                 icon: Icon(
@@ -168,27 +163,17 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {
-                  final currentRoutePath = ModalRoute.of(context).settings.name;
-                  if (currentRoutePath != "slotSearch") {
-                    Navigator.pushNamed(context, searchBySlotRoute);
-                  } else
-                    null;
-                }),
+                onPressed: () =>
+                    Navigator.pushNamed(context, searchBySlotRoute)),
             IconButton(
-                tooltip: personalCodeSearchText,
+                tooltip: searchingByPhotoCapturing,
                 icon: Icon(
-                  Icons.person_add_alt_1_rounded,
+                  Icons.camera_enhance,
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {
-                  final currentRoutePath = ModalRoute.of(context).settings.name;
-                  if (currentRoutePath != "personalSearch") {
-                    Navigator.pushNamed(context, searchByPersCodeRoute);
-                  } else
-                    null;
-                }),
+                onPressed: () =>
+                    Navigator.pushNamed(context, searchByCameraRoute)),
           ],
         ),
       ),

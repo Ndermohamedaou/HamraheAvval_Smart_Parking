@@ -83,6 +83,13 @@ Widget buildMenu({
           ),
           ListMenu(
             themeChange: themeChange,
+            text: searchingByPhotoCapturing,
+            icon: Icons.camera_enhance,
+            pressedMenu: () =>
+                Navigator.pushNamed(context, searchByCameraRoute),
+          ),
+          ListMenu(
+            themeChange: themeChange,
             text: enterText,
             icon: Icons.login,
             pressedMenu: () => Navigator.pushNamed(context, entryCheck),

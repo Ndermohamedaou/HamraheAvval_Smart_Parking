@@ -29,4 +29,13 @@ class SearchingCar {
       return {};
     }
   }
+
+  Future<Map> searchingByCapturedImage({token, capturedImage}) async {
+    try {
+      return await api.searchingByImage(uToken: token, img: capturedImage);
+    } catch (e) {
+      print("Error from searching by Captured Image: $e");
+      return {};
+    }
+  }
 }

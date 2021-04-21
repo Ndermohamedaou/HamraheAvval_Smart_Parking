@@ -82,13 +82,22 @@ class ApiAccess {
     return res.data;
   }
 
-  // Searching by Slot
+  // Searching by Personal Code
   Future<Map> searchingByPersonalCode({uToken, persCode}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
 
     Response res = await dio
         .post("$baseURL/searchSlot?type=personal_code&personal_code=$persCode");
+    return res.data;
+  }
+
+  // Searching by Captured Image from Sec man
+  Future<Map> searchingByImage({uToken, img}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer $uToken";
+    // TODO: This where will be change
+    Response res = await dio.post("$baseURL/searchSlot?type=image&image=$img");
     return res.data;
   }
 

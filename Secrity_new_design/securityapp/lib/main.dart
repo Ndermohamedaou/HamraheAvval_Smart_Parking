@@ -15,6 +15,8 @@ import 'package:securityapp/view/login.dart';
 import 'package:securityapp/view/maino.dart';
 import 'package:securityapp/view/searchingPlate.dart';
 import 'package:securityapp/view/searchingSlot.dart';
+import 'package:securityapp/view/searchingByCamera.dart';
+import 'package:securityapp/view/searchingByPersonalCode.dart';
 import 'package:securityapp/view/searchResults.dart';
 import 'package:securityapp/view/entryCheck.dart';
 import 'package:securityapp/view/exitCheck.dart';
@@ -25,7 +27,6 @@ import 'package:securityapp/view/confirmation.dart';
 import 'view/bookmarked.dart';
 import 'view/imgProcessResult.dart';
 import 'package:securityapp/view/editePage.dart';
-import 'package:securityapp/view/searchingByPersonalCode.dart';
 import 'package:securityapp/view/settingsView.dart';
 import 'package:securityapp/view/setAppLock.dart';
 import 'package:securityapp/view/savingAppLockPass.dart';
@@ -145,13 +146,16 @@ class _MyAppState extends State<MyApp> {
                   },
                   theme:
                       Styles.themeData(themeChangeProvider.darkTheme, context),
-                  initialRoute: mainoRoute,
+                  initialRoute: splashScreenRoute,
                   routes: {
                     splashScreenRoute: (context) => SplashScreen(),
                     loginRoute: (context) => Login(),
                     mainoRoute: (context) => Maino(),
                     searchByPlateRoute: (context) => SearchByPlate(),
                     searchBySlotRoute: (context) => SearchingBySlot(),
+                    searchByPersCodeRoute: (context) =>
+                        SearchingByPersonalCode(),
+                    searchByCameraRoute: (context) => SearchingByCamera(),
                     searchResults: (context) => SearchResults(),
                     entryCheck: (context) => EntryCheck(),
                     exitCheck: (context) => ExitCheck(),
@@ -166,8 +170,6 @@ class _MyAppState extends State<MyApp> {
                     setAppLock: (context) => SetAppLockOTPView(),
                     savingAppLockPass: (context) => SavingAppLock(),
                     localAuthLocker: (context) => LocalAuthEnter(),
-                    searchByPersCodeRoute: (context) =>
-                        SearchingByPersonalCode(),
                   },
                 ),
               );
