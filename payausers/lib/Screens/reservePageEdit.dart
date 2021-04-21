@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -12,7 +10,6 @@ import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:provider/provider.dart';
 
 // import 'package:flushbar/flushbar.dart';
@@ -27,7 +24,7 @@ int curIndex = 0;
 String datePickedByUser = "";
 // Timing
 int startTime = 1;
-int endTime = 1;
+int endTime = startTime + 1;
 // Plate
 String selectedPlate = "";
 List userPlates = [];
@@ -102,7 +99,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     curIndex = 0;
     datePickedByUser = "";
     startTime = 1;
-    endTime = 1;
+    endTime = startTime + 1;
     selectedPlate = "";
     super.dispose();
   }
@@ -293,7 +290,10 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       TimerPicker(
         startTimeText: startTime,
         endTimeText: endTime,
-        changeStartTime: (startHour) => setState(() => startTime = startHour),
+        changeStartTime: (startHour) => setState(() {
+          startTime = startHour;
+          endTime = startTime + 1;
+        }),
         changeEndTime: (endHour) => setState(() => endTime = endHour),
       ),
       PlatePicker(

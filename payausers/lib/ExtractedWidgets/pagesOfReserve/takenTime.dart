@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/Screens/reserveView.dart';
 
 class TimerPicker extends StatelessWidget {
   const TimerPicker({
@@ -36,7 +37,8 @@ class TimerPicker extends StatelessWidget {
             ),
           ),
           SizedBox(height: 30),
-          HourPicker(hourTime: startTimeText, changedTime: changeStartTime),
+          HourPicker(
+              hourTime: startTimeText, changedTime: changeStartTime, minVal: 1),
           SizedBox(height: 30),
           Text(
             "ساعت پایان",
@@ -47,7 +49,10 @@ class TimerPicker extends StatelessWidget {
             ),
           ),
           SizedBox(height: 30),
-          HourPicker(hourTime: endTimeText, changedTime: changeEndTime),
+          HourPicker(
+              hourTime: endTimeText,
+              changedTime: changeEndTime,
+              minVal: startTimeText + 1),
         ],
       ),
     );
@@ -55,21 +60,19 @@ class TimerPicker extends StatelessWidget {
 }
 
 class HourPicker extends StatelessWidget {
-  const HourPicker({
-    Key key,
-    this.hourTime,
-    this.changedTime,
-  }) : super(key: key);
+  const HourPicker({Key key, this.hourTime, this.changedTime, this.minVal})
+      : super(key: key);
 
   final int hourTime;
   final Function changedTime;
+  final minVal;
 
   @override
   Widget build(BuildContext context) {
     return NumberPicker(
       haptics: true,
       value: hourTime,
-      minValue: 1,
+      minValue: minVal,
       maxValue: 24,
       axis: Axis.horizontal,
       textStyle: TextStyle(
