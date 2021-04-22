@@ -83,7 +83,7 @@ class Settings extends StatelessWidget {
                 textDirection: TextDirection.rtl,
                 children: [
                   MaterialButton(
-                    color: mainCTA,
+                    color: Colors.red,
                     minWidth: 45.0.w,
                     onPressed: () async {
                       FlutterSecureStorage lds = FlutterSecureStorage();
