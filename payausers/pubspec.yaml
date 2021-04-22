@@ -69,7 +69,8 @@ flutter:
     - family: BYekan
       fonts:
         - asset: assets/fonts/byekan/BYEKAN.TTF
+  
 
-    - family: OpenSans
+    - family: IranSanse
       fonts:
-        - asset: assets/fonts/opensans/OpenSans-Regular.ttf
+        - asset: assets/fonts/iranSanse/IRAN Sans Regular (mmrostami.blog.ir).ttf
