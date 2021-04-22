@@ -52,7 +52,7 @@ class TimerPicker extends StatelessWidget {
           HourPicker(
               hourTime: endTimeText,
               changedTime: changeEndTime,
-              minVal: startTimeText + 1),
+              minVal: startTimeText == 24 ? 1 : startTimeText + 1),
         ],
       ),
     );

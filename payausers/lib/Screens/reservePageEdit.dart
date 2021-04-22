@@ -292,7 +292,10 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         endTimeText: endTime,
         changeStartTime: (startHour) => setState(() {
           startTime = startHour;
-          endTime = startTime + 1;
+          if (startTime != 24)
+            endTime = startTime + 1;
+          else
+            endTime = 1;
         }),
         changeEndTime: (endHour) => setState(() => endTime = endHour),
       ),
