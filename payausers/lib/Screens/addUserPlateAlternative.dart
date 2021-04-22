@@ -153,7 +153,7 @@ class _AddUserPlatAlternative extends State<AddUserPlatAlternative> {
                     Container(
                       width: 60,
                       height: 70,
-                      margin: EdgeInsets.only(top: 7),
+                      margin: EdgeInsets.only(top: 0),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(
                           value: _value,
