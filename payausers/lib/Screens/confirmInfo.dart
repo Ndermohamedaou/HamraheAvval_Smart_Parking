@@ -30,6 +30,7 @@ dynamic emptyTextFieldErrRePassword = null;
 ApiAccess api = ApiAccess();
 FlutterSecureStorage lds = FlutterSecureStorage();
 SavingData savingData = SavingData();
+ImageConvetion imgConvertor = ImageConvetion();
 
 IconData showMePass = Icons.remove_red_eye;
 bool protectedPassword = true;
@@ -76,7 +77,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     // print(userInfo);
 
     void gettingLogin({uToken, curPass, pass, rePass, avatar}) async {
-      final _img64 = await img2Base64(avatar);
+      final _img64 = await imgConvertor.img2Base64(avatar);
       if (pass != "" && rePass != "") {
         if (pass.length > 6 && rePass.length > 6) {
           if (pass == rePass) {

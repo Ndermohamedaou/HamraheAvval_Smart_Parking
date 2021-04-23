@@ -61,6 +61,9 @@ HexColor familyPlate = HexColor("#088349");
 HexColor familyPlateInfoIcon = HexColor("#BBE5CF");
 HexColor otherPlate = HexColor("#FF3710");
 HexColor otherPlateInfoIcon = HexColor("#FFCBBC");
+HexColor subtitleInIntro = HexColor("#5D5D5D");
+HexColor deactiveIndicator = HexColor("#E2E2E2");
+HexColor bgOfChoice = HexColor("#EBEBEB");
 
 // Tile font size
 const double mainFontSize = 18;

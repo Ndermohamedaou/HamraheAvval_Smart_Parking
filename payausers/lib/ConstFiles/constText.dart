@@ -134,9 +134,9 @@ const introSec1Title = "اضافه کردن پلاک به همراه اسناد
 const introSec1Subtitle =
     "اسنادي که در هر مرحله از شما خواسته ميشودرا براي سامانه ارسال کنيد";
 const introSec2Title =
-    "براساس موقعيت  حاضر خود اقدام به وارد کردن  اطلاعات به يکي از روش هاي زير کنيد";
+    "براساس موقعيت حاضر خود اقدام به وارد کردن اطلاعات به يکي از روش هاي زير کنيد";
 const introSec2Subtitle =
-    "به خاطر داشته باشيد که اطلاعات بايد با صحت کامل به سامانه توسط شما وارد شود و در صورت اشتباه بايد دوباره اقدام به  اضافه کردن پلاک خود کنيد";
+    "به خاطر داشته باشید که اطلاعات باید با صحت کامل وارد سامانه شود و در صورت اشتباه در یکی از فرایند ها باید دوباره و با دقت این کار صورت گیرد";
 
 const minePlateTitleText = "پلاک براي خودم است";
 const minePlateDescText =
@@ -151,6 +151,7 @@ const otherPlateDscText =
 // - Section App Bar
 const addPlateNumAppBar = "شماره پلاک را وارد کنید";
 const nationalCardAppBar = "تصویر کارت ملی شما";
+const carCardAppBar = "تصویر کارت وسیله نقلیه شما";
 const ownerNationalCardAppBar = "تصویر کارت ملی مالک وسیله نقلیه";
 const ownerCarCardAppBar = "تصویر کارت وسیله نقلیه مالک";
 

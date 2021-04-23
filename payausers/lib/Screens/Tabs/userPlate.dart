@@ -205,9 +205,7 @@ class AppBarAsNavigate extends StatelessWidget {
                       Icons.add,
                       color: Colors.white,
                     )),
-                onTap: () => Navigator.pushNamed(
-                    context, "/addUserplateAlternative",
-                    arguments: {"route": "pop"}),
+                onTap: () => Navigator.pushNamed(context, "/addingPlateIntro"),
               ),
             ),
           ),

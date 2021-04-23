@@ -1,4 +1,5 @@
 import 'package:liquid_ui/liquid_ui.dart';
+
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,10 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:provider/provider.dart';
 
 // Screens
+import 'Screens/addingPlateIntro.dart';
+import 'package:payausers/Screens/familyPage.dart';
+import 'package:payausers/Screens/minePlate.dart';
+import 'package:payausers/Screens/otherPlateView.dart';
 import 'Screens/auth_entered_users.dart';
 import 'Screens/enableAppLock.dart';
 import 'Screens/splashScreen.dart';
@@ -96,6 +101,10 @@ class _MyAppState extends State<MyApp> {
                     '/dashboard': (context) => Maino(),
                     '/addReserve': (context) => ReservedTab(),
                     '/myPlate': (context) => MYPlateScreen(),
+                    '/addingPlateIntro': (context) => AddingPlateIntro(),
+                    '/addingMinPlate': (context) => MinPlateView(),
+                    '/addingFamilyPage': (context) => FamilyPlateView(),
+                    '/addingOtherPlate': (context) => OtherPageView(),
                     '/settings': (context) => SettingsPage(),
                     '/changePassword': (context) => ChangePassPage(),
                     '/reserveEditaion': (context) => ReserveEditaion(),

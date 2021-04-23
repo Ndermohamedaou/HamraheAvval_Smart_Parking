@@ -29,6 +29,7 @@ String userSection = "";
 File imgSource;
 ApiAccess api = ApiAccess();
 FlutterSecureStorage lds = FlutterSecureStorage();
+ImageConvetion imgConvertor = ImageConvetion();
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -93,7 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
       try {
         if (imgSource != null) {
           // Go to Controller/changeAvatar.dart
-          String result = await sendingImage(imgSource);
+          String result = await imgConvertor.sendingImage(imgSource);
           if (result == "200") {
             // print(result);
             final uToken = await lds.read(key: "token");
