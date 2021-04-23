@@ -129,6 +129,37 @@ const sendServerFailed = "آواتار در سرور ثبت نشد";
 const sendDenied = "ثبت تصویر جدید لغو شد";
 const chPass = "تغییر گذرواژه";
 
+// Adding Plate section texts
+const introSec1Title = "اضافه کردن پلاک به همراه اسنادخواسته شده";
+const introSec1Subtitle =
+    "اسنادي که در هر مرحله از شما خواسته ميشودرا براي سامانه ارسال کنيد";
+const introSec2Title =
+    "براساس موقعيت  حاضر خود اقدام به وارد کردن  اطلاعات به يکي از روش هاي زير کنيد";
+const introSec2Subtitle =
+    "به خاطر داشته باشيد که اطلاعات بايد با صحت کامل به سامانه توسط شما وارد شود و در صورت اشتباه بايد دوباره اقدام به  اضافه کردن پلاک خود کنيد";
+
+const minePlateTitleText = "پلاک براي خودم است";
+const minePlateDescText =
+    "براي اين منظور بايستي پلاک وسيله نقليه مورد نظر را به همراه تصوير کارت ملي خود با استفاده از دوربين دستگاه براي سامانه ارسال کنيد";
+const familyPlateTitleText = "پلاک براي افراد درجه يک است";
+const familyPlateDscText =
+    "براي اين منظور بايستي پلاک وسيله نقليه مورد نظر را به همراه تصوير کارت ملي خود و صاحب وسيله نقليه و کارت وسيله نقليه را  براي  سامانه ارسال کنيد";
+const otherPlateText = "پلاک براي من نيست";
+const otherPlateDscText =
+    "براي اين منظور بايستي پلاک وسيله نقليه مورد نظر را در سامانه وارد  کرده و به صورت حضوري مراجعه نماييد تا فرايند ثبت پلاک شما با موفقيت انجام شود";
+
+// - Section App Bar
+const addPlateNumAppBar = "شماره پلاک را وارد کنید";
+const nationalCardAppBar = "تصویر کارت ملی شما";
+const ownerNationalCardAppBar = "تصویر کارت ملی مالک وسیله نقلیه";
+const ownerCarCardAppBar = "تصویر کارت وسیله نقلیه مالک";
+
+// Attention in page view
+const attentionToConfidance =
+    "تا آنجایی که میتوانید سعی کنید تصویرتان را به صورت کامل از کارت خواسته شده بگیرید.";
+const captureImage = "گرفتن تصویر";
+const useAlbumImage = "بازکردن آلبوم";
+
 // Changing password
 const changePassText = "ویرایش گذرواژه";
 const setNewPassText = "ثبت گذرواژه جدید";

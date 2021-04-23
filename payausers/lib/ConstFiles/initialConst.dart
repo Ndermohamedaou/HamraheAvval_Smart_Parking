@@ -54,6 +54,14 @@ HexColor lightBar = HexColor("#FFFFFF");
 HexColor darkBar = HexColor("#191A1B");
 HexColor bgColorTrendingUp = HexColor("#D9E1F3");
 
+// Adding plate section Colors
+HexColor minPlate = HexColor("#1A64DD");
+HexColor minPlateInfoIcon = HexColor("#C2DAFF");
+HexColor familyPlate = HexColor("#088349");
+HexColor familyPlateInfoIcon = HexColor("#BBE5CF");
+HexColor otherPlate = HexColor("#FF3710");
+HexColor otherPlateInfoIcon = HexColor("#FFCBBC");
+
 // Tile font size
 const double mainFontSize = 18;
 const double subFontSize = 12;
