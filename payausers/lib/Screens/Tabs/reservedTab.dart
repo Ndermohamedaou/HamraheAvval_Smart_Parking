@@ -5,16 +5,14 @@ import 'package:payausers/Classes/AlphabetClassList.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/miniReserveHistory.dart';
-import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
-import 'package:payausers/Screens/addUserPlateAlternative.dart';
+import 'package:payausers/controller/reservePlatePrepare.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-AlphabetList alp = AlphabetList();
+PreparedPlate preparedPlate = PreparedPlate();
 
 class ReservedTab extends StatelessWidget {
   const ReservedTab({
@@ -79,16 +77,11 @@ class ReservedTab extends StatelessWidget {
       primary: false,
       itemCount: reserves != null ? reservListLen : null,
       itemBuilder: (BuildContext context, index) {
-        List perment = reserves[index]['plate'].split("-");
-        var plate0 = "${perment[0]}";
-        var plate1 = "${alp.getAlp()[perment[1]]}";
-        var plate2 = "${perment[2].substring(0, 3)}";
-        var plate3 = "${perment[2].substring(3, 5)}";
-        List orderedPlate = [plate0, plate1, plate2, plate3];
         return SingleChildScrollView(
           child: GestureDetector(
             onTap: () => openDetailsInModal(
-              plate: orderedPlate,
+              plate: preparedPlate.preparePlateInReserve(
+                  rawPlate: reserves[index]['plate']),
               building: reserves[index]["building"] != null
                   ? reserves[index]["building"]
                   : "",
