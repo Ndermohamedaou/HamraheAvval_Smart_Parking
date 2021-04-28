@@ -122,6 +122,7 @@ class IntroInfo extends StatelessWidget {
           Image.asset(
             "assets/images/AddingPlateSectionIntro.png",
             width: 100.0.w,
+            filterQuality: FilterQuality.low,
             // height: 10.0.h,
           ),
           SizedBox(height: 1.0.h),

@@ -174,8 +174,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         Directionality(
           textDirection: TextDirection.rtl,
           child: ElevatedButton.icon(
-            onPressed: () =>
-                Navigator.pushNamed(context, "/addUserplateAlternative"),
+            onPressed: () => Navigator.pushNamed(context, "/addingPlateIntro"),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(mainCTA)),
             icon: Icon(Icons.add, size: 18),

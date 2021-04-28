@@ -239,23 +239,27 @@ class ReservedTab extends StatelessWidget {
                                 fontSize: subTitleSize,
                                 fontWeight: FontWeight.bold),
                           ),
-                          ClipOval(
-                            child: Material(
-                              color: mainCTA, // button color
-                              child: InkWell(
-                                splashColor: mainSectionCTA, // inkwell color
-                                child: SizedBox(
-                                    width: 46,
-                                    height: 46,
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                    )),
-                                onTap: () => Navigator.pushNamed(
-                                    context, "/reserveEditaion"),
+                          StreamBuilder(
+                              // stream: ,
+                              builder: (context, snapshot) {
+                            return ClipOval(
+                              child: Material(
+                                color: mainCTA, // button color
+                                child: InkWell(
+                                  splashColor: mainSectionCTA, // inkwell color
+                                  child: SizedBox(
+                                      width: 46,
+                                      height: 46,
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      )),
+                                  onTap: () => Navigator.pushNamed(
+                                      context, "/reserveEditaion"),
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          }),
                         ]),
                   ),
                 ),
