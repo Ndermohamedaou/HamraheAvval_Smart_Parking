@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:liquid_ui/liquid_ui.dart';
-
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +33,44 @@ import 'package:payausers/Screens/reserveView.dart';
 import 'package:payausers/Screens/set_biometric.dart';
 import 'package:payausers/Screens/termsOfServicePage.dart';
 
-void main() {
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+// Backgroud Worker
+Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background Message ${message.messageId}");
+  print(message.notification.title);
+  print(message.notification.body);
+  flutterLocalNotificationsPlugin.show(
+      message.notification.hashCode,
+      message.notification.title,
+      message.notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channel.description,
+          icon: '@minmap/ic_auncher',
+        ),
+      ));
+}
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  "id",
+  "name",
+  "description",
+  importance: Importance.high,
+);
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessaginBackgroundHandler);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
   runApp(MyApp());
 }
 
@@ -50,6 +89,54 @@ class _MyAppState extends State<MyApp> {
     // Getting Current App Theme (dark or light)
     getCurrentAppTheme();
     getCurrentAppLockPassStatus();
+
+    var initializationAndroidSetting =
+        AndroidInitializationSettings("@minmap/ic_auncher");
+    // iOS Config in permission and did receive
+    final IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings(
+            requestAlertPermission: true,
+            requestBadgePermission: true,
+            requestSoundPermission: true,
+            onDidReceiveLocalNotification:
+                (int id, String title, String body, String payload) async {});
+
+    // Set config for Android and iOS
+    var initializationSettings = InitializationSettings(
+      android: initializationAndroidSetting,
+      iOS: initializationSettingsIOS,
+    );
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    // Getting token
+    gettingDeviceToken();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification;
+      AndroidNotification android = message.notification?.android;
+
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                channel.description,
+                icon: 'launch_background',
+              ),
+            ));
+      }
+    });
+  }
+
+  void gettingDeviceToken() async {
+    try {
+      final user_device_token = await FirebaseMessaging.instance.getToken();
+      print(user_device_token);
+    } catch (e) {
+      print("Error in Getting Token => $e");
+    }
   }
 
   void getCurrentAppTheme() async {

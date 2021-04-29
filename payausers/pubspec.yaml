@@ -20,7 +20,7 @@ dependencies:
   carousel_slider: ^2.3.1
   time_range: ^0.5.0
   dio: ^4.0.0
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.5
   provider: ^4.3.2+2
   image_picker: 
   # image_native_resizer: ^0.1.2
@@ -50,6 +50,10 @@ dependencies:
   cool_alert: ^1.0.3
   liquid_pull_to_refresh: ^1.2.0
   numberpicker: ^2.1.1
+  firebase_messaging: ^9.1.3
+  firebase_analytics: ^8.0.2
+  firebase_core: ^1.1.0
+  flutter_local_notifications: ^5.0.0+3
 
 dev_dependencies:
   flutter_test:

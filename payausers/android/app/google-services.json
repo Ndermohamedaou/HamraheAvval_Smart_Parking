@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "101311359139",
+    "project_id": "payacprnotifi",
+    "storage_bucket": "payacprnotifi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101311359139:android:64cad08a1d5e6955ab7716",
+        "android_client_info": {
+          "package_name": "com.example.payausers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101311359139-sndgsv9fvlh08cubh5b28rqk4bj4b9gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8YIAdbLAY-JwO8XT6H-4OqNYPET_Bi-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101311359139-sndgsv9fvlh08cubh5b28rqk4bj4b9gl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
