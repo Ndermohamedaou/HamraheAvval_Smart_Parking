@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 class ApiAccess {
   Dio dio = Dio();
 
-  Future<Map> getAccessToLogin({email, password}) async {
-    Response res =
-        await dio.post("$baseUrl/login?email=$email&password=$password");
+  Future<Map> getAccessToLogin({email, password, deviceToken}) async {
+    Response res = await dio.post(
+        "$baseUrl/login?email=$email&password=$password&DeviceToken=$deviceToken");
     return res.data;
   }
 
@@ -59,12 +59,47 @@ class ApiAccess {
     return response.data;
   }
 
-  Future<String> addUserPlate({token, lsPlate}) async {
+  // Info For adding plate by documents
+  // car_card_image
+  // melli_card_image
+  // melli_card_owner
+  Future<String> addSelfPlate(
+      {token, lsPlate, selfMelliCard, selfCarCard}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
-    // print("This is from API Class => ${lsPlate[3]}");
+
     Response response = await dio.post(
-        "$baseUrl/addUserPlate?plate0=${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}");
+        "$baseUrl/uploadDocuments?type=self&plate0=${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}",
+        data: {
+          "melli_card_image": selfMelliCard,
+          "car_card_image": selfCarCard,
+        });
+    // print(response.data);
+    return response.data;
+  }
+
+  Future<String> addFamilyPlate(
+      {token, lsPlate, selfMelliCard, ownerCarCard, ownerMelliCard}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+
+    Response response = await dio.post(
+        "$baseUrl/uploadDocuments?type=family&plate0=${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}",
+        data: {
+          "melli_card_image": selfMelliCard,
+          "melli_card_owner": ownerMelliCard,
+          "car_card_image": ownerCarCard,
+        });
+    // print(response.data);
+    return response.data;
+  }
+
+  Future<String> addOtherPlate({token, lsPlate}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+
+    Response response = await dio.post(
+        "$baseUrl/uploadDocuments?type=other&plate0=${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}");
     // print(response.data);
     return response.data;
   }
@@ -105,6 +140,14 @@ class ApiAccess {
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post(
         "$baseUrl/changePassword?current_password=$curPass&new_password=$newPass");
+    // print("From API CLASS $response.data");
+    return response.data;
+  }
+
+  Future<String> cancelingReserve({token, reservID}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.post("$baseUrl/cancelReserve?id=$reservID");
     // print("From API CLASS $response.data");
     return response.data;
   }

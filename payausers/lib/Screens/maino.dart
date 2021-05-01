@@ -287,6 +287,23 @@ class _MainoState extends State<Maino> {
     }
   }
 
+  // Delete and Canceling users reseved
+  void delReserve({reserveID}) async {
+    try {
+      String caneclingResult =
+          await api.cancelingReserve(token: userToken, reservID: reserveID);
+      print(caneclingResult);
+      // showStatusInCaseOfFlush(
+      //     context: context,
+      //     title: "",
+      //     msg: sendSuccessful,
+      //     iconColor: Colors.green,
+      //     icon: Icons.done_outline);
+    } catch (e) {
+      print("Error from Canceling Reserve $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //  Dark Theme Changer
@@ -435,6 +452,8 @@ class _MainoState extends State<Maino> {
                     Navigator.pop(context);
                   },
                   loadingReserves: isLoadReserves,
+                  deletingReserve: ({reserveID}) =>
+                      delReserve(reserveID: reserveID),
                 ),
                 AddUserPlate(),
                 Settings(

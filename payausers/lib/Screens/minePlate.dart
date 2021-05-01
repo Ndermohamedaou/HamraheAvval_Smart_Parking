@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -21,6 +22,7 @@ int pageIndex = 0;
 PageController _pageController;
 List appBarTitle = [];
 AddPlateProc addPlateProc = AddPlateProc();
+FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
 
 // Plate Modifire
@@ -31,6 +33,7 @@ dynamic themeChange;
 int _value = 0;
 File ncCard;
 File carCard;
+bool isAddingDocs = true;
 
 class _MinPlateViewState extends State<MinPlateView> {
   @override
@@ -44,6 +47,7 @@ class _MinPlateViewState extends State<MinPlateView> {
     _value = 0;
     ncCard = null;
     carCard = null;
+    isAddingDocs = true;
     super.initState();
   }
 
@@ -95,22 +99,57 @@ class _MinPlateViewState extends State<MinPlateView> {
         plate3 != "" &&
         nationalCardImg != null &&
         carCardImg != null) {
-      String _ncImage64 = await imgConvertor.img2Base64(nationalCardImg);
-      String _ccImage64 = await imgConvertor.img2Base64(carCardImg);
-      // Loading will be create
-      // TODO: Connect this where to Controller
-      // if result of Controller into connected an api is true
-      // and only in true result will save a data in lds to confrim from Confirmation page view
-      // show alert => success and do following action
-      // int count = 0;
-      // Navigator.popUntil(context, (route) {
-      //   return count++ == 2;
-      // });
-      // else if result of api is false
-      // Laoding => false
-      // alert => faild and do above action
+      setState(() => isAddingDocs = false);
+      final uToken = await lds.read(key: "token");
+      List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
+      String _selfMelliCardImg = await imgConvertor.img2Base64(nationalCardImg);
+      String _selfCarCardImg = await imgConvertor.img2Base64(carCardImg);
 
-    } else {}
+      // print(uToken);
+      // print(lsPlate);
+      // print(_selfMelliCardImg);
+      // print(_selfCarCardImg);
+
+      bool result = await addPlateProc.minePlateReq(
+        token: uToken,
+        plate: lsPlate,
+        selfMelli: _selfMelliCardImg,
+        selfCarCard: _selfCarCardImg,
+      );
+
+      if (result) {
+        // Prevent to twice tapping happen
+        setState(() => isAddingDocs = true);
+        // Twice poping
+        int count = 0;
+        Navigator.popUntil(context, (route) {
+          return count++ == 2;
+        });
+        showStatusInCaseOfFlush(
+            context: context,
+            title: successfullPlateAddTitle,
+            msg: successfullPlateAddDsc,
+            iconColor: Colors.green,
+            icon: Icons.done_outline);
+      } else {
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: errorPlateAddTitle,
+            msg: errorPlateAddDsc,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+    } else {
+      setState(() => isAddingDocs = true);
+
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "اطلاعات خود را تکمیل کنید",
+          msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+          iconColor: Colors.red,
+          icon: Icons.close);
+    }
   }
 
   @override
@@ -156,6 +195,7 @@ class _MinPlateViewState extends State<MinPlateView> {
         ),
       ),
       bottomNavigationBar: BottomButton(
+        hasCondition: isAddingDocs,
         text: pageIndex == 2 ? "ثبت اطلاعات" : nextLevel1,
         ontapped: () => pageIndex == 2
             ? addPlateProcInNow(

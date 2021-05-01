@@ -25,15 +25,25 @@ class BottomButton extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: loginBtnTxtColor,
-                      fontFamily: mainFaFontFamily,
-                      fontSize: 15.0.sp,
-                      fontWeight: FontWeight.bold),
-                ),
+                !hasCondition
+                    ? Container(
+                        width: 10,
+                        height: 10,
+                        child: CircularProgressIndicator(
+                          backgroundColor: mainCTA,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: loginBtnTxtColor,
+                            fontFamily: mainFaFontFamily,
+                            fontSize: btnSized,
+                            fontWeight: FontWeight.bold),
+                      ),
                 Icon(
                   Icons.chevron_right,
                   color: Colors.white,

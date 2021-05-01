@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/Classes/AlphabetClassList.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -26,6 +25,7 @@ class ReservedTab extends StatelessWidget {
     this.reserveRefreshController,
     this.refreshFunction,
     this.loadingReserves,
+    this.deletingReserve,
   });
 
   final mainThemeColor;
@@ -38,11 +38,13 @@ class ReservedTab extends StatelessWidget {
   final reserveRefreshController;
   final refreshFunction;
   final bool loadingReserves;
+  final Function deletingReserve;
 
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     void openDetailsInModal({
+      reservID,
       List plate,
       startTime,
       endTime,
@@ -64,7 +66,7 @@ class ReservedTab extends StatelessWidget {
               building: building,
               slot: slot,
               themeChange: themeChange,
-              delReserve: () => print("Delete Success full"),
+              delReserve: () => deletingReserve(reserveID: reservID),
             ),
           ),
         ),
@@ -80,6 +82,7 @@ class ReservedTab extends StatelessWidget {
         return SingleChildScrollView(
           child: GestureDetector(
             onTap: () => openDetailsInModal(
+              reservID: reserves[index]["id"],
               plate: preparedPlate.preparePlateInReserve(
                   rawPlate: reserves[index]['plate']),
               building: reserves[index]["building"] != null

@@ -14,8 +14,9 @@ void sendNewUserPlate(p0, p1, p2, p3, context, themeChange, dst) async {
     // print("This is from App method => ${orderedPlate[3]}");
     final uToken = await lds.read(key: "token");
     try {
-      String result =
-          await api.addUserPlate(token: uToken, lsPlate: orderedPlate);
+      // String result =
+      //     await api.addUserPlate(token: uToken, lsPlate: orderedPlate);
+      String result;
       if (result == "MaxPlateCount") {
         alert(
             aType: AlertType.warning,
