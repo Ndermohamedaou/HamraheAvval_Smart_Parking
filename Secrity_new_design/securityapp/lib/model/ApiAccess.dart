@@ -96,8 +96,9 @@ class ApiAccess {
   Future<Map> searchingByImage({uToken, img}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
-    // TODO: This where will be change
-    Response res = await dio.post("$baseURL/searchSlot?type=image&image=$img");
+
+    Response res = await dio.post("$baseURL/searchSlot?type=image_plate",
+        data: {"plate_image": img});
     return res.data;
   }
 

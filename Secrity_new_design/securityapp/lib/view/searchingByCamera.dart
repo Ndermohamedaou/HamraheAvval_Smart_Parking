@@ -45,15 +45,39 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
         // First getting token form Flutter local storage
         final lStorage = FlutterSecureStorage();
         final token = await lStorage.read(key: "uToken");
+        // Getting only result from searched
+        // image (Image processing on the plate number)
         Map result = await searchMethod.searchingByCapturedImage(
             token: token, capturedImage: capturedImage);
-        //TODO: Check this where if result has problem
-        if (result["meta"] != null) {
-          // Navigator.pushNamed(
-          //   context,
-          //   searchResults,
-          //   arguments: result["meta"][0],
-          // );
+
+        print(result);
+
+        if (result.isNotEmpty) {
+          if (result["status"] == 100) {
+            // print()
+            // List plateArr = [];
+            // List result = await searchMethod.searchingByPlate(
+            //     token: token, plates: plateArr);
+            // // print(result);
+            // if (result.isNotEmpty)
+            //   Navigator.pushNamed(context, searchResults, arguments: result[0]);
+            // else
+            //   showStatusInCaseOfFlush(
+            //     context: context,
+            //     title: notFoundTitle,
+            //     msg: notFoundDsc,
+            //     icon: Icons.close,
+            //     iconColor: Colors.red,
+            //   );
+          } else {
+            showStatusInCaseOfFlush(
+              context: context,
+              title: notFoundTitle,
+              msg: notFoundDsc,
+              icon: Icons.close,
+              iconColor: Colors.red,
+            );
+          }
         } else
           showStatusInCaseOfFlush(
             context: context,
