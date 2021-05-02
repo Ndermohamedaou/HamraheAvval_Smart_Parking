@@ -132,7 +132,7 @@ class _MyAppState extends State<MyApp> {
   void gettingDeviceToken() async {
     try {
       final user_device_token = await FirebaseMessaging.instance.getToken();
-      print(user_device_token);
+      print("DUT ====> $user_device_token");
     } catch (e) {
       print("Error in Getting Token => $e");
     }
