@@ -1,83 +1,22 @@
-import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
-import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
-import 'package:payausers/controller/alert.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
-List userPlates = [];
-ApiAccess api = ApiAccess();
-FlutterSecureStorage lds = FlutterSecureStorage();
+class UserPlates extends StatelessWidget {
+  const UserPlates({this.userPlates, this.delUserPlate});
 
-class AddUserPlate extends StatefulWidget {
-  @override
-  _AddUserPlateState createState() => _AddUserPlateState();
-}
-
-class _AddUserPlateState extends State<AddUserPlate> {
-  @override
-  void initState() {
-    super.initState();
-
-    Timer.periodic(Duration(seconds: 10), (timer) {
-      gettingPlateRealTime();
-    });
-    gettingPlateRealTime();
-  }
-
-  void gettingPlateRealTime() {
-    gettingMyPlates().then((plate) {
-      setState(() {
-        userPlates = plate;
-      });
-    });
-  }
-
-  Future<List> gettingMyPlates() async {
-    ApiAccess api = ApiAccess();
-    FlutterSecureStorage lds = FlutterSecureStorage();
-    final userToken = await lds.read(key: "token");
-    final plates = await api.getUserPlate(token: userToken);
-    return plates;
-  }
+  final List userPlates;
+  final Function delUserPlate;
 
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-
-    // print(userPlates);
-    void delUserPlate(id) async {
-      try {
-        final userToken = await lds.read(key: "token");
-        final delStatus = await api.delUserPlate(token: userToken, id: id);
-        if (delStatus == "200") {
-          alert(
-              context: context,
-              aType: AlertType.success,
-              title: delProcSucTitle,
-              desc: delProcDesc,
-              themeChange: themeChange,
-              dstRoute: "dashboard");
-        }
-        gettingMyPlates();
-      } catch (e) {
-        alert(
-            aType: AlertType.warning,
-            title: delProcFailTitle,
-            desc: delProcFailDesc);
-      }
-    }
 
     Widget plates = ListView.builder(
       shrinkWrap: true,
@@ -125,9 +64,8 @@ class _AddUserPlateState extends State<AddUserPlate> {
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
                         ),
-                        onPressed: () {
-                          delUserPlate(userPlates[index]['id']);
-                        }),
+                        onPressed: () =>
+                            delUserPlate(plateID: userPlates[index]['id'])),
                   ],
                   cancelAction: CancelAction(
                     title: 'لغو',
@@ -143,7 +81,6 @@ class _AddUserPlateState extends State<AddUserPlate> {
         ));
       },
     );
-
     Widget searchingProcess = Column(
       children: [
         Lottie.asset(
@@ -155,18 +92,14 @@ class _AddUserPlateState extends State<AddUserPlate> {
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
       ],
     );
-
     final plateContext = userPlates.isEmpty ? searchingProcess : plates;
-
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              AppBarAsNavigate(),
-              plateContext,
-            ],
-          ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            AppBarAsNavigate(),
+            plateContext,
+          ],
         ),
       ),
     );

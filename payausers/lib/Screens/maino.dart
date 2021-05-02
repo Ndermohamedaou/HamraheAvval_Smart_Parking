@@ -8,6 +8,7 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
@@ -16,6 +17,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'Tabs/userPlate.dart';
 import 'Tabs/userTraffic.dart';
@@ -52,6 +54,9 @@ String lenOfReserve = "";
 String lenOfUserPlate = "";
 String locationBuilding = "";
 String slotNumberInSituation = "";
+
+// User PLates view
+List userPlates = [];
 
 // Loading Buffer
 bool isLoadTraffics = false;
@@ -170,6 +175,12 @@ class _MainoState extends State<Maino> {
         slotNumberInSituation = situation["slotNo"];
       });
     });
+
+    gettingMyPlates().then((plate) {
+      setState(() {
+        userPlates = plate;
+      });
+    });
   }
 
   Future<Map> getStaffInfoFromLocal() async {
@@ -257,6 +268,40 @@ class _MainoState extends State<Maino> {
       setState(() => isLoadReserves = false);
       print(e);
       return [];
+    }
+  }
+
+  // Real View in Bottom Navigation Bar
+  // and View in User Plates
+  Future<List> gettingMyPlates() async {
+    try {
+      final plates = await api.getUserPlate(token: userToken);
+      return plates;
+    } catch (e) {
+      print("Erorr from loading User Plates view ===> $e");
+    }
+  }
+
+  // Deleting User Selected Plate
+  void delUserPlate(id) async {
+    try {
+      final userToken = await lds.read(key: "token");
+      final delStatus = await api.delUserPlate(token: userToken, id: id);
+      if (delStatus == "200") {
+        alert(
+            context: context,
+            aType: AlertType.success,
+            title: delProcSucTitle,
+            desc: delProcDesc,
+            themeChange: themeChange,
+            dstRoute: "dashboard");
+      }
+      gettingMyPlates();
+    } catch (e) {
+      alert(
+          aType: AlertType.warning,
+          title: delProcFailTitle,
+          desc: delProcFailDesc);
     }
   }
 
@@ -455,7 +500,10 @@ class _MainoState extends State<Maino> {
                   deletingReserve: ({reserveID}) =>
                       delReserve(reserveID: reserveID),
                 ),
-                AddUserPlate(),
+                UserPlates(
+                  userPlates: userPlates,
+                  delUserPlate: ({plateID}) => delUserPlate(plateID),
+                ),
                 Settings(
                   fullNameMeme: name,
                   avatarMeme: avatar != ""
