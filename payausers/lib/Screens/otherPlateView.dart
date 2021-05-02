@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -18,6 +19,7 @@ class OtherPageView extends StatefulWidget {
 }
 
 AddPlateProc addPlateProc = AddPlateProc();
+FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
 
 // Plate Modifire
@@ -25,6 +27,7 @@ String plate0 = "";
 String plate2 = "";
 String plate3 = "";
 int _value = 0;
+bool isAddingDocs = true;
 
 class _OtherPageViewState extends State<OtherPageView> {
   @override
@@ -33,7 +36,7 @@ class _OtherPageViewState extends State<OtherPageView> {
     plate2 = "";
     plate3 = "";
     _value = 0;
-
+    isAddingDocs = true;
     super.initState();
   }
 
@@ -44,12 +47,49 @@ class _OtherPageViewState extends State<OtherPageView> {
 
   void addPlateProcInNow({plate0, plate1, plate2, plate3}) async {
     if (plate0 != "" && plate1 != null && plate2 != "" && plate3 != "") {
-      // TODO: Connect this where to Controller
-      print(plate0);
-      print(plate1);
-      print(plate2);
-      print(plate3);
-    } else {}
+// |      print(plate0);
+//       print(plate1);
+//       print(plate2);
+//       print(plate3);
+      setState(() => isAddingDocs = false);
+      final uToken = await lds.read(key: "token");
+      List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
+      bool result =
+          await addPlateProc.otherPlateReq(token: uToken, plate: lsPlate);
+
+      if (result) {
+        // Prevent to twice tapping happen
+        setState(() => isAddingDocs = true);
+        // Twice poping
+        int count = 0;
+        Navigator.popUntil(context, (route) {
+          return count++ == 2;
+        });
+        showStatusInCaseOfFlush(
+            context: context,
+            title: successfullPlateAddTitle,
+            msg: successfullPlateAddDsc,
+            iconColor: Colors.green,
+            icon: Icons.done_outline);
+      } else {
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: errorPlateAddTitle,
+            msg: errorPlateAddDsc,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+    } else {
+      setState(() => isAddingDocs = true);
+
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "اطلاعات خود را تکمیل کنید",
+          msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+          iconColor: Colors.red,
+          icon: Icons.close);
+    }
   }
 
   @override
@@ -82,6 +122,7 @@ class _OtherPageViewState extends State<OtherPageView> {
         ),
       ),
       bottomNavigationBar: BottomButton(
+        hasCondition: isAddingDocs,
         text: "ثبت اطلاعات",
         ontapped: () => addPlateProcInNow(
           plate0: plate0,
