@@ -293,12 +293,12 @@ class _MainoState extends State<Maino> {
       String caneclingResult =
           await api.cancelingReserve(token: userToken, reservID: reserveID);
       print(caneclingResult);
-      // showStatusInCaseOfFlush(
-      //     context: context,
-      //     title: "",
-      //     msg: sendSuccessful,
-      //     iconColor: Colors.green,
-      //     icon: Icons.done_outline);
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "حذف رزرو",
+          msg: "حذف رزرو شما با موفقیت صورت گرفت",
+          iconColor: Colors.green,
+          icon: Icons.done_outline);
     } catch (e) {
       print("Error from Canceling Reserve $e");
     }
