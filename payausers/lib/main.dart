@@ -28,7 +28,6 @@ import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
 import 'Screens/reservePageEdit.dart';
 import 'Screens/changeUserEmail.dart';
-import 'Screens/pageLengthIndex.dart';
 import 'package:payausers/Screens/reserveView.dart';
 import 'package:payausers/Screens/set_biometric.dart';
 import 'package:payausers/Screens/termsOfServicePage.dart';
@@ -198,7 +197,6 @@ class _MyAppState extends State<MyApp> {
                     '/addUserplateAlternative': (context) =>
                         AddUserPlatAlternative(),
                     '/changeEmail': (context) => ModifyUserEmail(),
-                    '/listLengthSettingPage': (context) => ChangePageIndex(),
                     '/setBiometric': (context) => SettingBiometric(),
                     '/savingAppLockPass': (context) => SavingAppLock(),
                   },
