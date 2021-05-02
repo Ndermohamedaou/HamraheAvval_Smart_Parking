@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -21,6 +22,7 @@ int pageIndex = 0;
 PageController _pageController;
 List appBarTitle = [];
 AddPlateProc addPlateProc = AddPlateProc();
+FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
 
 // Plate Modifire
@@ -32,6 +34,7 @@ int _value = 0;
 File ncCard;
 File ncOwnerCard;
 File ownerCarCard;
+bool isAddingDocs = true;
 
 class _FamilyPlateViewState extends State<FamilyPlateView> {
   @override
@@ -51,6 +54,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     ncCard = null;
     ncOwnerCard = null;
     ownerCarCard = null;
+    isAddingDocs = true;
     super.initState();
   }
 
@@ -120,18 +124,59 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         nationalCardImg != null &&
         ownerNationalCard != null &&
         ownerCarCard != null) {
-      String _ncImage64 = await imgConvertor.img2Base64(nationalCardImg);
-      String _ownerNcImage64 = await imgConvertor.img2Base64(ownerNationalCard);
-      String _ownerCcImage64 = await imgConvertor.img2Base64(ownerCarCard);
-      // TODO: Connect this where to Controller
-      print(plate0);
-      print(plate1);
-      print(plate2);
-      print(plate3);
-      print(_ncImage64);
-      print(_ownerNcImage64);
-      print(_ownerCcImage64);
-    } else {}
+      setState(() => isAddingDocs = false);
+      final uToken = await lds.read(key: "token");
+      List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
+      String _selfMelliImg = await imgConvertor.img2Base64(nationalCardImg);
+      String _ownerMelliImg = await imgConvertor.img2Base64(ownerNationalCard);
+      String _ownerCarCard = await imgConvertor.img2Base64(ownerCarCard);
+      // print(plate0);
+      // print(plate1);
+      // print(plate2);
+      // print(plate3);
+      // print(_melliImg);
+      // print(_ownerMelliImg);
+      // print(_ownerCarCard);
+      bool result = await addPlateProc.familyPlateReq(
+          token: uToken,
+          plate: lsPlate,
+          selfMelli: _selfMelliImg,
+          ownerMelli: _ownerMelliImg,
+          ownerCarCard: _ownerCarCard);
+
+      if (result) {
+        // Prevent to twice tapping happen
+        setState(() => isAddingDocs = true);
+        // Twice poping
+        int count = 0;
+        Navigator.popUntil(context, (route) {
+          return count++ == 2;
+        });
+        showStatusInCaseOfFlush(
+            context: context,
+            title: successfullPlateAddTitle,
+            msg: successfullPlateAddDsc,
+            iconColor: Colors.green,
+            icon: Icons.done_outline);
+      } else {
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: errorPlateAddTitle,
+            msg: errorPlateAddDsc,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+    } else {
+      setState(() => isAddingDocs = true);
+
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "اطلاعات خود را تکمیل کنید",
+          msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+          iconColor: Colors.red,
+          icon: Icons.close);
+    }
   }
 
   @override
@@ -183,6 +228,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         ),
       ),
       bottomNavigationBar: BottomButton(
+        hasCondition: isAddingDocs,
         text: pageIndex == 3 ? "ثبت اطلاعات" : nextLevel1,
         ontapped: () => pageIndex == 3
             ? addPlateProcInNow(
