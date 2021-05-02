@@ -9,10 +9,11 @@ import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:provider/provider.dart';
 
 class UserPlates extends StatelessWidget {
-  const UserPlates({this.userPlates, this.delUserPlate});
+  const UserPlates({this.userPlates, this.delUserPlate, this.loadingUserplate});
 
   final List userPlates;
   final Function delUserPlate;
+  final bool loadingUserplate;
 
   @override
   Widget build(BuildContext context) {
@@ -81,24 +82,40 @@ class UserPlates extends StatelessWidget {
         ));
       },
     );
-    Widget searchingProcess = Column(
+
+    Widget notFoundReservedData = Column(
       children: [
-        Lottie.asset(
-          "assets/lottie/searching.json",
-          width: 200,
-          height: 200,
+        Image.asset(
+          "assets/images/emptyBox.png",
+          width: 180,
+          height: 180,
         ),
-        Text(searchingProcessText,
+        Text("شما پلاک ثبت شده ای ندارید",
             style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
       ],
     );
-    final plateContext = userPlates.isEmpty ? searchingProcess : plates;
+
+    Widget internetProblem = Column(
+      children: [
+        Lottie.asset(
+          "assets/lottie/notFoundTraffics.json",
+          width: 180,
+          height: 180,
+        ),
+        Text("عدم برقراری ارتباط با سرویس دهنده",
+            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+      ],
+    );
+    final plateContext = userPlates.length != 0 ? plates : notFoundReservedData;
+
+    final realUserPlateView = loadingUserplate ? plateContext : internetProblem;
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
             AppBarAsNavigate(),
-            plateContext,
+            realUserPlateView,
           ],
         ),
       ),

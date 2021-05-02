@@ -61,6 +61,7 @@ List userPlates = [];
 // Loading Buffer
 bool isLoadTraffics = false;
 bool isLoadReserves = false;
+bool isLoadUserPlates = false;
 //reserve Special pices
 // int showPiceces = 0;
 ApiAccess api = ApiAccess();
@@ -76,8 +77,10 @@ class _MainoState extends State<Maino> {
   void initState() {
     super.initState();
 
+    // Init Loading Buffer
     isLoadTraffics = false;
     isLoadReserves = false;
+    isLoadUserPlates = false;
 
     // Initialize Connection Subscription
     initConnectivity();
@@ -275,10 +278,13 @@ class _MainoState extends State<Maino> {
   // and View in User Plates
   Future<List> gettingMyPlates() async {
     try {
+      setState(() => isLoadUserPlates = true);
       final plates = await api.getUserPlate(token: userToken);
       return plates;
     } catch (e) {
+      setState(() => isLoadUserPlates = true);
       print("Erorr from loading User Plates view ===> $e");
+      return [];
     }
   }
 
@@ -503,6 +509,7 @@ class _MainoState extends State<Maino> {
                 UserPlates(
                   userPlates: userPlates,
                   delUserPlate: ({plateID}) => delUserPlate(plateID),
+                  loadingUserplate: isLoadUserPlates,
                 ),
                 Settings(
                   fullNameMeme: name,
