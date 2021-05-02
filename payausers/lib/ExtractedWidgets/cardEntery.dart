@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class CardEntry extends StatelessWidget {
@@ -73,13 +75,15 @@ class CameraTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 30.0.w,
         height: 30.0.w,
         decoration: BoxDecoration(
-          color: bgOfChoice,
+          color: themeChange.darkTheme ? darkBar : bgOfChoice,
           borderRadius: BorderRadius.circular(17),
         ),
         child: Column(
@@ -95,7 +99,6 @@ class CameraTile extends StatelessWidget {
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   fontSize: 18,
-                  color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
           ],
@@ -114,13 +117,15 @@ class AlbumTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 30.0.w,
         height: 30.0.w,
         decoration: BoxDecoration(
-          color: bgOfChoice,
+          color: themeChange.darkTheme ? darkBar : bgOfChoice,
           borderRadius: BorderRadius.circular(17),
         ),
         child: Column(
@@ -136,7 +141,6 @@ class AlbumTile extends StatelessWidget {
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   fontSize: 18,
-                  color: Colors.black,
                   fontWeight: FontWeight.normal),
             ),
           ],
