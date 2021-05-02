@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,13 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
     Future gettingPhoto(ImageSource sourceType) async {
       final image = await ImagePicker.pickImage(
         source: sourceType,
-        maxWidth: 500,
-        maxHeight: 500,
+        maxWidth: 512,
+        maxHeight: 512,
         imageQuality: 50,
       );
-      if (image != null) {
+      setState(() => imgSource = image);
+
+      if (imgSource != null) {
         String capturedImage = await convertImage.img2Base64(img: image);
         // print(capturedImage);
         // Sending base 64 to api
@@ -50,11 +53,10 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
         Map result = await searchMethod.searchingByCapturedImage(
             token: token, capturedImage: capturedImage);
 
-        print(result);
+        print("Result is === > > $result");
 
         if (result.isNotEmpty) {
           if (result["status"] == 100) {
-            // print()
             // List plateArr = [];
             // List result = await searchMethod.searchingByPlate(
             //     token: token, plates: plateArr);

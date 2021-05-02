@@ -15,7 +15,7 @@ import 'introPages/login.dart';
 import 'introPages/terms_of_service.dart';
 
 int pageIndex = 0;
-var _pageController = PageController();
+PageController _pageController;
 
 // Login
 var protectedPassword;
@@ -57,13 +57,6 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    _pageController.dispose();
-    personalCode = "";
-    password = "";
-    emptyTextFieldErrPersCode = null;
-    emptyTextFieldErrPassword = null;
-    showMePass = Icons.vpn_key;
-    protectedPassword = true;
     super.dispose();
   }
 

@@ -126,7 +126,8 @@ class _ProfileState extends State<Profile> {
     final lStorage = FlutterSecureStorage();
     await lStorage.deleteAll();
     await seveSecurity.delAllSavedSecurity();
-    Navigator.popUntil(context, ModalRoute.withName(splashScreenRoute));
+    exit(0);
+    // Navigator.popUntil(context, ModalRoute.withName(loginRoute));
   }
 
   @override
