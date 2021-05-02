@@ -8,7 +8,7 @@ HexColor lastVisitColor = HexColor("#0C4C4E");
 
 // Main Background color
 HexColor mainBgColorLight = HexColor("#F9F9F9");
-HexColor mainBgColorDark = HexColor("#000000");
+HexColor mainBgColorDark = HexColor("#303841");
 
 // Dashboard Gradient Colors
 HexColor trafficsTileC1 = HexColor("#FF5B48");
@@ -51,7 +51,7 @@ HexColor appBarColor = HexColor("#216DCD");
 
 // Bottom navigation bar color details
 HexColor lightBar = HexColor("#FFFFFF");
-HexColor darkBar = HexColor("#191A1B");
+HexColor darkBar = HexColor("#3A4750");
 HexColor bgColorTrendingUp = HexColor("#D9E1F3");
 
 // Adding plate section Colors
@@ -61,7 +61,7 @@ HexColor familyPlate = HexColor("#088349");
 HexColor familyPlateInfoIcon = HexColor("#BBE5CF");
 HexColor otherPlate = HexColor("#FF3710");
 HexColor otherPlateInfoIcon = HexColor("#FFCBBC");
-HexColor subtitleInIntro = HexColor("#5D5D5D");
+const subtitleInIntro = Colors.grey;
 HexColor deactiveIndicator = HexColor("#E2E2E2");
 HexColor bgOfChoice = HexColor("#EBEBEB");
 
