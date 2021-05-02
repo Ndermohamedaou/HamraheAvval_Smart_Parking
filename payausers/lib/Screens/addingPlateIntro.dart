@@ -15,6 +15,7 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
   @override
   void initState() {
     _pageController = PageController();
+    pageIndex = 0;
     super.initState();
   }
 
