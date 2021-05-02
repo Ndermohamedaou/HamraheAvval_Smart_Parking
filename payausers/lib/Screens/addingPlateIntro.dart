@@ -28,6 +28,12 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: mainCTA,
+        centerTitle: true,
+        title: Text("ثبت پلاک به همراه اسناد",
+            style: TextStyle(fontFamily: mainFaFontFamily)),
+      ),
       body: SafeArea(
         child: PageView(
           controller: _pageController,
