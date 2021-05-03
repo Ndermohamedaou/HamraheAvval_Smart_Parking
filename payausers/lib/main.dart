@@ -90,6 +90,7 @@ class _MyAppState extends State<MyApp> {
     // Getting Current App Theme (dark or light)
     getCurrentAppTheme();
     getCurrentAppLockPassStatus();
+    getCurrentAppUserPlateNotifNumber();
 
     var initializationAndroidSetting =
         AndroidInitializationSettings("@mipmap/ic_launcher");
@@ -113,9 +114,13 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
-      // notificationCounterValueNotifer.value++;
-      // notificationCounterValueNotifer.notifyListeners();
-      // print(notificationCounterValueNotifer);
+      notificationCounterValueNotifer.value++;
+      notificationCounterValueNotifer.notifyListeners();
+      // Set notification number in provider (user number notification)
+      themeChangeProvider.userPlateNumNotif =
+          notificationCounterValueNotifer.value;
+
+      print(themeChangeProvider.userPlateNumNotif);
 
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
@@ -151,6 +156,12 @@ class _MyAppState extends State<MyApp> {
   void getCurrentAppLockPassStatus() async {
     themeChangeProvider.appLock =
         await themeChangeProvider.darkThemePreferences.getLockState();
+  }
+
+  void getCurrentAppUserPlateNotifNumber() async {
+    themeChangeProvider.userPlateNumNotif = await themeChangeProvider
+        .darkThemePreferences
+        .getUserPlateNotifNumber();
   }
 
   @override

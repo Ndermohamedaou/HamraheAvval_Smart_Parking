@@ -26,6 +26,17 @@ class DarkThemePreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool("lock_state") ?? false;
   }
+
+  // Saving notification number badge for user plate
+  setUserPlateNotifNumber(int notifNumValue) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("user_plate_notif_number", notifNumValue);
+  }
+
+  Future<int> getUserPlateNotifNumber() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt("user_plate_notif_number") ?? 0;
+  }
 }
 
 // whenever we use dark UI theme changed
@@ -48,6 +59,17 @@ class DarkThemeProvider with ChangeNotifier {
   set appLock(bool value) {
     _appLock = value;
     darkThemePreferences.setLockAppState(value);
+    notifyListeners();
+  }
+
+  // Notification number for user plate
+  int _userPlateNotif = 0;
+
+  int get userPlateNumNotif => _userPlateNotif;
+
+  set userPlateNumNotif(int notifNumValue) {
+    _userPlateNotif = notifNumValue;
+    darkThemePreferences.setUserPlateNotifNumber(notifNumValue);
     notifyListeners();
   }
 }

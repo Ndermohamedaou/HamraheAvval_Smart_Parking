@@ -381,6 +381,8 @@ class _MainoState extends State<Maino> {
     final String mainLogo =
         themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
 
+    print("Number of Notif ====> ${themeChange.userPlateNumNotif}");
+
     return WillPopScope(
         child: Scaffold(
           body: DoubleBackToCloseApp(
@@ -408,6 +410,8 @@ class _MainoState extends State<Maino> {
                     userTrafficListLen = userTraffic.length;
                   });
                 });
+
+                if (pageIndex == 3) themeChange.userPlateNumNotif = 0;
               },
               controller: _pageController,
               physics: NeverScrollableScrollPhysics(),
@@ -578,14 +582,18 @@ class _MainoState extends State<Maino> {
                     myPlateText,
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
-                  icon: Badge(
-                    animationType: BadgeAnimationType.slide,
-                    badgeContent: Text(
-                      '20',
-                      style: TextStyle(fontFamily: mainFaFontFamily),
-                    ),
-                    child: Icon(Icons.post_add_sharp),
-                  ),
+                  icon: themeChange.userPlateNumNotif == 0
+                      ? Icon(
+                          Icons.post_add_sharp,
+                        )
+                      : Badge(
+                          animationType: BadgeAnimationType.slide,
+                          badgeContent: Text(
+                            '${themeChange.userPlateNumNotif}',
+                            style: TextStyle(fontFamily: mainFaFontFamily),
+                          ),
+                          child: Icon(Icons.post_add_sharp),
+                        ),
                 ),
                 BottomNavigationBarItem(
                   title: Text(

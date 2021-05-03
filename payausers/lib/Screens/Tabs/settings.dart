@@ -92,6 +92,7 @@ class Settings extends StatelessWidget {
                       // SystemChannels.platform
                       //     .invokeMethod('SystemNavigator.pop');
                       await lds.deleteAll();
+                      prefs.setInt("user_plate_notif_number", 0);
                       prefs.clear();
                       Navigator.popUntil(context, ModalRoute.withName("/"));
                       // exit(0);
