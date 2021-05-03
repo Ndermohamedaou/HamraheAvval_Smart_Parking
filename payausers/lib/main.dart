@@ -35,6 +35,8 @@ import 'package:payausers/Screens/termsOfServicePage.dart';
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
+ValueNotifier<int> notificationCounterValueNotifer = ValueNotifier(0);
+
 // Backgroud Worker
 Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -111,6 +113,9 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
+      // notificationCounterValueNotifer.value++;
+      // notificationCounterValueNotifer.notifyListeners();
+      // print(notificationCounterValueNotifer);
 
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(

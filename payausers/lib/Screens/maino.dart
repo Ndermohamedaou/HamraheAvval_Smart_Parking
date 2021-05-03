@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:badges/badges.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -577,8 +578,13 @@ class _MainoState extends State<Maino> {
                     myPlateText,
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
-                  icon: Icon(
-                    Icons.post_add_sharp,
+                  icon: Badge(
+                    animationType: BadgeAnimationType.slide,
+                    badgeContent: Text(
+                      '20',
+                      style: TextStyle(fontFamily: mainFaFontFamily),
+                    ),
+                    child: Icon(Icons.post_add_sharp),
                   ),
                 ),
                 BottomNavigationBarItem(
