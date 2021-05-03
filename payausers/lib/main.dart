@@ -127,7 +127,7 @@ class _MyAppState extends State<MyApp> {
                 channel.id,
                 channel.name,
                 channel.description,
-                icon: 'launch_background',
+                icon: '@mipmap/ic_launcher',
               ),
             ));
       }
