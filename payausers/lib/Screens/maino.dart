@@ -352,6 +352,12 @@ class _MainoState extends State<Maino> {
           iconColor: Colors.green,
           icon: Icons.done_outline);
     } catch (e) {
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "حذف رزرو",
+          msg: "حذف رزرو شما با مشکلی مواجه شده است، لطفا بعدا امتحان کنید",
+          iconColor: Colors.red,
+          icon: Icons.close);
       print("Error from Canceling Reserve $e");
     }
   }
