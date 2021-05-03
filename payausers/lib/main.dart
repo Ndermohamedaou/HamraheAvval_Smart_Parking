@@ -50,7 +50,7 @@ Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
           channel.id,
           channel.name,
           channel.description,
-          icon: '@minmap/ic_auncher',
+          icon: '@mipmap/ic_launcher',
         ),
       ));
 }
@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
     getCurrentAppLockPassStatus();
 
     var initializationAndroidSetting =
-        AndroidInitializationSettings("@minmap/ic_auncher");
+        AndroidInitializationSettings("@mipmap/ic_launcher");
     // iOS Config in permission and did receive
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
