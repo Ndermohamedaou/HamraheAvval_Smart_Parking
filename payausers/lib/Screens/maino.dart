@@ -345,13 +345,23 @@ class _MainoState extends State<Maino> {
     try {
       String caneclingResult =
           await api.cancelingReserve(token: userToken, reservID: reserveID);
-      print(caneclingResult);
-      showStatusInCaseOfFlush(
-          context: context,
-          title: "حذف رزرو",
-          msg: "حذف رزرو شما با موفقیت صورت گرفت",
-          iconColor: Colors.green,
-          icon: Icons.done_outline);
+      if (caneclingResult == "200") {
+        Navigator.pop(context);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: "لغو رزرو",
+            msg: "لغو رزرو شما با موفقیت صورت گرفت",
+            iconColor: Colors.green,
+            icon: Icons.done_outline);
+      } else if (caneclingResult == "500") {
+        Navigator.pop(context);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: "حذف رزرو",
+            msg: "این رزرو یک بار لغو شده است",
+            iconColor: Colors.orange,
+            icon: Icons.warning);
+      }
     } catch (e) {
       showStatusInCaseOfFlush(
           context: context,
@@ -388,7 +398,7 @@ class _MainoState extends State<Maino> {
     final String mainLogo =
         themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
 
-    print("Number of Notif ====> ${themeChange.userPlateNumNotif}");
+    // print("Number of Notif ====> ${themeChange.userPlateNumNotif}");
 
     return WillPopScope(
         child: Scaffold(

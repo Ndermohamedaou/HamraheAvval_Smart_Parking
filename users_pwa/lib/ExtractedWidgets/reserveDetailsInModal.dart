@@ -63,7 +63,7 @@ class ReserveInDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "پاک کردن رزرو",
+                      "لفو کردن رزرو",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: loginBtnTxtColor,

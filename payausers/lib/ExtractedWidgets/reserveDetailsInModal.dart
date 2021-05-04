@@ -61,9 +61,10 @@ class ReserveInDetails extends StatelessWidget {
                 onPressed: () => delReserve(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  textDirection: TextDirection.rtl,
                   children: [
                     Text(
-                      "پاک کردن رزرو",
+                      "لغو کردن رزرو",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: loginBtnTxtColor,

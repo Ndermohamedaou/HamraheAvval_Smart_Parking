@@ -18,12 +18,16 @@ class ReserveHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final specificReserveStatusColor = reserveStatusColor == -1
-        ? Colors.orange
+        ? Colors.red
         : reserveStatusColor == 0
-            ? Colors.green[700]
+            ? Colors.yellow[700]
             : reserveStatusColor == 1
-                ? Colors.red
-                : Colors.white;
+                ? Colors.green
+                : reserveStatusColor == 2
+                    ? Colors.blue
+                    : reserveStatusColor == -2
+                        ? Colors.grey.shade900
+                        : Colors.white;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: double.infinity,
