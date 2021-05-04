@@ -144,6 +144,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   });
                 },
               ),
+              SizedBox(height: 10),
               TextFields(
                 keyType: TextInputType.visiblePassword,
                 lblText: newPass,
@@ -173,6 +174,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   });
                 },
               ),
+              SizedBox(height: 10),
               TextFields(
                 keyType: TextInputType.visiblePassword,
                 lblText: confNewPass,
@@ -203,6 +205,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   });
                 },
               ),
+              SizedBox(height: 10),
             ],
           ),
         ),
