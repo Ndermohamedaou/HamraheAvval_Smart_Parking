@@ -177,28 +177,6 @@ class Settings extends StatelessWidget {
                               )),
                           SizedBox(height: 10),
                           Container(
-                              width: double.infinity,
-                              height: 55,
-                              color: themeChange.darkTheme ? darkBar : lightBar,
-                              child: FlatButton(
-                                onPressed: () =>
-                                    Navigator.pushNamed(context, "/myPlate"),
-                                child: ListTile(
-                                  title: Text(
-                                    myPlateText,
-                                    style: TextStyle(
-                                        fontFamily: mainFaFontFamily,
-                                        fontSize: 15),
-                                  ),
-                                  leading: Icon(
-                                    Icons.car_repair,
-                                    color: HexColor("#D800BF"),
-                                    size: 30,
-                                  ),
-                                ),
-                              )),
-                          SizedBox(height: 10),
-                          Container(
                             color: themeChange.darkTheme ? darkBar : lightBar,
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 15),

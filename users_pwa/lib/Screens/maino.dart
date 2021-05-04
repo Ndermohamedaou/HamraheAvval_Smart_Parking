@@ -8,6 +8,7 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
@@ -15,6 +16,7 @@ import 'package:connectivity/connectivity.dart';
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Tabs/addUserPlate.dart';
 import 'Tabs/userTraffic.dart';
@@ -38,6 +40,8 @@ String userSection = "";
 String userRole = "";
 List userTraffic = [];
 List userReserved = [];
+// User PLates view
+List userPlates = [];
 String lenOfTrafic = "";
 String lenOfReserve = "";
 String lenOfUserPlate = "";
@@ -48,6 +52,11 @@ int showPiceces = 0;
 String lastLogin = "";
 
 ApiAccess api = ApiAccess();
+
+// Loading Buffer
+bool isLoadTraffics = false;
+bool isLoadReserves = false;
+bool isLoadUserPlates = false;
 
 class _MainoState extends State<Maino> {
   // Check internet connection
@@ -159,6 +168,11 @@ class _MainoState extends State<Maino> {
         slotNumberInSituation = situation["slotNo"];
       });
     });
+    gettingMyPlates().then((plate) {
+      setState(() {
+        userPlates = plate;
+      });
+    });
   }
 
   Future<Map> getStaffInfoFromLocal() async {
@@ -243,6 +257,45 @@ class _MainoState extends State<Maino> {
     }
   }
 
+  // Real View in Bottom Navigation Bar
+  // and View in User Plates
+  Future<List> gettingMyPlates() async {
+    try {
+      setState(() => isLoadUserPlates = true);
+      final plates = await api.getUserPlate(token: userToken);
+      return plates;
+    } catch (e) {
+      setState(() => isLoadUserPlates = true);
+      print("Erorr from loading User Plates view ===> $e");
+      return [];
+    }
+  }
+
+  // Deleting User Selected Plate
+  void delUserPlate(id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    try {
+      final userToken = prefs.getString("token");
+      final delStatus = await api.delUserPlate(token: userToken, id: id);
+      if (delStatus == "200") {
+        alert(
+            context: context,
+            aType: AlertType.success,
+            title: delProcSucTitle,
+            desc: delProcDesc,
+            themeChange: themeChange,
+            dstRoute: "dashboard");
+      }
+      gettingMyPlates();
+    } catch (e) {
+      alert(
+          aType: AlertType.warning,
+          title: delProcFailTitle,
+          desc: delProcFailDesc);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //  Dark Theme Changer
@@ -320,7 +373,11 @@ class _MainoState extends State<Maino> {
                     reserves: userReserved,
                     // filter: ,
                   ),
-                  AddUserPlate(),
+                  UserPlates(
+                    userPlates: userPlates,
+                    delUserPlate: ({plateID}) => delUserPlate(plateID),
+                    loadingUserplate: isLoadUserPlates,
+                  ),
                   Settings(
                     fullNameMeme: name,
                     avatarMeme: avatar != ""
@@ -389,7 +446,7 @@ class _MainoState extends State<Maino> {
                   title: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
-                      "افزودن پلاک",
+                      myPlateText,
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
                   ),
