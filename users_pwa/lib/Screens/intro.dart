@@ -11,7 +11,7 @@ class IntroPage extends StatefulWidget {
 class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
-    void navigatedToLogin() => Navigator.pushNamed(context, '/login');
+    void navigatedToLogin() => Navigator.pushNamed(context, '/termsAndLicense');
     return Scaffold(
         body: MainIntro(),
         bottomNavigationBar:

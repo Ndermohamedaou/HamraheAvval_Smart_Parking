@@ -23,7 +23,7 @@ class CardEntry extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.only(top: 20.0.w),
-            child: imgShow == null
+            child: imgShow == ""
                 ? Image.asset(
                     customIcon,
                     width: 50.0.w,

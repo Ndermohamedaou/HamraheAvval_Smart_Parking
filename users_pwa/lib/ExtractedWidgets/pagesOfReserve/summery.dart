@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:lottie/lottie.dart';
+import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:ticketview/ticketview.dart';
@@ -75,7 +78,7 @@ class Summery extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        startTime,
+                        "$startTime",
                         style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           fontSize: 16,
@@ -97,7 +100,7 @@ class Summery extends StatelessWidget {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        endTime,
+                        "$endTime",
                         style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           fontSize: 16,

@@ -33,6 +33,7 @@ var _pageController;
 var _scrollController;
 String userId = "";
 String name = "";
+String email = "";
 String personalCode = "";
 String avatar = "";
 String userToken = "";
@@ -177,9 +178,11 @@ class _MainoState extends State<Maino> {
 
   Future<Map> getStaffInfoFromLocal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String readyAvatar = "";
+    String readyEmail = "";
+    String readyUserId = "";
     final userId = prefs.getString("user_id");
+    final localEmail = prefs.getString("email");
     userToken = prefs.getString("token");
     final name = prefs.getString("name");
     final personalCode = prefs.getString("personal_code");
@@ -189,25 +192,49 @@ class _MainoState extends State<Maino> {
     String lastLogin = prefs.getString("lastLogin");
 
     try {
-      String serverAvatar = await api.getUserAvatar(token: userToken);
-      // Correspondence local Avatar with Server side avatar
+      Map staffInfo = await api.getStaffInfo(token: userToken);
+      // Getting server info to check if they had change
+      String serverAvatar = staffInfo['avatar'];
+      String serverEmail = staffInfo['email'];
+      String serverUserId = staffInfo["user_id"];
+
+      // print(staffInfo);
+      // Matching local Avatar with Server side
+      // avatar if anythings has change it will update!
       if (localAvatar != serverAvatar) {
-        setState(() async {
+        setState(() {
           readyAvatar = serverAvatar;
         });
-        await prefs.setString("avatar", serverAvatar);
+        prefs.setString("avatar", serverAvatar);
+      }
+      // If local if changed by HR
+      if (localEmail != serverEmail) {
+        setState(() {
+          readyEmail = serverEmail;
+        });
+        prefs.setString("email", serverEmail);
+      }
+      // If userID for QR-code had change from API
+      if (userId != serverUserId) {
+        setState(() {
+          readyUserId = serverUserId;
+        });
+        prefs.setString("user_id", serverUserId);
       }
     } catch (e) {
-      print(e);
-      // ignore: await_only_futures
-      readyAvatar = await prefs.getString("avatar");
+      // print(e);
+      // IF users connection had problem, use LocalData
+      readyAvatar = prefs.getString("avatar");
+      readyEmail = prefs.getString("email");
+      readyUserId = prefs.getString("user_id");
     }
 
     return {
-      "userId": userId,
+      "userId": readyUserId != "" ? readyUserId : userId,
       "name": name,
       "personalCode": personalCode,
       "avatar": readyAvatar != "" ? readyAvatar : localAvatar,
+      "email": readyEmail != "" ? readyEmail : email,
       "section": section,
       "role": role,
       "lastLogin": lastLogin,

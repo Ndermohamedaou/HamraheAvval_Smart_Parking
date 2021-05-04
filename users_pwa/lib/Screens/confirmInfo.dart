@@ -9,6 +9,7 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/Classes/imageConvertor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/constText.dart';
+import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
@@ -22,11 +23,9 @@ Map<String, Object> modalRoute;
 
 File imgSource;
 String _image64 = "";
-String email = "";
 String password = "";
 String rePassword = "";
-dynamic emptyTextFieldErrEmailCode = null;
-dynamic emptyTextFieldErrEmail = null;
+
 dynamic emptyTextFieldErrPassword = null;
 dynamic emptyTextFieldErrRePassword = null;
 
@@ -37,6 +36,8 @@ SavingData savingData = SavingData();
 
 IconData showMePass = Icons.remove_red_eye;
 bool protectedPassword = true;
+// Is okay i go to confirm for 1st
+bool isConfirm = true;
 
 class ConfirmScreen extends StatefulWidget {
   @override
@@ -44,6 +45,24 @@ class ConfirmScreen extends StatefulWidget {
 }
 
 class _ConfirmScreenState extends State<ConfirmScreen> {
+  @override
+  void initState() {
+    imgSource = null;
+    password = "";
+    rePassword = "";
+    emptyTextFieldErrPassword = null;
+    emptyTextFieldErrRePassword = null;
+    isConfirm = true;
+    showMePass = Icons.remove_red_eye;
+    protectedPassword = true;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
@@ -56,9 +75,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
     // print(userInfo);
 
-    void gettingLogin(
-        {uToken, email, curPass, pass, rePass, String avatar}) async {
-      if (email != "" && pass != "" && rePass != "") {
+    void gettingLogin({uToken, curPass, pass, rePass, String avatar}) async {
+      if (pass != "" && rePass != "") {
         if (pass.length > 6 && rePass.length > 6) {
           if (pass == rePass) {
             bool testPass = passwordRegex(pass);
@@ -66,9 +84,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
             if (testPass && testRePass) {
               try {
+                setState(() => isConfirm = false);
                 final result = await api.updateStaffInfoInConfrimation(
                     token: uToken,
-                    email: email,
                     curPass: curPass,
                     newPass: pass,
                     avatar: avatar);
@@ -98,6 +116,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   }
                 }
               } catch (e) {
+                setState(() => isConfirm = true);
                 showStatusInCaseOfFlush(
                     context: context,
                     title: "",
@@ -131,8 +150,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         }
       } else {
         setState(() {
-          emptyTextFieldErrEmailCode = null;
-          emptyTextFieldErrEmail = null;
           emptyTextFieldErrPassword = null;
           emptyTextFieldErrRePassword = null;
         });
@@ -216,21 +233,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 ),
               ),
               SizedBox(height: 30),
-              TextFields(
-                keyType: TextInputType.emailAddress,
-                lblText: userEmailLbl,
-                textFieldIcon: Icons.account_circle,
-                textInputType: false,
-                readOnly: false,
-                errText:
-                    emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
-                onChangeText: (onChangeUsername) {
-                  setState(() {
-                    emptyTextFieldErrEmailCode = null;
-                    email = onChangeUsername;
-                  });
-                },
-              ),
               Container(
                 alignment: Alignment.topRight,
                 margin: EdgeInsets.fromLTRB(0, 10, 40, 0),
@@ -308,42 +310,15 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Material(
-          elevation: 10.0,
-          borderRadius: BorderRadius.circular(8.0),
-          color: loginBtnColor,
-          child: MaterialButton(
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () {
-                gettingLogin(
-                    uToken: uToken,
-                    email: email,
-                    curPass: currentPass,
-                    pass: password,
-                    rePass: rePassword,
-                    avatar: _image64);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    confirmLogin,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: loginBtnTxtColor,
-                        fontFamily: mainFaFontFamily,
-                        fontSize: btnSized,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: Colors.white,
-                  )
-                ],
-              )),
-        ),
+      bottomNavigationBar: BottomButton(
+        hasCondition: isConfirm,
+        text: finalLoginText,
+        ontapped: () => gettingLogin(
+            uToken: uToken,
+            curPass: currentPass,
+            pass: password,
+            rePass: rePassword,
+            avatar: _image64),
       ),
     );
   }

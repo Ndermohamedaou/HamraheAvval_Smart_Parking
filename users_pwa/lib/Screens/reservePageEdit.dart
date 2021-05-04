@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -11,7 +10,6 @@ import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:provider/provider.dart';
 
 // import 'package:flushbar/flushbar.dart';
@@ -25,8 +23,8 @@ int curIndex = 0;
 // Show which date clicked and prepare to send it to API
 String datePickedByUser = "";
 // Timing
-String startTime = "";
-String endTime = "";
+int startTime = 1;
+int endTime = startTime + 1;
 // Plate
 String selectedPlate = "";
 List userPlates = [];
@@ -67,7 +65,9 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     persianDatePicker = PersianDatePicker(
       controller: textEditingController,
       datetime: "${DateTime.now()}",
+      currentDayBackgroundColor: mainCTA,
       fontFamily: mainFaFontFamily,
+      minDatetime: "${DateTime.now()}",
       onChange: (String oldDate, String newDate) {
         setState(() {
           datePickedByUser = newDate;
@@ -98,8 +98,8 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
 
     curIndex = 0;
     datePickedByUser = "";
-    startTime = "";
-    endTime = "";
+    startTime = 1;
+    endTime = startTime + 1;
     selectedPlate = "";
     super.dispose();
   }
@@ -174,8 +174,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         Directionality(
           textDirection: TextDirection.rtl,
           child: ElevatedButton.icon(
-            onPressed: () =>
-                Navigator.pushNamed(context, "/addUserplateAlternative"),
+            onPressed: () => Navigator.pushNamed(context, "/addingPlateIntro"),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(mainCTA)),
             icon: Icon(Icons.add, size: 18),
@@ -255,9 +254,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
           };
 
     void gettingReserve() {
-      if (datePickedByUser.isNotEmpty ||
-          startTime.isNotEmpty ||
-          endTime.isNotEmpty) {
+      if (datePickedByUser.isNotEmpty || startTime != 0 || endTime != 0) {
         final pickDate = datePickedByUser.split("/");
 
         final strDateTimeStart =
@@ -290,42 +287,16 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     List<Widget> mainTakenReserve = [
       DateUserPicker(pressedDate: openCalend, pickedDateText: datePickedByUser),
       TimerPicker(
-        starterTimePressed: () {
-          DatePicker.showTimePicker(
-            context,
-            locale: LocaleType.fa,
-            showTitleActions: true,
-            showSecondsColumn: false,
-            currentTime: DateTime.now(),
-            onChanged: (date) {
-              // print(date);
-            },
-            onConfirm: (date) {
-              setState(() {
-                startTime = "${date.hour}:${date.minute}";
-              });
-            },
-          );
-        },
-        endTimePressed: () {
-          DatePicker.showTimePicker(
-            context,
-            locale: LocaleType.fa,
-            showTitleActions: true,
-            showSecondsColumn: false,
-            currentTime: DateTime.now(),
-            onChanged: (date) {
-              // print(date);
-            },
-            onConfirm: (date) {
-              setState(() {
-                endTime = "${date.hour}:${date.minute}";
-              });
-            },
-          );
-        },
         startTimeText: startTime,
         endTimeText: endTime,
+        changeStartTime: (startHour) => setState(() {
+          startTime = startHour;
+          if (startTime != 24)
+            endTime = startTime + 1;
+          else
+            endTime = 1;
+        }),
+        changeEndTime: (endHour) => setState(() => endTime = endHour),
       ),
       PlatePicker(
         mainContext: finalPlateContext,
@@ -334,8 +305,8 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       Summery(
         themeChange: themeChange.darkTheme,
         datePickedByUser: datePickedByUser != "" ? datePickedByUser : "-",
-        startTime: startTime != "" ? startTime : "-",
-        endTime: endTime != "" ? endTime : "-",
+        startTime: startTime != 0 ? startTime : "-",
+        endTime: endTime != 0 ? endTime : "-",
         finalSelectedPlateToSending: switchingPlate,
         sendToSubmit: () {
           gettingReserve();

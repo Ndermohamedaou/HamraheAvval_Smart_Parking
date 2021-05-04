@@ -167,15 +167,6 @@ class _SettingsPageState extends State<SettingsPage> {
                               fontSize: 16,
                             ),
                           ),
-                          FlatButton(
-                            minWidth: 5,
-                            onPressed: () =>
-                                Navigator.pushNamed(context, "/changeEmail"),
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.blue,
-                            ),
-                          ),
                         ],
                       ),
                     ),

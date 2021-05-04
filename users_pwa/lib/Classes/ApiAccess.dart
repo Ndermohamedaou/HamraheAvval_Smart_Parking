@@ -22,7 +22,6 @@ class ApiAccess {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post("$baseUrl/updateStaffInfo", data: {
-      "email": email,
       "avatar": avatar,
       "current_password": curPass,
       "new_password": newPass

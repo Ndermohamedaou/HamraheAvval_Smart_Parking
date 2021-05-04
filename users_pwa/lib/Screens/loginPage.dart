@@ -3,6 +3,7 @@ import 'package:payausers/Classes/SavingData.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
@@ -13,7 +14,7 @@ String password = "";
 dynamic emptyTextFieldErrPersonalCode = null;
 dynamic emptyTextFieldErrEmail = null;
 dynamic emptyTextFieldErrPassword = null;
-
+bool isLogin = true;
 IconData showMePass = Icons.remove_red_eye;
 
 bool protectedPassword = true;
@@ -24,6 +25,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    personalCode = "";
+    password = "";
+    emptyTextFieldErrPersonalCode = null;
+    emptyTextFieldErrEmail = null;
+    emptyTextFieldErrPassword = null;
+    isLogin = true;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Accessing to Api
@@ -101,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
       });
       if (email != "" && pass != "") {
         try {
+          setState(() => isLogin = false);
           Map getLoginThridParity =
               await api.getAccessToLogin(email: email, password: pass);
           if (getLoginThridParity["status"] == "200") {
@@ -117,6 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                 textColor: Colors.white);
           }
         } catch (e) {
+          setState(() => isLogin = true);
           print(e);
           Toast.show("شماره پرسنلی یا گذرواژه اشتباه است", context,
               duration: Toast.LENGTH_LONG,
@@ -207,13 +226,12 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       textDirection: TextDirection.rtl,
                       children: [
-                        Icon(Icons.lock, color: lockDownColor),
+                        Icon(Icons.lock, color: mainCTA),
                         SizedBox(width: 10),
                         Text(
                           forgetPass,
                           style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              color: forgetOptionColor),
+                              fontFamily: mainFaFontFamily, color: mainCTA),
                           textAlign: TextAlign.right,
                         )
                       ],
@@ -223,37 +241,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Material(
-          elevation: 10.0,
-          borderRadius: BorderRadius.circular(8.0),
-          color: loginBtnColor,
-          child: MaterialButton(
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () {
-                navigatedToDashboard(email: personalCode, pass: password);
-                // print("Fuck");
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    finalLoginText,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: loginBtnTxtColor,
-                        fontFamily: mainFaFontFamily,
-                        fontSize: btnSized,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: Colors.white,
-                  )
-                ],
-              )),
-        ),
+      bottomNavigationBar: BottomButton(
+        hasCondition: isLogin,
+        text: finalLoginText,
+        ontapped: () =>
+            navigatedToDashboard(email: personalCode, pass: password),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/Screens/termsOfServicePage.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/services.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
@@ -78,6 +79,7 @@ class _MyAppState extends State<MyApp> {
                   '/splashScreen': (context) => SplashScreen(),
                   '/': (context) => IntroPage(),
                   '/themeSelector': (context) => ThemeModeSelectorPage(),
+                  '/termsAndLicense': (context) => TermsOfServiceView(),
                   '/login': (context) => LoginPage(),
                   '/confirm': (context) => ConfirmScreen(),
                   '/loginCheckout': (context) => LoginCheckingoutPage(),
