@@ -44,6 +44,7 @@ class TextFields extends StatelessWidget {
         textAlign: TextAlign.center,
         cursorColor: Colors.blue[900],
         decoration: InputDecoration(
+          counterText: "",
           errorText: errText,
           errorStyle: TextStyle(fontFamily: mainFaFontFamily),
           focusedBorder: OutlineInputBorder(
