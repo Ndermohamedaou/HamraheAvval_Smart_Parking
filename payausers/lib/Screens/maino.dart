@@ -19,6 +19,7 @@ import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Tabs/userPlate.dart';
 import 'Tabs/userTraffic.dart';
@@ -403,7 +404,7 @@ class _MainoState extends State<Maino> {
             ),
             child: PageView(
               // Getting Reserve length
-              onPageChanged: (pageIndex) {
+              onPageChanged: (pageIndex) async {
                 getUserReservedHistory().then((reserves) {
                   setState(() {
                     userReservedListLen = reserves.length;
@@ -417,7 +418,13 @@ class _MainoState extends State<Maino> {
                   });
                 });
 
-                if (pageIndex == 3) themeChange.userPlateNumNotif = 0;
+                if (pageIndex == 3) {
+                  // user_plate_notif_number
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setInt("user_plate_notif_number", 0);
+                  themeChange.userPlateNumNotif = 0;
+                }
               },
               controller: _pageController,
               physics: NeverScrollableScrollPhysics(),

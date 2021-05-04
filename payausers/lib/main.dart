@@ -37,12 +37,22 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 ValueNotifier<int> notificationCounterValueNotifer = ValueNotifier(0);
 
+// Adding Dark theme provider to have provider changer theme
+DarkThemeProvider themeChangeProvider = DarkThemeProvider();
+
 // Backgroud Worker
 Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("Handling a background Message ${message.messageId}");
   print(message.notification.title);
   print(message.notification.body);
+
+  notificationCounterValueNotifer.value++;
+  notificationCounterValueNotifer.notifyListeners();
+  // Set notification number in provider (user number notification)
+  themeChangeProvider.userPlateNumNotif = notificationCounterValueNotifer.value;
+  print(themeChangeProvider.userPlateNumNotif);
+
   flutterLocalNotificationsPlugin.show(
       message.notification.hashCode,
       message.notification.title,
@@ -81,9 +91,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Adding Dark theme provider to have provider changer theme
-  DarkThemeProvider themeChangeProvider = DarkThemeProvider();
-
   @override
   void initState() {
     super.initState();
