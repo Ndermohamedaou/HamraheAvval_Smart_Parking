@@ -49,27 +49,32 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
         final token = await lStorage.read(key: "uToken");
         // Getting only result from searched
         // image (Image processing on the plate number)
-        Map result = await searchMethod.searchingByCapturedImage(
+        Map admitImageResult = await searchMethod.searchingByCapturedImage(
             token: token, capturedImage: capturedImage);
 
-        print("Result is === > > $result");
+        print("Result is === > > $admitImageResult");
 
-        if (result.isNotEmpty) {
-          if (result["status"] == 100) {
-            // List plateArr = [];
-            // List result = await searchMethod.searchingByPlate(
-            //     token: token, plates: plateArr);
-            // // print(result);
-            // if (result.isNotEmpty)
-            //   Navigator.pushNamed(context, searchResults, arguments: result[0]);
-            // else
-            //   showStatusInCaseOfFlush(
-            //     context: context,
-            //     title: notFoundTitle,
-            //     msg: notFoundDsc,
-            //     icon: Icons.close,
-            //     iconColor: Colors.red,
-            //   );
+        if (admitImageResult.isNotEmpty) {
+          if (admitImageResult["status"] == 100) {
+            List plateArr = [
+              admitImageResult["plate_fa0"],
+              admitImageResult["plate_fa1"],
+              admitImageResult["plate_fa2"],
+              admitImageResult["plate_fa3"]
+            ];
+            List result = await searchMethod.searchingByPlate(
+                token: token, plates: plateArr);
+            // print(result);
+            if (result.isNotEmpty)
+              Navigator.pushNamed(context, searchResults, arguments: result[0]);
+            else
+              showStatusInCaseOfFlush(
+                context: context,
+                title: notFoundTitle,
+                msg: notFoundDsc,
+                icon: Icons.close,
+                iconColor: Colors.red,
+              );
           } else {
             showStatusInCaseOfFlush(
               context: context,

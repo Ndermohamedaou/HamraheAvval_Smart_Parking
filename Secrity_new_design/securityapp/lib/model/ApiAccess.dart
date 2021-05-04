@@ -97,7 +97,7 @@ class ApiAccess {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
 
-    Response res = await dio.post("$baseURL/searchSlot?type=image_plate",
+    Response res = await dio.post("$baseURL/searchSlot?type=plate_image",
         data: {"plate_image": img});
     return res.data;
   }
