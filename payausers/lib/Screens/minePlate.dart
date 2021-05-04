@@ -11,7 +11,9 @@ import 'package:payausers/ExtractedWidgets/cardEntery.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Screens/confirmInfo.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
+import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MinPlateView extends StatefulWidget {
   @override
@@ -110,14 +112,14 @@ class _MinPlateViewState extends State<MinPlateView> {
       // print(_selfMelliCardImg);
       // print(_selfCarCardImg);
 
-      bool result = await addPlateProc.minePlateReq(
+      int result = await addPlateProc.minePlateReq(
         token: uToken,
         plate: lsPlate,
         selfMelli: _selfMelliCardImg,
         selfCarCard: _selfCarCardImg,
       );
 
-      if (result) {
+      if (result == 200) {
         // Prevent to twice tapping happen
         setState(() => isAddingDocs = true);
         // Twice poping
@@ -131,7 +133,32 @@ class _MinPlateViewState extends State<MinPlateView> {
             msg: successfullPlateAddDsc,
             iconColor: Colors.green,
             icon: Icons.done_outline);
-      } else {
+      }
+
+      if (result == 100) {
+        // Twice poping
+        int count = 0;
+        Navigator.popUntil(context, (route) {
+          return count++ == 2;
+        });
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: warnningOnAddPlate,
+            msg: moreThanPlateAdded,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+      if (result == 1) {
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: existUserPlateTitleErr,
+            msg: existUserPlateDescErr,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+      if (result == -1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
             context: context,

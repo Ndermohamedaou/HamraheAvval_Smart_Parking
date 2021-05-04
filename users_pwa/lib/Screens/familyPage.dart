@@ -145,14 +145,14 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       // print(_melliImg);
       // print(_ownerMelliImg);
       // print(_ownerCarCard);
-      bool result = await addPlateProc.familyPlateReq(
+      int result = await addPlateProc.familyPlateReq(
           token: uToken,
           plate: lsPlate,
           selfMelli: nationalCardImg,
           ownerMelli: ownerNationalCard,
           ownerCarCard: ownerCarCard);
 
-      if (result) {
+      if (result == 200) {
         // Prevent to twice tapping happen
         setState(() => isAddingDocs = true);
         // Twice poping
@@ -166,7 +166,32 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
             msg: successfullPlateAddDsc,
             iconColor: Colors.green,
             icon: Icons.done_outline);
-      } else {
+      }
+
+      if (result == 100) {
+        // Twice poping
+        int count = 0;
+        Navigator.popUntil(context, (route) {
+          return count++ == 2;
+        });
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: warnningOnAddPlate,
+            msg: moreThanPlateAdded,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+      if (result == 1) {
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: existUserPlateTitleErr,
+            msg: existUserPlateDescErr,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+      if (result == -1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
             context: context,

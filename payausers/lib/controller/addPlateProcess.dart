@@ -4,46 +4,77 @@ ApiAccess api = ApiAccess();
 
 class AddPlateProc {
   // Self
-  Future<bool> minePlateReq({token, List plate, selfMelli, selfCarCard}) async {
+  Future<int> minePlateReq({token, List plate, selfMelli, selfCarCard}) async {
     print(token);
     try {
-      await api.addSelfPlate(
+      final result = await api.addSelfPlate(
           token: token,
           lsPlate: plate,
           selfMelliCard: selfMelli,
           selfCarCard: selfCarCard);
-      return true;
+
+      if (result == "200") {
+        return 200;
+      }
+
+      if (result == "MaxPlateCount") {
+        return 100;
+      }
+
+      if (result == "PlateExists") {
+        return 1;
+      }
     } catch (e) {
       print("Erorr from addingaddUserPlat mine plate $e");
-      return false;
+      return -1;
     }
   }
 
   // Family
-  Future<bool> familyPlateReq(
+  Future<int> familyPlateReq(
       {token, List plate, selfMelli, ownerMelli, ownerCarCard}) async {
     try {
-      await api.addFamilyPlate(
+      final result = await api.addFamilyPlate(
           token: token,
           lsPlate: plate,
           selfMelliCard: selfMelli,
           ownerMelliCard: ownerMelli,
           ownerCarCard: ownerCarCard);
-      return true;
+      if (result == "200") {
+        return 200;
+      }
+
+      if (result == "MaxPlateCount") {
+        return 100;
+      }
+
+      if (result == "PlateExists") {
+        return 1;
+      }
     } catch (e) {
-      print("Erorr from adding mine plate $e");
-      return false;
+      print("Erorr from addingaddUserPlat mine plate $e");
+      return -1;
     }
   }
 
   // Other
-  Future<bool> otherPlateReq({token, List plate}) async {
+  Future<int> otherPlateReq({token, List plate}) async {
     try {
-      await api.addOtherPlate(token: token, lsPlate: plate);
-      return true;
+      final result = await api.addOtherPlate(token: token, lsPlate: plate);
+      if (result == "200") {
+        return 200;
+      }
+
+      if (result == "MaxPlateCount") {
+        return 100;
+      }
+
+      if (result == "PlateExists") {
+        return 1;
+      }
     } catch (e) {
-      print("Erorr from adding mine plate $e");
-      return false;
+      print("Erorr from addingaddUserPlat mine plate $e");
+      return -1;
     }
   }
 }

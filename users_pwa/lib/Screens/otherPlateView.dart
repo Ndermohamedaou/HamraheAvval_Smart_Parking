@@ -50,10 +50,10 @@ class _OtherPageViewState extends State<OtherPageView> {
       setState(() => isAddingDocs = false);
       final uToken = prefs.getString("token");
       List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-      bool result =
+      int result =
           await addPlateProc.otherPlateReq(token: uToken, plate: lsPlate);
 
-      if (result) {
+      if (result == 200) {
         // Prevent to twice tapping happen
         setState(() => isAddingDocs = true);
         // Twice poping
@@ -67,7 +67,32 @@ class _OtherPageViewState extends State<OtherPageView> {
             msg: successfullPlateAddDsc,
             iconColor: Colors.green,
             icon: Icons.done_outline);
-      } else {
+      }
+
+      if (result == 100) {
+        // Twice poping
+        int count = 0;
+        Navigator.popUntil(context, (route) {
+          return count++ == 2;
+        });
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: warnningOnAddPlate,
+            msg: moreThanPlateAdded,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+      if (result == 1) {
+        setState(() => isAddingDocs = true);
+        showStatusInCaseOfFlush(
+            context: context,
+            title: existUserPlateTitleErr,
+            msg: existUserPlateDescErr,
+            iconColor: Colors.red,
+            icon: Icons.close);
+      }
+      if (result == -1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
             context: context,
