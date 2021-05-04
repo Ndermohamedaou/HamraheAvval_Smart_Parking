@@ -60,6 +60,7 @@ class ReserveInDetails extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                 onPressed: () => delReserve(),
                 child: Row(
+                  textDirection: TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
