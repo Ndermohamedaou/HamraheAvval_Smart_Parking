@@ -38,6 +38,7 @@ dependencies:
   rflutter_alert: ^1.1.0
   double_back_to_close_app: 
   modal_bottom_sheet: ^1.0.0+1
+  liquid_pull_to_refresh: ^1.2.0
   flutter_slidable:
   ticketview: ^1.0.0
   flushbar: ^1.10.4

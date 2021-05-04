@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +7,7 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/Screens/Tabs/addUserPlate.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +18,6 @@ import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Tabs/addUserPlate.dart';
 import 'Tabs/userTraffic.dart';
 
 class Maino extends StatefulWidget {
@@ -30,34 +29,40 @@ Timer timer;
 dynamic themeChange;
 int tabBarIndex;
 var _pageController;
-var _scrollController;
 String userId = "";
 String name = "";
-String email = "";
 String personalCode = "";
 String avatar = "";
 String userToken = "";
 String userSection = "";
 String userRole = "";
+String email = "";
+String lastLogin = "";
+
+// Traffic List
 List userTraffic = [];
+int userTrafficListLen = userTraffic.length;
+
+// Reserve View both list and length
 List userReserved = [];
-// User PLates view
-List userPlates = [];
+int userReservedListLen = userReserved.length;
+
 String lenOfTrafic = "";
 String lenOfReserve = "";
 String lenOfUserPlate = "";
 String locationBuilding = "";
 String slotNumberInSituation = "";
-//reserve Special pices
-int showPiceces = 0;
-String lastLogin = "";
 
-ApiAccess api = ApiAccess();
+// User PLates view
+List userPlates = [];
 
 // Loading Buffer
 bool isLoadTraffics = false;
 bool isLoadReserves = false;
 bool isLoadUserPlates = false;
+//reserve Special pices
+// int showPiceces = 0;
+ApiAccess api = ApiAccess();
 
 class _MainoState extends State<Maino> {
   // Check internet connection
@@ -69,31 +74,30 @@ class _MainoState extends State<Maino> {
   void initState() {
     super.initState();
 
+    // Init Loading Buffer
+    isLoadTraffics = false;
+    isLoadReserves = false;
+    isLoadUserPlates = false;
+
     // Initialize Connection Subscription
     initConnectivity();
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
 
-    _scrollController = ScrollController();
-
     _pageController = PageController();
     tabBarIndex = 0;
-
     timer = Timer.periodic(Duration(seconds: 10), (timer) {
       READYLOCALVAR();
     });
     READYLOCALVAR();
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    _pageController.dispose();
     timer.cancel();
 
-    tabBarIndex = 0;
-    _pageController.animateToPage(0,
-        duration: Duration(milliseconds: 1), curve: Curves.easeOut);
-    _pageController.dispose();
     initConnectivity();
     // Close init
     _connectivitySubscription.cancel();
@@ -135,6 +139,7 @@ class _MainoState extends State<Maino> {
     }
   }
 
+  // ignore: non_constant_identifier_names
   void READYLOCALVAR() {
     getStaffInfoFromLocal().then((value) {
       setState(() {
@@ -144,6 +149,7 @@ class _MainoState extends State<Maino> {
         avatar = value["avatar"];
         userSection = value["section"];
         userRole = value["role"];
+        email = value["email"];
         lastLogin = value["lastLogin"];
       });
       getUserTrafficLogsApi(userToken).then((logs) {
@@ -169,6 +175,7 @@ class _MainoState extends State<Maino> {
         slotNumberInSituation = situation["slotNo"];
       });
     });
+
     gettingMyPlates().then((plate) {
       setState(() {
         userPlates = plate;
@@ -178,6 +185,7 @@ class _MainoState extends State<Maino> {
 
   Future<Map> getStaffInfoFromLocal() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     String readyAvatar = "";
     String readyEmail = "";
     String readyUserId = "";
@@ -242,45 +250,26 @@ class _MainoState extends State<Maino> {
   }
 
   Future<List> getUserTrafficLogsApi(token) async {
-    List trafficLog = await api.getUserTrafficLogs(token: token);
-    return trafficLog;
-  }
-
-  Future<List> getUserReservedHistory() async {
     try {
-      List reservedList = await api.userReserveHistory(token: userToken);
-      // print(reservedList);
-      return reservedList;
+      setState(() => isLoadTraffics = true);
+      List trafficLog = await api.getUserTrafficLogs(token: token);
+      return trafficLog;
     } catch (e) {
-      // print(e);
+      setState(() => isLoadTraffics = false);
       return [];
     }
   }
 
-  Future<Map> getLenUserPlates() async {
-    List userPlateList = await api.getUserPlate(token: userToken);
-    // Traffic Logs
-    List userTrafficLeng = await api.getUserTrafficLogs(token: userToken);
-
-    final lenUserPlate = userPlateList.length.toString();
-    final lenUserTrafficNo = userTrafficLeng.length.toString();
-
-    return {"platesNum": lenUserPlate, "userTrafficNum": lenUserTrafficNo};
-  }
-
-  // User car plate situation function
-  Future<Map> getUserCarSituation() async {
-    Map staffSitu;
+  Future<List> getUserReservedHistory() async {
     try {
-      staffSitu = await api.getStaffInfo(token: userToken);
-      // User Car Plate situation
-      return {
-        "locationBuilding": staffSitu["location"]["building"],
-        "slotNo": staffSitu["location"]["slot"],
-      };
+      setState(() => isLoadReserves = true);
+      List reservedList = await api.userReserveHistory(token: userToken);
+      // print(reservedList);
+      return reservedList;
     } catch (e) {
-      staffSitu = await api.getStaffInfo(token: userToken);
-      return {"locationBuilding": staffSitu["location"], "slotNo": ""};
+      setState(() => isLoadReserves = false);
+      print(e);
+      return [];
     }
   }
 
@@ -323,6 +312,56 @@ class _MainoState extends State<Maino> {
     }
   }
 
+  Future<Map> getLenUserPlates() async {
+    List userPlateList = await api.getUserPlate(token: userToken);
+    // Traffic Logs
+    List userTrafficLeng = await api.getUserTrafficLogs(token: userToken);
+
+    final lenUserPlate = userPlateList.length.toString();
+    final lenUserTrafficNo = userTrafficLeng.length.toString();
+
+    return {"platesNum": lenUserPlate, "userTrafficNum": lenUserTrafficNo};
+  }
+
+  // User car plate situation function
+  Future<Map> getUserCarSituation() async {
+    Map staffSitu;
+    try {
+      staffSitu = await api.getStaffInfo(token: userToken);
+      // User Car Plate situation
+      return {
+        "locationBuilding": staffSitu["location"]["building"],
+        "slotNo": staffSitu["location"]["slot"],
+      };
+    } catch (e) {
+      staffSitu = await api.getStaffInfo(token: userToken);
+      return {"locationBuilding": staffSitu["location"], "slotNo": ""};
+    }
+  }
+
+  // Delete and Canceling users reseved
+  void delReserve({reserveID}) async {
+    try {
+      String caneclingResult =
+          await api.cancelingReserve(token: userToken, reservID: reserveID);
+      print(caneclingResult);
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "حذف رزرو",
+          msg: "حذف رزرو شما با موفقیت صورت گرفت",
+          iconColor: Colors.green,
+          icon: Icons.done_outline);
+    } catch (e) {
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "حذف رزرو",
+          msg: "حذف رزرو شما با مشکلی مواجه شده است، لطفا بعدا امتحان کنید",
+          iconColor: Colors.red,
+          icon: Icons.close);
+      print("Error from Canceling Reserve $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     //  Dark Theme Changer
@@ -360,59 +399,140 @@ class _MainoState extends State<Maino> {
                 textAlign: TextAlign.right,
               ),
             ),
-            child: SafeArea(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (index) => tabBarIndex = index,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  Dashboard(
-                    openUserDashSettings: () {
-                      setState(() {
-                        tabBarIndex = 4;
-                      });
-                      _pageController.animateToPage(4,
-                          duration: Duration(milliseconds: 1),
-                          curve: Curves.easeOut);
-                    },
-                    lastLogin: lastLogin,
-                    userQRCode: userId != "" ? userId : "-",
-                    temporarLogo: mainLogo,
-                    fullnameMeme: name != "" ? name : "-",
-                    userPersonalCodeMeme:
-                        personalCode != "" ? personalCode : "-",
-                    avatarMeme: avatar != null ? avatar : null,
-                    section: locationBuilding != "" ? locationBuilding : "-",
-                    role: slotNumberInSituation != ""
-                        ? slotNumberInSituation
-                        : "-",
-                    userPlateNumber: plateNo != "" ? plateNo : "-",
-                    userTrafficNumber:
-                        userTrafficStatus != "" ? userTrafficStatus : "-",
-                    userReserveNumber:
-                        userReseveStatusLen != "" ? userReseveStatusLen : "-",
-                  ),
-                  UserTraffic(
-                    userTrafficLog: userTraffic,
-                  ),
-                  ReservedTab(
-                    mainThemeColor: themeChange,
-                    reserves: userReserved,
-                    // filter: ,
-                  ),
-                  UserPlates(
-                    userPlates: userPlates,
-                    delUserPlate: ({plateID}) => delUserPlate(plateID),
-                    loadingUserplate: isLoadUserPlates,
-                  ),
-                  Settings(
-                    fullNameMeme: name,
-                    avatarMeme: avatar != ""
-                        ? avatar
-                        : "https://style.anu.edu.au/_anu/4/images/placeholders/person.png",
-                  ),
-                ],
-              ),
+            child: PageView(
+              // Getting Reserve length
+              onPageChanged: (pageIndex) async {
+                getUserReservedHistory().then((reserves) {
+                  setState(() {
+                    userReservedListLen = reserves.length;
+                  });
+                });
+
+                // Getting Traffic length
+                getUserTrafficLogsApi(userToken).then((logs) {
+                  setState(() {
+                    userTrafficListLen = userTraffic.length;
+                  });
+                });
+
+                // if (pageIndex == 3) {
+                //   // user_plate_notif_number
+                //   SharedPreferences prefs =
+                //       await SharedPreferences.getInstance();
+                //   prefs.setInt("user_plate_notif_number", 0);
+                //   themeChange.userPlateNumNotif = 0;
+                // }
+              },
+              controller: _pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Dashboard(
+                  openUserDashSettings: () {
+                    setState(() {
+                      tabBarIndex = 4;
+                    });
+                    _pageController.animateToPage(4,
+                        duration: Duration(milliseconds: 1),
+                        curve: Curves.easeOut);
+                  },
+                  lastLogin: lastLogin,
+                  userQRCode: userId != "" ? userId : "-",
+                  temporarLogo: mainLogo,
+                  fullnameMeme: name != "" ? name : "-",
+                  userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
+                  avatarMeme: avatar != null ? avatar : null,
+                  section: locationBuilding != "" ? locationBuilding : "-",
+                  role:
+                      slotNumberInSituation != "" ? slotNumberInSituation : "-",
+                  userPlateNumber: plateNo != "" ? plateNo : "-",
+                  userTrafficNumber:
+                      userTrafficStatus != "" ? userTrafficStatus : "-",
+                  userReserveNumber:
+                      userReseveStatusLen != "" ? userReseveStatusLen : "-",
+                ),
+                UserTraffic(
+                  userTrafficLog: userTraffic,
+                  trafficListLen: userTrafficListLen,
+                  refreshFunction: () async {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                  },
+                  filterOn10: () {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                    userTrafficListLen > 5
+                        ? setState(() => userTrafficListLen = 5)
+                        : userTrafficListLen;
+                    Navigator.pop(context);
+                  },
+                  filterOn20: () {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                    userTrafficListLen > 20
+                        ? setState(() => userTrafficListLen = 20)
+                        : userTrafficListLen;
+                    Navigator.pop(context);
+                  },
+                  filterOn50: () {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                    userTrafficListLen > 50
+                        ? setState(() => userTrafficListLen = 50)
+                        : userTrafficListLen;
+                    Navigator.pop(context);
+                  },
+                  noFilter: () {
+                    setState(() => userTrafficListLen = userTraffic.length);
+                    Navigator.pop(context);
+                  },
+                  loadingTraffics: isLoadTraffics,
+                ),
+                ReservedTab(
+                  // reserveRefreshController: _reserveRefreshController,
+                  mainThemeColor: themeChange,
+                  reserves: userReserved,
+                  reservListLen: userReservedListLen,
+                  refreshFunction: () async {
+                    setState(() => userReservedListLen = userReserved.length);
+                  },
+                  filterOn10: () {
+                    setState(() => userReservedListLen = userReserved.length);
+                    userReservedListLen > 5
+                        ? setState(() => userReservedListLen = 5)
+                        : userReservedListLen;
+                    Navigator.pop(context);
+                  },
+                  filterOn20: () {
+                    setState(() => userReservedListLen = userReserved.length);
+                    userReservedListLen > 20
+                        ? setState(() => userReservedListLen = 20)
+                        : userReservedListLen;
+                    Navigator.pop(context);
+                  },
+                  filterOn50: () {
+                    setState(() => userReservedListLen = userReserved.length);
+                    userReservedListLen > 50
+                        ? setState(() => userReservedListLen = 50)
+                        : userReservedListLen;
+                    Navigator.pop(context);
+                  },
+                  noFilter: () {
+                    setState(() => userReservedListLen = userReserved.length);
+                    // print(userReserved.length);
+                    Navigator.pop(context);
+                  },
+                  loadingReserves: isLoadReserves,
+                  deletingReserve: ({reserveID}) =>
+                      delReserve(reserveID: reserveID),
+                ),
+                UserPlates(
+                  userPlates: userPlates,
+                  delUserPlate: ({plateID}) => delUserPlate(plateID),
+                  loadingUserplate: isLoadUserPlates,
+                ),
+                Settings(
+                  fullNameMeme: name,
+                  avatarMeme: avatar != ""
+                      ? avatar
+                      : "https://style.anu.edu.au/_anu/4/images/placeholders/person.png",
+                ),
+              ],
             ),
           ),
           bottomNavigationBar: Directionality(
@@ -424,15 +544,13 @@ class _MainoState extends State<Maino> {
               unselectedItemColor: HexColor('#C9C9C9'),
               selectedIconTheme: IconThemeData(color: mainSectionCTA),
               iconSize: 25,
+              // unselectedIconTheme: IconThemeData(size: 25),
               selectedFontSize: 14,
               unselectedFontSize: 14,
               currentIndex: tabBarIndex,
               onTap: (indexValue) {
-                setState(() {
-                  tabBarIndex = indexValue;
-                  _pageController.animateToPage(tabBarIndex,
-                      duration: Duration(milliseconds: 3), curve: Curves.ease);
-                });
+                setState(() => tabBarIndex = indexValue);
+                pageControllerFunc(tabBarIndex);
               },
               items: [
                 BottomNavigationBarItem(
@@ -470,12 +588,9 @@ class _MainoState extends State<Maino> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  title: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      myPlateText,
-                      style: TextStyle(fontFamily: mainFaFontFamily),
-                    ),
+                  title: Text(
+                    myPlateText,
+                    style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
                     Icons.post_add_sharp,
@@ -487,7 +602,7 @@ class _MainoState extends State<Maino> {
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
-                    Icons.account_circle,
+                    Icons.settings,
                   ),
                 ),
               ],
@@ -498,5 +613,10 @@ class _MainoState extends State<Maino> {
             SystemChannels.platform.invokeMethod('SystemNavigator.pop')
         // exit(0),
         );
+  }
+
+  void pageControllerFunc(index) {
+    _pageController.animateToPage(index,
+        duration: Duration(milliseconds: 1), curve: Curves.ease);
   }
 }

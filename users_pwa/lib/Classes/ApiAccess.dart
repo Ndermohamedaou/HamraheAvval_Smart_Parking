@@ -153,4 +153,12 @@ class ApiAccess {
     // print("From API CLASS $response.data");
     return response.data;
   }
+
+  Future<String> cancelingReserve({token, reservID}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.post("$baseUrl/cancelReserve?id=$reservID");
+    // print("From API CLASS $response.data");
+    return response.data;
+  }
 }
