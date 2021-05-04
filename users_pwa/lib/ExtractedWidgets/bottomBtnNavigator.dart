@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class BottomButton extends StatelessWidget {
-  const BottomButton({this.ontapped, this.text});
+  const BottomButton({this.ontapped, this.text, this.hasCondition = true});
 
   final Function ontapped;
   final String text;
+  final bool hasCondition;
 
   @override
   Widget build(BuildContext context) {
@@ -15,24 +15,34 @@ class BottomButton extends StatelessWidget {
       child: Material(
         elevation: 10.0,
         borderRadius: BorderRadius.circular(8.0),
-        color: loginBtnColor,
+        color: mainCTA,
         child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: (){
-              ontapped();
+            onPressed: () {
+              hasCondition ? ontapped() : null;
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  text,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: loginBtnTxtColor,
-                      fontFamily: mainFaFontFamily,
-                      fontSize: btnSized,
-                      fontWeight: FontWeight.bold),
-                ),
+                !hasCondition
+                    ? Container(
+                        width: 10,
+                        height: 10,
+                        child: CircularProgressIndicator(
+                          backgroundColor: mainCTA,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: loginBtnTxtColor,
+                            fontFamily: mainFaFontFamily,
+                            fontSize: btnSized,
+                            fontWeight: FontWeight.bold),
+                      ),
                 Icon(
                   Icons.chevron_right,
                   color: Colors.white,

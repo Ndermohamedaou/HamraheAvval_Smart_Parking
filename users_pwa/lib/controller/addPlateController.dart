@@ -13,7 +13,7 @@ void sendNewUserPlate(p0, p1, p2, p3, context, themeChange, dst) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // print("This is from App method => ${orderedPlate[3]}");
-    final uToken = await prefs.getString("token");
+    final uToken = prefs.getString("token");
     try {
       String result =
           await api.addUserPlate(token: uToken, lsPlate: orderedPlate);

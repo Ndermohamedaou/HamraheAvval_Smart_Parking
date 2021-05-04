@@ -6,7 +6,11 @@ import 'package:payausers/Screens/reserveView.dart';
 import 'package:provider/provider.dart';
 
 // Screens
+import 'Screens/addingPlateIntro.dart';
+import 'Screens/familyPage.dart';
 import 'Screens/loadingChangeAvatar.dart';
+import 'Screens/minePlate.dart';
+import 'Screens/otherPlateView.dart';
 import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
@@ -80,6 +84,10 @@ class _MyAppState extends State<MyApp> {
                   '/dashboard': (context) => Maino(),
                   '/addReserve': (context) => ReservedTab(),
                   '/myPlate': (context) => MYPlateScreen(),
+                  '/addingPlateIntro': (context) => AddingPlateIntro(),
+                  '/addingMinPlate': (context) => MinPlateView(),
+                  '/addingFamilyPage': (context) => FamilyPlateView(),
+                  '/addingOtherPlate': (context) => OtherPageView(),
                   '/settings': (context) => SettingsPage(),
                   '/changePassword': (context) => ChangePassPage(),
                   '/reserveEditaion': (context) => ReserveEditaion(),

@@ -3,7 +3,6 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 
-
 class IntroPage extends StatefulWidget {
   @override
   _IntroPageState createState() => _IntroPageState();
@@ -35,7 +34,11 @@ class _MainIntroState extends State<MainIntro> {
             children: [
               Container(
                 margin: EdgeInsets.only(top: 50),
-                child: Image.asset("assets/images/meaning_intro_vector.png"),
+                width: 300,
+                child: Image.asset(
+                  "assets/images/meaning_intro_vector.png",
+                  width: 300,
+                ),
               ),
               SizedBox(height: 20),
               Text(
