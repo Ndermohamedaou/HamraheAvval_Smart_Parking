@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:lottie/lottie.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:ticketview/ticketview.dart';
@@ -24,6 +21,8 @@ class Summery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final ticketResponsiveWidthSize = size.width > 500 ? 500 : double.infinity;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -40,7 +39,7 @@ class Summery extends StatelessWidget {
             trianglePos: .65,
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
-              width: double.infinity,
+              width: ticketResponsiveWidthSize,
               height: 400,
               child: Column(
                 children: [

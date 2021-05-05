@@ -19,9 +19,22 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final cardResponsiveWidthSize = size.width > 500 ? 95.0.w / 1.25 : 95.0.w;
+    final cardResponsiveHeightSize = size.width > 500 ? 35.0.h / 1.25 : 35.0.h;
+    final qrCodeResponsiveSize = size.width > 500 ? 7.0.h : 12.0.h;
+    final logoResponsiveSize = size.width > 500 ? 8.0.w : 10.0.w;
+    final placeOfWidthLogoTitle = size.width > 500 ? 30.0.w : 40.0.w;
+    final placeOfHeightLogoTitle = size.width > 500 ? 5.0.w : 7.0.h;
+    final placeOfHeightLogoTitleFontSize = size.width > 500 ? 12 : 12.0.sp;
+    final staffNameOnCard = size.width > 500 ? 14 : 14.0.sp;
+    final persCodeFontSize = size.width > 500 ? 12 : 12.0.sp;
+    final lastLoginTitle = size.width > 500 ? 12 : 12.0.sp;
+    final lastLoginDate = size.width > 500 ? 12 : 12.0.sp;
+
     return Container(
-      width: 95.0.w,
-      height: 35.0.h,
+      width: cardResponsiveWidthSize,
+      height: cardResponsiveHeightSize,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         gradient: LinearGradient(colors: [mainCTA, mainSectionCTA]),
@@ -34,8 +47,8 @@ class UserCard extends StatelessWidget {
             children: [
               Container(
                 margin: EdgeInsets.only(right: 10.0.w, bottom: 2.0.h),
-                width: 40.0.w,
-                height: 7.0.h,
+                width: placeOfWidthLogoTitle,
+                height: placeOfHeightLogoTitle,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius:
@@ -48,8 +61,8 @@ class UserCard extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Image.asset(
                         "assets/images/cardLogo.png",
-                        width: 10.0.w,
-                        height: 10.0.w,
+                        width: logoResponsiveSize,
+                        height: logoResponsiveSize,
                       ),
                     ),
                     SizedBox(width: 4.0.w),
@@ -58,7 +71,7 @@ class UserCard extends StatelessWidget {
                       style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           color: mainCardColor,
-                          fontSize: 12.0.sp),
+                          fontSize: placeOfHeightLogoTitleFontSize),
                     ),
                   ],
                 ),
@@ -73,8 +86,8 @@ class UserCard extends StatelessWidget {
                 // QRCode Section
                 Container(
                   alignment: Alignment.center,
-                  width: 12.0.h,
-                  height: 12.0.h,
+                  width: qrCodeResponsiveSize,
+                  height: qrCodeResponsiveSize,
                   decoration: BoxDecoration(
                       color: HexColor("#EBEAFA"),
                       borderRadius: BorderRadius.circular(5.0)),
@@ -96,7 +109,7 @@ class UserCard extends StatelessWidget {
                           fontFamily: mainFaFontFamily,
                           color: mainCardColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 14.0.sp,
+                          fontSize: staffNameOnCard,
                           letterSpacing: 2,
                         ),
                       ),
@@ -105,7 +118,7 @@ class UserCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           color: persCodeColor,
-                          fontSize: 12.0.sp,
+                          fontSize: persCodeFontSize,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 5.0,
                         ),
@@ -134,7 +147,7 @@ class UserCard extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: mainFaFontFamily,
                             color: lastVisitColor,
-                            fontSize: 10.0.sp,
+                            fontSize: lastLoginTitle,
                           ),
                         ),
                         SizedBox(width: 20),
@@ -143,7 +156,7 @@ class UserCard extends StatelessWidget {
                           style: TextStyle(
                             fontFamily: mainFaFontFamily,
                             color: Colors.black,
-                            fontSize: 12.0.sp,
+                            fontSize: lastLoginDate,
                             letterSpacing: 2,
                           ),
                         ),

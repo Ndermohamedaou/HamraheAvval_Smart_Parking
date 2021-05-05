@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:sizer/sizer.dart';
 
 class ReserveHistoryView extends StatelessWidget {
   const ReserveHistoryView(
@@ -28,16 +29,18 @@ class ReserveHistoryView extends StatelessWidget {
                     : reserveStatusColor == -2
                         ? Colors.grey.shade900
                         : Colors.white;
+
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponse = size.width > 500 ? 600 : double.infinity;
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      width: double.infinity,
+      width: widthSizedResponse,
       height: 70.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),
         image: DecorationImage(
           image: AssetImage("assets/images/back.jpg"),
-          colorFilter: new ColorFilter.mode(
-              Colors.black.withOpacity(0.25), BlendMode.srcOver),
           fit: BoxFit.cover,
         ),
         boxShadow: [
@@ -88,13 +91,16 @@ class ReserveSection1 extends StatelessWidget {
       child: Column(
         textDirection: TextDirection.ltr,
         children: [
-          Text(
-            "ساختمان : $buildingName",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: 15,
-              color: Colors.white,
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              "ساختمان : $buildingName",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: mainFaFontFamily,
+                fontSize: 8.0.sp,
+                color: Colors.white,
+              ),
             ),
           ),
           Text(
@@ -102,7 +108,7 @@ class ReserveSection1 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 15,
+              fontSize: 8.0.sp,
               color: Colors.white,
             ),
           ),
@@ -133,7 +139,7 @@ class ReserveSection2 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 15,
+              fontSize: 8.0.sp,
               color: Colors.white,
             ),
           ),
@@ -142,7 +148,7 @@ class ReserveSection2 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 15,
+              fontSize: 8.0.sp,
               color: Colors.white,
             ),
           ),

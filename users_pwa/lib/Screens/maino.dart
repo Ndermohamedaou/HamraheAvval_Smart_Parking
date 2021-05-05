@@ -599,9 +599,12 @@ class _MainoState extends State<Maino> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  title: Text(
-                    myPlateText,
-                    style: TextStyle(fontFamily: mainFaFontFamily),
+                  title: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      myPlateText,
+                      style: TextStyle(fontFamily: mainFaFontFamily),
+                    ),
                   ),
                   icon: Icon(
                     Icons.post_add_sharp,

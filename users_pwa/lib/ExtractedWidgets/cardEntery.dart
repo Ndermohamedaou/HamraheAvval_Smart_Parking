@@ -18,6 +18,8 @@ class CardEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponse = size.width > 500 ? 20.0.w : 30.0.w;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -26,7 +28,7 @@ class CardEntry extends StatelessWidget {
             child: imgShow == ""
                 ? Image.asset(
                     customIcon,
-                    width: 50.0.w,
+                    width: widthSizedResponse,
                   )
                 : Image.memory(
                     base64Decode(imgShow),
@@ -49,12 +51,12 @@ class CardEntry extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 2.0.w),
+          SizedBox(height: 5.0.w),
           Container(
             margin: EdgeInsets.only(right: 40),
             child: Text(
               attentionToConfidance,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   fontSize: 15,
@@ -78,12 +80,19 @@ class CameraTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-
+    var size = MediaQuery.of(context).size;
+    final double boxSelectedSizedResponse = size.width >= 501
+        ? 20.0.w
+        : size.width < 500 && size.width > 421
+            ? 30.0.w
+            : size.width > 280 && size.width < 420
+                ? 30.0.w
+                : 50.0.w;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 30.0.w,
-        height: 30.0.w,
+        width: boxSelectedSizedResponse,
+        height: boxSelectedSizedResponse,
         decoration: BoxDecoration(
           color: themeChange.darkTheme ? darkBar : bgOfChoice,
           borderRadius: BorderRadius.circular(17),
@@ -120,12 +129,19 @@ class AlbumTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-
+    var size = MediaQuery.of(context).size;
+    final double boxSelectedSizedResponse = size.width >= 501
+        ? 20.0.w
+        : size.width < 500 && size.width > 421
+            ? 30.0.w
+            : size.width > 280 && size.width < 420
+                ? 30.0.w
+                : 50.0.w;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 30.0.w,
-        height: 30.0.w,
+        width: boxSelectedSizedResponse,
+        height: boxSelectedSizedResponse,
         decoration: BoxDecoration(
           color: themeChange.darkTheme ? darkBar : bgOfChoice,
           borderRadius: BorderRadius.circular(17),

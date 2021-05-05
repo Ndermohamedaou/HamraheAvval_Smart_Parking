@@ -15,10 +15,10 @@ class DateUserPicker extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 40),
-          Image.asset(
-            "assets/images/calenderGif.gif",
-            width: 30.0.w,
-          ),
+          // Image.asset(
+          //   "assets/images/calenderGif.gif",
+          //   width: 30.0.w,
+          // ),
           SizedBox(height: 40),
           Directionality(
             textDirection: TextDirection.rtl,

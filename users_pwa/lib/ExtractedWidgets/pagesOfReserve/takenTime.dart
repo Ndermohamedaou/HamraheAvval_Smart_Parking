@@ -22,9 +22,9 @@ class TimerPicker extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 60),
-          Container(
-            child: Lottie.asset("assets/lottie/timePick.json", width: 150),
-          ),
+          // Container(
+          //   child: Lottie.asset("assets/lottie/timePick.json", width: 150),
+          // ),
           SizedBox(height: 30),
           Text(
             "ساعت شروع",

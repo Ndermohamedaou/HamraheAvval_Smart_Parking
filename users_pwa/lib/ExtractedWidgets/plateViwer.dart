@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
+import 'package:sizer/sizer.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 
 class PlateViewer extends StatelessWidget {
   const PlateViewer(
@@ -15,8 +14,12 @@ class PlateViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponse = size.width > 500 ? 400 : double.infinity;
+    final double responsiveFontSize = size.width > 500 ? 26 : 12.0.sp;
+
     return Container(
-        width: double.infinity,
+        width: widthSizedResponse,
         height: 70,
         // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         margin: EdgeInsets.only(top: 10, right: 13, left: 10, bottom: 5),
@@ -57,50 +60,62 @@ class PlateViewer extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 0),
-              child: Text(
-                plate0,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: mainFaFontFamily,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                margin: EdgeInsets.only(top: 0),
+                child: Text(
+                  plate0,
+                  style: TextStyle(
+                      fontSize: responsiveFontSize,
+                      fontFamily: mainFaFontFamily,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            Container(
-              child: Text(
-                plate1,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: mainFaFontFamily,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                child: Text(
+                  plate1,
+                  style: TextStyle(
+                      fontSize: responsiveFontSize,
+                      fontFamily: mainFaFontFamily,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-            Container(
-              child: Text(
-                plate2,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: mainFaFontFamily,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                child: Text(
+                  plate2,
+                  style: TextStyle(
+                      fontSize: responsiveFontSize,
+                      fontFamily: mainFaFontFamily,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             VerticalDivider(
                 width: 1,
                 color: themeChange ? Colors.white : Colors.black,
                 thickness: 3),
-            Container(
-              margin: EdgeInsets.only(right: 10),
-              child: Text(
-                plate3,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 26,
-                    fontFamily: mainFaFontFamily,
-                    fontWeight: FontWeight.bold),
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Text(
+                  plate3,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: responsiveFontSize,
+                      fontFamily: mainFaFontFamily,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ],

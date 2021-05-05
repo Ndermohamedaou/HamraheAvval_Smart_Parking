@@ -122,13 +122,15 @@ class IntroInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponseImg = size.width > 500 ? 50.0.w : 60.0.w;
     return SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(height: 10.0.h),
           Image.asset(
             "assets/images/AddingPlateSectionIntro.png",
-            width: 100.0.w,
+            width: widthSizedResponseImg,
             filterQuality: FilterQuality.low,
             // height: 10.0.h,
           ),
@@ -242,10 +244,23 @@ class OptionChoser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponse =
+        size.width > 500 ? 60.0.w : double.infinity;
+    final double heightSizedResponse = size.width >= 501
+        ? 120
+        : size.width < 500 && size.width > 421
+            ? 30.0.w
+            : size.width > 280 && size.width < 420
+                ? 50.0.w
+                : 70.0.w;
+    print(size.width);
+
+    final responsiveFontSize = size.width > 300 ? 13 : 13.0.sp;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      width: double.infinity,
-      height: 120,
+      width: widthSizedResponse,
+      height: heightSizedResponse,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(6.0),
@@ -270,7 +285,7 @@ class OptionChoser extends StatelessWidget {
                   textAlign: TextAlign.right,
                   style: TextStyle(
                       fontFamily: mainFaFontFamily,
-                      fontSize: 18,
+                      fontSize: responsiveFontSize,
                       color: Colors.white,
                       fontWeight: FontWeight.bold),
                 ),
@@ -283,7 +298,7 @@ class OptionChoser extends StatelessWidget {
                 textAlign: TextAlign.right,
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
-                    fontSize: 13.0,
+                    fontSize: responsiveFontSize,
                     color: Colors.white,
                     fontWeight: FontWeight.normal),
               ),

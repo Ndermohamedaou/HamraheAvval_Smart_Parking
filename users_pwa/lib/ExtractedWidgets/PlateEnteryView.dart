@@ -27,6 +27,8 @@ class PlateEntery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponse = size.width > 500 ? 20.0.w : 30.0.w;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SingleChildScrollView(
@@ -36,7 +38,7 @@ class PlateEntery extends StatelessWidget {
               margin: EdgeInsets.only(top: 20.0.w),
               child: Image.asset(
                 "assets/images/plateWriting.png",
-                width: 50.0.w,
+                width: widthSizedResponse,
               ),
             ),
             SizedBox(height: 15.0.w),

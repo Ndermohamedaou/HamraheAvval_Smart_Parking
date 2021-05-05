@@ -30,8 +30,10 @@ class PlateEditor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponse = size.width > 500 ? 400 : double.infinity;
     return Container(
-      width: double.infinity,
+      width: widthSizedResponse,
       height: 70,
       // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       margin: EdgeInsets.only(top: 10, right: 20, left: 20, bottom: 5),

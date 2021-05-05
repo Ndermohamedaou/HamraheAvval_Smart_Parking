@@ -150,6 +150,9 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
 
+    var size = MediaQuery.of(context).size;
+    final responsiveWidthTextFieldSize =
+        size.width > 500 ? 500 : double.infinity;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -171,54 +174,61 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 30),
-              TextFields(
-                keyType: TextInputType.multiline,
-                lblText: personalCodePlaceHolder,
-                textFieldIcon: Icons.account_circle,
-                textInputType: false,
-                readOnly: false,
-                errText:
-                    emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
-                onChangeText: (onChangeUsername) {
-                  setState(() {
-                    emptyTextFieldErrPersonalCode = null;
-                    personalCode = onChangeUsername;
-                  });
-                },
+              Container(
+                width: responsiveWidthTextFieldSize,
+                child: TextFields(
+                  keyType: TextInputType.multiline,
+                  lblText: personalCodePlaceHolder,
+                  textFieldIcon: Icons.account_circle,
+                  textInputType: false,
+                  readOnly: false,
+                  errText:
+                      emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
+                  onChangeText: (onChangeUsername) {
+                    setState(() {
+                      emptyTextFieldErrPersonalCode = null;
+                      personalCode = onChangeUsername;
+                    });
+                  },
+                ),
               ),
               SizedBox(height: 20),
-              TextFields(
-                keyType: TextInputType.visiblePassword,
-                lblText: passwordTextFieldPlace,
-                maxLen: 20,
-                readOnly: false,
-                errText: emptyTextFieldErrPassword == null
-                    ? null
-                    : emptyTextFieldMsg,
-                textInputType: protectedPassword,
-                textFieldIcon:
-                    password == "" ? Icons.vpn_key_outlined : showMePass,
-                iconPressed: () {
-                  setState(() {
-                    protectedPassword
-                        ? protectedPassword = false
-                        : protectedPassword = true;
-                    // Changing eye icon pressing
-                    showMePass == Icons.remove_red_eye
-                        ? showMePass = Icons.remove_red_eye_outlined
-                        : showMePass = Icons.remove_red_eye;
-                  });
-                },
-                onChangeText: (onChangePassword) {
-                  setState(() {
-                    emptyTextFieldErrPassword = null;
-                    password = onChangePassword;
-                  });
-                },
+              Container(
+                width: responsiveWidthTextFieldSize,
+                child: TextFields(
+                  keyType: TextInputType.visiblePassword,
+                  lblText: passwordTextFieldPlace,
+                  maxLen: 20,
+                  readOnly: false,
+                  errText: emptyTextFieldErrPassword == null
+                      ? null
+                      : emptyTextFieldMsg,
+                  textInputType: protectedPassword,
+                  textFieldIcon:
+                      password == "" ? Icons.vpn_key_outlined : showMePass,
+                  iconPressed: () {
+                    setState(() {
+                      protectedPassword
+                          ? protectedPassword = false
+                          : protectedPassword = true;
+                      // Changing eye icon pressing
+                      showMePass == Icons.remove_red_eye
+                          ? showMePass = Icons.remove_red_eye_outlined
+                          : showMePass = Icons.remove_red_eye;
+                    });
+                  },
+                  onChangeText: (onChangePassword) {
+                    setState(() {
+                      emptyTextFieldErrPassword = null;
+                      password = onChangePassword;
+                    });
+                  },
+                ),
               ),
               SizedBox(height: 10),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
+                width: responsiveWidthTextFieldSize,
                 child: FlatButton(
                     onPressed: () {
                       print("Forgot Btn Clicked!!");
