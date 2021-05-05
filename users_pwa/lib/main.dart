@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Screens/termsOfServicePage.dart';
 import 'package:sizer/sizer.dart';
@@ -27,8 +28,9 @@ import 'Screens/reservePageEdit.dart';
 import 'Screens/changeUserEmail.dart';
 import 'Screens/pageLengthIndex.dart';
 
-void main() {
+void main() async {
   runApp(MyApp());
+  FirebaseMessaging.instance.getToken().then(print);
 }
 
 class MyApp extends StatefulWidget {
@@ -43,6 +45,21 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getCurrentAppTheme();
+    firebaseOnMessage();
+    onFirebaseOpenedApp();
+  }
+
+  void onFirebaseOpenedApp() {
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      print(event.notification.title);
+    });
+  }
+
+  void firebaseOnMessage() {
+    FirebaseMessaging.onMessage.listen((msg) {
+      print(msg.notification.title);
+      print(msg.notification.body);
+    });
   }
 
   void getCurrentAppTheme() async {
