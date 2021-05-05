@@ -31,7 +31,7 @@ const passwordPlaceHolderNew = "تکرار گذرواژه جدید";
 const forgetPass = "گذرواژه خود را فراموش کرده اید؟";
 
 // Login
-const String emptyTextFieldMsg = "فیلد نباید خالی باشد!";
+const String emptyTextFieldMsg = "فیلد نباید خالی باشد";
 const wrongPersonalOrPassword = "کد پرسنلی یا گذرواژه اشتباه است";
 const serverNotRespond = "مشکل در برقراری ارتباط با سرور";
 

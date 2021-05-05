@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Classes/SavingData.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
@@ -119,8 +120,9 @@ class _LoginPageState extends State<LoginPage> {
       if (email != "" && pass != "") {
         try {
           setState(() => isLogin = false);
-          Map getLoginThridParity =
-              await api.getAccessToLogin(email: email, password: pass);
+          final user_device_token = await FirebaseMessaging.instance.getToken();
+          Map getLoginThridParity = await api.getAccessToLogin(
+              email: email, password: pass, deviceToken: user_device_token);
           if (getLoginThridParity["status"] == "200") {
             // Checking First visit
             if (getLoginThridParity["first_visit"]) {
@@ -186,6 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                       emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
                   onChangeText: (onChangeUsername) {
                     setState(() {
+                      emptyTextFieldErrEmail = null;
                       emptyTextFieldErrPersonalCode = null;
                       personalCode = onChangeUsername;
                     });

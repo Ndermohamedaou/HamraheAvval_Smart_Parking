@@ -4,9 +4,9 @@ import 'package:dio/dio.dart';
 class ApiAccess {
   Dio dio = Dio();
 
-  Future<Map> getAccessToLogin({email, password}) async {
-    Response res =
-        await dio.post("$baseUrl/login?email=$email&password=$password");
+  Future<Map> getAccessToLogin({email, password, deviceToken}) async {
+    Response res = await dio.post(
+        "$baseUrl/login?email=$email&password=$password&DeviceToken=$deviceToken");
     return res.data;
   }
 
