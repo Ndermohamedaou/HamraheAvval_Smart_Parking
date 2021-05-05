@@ -235,6 +235,18 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 ),
               ),
               SizedBox(height: 30),
+              MaterialButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, "/addingPlateIntro"),
+                color: mainSectionCTA,
+                child: Text(
+                  "اولین پلاک را در حساب خود وارد کنید",
+                  style: TextStyle(
+                      fontFamily: mainFaFontFamily, color: Colors.white),
+                  textAlign: TextAlign.right,
+                ),
+              ),
+              SizedBox(height: 30),
               Container(
                 alignment: Alignment.topRight,
                 margin: EdgeInsets.fromLTRB(0, 10, 40, 0),
