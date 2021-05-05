@@ -26,10 +26,11 @@ class BottomButton extends StatelessWidget {
               children: [
                 !hasCondition
                     ? Container(
-                        width: 10,
-                        height: 10,
+                        width: 30,
+                        height: 30,
                         child: CircularProgressIndicator(
                           backgroundColor: mainCTA,
+                          strokeWidth: 5,
                           valueColor:
                               AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
