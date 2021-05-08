@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class TextFields extends StatelessWidget {
-  TextFields(
-      {this.lblText,
-      this.onChangeText,
-      this.textFieldIcon,
-      this.textInputType,
-      this.validate,
-      this.iconPressed,
-      this.maxLen,
-      this.errText,
-      this.enteringEditing,
-      this.readOnly,
-      this.initValue});
+  TextFields({
+    this.lblText,
+    this.onChangeText,
+    this.textFieldIcon,
+    this.textInputType,
+    this.validate,
+    this.iconPressed,
+    this.maxLen,
+    this.errText,
+    this.enteringEditing,
+    this.readOnly,
+    this.initValue,
+    this.keyboardType,
+    this.cursorColor,
+    this.borderColor,
+  });
 
   final String lblText;
   final Function onChangeText;
@@ -26,7 +30,9 @@ class TextFields extends StatelessWidget {
   final Function enteringEditing;
   final bool readOnly;
   final String initValue;
-
+  final TextInputType keyboardType;
+  final Color cursorColor;
+  final Color borderColor;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -35,27 +41,29 @@ class TextFields extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 20),
         child: TextFormField(
           readOnly: readOnly,
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: keyboardType,
           initialValue: initValue,
           maxLength: maxLen,
           validator: validate,
           obscureText: textInputType,
           textAlign: TextAlign.center,
-          cursorColor: mainCTA,
+          cursorColor: cursorColor == null ? mainCTA : cursorColor,
           decoration: InputDecoration(
             counterText: "",
             errorText: errText,
             errorStyle: TextStyle(fontFamily: mainFaFontFamily),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: mainCTA,
+                color: borderColor == null ? mainCTA : borderColor,
                 width: 2,
               ),
             ),
-            fillColor: mainCTA,
+            fillColor: borderColor == null ? mainCTA : borderColor,
             labelText: lblText,
             //TODO Fill this section for extract my custom Widget
-            labelStyle: TextStyle(fontFamily: mainFaFontFamily, color: mainCTA),
+            labelStyle: TextStyle(
+                fontFamily: mainFaFontFamily,
+                color: borderColor == null ? mainCTA : borderColor),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
             ),
@@ -64,7 +72,7 @@ class TextFields extends StatelessWidget {
               onPressed: iconPressed,
               child: Icon(
                 textFieldIcon,
-                color: mainCTA,
+                color: borderColor == null ? mainCTA : borderColor,
               ),
             ),
           ),

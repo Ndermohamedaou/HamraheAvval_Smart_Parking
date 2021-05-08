@@ -46,7 +46,7 @@ const themeMsg = "یک حالت را انتخاب کنید";
 
 // Bottom Navigation texts
 const settingsText = "تنظیمات";
-const reserveText = "رزورها";
+const reserveText = "رزروها";
 const transactionText = "ترددها";
 const dashboardText = "داشبرد";
 
@@ -71,7 +71,7 @@ const chooseDate = "انتخاب تاریخ رزرو";
 const openCalender = "بازکردن تقویم";
 const chooseTime = "انتخاب زمان";
 const choosePlate = "انتخاب پلاک";
-const summery = "مرور رزور جایگاه";
+const summery = "مرور رزرو جایگاه";
 const entryTime = "زمان ورود";
 const exitTime = "زمان خروج";
 const lateToloadPlate = "چند لحظه منتظر بمانید";

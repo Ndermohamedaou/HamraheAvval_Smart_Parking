@@ -1,8 +1,4 @@
-import 'dart:convert';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:payausers/Classes/SavingData.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -42,6 +38,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     super.dispose();
+    personalCode = "";
+    password = "";
+    emptyTextFieldErrPersonalCode = null;
+    emptyTextFieldErrEmail = null;
+    emptyTextFieldErrPassword = null;
+    isLogin = false;
   }
 
   @override
@@ -57,62 +59,6 @@ class _LoginPageState extends State<LoginPage> {
     final String mainLogo =
         themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
 
-    // If user is not new
-    void getUserAccInfo(token) async {
-      SavingData savingData = SavingData();
-      try {
-        Map userInfo = await api.getStaffInfo(token: token);
-        // Convert plate list from api to lStorage
-        // final List userPlates = userInfo["plates"] as List;
-
-        bool result = await savingData.LDS(
-          token: token,
-          user_id: userInfo["user_id"],
-          email: userInfo["email"],
-          name: userInfo["name"],
-          role: userInfo['role'],
-          avatar: userInfo["avatar"],
-          melli_code: userInfo['melli_code'],
-          personal_code: userInfo['personal_code'],
-          section: userInfo["section"],
-          lastLogin: userInfo["last_login"],
-        );
-
-        // bool savingUserPlate = await savingData.savingPlate(plates: userPlates);
-
-        if (result) {
-          Navigator.pushNamed(context, "/loginCheckout");
-        } else {
-          Toast.show("Your info can not saved", context,
-              duration: Toast.LENGTH_LONG,
-              gravity: Toast.BOTTOM,
-              textColor: Colors.white);
-        }
-      } catch (e) {
-        Toast.show("Error in Get User info!", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
-      }
-    }
-
-    // Confirmation
-    void goToConfirm(token) async {
-      try {
-        Map userInfo = await api.getStaffInfo(token: token);
-        Navigator.pushNamed(context, "/confirm", arguments: {
-          "userInfo": userInfo,
-          "curPass": password,
-          "token": token
-        });
-      } catch (e) {
-        Toast.show("Can't Confirm you", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
-      }
-    }
-
     // Login process
     void navigatedToDashboard({email, pass}) async {
       setState(() {
@@ -122,25 +68,22 @@ class _LoginPageState extends State<LoginPage> {
       if (email != "" || pass != "") {
         try {
           setState(() => isLogin = true);
-          final user_device_token = await FirebaseMessaging.instance.getToken();
-          Map getLoginThridParity = await api.getAccessToLogin(
-              email: email, password: pass, deviceToken: user_device_token);
-          if (getLoginThridParity["status"] == "200") {
-            // Checking First visit
-            if (getLoginThridParity["first_visit"]) {
-              goToConfirm(getLoginThridParity['token']);
-            } else {
-              getUserAccInfo(getLoginThridParity['token']);
-            }
+          String getLoginStatus =
+              await api.getAccessToLogin(email: email, password: pass);
+          if (getLoginStatus == "200") {
+            Navigator.pushNamed(context, "/2factorAuth",
+                arguments: {"persCode": email, "password": pass});
+            setState(() => isLogin = false);
           } else {
             Toast.show("خطا در ورود", context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
+            setState(() => isLogin = false);
           }
         } catch (e) {
           setState(() => isLogin = false);
-          print(e);
+          print("Erorr in self login ==> $e");
           Toast.show("شماره پرسنلی یا گذرواژه اشتباه است", context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
@@ -177,6 +120,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 30),
               TextFields(
                 lblText: personalCodePlaceHolder,
+                keyboardType: TextInputType.emailAddress,
                 textFieldIcon: Icons.account_circle,
                 textInputType: false,
                 readOnly: false,
@@ -193,6 +137,7 @@ class _LoginPageState extends State<LoginPage> {
               TextFields(
                 lblText: passwordTextFieldPlace,
                 maxLen: 20,
+                keyboardType: TextInputType.visiblePassword,
                 readOnly: false,
                 errText: emptyTextFieldErrPassword == null
                     ? null

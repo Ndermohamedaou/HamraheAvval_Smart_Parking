@@ -133,6 +133,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
               SizedBox(height: 20),
               TextFields(
                 lblText: curPass,
+                keyboardType: TextInputType.visiblePassword,
                 maxLen: 20,
                 readOnly: false,
                 errText: emptyTextFieldErrCurPassword == null
@@ -161,6 +162,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
               ),
               SizedBox(height: 10),
               TextFields(
+                keyboardType: TextInputType.visiblePassword,
                 lblText: newPass,
                 maxLen: 20,
                 readOnly: false,
@@ -190,6 +192,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
               ),
               SizedBox(height: 10),
               TextFields(
+                keyboardType: TextInputType.visiblePassword,
                 lblText: confNewPass,
                 maxLen: 20,
                 readOnly: false,

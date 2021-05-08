@@ -4,9 +4,20 @@ import 'package:dio/dio.dart';
 class ApiAccess {
   Dio dio = Dio();
 
-  Future<Map> getAccessToLogin({email, password, deviceToken}) async {
+  Future<String> getAccessToLogin({email, password}) async {
+    Response res = await dio
+        .post("$baseUrl/login?personal_code=$email&password=$password");
+    return res.data;
+  }
+
+  Future<Map> submitOTPCode({code, persCode, devToken}) async {
     Response res = await dio.post(
-        "$baseUrl/login?email=$email&password=$password&DeviceToken=$deviceToken");
+        "$baseUrl/submitCode?code=$code&personal_code=$persCode&DeviceToken=$devToken");
+    return res.data;
+  }
+
+  Future<String> resendsubmitOTPCode({persCode}) async {
+    Response res = await dio.post("$baseUrl/resendOTP?personal_code=$persCode");
     return res.data;
   }
 

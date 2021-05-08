@@ -263,6 +263,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               SizedBox(height: 15),
               TextFields(
                 lblText: passwordPlaceHolder,
+                keyboardType: TextInputType.visiblePassword,
                 maxLen: 20,
                 readOnly: false,
                 errText: emptyTextFieldErrPassword == null
@@ -294,6 +295,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 lblText: passwordPlaceHolderNew,
                 maxLen: 20,
                 readOnly: false,
+                keyboardType: TextInputType.visiblePassword,
                 errText: emptyTextFieldErrPassword == null
                     ? null
                     : emptyTextFieldMsg,

@@ -18,6 +18,7 @@ import 'Screens/enableAppLock.dart';
 import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
+import 'package:payausers/Screens/two_factor_auth.dart';
 import 'Screens/confirmInfo.dart';
 import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
@@ -204,6 +205,7 @@ class _MyAppState extends State<MyApp> {
                     '/themeSelector': (context) => ThemeModeSelectorPage(),
                     '/termsAndLicense': (context) => TermsOfServiceView(),
                     '/login': (context) => LoginPage(),
+                    '/2factorAuth': (context) => TwoFactorAuthScreen(),
                     '/confirm': (context) => ConfirmScreen(),
                     '/loginCheckout': (context) => LoginCheckingoutPage(),
                     '/localAuth': (context) => LocalAuthEnter(),
