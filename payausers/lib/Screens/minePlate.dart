@@ -11,9 +11,7 @@ import 'package:payausers/ExtractedWidgets/cardEntery.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Screens/confirmInfo.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
-import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MinPlateView extends StatefulWidget {
   @override
@@ -59,7 +57,14 @@ class _MinPlateViewState extends State<MinPlateView> {
   }
 
   Future gettingNationalCard(ImageSource source) async {
-    final image = await ImagePicker.pickImage(source: source);
+    final image = await ImagePicker.pickImage(
+      source: source,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 50,
+    );
+
+    print("Your image is : $image");
 
     if (image != null) {
       setState(() => ncCard = image);
@@ -68,13 +73,18 @@ class _MinPlateViewState extends State<MinPlateView> {
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
+        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
         title: "عدم انتخاب تصویر",
       );
   }
 
   Future gettingCarCard(ImageSource source) async {
-    final image = await ImagePicker.pickImage(source: source);
+    final image = await ImagePicker.pickImage(
+      source: source,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 50,
+    );
 
     if (image != null) {
       setState(() => carCard = image);
@@ -83,7 +93,7 @@ class _MinPlateViewState extends State<MinPlateView> {
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
+        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
         title: "عدم انتخاب تصویر",
       );
   }
@@ -102,68 +112,79 @@ class _MinPlateViewState extends State<MinPlateView> {
         nationalCardImg != null &&
         carCardImg != null) {
       setState(() => isAddingDocs = false);
-      final uToken = await lds.read(key: "token");
-      List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-      String _selfMelliCardImg = await imgConvertor.img2Base64(nationalCardImg);
-      String _selfCarCardImg = await imgConvertor.img2Base64(carCardImg);
+      if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
+        final uToken = await lds.read(key: "token");
+        List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
+        String _selfMelliCardImg =
+            await imgConvertor.img2Base64(nationalCardImg);
+        String _selfCarCardImg = await imgConvertor.img2Base64(carCardImg);
 
-      // print(uToken);
-      // print(lsPlate);
-      // print(_selfMelliCardImg);
-      // print(_selfCarCardImg);
+        // print(uToken);
+        // print(lsPlate);
+        // print(_selfMelliCardImg);
+        // print(_selfCarCardImg);
 
-      int result = await addPlateProc.minePlateReq(
-        token: uToken,
-        plate: lsPlate,
-        selfMelli: _selfMelliCardImg,
-        selfCarCard: _selfCarCardImg,
-      );
+        int result = await addPlateProc.minePlateReq(
+          token: uToken,
+          plate: lsPlate,
+          selfMelli: _selfMelliCardImg,
+          selfCarCard: _selfCarCardImg,
+        );
 
-      if (result == 200) {
-        // Prevent to twice tapping happen
+        if (result == 200) {
+          // Prevent to twice tapping happen
+          setState(() => isAddingDocs = true);
+          // Twice poping
+          int count = 0;
+          Navigator.popUntil(context, (route) {
+            return count++ == 2;
+          });
+          showStatusInCaseOfFlush(
+              context: context,
+              title: successfullPlateAddTitle,
+              msg: successfullPlateAddDsc,
+              iconColor: Colors.green,
+              icon: Icons.done_outline);
+        }
+
+        if (result == 100) {
+          // Twice poping
+          int count = 0;
+          Navigator.popUntil(context, (route) {
+            return count++ == 2;
+          });
+          setState(() => isAddingDocs = true);
+          showStatusInCaseOfFlush(
+              context: context,
+              title: warnningOnAddPlate,
+              msg: moreThanPlateAdded,
+              iconColor: Colors.red,
+              icon: Icons.close);
+        }
+        if (result == 1) {
+          setState(() => isAddingDocs = true);
+          showStatusInCaseOfFlush(
+              context: context,
+              title: existUserPlateTitleErr,
+              msg: existUserPlateDescErr,
+              iconColor: Colors.red,
+              icon: Icons.close);
+        }
+        if (result == -1) {
+          setState(() => isAddingDocs = true);
+          showStatusInCaseOfFlush(
+              context: context,
+              title: errorPlateAddTitle,
+              msg: errorPlateAddDsc,
+              iconColor: Colors.red,
+              icon: Icons.close);
+        }
+      } else {
         setState(() => isAddingDocs = true);
-        // Twice poping
-        int count = 0;
-        Navigator.popUntil(context, (route) {
-          return count++ == 2;
-        });
         showStatusInCaseOfFlush(
             context: context,
-            title: successfullPlateAddTitle,
-            msg: successfullPlateAddDsc,
-            iconColor: Colors.green,
-            icon: Icons.done_outline);
-      }
-
-      if (result == 100) {
-        // Twice poping
-        int count = 0;
-        Navigator.popUntil(context, (route) {
-          return count++ == 2;
-        });
-        setState(() => isAddingDocs = true);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: warnningOnAddPlate,
-            msg: moreThanPlateAdded,
-            iconColor: Colors.red,
-            icon: Icons.close);
-      }
-      if (result == 1) {
-        setState(() => isAddingDocs = true);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: existUserPlateTitleErr,
-            msg: existUserPlateDescErr,
-            iconColor: Colors.red,
-            icon: Icons.close);
-      }
-      if (result == -1) {
-        setState(() => isAddingDocs = true);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: errorPlateAddTitle,
-            msg: errorPlateAddDsc,
+            title: "خطا در ارسال پلاک",
+            msg: "لطفا پلاک معتبر وارد نمایید",
             iconColor: Colors.red,
             icon: Icons.close);
       }

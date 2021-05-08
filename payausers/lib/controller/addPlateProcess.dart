@@ -61,7 +61,7 @@ class AddPlateProc {
   Future<int> otherPlateReq({token, List plate}) async {
     try {
       final result = await api.addOtherPlate(token: token, lsPlate: plate);
-      if (result == "200") {
+      if (result == "InPersonVisit") {
         return 200;
       }
 

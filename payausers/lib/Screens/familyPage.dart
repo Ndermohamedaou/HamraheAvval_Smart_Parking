@@ -64,7 +64,12 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   }
 
   Future gettingNationalCard(ImageSource source) async {
-    final image = await ImagePicker.pickImage(source: source);
+    final image = await ImagePicker.pickImage(
+      source: source,
+      maxHeight: 512,
+      maxWidth: 512,
+      imageQuality: 50,
+    );
 
     if (image != null) {
       setState(() => ncCard = image);
@@ -73,13 +78,18 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
+        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
         title: "عدم انتخاب تصویر",
       );
   }
 
   Future gettingOwnerNC(ImageSource source) async {
-    final image = await ImagePicker.pickImage(source: source);
+    final image = await ImagePicker.pickImage(
+      source: source,
+      maxHeight: 500,
+      maxWidth: 500,
+      imageQuality: 50,
+    );
 
     if (image != null) {
       setState(() => ncOwnerCard = image);
@@ -88,13 +98,18 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
+        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
         title: "عدم انتخاب تصویر",
       );
   }
 
   Future gettingOwnerCarCard(ImageSource source) async {
-    final image = await ImagePicker.pickImage(source: source);
+    final image = await ImagePicker.pickImage(
+      source: source,
+      maxHeight: 500,
+      maxWidth: 500,
+      imageQuality: 50,
+    );
 
     if (image != null) {
       setState(() => ownerCarCard = image);
@@ -103,7 +118,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
+        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
         title: "عدم انتخاب تصویر",
       );
   }
@@ -124,71 +139,82 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         nationalCardImg != null &&
         ownerNationalCard != null &&
         ownerCarCard != null) {
-      setState(() => isAddingDocs = false);
-      final uToken = await lds.read(key: "token");
-      List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-      String _selfMelliImg = await imgConvertor.img2Base64(nationalCardImg);
-      String _ownerMelliImg = await imgConvertor.img2Base64(ownerNationalCard);
-      String _ownerCarCard = await imgConvertor.img2Base64(ownerCarCard);
-      // print(plate0);
-      // print(plate1);
-      // print(plate2);
-      // print(plate3);
-      // print(_melliImg);
-      // print(_ownerMelliImg);
-      // print(_ownerCarCard);
-      int result = await addPlateProc.familyPlateReq(
-          token: uToken,
-          plate: lsPlate,
-          selfMelli: _selfMelliImg,
-          ownerMelli: _ownerMelliImg,
-          ownerCarCard: _ownerCarCard);
+      if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
+        setState(() => isAddingDocs = false);
+        final uToken = await lds.read(key: "token");
+        List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
+        String _selfMelliImg = await imgConvertor.img2Base64(nationalCardImg);
+        String _ownerMelliImg =
+            await imgConvertor.img2Base64(ownerNationalCard);
+        String _ownerCarCard = await imgConvertor.img2Base64(ownerCarCard);
+        // print(plate0);
+        // print(plate1);
+        // print(plate2);
+        // print(plate3);
+        // print(_melliImg);
+        // print(_ownerMelliImg);
+        // print(_ownerCarCard);
+        int result = await addPlateProc.familyPlateReq(
+            token: uToken,
+            plate: lsPlate,
+            selfMelli: _selfMelliImg,
+            ownerMelli: _ownerMelliImg,
+            ownerCarCard: _ownerCarCard);
 
-      if (result == 200) {
-        // Prevent to twice tapping happen
-        setState(() => isAddingDocs = true);
-        // Twice poping
-        int count = 0;
-        Navigator.popUntil(context, (route) {
-          return count++ == 2;
-        });
-        showStatusInCaseOfFlush(
-            context: context,
-            title: successfullPlateAddTitle,
-            msg: successfullPlateAddDsc,
-            iconColor: Colors.green,
-            icon: Icons.done_outline);
-      }
+        if (result == 200) {
+          // Prevent to twice tapping happen
+          setState(() => isAddingDocs = true);
+          // Twice poping
+          int count = 0;
+          Navigator.popUntil(context, (route) {
+            return count++ == 2;
+          });
+          showStatusInCaseOfFlush(
+              context: context,
+              title: successfullPlateAddTitle,
+              msg: successfullPlateAddDsc,
+              iconColor: Colors.green,
+              icon: Icons.done_outline);
+        }
 
-      if (result == 100) {
-        // Twice poping
-        int count = 0;
-        Navigator.popUntil(context, (route) {
-          return count++ == 2;
-        });
+        if (result == 100) {
+          // Twice poping
+          int count = 0;
+          Navigator.popUntil(context, (route) {
+            return count++ == 2;
+          });
+          setState(() => isAddingDocs = true);
+          showStatusInCaseOfFlush(
+              context: context,
+              title: warnningOnAddPlate,
+              msg: moreThanPlateAdded,
+              iconColor: Colors.red,
+              icon: Icons.close);
+        }
+        if (result == 1) {
+          setState(() => isAddingDocs = true);
+          showStatusInCaseOfFlush(
+              context: context,
+              title: existUserPlateTitleErr,
+              msg: existUserPlateDescErr,
+              iconColor: Colors.red,
+              icon: Icons.close);
+        }
+        if (result == -1) {
+          setState(() => isAddingDocs = true);
+          showStatusInCaseOfFlush(
+              context: context,
+              title: errorPlateAddTitle,
+              msg: errorPlateAddDsc,
+              iconColor: Colors.red,
+              icon: Icons.close);
+        }
+      } else {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
             context: context,
-            title: warnningOnAddPlate,
-            msg: moreThanPlateAdded,
-            iconColor: Colors.red,
-            icon: Icons.close);
-      }
-      if (result == 1) {
-        setState(() => isAddingDocs = true);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: existUserPlateTitleErr,
-            msg: existUserPlateDescErr,
-            iconColor: Colors.red,
-            icon: Icons.close);
-      }
-      if (result == -1) {
-        setState(() => isAddingDocs = true);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: errorPlateAddTitle,
-            msg: errorPlateAddDsc,
+            title: "خطا در ارسال پلاک",
+            msg: "لطفا پلاک معتبر وارد نمایید",
             iconColor: Colors.red,
             icon: Icons.close);
       }
