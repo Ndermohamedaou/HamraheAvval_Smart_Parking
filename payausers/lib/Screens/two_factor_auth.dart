@@ -16,6 +16,7 @@ ApiAccess api = ApiAccess();
 Map<String, Object> personalLoginInfo;
 String userotpCode = "";
 Timer _timer;
+var customDuration = Duration(seconds: 1);
 int _start = 60;
 bool _isRestart = false;
 bool _isSubmit = false;
@@ -28,14 +29,19 @@ class TwoFactorAuthScreen extends StatefulWidget {
 class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
   @override
   void initState() {
-    super.initState();
-    startTimer();
+    _start = 60;
     userotpCode = "";
     _isSubmit = false;
+    _isRestart = false;
+    customDuration = Duration(seconds: 1);
+    startTimer();
+    super.initState();
   }
 
   @override
   void dispose() {
+    customDuration = Duration(seconds: 1);
+    _timer.cancel();
     super.dispose();
   }
 
@@ -142,7 +148,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
   }
 
   void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(customDuration, (timer) {
       if (_start == 0) {
         setState(() {
           _timer.cancel();
