@@ -9,7 +9,6 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/optionViewer.dart';
-import 'package:payausers/Screens/maino.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:toast/toast.dart';
 
@@ -162,7 +161,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 uA: imgSource == null
                     ? NetworkImage(userAvatar)
                     : FileImage(imgSource),
-                uId: userId,
+                uId: "userId",
               ),
               FlatButton(
                 onPressed: () {

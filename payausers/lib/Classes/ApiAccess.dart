@@ -118,7 +118,7 @@ class ApiAccess {
   Future<String> delUserPlate({token, id}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
-    Response response = await dio.post("$baseUrl/delUserPlate?id=$id");
+    Response response = await dio.post("$baseUrl/delUserPlate?plate_en=$id");
     // print(response.data);
     return response.data;
   }
@@ -139,7 +139,7 @@ class ApiAccess {
     return response.data['status'];
   }
 
-  Future<List> userReserveHistory({token}) async {
+  Future<Map> userReserveHistory({token}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getUserReserves");

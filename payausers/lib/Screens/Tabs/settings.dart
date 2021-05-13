@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -149,9 +150,10 @@ class Settings extends StatelessWidget {
     final themeIconLeading = themeChange.darkTheme
         ? Icon(Icons.brightness_5, color: Colors.yellow)
         : Icon(Icons.bedtime, color: Colors.blue);
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
+
+    LocalDataGetterClass loadLocalData = LocalDataGetterClass();
+
+    Widget sliverAppBar({name, avatar}) => SliverAppBar(
           expandedHeight: 70.0.w,
           floating: false,
           pinned: true,
@@ -159,11 +161,11 @@ class Settings extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
             title: Text(
-              fullNameMeme,
+              name,
               style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 15),
             ),
             background: Image(
-              image: NetworkImage(avatarMeme),
+              image: NetworkImage(avatar),
               fit: BoxFit.cover,
             ),
           ),
@@ -186,6 +188,24 @@ class Settings extends StatelessWidget {
               ),
             ),
           ),
+        );
+
+    return CustomScrollView(
+      slivers: [
+        StreamBuilder(
+          stream: loadLocalData.getLocalUserAvatarInReal(),
+          builder: (BuildContext context, snapshot) {
+            if (snapshot.hasData) {
+              return sliverAppBar(name: "Alireza", avatar: snapshot.data);
+            } else if (snapshot.hasError) {
+              return sliverAppBar(
+                  name: "",
+                  avatar:
+                      "https://style.anu.edu.au/_anu/4/images/placeholders/person.png");
+            } else {
+              return sliverAppBar(name: "", avatar: "");
+            }
+          },
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(

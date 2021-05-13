@@ -11,6 +11,8 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/gettingLocalData.dart';
+import 'package:payausers/controller/streamAPI.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
 import 'package:connectivity/connectivity.dart';
@@ -29,44 +31,15 @@ class Maino extends StatefulWidget {
   _MainoState createState() => _MainoState();
 }
 
-Timer timer;
 dynamic themeChange;
 int tabBarIndex;
 var _pageController;
-String userId = "";
-String name = "";
-String personalCode = "";
-String avatar = "";
-String userToken = "";
-String userSection = "";
-String userRole = "";
-String email = "";
-String lastLogin = "";
 
-// Traffic List
-List userTraffic = [];
-int userTrafficListLen = userTraffic.length;
-
-// Reserve View both list and length
-List userReserved = [];
-int userReservedListLen = userReserved.length;
-
-String lenOfTrafic = "";
-String lenOfReserve = "";
-String lenOfUserPlate = "";
-String locationBuilding = "";
-String slotNumberInSituation = "";
-
-// User PLates view
-List userPlates = [];
-
-// Loading Buffer
-bool isLoadTraffics = false;
-bool isLoadReserves = false;
-bool isLoadUserPlates = false;
 //reserve Special pices
 // int showPiceces = 0;
 ApiAccess api = ApiAccess();
+LocalDataGetterClass loadLocalData = LocalDataGetterClass();
+StreamAPI streamAPI = StreamAPI();
 
 class _MainoState extends State<Maino> {
   FlutterSecureStorage lds = FlutterSecureStorage();
@@ -79,11 +52,6 @@ class _MainoState extends State<Maino> {
   void initState() {
     super.initState();
 
-    // Init Loading Buffer
-    isLoadTraffics = false;
-    isLoadReserves = false;
-    isLoadUserPlates = false;
-
     // Initialize Connection Subscription
     initConnectivity();
     _connectivitySubscription =
@@ -91,17 +59,19 @@ class _MainoState extends State<Maino> {
 
     _pageController = PageController();
     tabBarIndex = 0;
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
-      READYLOCALVAR();
-    });
-    READYLOCALVAR();
+
+    loadLocalData.getStaffInfoFromLocal();
+    loadLocalData.getUserInfoInReal();
+    streamAPI.getUserTrafficsReal();
+    streamAPI.getUserReserveReal();
+    streamAPI.getUserPlatesReal();
+
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   @override
   void dispose() {
     _pageController.dispose();
-    timer.cancel();
 
     initConnectivity();
     // Close init
@@ -144,154 +114,10 @@ class _MainoState extends State<Maino> {
     }
   }
 
-  // ignore: non_constant_identifier_names
-  void READYLOCALVAR() {
-    getStaffInfoFromLocal().then((value) {
-      setState(() {
-        userId = value["userId"];
-        name = value["name"];
-        personalCode = value["personalCode"];
-        avatar = value["avatar"];
-        userSection = value["section"];
-        userRole = value["role"];
-        email = value["email"];
-        lastLogin = value["lastLogin"];
-      });
-      getUserTrafficLogsApi(userToken).then((logs) {
-        setState(() {
-          // print(logs);
-          userTraffic = logs;
-        });
-      });
-      getLenUserPlates().then((userLens) {
-        setState(() {
-          lenOfUserPlate = userLens["platesNum"];
-          lenOfTrafic = userLens["userTrafficNum"];
-        });
-      });
-      getUserReservedHistory().then((reserves) {
-        setState(() {
-          userReserved = reserves;
-          lenOfReserve = reserves.length.toString();
-        });
-      });
-      getUserCarSituation().then((situation) {
-        locationBuilding = situation["locationBuilding"];
-        slotNumberInSituation = situation["slotNo"];
-      });
-    });
-
-    gettingMyPlates().then((plate) {
-      setState(() {
-        userPlates = plate;
-      });
-    });
-  }
-
-  Future<Map> getStaffInfoFromLocal() async {
-    String readyAvatar = "";
-    String readyEmail = "";
-    String readyUserId = "";
-    final userId = await lds.read(key: "user_id");
-    final localEmail = await lds.read(key: "email");
-    userToken = await lds.read(key: "token");
-    final name = await lds.read(key: "name");
-    final personalCode = await lds.read(key: "personal_code");
-    final localAvatar = await lds.read(key: "avatar");
-    String section = await lds.read(key: "section");
-    String role = await lds.read(key: "role");
-    String lastLogin = await lds.read(key: "lastLogin");
-
-    try {
-      Map staffInfo = await api.getStaffInfo(token: userToken);
-      // Getting server info to check if they had change
-      String serverAvatar = staffInfo['avatar'];
-      String serverEmail = staffInfo['email'];
-      String serverUserId = staffInfo["user_id"];
-
-      // print(staffInfo);
-      // Matching local Avatar with Server side
-      // avatar if anythings has change it will update!
-      if (localAvatar != serverAvatar) {
-        setState(() {
-          readyAvatar = serverAvatar;
-        });
-        await lds.write(key: "avatar", value: serverAvatar);
-      }
-      // If local if changed by HR
-      if (localEmail != serverEmail) {
-        setState(() {
-          readyEmail = serverEmail;
-        });
-        await lds.write(key: "email", value: serverEmail);
-      }
-      // If userID for QR-code had change from API
-      if (userId != serverUserId) {
-        setState(() {
-          readyUserId = serverUserId;
-        });
-        await lds.write(key: "user_id", value: serverUserId);
-      }
-    } catch (e) {
-      // print(e);
-      // IF users connection had problem, use LocalData
-      readyAvatar = await lds.read(key: "avatar");
-      readyEmail = await lds.read(key: "email");
-      readyUserId = await lds.read(key: "user_id");
-    }
-
-    return {
-      "userId": readyUserId != "" ? readyUserId : userId,
-      "name": name,
-      "personalCode": personalCode,
-      "avatar": readyAvatar != "" ? readyAvatar : localAvatar,
-      "email": readyEmail != "" ? readyEmail : email,
-      "section": section,
-      "role": role,
-      "lastLogin": lastLogin,
-    };
-  }
-
-  Future<List> getUserTrafficLogsApi(token) async {
-    try {
-      setState(() => isLoadTraffics = true);
-      List trafficLog = await api.getUserTrafficLogs(token: token);
-      return trafficLog;
-    } catch (e) {
-      setState(() => isLoadTraffics = false);
-      return [];
-    }
-  }
-
-  Future<List> getUserReservedHistory() async {
-    try {
-      setState(() => isLoadReserves = true);
-      List reservedList = await api.userReserveHistory(token: userToken);
-      // print(reservedList);
-      return reservedList;
-    } catch (e) {
-      setState(() => isLoadReserves = false);
-      print(e);
-      return [];
-    }
-  }
-
-  // Real View in Bottom Navigation Bar
-  // and View in User Plates
-  Future<List> gettingMyPlates() async {
-    try {
-      setState(() => isLoadUserPlates = true);
-      final plates = await api.getUserPlate(token: userToken);
-      return plates;
-    } catch (e) {
-      setState(() => isLoadUserPlates = true);
-      print("Erorr from loading User Plates view ===> $e");
-      return [];
-    }
-  }
-
+  //TODO: Change and movie this in controller
   // Deleting User Selected Plate
   void delUserPlate(id) async {
+    print(id);
     try {
       final userToken = await lds.read(key: "token");
       final delStatus = await api.delUserPlate(token: userToken, id: id);
@@ -304,7 +130,7 @@ class _MainoState extends State<Maino> {
             themeChange: themeChange,
             dstRoute: "dashboard");
       }
-      gettingMyPlates();
+      // gettingMyPlates(); when u use stream for user plates show don't need that
     } catch (e) {
       alert(
           aType: AlertType.warning,
@@ -313,35 +139,9 @@ class _MainoState extends State<Maino> {
     }
   }
 
-  Future<Map> getLenUserPlates() async {
-    List userPlateList = await api.getUserPlate(token: userToken);
-    // Traffic Logs
-    List userTrafficLeng = await api.getUserTrafficLogs(token: userToken);
-
-    final lenUserPlate = userPlateList.length.toString();
-    final lenUserTrafficNo = userTrafficLeng.length.toString();
-
-    return {"platesNum": lenUserPlate, "userTrafficNum": lenUserTrafficNo};
-  }
-
-  // User car plate situation function
-  Future<Map> getUserCarSituation() async {
-    Map staffSitu;
-    try {
-      staffSitu = await api.getStaffInfo(token: userToken);
-      // User Car Plate situation
-      return {
-        "locationBuilding": staffSitu["location"]["building"],
-        "slotNo": staffSitu["location"]["slot"],
-      };
-    } catch (e) {
-      staffSitu = await api.getStaffInfo(token: userToken);
-      return {"locationBuilding": staffSitu["location"], "slotNo": ""};
-    }
-  }
-
   // Delete and Canceling users reseved
   void delReserve({reserveID}) async {
+    final userToken = await lds.read(key: "token");
     try {
       String caneclingResult =
           await api.cancelingReserve(token: userToken, reservID: reserveID);
@@ -375,30 +175,12 @@ class _MainoState extends State<Maino> {
 
   @override
   Widget build(BuildContext context) {
-    //  Dark Theme Changer
-    themeChange = Provider.of<DarkThemeProvider>(context);
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
         ? SystemUiOverlayStyle.light
         : SystemUiOverlayStyle.dark);
-
-    // Number of user plate
-    final plateNo = lenOfUserPlate != "" ? lenOfUserPlate : emptyPlateNumber;
-    // Number of Users traffics
-    final userTrafficStatus =
-        lenOfTrafic != "" ? lenOfTrafic : emptyPlateNumber;
-
-    final String userReseveStatusLen =
-        lenOfReserve != "" ? lenOfReserve : emptyPlateNumber;
-
-    final String mainImgLogoLightMode =
-        "assets/images/Titile_Logo_Mark_light.png";
-    final String mainImgLogoDarkMode =
-        "assets/images/Titile_Logo_Mark_dark.png";
-    final String mainLogo =
-        themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
-
-    // print("Number of Notif ====> ${themeChange.userPlateNumNotif}");
 
     return WillPopScope(
         child: Scaffold(
@@ -415,19 +197,6 @@ class _MainoState extends State<Maino> {
             child: PageView(
               // Getting Reserve length
               onPageChanged: (pageIndex) async {
-                getUserReservedHistory().then((reserves) {
-                  setState(() {
-                    userReservedListLen = reserves.length;
-                  });
-                });
-
-                // Getting Traffic length
-                getUserTrafficLogsApi(userToken).then((logs) {
-                  setState(() {
-                    userTrafficListLen = userTraffic.length;
-                  });
-                });
-
                 if (pageIndex == 3) {
                   // user_plate_notif_number
                   SharedPreferences prefs =
@@ -441,110 +210,21 @@ class _MainoState extends State<Maino> {
               children: [
                 Dashboard(
                   openUserDashSettings: () {
-                    setState(() {
-                      tabBarIndex = 4;
-                    });
+                    setState(() => tabBarIndex = 4);
                     _pageController.animateToPage(4,
                         duration: Duration(milliseconds: 1),
                         curve: Curves.easeOut);
                   },
-                  lastLogin: lastLogin,
-                  userQRCode: userId != "" ? userId : "-",
-                  temporarLogo: mainLogo,
-                  fullnameMeme: name != "" ? name : "-",
-                  userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
-                  avatarMeme: avatar != null ? avatar : null,
-                  section: locationBuilding != "" ? locationBuilding : "-",
-                  role:
-                      slotNumberInSituation != "" ? slotNumberInSituation : "-",
-                  userPlateNumber: plateNo != "" ? plateNo : "-",
-                  userTrafficNumber:
-                      userTrafficStatus != "" ? userTrafficStatus : "-",
-                  userReserveNumber:
-                      userReseveStatusLen != "" ? userReseveStatusLen : "-",
                 ),
-                UserTraffic(
-                  userTrafficLog: userTraffic,
-                  trafficListLen: userTrafficListLen,
-                  refreshFunction: () async {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                  },
-                  filterOn10: () {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                    userTrafficListLen > 5
-                        ? setState(() => userTrafficListLen = 5)
-                        : userTrafficListLen;
-                    Navigator.pop(context);
-                  },
-                  filterOn20: () {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                    userTrafficListLen > 20
-                        ? setState(() => userTrafficListLen = 20)
-                        : userTrafficListLen;
-                    Navigator.pop(context);
-                  },
-                  filterOn50: () {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                    userTrafficListLen > 50
-                        ? setState(() => userTrafficListLen = 50)
-                        : userTrafficListLen;
-                    Navigator.pop(context);
-                  },
-                  noFilter: () {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                    Navigator.pop(context);
-                  },
-                  loadingTraffics: isLoadTraffics,
-                ),
+                UserTraffic(),
                 ReservedTab(
-                  // reserveRefreshController: _reserveRefreshController,
-                  mainThemeColor: themeChange,
-                  reserves: userReserved,
-                  reservListLen: userReservedListLen,
-                  refreshFunction: () async {
-                    setState(() => userReservedListLen = userReserved.length);
-                  },
-                  filterOn10: () {
-                    setState(() => userReservedListLen = userReserved.length);
-                    userReservedListLen > 5
-                        ? setState(() => userReservedListLen = 5)
-                        : userReservedListLen;
-                    Navigator.pop(context);
-                  },
-                  filterOn20: () {
-                    setState(() => userReservedListLen = userReserved.length);
-                    userReservedListLen > 20
-                        ? setState(() => userReservedListLen = 20)
-                        : userReservedListLen;
-                    Navigator.pop(context);
-                  },
-                  filterOn50: () {
-                    setState(() => userReservedListLen = userReserved.length);
-                    userReservedListLen > 50
-                        ? setState(() => userReservedListLen = 50)
-                        : userReservedListLen;
-                    Navigator.pop(context);
-                  },
-                  noFilter: () {
-                    setState(() => userReservedListLen = userReserved.length);
-                    // print(userReserved.length);
-                    Navigator.pop(context);
-                  },
-                  loadingReserves: isLoadReserves,
                   deletingReserve: ({reserveID}) =>
                       delReserve(reserveID: reserveID),
                 ),
                 UserPlates(
-                  userPlates: userPlates,
                   delUserPlate: ({plateID}) => delUserPlate(plateID),
-                  loadingUserplate: isLoadUserPlates,
                 ),
-                Settings(
-                  fullNameMeme: name,
-                  avatarMeme: avatar != ""
-                      ? avatar
-                      : "https://style.anu.edu.au/_anu/4/images/placeholders/person.png",
-                ),
+                Settings(),
               ],
             ),
           ),

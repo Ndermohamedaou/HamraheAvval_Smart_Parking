@@ -1,126 +1,134 @@
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:lottie/lottie.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
+import 'package:payausers/controller/streamAPI.dart';
 import 'package:provider/provider.dart';
 
-class UserPlates extends StatelessWidget {
-  const UserPlates({this.userPlates, this.delUserPlate, this.loadingUserplate});
+class UserPlates extends StatefulWidget {
+  const UserPlates({this.delUserPlate});
 
-  final List userPlates;
   final Function delUserPlate;
-  final bool loadingUserplate;
 
   @override
-  Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+  _UserPlatesState createState() => _UserPlatesState();
+}
 
-    Widget plates = ListView.builder(
-      shrinkWrap: true,
-      itemCount: userPlates.length,
-      itemBuilder: (BuildContext context, index) {
-        return (Slidable(
-          actionPane: SlidableDrawerActionPane(),
-          actionExtentRatio: 0.25,
-          fastThreshold: 1.25,
-          movementDuration: Duration(milliseconds: 200),
-          child: Container(
-              child: PlateViewer(
-                  plate0: userPlates[index]['plate0'] != null
-                      ? userPlates[index]['plate0']
-                      : "",
-                  plate1: userPlates[index]['plate1'] != null
-                      ? userPlates[index]['plate1']
-                      : "",
-                  plate2: userPlates[index]['plate2'] != null
-                      ? userPlates[index]['plate2']
-                      : "",
-                  plate3: userPlates[index]['plate3'] != null
-                      ? userPlates[index]['plate3']
-                      : "",
-                  themeChange: themeChange.darkTheme)),
-          actions: <Widget>[
-            IconSlideAction(
-              caption: 'پاک کردن',
-              color: Colors.red,
-              icon: Icons.delete,
-              onTap: () {
-                showAdaptiveActionSheet(
-                  context: context,
-                  title: Text(
-                    'پاک شود؟',
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
-                  ),
-                  actions: <BottomSheetAction>[
-                    BottomSheetAction(
-                        title: 'پاک کردن',
-                        textStyle: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 20,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
+class _UserPlatesState extends State<UserPlates>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    StreamAPI streamAPI = StreamAPI();
+    LogLoading logLoadingWidgets = LogLoading();
+
+    Widget plates = StreamBuilder(
+      stream: streamAPI.getUserPlatesReal(),
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: snapshot.data.length,
+            itemBuilder: (BuildContext context, index) {
+              return (Slidable(
+                actionPane: SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                fastThreshold: 1.25,
+                movementDuration: Duration(milliseconds: 200),
+                child: Container(
+                    child: PlateViewer(
+                        plate0: snapshot.data[index]['plate0'] != null
+                            ? snapshot.data[index]['plate0']
+                            : "",
+                        plate1: snapshot.data[index]['plate1'] != null
+                            ? snapshot.data[index]['plate1']
+                            : "",
+                        plate2: snapshot.data[index]['plate2'] != null
+                            ? snapshot.data[index]['plate2']
+                            : "",
+                        plate3: snapshot.data[index]['plate3'] != null
+                            ? snapshot.data[index]['plate3']
+                            : "",
+                        themeChange: themeChange.darkTheme)),
+                actions: <Widget>[
+                  IconSlideAction(
+                    caption: 'پاک کردن',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () {
+                      showAdaptiveActionSheet(
+                        context: context,
+                        title: Text(
+                          'پاک شود؟',
+                          style: TextStyle(
+                              fontFamily: mainFaFontFamily, fontSize: 20),
                         ),
-                        onPressed: () =>
-                            delUserPlate(plateID: userPlates[index]['id'])),
-                  ],
-                  cancelAction: CancelAction(
-                    title: 'لغو',
-                    textStyle: TextStyle(
-                        fontFamily: mainFaFontFamily,
-                        color: Colors.blue,
-                        fontSize: 20),
+                        actions: <BottomSheetAction>[
+                          BottomSheetAction(
+                              title: 'پاک کردن',
+                              textStyle: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                fontSize: 20,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              onPressed: () {
+                                widget.delUserPlate(
+                                    plateID: snapshot.data[index]['plate_en']);
+                                print(snapshot.data[index]['plate_en']);
+                              }),
+                        ],
+                        cancelAction: CancelAction(
+                          title: 'لغو',
+                          textStyle: TextStyle(
+                              fontFamily: mainFaFontFamily,
+                              color: Colors.blue,
+                              fontSize: 20),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          ],
-        ));
+                ],
+              ));
+            },
+          );
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 10),
+              Text("لطفا کمی شکیبا باشید",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+            ],
+          );
+        } else if (snapshot.hasError)
+          return logLoadingWidgets.internetProblem;
+        else
+          return logLoadingWidgets.notFoundReservedData(msg: "پلاک");
       },
     );
-
-    Widget notFoundReservedData = Column(
-      children: [
-        Image.asset(
-          "assets/images/emptyBox.png",
-          width: 180,
-          height: 180,
-        ),
-        Text("شما پلاک ثبت شده ای ندارید",
-            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-      ],
-    );
-
-    Widget internetProblem = Column(
-      children: [
-        Lottie.asset(
-          "assets/lottie/notFoundTraffics.json",
-          width: 180,
-          height: 180,
-        ),
-        Text("عدم برقراری ارتباط با سرویس دهنده",
-            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-      ],
-    );
-    final plateContext = userPlates.length != 0 ? plates : notFoundReservedData;
-
-    final realUserPlateView = loadingUserplate ? plateContext : internetProblem;
 
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
             AppBarAsNavigate(),
-            realUserPlateView,
+            plates,
           ],
         ),
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class AppBarAsNavigate extends StatelessWidget {

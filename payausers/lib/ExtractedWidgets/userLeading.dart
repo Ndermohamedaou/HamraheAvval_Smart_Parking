@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class UserLeading extends StatelessWidget {
-  const UserLeading(
-      {this.imgPressed, this.fullname, this.userPersonalCode, this.avatarImg});
+  const UserLeading({this.imgPressed, this.avatarImg});
 
   final Function imgPressed;
-  final String fullname;
-  final String userPersonalCode;
   final String avatarImg;
 
   @override
@@ -15,7 +12,7 @@ class UserLeading extends StatelessWidget {
     // print("This is Avatar =>>>>>>> $avatarImg");
     Widget uA = avatarImg.isEmpty
         ? CircleAvatar(
-            backgroundColor: Colors.blue,
+            backgroundColor: mainCTA,
             child: Icon(
               Icons.account_circle,
               color: Colors.white,
@@ -28,13 +25,6 @@ class UserLeading extends StatelessWidget {
               backgroundImage: NetworkImage(avatarImg),
             ),
           );
-    return ListTile(
-        // title: Text(
-        //   fullname,
-        //   style: TextStyle(fontFamily: mainFaFontFamily),
-        // ),
-        // subtitle: Text(userPersonalCode,
-        //     style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 12)),
-        leading: uA);
+    return CircleAvatar(child: uA);
   }
 }

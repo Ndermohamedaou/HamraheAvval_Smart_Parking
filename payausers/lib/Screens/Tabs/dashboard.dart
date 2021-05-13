@@ -1,47 +1,35 @@
+import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/ExtractedWidgets/userCard.dart';
+import 'package:payausers/controller/gettingLocalData.dart';
+import 'package:payausers/controller/streamAPI.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
-import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/dashboardTiles.dart';
 import 'package:payausers/ExtractedWidgets/userLeading.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({
     this.openUserDashSettings,
-    this.fullnameMeme,
-    this.userPersonalCodeMeme,
-    this.avatarMeme,
-    this.temporarLogo,
-    this.userQRCode,
-    this.section,
-    this.role,
-    this.userPlateNumber,
-    this.userTrafficNumber,
-    this.userReserveNumber,
-    this.lastLogin,
   });
   final Function openUserDashSettings;
-  final String fullnameMeme;
-  final String userPersonalCodeMeme;
-  final String avatarMeme;
-  final String userQRCode;
-  final String temporarLogo;
-  final String section;
-  final String role;
-  final String userPlateNumber;
-  final String userTrafficNumber;
-  final String userReserveNumber;
-  final String lastLogin;
 
   @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard>
+    with AutomaticKeepAliveClientMixin<Dashboard> {
+  LocalDataGetterClass localDataGetterClass = LocalDataGetterClass();
+  StreamAPI streamAPI = StreamAPI();
+  GridTiles gridTile = GridTiles();
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight) / 4;
     final double itemWidth = size.width;
+    LocalDataGetterClass loadLocalData = LocalDataGetterClass();
+
     // Check if device be in portrait or Landscape
     final double widthSizedResponse = size.width >= 410 && size.width < 600
         ? (itemWidth / itemHeight) / 3
@@ -53,28 +41,71 @@ class Dashboard extends StatelessWidget {
                     ? (itemWidth / itemHeight) / 6
                     : (itemWidth / itemHeight) / 2.0.w;
 
+    Widget userLeadingCircleAvatar(avatar) => Directionality(
+          textDirection: TextDirection.rtl,
+          child: UserLeading(
+            imgPressed: widget.openUserDashSettings,
+            avatarImg: avatar,
+          ),
+        );
+
     return SafeArea(
         child: SingleChildScrollView(
       child: Column(
         children: [
           // User Summery details on dashboard screen
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: UserLeading(
-              imgPressed: openUserDashSettings,
-              fullname: fullnameMeme,
-              userPersonalCode: userPersonalCodeMeme,
-              avatarImg: avatarMeme,
-            ),
+
+          FutureBuilder(
+            future: loadLocalData.getLocalUserAvatar(),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.hasData) {
+                return userLeadingCircleAvatar(snapshot.data);
+              } else if (snapshot.hasError) {
+                return userLeadingCircleAvatar("");
+              } else {
+                return userLeadingCircleAvatar("");
+              }
+            },
           ),
-          SizedBox(
-            height: 10,
-          ),
-          UserCard(
-            qrCodeString: userQRCode,
-            fullname: fullnameMeme,
-            persCode: userPersonalCodeMeme,
-            lastVisit: lastLogin,
+
+          // StreamBuilder<Response>(
+          //   stream: loadLocalData.getUserInfoInReal(),
+          //   builder: (BuildContext context, snapshot) {
+          //     if (snapshot.hasData)
+          //       return Text("${snapshot.data}");
+          //     else
+          //       return Text("Null");
+          //   },
+          // ),
+
+          SizedBox(height: 10),
+
+          FutureBuilder(
+            future: loadLocalData.getStaffInfoFromLocal(),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.hasData) {
+                return UserCard(
+                  qrCodeString: snapshot.data['userId'],
+                  fullname: snapshot.data['name'],
+                  persCode: snapshot.data['personalCode'],
+                  lastVisit: "${snapshot.data['lastLogin']}",
+                );
+              } else if (snapshot.hasError) {
+                return UserCard(
+                  qrCodeString: "-",
+                  fullname: "-",
+                  persCode: "-",
+                  lastVisit: "Error",
+                );
+              } else {
+                return UserCard(
+                  qrCodeString: "-",
+                  fullname: "-",
+                  persCode: "-",
+                  lastVisit: "-",
+                );
+              }
+            },
           ),
 
           SizedBox(
@@ -91,45 +122,51 @@ class Dashboard extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                DashboardTiles(
-                  tileColor: [trafficsTileC1, trafficsTileC2],
-                  icon: Icons.directions_car,
-                  iconColor: trafficsTileC1,
-                  text: qty,
-                  subText: transactionsText,
-                  subSubText: untilTodayText,
-                  subSubTextColor: HexColor("#AC292E"),
-                  lenOfStuff: userTrafficNumber,
+                // Traffics Tile
+                StreamBuilder(
+                  stream: streamAPI.getUserTrafficsReal(),
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.hasData) {
+                      print(snapshot.data.length);
+                      return gridTile.trafficsTile("${snapshot.data.length}");
+                    } else if (snapshot.hasError)
+                      return gridTile.trafficsTile("-");
+                    else
+                      return gridTile.trafficsTile("0");
+                  },
                 ),
-                DashboardTiles(
-                  tileColor: [reservesTileC1, reservesTileC2],
-                  icon: Icons.book,
-                  iconColor: reservesTileC1,
-                  text: qty,
-                  subText: allReserveText,
-                  subSubText: untilTodayText,
-                  subSubTextColor: Colors.white,
-                  lenOfStuff: userReserveNumber,
+                // reserve tile
+                StreamBuilder(
+                  stream: streamAPI.getUserReserveReal(),
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.hasData)
+                      return gridTile.reserveTile("${snapshot.data.length}");
+                    else
+                      return gridTile.reserveTile("-");
+                  },
                 ),
-                DashboardTiles(
-                  tileColor: [currentLocationTileC1, currentLocationTileC2],
-                  icon: Icons.account_balance,
-                  iconColor: currentLocationTileC1,
-                  text: "موقعیت",
-                  subText: "جایگاه",
-                  subSubText: role,
-                  subSubTextColor: currentLocationTileC1,
-                  lenOfStuff: section,
+                // Vehicle Situation
+                StreamBuilder(
+                  stream: localDataGetterClass.getUserInfoInReal(),
+                  builder: (BuildContext context, snapshot) {
+                    // print("YOUR CAR IS :: ${snapshot.data}");
+                    if (snapshot.hasData) {
+                      return gridTile.situationTile(
+                          "-", "${snapshot.data["location"]}");
+                    } else
+                      return gridTile.situationTile("-", "-");
+                  },
                 ),
-                DashboardTiles(
-                  tileColor: [userPlateNumberTileC1, userPlateNumberTileC2],
-                  icon: Icons.layers_sharp,
-                  iconColor: userPlateNumberTileC1,
-                  text: qty,
-                  subText: yourPlateText,
-                  subSubText: inSystemText,
-                  subSubTextColor: HexColor("#216DCD"),
-                  lenOfStuff: userPlateNumber,
+                // user len plate
+                StreamBuilder(
+                  stream: streamAPI.getUserPlatesReal(),
+                  builder: (BuildContext context, snapshot) {
+                    // print("YOUR PLATE IS :: ${snapshot.data}");
+                    if (snapshot.hasData)
+                      return gridTile.plateTile("${snapshot.data.length}");
+                    else
+                      return gridTile.plateTile("-");
+                  },
                 ),
               ],
             ),
@@ -138,4 +175,7 @@ class Dashboard extends StatelessWidget {
       ),
     ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
