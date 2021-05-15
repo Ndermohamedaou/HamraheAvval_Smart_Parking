@@ -117,7 +117,6 @@ class _MainoState extends State<Maino> {
   //TODO: Change and movie this in controller
   // Deleting User Selected Plate
   void delUserPlate(id) async {
-    print(id);
     try {
       final userToken = await lds.read(key: "token");
       final delStatus = await api.delUserPlate(token: userToken, id: id);
@@ -133,9 +132,12 @@ class _MainoState extends State<Maino> {
       // gettingMyPlates(); when u use stream for user plates show don't need that
     } catch (e) {
       alert(
+          context: context,
           aType: AlertType.warning,
           title: delProcFailTitle,
-          desc: delProcFailDesc);
+          desc: delProcFailDesc,
+          themeChange: themeChange,
+          dstRoute: "dashboard");
     }
   }
 
@@ -175,7 +177,7 @@ class _MainoState extends State<Maino> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    themeChange = Provider.of<DarkThemeProvider>(context);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme

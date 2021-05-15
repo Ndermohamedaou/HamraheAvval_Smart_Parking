@@ -12,15 +12,23 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
+import '../../controller/streamAPI.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
   const Settings({this.fullNameMeme, this.avatarMeme});
 
   final fullNameMeme;
   final avatarMeme;
 
   @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final targetPlatform =
         Theme.of(context).platform == TargetPlatform.iOS ? "iOS" : "Android";
 
@@ -151,7 +159,7 @@ class Settings extends StatelessWidget {
         ? Icon(Icons.brightness_5, color: Colors.yellow)
         : Icon(Icons.bedtime, color: Colors.blue);
 
-    LocalDataGetterClass loadLocalData = LocalDataGetterClass();
+    StreamAPI streamAPI = StreamAPI();
 
     Widget sliverAppBar({name, avatar}) => SliverAppBar(
           expandedHeight: 70.0.w,
@@ -193,17 +201,21 @@ class Settings extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         StreamBuilder(
-          stream: loadLocalData.getLocalUserAvatarInReal(),
+          stream: streamAPI.getUserInfoReal(),
           builder: (BuildContext context, snapshot) {
             if (snapshot.hasData) {
-              return sliverAppBar(name: "Alireza", avatar: snapshot.data);
+              return sliverAppBar(
+                  name: snapshot.data["name"], avatar: snapshot.data["avatar"]);
             } else if (snapshot.hasError) {
               return sliverAppBar(
                   name: "",
                   avatar:
                       "https://style.anu.edu.au/_anu/4/images/placeholders/person.png");
             } else {
-              return sliverAppBar(name: "", avatar: "");
+              return sliverAppBar(
+                  name: "",
+                  avatar:
+                      "https://style.anu.edu.au/_anu/4/images/placeholders/person.png");
             }
           },
         ),
@@ -306,4 +318,7 @@ class Settings extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -47,12 +47,13 @@ Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
   print("Handling a background Message ${message.messageId}");
   print(message.notification.title);
   print(message.notification.body);
+  print(message.data["target"]);
 
   notificationCounterValueNotifer.value++;
   notificationCounterValueNotifer.notifyListeners();
   // Set notification number in provider (user number notification)
   themeChangeProvider.userPlateNumNotif = notificationCounterValueNotifer.value;
-  print(themeChangeProvider.userPlateNumNotif);
+  print("This is target page in bgWorker${message.data["target"]}");
 
   flutterLocalNotificationsPlugin.show(
       message.notification.hashCode,
@@ -103,18 +104,18 @@ class _MyAppState extends State<MyApp> {
     var initializationAndroidSetting =
         AndroidInitializationSettings("@mipmap/ic_launcher");
     // iOS Config in permission and did receive
-    final IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
-            requestAlertPermission: true,
-            requestBadgePermission: true,
-            requestSoundPermission: true,
-            onDidReceiveLocalNotification:
-                (int id, String title, String body, String payload) async {});
+    // final IOSInitializationSettings initializationSettingsIOS =
+    //     IOSInitializationSettings(
+    //         requestAlertPermission: true,
+    //         requestBadgePermission: true,
+    //         requestSoundPermission: true,
+    //         onDidReceiveLocalNotification:
+    //             (int id, String title, String body, String payload) async {});
 
     // Set config for Android and iOS
     var initializationSettings = InitializationSettings(
       android: initializationAndroidSetting,
-      iOS: initializationSettingsIOS,
+      // iOS: initializationSettingsIOS,
     );
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
     // Getting token
@@ -124,13 +125,18 @@ class _MyAppState extends State<MyApp> {
       AndroidNotification android = message.notification?.android;
       notificationCounterValueNotifer.value++;
       notificationCounterValueNotifer.notifyListeners();
+
       // Set notification number in provider (user number notification)
       themeChangeProvider.userPlateNumNotif =
           notificationCounterValueNotifer.value;
 
-      print(themeChangeProvider.userPlateNumNotif);
+      
 
-      if (notification != null && android != null) {
+      if (message.data["target"] == "2")
+        print("Will add to reserves");
+      else if (message.data["target"] == "3") print("Will add to plates");
+
+      if (notification != null || android != null) {
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             notification.title,
@@ -149,8 +155,8 @@ class _MyAppState extends State<MyApp> {
 
   void gettingDeviceToken() async {
     try {
-      final user_device_token = await FirebaseMessaging.instance.getToken();
-      print("DUT ====> $user_device_token");
+      final userDeviceToken = await FirebaseMessaging.instance.getToken();
+      print("DUT ====> $userDeviceToken");
     } catch (e) {
       print("Error in Getting Token => $e");
     }

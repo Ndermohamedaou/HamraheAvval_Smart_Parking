@@ -63,11 +63,11 @@ class LocalDataGetterClass {
   Future<String> getLocalUserName() async => await lds.read(key: "name");
   Future<String> getLocalUserAvatar() async => await lds.read(key: "avatar");
 
-  Stream getLocalUserAvatarInReal() async* {
-    yield* Stream.periodic(Duration(seconds: 20), (_) {
-      return lds.read(key: "avatar");
-    });
-  }
+  // Stream getLocalUserAvatarInReal() async* {
+  //   yield* Stream.periodic(Duration(seconds: 20), (_) {
+  //     return lds.read(key: "avatar");
+  //   });
+  // }
 
   Future<dynamic> getSettingsLocalData() async {
     return {

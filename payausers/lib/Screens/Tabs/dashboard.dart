@@ -4,7 +4,6 @@ import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/controller/streamAPI.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
-import 'package:payausers/ExtractedWidgets/userLeading.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({
@@ -41,11 +40,19 @@ class _DashboardState extends State<Dashboard>
                     ? (itemWidth / itemHeight) / 6
                     : (itemWidth / itemHeight) / 2.0.w;
 
-    Widget userLeadingCircleAvatar(avatar) => Directionality(
-          textDirection: TextDirection.rtl,
-          child: UserLeading(
-            imgPressed: widget.openUserDashSettings,
-            avatarImg: avatar,
+    Widget userLeadingCircleAvatar(avatar) => GestureDetector(
+          onTap: widget.openUserDashSettings,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundImage: NetworkImage(avatar),
+                ),
+              ],
+            ),
           ),
         );
 
@@ -53,8 +60,6 @@ class _DashboardState extends State<Dashboard>
         child: SingleChildScrollView(
       child: Column(
         children: [
-          // User Summery details on dashboard screen
-
           FutureBuilder(
             future: loadLocalData.getLocalUserAvatar(),
             builder: (BuildContext context, snapshot) {
@@ -67,19 +72,7 @@ class _DashboardState extends State<Dashboard>
               }
             },
           ),
-
-          // StreamBuilder<Response>(
-          //   stream: loadLocalData.getUserInfoInReal(),
-          //   builder: (BuildContext context, snapshot) {
-          //     if (snapshot.hasData)
-          //       return Text("${snapshot.data}");
-          //     else
-          //       return Text("Null");
-          //   },
-          // ),
-
           SizedBox(height: 10),
-
           FutureBuilder(
             future: loadLocalData.getStaffInfoFromLocal(),
             builder: (BuildContext context, snapshot) {
@@ -107,7 +100,6 @@ class _DashboardState extends State<Dashboard>
               }
             },
           ),
-
           SizedBox(
             height: 20,
           ),
@@ -151,8 +143,14 @@ class _DashboardState extends State<Dashboard>
                   builder: (BuildContext context, snapshot) {
                     // print("YOUR CAR IS :: ${snapshot.data}");
                     if (snapshot.hasData) {
-                      return gridTile.situationTile(
-                          "-", "${snapshot.data["location"]}");
+                      try {
+                        return gridTile.situationTile(
+                            "${snapshot.data["location"]["slot"]}",
+                            "${snapshot.data["location"]["building"]}");
+                      } catch (e) {
+                        return gridTile.situationTile(
+                            "", "${snapshot.data["location"]}");
+                      }
                     } else
                       return gridTile.situationTile("-", "-");
                   },

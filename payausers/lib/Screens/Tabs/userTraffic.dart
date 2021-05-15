@@ -8,7 +8,7 @@ import 'package:payausers/ExtractedWidgets/miniPlate.dart';
 import 'package:payausers/controller/streamAPI.dart';
 import 'package:sizer/sizer.dart';
 
-class UserTraffic extends StatelessWidget {
+class UserTraffic extends StatefulWidget {
   const UserTraffic({
     this.filterOn10,
     this.filterOn20,
@@ -22,7 +22,14 @@ class UserTraffic extends StatelessWidget {
   final Function noFilter;
 
   @override
+  _UserTrafficState createState() => _UserTrafficState();
+}
+
+class _UserTrafficState extends State<UserTraffic>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     StreamAPI streamAPI = StreamAPI();
     LogLoading logLoadingWidgets = LogLoading();
 
@@ -30,35 +37,44 @@ class UserTraffic extends StatelessWidget {
       stream: streamAPI.getUserTrafficsReal(),
       builder: (BuildContext context, snapshot) {
         if (snapshot.hasData) {
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: snapshot.data.length,
-            primary: false,
-            itemBuilder: (BuildContext context, index) {
-              return (Column(
-                children: [
-                  MiniPlate(
-                    plate0: snapshot.data[index]["plate0"],
-                    plate1: snapshot.data[index]["plate1"],
-                    plate2: snapshot.data[index]["plate2"],
-                    plate3: snapshot.data[index]["plate3"],
-                    buildingName: snapshot.data[index]["building"] != null
-                        ? snapshot.data[index]["building"]
-                        : "",
-                    startedTime: snapshot.data[index]["entry_datetime"],
-                    endedTime: snapshot.data[index]["exit_datetime"],
-                    slotNo: snapshot.data[index]["slot"],
-                  ),
-                ],
-              ));
-            },
+          if (snapshot.data.length == 0)
+            return logLoadingWidgets.notFoundReservedData(msg: "تردد");
+          else
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: snapshot.data.length,
+              primary: false,
+              itemBuilder: (BuildContext context, index) {
+                return (Column(
+                  children: [
+                    MiniPlate(
+                      plate0: snapshot.data[index]["plate0"],
+                      plate1: snapshot.data[index]["plate1"],
+                      plate2: snapshot.data[index]["plate2"],
+                      plate3: snapshot.data[index]["plate3"],
+                      buildingName: snapshot.data[index]["building"] != null
+                          ? snapshot.data[index]["building"]
+                          : "",
+                      startedTime: snapshot.data[index]["entry_datetime"],
+                      endedTime: snapshot.data[index]["exit_datetime"],
+                      slotNo: snapshot.data[index]["slot"],
+                    ),
+                  ],
+                ));
+              },
+            );
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 10),
+              Text("لطفا کمی شکیبا باشید",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+            ],
           );
-        } else if (!snapshot.hasData)
-          return CircularProgressIndicator();
-        else if (snapshot.hasError)
-          return logLoadingWidgets.internetProblem;
-        else
-          return Text("No data");
+        } else if (snapshot.hasError) return logLoadingWidgets.internetProblem;
       },
     );
 
@@ -99,19 +115,19 @@ class UserTraffic extends StatelessWidget {
               ),
               FilterMenu(
                 text: "نمایش 5 رزور",
-                filterPressed: filterOn10,
+                filterPressed: widget.filterOn10,
               ),
               FilterMenu(
                 text: "نمایش ۲۰ رزرو",
-                filterPressed: filterOn20,
+                filterPressed: widget.filterOn20,
               ),
               FilterMenu(
                 text: "نمایش ۵۰ رزرو",
-                filterPressed: filterOn50,
+                filterPressed: widget.filterOn50,
               ),
               FilterMenu(
                 text: "نمایش تمام رزروها",
-                filterPressed: noFilter,
+                filterPressed: widget.noFilter,
               ),
               SizedBox(height: 2.0.h),
             ],
@@ -190,6 +206,9 @@ class UserTraffic extends StatelessWidget {
       //     : SizedBox(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class FilterMenu extends StatelessWidget {

@@ -199,51 +199,68 @@ class _ReservedTabState extends State<ReservedTab>
                 stream: streamAPI.getUserReserveReal(),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.hasData) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      reverse: true,
-                      primary: false,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return SingleChildScrollView(
-                          child: GestureDetector(
-                            onTap: () => openDetailsInModal(
-                              reservID: snapshot.data[index]["id"],
-                              plate: preparedPlate.preparePlateInReserve(
-                                  rawPlate: snapshot.data[index]['plate']),
-                              building: snapshot.data[index]["building"] != null
-                                  ? snapshot.data[index]["building"]
-                                  : "",
-                              slot: snapshot.data[index]["slot"],
-                              startTime: snapshot.data[index]
-                                  ["reserveTimeStart"],
-                              endTime: snapshot.data[index]["reserveTimeEnd"],
+                    if (snapshot.data.length == 0) {
+                      return logLoadingWidgets.notFoundReservedData(
+                          msg: "رزرو");
+                    } else
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        reverse: true,
+                        primary: false,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return SingleChildScrollView(
+                            child: GestureDetector(
+                              onTap: () => openDetailsInModal(
+                                reservID: snapshot.data[index]["id"],
+                                plate: preparedPlate.preparePlateInReserve(
+                                    rawPlate: snapshot.data[index]['plate']),
+                                building:
+                                    snapshot.data[index]["building"] != null
+                                        ? snapshot.data[index]["building"]
+                                        : "",
+                                slot: snapshot.data[index]["slot"],
+                                startTime: snapshot.data[index]
+                                    ["reserveTimeStart"],
+                                endTime: snapshot.data[index]["reserveTimeEnd"],
+                              ),
+                              child: (Column(
+                                children: [
+                                  ReserveHistoryView(
+                                    historyBuildingName:
+                                        snapshot.data[index]["building"] != null
+                                            ? snapshot.data[index]["building"]
+                                            : "",
+                                    reserveStatusColor: snapshot.data[index]
+                                        ['status'],
+                                    historySlotName: snapshot.data[index]
+                                        ["slot"],
+                                    historyStartTime: snapshot.data[index]
+                                        ["reserveTimeStart"],
+                                    historyEndTime: snapshot.data[index]
+                                        ["reserveTimeEnd"],
+                                  ),
+                                ],
+                              )),
                             ),
-                            child: (Column(
-                              children: [
-                                ReserveHistoryView(
-                                  historyBuildingName:
-                                      snapshot.data[index]["building"] != null
-                                          ? snapshot.data[index]["building"]
-                                          : "",
-                                  reserveStatusColor: snapshot.data[index]
-                                      ['status'],
-                                  historySlotName: snapshot.data[index]["slot"],
-                                  historyStartTime: snapshot.data[index]
-                                      ["reserveTimeStart"],
-                                  historyEndTime: snapshot.data[index]
-                                      ["reserveTimeEnd"],
-                                ),
-                              ],
-                            )),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 10),
+                        Text("لطفا کمی شکیبا باشید",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: mainFaFontFamily, fontSize: 18)),
+                      ],
                     );
                   } else if (snapshot.hasError)
                     return logLoadingWidgets.internetProblem;
-                  else
-                    return logLoadingWidgets.notFoundReservedData(msg: "رزرو");
                 },
               ),
             ],
