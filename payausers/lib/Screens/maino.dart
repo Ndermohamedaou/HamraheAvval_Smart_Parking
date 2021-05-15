@@ -31,17 +31,14 @@ class Maino extends StatefulWidget {
   _MainoState createState() => _MainoState();
 }
 
-dynamic themeChange;
-int tabBarIndex;
-var _pageController;
-
-//reserve Special pices
-// int showPiceces = 0;
-ApiAccess api = ApiAccess();
-LocalDataGetterClass loadLocalData = LocalDataGetterClass();
-StreamAPI streamAPI = StreamAPI();
-
 class _MainoState extends State<Maino> {
+  dynamic themeChange;
+  int tabBarIndex;
+  var _pageController;
+
+  ApiAccess api = ApiAccess();
+  LocalDataGetterClass loadLocalData = LocalDataGetterClass();
+  StreamAPI streamAPI = StreamAPI();
   FlutterSecureStorage lds = FlutterSecureStorage();
   // Check internet connection
   String _connectionStatus = 'Un';
@@ -178,7 +175,7 @@ class _MainoState extends State<Maino> {
   @override
   Widget build(BuildContext context) {
     themeChange = Provider.of<DarkThemeProvider>(context);
-
+    print("This is target page${themeChange.instantUserReserve}");
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
         ? SystemUiOverlayStyle.light
@@ -205,6 +202,14 @@ class _MainoState extends State<Maino> {
                       await SharedPreferences.getInstance();
                   prefs.setInt("user_plate_notif_number", 0);
                   themeChange.userPlateNumNotif = 0;
+                }
+
+                if (pageIndex == 2) {
+                  // user_plate_notif_number
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setInt("instant_reserve_notif_number", 0);
+                  themeChange.instantUserReserve = 0;
                 }
               },
               controller: _pageController,
@@ -238,8 +243,8 @@ class _MainoState extends State<Maino> {
               selectedItemColor: mainSectionCTA,
               unselectedItemColor: HexColor('#C9C9C9'),
               selectedIconTheme: IconThemeData(color: mainSectionCTA),
-              iconSize: 25,
-              // unselectedIconTheme: IconThemeData(size: 25),
+              iconSize: 32,
+              unselectedIconTheme: IconThemeData(size: 25),
               selectedFontSize: 14,
               unselectedFontSize: 14,
               currentIndex: tabBarIndex,
@@ -273,14 +278,18 @@ class _MainoState extends State<Maino> {
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
                   ),
-                  icon: CircleAvatar(
-                    backgroundColor: mainSectionCTA,
-                    radius: 25,
-                    child: Icon(
-                      Icons.add_business_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
+                  icon: themeChange.instantUserReserve == 0
+                      ? Icon(
+                          Icons.add_business_outlined,
+                        )
+                      : Badge(
+                          animationType: BadgeAnimationType.slide,
+                          badgeContent: Text(
+                            '${themeChange.instantUserReserve}',
+                            style: TextStyle(fontFamily: mainFaFontFamily),
+                          ),
+                          child: Icon(Icons.add_business_outlined),
+                        ),
                 ),
                 BottomNavigationBarItem(
                   title: Text(

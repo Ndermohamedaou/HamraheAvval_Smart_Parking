@@ -36,7 +36,8 @@ import 'package:payausers/Screens/termsOfServicePage.dart';
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-ValueNotifier<int> notificationCounterValueNotifer = ValueNotifier(0);
+ValueNotifier<int> userPlateNotiCounter = ValueNotifier(0);
+ValueNotifier<int> userInstantReserveCounter = ValueNotifier(0);
 
 // Adding Dark theme provider to have provider changer theme
 DarkThemeProvider themeChangeProvider = DarkThemeProvider();
@@ -49,12 +50,15 @@ Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
   print(message.notification.body);
   print(message.data["target"]);
 
-  notificationCounterValueNotifer.value++;
-  notificationCounterValueNotifer.notifyListeners();
-  // Set notification number in provider (user number notification)
-  themeChangeProvider.userPlateNumNotif = notificationCounterValueNotifer.value;
-  print("This is target page in bgWorker${message.data["target"]}");
-
+  if (message.data["target"] == "3") {
+    userPlateNotiCounter.value++;
+    userPlateNotiCounter.notifyListeners();
+    themeChangeProvider.userPlateNumNotif = userPlateNotiCounter.value;
+  } else if (message.data["target"] == "2") {
+    userInstantReserveCounter.value++;
+    userInstantReserveCounter.notifyListeners();
+    themeChangeProvider.instantUserReserve = userInstantReserveCounter.value;
+  }
   flutterLocalNotificationsPlugin.show(
       message.notification.hashCode,
       message.notification.title,
@@ -104,18 +108,18 @@ class _MyAppState extends State<MyApp> {
     var initializationAndroidSetting =
         AndroidInitializationSettings("@mipmap/ic_launcher");
     // iOS Config in permission and did receive
-    // final IOSInitializationSettings initializationSettingsIOS =
-    //     IOSInitializationSettings(
-    //         requestAlertPermission: true,
-    //         requestBadgePermission: true,
-    //         requestSoundPermission: true,
-    //         onDidReceiveLocalNotification:
-    //             (int id, String title, String body, String payload) async {});
+    final IOSInitializationSettings initializationSettingsIOS =
+        IOSInitializationSettings(
+            requestAlertPermission: true,
+            requestBadgePermission: true,
+            requestSoundPermission: true,
+            onDidReceiveLocalNotification:
+                (int id, String title, String body, String payload) async {});
 
     // Set config for Android and iOS
     var initializationSettings = InitializationSettings(
       android: initializationAndroidSetting,
-      // iOS: initializationSettingsIOS,
+      iOS: initializationSettingsIOS,
     );
     flutterLocalNotificationsPlugin.initialize(initializationSettings);
     // Getting token
@@ -123,18 +127,19 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
-      notificationCounterValueNotifer.value++;
-      notificationCounterValueNotifer.notifyListeners();
 
-      // Set notification number in provider (user number notification)
-      themeChangeProvider.userPlateNumNotif =
-          notificationCounterValueNotifer.value;
+      // Set notification number in provider (user number notification) Specific
 
-      
-
-      if (message.data["target"] == "2")
-        print("Will add to reserves");
-      else if (message.data["target"] == "3") print("Will add to plates");
+      if (message.data["target"] == "3") {
+        userPlateNotiCounter.value++;
+        userPlateNotiCounter.notifyListeners();
+        themeChangeProvider.userPlateNumNotif = userPlateNotiCounter.value;
+      } else if (message.data["target"] == "2") {
+        userInstantReserveCounter.value++;
+        userInstantReserveCounter.notifyListeners();
+        themeChangeProvider.instantUserReserve =
+            userInstantReserveCounter.value;
+      }
 
       if (notification != null || android != null) {
         flutterLocalNotificationsPlugin.show(
@@ -176,6 +181,12 @@ class _MyAppState extends State<MyApp> {
     themeChangeProvider.userPlateNumNotif = await themeChangeProvider
         .darkThemePreferences
         .getUserPlateNotifNumber();
+  }
+
+  void getCurrentAppUserInstantReserveNotifNumber() async {
+    themeChangeProvider.instantUserReserve = await themeChangeProvider
+        .darkThemePreferences
+        .getInstantUserNotifNumber();
   }
 
   @override

@@ -37,6 +37,17 @@ class DarkThemePreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt("user_plate_notif_number") ?? 0;
   }
+
+  // Saving notification number badge for user instant reserve
+  setInstantUserReserveNotifNumber(int notifNumValue) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("instant_reserve_notif_number", notifNumValue);
+  }
+
+  Future<int> getInstantUserNotifNumber() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt("instant_reserve_notif_number") ?? 0;
+  }
 }
 
 // whenever we use dark UI theme changed
@@ -70,6 +81,17 @@ class DarkThemeProvider with ChangeNotifier {
   set userPlateNumNotif(int notifNumValue) {
     _userPlateNotif = notifNumValue;
     darkThemePreferences.setUserPlateNotifNumber(notifNumValue);
+    notifyListeners();
+  }
+
+  // Notification number for user Instant reserve
+  int _instantReserve = 0;
+
+  int get instantUserReserve => _instantReserve;
+
+  set instantUserReserve(int notifNumValue) {
+    _instantReserve = notifNumValue;
+    darkThemePreferences.setInstantUserReserveNotifNumber(notifNumValue);
     notifyListeners();
   }
 }
