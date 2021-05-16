@@ -175,7 +175,7 @@ class _MainoState extends State<Maino> {
   @override
   Widget build(BuildContext context) {
     themeChange = Provider.of<DarkThemeProvider>(context);
-    print("This is target page${themeChange.instantUserReserve}");
+    // print("This is target page${themeChange.instantUserReserve}");
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
         ? SystemUiOverlayStyle.light

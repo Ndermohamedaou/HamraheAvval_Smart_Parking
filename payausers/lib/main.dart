@@ -36,11 +36,13 @@ import 'package:payausers/Screens/termsOfServicePage.dart';
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-ValueNotifier<int> userPlateNotiCounter = ValueNotifier(0);
-ValueNotifier<int> userInstantReserveCounter = ValueNotifier(0);
-
 // Adding Dark theme provider to have provider changer theme
 DarkThemeProvider themeChangeProvider = DarkThemeProvider();
+
+ValueNotifier<int> userPlateNotiCounter =
+    ValueNotifier(themeChangeProvider.userPlateNumNotif);
+ValueNotifier<int> userInstantReserveCounter =
+    ValueNotifier(themeChangeProvider.instantUserReserve);
 
 // Backgroud Worker
 Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {

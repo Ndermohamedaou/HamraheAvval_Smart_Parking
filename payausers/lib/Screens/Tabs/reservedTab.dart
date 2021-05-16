@@ -13,29 +13,22 @@ import 'package:sizer/sizer.dart';
 
 class ReservedTab extends StatefulWidget {
   const ReservedTab({
-    this.filterOn10,
-    this.filterOn20,
-    this.filterOn50,
-    this.noFilter,
     this.deletingReserve,
   });
 
-  final Function filterOn10;
-  final Function filterOn20;
-  final Function filterOn50;
-  final Function noFilter;
   final Function deletingReserve;
 
   @override
   _ReservedTabState createState() => _ReservedTabState();
 }
 
+int filtered = 0;
+
 class _ReservedTabState extends State<ReservedTab>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
     final themeChange = Provider.of<DarkThemeProvider>(context);
     StreamAPI streamAPI = StreamAPI();
     LogLoading logLoadingWidgets = LogLoading();
@@ -108,19 +101,35 @@ class _ReservedTabState extends State<ReservedTab>
               ),
               FilterMenu(
                 text: "نمایش 5 رزور",
-                filterPressed: widget.filterOn10,
+                filterPressed: () {
+                  setState(() => filtered = 5);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
                 text: "نمایش ۲۰ رزرو",
-                filterPressed: widget.filterOn20,
+                filterPressed: () {
+                  setState(() => filtered = 20);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
                 text: "نمایش ۵۰ رزرو",
-                filterPressed: widget.filterOn50,
+                filterPressed: () {
+                  setState(() => filtered = 50);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
                 text: "نمایش تمام رزروها",
-                filterPressed: widget.noFilter,
+                filterPressed: () {
+                  setState(() => filtered = 0);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               SizedBox(height: 2.0.h),
             ],
@@ -128,27 +137,6 @@ class _ReservedTabState extends State<ReservedTab>
         ),
       );
     }
-
-    // final filterBar = snapshot.data.length != 0
-    //     ? Directionality(
-    //         textDirection: TextDirection.rtl,
-    //         child: Container(
-    //           margin: EdgeInsets.symmetric(horizontal: 20),
-    //           child: Row(
-    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //               children: [
-    //                 Text(
-    //                   "نمایش ${widget.reservListLen} رزرو",
-    //                   style: TextStyle(
-    //                       color: Colors.grey.shade500,
-    //                       fontFamily: mainFaFontFamily,
-    //                       fontSize: subTitleSize,
-    //                       fontWeight: FontWeight.w500),
-    //                 ),
-    //               ]),
-    //         ),
-    //       )
-    //     : SizedBox();
 
     return Scaffold(
       body: SafeArea(
@@ -193,7 +181,6 @@ class _ReservedTabState extends State<ReservedTab>
                       ]),
                 ),
               ),
-              // filterBar,
               // reservedView
               StreamBuilder(
                 stream: streamAPI.getUserReserveReal(),
@@ -207,7 +194,11 @@ class _ReservedTabState extends State<ReservedTab>
                         shrinkWrap: true,
                         reverse: true,
                         primary: false,
-                        itemCount: snapshot.data.length,
+                        itemCount: filtered == 0
+                            ? snapshot.data.length
+                            : snapshot.data.length > filtered
+                                ? filtered
+                                : snapshot.data.length,
                         itemBuilder: (BuildContext context, index) {
                           return SingleChildScrollView(
                             child: GestureDetector(
@@ -267,22 +258,22 @@ class _ReservedTabState extends State<ReservedTab>
           ),
         ),
       ),
-      // floatingActionButton: ClipOval(
-      //   child: Material(
-      //     color: mainCTA, // button color
-      //     child: InkWell(
-      //       splashColor: mainSectionCTA, // inkwell color
-      //       child: SizedBox(
-      //           width: 46,
-      //           height: 46,
-      //           child: Icon(
-      //             Icons.filter_alt_outlined,
-      //             color: Colors.white,
-      //           )),
-      //       onTap: () => filterSection(),
-      //     ),
-      //   ),
-      // ),
+      floatingActionButton: ClipOval(
+        child: Material(
+          color: mainCTA, // button color
+          child: InkWell(
+            splashColor: mainSectionCTA, // inkwell color
+            child: SizedBox(
+                width: 46,
+                height: 46,
+                child: Icon(
+                  Icons.filter_alt_outlined,
+                  color: Colors.white,
+                )),
+            onTap: () => filterSection(),
+          ),
+        ),
+      ),
     );
   }
 

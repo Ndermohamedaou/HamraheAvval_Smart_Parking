@@ -9,27 +9,20 @@ import 'package:payausers/controller/streamAPI.dart';
 import 'package:sizer/sizer.dart';
 
 class UserTraffic extends StatefulWidget {
-  const UserTraffic({
-    this.filterOn10,
-    this.filterOn20,
-    this.filterOn50,
-    this.noFilter,
-  });
-
-  final Function filterOn10;
-  final Function filterOn20;
-  final Function filterOn50;
-  final Function noFilter;
+  const UserTraffic();
 
   @override
   _UserTrafficState createState() => _UserTrafficState();
 }
+
+int filtered = 0;
 
 class _UserTrafficState extends State<UserTraffic>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     StreamAPI streamAPI = StreamAPI();
     LogLoading logLoadingWidgets = LogLoading();
 
@@ -42,7 +35,11 @@ class _UserTrafficState extends State<UserTraffic>
           else
             return ListView.builder(
               shrinkWrap: true,
-              itemCount: snapshot.data.length,
+              itemCount: filtered == 0
+                  ? snapshot.data.length
+                  : snapshot.data.length > filtered
+                      ? filtered
+                      : snapshot.data.length,
               primary: false,
               itemBuilder: (BuildContext context, index) {
                 return (Column(
@@ -114,20 +111,36 @@ class _UserTrafficState extends State<UserTraffic>
                 ],
               ),
               FilterMenu(
-                text: "نمایش 5 رزور",
-                filterPressed: widget.filterOn10,
+                text: "نمایش 5 تردد",
+                filterPressed: () {
+                  setState(() => filtered = 5);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
-                text: "نمایش ۲۰ رزرو",
-                filterPressed: widget.filterOn20,
+                text: "نمایش ۲۰ تردد",
+                filterPressed: () {
+                  setState(() => filtered = 20);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
-                text: "نمایش ۵۰ رزرو",
-                filterPressed: widget.filterOn50,
+                text: "نمایش ۵۰ تردد",
+                filterPressed: () {
+                  setState(() => filtered = 50);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
-                text: "نمایش تمام رزروها",
-                filterPressed: widget.noFilter,
+                text: "نمایش تمام تردد",
+                filterPressed: () {
+                  setState(() => filtered = 0);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               SizedBox(height: 2.0.h),
             ],
@@ -136,75 +149,50 @@ class _UserTrafficState extends State<UserTraffic>
       );
     }
 
-    // final filterBar = userTrafficLog.length != 0
-    // ? Directionality(
-    //     textDirection: TextDirection.rtl,
-    //     child: Container(
-    //       margin: EdgeInsets.symmetric(horizontal: 20),
-    //       child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Text(
-    //               "نمایش $trafficListLen تردد",
-    //               style: TextStyle(
-    //                   color: Colors.grey.shade500,
-    //                   fontFamily: mainFaFontFamily,
-    //                   fontSize: subTitleSize,
-    //                   fontWeight: FontWeight.w500),
-    //             ),
-    //           ]),
-    //     ),
-    //   )
-    // : SizedBox();
-
     return Scaffold(
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      trafficsLogText,
-                      style: TextStyle(
-                        fontFamily: mainFaFontFamily,
-                        fontSize: subTitleSize,
-                        fontWeight: FontWeight.bold,
+        body: SafeArea(
+            child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        trafficsLogText,
+                        style: TextStyle(
+                          fontFamily: mainFaFontFamily,
+                          fontSize: subTitleSize,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+              traffics,
+            ],
+          ),
+        )),
+        floatingActionButton: ClipOval(
+          child: Material(
+            color: mainCTA, // button color
+            child: InkWell(
+              splashColor: mainSectionCTA, // inkwell color
+              child: SizedBox(
+                  width: 46,
+                  height: 46,
+                  child: Icon(
+                    Icons.filter_alt_outlined,
+                    color: Colors.white,
+                  )),
+              onTap: () => filterSection(),
             ),
-            // filterBar,
-            traffics,
-          ],
-        ),
-      )),
-      // floatingActionButton: userTrafficLog.length != 0
-      //     ? ClipOval(
-      //         child: Material(
-      //           color: mainCTA, // button color
-      //           child: InkWell(
-      //             splashColor: mainSectionCTA, // inkwell color
-      //             child: SizedBox(
-      //                 width: 46,
-      //                 height: 46,
-      //                 child: Icon(
-      //                   Icons.filter_alt_outlined,
-      //                   color: Colors.white,
-      //                 )),
-      //             onTap: () => filterSection(),
-      //           ),
-      //         ),
-      //       )
-      //     : SizedBox(),
-    );
+          ),
+        ));
   }
 
   @override
