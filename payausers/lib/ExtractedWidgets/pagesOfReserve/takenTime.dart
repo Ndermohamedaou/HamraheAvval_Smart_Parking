@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/Screens/reserveView.dart';
 
 class TimerPicker extends StatelessWidget {
   const TimerPicker({
@@ -23,9 +21,9 @@ class TimerPicker extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 60),
+          SizedBox(height: 40),
           Container(
-            child: Lottie.asset("assets/lottie/timePick.json", width: 150),
+            child: Lottie.asset("assets/lottie/timePick.json", width: 100),
           ),
           SizedBox(height: 30),
           Text(

@@ -28,9 +28,12 @@ class ReserveHistoryView extends StatelessWidget {
                     : reserveStatusColor == -2
                         ? Colors.grey.shade900
                         : Colors.white;
+
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      width: double.infinity,
+      width: widthSizedResponse,
       height: 70.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.0),

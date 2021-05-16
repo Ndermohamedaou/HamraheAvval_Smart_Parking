@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 
 class PlateViewer extends StatelessWidget {
   const PlateViewer(
@@ -15,8 +13,12 @@ class PlateViewer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double widthSizedResponse = size.width > 500 ? 400 : double.infinity;
+    final double responsiveFontSize = size.width > 500 ? 32 : 32;
+
     return Container(
-        width: double.infinity,
+        width: widthSizedResponse,
         height: 70,
         // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         margin: EdgeInsets.only(top: 10, right: 13, left: 10, bottom: 5),
@@ -66,7 +68,7 @@ class PlateViewer extends StatelessWidget {
                 child: Text(
                   plate0,
                   style: TextStyle(
-                      fontSize: 32,
+                      fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
                       fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
@@ -82,7 +84,7 @@ class PlateViewer extends StatelessWidget {
                 child: Text(
                   plate1,
                   style: TextStyle(
-                      fontSize: 32,
+                      fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
                       fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
@@ -98,7 +100,7 @@ class PlateViewer extends StatelessWidget {
                 child: Text(
                   plate2,
                   style: TextStyle(
-                      fontSize: 32,
+                      fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
                       fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
@@ -118,7 +120,7 @@ class PlateViewer extends StatelessWidget {
                 child: Text(
                   plate3,
                   style: TextStyle(
-                      fontSize: 32,
+                      fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
                       fontWeight: FontWeight.bold),
                 ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -15,8 +14,8 @@ class DateUserPicker extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 40),
-          Lottie.asset("assets/lottie/datePick.json", width: double.infinity),
+          SizedBox(height: 20),
+          Lottie.asset("assets/lottie/datePick.json", width: 300),
           Directionality(
             textDirection: TextDirection.rtl,
             child: ElevatedButton.icon(

@@ -1,3 +1,4 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
@@ -28,6 +29,14 @@ class ReserveInDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 1.0.h),
+        Container(
+          width: 30,
+          height: 5,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: Colors.grey, borderRadius: BorderRadius.circular(20)),
+        ),
         SizedBox(height: 2.0.h),
         CustomTitle(textTitle: "پلاک منتخب رزرو", fw: FontWeight.bold),
         PlateViewer(
@@ -38,17 +47,43 @@ class ReserveInDetails extends StatelessWidget {
           themeChange: themeChange.darkTheme,
         ),
         SizedBox(height: 2.0.h),
-        CustomTitle(textTitle: "ساعت ورود", fw: FontWeight.bold),
-        CustomSubTitle(textTitle: startTime),
+        DottedLine(dashColor: Colors.grey),
         SizedBox(height: 2.0.h),
-        CustomTitle(textTitle: "ساعت خروج", fw: FontWeight.bold),
-        CustomSubTitle(textTitle: endTime),
+        Row(
+          textDirection: TextDirection.rtl,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomTitle(textTitle: "ساعت ورود", fw: FontWeight.bold),
+            CustomSubTitle(textTitle: startTime),
+          ],
+        ),
         SizedBox(height: 2.0.h),
-        CustomTitle(textTitle: "ساختمان", fw: FontWeight.bold),
-        CustomSubTitle(textTitle: building),
+        Row(
+          textDirection: TextDirection.rtl,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomTitle(textTitle: "ساعت خروج", fw: FontWeight.bold),
+            CustomSubTitle(textTitle: endTime),
+          ],
+        ),
         SizedBox(height: 2.0.h),
-        CustomTitle(textTitle: "جایگاه", fw: FontWeight.bold),
-        CustomSubTitle(textTitle: slot),
+        Row(
+          textDirection: TextDirection.rtl,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomTitle(textTitle: "ساختمان", fw: FontWeight.bold),
+            CustomSubTitle(textTitle: building),
+          ],
+        ),
+        SizedBox(height: 2.0.h),
+        Row(
+          textDirection: TextDirection.rtl,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomTitle(textTitle: "جایگاه", fw: FontWeight.bold),
+            CustomSubTitle(textTitle: slot),
+          ],
+        ),
         SizedBox(height: 2.0.h),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
