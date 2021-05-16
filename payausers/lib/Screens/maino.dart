@@ -259,7 +259,9 @@ class _MainoState extends State<Maino> {
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
-                    Icons.view_quilt,
+                    tabBarIndex == 0
+                        ? Icons.view_quilt
+                        : Icons.view_quilt_outlined,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -268,7 +270,7 @@ class _MainoState extends State<Maino> {
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
-                    Icons.view_day,
+                    tabBarIndex == 1 ? Icons.view_day : Icons.view_day_outlined,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -280,7 +282,9 @@ class _MainoState extends State<Maino> {
                   ),
                   icon: themeChange.instantUserReserve == 0
                       ? Icon(
-                          Icons.add_business_outlined,
+                          tabBarIndex == 2
+                              ? Icons.add_business
+                              : Icons.add_business_outlined,
                         )
                       : Badge(
                           animationType: BadgeAnimationType.slide,
@@ -288,7 +292,11 @@ class _MainoState extends State<Maino> {
                             '${themeChange.instantUserReserve}',
                             style: TextStyle(fontFamily: mainFaFontFamily),
                           ),
-                          child: Icon(Icons.add_business_outlined),
+                          child: Icon(
+                            tabBarIndex == 2
+                                ? Icons.add_business
+                                : Icons.add_business_outlined,
+                          ),
                         ),
                 ),
                 BottomNavigationBarItem(
@@ -298,7 +306,9 @@ class _MainoState extends State<Maino> {
                   ),
                   icon: themeChange.userPlateNumNotif == 0
                       ? Icon(
-                          Icons.post_add_sharp,
+                          tabBarIndex == 3
+                              ? Icons.post_add
+                              : Icons.post_add_sharp,
                         )
                       : Badge(
                           animationType: BadgeAnimationType.slide,
@@ -306,8 +316,11 @@ class _MainoState extends State<Maino> {
                             '${themeChange.userPlateNumNotif}',
                             style: TextStyle(fontFamily: mainFaFontFamily),
                           ),
-                          child: Icon(Icons.post_add_sharp),
-                        ),
+                          child: Icon(
+                            tabBarIndex == 3
+                                ? Icons.post_add
+                                : Icons.post_add_sharp,
+                          )),
                 ),
                 BottomNavigationBarItem(
                   title: Text(
@@ -315,7 +328,7 @@ class _MainoState extends State<Maino> {
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
-                    Icons.settings,
+                    tabBarIndex == 4 ? Icons.settings : Icons.settings_outlined,
                   ),
                 ),
               ],

@@ -173,6 +173,13 @@ class _UserTrafficState extends State<UserTraffic>
                   ],
                 ),
               ),
+              filtered != 0
+                  ? Text(
+                      "نتایج فیلتر شده هستند",
+                      style: TextStyle(
+                          fontFamily: mainFaFontFamily, fontSize: mainFontSize),
+                    )
+                  : SizedBox(),
               traffics,
             ],
           ),

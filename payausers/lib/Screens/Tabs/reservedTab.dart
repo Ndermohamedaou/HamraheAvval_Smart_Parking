@@ -182,6 +182,13 @@ class _ReservedTabState extends State<ReservedTab>
                 ),
               ),
               // reservedView
+              filtered != 0
+                  ? Text(
+                      "نتایج فیلتر شده هستند",
+                      style: TextStyle(
+                          fontFamily: mainFaFontFamily, fontSize: mainFontSize),
+                    )
+                  : SizedBox(),
               StreamBuilder(
                 stream: streamAPI.getUserReserveReal(),
                 builder: (BuildContext context, snapshot) {
