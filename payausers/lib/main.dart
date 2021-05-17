@@ -53,10 +53,17 @@ Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
   print(message.data["target"]);
 
   if (message.data["target"] == "3") {
+    userPlateNotiCounter.value = themeChangeProvider.userPlateNumNotif == 0
+        ? 0
+        : themeChangeProvider.userPlateNumNotif;
     userPlateNotiCounter.value++;
     userPlateNotiCounter.notifyListeners();
     themeChangeProvider.userPlateNumNotif = userPlateNotiCounter.value;
   } else if (message.data["target"] == "2") {
+    userInstantReserveCounter.value =
+        themeChangeProvider.instantUserReserve == 0
+            ? 0
+            : themeChangeProvider.instantUserReserve;
     userInstantReserveCounter.value++;
     userInstantReserveCounter.notifyListeners();
     themeChangeProvider.instantUserReserve = userInstantReserveCounter.value;
