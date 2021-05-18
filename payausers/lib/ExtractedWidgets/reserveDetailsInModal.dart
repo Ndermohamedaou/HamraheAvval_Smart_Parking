@@ -104,7 +104,7 @@ class ReserveInDetails extends StatelessWidget {
                       style: TextStyle(
                           color: loginBtnTxtColor,
                           fontFamily: mainFaFontFamily,
-                          fontSize: 15.0,
+                          fontSize: 18.0,
                           fontWeight: FontWeight.bold),
                     ),
                     Icon(

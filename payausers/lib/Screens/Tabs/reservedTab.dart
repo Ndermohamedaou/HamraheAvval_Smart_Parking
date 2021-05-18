@@ -157,31 +157,47 @@ class _ReservedTabState extends State<ReservedTab>
                               fontSize: subTitleSize,
                               fontWeight: FontWeight.bold),
                         ),
-                        StreamBuilder(
-                            // stream: ,
-                            builder: (context, snapshot) {
-                          return ClipOval(
-                            child: Material(
-                              color: mainCTA, // button color
-                              child: InkWell(
-                                splashColor: mainSectionCTA, // inkwell color
-                                child: SizedBox(
-                                    width: 46,
-                                    height: 46,
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                    )),
-                                onTap: () => Navigator.pushNamed(
-                                    context, "/reserveEditaion"),
+                        Row(
+                          textDirection: TextDirection.ltr,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ClipOval(
+                              child: Material(
+                                color: mainCTA, // button color
+                                child: InkWell(
+                                  splashColor: mainSectionCTA, // inkwell color
+                                  child: SizedBox(
+                                      width: 46,
+                                      height: 46,
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      )),
+                                  onTap: () => Navigator.pushNamed(
+                                      context, "/reserveEditaion"),
+                                ),
                               ),
                             ),
-                          );
-                        }),
+                            SizedBox(width: 10),
+                            StreamBuilder(
+                                stream:
+                                    streamAPI.getUserCanInstantReserveReal(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return snapshot.data == 0
+                                        ? SizedBox()
+                                        : logLoadingWidgets
+                                            .instentReserveButton(context);
+                                  } else if (snapshot.hasError)
+                                    return SizedBox();
+                                  else
+                                    return SizedBox();
+                                }),
+                          ],
+                        ),
                       ]),
                 ),
               ),
-              // reservedView
               filtered != 0
                   ? Text(
                       "نتایج فیلتر شده هستند",
