@@ -45,7 +45,7 @@ class ReserveHistoryView extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.6),
+            color: darkBar.withOpacity(0.6),
             spreadRadius: 2,
             blurRadius: 7,
             offset: Offset(2, 3),
