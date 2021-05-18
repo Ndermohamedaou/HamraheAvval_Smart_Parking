@@ -15,7 +15,6 @@ import 'package:payausers/Screens/minePlate.dart';
 import 'package:payausers/Screens/otherPlateView.dart';
 import 'Screens/auth_entered_users.dart';
 import 'Screens/enableAppLock.dart';
-import 'Screens/instantReserve.dart';
 import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
@@ -238,7 +237,6 @@ class _MyAppState extends State<MyApp> {
                     '/localAuth': (context) => LocalAuthEnter(),
                     '/dashboard': (context) => Maino(),
                     '/addReserve': (context) => ReservedTab(),
-                    '/instantReserve': (context) => InstantReservePage(),
                     '/myPlate': (context) => MYPlateScreen(),
                     '/addingPlateIntro': (context) => AddingPlateIntro(),
                     '/addingMinPlate': (context) => MinPlateView(),

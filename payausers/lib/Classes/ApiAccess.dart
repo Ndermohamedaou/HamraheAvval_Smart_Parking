@@ -162,4 +162,13 @@ class ApiAccess {
     // print("From API CLASS $response.data");
     return response.data;
   }
+
+  Future<String> performInstantReserve({token, plate}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response =
+        await dio.post("$baseUrl/InstantReserve?plate_en=$plate");
+    // print("From API CLASS $response.data");
+    return response.data;
+  }
 }

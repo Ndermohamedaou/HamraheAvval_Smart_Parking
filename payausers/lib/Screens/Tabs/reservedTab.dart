@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
+import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/controller/reservePlatePrepare.dart';
 import 'package:payausers/controller/streamAPI.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sizer/sizer.dart';
 
 class ReservedTab extends StatefulWidget {
@@ -23,6 +27,7 @@ class ReservedTab extends StatefulWidget {
 }
 
 int filtered = 0;
+bool loadingInstantReserve = false;
 
 class _ReservedTabState extends State<ReservedTab>
     with AutomaticKeepAliveClientMixin {
@@ -33,6 +38,8 @@ class _ReservedTabState extends State<ReservedTab>
     StreamAPI streamAPI = StreamAPI();
     LogLoading logLoadingWidgets = LogLoading();
     PreparedPlate preparedPlate = PreparedPlate();
+    InstantReserve instantReserve = InstantReserve();
+    FlutterSecureStorage lds = FlutterSecureStorage();
 
     void openDetailsInModal({
       reservID,
@@ -59,6 +66,161 @@ class _ReservedTabState extends State<ReservedTab>
               themeChange: themeChange,
               delReserve: () => widget.deletingReserve(reserveID: reservID),
             ),
+          ),
+        ),
+      );
+    }
+
+    void instentReserveProcess(plateEn) async {
+      setState(() => loadingInstantReserve = true);
+      final token = await lds.read(key: "token");
+      final result =
+          await instantReserve.instantReserve(token: token, plate_en: plateEn);
+
+      if (result != "") {
+        setState(() => loadingInstantReserve = false);
+        Alert(
+          context: context,
+          type: AlertType.success,
+          title: "نتیجه رزرو لحظه ای شما",
+          desc:
+              "رزرو لحظه ای شما با موفقیت انجام شد و در موقعیت $result می تواند پارک خود را انجام دهید",
+          style: AlertStyle(
+              backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
+              titleStyle: TextStyle(
+                fontFamily: mainFaFontFamily,
+              ),
+              descStyle: TextStyle(fontFamily: mainFaFontFamily)),
+          buttons: [
+            DialogButton(
+              child: Text(
+                submitTextForAlert,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontFamily: mainFaFontFamily),
+              ),
+              onPressed: () => Navigator.popUntil(
+                  context, ModalRoute.withName("/dashboard")),
+              width: 120,
+            )
+          ],
+        ).show();
+      } else {
+        setState(() => loadingInstantReserve = false);
+        Alert(
+          context: context,
+          type: AlertType.error,
+          title: "نتیجه رزرو لحظه ای شما",
+          desc:
+              "شما نمیتوانید رزرو لحظه ای خود را در این زمان انجام دهید. لطفا باری دیگر امتحان کنید",
+          style: AlertStyle(
+              backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
+              titleStyle: TextStyle(
+                fontFamily: mainFaFontFamily,
+              ),
+              descStyle: TextStyle(fontFamily: mainFaFontFamily)),
+          buttons: [
+            DialogButton(
+              child: Text(
+                submitTextForAlert,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontFamily: mainFaFontFamily),
+              ),
+              onPressed: () => Navigator.popUntil(
+                  context, ModalRoute.withName("/dashboard")),
+              width: 120,
+            )
+          ],
+        ).show();
+      }
+    }
+
+    final streamPlate = StreamBuilder(
+      stream: streamAPI.getUserPlatesReal(),
+      // ignore: missing_return
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.length == 0)
+            return MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, "/addingPlateIntro"),
+              child: Text(
+                "پلاکی برای خود اضافه کنید",
+                style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),
+              ),
+            );
+          else {
+            return Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                      "یکی از پلاک های خود را برای رزرو لحظه ای انتخاب کنید",
+                      style: TextStyle(
+                          fontFamily: mainFaFontFamily,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold)),
+                ),
+                !loadingInstantReserve
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return FlatButton(
+                            onPressed: () => instentReserveProcess(
+                                snapshot.data[index]['plate_en']),
+                            child: PlateViewer(
+                                plate0: snapshot.data[index]['plate0'],
+                                plate1: snapshot.data[index]['plate1'],
+                                plate2: snapshot.data[index]['plate2'],
+                                plate3: snapshot.data[index]['plate3'],
+                                themeChange: themeChange.darkTheme),
+                          );
+                        })
+                    : CircularProgressIndicator(),
+                SizedBox(height: 40),
+              ],
+            );
+          }
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 10),
+                Text("لطفا کمی شکیبا باشید",
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+              ],
+            ),
+          );
+        } else if (snapshot.hasError)
+          return Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            alignment: Alignment.center,
+            child: logLoadingWidgets.internetProblem,
+          );
+      },
+    );
+
+    instantResrver() {
+      showMaterialModalBottomSheet(
+        context: context,
+        enableDrag: true,
+        bounce: true,
+        duration: const Duration(milliseconds: 550),
+        builder: (context) => SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: SingleChildScrollView(
+            child: streamPlate,
           ),
         ),
       );
@@ -186,8 +348,23 @@ class _ReservedTabState extends State<ReservedTab>
                                   if (snapshot.hasData) {
                                     return snapshot.data == 0
                                         ? SizedBox()
-                                        : logLoadingWidgets
-                                            .instentReserveButton(context);
+                                        : ClipOval(
+                                            child: Material(
+                                              color: Colors.red, // button color
+                                              child: InkWell(
+                                                  splashColor:
+                                                      mainSectionCTA, // inkwell color
+                                                  child: SizedBox(
+                                                      width: 46,
+                                                      height: 46,
+                                                      child: Icon(
+                                                        Icons.lock_clock,
+                                                        color: Colors.white,
+                                                      )),
+                                                  onTap: () =>
+                                                      instantResrver()),
+                                            ),
+                                          );
                                   } else if (snapshot.hasError)
                                     return SizedBox();
                                   else
