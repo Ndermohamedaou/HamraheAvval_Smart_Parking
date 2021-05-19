@@ -110,10 +110,21 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 30),
               Text(
+                "پارکینگ هوشمند من",
+                style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontWeight: FontWeight.bold,
+                  color: mainCTA,
+                  fontSize: 30,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 10),
+              Text(
                 welcomeToInfo,
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontSize: 30,
+                  fontSize: 25,
                 ),
                 textAlign: TextAlign.center,
               ),
