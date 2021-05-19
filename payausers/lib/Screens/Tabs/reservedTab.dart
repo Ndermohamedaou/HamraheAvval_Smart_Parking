@@ -389,46 +389,44 @@ class _ReservedTabState extends State<ReservedTab>
                     if (snapshot.data.length == 0) {
                       return logLoadingWidgets.notFoundReservedData(
                           msg: "رزرو");
-                    } else
+                    } else {
+                      final reserveList = snapshot.data.reversed.toList();
                       return ListView.builder(
                         shrinkWrap: true,
-                        reverse: true,
                         primary: false,
                         itemCount: filtered == 0
-                            ? snapshot.data.length
-                            : snapshot.data.length > filtered
+                            ? reserveList.length
+                            : reserveList.length > filtered
                                 ? filtered
-                                : snapshot.data.length,
+                                : reserveList.length,
                         itemBuilder: (BuildContext context, index) {
                           return SingleChildScrollView(
                             child: GestureDetector(
                               onTap: () => openDetailsInModal(
-                                reservID: snapshot.data[index]["id"],
+                                reservID: reserveList[index]["id"],
                                 plate: preparedPlate.preparePlateInReserve(
-                                    rawPlate: snapshot.data[index]['plate']),
-                                building:
-                                    snapshot.data[index]["building"] != null
-                                        ? snapshot.data[index]["building"]
-                                        : "",
-                                slot: snapshot.data[index]["slot"],
-                                startTime: snapshot.data[index]
+                                    rawPlate: reserveList[index]['plate']),
+                                building: reserveList[index]["building"] != null
+                                    ? reserveList[index]["building"]
+                                    : "",
+                                slot: reserveList[index]["slot"],
+                                startTime: reserveList[index]
                                     ["reserveTimeStart"],
-                                endTime: snapshot.data[index]["reserveTimeEnd"],
+                                endTime: reserveList[index]["reserveTimeEnd"],
                               ),
                               child: (Column(
                                 children: [
                                   ReserveHistoryView(
                                     historyBuildingName:
-                                        snapshot.data[index]["building"] != null
-                                            ? snapshot.data[index]["building"]
+                                        reserveList[index]["building"] != null
+                                            ? reserveList[index]["building"]
                                             : "",
-                                    reserveStatusColor: snapshot.data[index]
+                                    reserveStatusColor: reserveList[index]
                                         ['status'],
-                                    historySlotName: snapshot.data[index]
-                                        ["slot"],
-                                    historyStartTime: snapshot.data[index]
+                                    historySlotName: reserveList[index]["slot"],
+                                    historyStartTime: reserveList[index]
                                         ["reserveTimeStart"],
-                                    historyEndTime: snapshot.data[index]
+                                    historyEndTime: reserveList[index]
                                         ["reserveTimeEnd"],
                                   ),
                                 ],
@@ -437,6 +435,7 @@ class _ReservedTabState extends State<ReservedTab>
                           );
                         },
                       );
+                    }
                   } else if (snapshot.connectionState ==
                       ConnectionState.waiting) {
                     return Column(

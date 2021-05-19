@@ -32,34 +32,36 @@ class _UserTrafficState extends State<UserTraffic>
         if (snapshot.hasData) {
           if (snapshot.data.length == 0)
             return logLoadingWidgets.notFoundReservedData(msg: "تردد");
-          else
+          else {
+            final trafficsList = snapshot.data.reversed.toList();
             return ListView.builder(
               shrinkWrap: true,
               itemCount: filtered == 0
-                  ? snapshot.data.length
-                  : snapshot.data.length > filtered
+                  ? trafficsList.length
+                  : trafficsList.length > filtered
                       ? filtered
-                      : snapshot.data.length,
+                      : trafficsList.length,
               primary: false,
               itemBuilder: (BuildContext context, index) {
                 return (Column(
                   children: [
                     MiniPlate(
-                      plate0: snapshot.data[index]["plate0"],
-                      plate1: snapshot.data[index]["plate1"],
-                      plate2: snapshot.data[index]["plate2"],
-                      plate3: snapshot.data[index]["plate3"],
-                      buildingName: snapshot.data[index]["building"] != null
-                          ? snapshot.data[index]["building"]
+                      plate0: trafficsList[index]["plate0"],
+                      plate1: trafficsList[index]["plate1"],
+                      plate2: trafficsList[index]["plate2"],
+                      plate3: trafficsList[index]["plate3"],
+                      buildingName: trafficsList[index]["building"] != null
+                          ? trafficsList[index]["building"]
                           : "",
-                      startedTime: snapshot.data[index]["entry_datetime"],
-                      endedTime: snapshot.data[index]["exit_datetime"],
-                      slotNo: snapshot.data[index]["slot"],
+                      startedTime: trafficsList[index]["entry_datetime"],
+                      endedTime: trafficsList[index]["exit_datetime"],
+                      slotNo: trafficsList[index]["slot"],
                     ),
                   ],
                 ));
               },
             );
+          }
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
