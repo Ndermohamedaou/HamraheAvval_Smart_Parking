@@ -8,6 +8,7 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:toast/toast.dart';
@@ -100,12 +101,18 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
   }
 
   void checkingOTPReq({otpCode, persCode, password}) async {
-    final user_device_token = await FirebaseMessaging.instance.getToken();
-    // print("${user_device_token}, $otpCode, $persCode}");
+    String devToken = "";
+    try {
+      setState(() async => await FirebaseMessaging.instance.getToken());
+    } catch (e) {
+      setState(() => devToken = "");
+      print(e);
+    }
+
     try {
       setState(() => _isSubmit = true);
       Map getLoginThirdParty = await api.submitOTPCode(
-          persCode: persCode, code: otpCode, devToken: user_device_token);
+          persCode: persCode, code: otpCode, devToken: devToken);
       print(getLoginThirdParty);
 
       if (getLoginThirdParty["status"] == "WrongCodeOrExpired") {
@@ -184,49 +191,55 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
     personalLoginInfo = ModalRoute.of(context).settings.arguments;
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
+    final TextEditingController _pinPutController = TextEditingController();
+    final FocusNode _pinPutFocusNode = FocusNode();
+
+    BoxDecoration _pinPutDecoration = BoxDecoration(
+      border: Border.all(color: mainCTA, width: 2),
+      borderRadius: BorderRadius.circular(15.0),
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: _start != 0 ? mainCTA : mainSectionCTA,
         centerTitle: true,
-        // title: Text("ثبت پلاک به همراه اسناد",
-        //     style: TextStyle(fontFamily: mainFaFontFamily)),
-        actions: [
-          FlatButton(
-              onPressed: () => _isSubmit
-                  ? null
-                  : (userotpCode != "" && userotpCode.length == 4
-                      ? checkingOTPReq(
-                          otpCode: userotpCode,
-                          persCode: personalLoginInfo["persCode"],
-                          password: personalLoginInfo["password"])
-                      : null),
-              child: _isSubmit
-                  ? Container(
-                      width: 10,
-                      height: 10,
-                      child: CircularProgressIndicator(
-                        backgroundColor: mainCTA,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                    )
-                  : (userotpCode != "" && userotpCode.length == 4
-                      ? Text(
-                          "ادامه",
-                          style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        )
-                      : Text(
-                          "ادامه",
-                          style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              color: Colors.black12,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )))
-        ],
+        // actions: [
+        //   FlatButton(
+        //       onPressed: () => _isSubmit
+        //           ? null
+        //           : (userotpCode != "" && userotpCode.length == 4
+        //               ? checkingOTPReq(
+        //                   otpCode: userotpCode,
+        //                   persCode: personalLoginInfo["persCode"],
+        //                   password: personalLoginInfo["password"])
+        //               : null),
+        //       child: _isSubmit
+        //           ? Container(
+        //               width: 10,
+        //               height: 10,
+        //               child: CircularProgressIndicator(
+        //                 backgroundColor: mainCTA,
+        //                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        //               ),
+        //             )
+        //           : (userotpCode != "" && userotpCode.length == 4
+        //               ? Text(
+        //                   "ادامه",
+        //                   style: TextStyle(
+        //                       fontFamily: mainFaFontFamily,
+        //                       fontSize: 18,
+        //                       color: Colors.white,
+        //                       fontWeight: FontWeight.bold),
+        //                 )
+        //               : Text(
+        //                   "ادامه",
+        //                   style: TextStyle(
+        //                       fontFamily: mainFaFontFamily,
+        //                       color: Colors.black12,
+        //                       fontSize: 18,
+        //                       fontWeight: FontWeight.bold),
+        //                 )))
+        // ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -234,39 +247,65 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
             onTap: () => FocusScope.of(context).unfocus(),
             child: Column(
               children: [
-                SizedBox(height: 5.0.h),
-                Image.asset(
-                  "assets/images/sms_opt_img.png",
-                  width: 50.0.w,
-                ),
+                SizedBox(height: 1.0.h),
                 Container(
-                  alignment: Alignment.center,
+                  alignment: Alignment.topRight,
                   child: Text("ما پیامکی حاوی کد برای شما ارسال کردیم",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontFamily: mainFaFontFamily, fontSize: 22)),
+                          fontFamily: mainFaFontFamily,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
                 ),
-                SizedBox(height: 5.0.h),
+                SizedBox(height: 2.0.h),
                 Container(
-                  width: 250,
-                  child: TextFields(
-                    lblText: "کد",
-                    cursorColor: _start == 0 ? mainSectionCTA : mainCTA,
-                    borderColor: _start == 0 ? mainSectionCTA : mainCTA,
-                    keyboardType: TextInputType.number,
-                    textFieldIcon: Icons.sms,
-                    textInputType: false,
-                    readOnly: false,
-                    maxLen: 4,
-                    // errText:
-                    //     emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
-                    onChangeText: (onChangeOTPCode) {
-                      setState(() {
-                        userotpCode = onChangeOTPCode;
-                      });
-                    },
+                  margin: EdgeInsets.symmetric(horizontal: 100),
+                  child: PinPut(
+                    fieldsCount: 4,
+                    autofocus: true,
+                    onSubmit: (String pin) => checkingOTPReq(
+                        otpCode: pin,
+                        persCode: personalLoginInfo["persCode"],
+                        password: personalLoginInfo["password"]),
+                    focusNode: _pinPutFocusNode,
+                    controller: _pinPutController,
+                    submittedFieldDecoration: _pinPutDecoration.copyWith(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    selectedFieldDecoration: _pinPutDecoration,
+                    followingFieldDecoration: _pinPutDecoration.copyWith(
+                      borderRadius: BorderRadius.circular(5.0),
+                      border: Border.all(color: mainCTA, width: 2),
+                    ),
                   ),
                 ),
+                // SizedBox(height: 5.0.h),
+                // Image.asset(
+                //   "assets/images/sms_opt_img.png",
+                //   width: 50.0.w,
+                // ),
+
+                // SizedBox(height: 5.0.h),
+                // Container(
+                //   width: 250,
+                //   child: TextFields(
+                //     lblText: "کد",
+                //     cursorColor: _start == 0 ? mainSectionCTA : mainCTA,
+                //     borderColor: _start == 0 ? mainSectionCTA : mainCTA,
+                //     keyboardType: TextInputType.number,
+                //     textFieldIcon: Icons.sms,
+                //     textInputType: false,
+                //     readOnly: false,
+                //     maxLen: 4,
+                //     // errText:
+                //     //     emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
+                //     onChangeText: (onChangeOTPCode) {
+                //       setState(() {
+                //         userotpCode = onChangeOTPCode;
+                //       });
+                //     },
+                //   ),
+                // ),
                 SizedBox(height: 5.0.h),
                 Container(
                   width: 350,

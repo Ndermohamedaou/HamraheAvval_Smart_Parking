@@ -49,6 +49,7 @@ dependencies:
   local_auth: any
   # For OPT Password view
   otp_screen: ^0.0.3
+  pinput: ^1.2.0
   cool_alert: ^1.0.3
   liquid_pull_to_refresh: ^1.2.0
   numberpicker: ^2.1.1
