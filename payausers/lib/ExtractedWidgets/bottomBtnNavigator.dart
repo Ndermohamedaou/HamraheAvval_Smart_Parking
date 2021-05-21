@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class BottomButton extends StatelessWidget {
