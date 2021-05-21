@@ -5,7 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
-import 'package:payausers/controller/flushbarStatus.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   @override

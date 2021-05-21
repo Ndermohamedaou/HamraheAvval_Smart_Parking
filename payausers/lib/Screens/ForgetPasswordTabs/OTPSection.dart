@@ -58,6 +58,7 @@ class _OTPSubmissionState extends State<OTPSubmission> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 100),
               child: PinPut(
+                textStyle: TextStyle(fontFamily: mainFaFontFamily),
                 fieldsCount: 4,
                 autofocus: true,
                 onSubmit: (String pin) => Navigator.pushNamed(

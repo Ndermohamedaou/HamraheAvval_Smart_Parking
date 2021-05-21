@@ -260,6 +260,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 100),
                   child: PinPut(
+                    textStyle: TextStyle(fontFamily: mainFaFontFamily),
                     fieldsCount: 4,
                     autofocus: true,
                     onSubmit: (String pin) => checkingOTPReq(
