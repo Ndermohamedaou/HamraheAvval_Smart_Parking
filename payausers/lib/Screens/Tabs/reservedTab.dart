@@ -8,6 +8,8 @@ import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/controller/cancelingReserveController.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/controller/reservePlatePrepare.dart';
 import 'package:payausers/Classes/streamAPI.dart';
@@ -16,11 +18,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sizer/sizer.dart';
 
 class ReservedTab extends StatefulWidget {
-  const ReservedTab({
-    this.deletingReserve,
-  });
-
-  final Function deletingReserve;
+  const ReservedTab();
 
   @override
   _ReservedTabState createState() => _ReservedTabState();
@@ -40,6 +38,7 @@ class _ReservedTabState extends State<ReservedTab>
     PreparedPlate preparedPlate = PreparedPlate();
     InstantReserve instantReserve = InstantReserve();
     FlutterSecureStorage lds = FlutterSecureStorage();
+    CancelReserve cancelReserve = CancelReserve();
 
     void openDetailsInModal({
       reservID,
@@ -64,12 +63,15 @@ class _ReservedTabState extends State<ReservedTab>
               building: building,
               slot: slot,
               themeChange: themeChange,
-              delReserve: () => widget.deletingReserve(reserveID: reservID),
+              delReserve: () => cancelReserve.delReserve(
+                  reserveID: reservID, context: context),
             ),
           ),
         ),
       );
     }
+
+    // Delete and Canceling users reseved
 
     void instentReserveProcess(plateEn) async {
       setState(() => loadingInstantReserve = true);

@@ -9,7 +9,6 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Classes/streamAPI.dart';
@@ -20,7 +19,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Tabs/userPlate.dart';
@@ -111,67 +109,6 @@ class _MainoState extends State<Maino> {
     }
   }
 
-  //TODO: Change and movie this in controller
-  // Deleting User Selected Plate
-  void delUserPlate(id) async {
-    try {
-      final userToken = await lds.read(key: "token");
-      final delStatus = await api.delUserPlate(token: userToken, id: id);
-      if (delStatus == "200") {
-        alert(
-            context: context,
-            aType: AlertType.success,
-            title: delProcSucTitle,
-            desc: delProcDesc,
-            themeChange: themeChange,
-            dstRoute: "dashboard");
-      }
-      // gettingMyPlates(); when u use stream for user plates show don't need that
-    } catch (e) {
-      alert(
-          context: context,
-          aType: AlertType.warning,
-          title: delProcFailTitle,
-          desc: delProcFailDesc,
-          themeChange: themeChange,
-          dstRoute: "dashboard");
-    }
-  }
-
-  // Delete and Canceling users reseved
-  void delReserve({reserveID}) async {
-    final userToken = await lds.read(key: "token");
-    try {
-      String caneclingResult =
-          await api.cancelingReserve(token: userToken, reservID: reserveID);
-      if (caneclingResult == "200") {
-        Navigator.pop(context);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: "لغو رزرو",
-            msg: "لغو رزرو شما با موفقیت صورت گرفت",
-            iconColor: Colors.green,
-            icon: Icons.done_outline);
-      } else if (caneclingResult == "500") {
-        Navigator.pop(context);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: "حذف رزرو",
-            msg: "این رزرو یک بار لغو شده است",
-            iconColor: Colors.orange,
-            icon: Icons.warning);
-      }
-    } catch (e) {
-      showStatusInCaseOfFlush(
-          context: context,
-          title: "حذف رزرو",
-          msg: "حذف رزرو شما با مشکلی مواجه شده است، لطفا بعدا امتحان کنید",
-          iconColor: Colors.red,
-          icon: Icons.close);
-      print("Error from Canceling Reserve $e");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     themeChange = Provider.of<DarkThemeProvider>(context);
@@ -224,13 +161,8 @@ class _MainoState extends State<Maino> {
                   },
                 ),
                 UserTraffic(),
-                ReservedTab(
-                  deletingReserve: ({reserveID}) =>
-                      delReserve(reserveID: reserveID),
-                ),
-                UserPlates(
-                  delUserPlate: ({plateID}) => delUserPlate(plateID),
-                ),
+                ReservedTab(),
+                UserPlates(),
                 Settings(),
               ],
             ),

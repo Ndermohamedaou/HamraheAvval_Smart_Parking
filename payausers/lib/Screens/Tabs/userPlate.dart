@@ -7,12 +7,11 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/Classes/streamAPI.dart';
+import 'package:payausers/controller/deleteUserPlate.dart';
 import 'package:provider/provider.dart';
 
 class UserPlates extends StatefulWidget {
-  const UserPlates({this.delUserPlate});
-
-  final Function delUserPlate;
+  const UserPlates();
 
   @override
   _UserPlatesState createState() => _UserPlatesState();
@@ -26,6 +25,7 @@ class _UserPlatesState extends State<UserPlates>
     final themeChange = Provider.of<DarkThemeProvider>(context);
     StreamAPI streamAPI = StreamAPI();
     LogLoading logLoadingWidgets = LogLoading();
+    DeletePlate deletePlate = DeletePlate();
 
     Widget plates = StreamBuilder(
       stream: streamAPI.getUserPlatesReal(),
@@ -81,10 +81,11 @@ class _UserPlatesState extends State<UserPlates>
                                   fontWeight: FontWeight.bold,
                                 ),
                                 onPressed: () {
-                                  widget.delUserPlate(
-                                      plateID: snapshot.data[index]
-                                          ['plate_en']);
-                                  print(snapshot.data[index]['plate_en']);
+                                  deletePlate.delUserPlate(
+                                      id: snapshot.data[index]['plate_en'],
+                                      context: context,
+                                      themeChange: themeChange);
+                                  // print(snapshot.data[index]['plate_en']);
                                 }),
                           ],
                           cancelAction: CancelAction(
