@@ -1,12 +1,15 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/miniPlate.dart';
 import 'package:payausers/Classes/streamAPI.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class UserTraffic extends StatefulWidget {
@@ -23,7 +26,7 @@ class _UserTrafficState extends State<UserTraffic>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     StreamAPI streamAPI = StreamAPI();
     LogLoading logLoadingWidgets = LogLoading();
 
@@ -35,32 +38,47 @@ class _UserTrafficState extends State<UserTraffic>
             return logLoadingWidgets.notFoundReservedData(msg: "تردد");
           else {
             final trafficsList = snapshot.data.reversed.toList();
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: filtered == 0
-                  ? trafficsList.length
-                  : trafficsList.length > filtered
-                      ? filtered
-                      : trafficsList.length,
-              primary: false,
-              itemBuilder: (BuildContext context, index) {
-                return (Column(
-                  children: [
-                    MiniPlate(
-                      plate0: trafficsList[index]["plate0"],
-                      plate1: trafficsList[index]["plate1"],
-                      plate2: trafficsList[index]["plate2"],
-                      plate3: trafficsList[index]["plate3"],
-                      buildingName: trafficsList[index]["building"] != null
-                          ? trafficsList[index]["building"]
-                          : "",
-                      startedTime: trafficsList[index]["entry_datetime"],
-                      endedTime: trafficsList[index]["exit_datetime"],
-                      slotNo: trafficsList[index]["slot"],
-                    ),
-                  ],
-                ));
-              },
+            return Column(
+              children: [
+                filtered != 0
+                    ? Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        alignment: Alignment.centerRight,
+                        child: CustomRichText(
+                          themeChange: themeChange,
+                          textOne: "نمایش $filtered ",
+                          textTwo: "از ${trafficsList.length} تردد",
+                        ),
+                      )
+                    : SizedBox(),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: filtered == 0
+                      ? trafficsList.length
+                      : trafficsList.length > filtered
+                          ? filtered
+                          : trafficsList.length,
+                  primary: false,
+                  itemBuilder: (BuildContext context, index) {
+                    return (Column(
+                      children: [
+                        MiniPlate(
+                          plate0: trafficsList[index]["plate0"],
+                          plate1: trafficsList[index]["plate1"],
+                          plate2: trafficsList[index]["plate2"],
+                          plate3: trafficsList[index]["plate3"],
+                          buildingName: trafficsList[index]["building"] != null
+                              ? trafficsList[index]["building"]
+                              : "",
+                          startedTime: trafficsList[index]["entry_datetime"],
+                          endedTime: trafficsList[index]["exit_datetime"],
+                          slotNo: trafficsList[index]["slot"],
+                        ),
+                      ],
+                    ));
+                  },
+                ),
+              ],
             );
           }
         } else if (snapshot.connectionState == ConnectionState.waiting) {
@@ -176,13 +194,6 @@ class _UserTrafficState extends State<UserTraffic>
                   ],
                 ),
               ),
-              filtered != 0
-                  ? Text(
-                      "نتایج فیلتر شده هستند",
-                      style: TextStyle(
-                          fontFamily: mainFaFontFamily, fontSize: mainFontSize),
-                    )
-                  : SizedBox(),
               traffics,
             ],
           ),

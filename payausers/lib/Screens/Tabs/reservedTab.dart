@@ -4,6 +4,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
@@ -377,13 +378,6 @@ class _ReservedTabState extends State<ReservedTab>
                       ]),
                 ),
               ),
-              filtered != 0
-                  ? Text(
-                      "نتایج فیلتر شده هستند",
-                      style: TextStyle(
-                          fontFamily: mainFaFontFamily, fontSize: mainFontSize),
-                    )
-                  : SizedBox(),
               StreamBuilder(
                 stream: streamAPI.getUserReserveReal(),
                 builder: (BuildContext context, snapshot) {
@@ -393,49 +387,68 @@ class _ReservedTabState extends State<ReservedTab>
                           msg: "رزرو");
                     } else {
                       final reserveList = snapshot.data.reversed.toList();
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: filtered == 0
-                            ? reserveList.length
-                            : reserveList.length > filtered
-                                ? filtered
-                                : reserveList.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return SingleChildScrollView(
-                            child: GestureDetector(
-                              onTap: () => openDetailsInModal(
-                                reservID: reserveList[index]["id"],
-                                plate: preparedPlate.preparePlateInReserve(
-                                    rawPlate: reserveList[index]['plate']),
-                                building: reserveList[index]["building"] != null
-                                    ? reserveList[index]["building"]
-                                    : "",
-                                slot: reserveList[index]["slot"],
-                                startTime: reserveList[index]
-                                    ["reserveTimeStart"],
-                                endTime: reserveList[index]["reserveTimeEnd"],
-                              ),
-                              child: (Column(
-                                children: [
-                                  ReserveHistoryView(
-                                    historyBuildingName:
+                      return Column(
+                        children: [
+                          filtered != 0
+                              ? Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  alignment: Alignment.centerRight,
+                                  child: CustomRichText(
+                                    themeChange: themeChange,
+                                    textOne: "نمایش $filtered ",
+                                    textTwo: "از ${reserveList.length} رزرو",
+                                  ),
+                                )
+                              : SizedBox(),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: filtered == 0
+                                ? reserveList.length
+                                : reserveList.length > filtered
+                                    ? filtered
+                                    : reserveList.length,
+                            itemBuilder: (BuildContext context, index) {
+                              return SingleChildScrollView(
+                                child: GestureDetector(
+                                  onTap: () => openDetailsInModal(
+                                    reservID: reserveList[index]["id"],
+                                    plate: preparedPlate.preparePlateInReserve(
+                                        rawPlate: reserveList[index]['plate']),
+                                    building:
                                         reserveList[index]["building"] != null
                                             ? reserveList[index]["building"]
                                             : "",
-                                    reserveStatusColor: reserveList[index]
-                                        ['status'],
-                                    historySlotName: reserveList[index]["slot"],
-                                    historyStartTime: reserveList[index]
+                                    slot: reserveList[index]["slot"],
+                                    startTime: reserveList[index]
                                         ["reserveTimeStart"],
-                                    historyEndTime: reserveList[index]
+                                    endTime: reserveList[index]
                                         ["reserveTimeEnd"],
                                   ),
-                                ],
-                              )),
-                            ),
-                          );
-                        },
+                                  child: (Column(
+                                    children: [
+                                      ReserveHistoryView(
+                                        historyBuildingName: reserveList[index]
+                                                    ["building"] !=
+                                                null
+                                            ? reserveList[index]["building"]
+                                            : "",
+                                        reserveStatusColor: reserveList[index]
+                                            ['status'],
+                                        historySlotName: reserveList[index]
+                                            ["slot"],
+                                        historyStartTime: reserveList[index]
+                                            ["reserveTimeStart"],
+                                        historyEndTime: reserveList[index]
+                                            ["reserveTimeEnd"],
+                                      ),
+                                    ],
+                                  )),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       );
                     }
                   } else if (snapshot.connectionState ==
