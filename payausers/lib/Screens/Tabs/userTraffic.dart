@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/miniPlate.dart';
 import 'package:payausers/Classes/streamAPI.dart';
@@ -206,38 +207,4 @@ class _UserTrafficState extends State<UserTraffic>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class FilterMenu extends StatelessWidget {
-  const FilterMenu({
-    this.text,
-    this.filterPressed,
-  });
-
-  final String text;
-  final Function filterPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: filterPressed,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                  fontSize: 14.0.sp,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
