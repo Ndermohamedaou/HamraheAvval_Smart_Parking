@@ -12,7 +12,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
-import 'package:payausers/controller/streamAPI.dart';
+import 'package:payausers/Classes/streamAPI.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
 import 'package:connectivity/connectivity.dart';

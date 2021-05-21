@@ -21,6 +21,19 @@ class ApiAccess {
     return res.data;
   }
 
+  // Reset password for forget password
+  Future<String> submitOTPPasswordReset({personalCode}) async {
+    Response res =
+        await dio.post("$baseUrl/PasswordReset?personal_code=$personalCode");
+    return res.data;
+  }
+
+  Future<String> perfromResetPassword({otpCode, password}) async {
+    Response res = await dio
+        .post("$baseUrl/recover_password?otp_code=$otpCode&password=$password");
+    return res.data;
+  }
+
   Future<Map> getStaffInfo({token}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";

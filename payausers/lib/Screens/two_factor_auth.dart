@@ -6,7 +6,6 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/SavingData.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';

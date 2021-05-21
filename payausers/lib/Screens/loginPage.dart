@@ -177,9 +177,8 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: FlatButton(
-                    onPressed: () {
-                      print("Forgot Btn Clicked!!");
-                    },
+                    onPressed: () =>
+                        Navigator.pushNamed(context, "/forgetPassword"),
                     child: Row(
                       textDirection: TextDirection.rtl,
                       children: [

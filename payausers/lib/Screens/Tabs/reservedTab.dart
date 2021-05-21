@@ -10,7 +10,7 @@ import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/controller/reservePlatePrepare.dart';
-import 'package:payausers/controller/streamAPI.dart';
+import 'package:payausers/Classes/streamAPI.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sizer/sizer.dart';

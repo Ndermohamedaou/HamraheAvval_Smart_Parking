@@ -5,7 +5,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/miniPlate.dart';
-import 'package:payausers/controller/streamAPI.dart';
+import 'package:payausers/Classes/streamAPI.dart';
 import 'package:sizer/sizer.dart';
 
 class UserTraffic extends StatefulWidget {
