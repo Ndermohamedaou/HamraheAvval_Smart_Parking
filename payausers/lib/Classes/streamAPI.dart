@@ -10,7 +10,7 @@ class StreamAPI {
   // Will use in User Traffics tab
   Stream getUserTrafficsReal() async* {
     final token = await lds.read(key: "token");
-    yield* Stream.periodic(Duration(minutes: 10), (_) {
+    yield* Stream.periodic(Duration(seconds: 10), (_) {
       dio.options.headers['Content-Type'] = 'application/json';
       dio.options.headers["Authorization"] = "Bearer $token";
       return dio.get("$baseUrl/getUserTraffic");

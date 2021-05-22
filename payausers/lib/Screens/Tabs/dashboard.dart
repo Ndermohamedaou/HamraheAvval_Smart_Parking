@@ -119,7 +119,7 @@ class _DashboardState extends State<Dashboard>
                   stream: streamAPI.getUserTrafficsReal(),
                   builder: (BuildContext context, snapshot) {
                     if (snapshot.hasData) {
-                      print(snapshot.data.length);
+                      // print(snapshot.data.length);
                       return gridTile.trafficsTile("${snapshot.data.length}");
                     } else if (snapshot.hasError)
                       return gridTile.trafficsTile("-");
