@@ -1,10 +1,9 @@
 import 'dart:async';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Classes/ApiAccess.dart';
-import 'package:payausers/Classes/SavingData.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Classes/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:pinput/pin_put/pin_put.dart';
@@ -45,43 +44,6 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
     super.dispose();
   }
 
-  // If user is not new
-  void getUserAccInfo(token) async {
-    SavingData savingData = SavingData();
-    try {
-      Map userInfo = await api.getStaffInfo(token: token);
-      // Convert plate list from api to lStorage
-      // final List userPlates = userInfo["plates"] as List;
-
-      bool result = await savingData.LDS(
-        token: token,
-        user_id: userInfo["user_id"],
-        email: userInfo["email"],
-        name: userInfo["name"],
-        role: userInfo['role'],
-        avatar: userInfo["avatar"],
-        melli_code: userInfo['melli_code'],
-        personal_code: userInfo['personal_code'],
-        section: userInfo["section"],
-        lastLogin: userInfo["last_login"],
-      );
-
-      if (result) {
-        Navigator.pushNamed(context, "/loginCheckout");
-      } else {
-        Toast.show("Your info can not saved", context,
-            duration: Toast.LENGTH_LONG,
-            gravity: Toast.BOTTOM,
-            textColor: Colors.white);
-      }
-    } catch (e) {
-      Toast.show("Error in Get User info!", context,
-          duration: Toast.LENGTH_LONG,
-          gravity: Toast.BOTTOM,
-          textColor: Colors.white);
-    }
-  }
-
   // Confirmation
   void goToConfirm(token, password) async {
     try {
@@ -100,6 +62,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
   }
 
   void checkingOTPReq({otpCode, persCode, password}) async {
+    GettingReadyAccount gettingReadyAccount = GettingReadyAccount();
     String devToken = "";
     try {
       setState(() async => await FirebaseMessaging.instance.getToken());
@@ -137,7 +100,8 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
           goToConfirm(getLoginThirdParty['token'], password);
           setState(() => _isSubmit = false);
         } else {
-          getUserAccInfo(getLoginThirdParty['token']);
+          gettingReadyAccount.getUserAccInfo(
+              getLoginThirdParty['token'], context);
           setState(() => _isSubmit = false);
         }
       }

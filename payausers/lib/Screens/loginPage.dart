@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Classes/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
@@ -61,6 +62,8 @@ class _LoginPageState extends State<LoginPage> {
 
     // Login process
     void navigatedToDashboard({email, pass}) async {
+      GettingReadyAccount gettingReadyAccount = GettingReadyAccount();
+
       setState(() {
         email = email.trim();
         pass = pass.trim();
@@ -68,12 +71,18 @@ class _LoginPageState extends State<LoginPage> {
       if (email != "" || pass != "") {
         try {
           setState(() => isLogin = true);
-          String getLoginStatus =
+          final getLoginStatus =
               await api.getAccessToLogin(email: email, password: pass);
-          if (getLoginStatus == "200") {
-            Navigator.pushNamed(context, "/2factorAuth",
-                arguments: {"persCode": email, "password": pass});
-            setState(() => isLogin = false);
+          if (getLoginStatus["status"] == "200") {
+            if (getLoginStatus["first_visit"]) {
+              Navigator.pushNamed(context, "/2factorAuth",
+                  arguments: {"persCode": email, "password": pass});
+              setState(() => isLogin = false);
+            } else {
+              setState(() => isLogin = false);
+              gettingReadyAccount.getUserAccInfo(
+                  getLoginStatus['token'], context);
+            }
           } else {
             Toast.show("خطا در ورود", context,
                 duration: Toast.LENGTH_LONG,
