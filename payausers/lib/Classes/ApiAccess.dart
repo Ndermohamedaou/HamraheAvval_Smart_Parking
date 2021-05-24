@@ -28,7 +28,7 @@ class ApiAccess {
     return res.data;
   }
 
-  Future<String> perfromResetPassword({otpCode, password}) async {
+  Future<String> recoverUserPassword({otpCode, password}) async {
     Response res = await dio
         .post("$baseUrl/recover_password?otp_code=$otpCode&password=$password");
     return res.data;

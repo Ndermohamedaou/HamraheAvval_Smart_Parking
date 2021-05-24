@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   @override
@@ -12,6 +13,7 @@ class ForgetPasswordPage extends StatefulWidget {
 }
 
 String personalCode;
+bool _submitPers;
 
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   ApiAccess api = ApiAccess();
@@ -19,6 +21,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   @override
   void initState() {
     personalCode = "";
+    _submitPers = true;
     super.initState();
   }
 
@@ -29,26 +32,23 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   void submitOTP(personalCode) async {
     try {
-      // final result =
-      //     await api.submitOTPPasswordReset(personalCode: personalCode);
+      setState(() => _submitPers = false);
+      final result =
+          await api.submitOTPPasswordReset(personalCode: personalCode);
 
-      // if (result == "404")
-      Navigator.pushNamed(context, "/otpSection");
-      // else
-      //   showStatusInCaseOfFlush(
-      //       context: context,
-      //       title: "خطا در شناسه کاربری",
-      //       msg: "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
-      //       iconColor: Colors.red,
-      //       icon: Icons.close);
+      if (result == "200") {
+        setState(() => _submitPers = true);
+        Navigator.pushNamed(context, "/otpSection");
+      }
     } catch (e) {
-      // showStatusInCaseOfFlush(
-      //     context: context,
-      //     title: "خطا در برقراری ارتباط با سرویس دهنده",
-      //     msg: "ارتباط خود را بررسی کنید یا با سرویس دهنده در تماس باشید",
-      //     iconColor: Colors.red,
-      //     icon: Icons.close);
-      // print("Error from reset password: $e");
+      setState(() => _submitPers = true);
+      showStatusInCaseOfFlush(
+          context: context,
+          title: "خطا در شناسه کاربری",
+          msg: "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
+          iconColor: Colors.red,
+          icon: Icons.close);
+      print("Error from reset password: $e");
     }
   }
 

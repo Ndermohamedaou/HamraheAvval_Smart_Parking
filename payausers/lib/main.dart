@@ -9,7 +9,7 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:provider/provider.dart';
 
 // Screens
-import 'Screens/ForgetPasswordTabs/changePassword.dart';
+import 'Screens/ForgetPasswordTabs/recoverPassword.dart';
 import 'Screens/addingPlateIntro.dart';
 import 'package:payausers/Screens/familyPage.dart';
 import 'package:payausers/Screens/minePlate.dart';
@@ -235,7 +235,7 @@ class _MyAppState extends State<MyApp> {
                     '/termsAndLicense': (context) => TermsOfServiceView(),
                     '/forgetPassword': (context) => ForgetPasswordPage(),
                     '/otpSection': (context) => OTPSubmission(),
-                    '/changeForgetPassword': (context) => ChangePassword(),
+                    '/recoverPassword': (context) => RecoverPassword(),
                     '/login': (context) => LoginPage(),
                     '/2factorAuth': (context) => TwoFactorAuthScreen(),
                     '/confirm': (context) => ConfirmScreen(),

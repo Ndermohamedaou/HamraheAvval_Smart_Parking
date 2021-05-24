@@ -79,7 +79,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     void gettingLogin({uToken, curPass, pass, rePass, avatar}) async {
       final _img64 = await imgConvertor.img2Base64(avatar);
       if (pass != "" && rePass != "") {
-        if (pass.length > 6 && rePass.length > 6) {
+        if (pass.length >= 6 && rePass.length >= 6) {
           if (pass == rePass) {
             bool testPass = passwordRegex(pass);
             bool testRePass = passwordRegex(rePass);

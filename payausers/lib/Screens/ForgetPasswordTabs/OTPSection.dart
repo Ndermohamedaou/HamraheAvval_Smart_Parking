@@ -62,7 +62,7 @@ class _OTPSubmissionState extends State<OTPSubmission> {
                 fieldsCount: 4,
                 autofocus: true,
                 onSubmit: (String pin) => Navigator.pushNamed(
-                    context, "/changeForgetPassword",
+                    context, "/recoverPassword",
                     arguments: pin),
                 focusNode: _pinPutFocusNode,
                 controller: _pinPutController,
