@@ -58,10 +58,6 @@ class ReserveHistoryView extends StatelessWidget {
           textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.arrow_back_ios,
-              color: Colors.grey.shade700,
-            ),
             CircularStatus(
               specificReserveStatusColor: specificReserveStatusColor,
             ),
@@ -165,19 +161,14 @@ class CircularStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            width: 20,
-            height: 20,
-            decoration: BoxDecoration(
-              color: specificReserveStatusColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-        ],
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Container(
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(
+          color: specificReserveStatusColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
       ),
     );
   }
