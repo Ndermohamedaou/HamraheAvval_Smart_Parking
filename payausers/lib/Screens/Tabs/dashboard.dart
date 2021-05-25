@@ -49,7 +49,7 @@ class _DashboardState extends State<Dashboard>
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(avatar),
+                  backgroundImage: avatar,
                 ),
               ],
             ),
@@ -64,11 +64,12 @@ class _DashboardState extends State<Dashboard>
             future: loadLocalData.getLocalUserAvatar(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
-                return userLeadingCircleAvatar(snapshot.data);
+                return userLeadingCircleAvatar(NetworkImage(snapshot.data));
               } else if (snapshot.hasError) {
-                return userLeadingCircleAvatar("");
+                return userLeadingCircleAvatar(
+                    Icon(Icons.airline_seat_individual_suite_sharp));
               } else {
-                return userLeadingCircleAvatar("");
+                return CircularProgressIndicator();
               }
             },
           ),
