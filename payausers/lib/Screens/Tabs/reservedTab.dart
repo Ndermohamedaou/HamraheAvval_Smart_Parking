@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -11,6 +12,7 @@ import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
+import 'package:payausers/controller/initReserveList.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/controller/reservePlatePrepare.dart';
 import 'package:payausers/Classes/streamAPI.dart';
@@ -35,6 +37,8 @@ class _ReservedTabState extends State<ReservedTab>
     super.build(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     StreamAPI streamAPI = StreamAPI();
+    InitReserve initReserve = InitReserve();
+    ApiAccess api = ApiAccess();
     LogLoading logLoadingWidgets = LogLoading();
     PreparedPlate preparedPlate = PreparedPlate();
     InstantReserve instantReserve = InstantReserve();
@@ -163,6 +167,7 @@ class _ReservedTabState extends State<ReservedTab>
                   alignment: Alignment.centerRight,
                   child: Text(
                       "یکی از پلاک های خود را برای رزرو لحظه ای انتخاب کنید",
+                      textAlign: TextAlign.right,
                       style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           fontSize: 22,

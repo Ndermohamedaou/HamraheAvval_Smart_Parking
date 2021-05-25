@@ -55,11 +55,11 @@ class _MainoState extends State<Maino> {
     _pageController = PageController();
     tabBarIndex = 0;
 
-    loadLocalData.getStaffInfoFromLocal();
-    loadLocalData.getUserInfoInReal();
-    streamAPI.getUserTrafficsReal();
-    streamAPI.getUserReserveReal();
-    streamAPI.getUserPlatesReal();
+    // loadLocalData.getStaffInfoFromLocal();
+    // loadLocalData.getUserInfoInReal();
+    // streamAPI.getUserTrafficsReal();
+    // streamAPI.getUserReserveReal();
+    // streamAPI.getUserPlatesReal();
 
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
@@ -69,6 +69,7 @@ class _MainoState extends State<Maino> {
     _pageController.dispose();
 
     initConnectivity();
+
     // Close init
     _connectivitySubscription.cancel();
     super.dispose();

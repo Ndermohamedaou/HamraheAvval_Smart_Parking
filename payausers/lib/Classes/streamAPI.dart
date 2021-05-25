@@ -22,7 +22,7 @@ class StreamAPI {
   // Wiil use in Reserve Tab
   Stream getUserReserveReal() async* {
     final token = await lds.read(key: "token");
-    yield* Stream.periodic(Duration(seconds: 5), (_) {
+    yield* Stream.periodic(Duration(seconds: 60), (_) {
       dio.options.headers['Content-Type'] = 'application/json';
       dio.options.headers["Authorization"] = "Bearer $token";
       return dio.get("$baseUrl/getUserReserves");
