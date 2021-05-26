@@ -178,16 +178,30 @@ class _ReservedTabState extends State<ReservedTab>
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, index) {
-                          return FlatButton(
-                            onPressed: () => instentReserveProcess(
-                                snapshot.data[index]['plate_en']),
-                            child: PlateViewer(
-                                plate0: snapshot.data[index]['plate0'],
-                                plate1: snapshot.data[index]['plate1'],
-                                plate2: snapshot.data[index]['plate2'],
-                                plate3: snapshot.data[index]['plate3'],
-                                themeChange: themeChange.darkTheme),
-                          );
+                          if (snapshot.data[index]["status"] == 1)
+                            return TextButton(
+                              style: ButtonStyle(
+                                  foregroundColor: MaterialStateProperty.all(
+                                      themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black)),
+                              onPressed: () => instentReserveProcess(
+                                  snapshot.data[index]['plate_en']),
+                              child: PlateViewer(
+                                  plate0: snapshot.data[index]['plate0'],
+                                  plate1: snapshot.data[index]['plate1'],
+                                  plate2: snapshot.data[index]['plate2'],
+                                  plate3: snapshot.data[index]['plate3'],
+                                  themeChange: themeChange.darkTheme),
+                            );
+                          else
+                            Text(
+                              "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
+                              style: TextStyle(
+                                  fontFamily: mainFaFontFamily,
+                                  color: Colors.white),
+                              textDirection: TextDirection.ltr,
+                            );
                         })
                     : CircularProgressIndicator(),
                 SizedBox(height: 40),

@@ -13,9 +13,8 @@ import 'package:payausers/controller/reserveController.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
 import 'package:provider/provider.dart';
 
-// import 'package:flushbar/flushbar.dart';
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/calender.dart';
-import 'package:payausers/ExtractedWidgets/pagesOfReserve/takenTime.dart';
+// import 'package:payausers/ExtractedWidgets/pagesOfReserve/takenTime.dart';
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/plate.dart';
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/summery.dart';
 
@@ -79,7 +78,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
 
     // This func related to getting
     // user plate function in specific Controller
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 50), (timer) {
       gettingUserPlateFunc();
     });
     gettingUserPlateFunc();
@@ -123,21 +122,21 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     final plateViewerInModal = ListView.builder(
       itemCount: userPlates.length,
       shrinkWrap: true,
-      itemBuilder: (BuildContext context, index) {
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              finalSelectedString = userPlates[index]['plate_en'];
-              finalSelectedPlate = {
-                "plate0": userPlates[index]['plate0'],
-                "plate1": userPlates[index]['plate1'],
-                "plate2": userPlates[index]['plate2'],
-                "plate3": userPlates[index]['plate3'],
-              };
-              Navigator.pop(context);
-            });
-          },
-          child: (Container(
+      itemBuilder: (context, index) {
+        if (userPlates[index]['status'] == 1)
+          return (GestureDetector(
+            onTap: () {
+              setState(() {
+                finalSelectedString = userPlates[index]['plate_en'];
+                finalSelectedPlate = {
+                  "plate0": userPlates[index]['plate0'],
+                  "plate1": userPlates[index]['plate1'],
+                  "plate2": userPlates[index]['plate2'],
+                  "plate3": userPlates[index]['plate3'],
+                };
+                Navigator.pop(context);
+              });
+            },
             child: PlateViewer(
                 plate0: userPlates[index]['plate0'] != null
                     ? userPlates[index]['plate0']
@@ -152,8 +151,13 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                     ? userPlates[index]['plate3']
                     : "-",
                 themeChange: themeChange.darkTheme),
-          )),
-        );
+          ));
+        else
+          Text(
+            "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
+            style: TextStyle(fontFamily: mainFaFontFamily, color: Colors.white),
+            textDirection: TextDirection.ltr,
+          );
       },
     );
 
@@ -192,27 +196,28 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     Widget finalPlateContext =
         userPlates.length != 0 ? plateContext : addPlateNotExists;
 
-    // ByDefault plate for Reserve
-    Widget ByDefaultSelectedPlate = userPlates.isEmpty
-        ? Text(
-            emptyUserPlate,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-            ),
-          )
-        : PlateViewer(
-            plate0: userPlates[0]['plate0'],
-            plate1: userPlates[0]['plate1'],
-            plate2: userPlates[0]['plate2'],
-            plate3: userPlates[0]['plate3'],
-            themeChange: themeChange.darkTheme,
-          );
+    // By default plate for Reserve
+    Widget byDefaultSelectedPlate =
+        userPlates.isEmpty || userPlates[0]["status"] == 0
+            ? Text(
+                emptyUserPlate,
+                style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                ),
+              )
+            : PlateViewer(
+                plate0: userPlates[0]['plate0'],
+                plate1: userPlates[0]['plate1'],
+                plate2: userPlates[0]['plate2'],
+                plate3: userPlates[0]['plate3'],
+                themeChange: themeChange.darkTheme,
+              );
     // String form of default user plate
     bydefaultSelectedString =
         userPlates.isEmpty ? "" : userPlates[0]['plate_en'];
     // Widget form of default user plate
     Widget byDefaultPlateGraphy = userPlates != []
-        ? ByDefaultSelectedPlate
+        ? byDefaultSelectedPlate
         : Text(
             emptyUserPlate,
             style: TextStyle(
@@ -238,12 +243,19 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
             "plate2": "-",
             "plate3": "-",
           }
-        : {
-            "plate0": userPlates[0]['plate0'],
-            "plate1": userPlates[0]['plate1'],
-            "plate2": userPlates[0]['plate2'],
-            "plate3": userPlates[0]['plate3'],
-          };
+        : userPlates[0]["status"] == 1
+            ? {
+                "plate0": userPlates[0]['plate0'],
+                "plate1": userPlates[0]['plate1'],
+                "plate2": userPlates[0]['plate2'],
+                "plate3": userPlates[0]['plate3'],
+              }
+            : {
+                "plate0": "-",
+                "plate1": "-",
+                "plate2": "-",
+                "plate3": "-",
+              };
 
     final switchingPlate = finalSelectedString == ""
         ? defaultUserPlateMap

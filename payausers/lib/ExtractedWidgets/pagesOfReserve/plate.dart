@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class PlatePicker extends StatelessWidget {
@@ -50,40 +48,39 @@ class PlatePicker extends StatelessWidget {
           SizedBox(height: 40),
           plateForShow,
           SizedBox(height: 40),
-          FlatButton(
+          MaterialButton(
             onPressed: () {
               showMaterialModalBottomSheet(
                 context: context,
                 enableDrag: true,
-                bounce: true,
                 duration: const Duration(milliseconds: 550),
                 builder: (context) => SingleChildScrollView(
-                  controller: ModalScrollController.of(context),
-                  child: Column(
-                    children: [
-                      Row(
-                        textDirection: TextDirection.rtl,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 20, right: 20),
-                            child: Text(
-                              "پلاک های شما",
-                              style: TextStyle(
-                                  fontFamily: mainFaFontFamily,
-                                  fontSize: subTitleSize),
+                    controller: ModalScrollController.of(context),
+                    child: Column(
+                      children: [
+                        Row(
+                          textDirection: TextDirection.rtl,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 20, right: 20),
+                              child: Text(
+                                "پلاک های شما",
+                                style: TextStyle(
+                                    fontFamily: mainFaFontFamily,
+                                    fontSize: subTitleSize),
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 20, left: 20),
-                            child: Icon(Icons.card_giftcard),
-                          ),
-                        ],
-                      ),
-                      mainContext
-                    ],
-                  ),
-                ),
+                            Container(
+                              margin: EdgeInsets.only(top: 20, left: 20),
+                              child: Icon(Icons.card_giftcard),
+                            ),
+                          ],
+                        ),
+                        mainContext,
+                        SizedBox(height: 20)
+                      ],
+                    )),
               );
             },
             color: mainCTA,
