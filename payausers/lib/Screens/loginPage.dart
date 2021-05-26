@@ -73,7 +73,8 @@ class _LoginPageState extends State<LoginPage> {
           setState(() => isLogin = true);
           final getLoginStatus =
               await api.getAccessToLogin(email: email, password: pass);
-          if (getLoginStatus["status"] == "200") {
+          if (getLoginStatus["status"] == 200 ||
+              getLoginStatus["status"] == "200") {
             if (getLoginStatus["first_visit"]) {
               Navigator.pushNamed(context, "/2factorAuth",
                   arguments: {"persCode": email, "password": pass});
