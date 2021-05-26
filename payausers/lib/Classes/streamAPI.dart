@@ -51,7 +51,7 @@ class StreamAPI {
 
   Stream getUserCanInstantReserveReal() async* {
     final token = await lds.read(key: "token");
-    yield* Stream.periodic(Duration(seconds: 60), (_) {
+    yield* Stream.periodic(Duration(seconds: 30), (_) {
       dio.options.headers['Content-Type'] = 'application/json';
       dio.options.headers["Authorization"] = "Bearer $token";
       return dio.get("$baseUrl/canInstantReserve");
