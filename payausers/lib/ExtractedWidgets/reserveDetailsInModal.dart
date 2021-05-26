@@ -53,7 +53,7 @@ class ReserveInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "ساعت ورود", fw: FontWeight.bold),
+            CustomTitle(textTitle: "زمان ورود", fw: FontWeight.bold),
             CustomSubTitle(textTitle: startTime),
           ],
         ),
@@ -62,7 +62,7 @@ class ReserveInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "ساعت خروج", fw: FontWeight.bold),
+            CustomTitle(textTitle: "زمان خروج", fw: FontWeight.bold),
             CustomSubTitle(textTitle: endTime),
           ],
         ),

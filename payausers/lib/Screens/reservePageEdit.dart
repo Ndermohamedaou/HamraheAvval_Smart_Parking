@@ -7,6 +7,7 @@ import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
+import 'package:payausers/Screens/addingPlateIntro.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
@@ -254,13 +255,11 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
           };
 
     void gettingReserve() {
-      if (datePickedByUser.isNotEmpty || startTime != 0 || endTime != 0) {
+      if (datePickedByUser.isNotEmpty) {
         final pickDate = datePickedByUser.split("/");
 
-        final strDateTimeStart =
-            "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $startTime";
-        final strDateTimeEnd =
-            "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} $endTime";
+        final strDateTimeStart = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]}";
+        final strDateTimeEnd = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} ";
 
         final reallyPlate = finalSelectedString == ""
             ? bydefaultSelectedString
@@ -286,18 +285,18 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
 
     List<Widget> mainTakenReserve = [
       DateUserPicker(pressedDate: openCalend, pickedDateText: datePickedByUser),
-      TimerPicker(
-        startTimeText: startTime,
-        endTimeText: endTime,
-        changeStartTime: (startHour) => setState(() {
-          startTime = startHour;
-          if (startTime != 24)
-            endTime = startTime + 1;
-          else
-            endTime = 1;
-        }),
-        changeEndTime: (endHour) => setState(() => endTime = endHour),
-      ),
+      // TimerPicker(
+      //   startTimeText: startTime,
+      //   endTimeText: endTime,
+      //   changeStartTime: (startHour) => setState(() {
+      //     startTime = startHour;
+      //     if (startTime != 24)
+      //       endTime = startTime + 1;
+      //     else
+      //       endTime = 1;
+      //   }),
+      //   changeEndTime: (endHour) => setState(() => endTime = endHour),
+      // ),
       PlatePicker(
         mainContext: finalPlateContext,
         plateForShow: finalPlateViewInContainer,
@@ -305,8 +304,8 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       Summery(
         themeChange: themeChange.darkTheme,
         datePickedByUser: datePickedByUser != "" ? datePickedByUser : "-",
-        startTime: startTime != 0 ? startTime : "-",
-        endTime: endTime != 0 ? endTime : "-",
+        // startTime: startTime != 0 ? startTime : "-",
+        // endTime: endTime != 0 ? endTime : "-",
         finalSelectedPlateToSending: switchingPlate,
         sendToSubmit: () {
           gettingReserve();
@@ -314,21 +313,13 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       )
     ];
 
-    final appBarTitleSpecific = curIndex == 0
-        ? chooseDate
-        : curIndex == 1
-            ? chooseTime
-            : curIndex == 2
-                ? choosePlate
-                : curIndex == 3
-                    ? summery
-                    : "";
+    List appBarTitleSpecific = [chooseDate, choosePlate, summery];
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          appBarTitleSpecific,
+          appBarTitleSpecific[pageIndex],
           style: TextStyle(fontFamily: mainFaFontFamily),
         ),
         backgroundColor: mainCTA,
@@ -363,7 +354,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                         color: Colors.white,
                       )),
                   onTap: () {
-                    if (curIndex > 0 && curIndex <= 3) {
+                    if (curIndex > 0 && curIndex <= 2) {
                       setState(() {
                         curIndex -= 1;
                       });
@@ -389,12 +380,22 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                     ),
                   ),
                 ),
+                // GestureDetector(
+                //   onTap: () => navigatedIcon(1),
+                //   child: Container(
+                //     margin: EdgeInsets.symmetric(horizontal: 10),
+                //     child: Icon(
+                //       Icons.timer_outlined,
+                //       color: curIndex == 1 ? mainSectionCTA : null,
+                //     ),
+                //   ),
+                // ),
                 GestureDetector(
                   onTap: () => navigatedIcon(1),
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: Icon(
-                      Icons.timer_outlined,
+                      Icons.view_carousel_outlined,
                       color: curIndex == 1 ? mainSectionCTA : null,
                     ),
                   ),
@@ -404,18 +405,8 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: Icon(
-                      Icons.view_carousel_outlined,
-                      color: curIndex == 2 ? mainSectionCTA : null,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => navigatedIcon(3),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Icon(
                       Icons.featured_play_list_outlined,
-                      color: curIndex == 3 ? mainSectionCTA : null,
+                      color: curIndex == 2 ? mainSectionCTA : null,
                     ),
                   ),
                 ),
@@ -434,7 +425,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                         color: Colors.white,
                       )),
                   onTap: () {
-                    if (curIndex >= 0 && curIndex < 3) {
+                    if (curIndex >= 0 && curIndex < 2) {
                       setState(() {
                         curIndex += 1;
                       });

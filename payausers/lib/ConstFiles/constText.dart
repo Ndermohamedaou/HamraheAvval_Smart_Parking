@@ -219,3 +219,5 @@ const successfullPlateAddDsc =
 const errorPlateAddTitle = "عملیات ثبت پلاک شما با شکست مواجه شد";
 const errorPlateAddDsc =
     "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید";
+
+const noticeMsg = "نکته بسیار مهمی که باید در اینجا قرار داشته باشد";

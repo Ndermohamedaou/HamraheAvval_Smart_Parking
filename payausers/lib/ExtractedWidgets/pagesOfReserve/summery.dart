@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:ticketview/ticketview.dart';
@@ -69,44 +70,59 @@ class Summery extends StatelessWidget {
                     textDirection: TextDirection.rtl,
                     children: [
                       Text(
-                        ":ساعت ورود",
+                        noticeMsg,
+                        textAlign: TextAlign.right,
                         style: TextStyle(
                             fontFamily: mainFaFontFamily,
                             fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "$startTime",
-                        style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 16,
-                        ),
-                      ),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red),
+                      )
                     ],
                   ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      Text(
-                        ":ساعت خروج",
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        "$endTime",
-                        style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   textDirection: TextDirection.rtl,
+                  //   children: [
+                  //     Text(
+                  //       ":ساعت ورود",
+                  //       style: TextStyle(
+                  //           fontFamily: mainFaFontFamily,
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //     SizedBox(width: 10),
+                  //     Text(
+                  //       "$startTime",
+                  //       style: TextStyle(
+                  //         fontFamily: mainFaFontFamily,
+                  //         fontSize: 16,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 10),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   textDirection: TextDirection.rtl,
+                  //   children: [
+                  //     Text(
+                  //       ":ساعت خروج",
+                  //       style: TextStyle(
+                  //           fontFamily: mainFaFontFamily,
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //     SizedBox(width: 10),
+                  //     Text(
+                  //       "$endTime",
+                  //       style: TextStyle(
+                  //         fontFamily: mainFaFontFamily,
+                  //         fontSize: 16,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     textDirection: TextDirection.rtl,
