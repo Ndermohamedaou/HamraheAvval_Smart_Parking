@@ -1,12 +1,14 @@
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/Classes/streamAPI.dart';
+import 'package:payausers/ExtractedWidgets/userPlateDetailsInModal.dart';
 import 'package:payausers/controller/deleteUserPlate.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +29,30 @@ class _UserPlatesState extends State<UserPlates>
     LogLoading logLoadingWidgets = LogLoading();
     DeletePlate deletePlate = DeletePlate();
 
+    void openDetailsInModal(
+        {List plate, hrStatus1, secStatus2, overalStatus, plateEn}) {
+      showMaterialModalBottomSheet(
+        context: context,
+        enableDrag: true,
+        bounce: true,
+        duration: const Duration(milliseconds: 550),
+        builder: (context) => SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: SingleChildScrollView(
+            child: UserPlateInDetails(
+              plate: plate,
+              hrStatus: hrStatus1,
+              secStatus: secStatus2,
+              overalStatus: overalStatus,
+              themeChange: themeChange,
+              delUserPlate: () => deletePlate.delUserPlate(
+                  id: plateEn, context: context, themeChange: themeChange),
+            ),
+          ),
+        ),
+      );
+    }
+
     Widget plates = StreamBuilder(
       stream: streamAPI.getUserPlatesReal(),
       builder: (BuildContext context, snapshot) {
@@ -43,7 +69,18 @@ class _UserPlatesState extends State<UserPlates>
                   actionExtentRatio: 0.25,
                   fastThreshold: 1.25,
                   movementDuration: Duration(milliseconds: 200),
-                  child: Container(
+                  child: GestureDetector(
+                      onTap: () => openDetailsInModal(
+                              plate: [
+                                snapshot.data[index]['plate0'],
+                                snapshot.data[index]['plate1'],
+                                snapshot.data[index]['plate2'],
+                                snapshot.data[index]['plate3']
+                              ],
+                              plateEn: snapshot.data[index]['plate_en'],
+                              hrStatus1: snapshot.data[index]["status1"],
+                              secStatus2: snapshot.data[index]["status2"],
+                              overalStatus: snapshot.data[index]["status"]),
                       child: PlateViewer(
                           plate0: snapshot.data[index]['plate0'] != null
                               ? snapshot.data[index]['plate0']

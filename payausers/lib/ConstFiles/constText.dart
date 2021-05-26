@@ -221,3 +221,5 @@ const errorPlateAddDsc =
     "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید";
 
 const noticeMsg = "نکته بسیار مهمی که باید در اینجا قرار داشته باشد";
+const acceptedPlateText = "تایید شده";
+const deniedPlateText = "تایید نشده";
