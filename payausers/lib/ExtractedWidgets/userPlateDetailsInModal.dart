@@ -102,7 +102,7 @@ class UserPlateInDetails extends StatelessWidget {
                   textDirection: TextDirection.rtl,
                   children: [
                     Text(
-                      "لغو کردن رزرو",
+                      "حذف پلاک",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: loginBtnTxtColor,

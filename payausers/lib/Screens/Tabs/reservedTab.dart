@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -366,27 +368,31 @@ class _ReservedTabState extends State<ReservedTab>
                             StreamBuilder(
                                 stream:
                                     streamAPI.getUserCanInstantReserveReal(),
-                                builder: (context, snapshot) {
+                                builder: (BuildContext context, snapshot) {
                                   if (snapshot.hasData) {
-                                    return snapshot.data == 0
+                                    Map status = jsonDecode(snapshot.data);
+                                    return status["status"] == 0
                                         ? SizedBox()
-                                        : ClipOval(
-                                            child: Material(
-                                              color: Colors.red, // button color
-                                              child: InkWell(
-                                                  splashColor:
-                                                      mainSectionCTA, // inkwell color
-                                                  child: SizedBox(
-                                                      width: 46,
-                                                      height: 46,
-                                                      child: Icon(
-                                                        Icons.lock_clock,
-                                                        color: Colors.white,
-                                                      )),
-                                                  onTap: () =>
-                                                      instantResrver()),
-                                            ),
-                                          );
+                                        : status["status"] == 1
+                                            ? ClipOval(
+                                                child: Material(
+                                                  color: Colors
+                                                      .red, // button color
+                                                  child: InkWell(
+                                                      splashColor:
+                                                          mainSectionCTA, // inkwell color
+                                                      child: SizedBox(
+                                                          width: 46,
+                                                          height: 46,
+                                                          child: Icon(
+                                                            Icons.lock_clock,
+                                                            color: Colors.white,
+                                                          )),
+                                                      onTap: () =>
+                                                          instantResrver()),
+                                                ),
+                                              )
+                                            : SizedBox();
                                   } else if (snapshot.hasError)
                                     return SizedBox();
                                   else
