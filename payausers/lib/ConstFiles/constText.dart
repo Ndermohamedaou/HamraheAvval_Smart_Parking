@@ -222,4 +222,5 @@ const errorPlateAddDsc =
 
 const noticeMsg = "نکته بسیار مهمی که باید در اینجا قرار داشته باشد";
 const acceptedPlateText = "تایید شده";
+const ignoredPlateText = "رد شده";
 const deniedPlateText = "تایید نشده";

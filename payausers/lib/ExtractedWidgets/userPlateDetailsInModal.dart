@@ -26,14 +26,48 @@ class UserPlateInDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hrStatusFinal = hrStatus == 0 ? deniedPlateText : acceptedPlateText;
-    final hrStatusColorFinal = hrStatus == 0 ? Colors.red : Colors.green;
-    final secStatusFinal = secStatus == 0 ? deniedPlateText : acceptedPlateText;
-    final secStatusColorFinal = secStatus == 0 ? Colors.red : Colors.green;
-    final overalStatusFinal =
-        overalStatus == 0 ? deniedPlateText : acceptedPlateText;
-    final overalStatusColorFinal =
-        overalStatus == 0 ? Colors.red : Colors.green;
+    final hrStatusFinal = hrStatus == 0
+        ? deniedPlateText
+        : hrStatus == 1
+            ? acceptedPlateText
+            : hrStatus == -1
+                ? ignoredPlateText
+                : "";
+    final hrStatusColorFinal = hrStatus == 0
+        ? Colors.orange
+        : hrStatus == 1
+            ? Colors.green
+            : hrStatus == -1
+                ? Colors.red
+                : Colors.blue;
+    final secStatusFinal = secStatus == 0
+        ? deniedPlateText
+        : secStatus == 1
+            ? acceptedPlateText
+            : secStatus - 1
+                ? ignoredPlateText
+                : "";
+    final secStatusColorFinal = secStatus == 0
+        ? Colors.orange
+        : secStatus == 1
+            ? Colors.green
+            : secStatus == -1
+                ? Colors.red
+                : Colors.blue;
+    final overalStatusFinal = overalStatus == 0
+        ? deniedPlateText
+        : overalStatus == 1
+            ? acceptedPlateText
+            : overalStatus == -1
+                ? ignoredPlateText
+                : "";
+    final overalStatusColorFinal = overalStatus == 0
+        ? Colors.orange
+        : overalStatus == 1
+            ? Colors.green
+            : overalStatus == -1
+                ? Colors.red
+                : Colors.blue;
     return Column(
       children: [
         SizedBox(height: 1.0.h),
