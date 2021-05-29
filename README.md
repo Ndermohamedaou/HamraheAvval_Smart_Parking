@@ -5,7 +5,7 @@
 
 A future app for security mode!!
 
-## At fist add this permissions on Android manifest:
+## Permissions on Android manifest:
 
 - To access successfully to Internet:
 
@@ -31,8 +31,61 @@ A future app for security mode!!
   - ```xml
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     ```
+- FCM Manifest for click and continue and Message event bsae :
+  - ```xml
+     <intent-filter>
+        <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+
+      <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+      </intent-filter>
+      ```
+      
+- In AppDelegate.swift
+  - ```swift
+      import UIKit
+      import Flutter
+
+      @UIApplicationMain
+      @objc class AppDelegate: FlutterAppDelegate {
+        override func application(
+          _ application: UIApplication,
+          didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool {
+          GeneratedPluginRegistrant.register(with: self)
+          if #available(iOS 10.0, *) {
+            UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+          }
+          return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+        }
+      }
+     ```
+     
+- In `android:name=".Application"`
+  - ```kt
+    package com.example.payausers
+    import io.flutter.app.FlutterApplication
+    import io.flutter.plugin.common.PluginRegistry
+    import io.flutter.plugin.common.PluginRegistry.PluginRegistrantCallback
+    import io.flutter.view.FlutterMain
+    import io.flutter.plugins.firebase.messaging.FlutterFirebaseMessagingBackgroundService;
+
+    class Application: FlutterApplication(), PluginRegistrantCallback {
+
+        override fun onCreate () {
+            super.onCreate()
+            FlutterFirebaseMessagingBackgroundService.setPluginRegistrant(this);
+            FlutterMain.startInitialization(this);
+        }
+
+        override fun registerWith(registry: PluginRegistry?){
+        }
+     }
+     ```
     
-    # FCM Notification in raw and JSON
+## FCM Notification in raw and JSON
 
 Authorization is required, it's server key from Firebase:
 (If does't work, go to Firebase console)
