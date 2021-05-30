@@ -7,8 +7,8 @@ class ApiAccess {
   Dio dio = Dio();
 
   Future<Map<String, dynamic>> login({personalCode, password}) async {
-    Response res =
-        await dio.post("$baseURL/login?email=$personalCode&password=$password");
+    Response res = await dio
+        .post("$baseURL/login?personal_code=$personalCode&password=$password");
     return res.data;
   }
 
@@ -59,6 +59,7 @@ class ApiAccess {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
     Response response = await dio.get("$baseURL/getBuildings");
+    print("rs is ===> ${response.data}");
     return response.data;
   }
 

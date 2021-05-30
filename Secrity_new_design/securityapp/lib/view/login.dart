@@ -90,13 +90,18 @@ class _LoginState extends State<Login> {
           );
         } else {
           // print(initUser);
-          if (initUser["first_visit"])
+          if (initUser["first_visit"]) {
+            setState(() => isLogin = false);
             updateStaffInfo(initUser["token"]);
-          else
+          } else {
+            setState(() => isLogin = false);
+
             staffWillNavigateBuildings(initUser["token"]);
+          }
         }
       } else {
         setState(() {
+          isLogin = false;
           emptyTextFieldErrPersCode = emptyTextFieldMsg;
           emptyTextFieldErrPassword = emptyTextFieldMsg;
         });

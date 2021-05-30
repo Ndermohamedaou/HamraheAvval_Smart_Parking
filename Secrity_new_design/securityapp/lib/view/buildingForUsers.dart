@@ -165,7 +165,7 @@ class _BuildingsState extends State<Buildings> {
 
     final statuser = userInfo['user_id'] != null
         ? CustomText(
-            text: "اطلاعات دریافت شد",
+            text: "اطلاعات شما دریافت شد",
             color: Colors.green,
             size: 14.0.sp,
             fw: FontWeight.bold,
@@ -199,7 +199,9 @@ class _BuildingsState extends State<Buildings> {
                   height: 70,
                   margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   child: DropdownButton(
-                    hint: dropHint,
+                    hint: buildingsList.isEmpty
+                        ? CustomText(text: "ساختمانی یافت نشد")
+                        : dropHint,
                     isExpanded: true,
                     iconSize: 30.0,
                     icon: Icon(
