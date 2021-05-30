@@ -59,7 +59,6 @@ class ApiAccess {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
     Response response = await dio.get("$baseURL/getBuildings");
-    print("rs is ===> ${response.data}");
     return response.data;
   }
 

@@ -127,7 +127,6 @@ class _ProfileState extends State<Profile> {
     await lStorage.deleteAll();
     await seveSecurity.delAllSavedSecurity();
     exit(0);
-    // Navigator.popUntil(context, ModalRoute.withName(loginRoute));
   }
 
   @override

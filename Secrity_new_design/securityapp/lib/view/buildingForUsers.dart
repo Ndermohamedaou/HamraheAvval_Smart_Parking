@@ -40,12 +40,18 @@ class Buildings extends StatefulWidget {
 class _BuildingsState extends State<Buildings> {
   @override
   void initState() {
-    timer = Timer.periodic(Duration(seconds: 2), (timer) {
+    Future.delayed(Duration(seconds: 2), () {
       getStaffInfo().then((info) {
         setState(() {
           userInfo = info;
         });
+        auth.gettingbuildings(token).then((building) {
+          setState(() {
+            buildingsList = building;
+          });
+        });
       });
+      print("Logged in buildings ===> $buildingsList");
       // print("this is user info Map $userInfo");
     });
 
@@ -64,10 +70,14 @@ class _BuildingsState extends State<Buildings> {
     _dropDownFaValue = "";
     _dropDownEnValue = "";
 
-    print(buildingsList);
     _dropDownFaValue = "";
     _dropDownEnValue = "";
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   Future<Map> getStaffInfo() async {
@@ -76,12 +86,6 @@ class _BuildingsState extends State<Buildings> {
     } catch (e) {
       return {"status": "null"};
     }
-  }
-
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
   }
 
   @override
