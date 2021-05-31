@@ -20,7 +20,7 @@ class ReservesModel extends ChangeNotifier {
     final userToken = await lStorage.read(key: "token");
     _reserveState = FlowState.Loading;
     try {
-      Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 2));
       final regularReserves = await api.userReserveHistory(token: userToken);
       reserves = regularReserves;
       _reserveState = FlowState.Loaded;

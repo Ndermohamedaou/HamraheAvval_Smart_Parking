@@ -21,7 +21,7 @@ class TrafficsModel extends ChangeNotifier {
     final userToken = await lStorage.read(key: "token");
     _trafficsState = FlowState.Loading;
     try {
-      Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 2));
       final trafficsList = await api.getUserTrafficLogs(token: userToken);
       traffics = trafficsList;
       _trafficsState = FlowState.Loaded;

@@ -21,7 +21,7 @@ class PlatesModel extends ChangeNotifier {
     final userToken = await lStorage.read(key: "token");
     _platesState = FlowState.Loading;
     try {
-      Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 2));
       final plateList = await api.getUserPlate(token: userToken);
       plates = plateList;
       _platesState = FlowState.Loaded;
