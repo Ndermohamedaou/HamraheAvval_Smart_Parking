@@ -12,6 +12,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Classes/streamAPI.dart';
+import 'package:payausers/providers/reserves_model.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
 import 'package:connectivity/connectivity.dart';
@@ -30,7 +31,11 @@ class Maino extends StatefulWidget {
 }
 
 class _MainoState extends State<Maino> {
+  // Providers
   dynamic themeChange;
+  // App Providers
+  ReservesModel reservesModel;
+
   int tabBarIndex;
   var _pageController;
 
@@ -54,12 +59,6 @@ class _MainoState extends State<Maino> {
 
     _pageController = PageController();
     tabBarIndex = 0;
-
-    // loadLocalData.getStaffInfoFromLocal();
-    // loadLocalData.getUserInfoInReal();
-    // streamAPI.getUserTrafficsReal();
-    // streamAPI.getUserReserveReal();
-    // streamAPI.getUserPlatesReal();
 
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
@@ -93,8 +92,10 @@ class _MainoState extends State<Maino> {
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     switch (result) {
       case ConnectivityResult.wifi:
+        updateProvider();
         break;
       case ConnectivityResult.mobile:
+        updateProvider();
         break;
       case ConnectivityResult.none:
         showStatusInCaseOfFlush(
@@ -110,10 +111,18 @@ class _MainoState extends State<Maino> {
     }
   }
 
+  // If internet connection had interrupt
+  // Please update all provider even check wifi connectivity
+  void updateProvider() {
+    reservesModel.fetchReservesData;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Getting instance from Providers
     themeChange = Provider.of<DarkThemeProvider>(context);
-    // print("This is target page${themeChange.instantUserReserve}");
+    reservesModel = Provider.of<ReservesModel>(context);
+
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
         ? SystemUiOverlayStyle.light
