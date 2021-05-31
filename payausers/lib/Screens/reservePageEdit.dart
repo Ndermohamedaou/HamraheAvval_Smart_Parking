@@ -10,6 +10,7 @@ import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/Screens/addingPlateIntro.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
+import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,6 @@ int startTime = 1;
 int endTime = startTime + 1;
 // Plate
 String selectedPlate = "";
-List userPlates = [];
 
 // Bydefault selected user plate by string form
 String bydefaultSelectedString = "";
@@ -57,8 +57,6 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
   final TextEditingController textEditingController = TextEditingController();
   PersianDatePickerWidget persianDatePicker;
 
-  Timer _timer;
-
   @override
   void initState() {
     _controller = PageController();
@@ -76,27 +74,10 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         });
       },
     ).init();
-
-    // This func related to getting
-    // user plate function in specific Controller
-    _timer = Timer.periodic(Duration(seconds: 50), (timer) {
-      gettingUserPlateFunc();
-    });
-    gettingUserPlateFunc();
-  }
-
-  void gettingUserPlateFunc() {
-    gettingMyPlates().then((plate) {
-      setState(() {
-        userPlates = plate;
-      });
-    });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
-
     curIndex = 0;
     datePickedByUser = "";
     startTime = 1;
@@ -109,6 +90,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
   Widget build(BuildContext context) {
     themeChange = Provider.of<DarkThemeProvider>(context);
     final reservesModel = Provider.of<ReservesModel>(context);
+    final plateModel = Provider.of<PlatesModel>(context).plates;
 
     // Open Persian Calender view function
     void openCalend() {
@@ -122,35 +104,35 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
 
     // Plate Viewer in CUPERTINO Modal
     final plateViewerInModal = ListView.builder(
-      itemCount: userPlates.length,
+      itemCount: plateModel.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        if (userPlates[index]['status'] == 1)
+        if (plateModel[index]['status'] == 1)
           return (GestureDetector(
             onTap: () {
               setState(() {
-                finalSelectedString = userPlates[index]['plate_en'];
+                finalSelectedString = plateModel[index]['plate_en'];
                 finalSelectedPlate = {
-                  "plate0": userPlates[index]['plate0'],
-                  "plate1": userPlates[index]['plate1'],
-                  "plate2": userPlates[index]['plate2'],
-                  "plate3": userPlates[index]['plate3'],
+                  "plate0": plateModel[index]['plate0'],
+                  "plate1": plateModel[index]['plate1'],
+                  "plate2": plateModel[index]['plate2'],
+                  "plate3": plateModel[index]['plate3'],
                 };
                 Navigator.pop(context);
               });
             },
             child: PlateViewer(
-                plate0: userPlates[index]['plate0'] != null
-                    ? userPlates[index]['plate0']
+                plate0: plateModel[index]['plate0'] != null
+                    ? plateModel[index]['plate0']
                     : "-",
-                plate1: userPlates[index]['plate1'] != null
-                    ? userPlates[index]['plate1']
+                plate1: plateModel[index]['plate1'] != null
+                    ? plateModel[index]['plate1']
                     : "-",
-                plate2: userPlates[index]['plate2'] != null
-                    ? userPlates[index]['plate2']
+                plate2: plateModel[index]['plate2'] != null
+                    ? plateModel[index]['plate2']
                     : "-",
-                plate3: userPlates[index]['plate3'] != null
-                    ? userPlates[index]['plate3']
+                plate3: plateModel[index]['plate3'] != null
+                    ? plateModel[index]['plate3']
                     : "-",
                 themeChange: themeChange.darkTheme),
           ));
@@ -173,7 +155,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     );
     // If any plate had exists
     Widget plateContext =
-        userPlates != [] ? plateViewerInModal : searchingProcess;
+        plateModel != [] ? plateViewerInModal : searchingProcess;
     // else
     Widget addPlateNotExists = Column(
       children: [
@@ -196,11 +178,11 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     );
     // In final:
     Widget finalPlateContext =
-        userPlates.length != 0 ? plateContext : addPlateNotExists;
+        plateModel.length != 0 ? plateContext : addPlateNotExists;
 
     // By default plate for Reserve
     Widget byDefaultSelectedPlate =
-        userPlates.isEmpty || userPlates[0]["status"] == 0
+        plateModel.isEmpty || plateModel[0]["status"] == 0
             ? Text(
                 emptyUserPlate,
                 style: TextStyle(
@@ -208,17 +190,17 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                 ),
               )
             : PlateViewer(
-                plate0: userPlates[0]['plate0'],
-                plate1: userPlates[0]['plate1'],
-                plate2: userPlates[0]['plate2'],
-                plate3: userPlates[0]['plate3'],
+                plate0: plateModel[0]['plate0'],
+                plate1: plateModel[0]['plate1'],
+                plate2: plateModel[0]['plate2'],
+                plate3: plateModel[0]['plate3'],
                 themeChange: themeChange.darkTheme,
               );
     // String form of default user plate
     bydefaultSelectedString =
-        userPlates.isEmpty ? "" : userPlates[0]['plate_en'];
+        plateModel.isEmpty ? "" : plateModel[0]['plate_en'];
     // Widget form of default user plate
-    Widget byDefaultPlateGraphy = userPlates != []
+    Widget byDefaultPlateGraphy = plateModel != []
         ? byDefaultSelectedPlate
         : Text(
             emptyUserPlate,
@@ -238,19 +220,19 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     Widget finalPlateViewInContainer =
         finalSelectedString == "" ? byDefaultPlateGraphy : selectedPlateGraphy;
 
-    Map defaultUserPlateMap = userPlates.isEmpty
+    Map defaultUserPlateMap = plateModel.isEmpty
         ? {
             "plate0": "-",
             "plate1": "-",
             "plate2": "-",
             "plate3": "-",
           }
-        : userPlates[0]["status"] == 1
+        : plateModel[0]["status"] == 1
             ? {
-                "plate0": userPlates[0]['plate0'],
-                "plate1": userPlates[0]['plate1'],
-                "plate2": userPlates[0]['plate2'],
-                "plate3": userPlates[0]['plate3'],
+                "plate0": plateModel[0]['plate0'],
+                "plate1": plateModel[0]['plate1'],
+                "plate2": plateModel[0]['plate2'],
+                "plate3": plateModel[0]['plate3'],
               }
             : {
                 "plate0": "-",
