@@ -43,6 +43,7 @@ class _LocalAuthEnterState extends State<LocalAuthEnter> {
   }
 
   Future<void> _authenticateWithBiometrics() async {
+    await Future.delayed(Duration(seconds: 1));
     bool authenticated = false;
     try {
       setState(() {
@@ -82,7 +83,6 @@ class _LocalAuthEnterState extends State<LocalAuthEnter> {
   }
 
   Future<String> validateUserPassword(String opt) async {
-    await Future.delayed(Duration(seconds: 2));
     // Getting password from Flutter local (secure) Storage
     final lStorage = FlutterSecureStorage();
     final localAuthAppLockPass = await lStorage.read(key: "local_lock");
