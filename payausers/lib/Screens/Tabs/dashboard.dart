@@ -2,6 +2,8 @@ import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/ExtractedWidgets/userCard.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Classes/streamAPI.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
@@ -36,6 +38,8 @@ class _DashboardState extends State<Dashboard>
     final trafficsModel = Provider.of<TrafficsModel>(context);
     // Getting plates data from provider model
     final plateModel = Provider.of<PlatesModel>(context);
+    // Getting user Avatar data from provider model
+    final avatarModel = Provider.of<AvatarModel>(context);
 
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
@@ -74,17 +78,13 @@ class _DashboardState extends State<Dashboard>
         child: SingleChildScrollView(
       child: Column(
         children: [
-          FutureBuilder(
-            future: loadLocalData.getLocalUserAvatar(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {
-                return userLeadingCircleAvatar(NetworkImage(snapshot.data));
-              } else if (snapshot.hasError) {
+          Builder(
+            builder: (_) {
+              if (avatarModel.avatarState == FlowState.Loading) {
                 return userLeadingCircleAvatar(
                     Icon(Icons.airline_seat_individual_suite_sharp));
-              } else {
-                return CircularProgressIndicator();
               }
+              return userLeadingCircleAvatar(NetworkImage(avatarModel.avatar));
             },
           ),
           SizedBox(height: 10),

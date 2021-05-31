@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:liquid_ui/liquid_ui.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
@@ -214,6 +215,11 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider<DarkThemeProvider>(
               create: (_) {
                 return themeChangeProvider;
+              },
+            ),
+            ChangeNotifierProvider<AvatarModel>(
+              create: (_) {
+                return AvatarModel();
               },
             ),
             ChangeNotifierProvider<ReservesModel>(

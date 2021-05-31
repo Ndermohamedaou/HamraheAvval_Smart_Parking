@@ -9,6 +9,8 @@ import 'package:payausers/Classes/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/optionViewer.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:toast/toast.dart';
 
@@ -79,6 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     // final themeChange = Provider.of<DarkThemeProvider>(context);
+    final avatarModel = Provider.of<AvatarModel>(context);
 
     Future galleryViewer(ImageSource changeType) async {
       final image = await ImagePicker.pickImage(
@@ -103,6 +106,9 @@ class _SettingsPageState extends State<SettingsPage> {
             final testAvatar = await lds.read(key: "avatar");
             // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
             if (testAvatar != "") {
+              // Update Avatar in Provider
+              avatarModel.fetchUserAvatar;
+
               showStatusInCaseOfFlush(
                   context: context,
                   title: "",

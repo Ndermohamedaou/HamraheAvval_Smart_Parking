@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:payausers/controller/gettingLocalData.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/spec/enum_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -15,10 +16,7 @@ import 'package:provider/provider.dart';
 import '../../Classes/streamAPI.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({this.fullNameMeme, this.avatarMeme});
-
-  final fullNameMeme;
-  final avatarMeme;
+  const Settings();
 
   @override
   _SettingsState createState() => _SettingsState();
@@ -153,8 +151,10 @@ class _SettingsState extends State<Settings>
       );
     }
 
-    // print("Avatar Meme: $avatarMeme");
+    // Providers
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    final avatarModel = Provider.of<AvatarModel>(context);
+
     final themeIconLeading = themeChange.darkTheme
         ? Icon(Icons.brightness_5, color: Colors.yellow)
         : Icon(Icons.bedtime, color: Colors.blue);
@@ -200,23 +200,15 @@ class _SettingsState extends State<Settings>
 
     return CustomScrollView(
       slivers: [
-        StreamBuilder(
-          stream: streamAPI.getUserInfoReal(),
-          builder: (BuildContext context, snapshot) {
-            if (snapshot.hasData) {
-              return sliverAppBar(
-                  name: snapshot.data["name"], avatar: snapshot.data["avatar"]);
-            } else if (snapshot.hasError) {
+        Builder(
+          builder: (_) {
+            if (avatarModel.avatarState == FlowState.Loading)
               return sliverAppBar(
                   name: "",
                   avatar:
                       "https://style.anu.edu.au/_anu/4/images/placeholders/person.png");
-            } else {
-              return sliverAppBar(
-                  name: "",
-                  avatar:
-                      "https://style.anu.edu.au/_anu/4/images/placeholders/person.png");
-            }
+            return sliverAppBar(
+                name: avatarModel.fullname, avatar: avatarModel.avatar);
           },
         ),
         SliverList(
