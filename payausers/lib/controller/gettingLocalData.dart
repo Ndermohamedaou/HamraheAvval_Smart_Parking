@@ -75,13 +75,4 @@ class LocalDataGetterClass {
       "avatar": await lds.read(key: "avatar")
     };
   }
-
-  Stream getUserInfoInReal() async* {
-    final token = await lds.read(key: "token");
-    yield* Stream.periodic(Duration(seconds: 10), (_) {
-      dio.options.headers['Content-Type'] = 'application/json';
-      dio.options.headers["Authorization"] = "Bearer $token";
-      return dio.get("$baseUrl/staffInfo");
-    }).asyncMap((event) async => (await event).data);
-  }
 }

@@ -6,6 +6,15 @@ class StreamAPI {
   FlutterSecureStorage lds = FlutterSecureStorage();
   Dio dio = Dio();
 
+  Stream getUserInfoInReal() async* {
+    final token = await lds.read(key: "token");
+    yield* Stream.periodic(Duration(minutes: 60), (_) {
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers["Authorization"] = "Bearer $token";
+      return dio.get("$baseUrl/staffInfo");
+    }).asyncMap((event) async => (await event).data);
+  }
+
   Stream getUserCanInstantReserveReal() async* {
     final token = await lds.read(key: "token");
     yield* Stream.periodic(Duration(seconds: 30), (_) {

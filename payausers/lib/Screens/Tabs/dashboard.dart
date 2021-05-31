@@ -149,7 +149,7 @@ class _DashboardState extends State<Dashboard>
                 ),
                 // Vehicle Situation
                 StreamBuilder(
-                  stream: localDataGetterClass.getUserInfoInReal(),
+                  stream: streamAPI.getUserInfoInReal(),
                   builder: (BuildContext context, snapshot) {
                     // print("YOUR CAR IS :: ${snapshot.data}");
                     if (snapshot.hasData) {
@@ -162,7 +162,7 @@ class _DashboardState extends State<Dashboard>
                             "", "${snapshot.data["location"]}");
                       }
                     } else
-                      return gridTile.situationTile("-", "-");
+                      return gridTile.situationTile("در حال", "پردازش");
                   },
                 ),
                 // user len plate
