@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:liquid_ui/liquid_ui.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/traffics_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -217,6 +218,11 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider<ReservesModel>(
               create: (_) {
                 return ReservesModel();
+              },
+            ),
+            ChangeNotifierProvider<TrafficsModel>(
+              create: (_) {
+                return TrafficsModel();
               },
             )
           ],

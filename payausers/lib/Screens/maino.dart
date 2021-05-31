@@ -13,15 +13,16 @@ import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Classes/streamAPI.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/traffics_model.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Tabs/userPlate.dart';
 import 'Tabs/userTraffic.dart';
 
@@ -35,6 +36,7 @@ class _MainoState extends State<Maino> {
   dynamic themeChange;
   // App Providers
   ReservesModel reservesModel;
+  TrafficsModel trafficsModel;
 
   int tabBarIndex;
   var _pageController;
@@ -51,7 +53,6 @@ class _MainoState extends State<Maino> {
   @override
   void initState() {
     super.initState();
-
     // Initialize Connection Subscription
     initConnectivity();
     _connectivitySubscription =
@@ -59,16 +60,13 @@ class _MainoState extends State<Maino> {
 
     _pageController = PageController();
     tabBarIndex = 0;
-
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   @override
   void dispose() {
     _pageController.dispose();
-
     initConnectivity();
-
     // Close init
     _connectivitySubscription.cancel();
     super.dispose();
@@ -85,7 +83,6 @@ class _MainoState extends State<Maino> {
     if (!mounted) {
       return Future.value(null);
     }
-
     return _updateConnectionStatus(result);
   }
 
@@ -115,6 +112,7 @@ class _MainoState extends State<Maino> {
   // Please update all provider even check wifi connectivity
   void updateProvider() {
     reservesModel.fetchReservesData;
+    trafficsModel.fetchTrafficsData;
   }
 
   @override
@@ -122,6 +120,7 @@ class _MainoState extends State<Maino> {
     // Getting instance from Providers
     themeChange = Provider.of<DarkThemeProvider>(context);
     reservesModel = Provider.of<ReservesModel>(context);
+    trafficsModel = Provider.of<TrafficsModel>(context);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme

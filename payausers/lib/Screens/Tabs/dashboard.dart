@@ -3,6 +3,7 @@ import 'package:payausers/ExtractedWidgets/userCard.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Classes/streamAPI.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/traffics_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -27,14 +28,17 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    // Providers
+    // Getting reserves data from provider model
+    final reservesModel = Provider.of<ReservesModel>(context);
+    // Getting Traffics data from provider model
+    final trafficsModel = Provider.of<TrafficsModel>(context);
+
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight) / 4;
     final double itemWidth = size.width;
     LocalDataGetterClass loadLocalData = LocalDataGetterClass();
-
-    // Getting reserves data from provider model
-    final reservesModel = Provider.of<ReservesModel>(context);
 
     // Check if device be in portrait or Landscape
     final double widthSizedResponse = size.width >= 410 && size.width < 600
@@ -123,18 +127,13 @@ class _DashboardState extends State<Dashboard>
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 // Traffics Tile
-                StreamBuilder(
-                  stream: streamAPI.getUserTrafficsReal(),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.hasData) {
-                      // print(snapshot.data.length);
-                      return gridTile.trafficsTile("${snapshot.data.length}");
-                    } else if (snapshot.hasError)
-                      return gridTile.trafficsTile("-");
-                    else
-                      return gridTile.trafficsTile("0");
-                  },
-                ),
+                Builder(builder: (_) {
+                  if (trafficsModel.trafficsState == FlowState.Error)
+                    return gridTile.trafficsTile("-");
+
+                  return gridTile
+                      .trafficsTile("${trafficsModel.traffics.length}");
+                }),
                 // reserve tile
                 Builder(
                   builder: (_) {

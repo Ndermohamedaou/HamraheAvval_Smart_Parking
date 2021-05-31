@@ -26,7 +26,7 @@ class TrafficsModel extends ChangeNotifier {
       traffics = trafficsList;
       _trafficsState = FlowState.Loaded;
     } catch (e) {
-      print("Error in Getting data from reserve notifier $e");
+      print("Error in Getting data from traffics class notifier $e");
       _trafficsState = FlowState.Error;
     }
     notifyListeners();
