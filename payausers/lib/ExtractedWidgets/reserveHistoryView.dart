@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/Classes/ReserveColorsStatus.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class ReserveHistoryView extends StatelessWidget {
@@ -17,17 +18,8 @@ class ReserveHistoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final specificReserveStatusColor = reserveStatusColor == -1
-        ? Colors.red
-        : reserveStatusColor == 0
-            ? Colors.yellow[700]
-            : reserveStatusColor == 1
-                ? Colors.green
-                : reserveStatusColor == 2
-                    ? Colors.blue
-                    : reserveStatusColor == -2
-                        ? Colors.grey.shade900
-                        : Colors.white;
+    final specificReserveStatusColor =
+        ReserveStatusSpecification().getReserveStatusColor(reserveStatusColor);
 
     var size = MediaQuery.of(context).size;
     final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;

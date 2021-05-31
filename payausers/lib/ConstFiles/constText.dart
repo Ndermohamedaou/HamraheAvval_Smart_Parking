@@ -224,3 +224,10 @@ const noticeMsg = "نکته بسیار مهمی که باید در اینجا ق
 const acceptedPlateText = "تایید شده";
 const ignoredPlateText = "رد شده";
 const deniedPlateText = "تایید نشده";
+
+// Reserve Status Color
+const admitReserveStatus = "رزرو تایید شده";
+const inprocessReserveStatus = "در حال پردازش";
+const cancelReserveStatus = "رزرو لغو شده";
+const performTrafficReserveStatus = "تردد صورت گرفته";
+const ignoredReserveStatus = "رزرو رد شده";

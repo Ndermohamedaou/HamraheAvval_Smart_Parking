@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:payausers/Classes/ReserveColorsStatus.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:sizer/sizer.dart';
@@ -11,6 +12,7 @@ class ReserveInDetails extends StatelessWidget {
     @required this.themeChange,
     this.plate,
     this.startTime,
+    this.reserveStatusDesc,
     this.endTime,
     this.building,
     this.slot,
@@ -24,9 +26,12 @@ class ReserveInDetails extends StatelessWidget {
   final building;
   final slot;
   final Function delReserve;
+  final reserveStatusDesc;
 
   @override
   Widget build(BuildContext context) {
+    final specificReserveStatusColor =
+        ReserveStatusSpecification().getReserveStatusColor(reserveStatusDesc);
     return Column(
       children: [
         SizedBox(height: 1.0.h),
@@ -48,6 +53,18 @@ class ReserveInDetails extends StatelessWidget {
         ),
         SizedBox(height: 2.0.h),
         DottedLine(dashColor: Colors.grey),
+        SizedBox(height: 2.0.h),
+        Row(
+          textDirection: TextDirection.rtl,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            CustomTitle(textTitle: "نتیجه رزرو", fw: FontWeight.bold),
+            CustomSubTitle(
+                textTitle: ReserveStatusSpecification()
+                    .getReserveStatusString(reserveStatusDesc),
+                color: specificReserveStatusColor),
+          ],
+        ),
         SizedBox(height: 2.0.h),
         Row(
           textDirection: TextDirection.rtl,
@@ -148,10 +165,9 @@ class CustomTitle extends StatelessWidget {
 }
 
 class CustomSubTitle extends StatelessWidget {
-  const CustomSubTitle({
-    this.textTitle,
-  });
+  const CustomSubTitle({this.textTitle, this.color});
   final textTitle;
+  final color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -162,9 +178,11 @@ class CustomSubTitle extends StatelessWidget {
         children: [
           Text(
             textTitle,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
             style: TextStyle(
+              color: color,
               fontFamily: mainFaFontFamily,
+              fontWeight: FontWeight.w500,
               fontSize: 20.0,
             ),
           ),

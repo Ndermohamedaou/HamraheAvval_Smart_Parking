@@ -73,6 +73,7 @@ class _ReservedTabState extends State<ReservedTab>
 
     void openDetailsInModal({
       reservID,
+      reserveStatus,
       List plate,
       startTime,
       endTime,
@@ -89,6 +90,7 @@ class _ReservedTabState extends State<ReservedTab>
           child: SingleChildScrollView(
             child: ReserveInDetails(
               plate: plate,
+              reserveStatusDesc: reserveStatus,
               startTime: startTime,
               endTime: endTime,
               building: building,
@@ -463,6 +465,7 @@ class _ReservedTabState extends State<ReservedTab>
                             child: GestureDetector(
                               onTap: () => openDetailsInModal(
                                 reservID: reserveList[index]["id"],
+                                reserveStatus: reserveList[index]['status'],
                                 plate: preparedPlate.preparePlateInReserve(
                                     rawPlate: reserveList[index]['plate']),
                                 building: reserveList[index]["building"] != null
