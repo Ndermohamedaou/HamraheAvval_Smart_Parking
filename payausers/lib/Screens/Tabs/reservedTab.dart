@@ -13,6 +13,7 @@ import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/Screens/Tabs/userPlate.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/controller/reservePlatePrepare.dart';
@@ -112,6 +113,9 @@ class _ReservedTabState extends State<ReservedTab>
 
       if (result != "") {
         setState(() => loadingInstantReserve = false);
+        // Update Reserves in Provider
+        reservesModel.fetchReservesData;
+
         Alert(
           context: context,
           type: AlertType.success,
@@ -171,94 +175,80 @@ class _ReservedTabState extends State<ReservedTab>
       }
     }
 
-    // Wrong way
-    final streamPlate = StreamBuilder(
-      stream: streamAPI.getUserPlatesReal(),
-      // ignore: missing_return
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.length == 0)
-            return MaterialButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, "/addingPlateIntro"),
+    final streamPlate = Builder(builder: (_) {
+      if (plateModel.platesState == FlowState.Loading)
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 10),
+            Text("لطفا کمی شکیبا باشید",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+          ],
+        );
+      if (plateModel.platesState == FlowState.Error)
+        return logLoadingWidgets.internetProblem;
+
+      final _userPlates = plateModel.plates;
+      if (_userPlates.length == 0)
+        return MaterialButton(
+          onPressed: () => Navigator.pushNamed(context, "/addingPlateIntro"),
+          child: Text(
+            "پلاکی برای خود اضافه کنید",
+            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),
+          ),
+        );
+      else {
+        return Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              alignment: Alignment.centerRight,
               child: Text(
-                "پلاکی برای خود اضافه کنید",
-                style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),
-              ),
-            );
-          else {
-            return Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                      "یکی از پلاک های خود را برای رزرو لحظه ای انتخاب کنید",
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold)),
-                ),
-                !loadingInstantReserve
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, index) {
-                          if (snapshot.data[index]["status"] == 1)
-                            return TextButton(
-                              style: ButtonStyle(
-                                  foregroundColor: MaterialStateProperty.all(
-                                      themeChange.darkTheme
-                                          ? Colors.white
-                                          : Colors.black)),
-                              onPressed: () => instentReserveProcess(
-                                  snapshot.data[index]['plate_en']),
-                              child: PlateViewer(
-                                  plate0: snapshot.data[index]['plate0'],
-                                  plate1: snapshot.data[index]['plate1'],
-                                  plate2: snapshot.data[index]['plate2'],
-                                  plate3: snapshot.data[index]['plate3'],
-                                  themeChange: themeChange.darkTheme),
-                            );
-                          else
-                            Text(
-                              "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
-                              style: TextStyle(
-                                  fontFamily: mainFaFontFamily,
-                                  color: Colors.white),
-                              textDirection: TextDirection.ltr,
-                            );
-                        })
-                    : CircularProgressIndicator(),
-                SizedBox(height: 40),
-              ],
-            );
-          }
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-                SizedBox(height: 10),
-                Text("لطفا کمی شکیبا باشید",
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-              ],
+                  "یکی از پلاک های خود را برای رزرو لحظه ای انتخاب کنید",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold)),
             ),
-          );
-        } else if (snapshot.hasError)
-          return Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            alignment: Alignment.center,
-            child: logLoadingWidgets.internetProblem,
-          );
-      },
-    );
+            !loadingInstantReserve
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _userPlates.length,
+                    itemBuilder: (BuildContext context, index) {
+                      if (_userPlates[index]["status"] == 1)
+                        return TextButton(
+                          style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all(
+                                  themeChange.darkTheme
+                                      ? Colors.white
+                                      : Colors.black)),
+                          onPressed: () => instentReserveProcess(
+                              _userPlates[index]['plate_en']),
+                          child: PlateViewer(
+                              plate0: _userPlates[index]['plate0'],
+                              plate1: _userPlates[index]['plate1'],
+                              plate2: _userPlates[index]['plate2'],
+                              plate3: _userPlates[index]['plate3'],
+                              themeChange: themeChange.darkTheme),
+                        );
+                      else
+                        return Text(
+                          "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
+                          style: TextStyle(
+                              fontFamily: mainFaFontFamily,
+                              color: Colors.white),
+                          textDirection: TextDirection.ltr,
+                        );
+                    })
+                : CircularProgressIndicator(),
+            SizedBox(height: 40),
+          ],
+        );
+      }
+    });
 
     // Instant reserve in Modal
     instantResrver() {

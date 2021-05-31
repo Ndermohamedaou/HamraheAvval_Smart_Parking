@@ -6,17 +6,6 @@ class StreamAPI {
   FlutterSecureStorage lds = FlutterSecureStorage();
   Dio dio = Dio();
 
-  // Will use in Dashboard for showing length of user plates
-  // Will use in User Plates tab
-  Stream getUserPlatesReal() async* {
-    final token = await lds.read(key: "token");
-    yield* Stream.periodic(Duration(seconds: 5), (_) {
-      dio.options.headers['Content-Type'] = 'application/json';
-      dio.options.headers["Authorization"] = "Bearer $token";
-      return dio.get("$baseUrl/getUserPlates");
-    }).asyncMap((event) async => (await event).data);
-  }
-
   Stream getUserInfoReal() async* {
     final token = await lds.read(key: "token");
     yield* Stream.periodic(Duration(seconds: 5), (_) {

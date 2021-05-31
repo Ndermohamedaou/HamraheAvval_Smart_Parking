@@ -2,6 +2,7 @@ import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/ExtractedWidgets/userCard.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Classes/streamAPI.dart';
+import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:payausers/spec/enum_state.dart';
@@ -33,6 +34,8 @@ class _DashboardState extends State<Dashboard>
     final reservesModel = Provider.of<ReservesModel>(context);
     // Getting Traffics data from provider model
     final trafficsModel = Provider.of<TrafficsModel>(context);
+    // Getting plates data from provider model
+    final plateModel = Provider.of<PlatesModel>(context);
 
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
@@ -163,14 +166,12 @@ class _DashboardState extends State<Dashboard>
                   },
                 ),
                 // user len plate
-                StreamBuilder(
-                  stream: streamAPI.getUserPlatesReal(),
-                  builder: (BuildContext context, snapshot) {
-                    // print("YOUR PLATE IS :: ${snapshot.data}");
-                    if (snapshot.hasData)
-                      return gridTile.plateTile("${snapshot.data.length}");
-                    else
+                Builder(
+                  builder: (_) {
+                    if (plateModel.platesState == FlowState.Error)
                       return gridTile.plateTile("-");
+
+                    return gridTile.plateTile("${plateModel.plates.length}");
                   },
                 ),
               ],

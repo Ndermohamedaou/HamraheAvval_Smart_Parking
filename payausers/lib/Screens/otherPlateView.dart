@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Classes/AlphabetClassList.dart';
@@ -9,6 +7,8 @@ import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/providers/plate_model.dart';
+import 'package:provider/provider.dart';
 
 class OtherPageView extends StatefulWidget {
   @override
@@ -18,6 +18,9 @@ class OtherPageView extends StatefulWidget {
 AddPlateProc addPlateProc = AddPlateProc();
 FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
+
+// Provider
+PlatesModel plateModel;
 
 // Plate Modifire
 String plate0 = "";
@@ -56,6 +59,9 @@ class _OtherPageViewState extends State<OtherPageView> {
             await addPlateProc.otherPlateReq(token: uToken, plate: lsPlate);
 
         if (result == 200) {
+          // Update user plate in Provider
+          plateModel.fetchPlatesData;
+
           // Prevent to twice tapping happen
           setState(() => isAddingDocs = true);
           // Twice poping
@@ -126,6 +132,8 @@ class _OtherPageViewState extends State<OtherPageView> {
 
   @override
   Widget build(BuildContext context) {
+    plateModel = Provider.of<PlatesModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainCTA,

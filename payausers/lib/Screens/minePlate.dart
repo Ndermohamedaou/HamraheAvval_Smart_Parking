@@ -12,6 +12,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Screens/confirmInfo.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/providers/plate_model.dart';
+import 'package:provider/provider.dart';
 
 class MinPlateView extends StatefulWidget {
   @override
@@ -24,6 +26,9 @@ List appBarTitle = [];
 AddPlateProc addPlateProc = AddPlateProc();
 FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
+
+// Provider
+PlatesModel plateModel;
 
 // Plate Modifire
 String plate0 = "";
@@ -132,6 +137,9 @@ class _MinPlateViewState extends State<MinPlateView> {
         );
 
         if (result == 200) {
+          // Update Plate in Provider
+          plateModel.fetchPlatesData;
+
           // Prevent to twice tapping happen
           setState(() => isAddingDocs = true);
           // Twice poping
@@ -202,6 +210,8 @@ class _MinPlateViewState extends State<MinPlateView> {
 
   @override
   Widget build(BuildContext context) {
+    plateModel = Provider.of<PlatesModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainCTA,

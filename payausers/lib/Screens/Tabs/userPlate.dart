@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -7,9 +9,10 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
-import 'package:payausers/Classes/streamAPI.dart';
 import 'package:payausers/ExtractedWidgets/userPlateDetailsInModal.dart';
 import 'package:payausers/controller/deleteUserPlate.dart';
+import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 
 class UserPlates extends StatefulWidget {
@@ -19,13 +22,33 @@ class UserPlates extends StatefulWidget {
   _UserPlatesState createState() => _UserPlatesState();
 }
 
+PlatesModel plateModel;
+Timer _onRefreshPlatesPerMin;
+
 class _UserPlatesState extends State<UserPlates>
     with AutomaticKeepAliveClientMixin {
   @override
+  void initState() {
+    _onRefreshPlatesPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
+      plateModel.fetchPlatesData;
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _onRefreshPlatesPerMin.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
+    // Providers
     final themeChange = Provider.of<DarkThemeProvider>(context);
-    StreamAPI streamAPI = StreamAPI();
+    plateModel = Provider.of<PlatesModel>(context);
+
+    // UI Loading or Error handler
     LogLoading logLoadingWidgets = LogLoading();
     DeletePlate deletePlate = DeletePlate();
 
@@ -45,101 +68,21 @@ class _UserPlatesState extends State<UserPlates>
               secStatus: secStatus2,
               overalStatus: overalStatus,
               themeChange: themeChange,
-              delUserPlate: () => deletePlate.delUserPlate(
-                  id: plateEn, context: context, themeChange: themeChange),
+              delUserPlate: () {
+                deletePlate.delUserPlate(
+                    id: plateEn, context: context, themeChange: themeChange);
+                // Update user plates in Provider
+                plateModel.fetchPlatesData;
+              },
             ),
           ),
         ),
       );
     }
 
-    Widget plates = StreamBuilder(
-      stream: streamAPI.getUserPlatesReal(),
-      builder: (BuildContext context, snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data.length == 0)
-            return logLoadingWidgets.notFoundReservedData(msg: "پلاک");
-          else
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, index) {
-                return (Slidable(
-                  actionPane: SlidableDrawerActionPane(),
-                  actionExtentRatio: 0.25,
-                  fastThreshold: 1.25,
-                  movementDuration: Duration(milliseconds: 200),
-                  child: GestureDetector(
-                      onTap: () => openDetailsInModal(
-                              plate: [
-                                snapshot.data[index]['plate0'],
-                                snapshot.data[index]['plate1'],
-                                snapshot.data[index]['plate2'],
-                                snapshot.data[index]['plate3']
-                              ],
-                              plateEn: snapshot.data[index]['plate_en'],
-                              hrStatus1: snapshot.data[index]["status1"],
-                              secStatus2: snapshot.data[index]["status2"],
-                              overalStatus: snapshot.data[index]["status"]),
-                      child: PlateViewer(
-                          plate0: snapshot.data[index]['plate0'] != null
-                              ? snapshot.data[index]['plate0']
-                              : "",
-                          plate1: snapshot.data[index]['plate1'] != null
-                              ? snapshot.data[index]['plate1']
-                              : "",
-                          plate2: snapshot.data[index]['plate2'] != null
-                              ? snapshot.data[index]['plate2']
-                              : "",
-                          plate3: snapshot.data[index]['plate3'] != null
-                              ? snapshot.data[index]['plate3']
-                              : "",
-                          themeChange: themeChange.darkTheme)),
-                  actions: <Widget>[
-                    IconSlideAction(
-                      caption: 'پاک کردن',
-                      color: Colors.red,
-                      icon: Icons.delete,
-                      onTap: () {
-                        showAdaptiveActionSheet(
-                          context: context,
-                          title: Text(
-                            'پاک شود؟',
-                            style: TextStyle(
-                                fontFamily: mainFaFontFamily, fontSize: 20),
-                          ),
-                          actions: <BottomSheetAction>[
-                            BottomSheetAction(
-                                title: 'پاک کردن',
-                                textStyle: TextStyle(
-                                  fontFamily: mainFaFontFamily,
-                                  fontSize: 20,
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                onPressed: () {
-                                  deletePlate.delUserPlate(
-                                      id: snapshot.data[index]['plate_en'],
-                                      context: context,
-                                      themeChange: themeChange);
-                                  // print(snapshot.data[index]['plate_en']);
-                                }),
-                          ],
-                          cancelAction: CancelAction(
-                            title: 'لغو',
-                            textStyle: TextStyle(
-                                fontFamily: mainFaFontFamily,
-                                color: Colors.blue,
-                                fontSize: 20),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ));
-              },
-            );
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
+    Widget plates = Builder(
+      builder: (_) {
+        if (plateModel.platesState == FlowState.Loading)
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -150,7 +93,94 @@ class _UserPlatesState extends State<UserPlates>
                   style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
             ],
           );
-        } else if (snapshot.hasError) return logLoadingWidgets.internetProblem;
+
+        if (plateModel.platesState == FlowState.Error)
+          return logLoadingWidgets.internetProblem;
+
+        final _plates = plateModel.plates;
+
+        if (_plates.isEmpty)
+          return logLoadingWidgets.notFoundReservedData(msg: "پلاک");
+
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: _plates.length,
+          itemBuilder: (BuildContext context, index) {
+            return (Slidable(
+              actionPane: SlidableDrawerActionPane(),
+              actionExtentRatio: 0.25,
+              fastThreshold: 1.25,
+              movementDuration: Duration(milliseconds: 200),
+              child: GestureDetector(
+                  onTap: () => openDetailsInModal(
+                          plate: [
+                            _plates[index]['plate0'],
+                            _plates[index]['plate1'],
+                            _plates[index]['plate2'],
+                            _plates[index]['plate3']
+                          ],
+                          plateEn: _plates[index]['plate_en'],
+                          hrStatus1: _plates[index]["status1"],
+                          secStatus2: _plates[index]["status2"],
+                          overalStatus: _plates[index]["status"]),
+                  child: PlateViewer(
+                      plate0: _plates[index]['plate0'] != null
+                          ? _plates[index]['plate0']
+                          : "",
+                      plate1: _plates[index]['plate1'] != null
+                          ? _plates[index]['plate1']
+                          : "",
+                      plate2: _plates[index]['plate2'] != null
+                          ? _plates[index]['plate2']
+                          : "",
+                      plate3: _plates[index]['plate3'] != null
+                          ? _plates[index]['plate3']
+                          : "",
+                      themeChange: themeChange.darkTheme)),
+              actions: <Widget>[
+                IconSlideAction(
+                  caption: 'پاک کردن',
+                  color: Colors.red,
+                  icon: Icons.delete,
+                  onTap: () {
+                    showAdaptiveActionSheet(
+                      context: context,
+                      title: Text(
+                        'پاک شود؟',
+                        style: TextStyle(
+                            fontFamily: mainFaFontFamily, fontSize: 20),
+                      ),
+                      actions: <BottomSheetAction>[
+                        BottomSheetAction(
+                            title: 'پاک کردن',
+                            textStyle: TextStyle(
+                              fontFamily: mainFaFontFamily,
+                              fontSize: 20,
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            onPressed: () {
+                              deletePlate.delUserPlate(
+                                  id: _plates[index]['plate_en'],
+                                  context: context,
+                                  themeChange: themeChange);
+                              // print(_plates[index]['plate_en']);
+                            }),
+                      ],
+                      cancelAction: CancelAction(
+                        title: 'لغو',
+                        textStyle: TextStyle(
+                            fontFamily: mainFaFontFamily,
+                            color: Colors.blue,
+                            fontSize: 20),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ));
+          },
+        );
       },
     );
 

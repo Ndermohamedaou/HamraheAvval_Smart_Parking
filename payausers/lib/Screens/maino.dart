@@ -12,6 +12,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Classes/streamAPI.dart';
+import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,7 @@ class _MainoState extends State<Maino> {
   // App Providers
   ReservesModel reservesModel;
   TrafficsModel trafficsModel;
+  PlatesModel plateModel;
 
   int tabBarIndex;
   var _pageController;
@@ -113,6 +115,7 @@ class _MainoState extends State<Maino> {
   void updateProvider() {
     reservesModel.fetchReservesData;
     trafficsModel.fetchTrafficsData;
+    plateModel.fetchPlatesData;
   }
 
   @override
@@ -121,6 +124,7 @@ class _MainoState extends State<Maino> {
     themeChange = Provider.of<DarkThemeProvider>(context);
     reservesModel = Provider.of<ReservesModel>(context);
     trafficsModel = Provider.of<TrafficsModel>(context);
+    plateModel = Provider.of<PlatesModel>(context);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
