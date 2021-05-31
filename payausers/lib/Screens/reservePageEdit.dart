@@ -10,6 +10,7 @@ import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/Screens/addingPlateIntro.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
+import 'package:payausers/providers/reserves_model.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
 import 'package:provider/provider.dart';
 
@@ -107,6 +108,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
   @override
   Widget build(BuildContext context) {
     themeChange = Provider.of<DarkThemeProvider>(context);
+    final reservesModel = Provider.of<ReservesModel>(context);
 
     // Open Persian Calender view function
     void openCalend() {
@@ -285,6 +287,8 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
             et: strDateTimeEnd,
             pt: reallyPlate,
             themeChange: themeChange.darkTheme);
+
+        reservesModel.fetchReservesData;
       } else {
         showStatusInCaseOfFlush(
             context: context,

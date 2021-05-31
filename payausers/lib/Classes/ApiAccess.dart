@@ -156,7 +156,6 @@ class ApiAccess {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getUserReserves");
-    print(response.data.length);
     return response.data;
   }
 

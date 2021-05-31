@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:liquid_ui/liquid_ui.dart';
+import 'package:payausers/providers/reserves_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -206,10 +207,19 @@ class _MyAppState extends State<MyApp> {
     return LayoutBuilder(builder: (context, constraints) {
       return OrientationBuilder(builder: (context, orientation) {
         SizerUtil().init(constraints, orientation);
-        return ChangeNotifierProvider(
-          create: (_) {
-            return themeChangeProvider;
-          },
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider<DarkThemeProvider>(
+              create: (_) {
+                return themeChangeProvider;
+              },
+            ),
+            ChangeNotifierProvider<ReservesModel>(
+              create: (_) {
+                return ReservesModel();
+              },
+            )
+          ],
           child: Consumer<DarkThemeProvider>(
             builder: (BuildContext context, value, Widget child) {
               SystemChrome.setSystemUIOverlayStyle(themeChangeProvider.darkTheme

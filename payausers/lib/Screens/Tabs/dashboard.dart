@@ -2,6 +2,9 @@ import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/ExtractedWidgets/userCard.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Classes/streamAPI.dart';
+import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/spec/enum_state.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +21,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard>
     with AutomaticKeepAliveClientMixin<Dashboard> {
   LocalDataGetterClass localDataGetterClass = LocalDataGetterClass();
+
   StreamAPI streamAPI = StreamAPI();
   GridTiles gridTile = GridTiles();
   @override
@@ -28,6 +32,9 @@ class _DashboardState extends State<Dashboard>
     final double itemHeight = (size.height - kToolbarHeight) / 4;
     final double itemWidth = size.width;
     LocalDataGetterClass loadLocalData = LocalDataGetterClass();
+
+    // Getting reserves data from provider model
+    final reservesModel = Provider.of<ReservesModel>(context);
 
     // Check if device be in portrait or Landscape
     final double widthSizedResponse = size.width >= 410 && size.width < 600
@@ -129,13 +136,13 @@ class _DashboardState extends State<Dashboard>
                   },
                 ),
                 // reserve tile
-                StreamBuilder(
-                  stream: streamAPI.getUserReserveReal(),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.hasData)
-                      return gridTile.reserveTile("${snapshot.data.length}");
-                    else
+                Builder(
+                  builder: (_) {
+                    if (reservesModel.reserveState == FlowState.Error)
                       return gridTile.reserveTile("-");
+
+                    return gridTile
+                        .reserveTile("${reservesModel.reserves.length}");
                   },
                 ),
                 // Vehicle Situation
