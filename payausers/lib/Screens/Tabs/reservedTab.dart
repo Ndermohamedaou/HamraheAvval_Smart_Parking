@@ -190,10 +190,22 @@ class _ReservedTabState extends State<ReservedTab>
                 style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
           ],
         );
+
       if (platesModel.platesState == FlowState.Error)
         return logLoadingWidgets.internetProblem;
 
       final _userPlates = platesModel.plates;
+
+      if (_userPlates.isEmpty)
+        return MaterialButton(
+          onPressed: () => Navigator.pushNamed(context, "/addingPlateIntro"),
+          color: mainSectionCTA,
+          child: Text(
+            "اولین پلاک را در حساب خود وارد کنید",
+            style: TextStyle(fontFamily: mainFaFontFamily, color: Colors.white),
+            textAlign: TextAlign.right,
+          ),
+        );
 
       return Column(
         children: [
@@ -209,7 +221,7 @@ class _ReservedTabState extends State<ReservedTab>
           ),
           ListView.builder(
               shrinkWrap: true,
-              itemCount: [_userPlates].length,
+              itemCount: _userPlates.length,
               itemBuilder: (BuildContext context, index) {
                 if (_userPlates[index]["status"] == 1)
                   return TextButton(
