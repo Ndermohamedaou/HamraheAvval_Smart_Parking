@@ -91,6 +91,9 @@ const resultOfReserve =
 const titleOfFailedReserve = "فرایند رزرو با شکست رو به رو شد";
 const descOfFailedReserve =
     "شما نمیتوانید در یک روز چند رزرو داشته باشید. لطفا روز دیگری را انتخاب کنید";
+const failedReserveMsgTitle = "عملیات رزرو شما موفقیت آمیز نبود";
+const failedReserveMsgDesc =
+    "شما پلاکی برای رزرو جایگاه وسیله نقلیه ندارید، آیا میخواهید پلاکی برای وسیله نقلیه خود در سامانه اضافه کنید؟";
 
 // User Traffic
 const trafficsLogText = "لیست تردد های شما";

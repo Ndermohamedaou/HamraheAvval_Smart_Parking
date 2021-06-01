@@ -6,6 +6,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/Screens/addingPlateIntro.dart';
+import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
 import 'package:payausers/providers/plate_model.dart';
@@ -15,17 +16,15 @@ import 'package:provider/provider.dart';
 
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/calender.dart';
 // import 'package:payausers/ExtractedWidgets/pagesOfReserve/takenTime.dart';
-import 'package:payausers/ExtractedWidgets/pagesOfReserve/plate.dart';
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/summery.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 // Declear Specific page index for controller
 int curIndex = 0;
 // Show which date clicked and prepare to send it to API
 String datePickedByUser = "";
 // Timing
-int startTime = 1;
-int endTime = startTime + 1;
+// int startTime = 1;
+// int endTime = startTime + 1;
 // Plate
 String selectedPlate = "";
 bool isLoadingReserve = false;
@@ -82,8 +81,8 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
   void dispose() {
     curIndex = 0;
     datePickedByUser = "";
-    startTime = 1;
-    endTime = startTime + 1;
+    // startTime = 1;
+    // endTime = startTime + 1;
     selectedPlate = "";
     super.dispose();
   }
@@ -105,152 +104,152 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     }
 
     // Plate Viewer in CUPERTINO Modal
-    final plateViewerInModal = ListView.builder(
-      itemCount: plateModel.length,
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        if (plateModel[index]['status'] == 1)
-          return (GestureDetector(
-            onTap: () {
-              setState(() {
-                finalSelectedString = plateModel[index]['plate_en'];
-                finalSelectedPlate = {
-                  "plate0": plateModel[index]['plate0'],
-                  "plate1": plateModel[index]['plate1'],
-                  "plate2": plateModel[index]['plate2'],
-                  "plate3": plateModel[index]['plate3'],
-                };
-                Navigator.pop(context);
-              });
-            },
-            child: PlateViewer(
-                plate0: plateModel[index]['plate0'] != null
-                    ? plateModel[index]['plate0']
-                    : "-",
-                plate1: plateModel[index]['plate1'] != null
-                    ? plateModel[index]['plate1']
-                    : "-",
-                plate2: plateModel[index]['plate2'] != null
-                    ? plateModel[index]['plate2']
-                    : "-",
-                plate3: plateModel[index]['plate3'] != null
-                    ? plateModel[index]['plate3']
-                    : "-",
-                themeChange: themeChange.darkTheme),
-          ));
-        else
-          Text(
-            "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
-            style: TextStyle(fontFamily: mainFaFontFamily, color: Colors.white),
-            textDirection: TextDirection.ltr,
-          );
-      },
-    );
+    // final plateViewerInModal = ListView.builder(
+    //   itemCount: plateModel.length,
+    //   shrinkWrap: true,
+    //   itemBuilder: (context, index) {
+    //     if (plateModel[index]['status'] == 1)
+    //       return (GestureDetector(
+    //         onTap: () {
+    //           setState(() {
+    //             finalSelectedString = plateModel[index]['plate_en'];
+    //             finalSelectedPlate = {
+    //               "plate0": plateModel[index]['plate0'],
+    //               "plate1": plateModel[index]['plate1'],
+    //               "plate2": plateModel[index]['plate2'],
+    //               "plate3": plateModel[index]['plate3'],
+    //             };
+    //             Navigator.pop(context);
+    //           });
+    //         },
+    //         child: PlateViewer(
+    //             plate0: plateModel[index]['plate0'] != null
+    //                 ? plateModel[index]['plate0']
+    //                 : "-",
+    //             plate1: plateModel[index]['plate1'] != null
+    //                 ? plateModel[index]['plate1']
+    //                 : "-",
+    //             plate2: plateModel[index]['plate2'] != null
+    //                 ? plateModel[index]['plate2']
+    //                 : "-",
+    //             plate3: plateModel[index]['plate3'] != null
+    //                 ? plateModel[index]['plate3']
+    //                 : "-",
+    //             themeChange: themeChange.darkTheme),
+    //       ));
+    //     else
+    //       Text(
+    //         "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
+    //         style: TextStyle(fontFamily: mainFaFontFamily, color: Colors.white),
+    //         textDirection: TextDirection.ltr,
+    //       );
+    //   },
+    // );
 
-    // Waiting LottieFile
-    Widget searchingProcess = Column(
-      children: [
-        Lottie.asset("assets/lottie/searching.json"),
-        Text(searchingProcessText,
-            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-      ],
-    );
-    // If any plate had exists
-    Widget plateContext =
-        plateModel != [] ? plateViewerInModal : searchingProcess;
-    // else
-    Widget addPlateNotExists = Column(
-      children: [
-        SizedBox(height: 25),
-        Directionality(
-          textDirection: TextDirection.rtl,
-          child: ElevatedButton.icon(
-            onPressed: () => Navigator.pushNamed(context, "/addingPlateIntro"),
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(mainCTA)),
-            icon: Icon(Icons.add, size: 18),
-            label: Text(
-              "اضافه کردن پلاک",
-              style: TextStyle(fontFamily: mainFaFontFamily),
-            ),
-          ),
-        ),
-        SizedBox(height: 50),
-      ],
-    );
-    // In final:
-    Widget finalPlateContext =
-        plateModel.length != 0 ? plateContext : addPlateNotExists;
+    // // Waiting LottieFile
+    // Widget searchingProcess = Column(
+    //   children: [
+    //     Lottie.asset("assets/lottie/searching.json"),
+    //     Text(searchingProcessText,
+    //         style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+    //   ],
+    // );
+    // // If any plate had exists
+    // Widget plateContext =
+    //     plateModel != [] ? plateViewerInModal : searchingProcess;
+    // // else
+    // Widget addPlateNotExists = Column(
+    //   children: [
+    //     SizedBox(height: 25),
+    //     Directionality(
+    //       textDirection: TextDirection.rtl,
+    //       child: ElevatedButton.icon(
+    //         onPressed: () => Navigator.pushNamed(context, "/addingPlateIntro"),
+    //         style: ButtonStyle(
+    //             backgroundColor: MaterialStateProperty.all(mainCTA)),
+    //         icon: Icon(Icons.add, size: 18),
+    //         label: Text(
+    //           "اضافه کردن پلاک",
+    //           style: TextStyle(fontFamily: mainFaFontFamily),
+    //         ),
+    //       ),
+    //     ),
+    //     SizedBox(height: 50),
+    //   ],
+    // );
+    // // In final:
+    // Widget finalPlateContext =
+    //     plateModel.length != 0 ? plateContext : addPlateNotExists;
 
-    // By default plate for Reserve
-    Widget byDefaultSelectedPlate =
-        plateModel.isEmpty || plateModel[0]["status"] == 0
-            ? Text(
-                emptyUserPlate,
-                style: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                ),
-              )
-            : PlateViewer(
-                plate0: plateModel[0]['plate0'],
-                plate1: plateModel[0]['plate1'],
-                plate2: plateModel[0]['plate2'],
-                plate3: plateModel[0]['plate3'],
-                themeChange: themeChange.darkTheme,
-              );
-    // String form of default user plate
-    bydefaultSelectedString =
-        plateModel.isEmpty ? "" : plateModel[0]['plate_en'];
-    // Widget form of default user plate
-    Widget byDefaultPlateGraphy = plateModel != []
-        ? byDefaultSelectedPlate
-        : Text(
-            emptyUserPlate,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-            ),
-          );
+    // // By default plate for Reserve
+    // Widget byDefaultSelectedPlate =
+    //     plateModel.isEmpty || plateModel[0]["status"] == 0
+    //         ? Text(
+    //             emptyUserPlate,
+    //             style: TextStyle(
+    //               fontFamily: mainFaFontFamily,
+    //             ),
+    //           )
+    //         : PlateViewer(
+    //             plate0: plateModel[0]['plate0'],
+    //             plate1: plateModel[0]['plate1'],
+    //             plate2: plateModel[0]['plate2'],
+    //             plate3: plateModel[0]['plate3'],
+    //             themeChange: themeChange.darkTheme,
+    //           );
+    // // String form of default user plate
+    // bydefaultSelectedString =
+    //     plateModel.isEmpty ? "" : plateModel[0]['plate_en'];
+    // // Widget form of default user plate
+    // Widget byDefaultPlateGraphy = plateModel != []
+    //     ? byDefaultSelectedPlate
+    //     : Text(
+    //         emptyUserPlate,
+    //         style: TextStyle(
+    //           fontFamily: mainFaFontFamily,
+    //         ),
+    //       );
 
-    Widget selectedPlateGraphy = PlateViewer(
-      plate0: finalSelectedPlate['plate0'],
-      plate1: finalSelectedPlate['plate1'],
-      plate2: finalSelectedPlate['plate2'],
-      plate3: finalSelectedPlate['plate3'],
-      themeChange: themeChange.darkTheme,
-    );
+    // Widget selectedPlateGraphy = PlateViewer(
+    //   plate0: finalSelectedPlate['plate0'],
+    //   plate1: finalSelectedPlate['plate1'],
+    //   plate2: finalSelectedPlate['plate2'],
+    //   plate3: finalSelectedPlate['plate3'],
+    //   themeChange: themeChange.darkTheme,
+    // );
 
-    Widget finalPlateViewInContainer =
-        finalSelectedString == "" ? byDefaultPlateGraphy : selectedPlateGraphy;
+    // Widget finalPlateViewInContainer =
+    //     finalSelectedString == "" ? byDefaultPlateGraphy : selectedPlateGraphy;
 
-    Map defaultUserPlateMap = plateModel.isEmpty
-        ? {
-            "plate0": "-",
-            "plate1": "-",
-            "plate2": "-",
-            "plate3": "-",
-          }
-        : plateModel[0]["status"] == 1
-            ? {
-                "plate0": plateModel[0]['plate0'],
-                "plate1": plateModel[0]['plate1'],
-                "plate2": plateModel[0]['plate2'],
-                "plate3": plateModel[0]['plate3'],
-              }
-            : {
-                "plate0": "-",
-                "plate1": "-",
-                "plate2": "-",
-                "plate3": "-",
-              };
+    // Map defaultUserPlateMap = plateModel.isEmpty
+    //     ? {
+    //         "plate0": "-",
+    //         "plate1": "-",
+    //         "plate2": "-",
+    //         "plate3": "-",
+    //       }
+    //     : plateModel[0]["status"] == 1
+    //         ? {
+    //             "plate0": plateModel[0]['plate0'],
+    //             "plate1": plateModel[0]['plate1'],
+    //             "plate2": plateModel[0]['plate2'],
+    //             "plate3": plateModel[0]['plate3'],
+    //           }
+    //         : {
+    //             "plate0": "-",
+    //             "plate1": "-",
+    //             "plate2": "-",
+    //             "plate3": "-",
+    //           };
 
-    final switchingPlate = finalSelectedString == ""
-        ? defaultUserPlateMap
-        : {
-            "plate0": finalSelectedPlate['plate0'],
-            "plate1": finalSelectedPlate['plate1'],
-            "plate2": finalSelectedPlate['plate2'],
-            "plate3": finalSelectedPlate['plate3'],
-          };
+    // final switchingPlate = finalSelectedString == ""
+    //     ? defaultUserPlateMap
+    //     : {
+    //         "plate0": finalSelectedPlate['plate0'],
+    //         "plate1": finalSelectedPlate['plate1'],
+    //         "plate2": finalSelectedPlate['plate2'],
+    //         "plate3": finalSelectedPlate['plate3'],
+    //       };
 
     void gettingReserve() {
       if (datePickedByUser.isNotEmpty) {
@@ -277,13 +276,14 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
               themeChange: themeChange.darkTheme);
           setState(() => isLoadingReserve = false);
         } else {
-          alert(
-              context: context,
-              dstRoute: "/addingPlateIntro",
-              tAlert: AlertType.error,
-              themeChange: themeChange.darkTheme,
-              title: "رزرو با شکست رو به رو شد",
-              desc: "شما پلاکی برای رزرو کردن جایگاه وسیله نقلیه ندارید");
+          failedAlert(
+            context: context,
+            acceptRoute: "/addingPlateIntro",
+            ignoreRoute: "/dashboard",
+            // themeChange: themeChange.darkTheme,
+            title: failedReserveMsgTitle,
+            desc: failedReserveMsgDesc,
+          );
           setState(() => isLoadingReserve = false);
         }
 
@@ -327,7 +327,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       )
     ];
 
-    List appBarTitleSpecific = [chooseDate, choosePlate, summery];
+    List appBarTitleSpecific = [chooseDate, summery];
 
     return Scaffold(
       appBar: AppBar(
@@ -368,7 +368,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                         color: Colors.white,
                       )),
                   onTap: () {
-                    if (curIndex > 0 && curIndex <= 2) {
+                    if (curIndex > 0 && curIndex <= 1) {
                       setState(() {
                         curIndex -= 1;
                       });
@@ -439,7 +439,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                         color: Colors.white,
                       )),
                   onTap: () {
-                    if (curIndex >= 0 && curIndex < 2) {
+                    if (curIndex >= 0 && curIndex < 1) {
                       setState(() {
                         curIndex += 1;
                       });
