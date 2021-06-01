@@ -94,7 +94,7 @@ class PlateViewer extends StatelessWidget {
             FittedBox(
               fit: BoxFit.fitWidth,
               child: Container(
-                width: 50,
+                width: 60,
                 height: 70,
                 margin: EdgeInsets.only(top: 20, right: 0),
                 child: Text(

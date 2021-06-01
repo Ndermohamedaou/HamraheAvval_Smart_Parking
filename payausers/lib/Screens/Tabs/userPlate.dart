@@ -164,6 +164,8 @@ class _UserPlatesState extends State<UserPlates>
                                   id: _plates[index]['plate_en'],
                                   context: context,
                                   themeChange: themeChange);
+                              // Update user plates in Provider
+                              plateModel.fetchPlatesData;
                               // print(_plates[index]['plate_en']);
                             }),
                       ],
