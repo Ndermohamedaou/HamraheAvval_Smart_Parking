@@ -5,7 +5,7 @@ class ReserveStatusSpecification {
   Color getReserveStatusColor(status) {
     switch (status) {
       case -2:
-        return Colors.grey.shade900;
+        return Colors.grey;
       case -1:
         return Colors.red;
       case 0:
