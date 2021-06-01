@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/Screens/addingPlateIntro.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
@@ -30,18 +29,18 @@ String selectedPlate = "";
 bool isLoadingReserve = false;
 
 // Bydefault selected user plate by string form
-String bydefaultSelectedString = "";
+// String bydefaultSelectedString = "";
 // final selected plate by string for,
-String finalSelectedString = "";
+// String finalSelectedString = "";
 // Map of final selected plate
-Map finalSelectedPlate = {
-  "plate0": "",
-  "plate1": "",
-  "plate2": "",
-  "plate3": "",
-};
+// Map finalSelectedPlate = {
+//   "plate0": "",
+//   "plate1": "",
+//   "plate2": "",
+//   "plate3": "",
+// };
 
-DarkThemeProvider themeChange;
+dynamic themeChange;
 
 class ReserveEditaion extends StatefulWidget {
   @override
@@ -51,7 +50,6 @@ class ReserveEditaion extends StatefulWidget {
 class _ReserveEditaionState extends State<ReserveEditaion> {
   // Specific Page Controller from client
   var _controller = PageController();
-
   // our text controller‍
   final TextEditingController textEditingController = TextEditingController();
   PersianDatePickerWidget persianDatePicker;
@@ -60,10 +58,66 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
   void initState() {
     _controller = PageController();
     isLoadingReserve = false;
-
+    curIndex = 0;
+    datePickedByUser = "";
+    // startTime = 1;
+    // endTime = startTime + 1;
+    selectedPlate = "";
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    themeChange = Provider.of<DarkThemeProvider>(context);
+    final reservesModel = Provider.of<ReservesModel>(context);
+    final plateModel = Provider.of<PlatesModel>(context).plates;
+
     persianDatePicker = PersianDatePicker(
       controller: textEditingController,
+      headerTextStyle: TextStyle(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+          fontSize: 18),
+      // تنظیمات امروز
+      headerTodayBackgroundColor: HexColor("#354F4F"),
+      headerTodayTextStyle: TextStyle(color: Colors.white, fontSize: 18),
+      headerBackgroundColor: themeChange.darkTheme ? darkBar : lightBar,
+      // background of days of the week
+      weekCaptionsBackgroundColor: mainCTA,
+      // background of years and month
+      daysBackgroundColor:
+          themeChange.darkTheme ? HexColor("#121C1C") : Colors.white,
+      daysTextStyle: TextStyle(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+          fontSize: 18),
+      selectedDayBackgroundColor: mainSectionCTA,
+      yearSelectionBackgroundColor:
+          themeChange.darkTheme ? mainBgColorDark : mainBgColorLight,
+      // For years range
+      yearSelectionTextStyle:
+          TextStyle(color: themeChange.darkTheme ? Colors.white : Colors.black),
+      yearSelectionHighlightTextStyle:
+          TextStyle(color: themeChange.darkTheme ? Colors.white : Colors.black),
+      yearSelectionHighlightBackgroundColor:
+          themeChange.darkTheme ? darkBar : lightBar,
+      // For month range
+      monthSelectionBackgroundColor:
+          themeChange.darkTheme ? mainBgColorDark : mainBgColorLight,
+      monthSelectionTextStyle:
+          TextStyle(color: themeChange.darkTheme ? Colors.white : Colors.black),
+      monthSelectionHighlightTextStyle:
+          TextStyle(color: themeChange.darkTheme ? Colors.white : Colors.black),
+      monthSelectionHighlightBackgroundColor:
+          themeChange.darkTheme ? darkBar : lightBar,
+      disabledDayBackgroundColor:
+          themeChange.darkTheme ? HexColor("#234A4F") : null,
+      disabledDayTextStyle: TextStyle(
+          color: themeChange.darkTheme ? Colors.white54 : null, fontSize: 18),
+
       datetime: "${DateTime.now()}",
       currentDayBackgroundColor: mainCTA,
       fontFamily: mainFaFontFamily,
@@ -75,23 +129,6 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         });
       },
     ).init();
-  }
-
-  @override
-  void dispose() {
-    curIndex = 0;
-    datePickedByUser = "";
-    // startTime = 1;
-    // endTime = startTime + 1;
-    selectedPlate = "";
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    themeChange = Provider.of<DarkThemeProvider>(context);
-    final reservesModel = Provider.of<ReservesModel>(context);
-    final plateModel = Provider.of<PlatesModel>(context).plates;
 
     // Open Persian Calender view function
     void openCalend() {
