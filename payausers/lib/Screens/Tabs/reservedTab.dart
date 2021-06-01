@@ -13,11 +13,10 @@ import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
-import 'package:payausers/Screens/Tabs/userPlate.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/controller/instentReserveController.dart';
-import 'package:payausers/controller/reservePlatePrepare.dart';
 import 'package:payausers/Model/streamAPI.dart';
+import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +33,7 @@ class ReservedTab extends StatefulWidget {
 int filtered = 0;
 bool loadingInstantReserve = false;
 ReservesModel reservesModel;
+PlatesModel platesModel;
 Timer _onRefreshReservesPerMin;
 
 class _ReservedTabState extends State<ReservedTab>
@@ -59,13 +59,14 @@ class _ReservedTabState extends State<ReservedTab>
     final themeChange = Provider.of<DarkThemeProvider>(context);
     // Reserve model for fetch and Reserve list getter
     reservesModel = Provider.of<ReservesModel>(context);
+    platesModel = Provider.of<PlatesModel>(context);
     // StreamAPI only for Instant reserve per 30 second
     StreamAPI streamAPI = StreamAPI();
 
     // UI loading or Error Class
     LogLoading logLoadingWidgets = LogLoading();
-    // Prepare class for getting right plate from database
-    PreparedPlate preparedPlate = PreparedPlate();
+    // // Prepare class for getting right plate from database
+    // PreparedPlate preparedPlate = PreparedPlate();
     // Controller of Instant reserve
     InstantReserve instantReserve = InstantReserve();
     FlutterSecureStorage lds = FlutterSecureStorage();
@@ -178,7 +179,7 @@ class _ReservedTabState extends State<ReservedTab>
     }
 
     final streamPlate = Builder(builder: (_) {
-      if (plateModel.platesState == FlowState.Loading)
+      if (platesModel.platesState == FlowState.Loading)
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -189,67 +190,53 @@ class _ReservedTabState extends State<ReservedTab>
                 style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
           ],
         );
-      if (plateModel.platesState == FlowState.Error)
+      if (platesModel.platesState == FlowState.Error)
         return logLoadingWidgets.internetProblem;
 
-      final _userPlates = plateModel.plates;
-      if (_userPlates.length == 0)
-        return MaterialButton(
-          onPressed: () => Navigator.pushNamed(context, "/addingPlateIntro"),
-          child: Text(
-            "پلاکی برای خود اضافه کنید",
-            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),
+      final _userPlates = platesModel.plates;
+
+      return Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            alignment: Alignment.centerRight,
+            child: Text("یکی از پلاک های خود را برای رزرو لحظه ای انتخاب کنید",
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                    fontFamily: mainFaFontFamily,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold)),
           ),
-        );
-      else {
-        return Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              alignment: Alignment.centerRight,
-              child: Text(
-                  "یکی از پلاک های خود را برای رزرو لحظه ای انتخاب کنید",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontFamily: mainFaFontFamily,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold)),
-            ),
-            !loadingInstantReserve
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _userPlates.length,
-                    itemBuilder: (BuildContext context, index) {
-                      if (_userPlates[index]["status"] == 1)
-                        return TextButton(
-                          style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all(
-                                  themeChange.darkTheme
-                                      ? Colors.white
-                                      : Colors.black)),
-                          onPressed: () => instentReserveProcess(
-                              _userPlates[index]['plate_en']),
-                          child: PlateViewer(
-                              plate0: _userPlates[index]['plate0'],
-                              plate1: _userPlates[index]['plate1'],
-                              plate2: _userPlates[index]['plate2'],
-                              plate3: _userPlates[index]['plate3'],
-                              themeChange: themeChange.darkTheme),
-                        );
-                      else
-                        return Text(
-                          "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
-                          style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              color: Colors.white),
-                          textDirection: TextDirection.ltr,
-                        );
-                    })
-                : CircularProgressIndicator(),
-            SizedBox(height: 40),
-          ],
-        );
-      }
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: [_userPlates].length,
+              itemBuilder: (BuildContext context, index) {
+                if (_userPlates[index]["status"] == 1)
+                  return TextButton(
+                    style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all(
+                            themeChange.darkTheme
+                                ? Colors.white
+                                : Colors.black)),
+                    onPressed: () =>
+                        instentReserveProcess(_userPlates[index]['plate_en']),
+                    child: PlateViewer(
+                        plate0: _userPlates[index]['plate0'],
+                        plate1: _userPlates[index]['plate1'],
+                        plate2: _userPlates[index]['plate2'],
+                        plate3: _userPlates[index]['plate3'],
+                        themeChange: themeChange.darkTheme),
+                  );
+                else
+                  Text(
+                    "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
+                    style: TextStyle(
+                        fontFamily: mainFaFontFamily, color: Colors.white),
+                    textDirection: TextDirection.ltr,
+                  );
+              })
+        ],
+      );
     });
 
     // Instant reserve in Modal
