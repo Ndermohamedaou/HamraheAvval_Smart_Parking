@@ -463,20 +463,26 @@ class _ReservedTabState extends State<ReservedTab>
                         itemBuilder: (BuildContext context, index) {
                           return SingleChildScrollView(
                             child: GestureDetector(
-                              onTap: () => openDetailsInModal(
-                                reservID: reserveList[index]["id"],
-                                reserveStatus: reserveList[index]['status'],
-                                // plate: preparedPlate.preparePlateInReserve(
-                                //     rawPlate: reserveList[index]['plate']),
-                                plate: [],
-                                building: reserveList[index]["building"] != null
-                                    ? reserveList[index]["building"]
-                                    : "",
-                                slot: reserveList[index]["slot"],
-                                startTime: reserveList[index]
-                                    ["reserveTimeStart"],
-                                endTime: reserveList[index]["reserveTimeEnd"],
-                              ),
+                              onTap: () {
+                                // Update user reserves in provider
+                                reservesModel.fetchReservesData;
+
+                                openDetailsInModal(
+                                  reservID: reserveList[index]["id"],
+                                  reserveStatus: reserveList[index]['status'],
+                                  // plate: preparedPlate.preparePlateInReserve(
+                                  //     rawPlate: reserveList[index]['plate']),
+                                  plate: [],
+                                  building:
+                                      reserveList[index]["building"] != null
+                                          ? reserveList[index]["building"]
+                                          : "",
+                                  slot: reserveList[index]["slot"],
+                                  startTime: reserveList[index]
+                                      ["reserveTimeStart"],
+                                  endTime: reserveList[index]["reserveTimeEnd"],
+                                );
+                              },
                               child: (Column(
                                 children: [
                                   ReserveHistoryView(

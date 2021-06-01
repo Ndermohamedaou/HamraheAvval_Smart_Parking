@@ -112,17 +112,22 @@ class _UserPlatesState extends State<UserPlates>
               fastThreshold: 1.25,
               movementDuration: Duration(milliseconds: 200),
               child: GestureDetector(
-                  onTap: () => openDetailsInModal(
-                          plate: [
-                            _plates[index]['plate0'],
-                            _plates[index]['plate1'],
-                            _plates[index]['plate2'],
-                            _plates[index]['plate3']
-                          ],
-                          plateEn: _plates[index]['plate_en'],
-                          hrStatus1: _plates[index]["status1"],
-                          secStatus2: _plates[index]["status2"],
-                          overalStatus: _plates[index]["status"]),
+                  onTap: () {
+                    // Update User Plates Provider
+                    plateModel.fetchPlatesData;
+
+                    openDetailsInModal(
+                        plate: [
+                          _plates[index]['plate0'],
+                          _plates[index]['plate1'],
+                          _plates[index]['plate2'],
+                          _plates[index]['plate3']
+                        ],
+                        plateEn: _plates[index]['plate_en'],
+                        hrStatus1: _plates[index]["status1"],
+                        secStatus2: _plates[index]["status2"],
+                        overalStatus: _plates[index]["status"]);
+                  },
                   child: PlateViewer(
                       plate0: _plates[index]['plate0'] != null
                           ? _plates[index]['plate0']
