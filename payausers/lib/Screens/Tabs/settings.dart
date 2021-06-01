@@ -159,8 +159,6 @@ class _SettingsState extends State<Settings>
         ? Icon(Icons.brightness_5, color: Colors.yellow)
         : Icon(Icons.bedtime, color: Colors.blue);
 
-    StreamAPI streamAPI = StreamAPI();
-
     Widget sliverAppBar({name, avatar}) => SliverAppBar(
           expandedHeight: 70.0.w,
           floating: false,
@@ -226,6 +224,7 @@ class _SettingsState extends State<Settings>
                               child: ListTileSwitch(
                                 leading: themeIconLeading,
                                 value: themeChange.darkTheme,
+                                switchActiveColor: mainCTA,
                                 onChanged: (bool state) {
                                   themeChange.darkTheme = state;
                                 },
