@@ -8,7 +8,7 @@ class StreamAPI {
 
   Stream getUserInfoInReal() async* {
     final token = await lds.read(key: "token");
-    yield* Stream.periodic(Duration(minutes: 60), (_) {
+    yield* Stream.periodic(Duration(minutes: 1), (_) {
       dio.options.headers['Content-Type'] = 'application/json';
       dio.options.headers["Authorization"] = "Bearer $token";
       return dio.get("$baseUrl/staffInfo");
