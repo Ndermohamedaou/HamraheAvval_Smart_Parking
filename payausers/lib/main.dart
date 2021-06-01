@@ -36,7 +36,6 @@ import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
 import 'Screens/reservePageEdit.dart';
 import 'Screens/changeUserEmail.dart';
-import 'package:payausers/Screens/reserveView.dart';
 import 'package:payausers/Screens/set_biometric.dart';
 import 'package:payausers/Screens/termsOfServicePage.dart';
 
@@ -270,7 +269,6 @@ class _MyAppState extends State<MyApp> {
                     '/loginCheckout': (context) => LoginCheckingoutPage(),
                     '/localAuth': (context) => LocalAuthEnter(),
                     '/dashboard': (context) => Maino(),
-                    '/addReserve': (context) => ReservedTab(),
                     '/myPlate': (context) => MYPlateScreen(),
                     '/addingPlateIntro': (context) => AddingPlateIntro(),
                     '/addingMinPlate': (context) => MinPlateView(),

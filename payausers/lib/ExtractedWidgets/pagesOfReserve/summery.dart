@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/plateViwer.dart';
+// import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:ticketview/ticketview.dart';
 
 class Summery extends StatelessWidget {
   const Summery(
       {this.themeChange,
+      this.isLoad,
       this.datePickedByUser,
       this.startTime,
       this.endTime,
@@ -14,6 +15,7 @@ class Summery extends StatelessWidget {
       this.sendToSubmit});
 
   final bool themeChange;
+  final bool isLoad;
   final datePickedByUser;
   final startTime;
   final endTime;
@@ -41,37 +43,37 @@ class Summery extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               width: ticketSize,
-              height: 400,
+              height: 250, //400
               child: Column(
                 children: [
                   SizedBox(height: 10),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.end,
+                  //   children: [
+                  //     Text(
+                  //       "پلاک وسيله نقليه انتخابی",
+                  //       style: TextStyle(
+                  //           fontFamily: mainFaFontFamily,
+                  //           fontSize: 16,
+                  //           fontWeight: FontWeight.bold),
+                  //     ),
+                  //   ],
+                  // ),
+                  // PlateViewer(
+                  //   plate0: finalSelectedPlateToSending["plate0"],
+                  //   plate1: finalSelectedPlateToSending["plate1"],
+                  //   plate2: finalSelectedPlateToSending["plate2"],
+                  //   plate3: finalSelectedPlateToSending["plate3"],
+                  //   themeChange: themeChange,
+                  // ),
+                  // SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "پلاک وسيله نقليه انتخابی",
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  PlateViewer(
-                    plate0: finalSelectedPlateToSending["plate0"],
-                    plate1: finalSelectedPlateToSending["plate1"],
-                    plate2: finalSelectedPlateToSending["plate2"],
-                    plate3: finalSelectedPlateToSending["plate3"],
-                    themeChange: themeChange,
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     textDirection: TextDirection.rtl,
                     children: [
                       Text(
                         noticeMsg,
-                        textAlign: TextAlign.right,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontFamily: mainFaFontFamily,
                             fontSize: 16,
@@ -154,27 +156,39 @@ class Summery extends StatelessWidget {
                       elevation: 10.0,
                       borderRadius: BorderRadius.circular(8.0),
                       color: primarySubmitBtnColor,
-                      child: MaterialButton(
-                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          onPressed: sendToSubmit,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "تایید رزرو",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: loginBtnTxtColor,
-                                    fontFamily: mainFaFontFamily,
-                                    fontSize: btnSized,
-                                    fontWeight: FontWeight.bold),
+                      child: isLoad
+                          ? Container(
+                              width: 10,
+                              height: 10,
+                              child: CircularProgressIndicator(
+                                backgroundColor: mainCTA,
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
                               ),
-                              Icon(
-                                Icons.chevron_right,
-                                color: Colors.white,
-                              )
-                            ],
-                          )),
+                            )
+                          : MaterialButton(
+                              padding:
+                                  EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              onPressed: isLoad ? null : sendToSubmit,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "تایید رزرو",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: loginBtnTxtColor,
+                                        fontFamily: mainFaFontFamily,
+                                        fontSize: btnSized,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Icon(
+                                    Icons.chevron_right,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
                     ),
                   ),
                 ],

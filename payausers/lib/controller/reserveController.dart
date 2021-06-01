@@ -16,7 +16,7 @@ Future<List> gettingMyPlates() async {
   return plates;
 }
 
-void alert({bool themeChange, context, title, desc, tAlert}) {
+void alert({bool themeChange, context, title, desc, tAlert, dstRoute}) {
   Alert(
     context: context,
     type: tAlert,
@@ -36,25 +36,27 @@ void alert({bool themeChange, context, title, desc, tAlert}) {
               color: Colors.white, fontSize: 20, fontFamily: mainFaFontFamily),
         ),
         onPressed: () =>
-            Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
+            Navigator.popUntil(context, ModalRoute.withName(dstRoute)),
         width: 120,
       )
     ],
   ).show();
 }
 
-void reserveMe({st, et, pt, context, bool themeChange}) async {
-  if (st != "" && et != "" && pt != "") {
+void reserveMe({st, et, context, bool themeChange}) async {
+  // if (st != "" && et != "" && pt != "") {
+  if (st != "" && et != "") {
     ApiAccess api = ApiAccess();
     FlutterSecureStorage lds = FlutterSecureStorage();
     final userToken = await lds.read(key: "token");
     try {
-      String reserveResult = await api.reserveByUser(
-          token: userToken, startTime: st, endTime: et, plateNo: pt);
+      String reserveResult =
+          await api.reserveByUser(token: userToken, startTime: st, endTime: et);
       // print("$reserveResult");
       if (reserveResult == "200") {
         alert(
             context: context,
+            dstRoute: "/dashboard",
             themeChange: themeChange,
             tAlert: AlertType.success,
             title: titleOfReserve,
@@ -62,6 +64,7 @@ void reserveMe({st, et, pt, context, bool themeChange}) async {
       } else if (reserveResult == "AlreadyReserved") {
         alert(
             context: context,
+            dstRoute: "/dashboard",
             tAlert: AlertType.warning,
             themeChange: themeChange,
             title: titleOfFailedReserve,

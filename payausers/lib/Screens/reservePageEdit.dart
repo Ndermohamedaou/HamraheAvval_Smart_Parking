@@ -17,6 +17,7 @@ import 'package:payausers/ExtractedWidgets/pagesOfReserve/calender.dart';
 // import 'package:payausers/ExtractedWidgets/pagesOfReserve/takenTime.dart';
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/plate.dart';
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/summery.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 // Declear Specific page index for controller
 int curIndex = 0;
@@ -27,6 +28,7 @@ int startTime = 1;
 int endTime = startTime + 1;
 // Plate
 String selectedPlate = "";
+bool isLoadingReserve = false;
 
 // Bydefault selected user plate by string form
 String bydefaultSelectedString = "";
@@ -40,7 +42,7 @@ Map finalSelectedPlate = {
   "plate3": "",
 };
 
-dynamic themeChange;
+DarkThemeProvider themeChange;
 
 class ReserveEditaion extends StatefulWidget {
   @override
@@ -58,6 +60,8 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
   @override
   void initState() {
     _controller = PageController();
+    isLoadingReserve = false;
+
     super.initState();
     persianDatePicker = PersianDatePicker(
       controller: textEditingController,
@@ -255,18 +259,33 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         final strDateTimeStart = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]}";
         final strDateTimeEnd = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} ";
 
-        final reallyPlate = finalSelectedString == ""
-            ? bydefaultSelectedString
-            : finalSelectedString;
+        // final reallyPlate = finalSelectedString == ""
+        //     ? bydefaultSelectedString
+        //     : finalSelectedString;
 
         // print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
+
+        setState(() => isLoadingReserve = true);
+
         // Go to controller
-        reserveMe(
-            context: context,
-            st: strDateTimeStart,
-            et: strDateTimeEnd,
-            pt: reallyPlate,
-            themeChange: themeChange.darkTheme);
+        if (plateModel.isNotEmpty) {
+          reserveMe(
+              context: context,
+              st: strDateTimeStart,
+              et: strDateTimeEnd,
+              // pt: reallyPlate,
+              themeChange: themeChange.darkTheme);
+          setState(() => isLoadingReserve = false);
+        } else {
+          alert(
+              context: context,
+              dstRoute: "/addingPlateIntro",
+              tAlert: AlertType.error,
+              themeChange: themeChange.darkTheme,
+              title: "رزرو با شکست رو به رو شد",
+              desc: "شما پلاکی برای رزرو کردن جایگاه وسیله نقلیه ندارید");
+          setState(() => isLoadingReserve = false);
+        }
 
         reservesModel.fetchReservesData;
       } else {
@@ -293,19 +312,18 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       //   }),
       //   changeEndTime: (endHour) => setState(() => endTime = endHour),
       // ),
-      PlatePicker(
-        mainContext: finalPlateContext,
-        plateForShow: finalPlateViewInContainer,
-      ),
+      // PlatePicker(
+      //   mainContext: finalPlateContext,
+      //   plateForShow: finalPlateViewInContainer,
+      // ),
       Summery(
         themeChange: themeChange.darkTheme,
         datePickedByUser: datePickedByUser != "" ? datePickedByUser : "-",
         // startTime: startTime != 0 ? startTime : "-",
         // endTime: endTime != 0 ? endTime : "-",
-        finalSelectedPlateToSending: switchingPlate,
-        sendToSubmit: () {
-          gettingReserve();
-        },
+        // finalSelectedPlateToSending: switchingPlate,
+        isLoad: isLoadingReserve,
+        sendToSubmit: () => gettingReserve(),
       )
     ];
 
@@ -386,23 +404,23 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
                 //     ),
                 //   ),
                 // ),
+                // GestureDetector(
+                //   onTap: () => navigatedIcon(1),
+                //   child: Container(
+                //     margin: EdgeInsets.symmetric(horizontal: 10),
+                //     child: Icon(
+                //       Icons.view_carousel_outlined,
+                //       color: curIndex == 1 ? mainSectionCTA : null,
+                //     ),
+                //   ),
+                // ),
                 GestureDetector(
                   onTap: () => navigatedIcon(1),
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: Icon(
-                      Icons.view_carousel_outlined,
-                      color: curIndex == 1 ? mainSectionCTA : null,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => navigatedIcon(2),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Icon(
                       Icons.featured_play_list_outlined,
-                      color: curIndex == 2 ? mainSectionCTA : null,
+                      color: curIndex == 1 ? mainSectionCTA : null,
                     ),
                   ),
                 ),

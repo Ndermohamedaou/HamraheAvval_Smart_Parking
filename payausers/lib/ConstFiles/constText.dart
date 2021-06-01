@@ -86,7 +86,8 @@ const String reserveTextTitle = "رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
 const String dataEntryUnCorrect = "ورودی اطلاعات ناقص است";
 const titleOfReserve = "رزرو شما با موفقیت انجام شد";
-const resultOfReserve = "نتیجه آن به صورت پیامک به شما اعلام خواهد شد";
+const resultOfReserve =
+    "رزرو شما در تاریخ انتخابی ثبت و درحال بررسی می باشد. در صورت تایید به شما اعلام خواهد شد";
 const titleOfFailedReserve = "فرایند رزرو با شکست رو به رو شد";
 const descOfFailedReserve =
     "شما نمیتوانید در یک روز چند رزرو داشته باشید. لطفا روز دیگری را انتخاب کنید";
