@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/Classes/ReserveColorsStatus.dart';
+import 'package:payausers/Model/ReserveColorsStatus.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class ReserveHistoryView extends StatelessWidget {

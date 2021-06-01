@@ -9,7 +9,7 @@ import 'package:payausers/providers/traffics_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
+import 'Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
 
 // Screens

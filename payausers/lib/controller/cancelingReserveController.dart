@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
-import 'package:payausers/providers/reserves_model.dart';
-import 'package:provider/provider.dart';
 
 class CancelReserve {
   ApiAccess api = ApiAccess();

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/custom_opt.dart';
 import 'package:provider/provider.dart';

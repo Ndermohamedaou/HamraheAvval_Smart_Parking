@@ -1,7 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:payausers/Classes/ReserveColorsStatus.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Model/ReserveColorsStatus.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:sizer/sizer.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';

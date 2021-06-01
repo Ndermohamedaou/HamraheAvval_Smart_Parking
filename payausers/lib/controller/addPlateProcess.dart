@@ -1,4 +1,4 @@
-import 'package:payausers/Classes/ApiAccess.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 
 ApiAccess api = ApiAccess();
 

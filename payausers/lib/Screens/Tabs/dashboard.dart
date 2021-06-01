@@ -1,8 +1,7 @@
 import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/ExtractedWidgets/userCard.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
-import 'package:payausers/Classes/streamAPI.dart';
-import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/Model/streamAPI.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';

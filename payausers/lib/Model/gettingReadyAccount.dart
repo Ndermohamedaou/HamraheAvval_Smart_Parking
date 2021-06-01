@@ -1,7 +1,7 @@
 // If user is not new
 import 'package:flutter/material.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
-import 'package:payausers/Classes/SavingData.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/SavingData.dart';
 import 'package:toast/toast.dart';
 
 class GettingReadyAccount {

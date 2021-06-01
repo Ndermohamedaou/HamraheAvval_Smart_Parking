@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/spec/enum_state.dart';
 
 class PlatesModel extends ChangeNotifier {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
-import 'package:payausers/Classes/gettingReadyAccount.dart';
+import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:provider/provider.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 import 'package:toast/toast.dart';
 
 String personalCode = "";

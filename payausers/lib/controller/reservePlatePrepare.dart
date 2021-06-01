@@ -1,4 +1,4 @@
-import 'package:payausers/Classes/AlphabetClassList.dart';
+import 'package:payausers/Model/AlphabetClassList.dart';
 
 class PreparedPlate {
   AlphabetList alp = AlphabetList();

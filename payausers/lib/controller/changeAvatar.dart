@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'package:image_native_resizer/image_native_resizer.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 
 ApiAccess api = ApiAccess();
 FlutterSecureStorage lds = FlutterSecureStorage();

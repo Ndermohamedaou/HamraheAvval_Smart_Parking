@@ -8,12 +8,12 @@ import 'package:payausers/spec/enum_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
-import '../../Classes/streamAPI.dart';
+import 'package:payausers/Model/streamAPI.dart';
 
 class Settings extends StatefulWidget {
   const Settings();

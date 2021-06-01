@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
-import 'package:payausers/Classes/gettingReadyAccount.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:pinput/pin_put/pin_put.dart';
