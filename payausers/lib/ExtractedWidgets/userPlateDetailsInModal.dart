@@ -1,7 +1,7 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:payausers/Classes/PlateColorsStatus.dart';
 import 'package:payausers/Classes/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:sizer/sizer.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -26,48 +26,21 @@ class UserPlateInDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hrStatusFinal = hrStatus == 0
-        ? deniedPlateText
-        : hrStatus == 1
-            ? acceptedPlateText
-            : hrStatus == -1
-                ? ignoredPlateText
-                : "";
-    final hrStatusColorFinal = hrStatus == 0
-        ? Colors.orange
-        : hrStatus == 1
-            ? Colors.green
-            : hrStatus == -1
-                ? Colors.red
-                : Colors.blue;
-    final secStatusFinal = secStatus == 0
-        ? deniedPlateText
-        : secStatus == 1
-            ? acceptedPlateText
-            : secStatus - 1
-                ? ignoredPlateText
-                : "";
-    final secStatusColorFinal = secStatus == 0
-        ? Colors.orange
-        : secStatus == 1
-            ? Colors.green
-            : secStatus == -1
-                ? Colors.red
-                : Colors.blue;
-    final overalStatusFinal = overalStatus == 0
-        ? deniedPlateText
-        : overalStatus == 1
-            ? acceptedPlateText
-            : overalStatus == -1
-                ? ignoredPlateText
-                : "";
-    final overalStatusColorFinal = overalStatus == 0
-        ? Colors.orange
-        : overalStatus == 1
-            ? Colors.green
-            : overalStatus == -1
-                ? Colors.red
-                : Colors.blue;
+    final hrStatusFinal =
+        PlateStatusSpecification().getPlateStatusString(hrStatus);
+    final hrStatusColorFinal =
+        PlateStatusSpecification().getPlateStatusColor(hrStatus);
+
+    final secStatusFinal =
+        PlateStatusSpecification().getPlateStatusString(secStatus);
+    final secStatusColorFinal =
+        PlateStatusSpecification().getPlateStatusColor(secStatus);
+
+    final overalStatusFinal =
+        PlateStatusSpecification().getPlateStatusString(overalStatus);
+    final overalStatusColorFinal =
+        PlateStatusSpecification().getPlateStatusColor(overalStatus);
+
     return Column(
       children: [
         SizedBox(height: 1.0.h),
