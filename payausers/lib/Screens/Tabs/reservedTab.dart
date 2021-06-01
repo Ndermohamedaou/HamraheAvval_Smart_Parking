@@ -466,8 +466,9 @@ class _ReservedTabState extends State<ReservedTab>
                               onTap: () => openDetailsInModal(
                                 reservID: reserveList[index]["id"],
                                 reserveStatus: reserveList[index]['status'],
-                                plate: preparedPlate.preparePlateInReserve(
-                                    rawPlate: reserveList[index]['plate']),
+                                // plate: preparedPlate.preparePlateInReserve(
+                                //     rawPlate: reserveList[index]['plate']),
+                                plate: [],
                                 building: reserveList[index]["building"] != null
                                     ? reserveList[index]["building"]
                                     : "",

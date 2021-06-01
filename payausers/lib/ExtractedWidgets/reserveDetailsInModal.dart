@@ -42,17 +42,19 @@ class ReserveInDetails extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.grey, borderRadius: BorderRadius.circular(20)),
         ),
-        SizedBox(height: 2.0.h),
-        CustomTitle(textTitle: "پلاک منتخب رزرو", fw: FontWeight.bold),
-        PlateViewer(
-          plate0: plate[0],
-          plate1: plate[1],
-          plate2: plate[2],
-          plate3: plate[3],
-          themeChange: themeChange.darkTheme,
-        ),
-        SizedBox(height: 2.0.h),
-        DottedLine(dashColor: Colors.grey),
+        // SizedBox(height: 2.0.h),
+        // CustomTitle(textTitle: "پلاک منتخب رزرو", fw: FontWeight.bold),
+        plate.isEmpty
+            ? SizedBox()
+            : PlateViewer(
+                plate0: plate[0],
+                plate1: plate[1],
+                plate2: plate[2],
+                plate3: plate[3],
+                themeChange: themeChange.darkTheme,
+              ),
+        // SizedBox(height: 2.0.h),
+        // DottedLine(dashColor: Colors.grey),
         SizedBox(height: 2.0.h),
         Row(
           textDirection: TextDirection.rtl,
