@@ -157,11 +157,11 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           emptyTextFieldErrPassword = null;
           emptyTextFieldErrRePassword = null;
         });
-        alert(
+        rAlert(
             context: context,
-            themeChange: themeChange,
-            aType: AlertType.warning,
-            dstRoute: "confirm",
+            tAlert: AlertType.warning,
+            onTapped: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/confirm")),
             title: "ورودی اطلاعات برای ثبت ناقص است",
             desc:
                 "شما نمی توانید فیلد های مهمی که در این صفحه وجود دارد را خالی رها کنید");

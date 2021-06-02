@@ -68,8 +68,7 @@ class _UserPlatesState extends State<UserPlates>
             overalStatus: overalStatus,
             themeChange: themeChange,
             delUserPlate: () {
-              deletePlate.delUserPlate(
-                  id: plateEn, context: context, themeChange: themeChange);
+              deletePlate.delUserPlate(id: plateEn, context: context);
               // Update user plates in Provider
               plateModel.fetchPlatesData;
             },
@@ -157,9 +156,9 @@ class _UserPlatesState extends State<UserPlates>
                               ),
                               onPressed: () {
                                 deletePlate.delUserPlate(
-                                    id: _plates[index]['plate_en'],
-                                    context: context,
-                                    themeChange: themeChange);
+                                  id: _plates[index]['plate_en'],
+                                  context: context,
+                                );
                                 // Update user plates in Provider
                                 plateModel.fetchPlatesData;
                                 // print(_plates[index]['plate_en']);

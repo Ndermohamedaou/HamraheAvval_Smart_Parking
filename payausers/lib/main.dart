@@ -29,13 +29,10 @@ import 'package:payausers/Screens/two_factor_auth.dart';
 import 'Screens/confirmInfo.dart';
 import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
-import 'Screens/addUserPlateAlternative.dart';
-import 'Screens/myPlate.dart';
 import 'Screens/settings.dart';
 import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
 import 'Screens/reservePageEdit.dart';
-import 'Screens/changeUserEmail.dart';
 import 'package:payausers/Screens/set_biometric.dart';
 import 'package:payausers/Screens/termsOfServicePage.dart';
 
@@ -269,7 +266,6 @@ class _MyAppState extends State<MyApp> {
                     '/loginCheckout': (context) => LoginCheckingoutPage(),
                     '/localAuth': (context) => LocalAuthEnter(),
                     '/dashboard': (context) => Maino(),
-                    '/myPlate': (context) => MYPlateScreen(),
                     '/addingPlateIntro': (context) => AddingPlateIntro(),
                     '/addingMinPlate': (context) => MinPlateView(),
                     '/addingFamilyPage': (context) => FamilyPlateView(),
@@ -277,9 +273,6 @@ class _MyAppState extends State<MyApp> {
                     '/settings': (context) => SettingsPage(),
                     '/changePassword': (context) => ChangePassPage(),
                     '/reserveEditaion': (context) => ReserveEditaion(),
-                    '/addUserplateAlternative': (context) =>
-                        AddUserPlatAlternative(),
-                    '/changeEmail': (context) => ModifyUserEmail(),
                     '/setBiometric': (context) => SettingBiometric(),
                     '/savingAppLockPass': (context) => SavingAppLock(),
                   },

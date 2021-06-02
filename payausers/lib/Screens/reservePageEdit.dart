@@ -306,11 +306,11 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         // Go to controller
         if (plateModel.isNotEmpty) {
           reserveMe(
-              context: context,
-              st: strDateTimeStart,
-              et: strDateTimeEnd,
-              // pt: reallyPlate,
-              themeChange: themeChange.darkTheme);
+            context: context,
+            st: strDateTimeStart,
+            et: strDateTimeEnd,
+            // pt: reallyPlate,
+          );
           setState(() => isLoadingReserve = false);
         } else {
           customAlert(

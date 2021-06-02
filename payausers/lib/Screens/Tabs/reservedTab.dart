@@ -120,7 +120,6 @@ class _ReservedTabState extends State<ReservedTab>
             title: titleResultInstantReserve,
             desc:
                 "رزرو لحظه ای شما با موفقیت انجام شد و در موقعیت $result می تواند پارک خود را انجام دهید",
-            themeChange: themeChange.darkTheme,
             onTapped: () =>
                 Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
       } else {
@@ -129,7 +128,6 @@ class _ReservedTabState extends State<ReservedTab>
             tAlert: AlertType.error,
             title: titleResultInstantReserve,
             desc: descFailedInstantReserve,
-            themeChange: themeChange.darkTheme,
             onTapped: () =>
                 Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
       }

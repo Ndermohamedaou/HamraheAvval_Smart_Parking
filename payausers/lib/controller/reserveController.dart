@@ -7,7 +7,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
 import '../ConstFiles/constText.dart';
 
-void reserveMe({st, et, context, bool themeChange}) async {
+void reserveMe({st, et, context}) async {
   // if (st != "" && et != "" && pt != "") {
   if (st != "" && et != "") {
     ApiAccess api = ApiAccess();
@@ -22,7 +22,6 @@ void reserveMe({st, et, context, bool themeChange}) async {
             context: context,
             onTapped: () =>
                 Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
-            themeChange: themeChange,
             tAlert: AlertType.success,
             title: titleOfReserve,
             desc: resultOfReserve);
@@ -32,7 +31,6 @@ void reserveMe({st, et, context, bool themeChange}) async {
             onTapped: () =>
                 Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
             tAlert: AlertType.warning,
-            themeChange: themeChange,
             title: titleOfFailedReserve,
             desc: descOfFailedReserve);
       }
