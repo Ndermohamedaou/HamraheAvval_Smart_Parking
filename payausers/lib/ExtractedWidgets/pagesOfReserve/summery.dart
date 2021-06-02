@@ -175,39 +175,38 @@ class Summery extends StatelessWidget {
                       elevation: 10.0,
                       borderRadius: BorderRadius.circular(8.0),
                       color: primarySubmitBtnColor,
-                      child: isLoad
-                          ? Container(
-                              width: 10,
-                              height: 10,
-                              child: CircularProgressIndicator(
-                                backgroundColor: mainCTA,
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.white),
-                              ),
-                            )
-                          : MaterialButton(
-                              padding:
-                                  EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                              onPressed: isLoad ? null : sendToSubmit,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "تایید رزرو",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: loginBtnTxtColor,
-                                        fontFamily: mainFaFontFamily,
-                                        fontSize: btnSized,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Icon(
-                                    Icons.chevron_right,
-                                    color: Colors.white,
-                                  )
-                                ],
-                              )),
+                      child: MaterialButton(
+                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          onPressed: isLoad ? null : sendToSubmit,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              isLoad
+                                  ? Container(
+                                      width: 15,
+                                      height: 15,
+                                      child: CircularProgressIndicator(
+                                        backgroundColor: mainCTA,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                                Colors.white),
+                                      ),
+                                    )
+                                  : Text(
+                                      "تایید رزرو",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: loginBtnTxtColor,
+                                          fontFamily: mainFaFontFamily,
+                                          fontSize: btnSized,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                              Icon(
+                                Icons.chevron_right,
+                                color: Colors.white,
+                              )
+                            ],
+                          )),
                     ),
                   ),
                 ],

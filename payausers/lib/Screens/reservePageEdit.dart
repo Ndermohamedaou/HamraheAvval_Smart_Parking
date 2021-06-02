@@ -74,8 +74,8 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
   @override
   Widget build(BuildContext context) {
     themeChange = Provider.of<DarkThemeProvider>(context);
-    final reservesModel = Provider.of<ReservesModel>(context);
-    final plateModel = Provider.of<PlatesModel>(context).plates;
+    ReservesModel reservesModel = Provider.of<ReservesModel>(context);
+    PlatesModel plateModel = Provider.of<PlatesModel>(context);
 
     persianDatePicker = PersianDatePicker(
       controller: textEditingController,
@@ -288,8 +288,12 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     //         "plate3": finalSelectedPlate['plate3'],
     //       };
 
-    void gettingReserve() {
+    void gettingReserve() async {
       if (datePickedByUser.isNotEmpty) {
+        setState(() => isLoadingReserve = true);
+
+        await Future.delayed(Duration(seconds: 1));
+        List plate = plateModel.plates;
         final pickDate = datePickedByUser.split("/");
 
         final strDateTimeStart = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]}";
@@ -298,13 +302,10 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         // final reallyPlate = finalSelectedString == ""
         //     ? bydefaultSelectedString
         //     : finalSelectedString;
-
         // print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
 
-        setState(() => isLoadingReserve = true);
-
         // Go to controller
-        if (plateModel.isNotEmpty) {
+        if (plate.isNotEmpty) {
           reserveMe(
             context: context,
             st: strDateTimeStart,

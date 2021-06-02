@@ -139,6 +139,8 @@ class _MinPlateViewState extends State<MinPlateView> {
         if (result == 200) {
           // Update Plate in Provider
           plateModel.fetchPlatesData;
+          // Delay for getting plates in right time
+          await Future.delayed(Duration(seconds: 1));
 
           // Prevent to twice tapping happen
           setState(() => isAddingDocs = true);
