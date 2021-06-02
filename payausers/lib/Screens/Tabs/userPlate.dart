@@ -61,20 +61,18 @@ class _UserPlatesState extends State<UserPlates>
         duration: const Duration(milliseconds: 550),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
-          child: SingleChildScrollView(
-            child: UserPlateInDetails(
-              plate: plate,
-              hrStatus: hrStatus1,
-              secStatus: secStatus2,
-              overalStatus: overalStatus,
-              themeChange: themeChange,
-              delUserPlate: () {
-                deletePlate.delUserPlate(
-                    id: plateEn, context: context, themeChange: themeChange);
-                // Update user plates in Provider
-                plateModel.fetchPlatesData;
-              },
-            ),
+          child: UserPlateInDetails(
+            plate: plate,
+            hrStatus: hrStatus1,
+            secStatus: secStatus2,
+            overalStatus: overalStatus,
+            themeChange: themeChange,
+            delUserPlate: () {
+              deletePlate.delUserPlate(
+                  id: plateEn, context: context, themeChange: themeChange);
+              // Update user plates in Provider
+              plateModel.fetchPlatesData;
+            },
           ),
         ),
       );
@@ -95,88 +93,91 @@ class _UserPlatesState extends State<UserPlates>
 
         return ListView.builder(
           shrinkWrap: true,
+          primary: false,
           itemCount: _plates.length,
           itemBuilder: (BuildContext context, index) {
-            return (Slidable(
-              actionPane: SlidableDrawerActionPane(),
-              actionExtentRatio: 0.25,
-              fastThreshold: 1.25,
-              movementDuration: Duration(milliseconds: 200),
-              child: GestureDetector(
-                  onTap: () {
-                    // Update User Plates Provider
-                    plateModel.fetchPlatesData;
+            return SingleChildScrollView(
+              child: (Slidable(
+                actionPane: SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                fastThreshold: 1.25,
+                movementDuration: Duration(milliseconds: 200),
+                child: GestureDetector(
+                    onTap: () {
+                      // Update User Plates Provider
+                      plateModel.fetchPlatesData;
 
-                    openDetailsInModal(
-                        plate: [
-                          _plates[index]['plate0'],
-                          _plates[index]['plate1'],
-                          _plates[index]['plate2'],
-                          _plates[index]['plate3']
+                      openDetailsInModal(
+                          plate: [
+                            _plates[index]['plate0'],
+                            _plates[index]['plate1'],
+                            _plates[index]['plate2'],
+                            _plates[index]['plate3']
+                          ],
+                          plateEn: _plates[index]['plate_en'],
+                          hrStatus1: _plates[index]["status1"],
+                          secStatus2: _plates[index]["status2"],
+                          overalStatus: _plates[index]["status"]);
+                    },
+                    child: PlateViewer(
+                        plate0: _plates[index]['plate0'] != null
+                            ? _plates[index]['plate0']
+                            : "",
+                        plate1: _plates[index]['plate1'] != null
+                            ? _plates[index]['plate1']
+                            : "",
+                        plate2: _plates[index]['plate2'] != null
+                            ? _plates[index]['plate2']
+                            : "",
+                        plate3: _plates[index]['plate3'] != null
+                            ? _plates[index]['plate3']
+                            : "",
+                        themeChange: themeChange.darkTheme)),
+                actions: <Widget>[
+                  IconSlideAction(
+                    caption: delText,
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () {
+                      showAdaptiveActionSheet(
+                        context: context,
+                        title: Text(
+                          'پاک شود؟',
+                          style: TextStyle(
+                              fontFamily: mainFaFontFamily, fontSize: 20),
+                        ),
+                        actions: <BottomSheetAction>[
+                          BottomSheetAction(
+                              title: delText,
+                              textStyle: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                fontSize: 20,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              onPressed: () {
+                                deletePlate.delUserPlate(
+                                    id: _plates[index]['plate_en'],
+                                    context: context,
+                                    themeChange: themeChange);
+                                // Update user plates in Provider
+                                plateModel.fetchPlatesData;
+                                // print(_plates[index]['plate_en']);
+                              }),
                         ],
-                        plateEn: _plates[index]['plate_en'],
-                        hrStatus1: _plates[index]["status1"],
-                        secStatus2: _plates[index]["status2"],
-                        overalStatus: _plates[index]["status"]);
-                  },
-                  child: PlateViewer(
-                      plate0: _plates[index]['plate0'] != null
-                          ? _plates[index]['plate0']
-                          : "",
-                      plate1: _plates[index]['plate1'] != null
-                          ? _plates[index]['plate1']
-                          : "",
-                      plate2: _plates[index]['plate2'] != null
-                          ? _plates[index]['plate2']
-                          : "",
-                      plate3: _plates[index]['plate3'] != null
-                          ? _plates[index]['plate3']
-                          : "",
-                      themeChange: themeChange.darkTheme)),
-              actions: <Widget>[
-                IconSlideAction(
-                  caption: delText,
-                  color: Colors.red,
-                  icon: Icons.delete,
-                  onTap: () {
-                    showAdaptiveActionSheet(
-                      context: context,
-                      title: Text(
-                        'پاک شود؟',
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily, fontSize: 20),
-                      ),
-                      actions: <BottomSheetAction>[
-                        BottomSheetAction(
-                            title: delText,
-                            textStyle: TextStyle(
+                        cancelAction: CancelAction(
+                          title: cancelText,
+                          textStyle: TextStyle(
                               fontFamily: mainFaFontFamily,
-                              fontSize: 20,
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            onPressed: () {
-                              deletePlate.delUserPlate(
-                                  id: _plates[index]['plate_en'],
-                                  context: context,
-                                  themeChange: themeChange);
-                              // Update user plates in Provider
-                              plateModel.fetchPlatesData;
-                              // print(_plates[index]['plate_en']);
-                            }),
-                      ],
-                      cancelAction: CancelAction(
-                        title: cancelText,
-                        textStyle: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            color: Colors.blue,
-                            fontSize: 20),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ));
+                              color: Colors.blue,
+                              fontSize: 20),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              )),
+            );
           },
         );
       },

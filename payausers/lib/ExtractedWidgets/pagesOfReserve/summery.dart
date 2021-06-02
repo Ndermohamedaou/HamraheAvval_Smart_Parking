@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 // import 'package:payausers/ExtractedWidgets/plateViwer.dart';
+import 'package:sizer/sizer.dart';
 import 'package:ticketview/ticketview.dart';
 
 class Summery extends StatelessWidget {
@@ -12,7 +13,8 @@ class Summery extends StatelessWidget {
       this.startTime,
       this.endTime,
       this.finalSelectedPlateToSending,
-      this.sendToSubmit});
+      this.sendToSubmit,
+      this.pressedDate});
 
   final bool themeChange;
   final bool isLoad;
@@ -21,6 +23,7 @@ class Summery extends StatelessWidget {
   final endTime;
   final finalSelectedPlateToSending;
   final Function sendToSubmit;
+  final Function pressedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +85,7 @@ class Summery extends StatelessWidget {
                       )
                     ],
                   ),
+                  SizedBox(height: 10.0.w),
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.start,
                   //   textDirection: TextDirection.rtl,
@@ -126,7 +130,7 @@ class Summery extends StatelessWidget {
                   //   ],
                   // ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     textDirection: TextDirection.rtl,
                     children: [
                       Column(
@@ -146,7 +150,22 @@ class Summery extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ElevatedButton.icon(
+                          onPressed: pressedDate,
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(mainSectionCTA)),
+                          icon: Icon(Icons.calendar_today, size: 18),
+                          label: Text(
+                            openCalender,
+                            style: TextStyle(
+                                fontFamily: mainFaFontFamily, fontSize: 18),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 35),

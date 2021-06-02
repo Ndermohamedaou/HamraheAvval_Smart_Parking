@@ -13,7 +13,7 @@ import 'package:payausers/providers/reserves_model.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
 import 'package:provider/provider.dart';
 
-import 'package:payausers/ExtractedWidgets/pagesOfReserve/calender.dart';
+// import 'package:payausers/ExtractedWidgets/pagesOfReserve/calender.dart';
 // import 'package:payausers/ExtractedWidgets/pagesOfReserve/takenTime.dart';
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/summery.dart';
 
@@ -342,7 +342,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     }
 
     List<Widget> mainTakenReserve = [
-      DateUserPicker(pressedDate: openCalend, pickedDateText: datePickedByUser),
+      // DateUserPicker(pressedDate: openCalend, pickedDateText: datePickedByUser),
       // TimerPicker(
       //   startTimeText: startTime,
       //   endTimeText: endTime,
@@ -361,6 +361,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       // ),
       Summery(
         themeChange: themeChange.darkTheme,
+        pressedDate: openCalend,
         datePickedByUser: datePickedByUser != "" ? datePickedByUser : "-",
         // startTime: startTime != 0 ? startTime : "-",
         // endTime: endTime != 0 ? endTime : "-",
@@ -370,7 +371,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       )
     ];
 
-    List appBarTitleSpecific = [chooseDate, summery];
+    List appBarTitleSpecific = [summery];
 
     return Scaffold(
       appBar: AppBar(
@@ -391,112 +392,6 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
           },
           // Check list top for more container shower
           children: mainTakenReserve,
-        ),
-      ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(vertical: 25, horizontal: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ClipOval(
-              child: Material(
-                color: mainCTA, // button color
-                child: InkWell(
-                  splashColor: mainSectionCTA, // inkwell color
-                  child: SizedBox(
-                      width: 46,
-                      height: 46,
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      )),
-                  onTap: () {
-                    if (curIndex > 0 && curIndex <= 1) {
-                      setState(() {
-                        curIndex -= 1;
-                      });
-                      if (_controller.hasClients) {
-                        _controller.animateToPage(curIndex,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.decelerate);
-                      }
-                    }
-                  },
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () => navigatedIcon(0),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Icon(
-                      Icons.date_range_outlined,
-                      color: curIndex == 0 ? mainSectionCTA : null,
-                    ),
-                  ),
-                ),
-                // GestureDetector(
-                //   onTap: () => navigatedIcon(1),
-                //   child: Container(
-                //     margin: EdgeInsets.symmetric(horizontal: 10),
-                //     child: Icon(
-                //       Icons.timer_outlined,
-                //       color: curIndex == 1 ? mainSectionCTA : null,
-                //     ),
-                //   ),
-                // ),
-                // GestureDetector(
-                //   onTap: () => navigatedIcon(1),
-                //   child: Container(
-                //     margin: EdgeInsets.symmetric(horizontal: 10),
-                //     child: Icon(
-                //       Icons.view_carousel_outlined,
-                //       color: curIndex == 1 ? mainSectionCTA : null,
-                //     ),
-                //   ),
-                // ),
-                GestureDetector(
-                  onTap: () => navigatedIcon(1),
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Icon(
-                      Icons.featured_play_list_outlined,
-                      color: curIndex == 1 ? mainSectionCTA : null,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            ClipOval(
-              child: Material(
-                color: mainCTA, // button color
-                child: InkWell(
-                  splashColor: mainSectionCTA, // inkwell color
-                  child: SizedBox(
-                      width: 46,
-                      height: 46,
-                      child: Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
-                      )),
-                  onTap: () {
-                    if (curIndex >= 0 && curIndex < 1) {
-                      setState(() {
-                        curIndex += 1;
-                      });
-                      if (_controller.hasClients) {
-                        _controller.animateToPage(curIndex,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.decelerate);
-                      }
-                    }
-                  },
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );

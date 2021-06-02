@@ -24,6 +24,10 @@ class DashboardTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double mainFont = size.width > 600 ? 18.0.sp : 14.0.sp;
+    final double subFont = size.width > 600 ? 14.0.sp : 10.0.sp;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28.0),
@@ -57,18 +61,16 @@ class DashboardTiles extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextPos(
-                      mainText: text,
-                      fontColor: Colors.white,
-                      size: mainFontSize),
+                      mainText: text, fontColor: Colors.white, size: mainFont),
                   TextPos(
                     mainText: subText,
                     fontColor: Colors.white,
-                    size: mainFontSize,
+                    size: mainFont,
                   ),
                   TextPos(
                     mainText: subSubText,
                     fontColor: subSubTextColor,
-                    size: subFontSize,
+                    size: subFont,
                   ),
                 ]),
           ),

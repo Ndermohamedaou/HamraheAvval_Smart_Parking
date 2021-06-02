@@ -1,3 +1,4 @@
+import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/ExtractedWidgets/userCard.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
@@ -55,7 +56,7 @@ class _DashboardState extends State<Dashboard>
                 ? (itemWidth / itemHeight) / 3.2
                 : size.width >= 700 && size.width < 1000
                     ? (itemWidth / itemHeight) / 6
-                    : (itemWidth / itemHeight) / 2.0.w;
+                    : (itemWidth / itemHeight) / 0.65.w;
 
     Widget userLeadingCircleAvatar(avatar) => GestureDetector(
           onTap: widget.openUserDashSettings,
@@ -66,6 +67,8 @@ class _DashboardState extends State<Dashboard>
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircleAvatar(
+                  radius: 25,
+                  backgroundColor: mainCTA,
                   backgroundImage: avatar,
                 ),
               ],
@@ -77,16 +80,19 @@ class _DashboardState extends State<Dashboard>
         child: SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: 2.0.h),
           Builder(
             builder: (_) {
-              if (avatarModel.avatarState == FlowState.Loading) {
-                return userLeadingCircleAvatar(
-                    Icon(Icons.airline_seat_individual_suite_sharp));
-              }
-              return userLeadingCircleAvatar(NetworkImage(avatarModel.avatar));
+              // if (avatarModel.avatarState == FlowState.Loading) {
+              //   return userLeadingCircleAvatar(
+              //       Icon(Icons.airline_seat_individual_suite_sharp));
+              // }
+              return userLeadingCircleAvatar(avatarModel.avatar != ""
+                  ? NetworkImage(avatarModel.avatar)
+                  : null);
             },
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 2.0.h),
           FutureBuilder(
             future: loadLocalData.getStaffInfoFromLocal(),
             builder: (BuildContext context, snapshot) {
@@ -119,61 +125,63 @@ class _DashboardState extends State<Dashboard>
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 5),
-            child: GridView.count(
-              crossAxisCount: 2,
-              padding: const EdgeInsets.all(4.0),
-              mainAxisSpacing: 8.0,
-              crossAxisSpacing: 8.0,
-              childAspectRatio: widthSizedResponse,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                // Traffics Tile
-                Builder(builder: (_) {
-                  if (trafficsModel.trafficsState == FlowState.Error)
-                    return gridTile.trafficsTile("-");
-
-                  return gridTile
-                      .trafficsTile("${trafficsModel.traffics.length}");
-                }),
-                // reserve tile
-                Builder(
-                  builder: (_) {
-                    if (reservesModel.reserveState == FlowState.Error)
-                      return gridTile.reserveTile("-");
+            child: LayoutBuilder(
+              builder: (_, constraints) => GridView.count(
+                crossAxisCount: 2,
+                padding: const EdgeInsets.all(4.0),
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                // childAspectRatio: constraints.biggest.aspectRatio * 2 / 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  // Traffics Tile
+                  Builder(builder: (_) {
+                    if (trafficsModel.trafficsState == FlowState.Error)
+                      return gridTile.trafficsTile("-");
 
                     return gridTile
-                        .reserveTile("${reservesModel.reserves.length}");
-                  },
-                ),
-                // Vehicle Situation
-                StreamBuilder(
-                  stream: streamAPI.getUserInfoInReal(),
-                  builder: (BuildContext context, snapshot) {
-                    // print("YOUR CAR IS :: ${snapshot.data}");
-                    if (snapshot.hasData) {
-                      try {
-                        return gridTile.situationTile(
-                            "${snapshot.data["location"]["slot"]}",
-                            "${snapshot.data["location"]["building"]}");
-                      } catch (e) {
-                        return gridTile.situationTile(
-                            "", "${snapshot.data["location"]}");
-                      }
-                    } else
-                      return gridTile.situationTile("در حال", "پردازش");
-                  },
-                ),
-                // user len plate
-                Builder(
-                  builder: (_) {
-                    if (plateModel.platesState == FlowState.Error)
-                      return gridTile.plateTile("-");
+                        .trafficsTile("${trafficsModel.traffics.length}");
+                  }),
+                  // reserve tile
+                  Builder(
+                    builder: (_) {
+                      if (reservesModel.reserveState == FlowState.Error)
+                        return gridTile.reserveTile("-");
 
-                    return gridTile.plateTile("${plateModel.plates.length}");
-                  },
-                ),
-              ],
+                      return gridTile
+                          .reserveTile("${reservesModel.reserves.length}");
+                    },
+                  ),
+                  // Vehicle Situation
+                  StreamBuilder(
+                    stream: streamAPI.getUserInfoInReal(),
+                    builder: (BuildContext context, snapshot) {
+                      // print("YOUR CAR IS :: ${snapshot.data}");
+                      if (snapshot.hasData) {
+                        try {
+                          return gridTile.situationTile(
+                              "${snapshot.data["location"]["slot"]}",
+                              "${snapshot.data["location"]["building"]}");
+                        } catch (e) {
+                          return gridTile.situationTile(
+                              "", "${snapshot.data["location"]}");
+                        }
+                      } else
+                        return gridTile.situationTile("در حال", "پردازش");
+                    },
+                  ),
+                  // user len plate
+                  Builder(
+                    builder: (_) {
+                      if (plateModel.platesState == FlowState.Error)
+                        return gridTile.plateTile("-");
+
+                      return gridTile.plateTile("${plateModel.plates.length}");
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],

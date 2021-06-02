@@ -89,21 +89,19 @@ class _ReservedTabState extends State<ReservedTab>
         duration: const Duration(milliseconds: 550),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
-          child: SingleChildScrollView(
-            child: ReserveInDetails(
-              plate: plate,
-              reserveStatusDesc: reserveStatus,
-              startTime: startTime,
-              endTime: endTime,
-              building: building,
-              slot: slot,
-              themeChange: themeChange,
-              delReserve: () {
-                cancelReserve.delReserve(reserveID: reservID, context: context);
-                // Refetch data in Providers
-                reservesModel.fetchReservesData;
-              },
-            ),
+          child: ReserveInDetails(
+            plate: plate,
+            reserveStatusDesc: reserveStatus,
+            startTime: startTime,
+            endTime: endTime,
+            building: building,
+            slot: slot,
+            themeChange: themeChange,
+            delReserve: () {
+              cancelReserve.delReserve(reserveID: reservID, context: context);
+              // Refetch data in Providers
+              reservesModel.fetchReservesData;
+            },
           ),
         ),
       );

@@ -14,11 +14,11 @@ class PlateViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final double widthSizedResponse = size.width > 500 ? 400 : double.infinity;
+    // final double widthSizedResponse = size.width > 500 ? 400 : double.infinity;
     final double responsiveFontSize = size.width > 500 ? 32 : 32;
 
     return Container(
-        width: widthSizedResponse,
+        width: double.infinity,
         height: 70,
         // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         margin: EdgeInsets.only(top: 10, right: 13, left: 10, bottom: 5),
