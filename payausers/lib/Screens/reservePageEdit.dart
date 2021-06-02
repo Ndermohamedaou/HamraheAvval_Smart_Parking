@@ -313,11 +313,14 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
               themeChange: themeChange.darkTheme);
           setState(() => isLoadingReserve = false);
         } else {
-          failedAlert(
+          customAlert(
             context: context,
-            acceptRoute: "/addingPlateIntro",
-            ignoreRoute: "/dashboard",
-            // themeChange: themeChange.darkTheme,
+            acceptPressed: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, "/addingPlateIntro");
+            },
+            ignorePressed: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
             title: failedReserveMsgTitle,
             desc: failedReserveMsgDesc,
           );

@@ -32,7 +32,7 @@ void rAlert({bool themeChange, context, title, desc, tAlert, dstRoute}) {
   ).show();
 }
 
-void failedAlert({context, acceptRoute, ignoreRoute, title, desc}) {
+void customAlert({context, title, desc, acceptPressed, ignorePressed}) {
   showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -84,10 +84,7 @@ void failedAlert({context, acceptRoute, ignoreRoute, title, desc}) {
                               fontSize: 20,
                               fontFamily: mainFaFontFamily),
                         ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, acceptRoute);
-                        },
+                        onPressed: acceptPressed,
                         width: 25.0.w,
                       ),
                       DialogButton(
@@ -99,8 +96,7 @@ void failedAlert({context, acceptRoute, ignoreRoute, title, desc}) {
                               fontSize: 20,
                               fontFamily: mainFaFontFamily),
                         ),
-                        onPressed: () => Navigator.popUntil(
-                            context, ModalRoute.withName(ignoreRoute)),
+                        onPressed: ignorePressed,
                         width: 25.0.w,
                       ),
                     ],
