@@ -10,9 +10,9 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
-import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/Model/streamAPI.dart';
@@ -31,7 +31,6 @@ class ReservedTab extends StatefulWidget {
 }
 
 int filtered = 0;
-bool loadingInstantReserve = false;
 ReservesModel reservesModel;
 PlatesModel platesModel;
 Timer _onRefreshReservesPerMin;
@@ -108,14 +107,11 @@ class _ReservedTabState extends State<ReservedTab>
       );
     }
 
-    void instentReserveProcess(plateEn) async {
-      setState(() => loadingInstantReserve = true);
+    void instentReserveProcess() async {
       final token = await lds.read(key: "token");
-      final result =
-          await instantReserve.instantReserve(token: token, plate_en: plateEn);
+      final result = await instantReserve.instantReserve(token: token);
 
       if (result != "") {
-        setState(() => loadingInstantReserve = false);
         // Update Reserves in Provider
         reservesModel.fetchReservesData;
 
@@ -133,10 +129,11 @@ class _ReservedTabState extends State<ReservedTab>
               descStyle: TextStyle(fontFamily: mainFaFontFamily)),
           buttons: [
             DialogButton(
+              color: mainCTA,
               child: Text(
                 submitTextForAlert,
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontFamily: mainFaFontFamily),
               ),
@@ -147,7 +144,6 @@ class _ReservedTabState extends State<ReservedTab>
           ],
         ).show();
       } else {
-        setState(() => loadingInstantReserve = false);
         Alert(
           context: context,
           type: AlertType.error,
@@ -162,10 +158,11 @@ class _ReservedTabState extends State<ReservedTab>
               descStyle: TextStyle(fontFamily: mainFaFontFamily)),
           buttons: [
             DialogButton(
+              color: mainCTA,
               child: Text(
                 submitTextForAlert,
                 style: TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 20,
                     fontFamily: mainFaFontFamily),
               ),
@@ -178,93 +175,22 @@ class _ReservedTabState extends State<ReservedTab>
       }
     }
 
-    final streamPlate = Builder(builder: (_) {
-      if (platesModel.platesState == FlowState.Loading)
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 10),
-            Text("لطفا کمی شکیبا باشید",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-          ],
-        );
-
-      if (platesModel.platesState == FlowState.Error)
-        return logLoadingWidgets.internetProblem;
-
-      final _userPlates = platesModel.plates;
-
-      if (_userPlates.isEmpty)
-        return MaterialButton(
-          onPressed: () => Navigator.pushNamed(context, "/addingPlateIntro"),
-          color: mainSectionCTA,
-          child: Text(
-            "اولین پلاک را در حساب خود وارد کنید",
-            style: TextStyle(fontFamily: mainFaFontFamily, color: Colors.white),
-            textAlign: TextAlign.right,
-          ),
-        );
-
-      return Column(
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            alignment: Alignment.centerRight,
-            child: Text("یکی از پلاک های خود را برای رزرو لحظه ای انتخاب کنید",
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                    fontFamily: mainFaFontFamily,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold)),
-          ),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: _userPlates.length,
-              itemBuilder: (BuildContext context, index) {
-                if (_userPlates[index]["status"] == 1)
-                  return TextButton(
-                    style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all(
-                            themeChange.darkTheme
-                                ? Colors.white
-                                : Colors.black)),
-                    onPressed: () =>
-                        instentReserveProcess(_userPlates[index]['plate_en']),
-                    child: PlateViewer(
-                        plate0: _userPlates[index]['plate0'],
-                        plate1: _userPlates[index]['plate1'],
-                        plate2: _userPlates[index]['plate2'],
-                        plate3: _userPlates[index]['plate3'],
-                        themeChange: themeChange.darkTheme),
-                  );
-                else
-                  Text(
-                    "شما هیچ پلاک تایید شده ای از سوی سامانه ندارید",
-                    style: TextStyle(
-                        fontFamily: mainFaFontFamily, color: Colors.white),
-                    textDirection: TextDirection.ltr,
-                  );
-              })
-        ],
-      );
-    });
-
     // Instant reserve in Modal
     instantResrver() {
-      showMaterialModalBottomSheet(
-        context: context,
-        enableDrag: true,
-        bounce: true,
-        duration: const Duration(milliseconds: 550),
-        builder: (context) => SingleChildScrollView(
-          controller: ModalScrollController.of(context),
-          child: SingleChildScrollView(
-            child: streamPlate,
-          ),
-        ),
-      );
+      // Create new time now
+      DateTime dateTime = DateTime.now();
+      final timeNow = "${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+
+      customAlert(
+          context: context,
+          alertIcon: Icons.access_time_outlined,
+          borderColor: Colors.blue,
+          iconColor: Colors.blue,
+          title: "رزرو لحظه ای",
+          desc:
+              "آیا میخواید امروز در این زمان $timeNow رزرو لحظه ای خود را انجام دهید؟ ",
+          acceptPressed: () => instentReserveProcess(),
+          ignorePressed: () => Navigator.pop(context));
     }
 
     void filterSection() {

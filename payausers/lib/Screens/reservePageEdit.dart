@@ -315,6 +315,9 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
         } else {
           customAlert(
             context: context,
+            alertIcon: Icons.close_sharp,
+            borderColor: Colors.red,
+            iconColor: Colors.red,
             acceptPressed: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, "/addingPlateIntro");

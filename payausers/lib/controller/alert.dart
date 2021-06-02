@@ -32,7 +32,15 @@ void rAlert({bool themeChange, context, title, desc, tAlert, dstRoute}) {
   ).show();
 }
 
-void customAlert({context, title, desc, acceptPressed, ignorePressed}) {
+void customAlert(
+    {context,
+    title,
+    desc,
+    alertIcon,
+    iconColor,
+    borderColor,
+    acceptPressed,
+    ignorePressed}) {
   showDialog(
       context: context,
       builder: (_) => Dialog(
@@ -51,18 +59,20 @@ void customAlert({context, title, desc, acceptPressed, ignorePressed}) {
                     height: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: Colors.red, width: 2),
+                      border: Border.all(color: borderColor, width: 2),
                     ),
                     child: Icon(
-                      Icons.close_sharp,
+                      alertIcon,
                       size: 10.0.h,
-                      color: Colors.red,
+                      color: iconColor,
                     ),
                   ),
                   Text(
                     title,
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 24),
+                    style: TextStyle(
+                        fontFamily: mainFaFontFamily,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   Text(
