@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class LogLoading {
@@ -34,10 +35,21 @@ class LogLoading {
         ),
       ),
       Text(
-        "عدم برقراری ارتباط با سرویس دهنده",
+        serverConnectionProblem,
         textAlign: TextAlign.center,
         style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),
       ),
     ],
   );
+
+  Widget waitCircularProgress() => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(),
+          SizedBox(height: 10),
+          Text(waitingText,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+        ],
+      );
 }

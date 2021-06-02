@@ -4,7 +4,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sizer/sizer.dart';
 
-void rAlert({bool themeChange, context, title, desc, tAlert, dstRoute}) {
+void rAlert({bool themeChange, context, title, desc, tAlert, onTapped}) {
   Alert(
     context: context,
     type: tAlert,
@@ -24,8 +24,7 @@ void rAlert({bool themeChange, context, title, desc, tAlert, dstRoute}) {
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontFamily: mainFaFontFamily),
         ),
-        onPressed: () =>
-            Navigator.popUntil(context, ModalRoute.withName(dstRoute)),
+        onPressed: onTapped,
         width: 120,
       )
     ],
@@ -86,7 +85,7 @@ void customAlert(
                     textDirection: TextDirection.rtl,
                     children: [
                       DialogButton(
-                        color: Colors.green,
+                        color: mainCTA,
                         child: Text(
                           "تایید",
                           style: TextStyle(
@@ -98,7 +97,7 @@ void customAlert(
                         width: 25.0.w,
                       ),
                       DialogButton(
-                        color: Colors.red,
+                        color: mainSectionCTA,
                         child: Text(
                           "خير",
                           style: TextStyle(

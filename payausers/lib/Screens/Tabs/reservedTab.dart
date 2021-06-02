@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:payausers/ExtractedWidgets/customClipOval.dart';
+import 'package:payausers/Model/InstantReserveBtn.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -114,64 +116,24 @@ class _ReservedTabState extends State<ReservedTab>
       if (result != "") {
         // Update Reserves in Provider
         reservesModel.fetchReservesData;
-
-        Alert(
-          context: context,
-          type: AlertType.success,
-          title: "نتیجه رزرو لحظه ای شما",
-          desc:
-              "رزرو لحظه ای شما با موفقیت انجام شد و در موقعیت $result می تواند پارک خود را انجام دهید",
-          style: AlertStyle(
-              backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
-              titleStyle: TextStyle(
-                fontFamily: mainFaFontFamily,
-              ),
-              descStyle: TextStyle(fontFamily: mainFaFontFamily)),
-          buttons: [
-            DialogButton(
-              color: mainCTA,
-              child: Text(
-                submitTextForAlert,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: mainFaFontFamily),
-              ),
-              onPressed: () => Navigator.popUntil(
-                  context, ModalRoute.withName("/dashboard")),
-              width: 120,
-            )
-          ],
-        ).show();
+        rAlert(
+            context: context,
+            tAlert: AlertType.success,
+            title: titleResultInstantReserve,
+            desc:
+                "رزرو لحظه ای شما با موفقیت انجام شد و در موقعیت $result می تواند پارک خود را انجام دهید",
+            themeChange: themeChange.darkTheme,
+            onTapped: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
       } else {
-        Alert(
-          context: context,
-          type: AlertType.error,
-          title: "نتیجه رزرو لحظه ای شما",
-          desc:
-              "شما نمیتوانید رزرو لحظه ای خود را در این زمان انجام دهید. لطفا باری دیگر امتحان کنید",
-          style: AlertStyle(
-              backgroundColor: themeChange.darkTheme ? darkBar : Colors.white,
-              titleStyle: TextStyle(
-                fontFamily: mainFaFontFamily,
-              ),
-              descStyle: TextStyle(fontFamily: mainFaFontFamily)),
-          buttons: [
-            DialogButton(
-              color: mainCTA,
-              child: Text(
-                submitTextForAlert,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: mainFaFontFamily),
-              ),
-              onPressed: () => Navigator.popUntil(
-                  context, ModalRoute.withName("/dashboard")),
-              width: 120,
-            )
-          ],
-        ).show();
+        rAlert(
+            context: context,
+            tAlert: AlertType.error,
+            title: titleResultInstantReserve,
+            desc: descFailedInstantReserve,
+            themeChange: themeChange.darkTheme,
+            onTapped: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
       }
     }
 
@@ -189,7 +151,10 @@ class _ReservedTabState extends State<ReservedTab>
           title: "رزرو لحظه ای",
           desc:
               "آیا میخواید امروز در این زمان $timeNow رزرو لحظه ای خود را انجام دهید؟ ",
-          acceptPressed: () => instentReserveProcess(),
+          acceptPressed: () {
+            instentReserveProcess();
+            Navigator.pop(context);
+          },
           ignorePressed: () => Navigator.pop(context));
     }
 
@@ -228,7 +193,7 @@ class _ReservedTabState extends State<ReservedTab>
                 ],
               ),
               FilterMenu(
-                text: "نمایش 5 رزور",
+                text: "نمایش 5 رزرو",
                 filterPressed: () {
                   setState(() => filtered = 5);
                   print("Filter is $filtered");
@@ -289,53 +254,26 @@ class _ReservedTabState extends State<ReservedTab>
                           textDirection: TextDirection.ltr,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            ClipOval(
-                              child: Material(
-                                color: mainCTA, // button color
-                                child: InkWell(
-                                  splashColor: mainSectionCTA, // inkwell color
-                                  child: SizedBox(
-                                      width: 46,
-                                      height: 46,
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      )),
-                                  onTap: () => Navigator.pushNamed(
-                                      context, "/reserveEditaion"),
-                                ),
-                              ),
+                            CustomClipOval(
+                              icon: Icons.add,
+                              firstColor: mainCTA,
+                              secondColor: mainSectionCTA,
+                              aggreementPressed: () => Navigator.pushNamed(
+                                  context, "/reserveEditaion"),
                             ),
                             SizedBox(width: 10),
+                            // Stream Instant reserve
                             StreamBuilder(
                                 stream:
                                     streamAPI.getUserCanInstantReserveReal(),
                                 builder: (BuildContext context, snapshot) {
                                   if (snapshot.hasData) {
                                     Map status = jsonDecode(snapshot.data);
-                                    return status["status"] == 0
-                                        ? SizedBox()
-                                        : status["status"] == 1
-                                            ? ClipOval(
-                                                child: Material(
-                                                  color: Colors
-                                                      .red, // button color
-                                                  child: InkWell(
-                                                      splashColor:
-                                                          mainSectionCTA, // inkwell color
-                                                      child: SizedBox(
-                                                          width: 46,
-                                                          height: 46,
-                                                          child: Icon(
-                                                            Icons.lock_clock,
-                                                            color: Colors.white,
-                                                          )),
-                                                      onTap: () =>
-                                                          instantResrver()),
-                                                ),
-                                              )
-                                            : SizedBox();
-                                  } else if (snapshot.hasError)
+                                    return IsInstantReserve().getInstantButton(
+                                        status, () => instantResrver());
+                                  }
+
+                                  if (snapshot.hasError)
                                     return SizedBox();
                                   else
                                     return SizedBox();
@@ -348,22 +286,15 @@ class _ReservedTabState extends State<ReservedTab>
               Builder(
                 builder: (_) {
                   if (reservesModel.reserveState == FlowState.Loading)
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 10),
-                        Text("لطفا کمی شکیبا باشید",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: mainFaFontFamily, fontSize: 18)),
-                      ],
-                    );
+                    return logLoadingWidgets.waitCircularProgress();
+
                   if (reservesModel.reserveState == FlowState.Error)
                     return logLoadingWidgets.internetProblem;
+
                   final reserveList = reservesModel.reserves.reversed.toList();
                   if (reserveList.isEmpty)
                     return logLoadingWidgets.notFoundReservedData(msg: "رزرو");
+
                   return Column(
                     children: [
                       filtered != 0
@@ -437,21 +368,11 @@ class _ReservedTabState extends State<ReservedTab>
           ),
         ),
       ),
-      floatingActionButton: ClipOval(
-        child: Material(
-          color: mainCTA, // button color
-          child: InkWell(
-            splashColor: mainSectionCTA, // inkwell color
-            child: SizedBox(
-                width: 46,
-                height: 46,
-                child: Icon(
-                  Icons.filter_alt_outlined,
-                  color: Colors.white,
-                )),
-            onTap: () => filterSection(),
-          ),
-        ),
+      floatingActionButton: CustomClipOval(
+        icon: Icons.filter_alt_outlined,
+        firstColor: mainCTA,
+        secondColor: mainSectionCTA,
+        aggreementPressed: () => filterSection(),
       ),
     );
   }

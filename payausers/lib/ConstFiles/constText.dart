@@ -81,6 +81,9 @@ const emptyUserPlate = "شما در حال حاضر پلاکی ندارید";
 const choseReserveDate = "تاریخ رزرو خود را انتخاب کنید";
 const choseTime = "محدوده ساعتی را مشخص کنید";
 
+const delText = 'پاک کردن';
+const cancelText = 'لغو';
+
 // Reserve
 const String reserveTextTitle = "رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
@@ -94,9 +97,16 @@ const descOfFailedReserve =
 const failedReserveMsgTitle = "عملیات رزرو شما موفقیت آمیز نبود";
 const failedReserveMsgDesc =
     "شما پلاکی برای رزرو جایگاه وسیله نقلیه ندارید، آیا میخواهید پلاکی برای وسیله نقلیه خود در سامانه اضافه کنید؟";
+// Instant reserve dialog
+const titleResultInstantReserve = "نتیجه رزرو لحظه ای شما";
+const descFailedInstantReserve =
+    "شما نمیتوانید رزرو لحظه ای خود را در این زمان انجام دهید. لطفا باری دیگر امتحان کنید";
 
 // User Traffic
 const trafficsLogText = "لیست تردد های شما";
+
+const waitingText = "لطفا کمی شکیبا باشید";
+const serverConnectionProblem = "عدم برقراری ارتباط با سرویس دهنده";
 
 // Add user plate
 const addUserPlate = "افزودن پلاک من";

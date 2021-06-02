@@ -20,7 +20,8 @@ void reserveMe({st, et, context, bool themeChange}) async {
       if (reserveResult == "200") {
         rAlert(
             context: context,
-            dstRoute: "/dashboard",
+            onTapped: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
             themeChange: themeChange,
             tAlert: AlertType.success,
             title: titleOfReserve,
@@ -28,7 +29,8 @@ void reserveMe({st, et, context, bool themeChange}) async {
       } else if (reserveResult == "AlreadyReserved") {
         rAlert(
             context: context,
-            dstRoute: "/dashboard",
+            onTapped: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
             tAlert: AlertType.warning,
             themeChange: themeChange,
             title: titleOfFailedReserve,

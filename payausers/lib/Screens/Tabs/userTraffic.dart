@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:payausers/ExtractedWidgets/customClipOval.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -53,16 +54,8 @@ class _UserTrafficState extends State<UserTraffic>
 
     Widget traffics = Builder(builder: (_) {
       if (trafficsModel.trafficsState == FlowState.Loading)
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 10),
-            Text("لطفا کمی شکیبا باشید",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-          ],
-        );
+        return logLoadingWidgets.waitCircularProgress();
+
       if (trafficsModel.trafficsState == FlowState.Error)
         return logLoadingWidgets.internetProblem;
 
@@ -190,49 +183,40 @@ class _UserTrafficState extends State<UserTraffic>
     }
 
     return Scaffold(
-        body: SafeArea(
-            child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        trafficsLogText,
-                        style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: subTitleSize,
-                          fontWeight: FontWeight.bold,
-                        ),
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      trafficsLogText,
+                      style: TextStyle(
+                        fontFamily: mainFaFontFamily,
+                        fontSize: subTitleSize,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              traffics,
-            ],
-          ),
-        )),
-        floatingActionButton: ClipOval(
-          child: Material(
-            color: mainCTA, // button color
-            child: InkWell(
-              splashColor: mainSectionCTA, // inkwell color
-              child: SizedBox(
-                  width: 46,
-                  height: 46,
-                  child: Icon(
-                    Icons.filter_alt_outlined,
-                    color: Colors.white,
-                  )),
-              onTap: () => filterSection(),
             ),
-          ),
-        ));
+            traffics,
+          ],
+        ),
+      )),
+      floatingActionButton: CustomClipOval(
+        icon: Icons.filter_alt_outlined,
+        firstColor: mainCTA,
+        secondColor: mainSectionCTA,
+        aggreementPressed: () => filterSection(),
+      ),
+    );
   }
 
   @override

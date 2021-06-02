@@ -83,16 +83,7 @@ class _UserPlatesState extends State<UserPlates>
     Widget plates = Builder(
       builder: (_) {
         if (plateModel.platesState == FlowState.Loading)
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 10),
-              Text("لطفا کمی شکیبا باشید",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-            ],
-          );
+          return logLoadingWidgets.waitCircularProgress();
 
         if (plateModel.platesState == FlowState.Error)
           return logLoadingWidgets.internetProblem;
@@ -144,7 +135,7 @@ class _UserPlatesState extends State<UserPlates>
                       themeChange: themeChange.darkTheme)),
               actions: <Widget>[
                 IconSlideAction(
-                  caption: 'پاک کردن',
+                  caption: delText,
                   color: Colors.red,
                   icon: Icons.delete,
                   onTap: () {
@@ -157,7 +148,7 @@ class _UserPlatesState extends State<UserPlates>
                       ),
                       actions: <BottomSheetAction>[
                         BottomSheetAction(
-                            title: 'پاک کردن',
+                            title: delText,
                             textStyle: TextStyle(
                               fontFamily: mainFaFontFamily,
                               fontSize: 20,
@@ -175,7 +166,7 @@ class _UserPlatesState extends State<UserPlates>
                             }),
                       ],
                       cancelAction: CancelAction(
-                        title: 'لغو',
+                        title: cancelText,
                         textStyle: TextStyle(
                             fontFamily: mainFaFontFamily,
                             color: Colors.blue,
