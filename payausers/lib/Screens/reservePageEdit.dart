@@ -4,7 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/Screens/addingPlateIntro.dart';
+// import 'package:payausers/Screens/addingPlateIntro.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/reserveController.dart';
@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:payausers/ExtractedWidgets/pagesOfReserve/summery.dart';
 
 // Declear Specific page index for controller
-int curIndex = 0;
+// int curIndex = 0;
 // Show which date clicked and prepare to send it to API
 String datePickedByUser = "";
 // Timing
@@ -58,7 +58,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
   void initState() {
     _controller = PageController();
     isLoadingReserve = false;
-    curIndex = 0;
+    // curIndex = 0;
     datePickedByUser = "";
     // startTime = 1;
     // endTime = startTime + 1;
@@ -341,64 +341,59 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
       }
     }
 
-    List<Widget> mainTakenReserve = [
-      // DateUserPicker(pressedDate: openCalend, pickedDateText: datePickedByUser),
-      // TimerPicker(
-      //   startTimeText: startTime,
-      //   endTimeText: endTime,
-      //   changeStartTime: (startHour) => setState(() {
-      //     startTime = startHour;
-      //     if (startTime != 24)
-      //       endTime = startTime + 1;
-      //     else
-      //       endTime = 1;
-      //   }),
-      //   changeEndTime: (endHour) => setState(() => endTime = endHour),
-      // ),
-      // PlatePicker(
-      //   mainContext: finalPlateContext,
-      //   plateForShow: finalPlateViewInContainer,
-      // ),
-      Summery(
-        themeChange: themeChange.darkTheme,
-        pressedDate: openCalend,
-        datePickedByUser: datePickedByUser != "" ? datePickedByUser : "-",
-        // startTime: startTime != 0 ? startTime : "-",
-        // endTime: endTime != 0 ? endTime : "-",
-        // finalSelectedPlateToSending: switchingPlate,
-        isLoad: isLoadingReserve,
-        sendToSubmit: () => gettingReserve(),
-      )
-    ];
+    // List<Widget> mainTakenReserve = [
+    //   // DateUserPicker(pressedDate: openCalend, pickedDateText: datePickedByUser),
+    //   // TimerPicker(
+    //   //   startTimeText: startTime,
+    //   //   endTimeText: endTime,
+    //   //   changeStartTime: (startHour) => setState(() {
+    //   //     startTime = startHour;
+    //   //     if (startTime != 24)
+    //   //       endTime = startTime + 1;
+    //   //     else
+    //   //       endTime = 1;
+    //   //   }),
+    //   //   changeEndTime: (endHour) => setState(() => endTime = endHour),
+    //   // ),
+    //   // PlatePicker(
+    //   //   mainContext: finalPlateContext,
+    //   //   plateForShow: finalPlateViewInContainer,
+    //   // ),
+    //   Summery(
+    //     themeChange: themeChange.darkTheme,
+    //     pressedDate: openCalend,
+    //     datePickedByUser: datePickedByUser != "" ? datePickedByUser : "-",
+    //     // startTime: startTime != 0 ? startTime : "-",
+    //     // endTime: endTime != 0 ? endTime : "-",
+    //     // finalSelectedPlateToSending: switchingPlate,
+    //     isLoad: isLoadingReserve,
+    //     sendToSubmit: () => gettingReserve(),
+    //   )
+    // ];
 
-    List appBarTitleSpecific = [summery];
+    // List appBarTitleSpecific = [summery];
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          appBarTitleSpecific[pageIndex],
+          summery,
           style: TextStyle(fontFamily: mainFaFontFamily),
         ),
         backgroundColor: mainCTA,
       ),
       body: SafeArea(
-        child: PageView(
-          controller: _controller,
-          onPageChanged: (pageChanged) {
-            setState(() {
-              curIndex = pageChanged;
-            });
-          },
-          // Check list top for more container shower
-          children: mainTakenReserve,
+        child: Summery(
+          themeChange: themeChange.darkTheme,
+          pressedDate: openCalend,
+          datePickedByUser: datePickedByUser != "" ? datePickedByUser : "-",
+          // startTime: startTime != 0 ? startTime : "-",
+          // endTime: endTime != 0 ? endTime : "-",
+          // finalSelectedPlateToSending: switchingPlate,
+          isLoad: isLoadingReserve,
+          sendToSubmit: () => gettingReserve(),
         ),
       ),
     );
-  }
-
-  void navigatedIcon(pageIndex) {
-    _controller.animateToPage(pageIndex,
-        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 }
