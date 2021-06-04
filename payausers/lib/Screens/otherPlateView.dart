@@ -61,6 +61,8 @@ class _OtherPageViewState extends State<OtherPageView> {
         if (result == 200) {
           // Update user plate in Provider
           plateModel.fetchPlatesData;
+          // Delay for getting plates in right
+          await Future.delayed(Duration(seconds: 1));
 
           // Prevent to twice tapping happen
           setState(() => isAddingDocs = true);
