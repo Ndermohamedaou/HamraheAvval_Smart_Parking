@@ -35,7 +35,6 @@ class _OTPSubmissionState extends State<OTPSubmission> {
     );
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
         title: Text(
           "کدی فرستاده ایم",

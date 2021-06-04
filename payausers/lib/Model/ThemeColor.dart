@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'dart:ui';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -98,17 +99,36 @@ class DarkThemeProvider with ChangeNotifier {
 
 class Styles {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
+    MaterialColor materialSwatchWhite = MaterialColor(
+      0xFFFFFFFF,
+      const <int, Color>{
+        50: const Color(0xFFFFFFFF),
+        100: const Color(0xFFFFFFFF),
+        200: const Color(0xFFFFFFFF),
+        300: const Color(0xFFFFFFFF),
+        400: const Color(0xFFFFFFFF),
+        500: const Color(0xFFFFFFFF),
+        600: const Color(0xFFFFFFFF),
+        700: const Color(0xFFFFFFFF),
+        800: const Color(0xFFFFFFFF),
+        900: const Color(0xFFFFFFFF),
+      },
+    );
     return ThemeData(
-      // primaryColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#F9F9F9'),
+      // primaryColor: isDarkTheme ? Colors.white : Colors.black,
       backgroundColor: isDarkTheme ? mainBgColorLight : mainBgColorDark,
       scaffoldBackgroundColor: isDarkTheme ? mainBgColorDark : mainBgColorLight,
       textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
-      // cardColor: isDarkTheme ? Color(0xFF151515) : Colors.white,
-      // canvasColor: isDarkTheme ? HexColor('#f2f2f2') : HexColor('#f2f2f2'),
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
 
+      primarySwatch: materialSwatchWhite,
+
+      primaryTextTheme: TextTheme(
+          headline6:
+              TextStyle(color: isDarkTheme ? Colors.white : Colors.black)),
+
       appBarTheme: AppBarTheme(
-        color: mainBgColorLight,
+        color: isDarkTheme ? mainBgColorDark : mainBgColorLight,
         elevation: 0.0,
       ),
     );

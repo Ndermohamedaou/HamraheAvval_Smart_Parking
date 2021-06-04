@@ -5,7 +5,9 @@ import 'package:lottie/lottie.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:provider/provider.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   @override
@@ -56,13 +58,12 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
-        title: Text(
-          "بازنشانی گذرواژه حساب شما",
-          style:
-              TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
-        ),
+        title: Text("بازنشانی گذرواژه حساب شما",
+            style: TextStyle(
+              fontFamily: mainFaFontFamily,
+              fontSize: subTitleSize,
+            )),
       ),
       body: SafeArea(
           child: SingleChildScrollView(

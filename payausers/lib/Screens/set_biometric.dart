@@ -39,7 +39,6 @@ class _SettingBiometricState extends State<SettingBiometric> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         title: Text(
           "تنظیم بایومتریک",
           style: TextStyle(

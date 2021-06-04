@@ -168,7 +168,11 @@ class _SettingsState extends State<Settings>
             centerTitle: true,
             title: Text(
               name,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 15),
+              style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Colors.white),
             ),
             background: Image(
               image: NetworkImage(avatar),

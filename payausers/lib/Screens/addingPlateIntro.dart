@@ -29,7 +29,6 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
         title: Text("ثبت پلاک به همراه اسناد",
             style: TextStyle(fontFamily: mainFaFontFamily)),

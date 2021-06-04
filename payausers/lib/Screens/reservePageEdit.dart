@@ -380,7 +380,6 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
           summery,
           style: TextStyle(fontFamily: mainFaFontFamily),
         ),
-        backgroundColor: mainCTA,
       ),
       body: SafeArea(
         child: Summery(

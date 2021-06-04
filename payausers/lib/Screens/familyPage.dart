@@ -244,7 +244,6 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
         title: Text(
           appBarTitle[pageIndex],

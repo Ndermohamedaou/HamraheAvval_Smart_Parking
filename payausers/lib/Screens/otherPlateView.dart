@@ -136,7 +136,6 @@ class _OtherPageViewState extends State<OtherPageView> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
         title: Text(
           addPlateNumAppBar,

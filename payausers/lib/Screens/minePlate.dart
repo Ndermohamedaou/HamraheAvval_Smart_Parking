@@ -214,7 +214,6 @@ class _MinPlateViewState extends State<MinPlateView> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
         title: Text(
           appBarTitle[pageIndex],
