@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -182,16 +183,7 @@ class Summery extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               isLoad
-                                  ? Container(
-                                      width: 15,
-                                      height: 15,
-                                      child: CircularProgressIndicator(
-                                        backgroundColor: mainCTA,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                Colors.white),
-                                      ),
-                                    )
+                                  ? CupertinoActivityIndicator()
                                   : Text(
                                       "تایید رزرو",
                                       textAlign: TextAlign.center,

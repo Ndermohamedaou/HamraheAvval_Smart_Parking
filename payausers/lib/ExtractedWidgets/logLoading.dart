@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -42,17 +43,7 @@ class LogLoading {
     ],
   );
 
-  Widget waitCircularProgress() => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(
-            backgroundColor: mainCTA,
-            valueColor: AlwaysStoppedAnimation<Color>(mainSectionCTA),
-          ),
-          SizedBox(height: 10),
-          Text(waitingText,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-        ],
+  Widget waitCircularProgress() => const Center(
+        child: CupertinoActivityIndicator(),
       );
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/gettingReadyAccount.dart';
@@ -223,15 +224,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   isLogin
-                      ? Container(
-                          width: 10,
-                          height: 10,
-                          child: CircularProgressIndicator(
-                            backgroundColor: mainCTA,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
-                          ),
-                        )
+                      ? CupertinoActivityIndicator()
                       : Text(
                           finalLoginText,
                           textAlign: TextAlign.center,

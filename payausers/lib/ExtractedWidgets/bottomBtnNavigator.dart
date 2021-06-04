@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
@@ -25,15 +26,7 @@ class BottomButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 !hasCondition
-                    ? Container(
-                        width: 10,
-                        height: 10,
-                        child: CircularProgressIndicator(
-                          backgroundColor: mainCTA,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      )
+                    ? CupertinoActivityIndicator()
                     : Text(
                         text,
                         textAlign: TextAlign.center,

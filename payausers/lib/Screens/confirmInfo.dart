@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -346,15 +347,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   isConfirm
-                      ? Container(
-                          width: 10,
-                          height: 10,
-                          child: CircularProgressIndicator(
-                            backgroundColor: mainCTA,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
-                          ),
-                        )
+                      ? CupertinoActivityIndicator()
                       : Text(
                           confirmLogin,
                           textAlign: TextAlign.center,
