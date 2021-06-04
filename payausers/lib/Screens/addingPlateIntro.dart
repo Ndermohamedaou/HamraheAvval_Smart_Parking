@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/customClipOval.dart';
 import 'package:sizer/sizer.dart';
 
 int pageIndex = 0;
@@ -45,40 +46,30 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           textDirection: TextDirection.rtl,
           children: [
-            ClipOval(
-              child: Material(
-                color: mainCTA, // button color
-                child: InkWell(
-                  splashColor: mainSectionCTA, // inkwell color
-                  child: SizedBox(
-                      width: 46,
-                      height: 46,
-                      child: Icon(
-                        pageIndex == 0
-                            ? Icons.arrow_forward_ios
-                            : Icons.arrow_back_ios,
-                        color: Colors.white,
-                      )),
-                  onTap: () {
-                    pageIndex == 0
-                        ? {
-                            setState(() => pageIndex++),
-                            _pageController.animateToPage(pageIndex,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.decelerate),
-                          }
-                        : setState(() => pageIndex--);
-                    _pageController.animateToPage(pageIndex,
-                        duration: Duration(milliseconds: 500),
-                        curve: Curves.decelerate);
-                  },
-                ),
-              ),
+            CustomClipOval(
+              aggreementPressed: () {
+                pageIndex == 0
+                    ? {
+                        setState(() => pageIndex++),
+                        _pageController.animateToPage(pageIndex,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.decelerate),
+                      }
+                    : setState(() => pageIndex--);
+                _pageController.animateToPage(pageIndex,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.decelerate);
+              },
+              icon: pageIndex == 0
+                  ? Icons.arrow_forward_ios
+                  : Icons.arrow_back_ios,
+              firstColor: mainCTA,
+              secondColor: mainSectionCTA,
             ),
             Row(
               children: [

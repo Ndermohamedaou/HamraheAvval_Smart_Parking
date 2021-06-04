@@ -114,6 +114,21 @@ class Styles {
         900: const Color(0xFFFFFFFF),
       },
     );
+    MaterialColor materialSwatchBlack = MaterialColor(
+      0xFF000000,
+      const <int, Color>{
+        50: const Color(0xFF000000),
+        100: const Color(0xFF000000),
+        200: const Color(0xFF000000),
+        300: const Color(0xFF000000),
+        400: const Color(0xFF000000),
+        500: const Color(0xFF000000),
+        600: const Color(0xFF000000),
+        700: const Color(0xFF000000),
+        800: const Color(0xFF000000),
+        900: const Color(0xFF000000),
+      },
+    );
     return ThemeData(
       // primaryColor: isDarkTheme ? Colors.white : Colors.black,
       backgroundColor: isDarkTheme ? mainBgColorLight : mainBgColorDark,
@@ -121,8 +136,9 @@ class Styles {
       textSelectionColor: isDarkTheme ? Colors.white : Colors.black,
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
 
-      primarySwatch: materialSwatchWhite,
-
+      // Action button color and some cursors
+      primarySwatch: isDarkTheme ? materialSwatchWhite : materialSwatchBlack,
+      // AppBar Title TextColor
       primaryTextTheme: TextTheme(
           headline6:
               TextStyle(color: isDarkTheme ? Colors.white : Colors.black)),
