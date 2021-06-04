@@ -5,9 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
-import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
-import 'package:provider/provider.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   @override
@@ -33,25 +31,33 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   }
 
   void submitOTP(personalCode) async {
-    try {
-      setState(() => _submitPers = false);
-      final result =
-          await api.submitOTPPasswordReset(personalCode: personalCode);
+    if (personalCode != "") {
+      try {
+        setState(() => _submitPers = false);
+        final result =
+            await api.submitOTPPasswordReset(personalCode: personalCode);
 
-      if (result == "200") {
+        if (result == "200") {
+          setState(() => _submitPers = true);
+          Navigator.pushNamed(context, "/otpSection");
+        }
+      } catch (e) {
         setState(() => _submitPers = true);
-        Navigator.pushNamed(context, "/otpSection");
+        showStatusInCaseOfFlush(
+            context: context,
+            title: "خطا در شناسه کاربری",
+            msg: "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
+            iconColor: Colors.red,
+            icon: Icons.close);
+        print("Error from reset password: $e");
       }
-    } catch (e) {
-      setState(() => _submitPers = true);
+    } else
       showStatusInCaseOfFlush(
           context: context,
-          title: "خطا در شناسه کاربری",
-          msg: "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
+          title: "فیلد خالی",
+          msg: "فیلد کدپرسنلی نمیتواند خالی رها شود",
           iconColor: Colors.red,
           icon: Icons.close);
-      print("Error from reset password: $e");
-    }
   }
 
   @override

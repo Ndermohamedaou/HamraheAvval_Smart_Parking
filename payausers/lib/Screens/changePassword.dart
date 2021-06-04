@@ -11,6 +11,8 @@ import 'package:toast/toast.dart';
 String currentPassword = "";
 String newPassword = "";
 String confirmNewPassword = "";
+bool validatePassword1 = false;
+bool validatePassword2 = false;
 IconData showMePass = Icons.remove_red_eye;
 dynamic emptyTextFieldErrCurPassword = null;
 dynamic emptyTextFieldErrNewPassword = null;
@@ -33,6 +35,9 @@ class _ChangePassPageState extends State<ChangePassPage> {
     emptyTextFieldErrNewPassword = null;
     emptyTextFieldErrConfNewPassword = null;
     protectedPassword = true;
+    validatePassword1 = false;
+    validatePassword2 = false;
+
     super.initState();
   }
 
@@ -186,9 +191,23 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   setState(() {
                     emptyTextFieldErrNewPassword = null;
                     newPassword = onChangePassword;
+                    validatePassword1 = passwordRegex(onChangePassword);
                   });
                 },
               ),
+              newPassword != ""
+                  ? validatePassword1
+                      ? CustomTextErrorChecker(
+                          text: "گذرواژه مناسب است",
+                          textColor: Colors.green,
+                          icon: Icons.done,
+                        )
+                      : CustomTextErrorChecker(
+                          text:
+                              "گذرواژه مناسب نیست، گذرواژه جدید باید ترکیبی از حروف بزرگ و کوچک باشد و بیشتر از ۶ کاراکتر",
+                          textColor: Colors.red,
+                          icon: Icons.close)
+                  : SizedBox(),
               SizedBox(height: 10),
               TextFields(
                 keyboardType: TextInputType.visiblePassword,
@@ -217,9 +236,24 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   setState(() {
                     emptyTextFieldErrConfNewPassword = null;
                     confirmNewPassword = onChangePassword;
+                    validatePassword2 = passwordRegex(onChangePassword);
                   });
                 },
               ),
+              confirmNewPassword != ""
+                  ? validatePassword2
+                      ? CustomTextErrorChecker(
+                          text: "گذرواژه مناسب است",
+                          textColor: Colors.green,
+                          icon: Icons.done,
+                        )
+                      : CustomTextErrorChecker(
+                          text:
+                              "گذرواژه مناسب نیست، تایید گذرواژه جدید باید ترکیبی از حروف بزرگ و کوچک باشد و بیشتر از ۶ کاراکتر",
+                          textColor: Colors.red,
+                          icon: Icons.close,
+                        )
+                  : SizedBox(),
             ],
           ),
         ),
@@ -247,6 +281,38 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   fontWeight: FontWeight.bold),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTextErrorChecker extends StatelessWidget {
+  const CustomTextErrorChecker({Key key, this.text, this.textColor, this.icon})
+      : super(key: key);
+  final text;
+  final textColor;
+  final icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 25),
+      alignment: Alignment.centerRight,
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: ListTile(
+          leading: Icon(
+            icon,
+            color: textColor,
+          ),
+          title: Text(text,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontSize: 15,
+                  color: textColor,
+                  fontWeight: FontWeight.bold)),
         ),
       ),
     );
