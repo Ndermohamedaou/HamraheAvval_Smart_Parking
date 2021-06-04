@@ -45,7 +45,10 @@ class LogLoading {
   Widget waitCircularProgress() => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircularProgressIndicator(),
+          CircularProgressIndicator(
+            backgroundColor: mainCTA,
+            valueColor: AlwaysStoppedAnimation<Color>(mainSectionCTA),
+          ),
           SizedBox(height: 10),
           Text(waitingText,
               textAlign: TextAlign.center,
