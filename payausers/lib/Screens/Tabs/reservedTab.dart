@@ -364,12 +364,14 @@ class _ReservedTabState extends State<ReservedTab>
           ),
         ),
       ),
-      floatingActionButton: CustomClipOval(
-        icon: Icons.filter_alt_outlined,
-        firstColor: mainCTA,
-        secondColor: mainSectionCTA,
-        aggreementPressed: () => filterSection(),
-      ),
+      floatingActionButton: reservesModel.reserves.isEmpty
+          ? SizedBox()
+          : CustomClipOval(
+              icon: Icons.filter_alt_outlined,
+              firstColor: mainCTA,
+              secondColor: mainSectionCTA,
+              aggreementPressed: () => filterSection(),
+            ),
     );
   }
 

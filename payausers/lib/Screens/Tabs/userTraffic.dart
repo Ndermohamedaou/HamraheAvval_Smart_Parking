@@ -210,12 +210,14 @@ class _UserTrafficState extends State<UserTraffic>
           ],
         ),
       )),
-      floatingActionButton: CustomClipOval(
-        icon: Icons.filter_alt_outlined,
-        firstColor: mainCTA,
-        secondColor: mainSectionCTA,
-        aggreementPressed: () => filterSection(),
-      ),
+      floatingActionButton: trafficsModel.traffics.isEmpty
+          ? SizedBox()
+          : CustomClipOval(
+              icon: Icons.filter_alt_outlined,
+              firstColor: mainCTA,
+              secondColor: mainSectionCTA,
+              aggreementPressed: () => filterSection(),
+            ),
     );
   }
 
