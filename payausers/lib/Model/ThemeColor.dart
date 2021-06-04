@@ -130,7 +130,7 @@ class Styles {
       },
     );
     return ThemeData(
-      // primaryColor: isDarkTheme ? Colors.white : Colors.black,
+      primaryColor: isDarkTheme ? Colors.black : Colors.white,
       backgroundColor: isDarkTheme ? mainBgColorLight : mainBgColorDark,
       scaffoldBackgroundColor: isDarkTheme ? mainBgColorDark : mainBgColorLight,
       textSelectionColor: isDarkTheme ? Colors.white : Colors.black,

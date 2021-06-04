@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -24,11 +24,14 @@ class UserPlates extends StatefulWidget {
 
 PlatesModel plateModel;
 Timer _onRefreshPlatesPerMin;
+bool loadingDelTime = false;
 
 class _UserPlatesState extends State<UserPlates>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
+    loadingDelTime = false;
+
     _onRefreshPlatesPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
       plateModel.fetchPlatesData;
     });
@@ -77,6 +80,45 @@ class _UserPlatesState extends State<UserPlates>
       );
     }
 
+    void openActionSheet(plateId) {
+      showCupertinoModalBottomSheet(
+          context: context,
+          builder: (_) => CupertinoActionSheet(
+                title: Text("حذف پلاک",
+                    style:
+                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20)),
+                message: Text(
+                    "آیا می خواهید پلاک خود را حذف کنید؟ این عمل باعث حذف پلاک شما در سامانه می شود",
+                    style:
+                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+                actions: <CupertinoActionSheetAction>[
+                  CupertinoActionSheetAction(
+                    child: loadingDelTime
+                        ? CupertinoActivityIndicator()
+                        : const Text("حذف پلاک",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: mainFaFontFamily,
+                                color: Colors.red)),
+                    onPressed: () {
+                      setState(() => loadingDelTime = true);
+                      deletePlate.delUserPlate(
+                        id: plateId,
+                        context: context,
+                      );
+                      // Update user plates in Provider
+                      plateModel.fetchPlatesData;
+                      setState(() => loadingDelTime = false);
+                    },
+                  ),
+                  CupertinoActionSheetAction(
+                      child: const Text("لغو",
+                          style: TextStyle(fontFamily: mainFaFontFamily)),
+                      onPressed: () => Navigator.pop(context))
+                ],
+              ));
+    }
+
     Widget plates = Builder(
       builder: (_) {
         if (plateModel.platesState == FlowState.Loading)
@@ -96,7 +138,7 @@ class _UserPlatesState extends State<UserPlates>
           itemCount: _plates.length,
           itemBuilder: (BuildContext context, index) {
             return SingleChildScrollView(
-              child: (Slidable(
+              child: Slidable(
                 actionPane: SlidableDrawerActionPane(),
                 actionExtentRatio: 0.25,
                 fastThreshold: 1.25,
@@ -134,48 +176,12 @@ class _UserPlatesState extends State<UserPlates>
                         themeChange: themeChange.darkTheme)),
                 actions: <Widget>[
                   IconSlideAction(
-                    caption: delText,
-                    color: Colors.red,
-                    icon: Icons.delete,
-                    onTap: () {
-                      showAdaptiveActionSheet(
-                        context: context,
-                        title: Text(
-                          'پاک شود؟',
-                          style: TextStyle(
-                              fontFamily: mainFaFontFamily, fontSize: 20),
-                        ),
-                        actions: <BottomSheetAction>[
-                          BottomSheetAction(
-                              title: delText,
-                              textStyle: TextStyle(
-                                fontFamily: mainFaFontFamily,
-                                fontSize: 20,
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              onPressed: () {
-                                deletePlate.delUserPlate(
-                                  id: _plates[index]['plate_en'],
-                                  context: context,
-                                );
-                                // Update user plates in Provider
-                                plateModel.fetchPlatesData;
-                                // print(_plates[index]['plate_en']);
-                              }),
-                        ],
-                        cancelAction: CancelAction(
-                          title: cancelText,
-                          textStyle: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              color: Colors.blue,
-                              fontSize: 20),
-                        ),
-                      );
-                    },
-                  ),
+                      caption: delText,
+                      color: Colors.red,
+                      icon: Icons.delete,
+                      onTap: () => openActionSheet(_plates[index]['plate_en'])),
                 ],
-              )),
+              ),
             );
           },
         );
