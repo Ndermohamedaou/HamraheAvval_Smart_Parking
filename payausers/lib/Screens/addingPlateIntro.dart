@@ -246,48 +246,50 @@ class OptionChoser extends StatelessWidget {
       width: double.infinity,
       height: 120,
       decoration: BoxDecoration(
-        color: bgColor,
         borderRadius: BorderRadius.circular(6.0),
       ),
-      child: InkWell(
-        onTap: optionClicked,
-        child: Column(
-          children: [
-            Row(
-              textDirection: TextDirection.rtl,
-              children: [
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: CircleAvatar(
-                    radius: 12,
-                    backgroundColor: infoColor,
-                    child: Text("i"),
+      child: Material(
+        color: bgColor,
+        child: InkWell(
+          onTap: optionClicked,
+          child: Column(
+            children: [
+              Row(
+                textDirection: TextDirection.rtl,
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    child: CircleAvatar(
+                      radius: 12,
+                      backgroundColor: infoColor,
+                      child: Text("i"),
+                    ),
                   ),
-                ),
-                Text(
-                  mainTitle,
+                  Text(
+                    mainTitle,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontFamily: mainFaFontFamily,
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 40),
+                child: Text(
+                  mainDsc,
                   textAlign: TextAlign.right,
                   style: TextStyle(
                       fontFamily: mainFaFontFamily,
-                      fontSize: 18,
+                      fontSize: 13.0,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.normal),
                 ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.only(right: 40),
-              child: Text(
-                mainDsc,
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                    fontFamily: mainFaFontFamily,
-                    fontSize: 13.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
