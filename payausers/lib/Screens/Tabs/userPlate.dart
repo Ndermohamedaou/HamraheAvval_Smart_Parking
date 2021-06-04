@@ -82,41 +82,40 @@ class _UserPlatesState extends State<UserPlates>
 
     void openActionSheet(plateId) {
       showCupertinoModalBottomSheet(
-          context: context,
-          builder: (_) => CupertinoActionSheet(
-                title: Text("حذف پلاک",
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20)),
-                message: Text(
-                    "آیا می خواهید پلاک خود را حذف کنید؟ این عمل باعث حذف پلاک شما در سامانه می شود",
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-                actions: <CupertinoActionSheetAction>[
-                  CupertinoActionSheetAction(
-                    child: loadingDelTime
-                        ? CupertinoActivityIndicator()
-                        : const Text("حذف پلاک",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: mainFaFontFamily,
-                                color: Colors.red)),
-                    onPressed: () {
-                      setState(() => loadingDelTime = true);
-                      deletePlate.delUserPlate(
-                        id: plateId,
-                        context: context,
-                      );
-                      // Update user plates in Provider
-                      plateModel.fetchPlatesData;
-                      setState(() => loadingDelTime = false);
-                    },
-                  ),
-                  CupertinoActionSheetAction(
-                      child: const Text("لغو",
-                          style: TextStyle(fontFamily: mainFaFontFamily)),
-                      onPressed: () => Navigator.pop(context))
-                ],
-              ));
+        context: context,
+        builder: (_) => CupertinoActionSheet(
+          title: Text("حذف پلاک",
+              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 20)),
+          message: Text(
+              "آیا می خواهید پلاک خود را حذف کنید؟ این عمل باعث حذف پلاک شما در سامانه می شود",
+              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
+          actions: <CupertinoActionSheetAction>[
+            CupertinoActionSheetAction(
+              child: loadingDelTime
+                  ? CupertinoActivityIndicator()
+                  : const Text("حذف پلاک",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontFamily: mainFaFontFamily,
+                          color: Colors.red)),
+              onPressed: () {
+                setState(() => loadingDelTime = true);
+                deletePlate.delUserPlate(
+                  id: plateId,
+                  context: context,
+                );
+                // Update user plates in Provider
+                plateModel.fetchPlatesData;
+                setState(() => loadingDelTime = false);
+              },
+            ),
+          ],
+          cancelButton: CupertinoActionSheetAction(
+              child: const Text("لغو",
+                  style: TextStyle(fontFamily: mainFaFontFamily)),
+              onPressed: () => Navigator.pop(context)),
+        ),
+      );
     }
 
     Widget plates = Builder(
