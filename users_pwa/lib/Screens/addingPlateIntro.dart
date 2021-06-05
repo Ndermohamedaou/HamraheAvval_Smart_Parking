@@ -29,7 +29,6 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
         title: Text("ثبت پلاک به همراه اسناد",
             style: TextStyle(fontFamily: mainFaFontFamily)),
@@ -46,7 +45,7 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           textDirection: TextDirection.rtl,
@@ -246,7 +245,8 @@ class OptionChoser extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final double widthSizedResponse =
-        size.width > 500 ? 60.0.w : double.infinity;
+        size.width > 500 ? 80.0.w : double.infinity;
+
     final double heightSizedResponse = size.width >= 501
         ? 120
         : size.width < 500 && size.width > 421
@@ -254,58 +254,53 @@ class OptionChoser extends StatelessWidget {
             : size.width > 280 && size.width < 420
                 ? 50.0.w
                 : 70.0.w;
-    print(size.width);
+    // print(size.width);
 
     final responsiveFontSize = size.width > 300 ? 13 : 13.0.sp;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       width: widthSizedResponse,
-      height: heightSizedResponse,
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(6.0),
       ),
-      child: InkWell(
-        onTap: optionClicked,
-        child: Column(
-          children: [
-            Row(
-              textDirection: TextDirection.rtl,
-              children: [
-                Container(
-                  margin: EdgeInsets.all(10),
-                  child: CircleAvatar(
-                    radius: 12,
-                    backgroundColor: infoColor,
-                    child: Text("i"),
-                  ),
+      child: Material(
+        color: bgColor,
+        child: InkWell(
+          onTap: optionClicked,
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListTile(
+                leading: CircleAvatar(
+                  child: Text("i"),
+                  backgroundColor: infoColor,
+                  radius: 10,
                 ),
-                Text(
-                  mainTitle,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontFamily: mainFaFontFamily,
-                      fontSize: responsiveFontSize,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            Container(
-              margin: EdgeInsets.only(right: 40),
-              child: Text(
-                mainDsc,
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                    fontFamily: mainFaFontFamily,
-                    fontSize: responsiveFontSize,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal),
+                title: CustomTextOption(mainTitle, mainFontSize),
+                subtitle: CustomTextOption(mainDsc, subFontSize),
               ),
             ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class CustomTextOption extends StatelessWidget {
+  const CustomTextOption(this.text, this.fontSize);
+  final text;
+  final fontSize;
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(
+          fontFamily: mainFaFontFamily,
+          fontSize: fontSize,
+          color: Colors.white),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/Classes/AlphabetClassList.dart';
+import 'package:payausers/Model/AlphabetClassList.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
@@ -43,10 +43,10 @@ class _OtherPageViewState extends State<OtherPageView> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (plate0 != "" && plate1 != null && plate2 != "" && plate3 != "") {
-// |      print(plate0);
-//       print(plate1);
-//       print(plate2);
-//       print(plate3);
+      // print(plate0);
+      // print(plate1);
+      // print(plate2);
+      // print(plate3);
       setState(() => isAddingDocs = false);
       final uToken = prefs.getString("token");
       List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
@@ -117,7 +117,6 @@ class _OtherPageViewState extends State<OtherPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
         title: Text(
           addPlateNumAppBar,

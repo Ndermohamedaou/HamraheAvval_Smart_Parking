@@ -3,12 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_web/image_picker_web.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
-import 'package:payausers/Classes/ChangeAvatar.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/ChangeAvatar.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/Screens/maino.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,7 +125,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       uA: imgSource == null
                           ? NetworkImage(userAvatar)
                           : MemoryImage(base64Decode(imgSource)),
-                      uId: userId,
+                      uId: userIdentify,
                     ),
                     FlatButton(
                       onPressed: () => galleryViewer(),

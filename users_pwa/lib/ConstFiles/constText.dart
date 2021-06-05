@@ -23,7 +23,7 @@ const nextLevel1 = "بعدی";
 const themeChangeText = "حالت تاریک یا روشن";
 const loginAppBarText = "ورود به حساب";
 const finalLoginText = "ورود";
-const welcomeToInfo = "برای ورود \n اطلاعات خود را وارد کنید";
+const welcomeToInfo = "ورود به حساب خود";
 const personalCodePlaceHolder = "کد پرسنلی";
 const passwordTextFieldPlace = "گذرواژه";
 const passwordPlaceHolder = "گذرواژه جدید";
@@ -31,7 +31,7 @@ const passwordPlaceHolderNew = "تکرار گذرواژه جدید";
 const forgetPass = "گذرواژه خود را فراموش کرده اید؟";
 
 // Login
-const String emptyTextFieldMsg = "فیلد نباید خالی باشد";
+const String emptyTextFieldMsg = "فیلد نباید خالی باشد!";
 const wrongPersonalOrPassword = "کد پرسنلی یا گذرواژه اشتباه است";
 const serverNotRespond = "مشکل در برقراری ارتباط با سرور";
 
@@ -46,7 +46,7 @@ const themeMsg = "یک حالت را انتخاب کنید";
 
 // Bottom Navigation texts
 const settingsText = "تنظیمات";
-const reserveText = "رزورها";
+const reserveText = "رزروها";
 const transactionText = "ترددها";
 const dashboardText = "داشبرد";
 
@@ -68,10 +68,10 @@ const submitTextForAlert = "تایید";
 
 // Reserve Section
 const chooseDate = "انتخاب تاریخ رزرو";
-const openCalender = "بازکردن تقویم";
+const openCalender = "تقویم";
 const chooseTime = "انتخاب زمان";
 const choosePlate = "انتخاب پلاک";
-const summery = "مرور رزور جایگاه";
+const summery = "مرور رزرو جایگاه";
 const entryTime = "زمان ورود";
 const exitTime = "زمان خروج";
 const lateToloadPlate = "چند لحظه منتظر بمانید";
@@ -81,18 +81,32 @@ const emptyUserPlate = "شما در حال حاضر پلاکی ندارید";
 const choseReserveDate = "تاریخ رزرو خود را انتخاب کنید";
 const choseTime = "محدوده ساعتی را مشخص کنید";
 
+const delText = 'پاک کردن';
+const cancelText = 'لغو';
+
 // Reserve
 const String reserveTextTitle = "رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
 const String dataEntryUnCorrect = "ورودی اطلاعات ناقص است";
 const titleOfReserve = "رزرو شما با موفقیت انجام شد";
-const resultOfReserve = "نتیجه آن به صورت پیامک به شما اعلام خواهد شد";
+const resultOfReserve =
+    "رزرو شما در تاریخ انتخابی ثبت و درحال بررسی می باشد. در صورت تایید به شما اعلام خواهد شد";
 const titleOfFailedReserve = "فرایند رزرو با شکست رو به رو شد";
 const descOfFailedReserve =
     "شما نمیتوانید در یک روز چند رزرو داشته باشید. لطفا روز دیگری را انتخاب کنید";
+const failedReserveMsgTitle = "عملیات رزرو شما موفقیت آمیز نبود";
+const failedReserveMsgDesc =
+    "شما پلاکی برای رزرو جایگاه وسیله نقلیه ندارید، آیا میخواهید پلاکی برای وسیله نقلیه خود در سامانه اضافه کنید؟";
+// Instant reserve dialog
+const titleResultInstantReserve = "نتیجه رزرو لحظه ای شما";
+const descFailedInstantReserve =
+    "شما نمیتوانید رزرو لحظه ای خود را در این زمان انجام دهید. لطفا باری دیگر امتحان کنید";
 
 // User Traffic
 const trafficsLogText = "لیست تردد های شما";
+
+const waitingText = "لطفا کمی شکیبا باشید";
+const serverConnectionProblem = "عدم برقراری ارتباط با سرویس دهنده";
 
 // Add user plate
 const addUserPlate = "افزودن پلاک من";
@@ -132,21 +146,21 @@ const chPass = "تغییر گذرواژه";
 // Adding Plate section texts
 const introSec1Title = "اضافه کردن پلاک به همراه اسنادخواسته شده";
 const introSec1Subtitle =
-    "اسنادي که در هر مرحله از شما خواسته ميشودرا براي سامانه ارسال کنيد";
+    "اسنادی که در هر مرحله از شما خواسته میشودرا برای سامانه ارسال کنید";
 const introSec2Title =
-    "براساس موقعيت حاضر خود اقدام به وارد کردن اطلاعات به يکي از روش هاي زير کنيد";
+    "براساس موقعیت حاضر خود اقدام به وارد کردن اطلاعات به یکی از روش های زیر کنید";
 const introSec2Subtitle =
     "به خاطر داشته باشید که اطلاعات باید با صحت کامل وارد سامانه شود و در صورت اشتباه در یکی از فرایند ها باید دوباره و با دقت این کار صورت گیرد";
 
-const minePlateTitleText = "پلاک براي خودم است";
+const minePlateTitleText = "پلاک برای خودم است";
 const minePlateDescText =
-    "برای اين منظور بايستی پلاک وسيله نقليه مورد نظر را به همراه تصوير کارت ملی خود با استفاده از دوربين دستگاه برای سامانه ارسال کنيد";
-const familyPlateTitleText = "پلاک برای افراد درجه يک است";
+    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت ملی خود با استفاده از دوربین دستگاه برای سامانه ارسال کنید";
+const familyPlateTitleText = "پلاک برای افراد درجه یک است";
 const familyPlateDscText =
-    "برای اين منظور بايستی پلاک وسيله نقليه مورد نظر را به همراه تصوير کارت ملی خود و صاحب وسيله نقليه و کارت وسيله نقليه را  برای  سامانه ارسال کنيد";
-const otherPlateText = "پلاک برای من نيست";
+    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت ملی خود و صاحب وسیله نقلیه و کارت وسیله نقلیه را  برای  سامانه ارسال کنید";
+const otherPlateText = "پلاک برای من نیست";
 const otherPlateDscText =
-    "برای اين منظور بايستی پلاک وسيله نقليه مورد نظر را در سامانه وارد  کرده و به صورت حضوری مراجعه نماييد تا فرايند ثبت پلاک شما با موفقيت انجام شود";
+    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را در سامانه وارد  کرده و به صورت حضوری مراجعه نمایید تا فرایند ثبت پلاک شما با موفقیت انجام شود";
 
 // - Section App Bar
 const addPlateNumAppBar = "شماره پلاک را وارد کنید";
@@ -157,7 +171,7 @@ const ownerCarCardAppBar = "تصویر کارت وسیله نقلیه مالک";
 
 // Attention in page view
 const attentionToConfidance =
-    "تا آنجایی که میتوانید سعی کنید تصویرتان را به صورت کامل از کارت خواسته شده بگیرید";
+    "تا آنجایی که میتوانید سعی کنید تصویرتان را به صورت کامل از کارت خواسته شده بگیرید.";
 const captureImage = "گرفتن تصویر";
 const useAlbumImage = "بازکردن آلبوم";
 
@@ -219,3 +233,15 @@ const successfullPlateAddDsc =
 const errorPlateAddTitle = "عملیات ثبت پلاک شما با شکست مواجه شد";
 const errorPlateAddDsc =
     "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید";
+
+const noticeMsg = "نکته بسیار مهمی که باید در اینجا قرار داشته باشد";
+const acceptedPlateText = "تایید شده";
+const ignoredPlateText = "رد شده";
+const deniedPlateText = "تایید نشده";
+
+// Reserve Status Color
+const admitReserveStatus = "رزرو تایید شده";
+const inprocessReserveStatus = "در حال پردازش";
+const cancelReserveStatus = "رزرو لغو شده";
+const performTrafficReserveStatus = "تردد صورت گرفته";
+const ignoredReserveStatus = "رزرو رد شده";

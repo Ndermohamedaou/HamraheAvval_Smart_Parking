@@ -1,46 +1,52 @@
-import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/dashboardTiles.dart';
+import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/ExtractedWidgets/userCard.dart';
-import 'package:payausers/ExtractedWidgets/userLeading.dart';
+import 'package:payausers/controller/gettingLocalData.dart';
+import 'package:payausers/Model/streamAPI.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/traffics_model.dart';
+import 'package:payausers/spec/enum_state.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+import 'package:flutter/material.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
   const Dashboard({
     this.openUserDashSettings,
-    this.fullnameMeme,
-    this.userPersonalCodeMeme,
-    this.avatarMeme,
-    this.temporarLogo,
-    this.userQRCode,
-    this.section,
-    this.role,
-    this.userPlateNumber,
-    this.userTrafficNumber,
-    this.userReserveNumber,
-    this.lastLogin,
   });
   final Function openUserDashSettings;
-  final String fullnameMeme;
-  final String userPersonalCodeMeme;
-  final String avatarMeme;
-  final String userQRCode;
-  final String temporarLogo;
-  final String section;
-  final String role;
-  final String userPlateNumber;
-  final String userTrafficNumber;
-  final String userReserveNumber;
-  final String lastLogin;
 
   @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard>
+    with AutomaticKeepAliveClientMixin<Dashboard> {
+  LocalDataGetterClass localDataGetterClass = LocalDataGetterClass();
+
+  StreamAPI streamAPI = StreamAPI();
+  GridTiles gridTile = GridTiles();
+  @override
   Widget build(BuildContext context) {
-    // print("avatar in Dashboard: $avatarMeme");
+    super.build(context);
+    // Providers
+    // Getting reserves data from provider model
+    final reservesModel = Provider.of<ReservesModel>(context);
+    // Getting Traffics data from provider model
+    final trafficsModel = Provider.of<TrafficsModel>(context);
+    // Getting plates data from provider model
+    final plateModel = Provider.of<PlatesModel>(context);
+    // Getting user Avatar data from provider model
+    final avatarModel = Provider.of<AvatarModel>(context);
+
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
     final double itemHeight = (size.height - kToolbarHeight) / 4;
     final double itemWidth = size.width;
+    LocalDataGetterClass loadLocalData = LocalDataGetterClass();
+
     // Check if device be in portrait or Landscape
     final double widthSizedResponse = size.width >= 410 && size.width < 600
         ? (itemWidth / itemHeight) / 3
@@ -48,97 +54,141 @@ class Dashboard extends StatelessWidget {
             ? (itemWidth / itemHeight) / 2.4
             : size.width <= 380
                 ? (itemWidth / itemHeight) / 3.2
-                : size.width > 1000
+                : size.width >= 700 && size.width < 1000
                     ? (itemWidth / itemHeight) / 6
-                    : size.width >= 700 && size.width < 1000
-                        ? (itemWidth / itemHeight) / 6
-                        : (itemWidth / itemHeight) / 5;
+                    : (itemWidth / itemHeight) / 0.65.w;
 
-    final countGridItem = size.width > 1000 ? 4 : 2;
+    Widget userLeadingCircleAvatar(avatar) => GestureDetector(
+          onTap: widget.openUserDashSettings,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: mainCTA,
+                  backgroundImage: avatar,
+                ),
+              ],
+            ),
+          ),
+        );
 
-    return Container(
+    return SafeArea(
         child: SingleChildScrollView(
       child: Column(
         children: [
-          // User Summery details on dashboard screen
-          Directionality(
-            textDirection: TextDirection.rtl,
-            child: UserLeading(
-              imgPressed: openUserDashSettings,
-              fullname: fullnameMeme,
-              userPersonalCode: userPersonalCodeMeme,
-              avatarImg: avatarMeme,
-            ),
+          SizedBox(height: 2.0.h),
+          Builder(
+            builder: (_) {
+              // if (avatarModel.avatarState == FlowState.Loading) {
+              //   return userLeadingCircleAvatar(
+              //       Icon(Icons.airline_seat_individual_suite_sharp));
+              // }
+              return userLeadingCircleAvatar(avatarModel.avatar != ""
+                  ? NetworkImage(avatarModel.avatar)
+                  : null);
+            },
           ),
-          SizedBox(
-            height: 10,
+          SizedBox(height: 2.0.h),
+          FutureBuilder(
+            future: loadLocalData.getStaffInfoFromLocal(),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.hasData) {
+                return UserCard(
+                  qrCodeString: snapshot.data['userId'],
+                  fullname: snapshot.data['name'],
+                  persCode: snapshot.data['personalCode'],
+                  lastVisit: "${snapshot.data['lastLogin']}",
+                );
+              } else if (snapshot.hasError) {
+                return UserCard(
+                  qrCodeString: "-",
+                  fullname: "-",
+                  persCode: "-",
+                  lastVisit: "Error",
+                );
+              } else {
+                return UserCard(
+                  qrCodeString: "-",
+                  fullname: "-",
+                  persCode: "-",
+                  lastVisit: "-",
+                );
+              }
+            },
           ),
-          UserCard(
-            qrCodeString: userQRCode,
-            fullname: fullnameMeme,
-            persCode: userPersonalCodeMeme,
-            lastVisit: lastLogin,
-          ),
-
           SizedBox(
             height: 20,
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 5),
-            child: GridView.count(
-              crossAxisCount: countGridItem,
-              padding: const EdgeInsets.all(4.0),
-              mainAxisSpacing: 16.0,
-              crossAxisSpacing: 16.0,
-              childAspectRatio: widthSizedResponse,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                DashboardTiles(
-                  tileColor: [trafficsTileC1, trafficsTileC2],
-                  icon: Icons.directions_car,
-                  iconColor: trafficsTileC1,
-                  text: qty,
-                  subText: transactionsText,
-                  subSubText: untilTodayText,
-                  subSubTextColor: HexColor("#AC292E"),
-                  lenOfStuff: userTrafficNumber,
-                ),
-                DashboardTiles(
-                  tileColor: [reservesTileC1, reservesTileC2],
-                  icon: Icons.book,
-                  iconColor: reservesTileC1,
-                  text: qty,
-                  subText: allReserveText,
-                  subSubText: untilTodayText,
-                  subSubTextColor: Colors.white,
-                  lenOfStuff: userReserveNumber,
-                ),
-                DashboardTiles(
-                  tileColor: [currentLocationTileC1, currentLocationTileC2],
-                  icon: Icons.account_balance,
-                  iconColor: currentLocationTileC1,
-                  text: "موقعیت",
-                  subText: "جایگاه",
-                  subSubText: role,
-                  subSubTextColor: currentLocationTileC1,
-                  lenOfStuff: section,
-                ),
-                DashboardTiles(
-                  tileColor: [userPlateNumberTileC1, userPlateNumberTileC2],
-                  icon: Icons.layers_sharp,
-                  iconColor: userPlateNumberTileC1,
-                  text: qty,
-                  subText: yourPlateText,
-                  subSubText: inSystemText,
-                  subSubTextColor: HexColor("#216DCD"),
-                  lenOfStuff: userPlateNumber,
-                ),
-              ],
+            child: LayoutBuilder(
+              builder: (_, constraints) => GridView.count(
+                crossAxisCount: size.width > 700 ? 4 : 2,
+                padding: const EdgeInsets.all(4.0),
+                mainAxisSpacing: 8.0,
+                crossAxisSpacing: 8.0,
+                // childAspectRatio: constraints.biggest.aspectRatio * 2 / 2,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  // Traffics Tile
+                  Builder(builder: (_) {
+                    if (trafficsModel.trafficsState == FlowState.Error)
+                      return gridTile.trafficsTile("-");
+
+                    return gridTile
+                        .trafficsTile("${trafficsModel.traffics.length}");
+                  }),
+                  // reserve tile
+                  Builder(
+                    builder: (_) {
+                      if (reservesModel.reserveState == FlowState.Error)
+                        return gridTile.reserveTile("-");
+
+                      return gridTile
+                          .reserveTile("${reservesModel.reserves.length}");
+                    },
+                  ),
+                  // Vehicle Situation
+                  StreamBuilder(
+                    stream: streamAPI.getUserInfoInReal(),
+                    builder: (BuildContext context, snapshot) {
+                      // print("YOUR CAR IS :: ${snapshot.data}");
+                      if (snapshot.hasData) {
+                        try {
+                          return gridTile.situationTile(
+                              "${snapshot.data["location"]["slot"]}",
+                              "${snapshot.data["location"]["building"]}");
+                        } catch (e) {
+                          return gridTile.situationTile(
+                              "", "${snapshot.data["location"]}");
+                        }
+                      } else
+                        return gridTile.situationTile("در حال", "پردازش");
+                    },
+                  ),
+                  // user len plate
+                  Builder(
+                    builder: (_) {
+                      if (plateModel.platesState == FlowState.Error)
+                        return gridTile.plateTile("-");
+
+                      return gridTile.plateTile("${plateModel.plates.length}");
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
       ),
     ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

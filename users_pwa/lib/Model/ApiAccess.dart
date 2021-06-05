@@ -4,9 +4,33 @@ import 'package:dio/dio.dart';
 class ApiAccess {
   Dio dio = Dio();
 
-  Future<Map> getAccessToLogin({email, password, deviceToken}) async {
+  Future<Map> getAccessToLogin({email, password}) async {
+    Response res = await dio
+        .post("$baseUrl/login?personal_code=$email&password=$password");
+    return res.data;
+  }
+
+  Future<Map> submitOTPCode({code, persCode, devToken}) async {
     Response res = await dio.post(
-        "$baseUrl/login?email=$email&password=$password&DeviceToken=$deviceToken");
+        "$baseUrl/submitCode?code=$code&personal_code=$persCode&DeviceToken=$devToken");
+    return res.data;
+  }
+
+  Future<String> resendsubmitOTPCode({persCode}) async {
+    Response res = await dio.post("$baseUrl/resendOTP?personal_code=$persCode");
+    return res.data;
+  }
+
+  // Reset password for forget password
+  Future<String> submitOTPPasswordReset({personalCode}) async {
+    Response res =
+        await dio.post("$baseUrl/PasswordReset?personal_code=$personalCode");
+    return res.data;
+  }
+
+  Future<String> recoverUserPassword({otpCode, password}) async {
+    Response res = await dio
+        .post("$baseUrl/recover_password?otp_code=$otpCode&password=$password");
     return res.data;
   }
 
@@ -18,7 +42,7 @@ class ApiAccess {
   }
 
   Future<String> updateStaffInfoInConfrimation(
-      {token, email, avatar, curPass, newPass}) async {
+      {token, avatar, curPass, newPass}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post("$baseUrl/updateStaffInfo", data: {
@@ -37,12 +61,12 @@ class ApiAccess {
     return response.data['status'];
   }
 
-  Future<String> getUserAvatar({token}) async {
-    dio.options.headers['Content-Type'] = 'application/json';
-    dio.options.headers["Authorization"] = "Bearer $token";
-    Response response = await dio.get("$baseUrl/staffInfo");
-    return response.data['avatar'];
-  }
+  // Future<String> getUserAvatar({token}) async {
+  //   dio.options.headers['Content-Type'] = 'application/json';
+  //   dio.options.headers["Authorization"] = "Bearer $token";
+  //   Response response = await dio.get("$baseUrl/staffInfo");
+  //   return response.data['avatar'];
+  // }
 
   Future<List> getUserPlate({token}) async {
     dio.options.headers['Content-Type'] = 'application/json';
@@ -55,16 +79,6 @@ class ApiAccess {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getUserTraffic");
-    // print(response.data);
-    return response.data;
-  }
-
-  Future<String> addUserPlate({token, lsPlate}) async {
-    dio.options.headers['Content-Type'] = 'application/json';
-    dio.options.headers["Authorization"] = "Bearer $token";
-    // print("This is from API Class => ${lsPlate[3]}");
-    Response response = await dio.post(
-        "$baseUrl/addUserPlate?plate0=${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}");
     // print(response.data);
     return response.data;
   }
@@ -117,17 +131,16 @@ class ApiAccess {
   Future<String> delUserPlate({token, id}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
-    Response response = await dio.post("$baseUrl/delUserPlate?id=$id");
+    Response response = await dio.post("$baseUrl/delUserPlate?plate_en=$id");
     // print(response.data);
     return response.data;
   }
 
-  Future<String> reserveByUser({token, startTime, endTime, plateNo}) async {
+  Future<String> reserveByUser({token, startTime, endTime}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
-    print(plateNo);
     Response response = await dio.post(
-        "$baseUrl/Reserve?reserveTimeStart=$startTime&reserveTimeEnd=$endTime&plate=$plateNo");
+        "$baseUrl/Reserve?reserveTimeStart=$startTime&reserveTimeEnd=$endTime");
     return response.data;
   }
 
@@ -139,7 +152,7 @@ class ApiAccess {
     return response.data['status'];
   }
 
-  Future<List> userReserveHistory({token}) async {
+  Future<dynamic> userReserveHistory({token}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getUserReserves");
@@ -159,6 +172,15 @@ class ApiAccess {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post("$baseUrl/cancelReserve?id=$reservID");
+    // print("From API CLASS $response.data");
+    return response.data;
+  }
+
+  Future<String> performInstantReserve({token, plate}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response =
+        await dio.post("$baseUrl/InstantReserve?plate_en=$plate");
     // print("From API CLASS $response.data");
     return response.data;
   }

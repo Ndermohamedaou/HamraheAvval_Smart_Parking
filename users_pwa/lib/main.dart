@@ -1,11 +1,15 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:payausers/Screens/termsOfServicePage.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/services.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
-import 'package:payausers/Screens/reserveView.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
+
+// Model Providers
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/traffics_model.dart';
 
 // Screens
 import 'Screens/addingPlateIntro.dart';
@@ -14,18 +18,20 @@ import 'Screens/loadingChangeAvatar.dart';
 import 'Screens/minePlate.dart';
 import 'Screens/otherPlateView.dart';
 import 'Screens/splashScreen.dart';
+import 'package:payausers/Screens/two_factor_auth.dart';
+import 'package:payausers/Screens/forgetPassword.dart';
+import 'package:payausers/Screens/ForgetPasswordTabs/OTPSection.dart';
+import 'package:payausers/Screens/ForgetPasswordTabs/recoverPassword.dart';
+import 'package:payausers/Screens/termsOfServicePage.dart';
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
 import 'Screens/confirmInfo.dart';
 import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
-import 'Screens/addUserPlateAlternative.dart';
-import 'Screens/myPlate.dart';
 import 'Screens/settings.dart';
 import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
 import 'Screens/reservePageEdit.dart';
-import 'Screens/changeUserEmail.dart';
 import 'Screens/pageLengthIndex.dart';
 
 void main() async {
@@ -39,11 +45,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Adding Dark theme provider to have provider changer theme
+// Adding Dark theme provider to have provider changer theme
   DarkThemeProvider themeChangeProvider = DarkThemeProvider();
+  ValueNotifier<int> userPlateNotiCounter;
+  ValueNotifier<int> userInstantReserveCounter;
   @override
   void initState() {
     super.initState();
+
+    userPlateNotiCounter = ValueNotifier(themeChangeProvider.userPlateNumNotif);
+    userInstantReserveCounter =
+        ValueNotifier(themeChangeProvider.instantUserReserve);
+
     getCurrentAppTheme();
     firebaseOnMessage();
     onFirebaseOpenedApp();
@@ -59,6 +72,25 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.onMessage.listen((msg) {
       print(msg.notification.title);
       print(msg.notification.body);
+      print(msg.data["target"]);
+
+      if (msg.data["target"] == "3") {
+        userPlateNotiCounter.value = themeChangeProvider.userPlateNumNotif == 0
+            ? 0
+            : themeChangeProvider.userPlateNumNotif;
+        userPlateNotiCounter.value++;
+        userPlateNotiCounter.notifyListeners();
+        themeChangeProvider.userPlateNumNotif = userPlateNotiCounter.value;
+      } else if (msg.data["target"] == "2") {
+        userInstantReserveCounter.value =
+            themeChangeProvider.instantUserReserve == 0
+                ? 0
+                : themeChangeProvider.instantUserReserve;
+        userInstantReserveCounter.value++;
+        userInstantReserveCounter.notifyListeners();
+        themeChangeProvider.instantUserReserve =
+            userInstantReserveCounter.value;
+      }
     });
   }
 
@@ -72,10 +104,34 @@ class _MyAppState extends State<MyApp> {
     return LayoutBuilder(builder: (context, constraints) {
       return OrientationBuilder(builder: (context, orientation) {
         SizerUtil().init(constraints, orientation);
-        return ChangeNotifierProvider(
-          create: (_) {
-            return themeChangeProvider;
-          },
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) {
+                return themeChangeProvider;
+              },
+            ),
+            ChangeNotifierProvider<AvatarModel>(
+              create: (_) {
+                return AvatarModel();
+              },
+            ),
+            ChangeNotifierProvider<ReservesModel>(
+              create: (_) {
+                return ReservesModel();
+              },
+            ),
+            ChangeNotifierProvider<TrafficsModel>(
+              create: (_) {
+                return TrafficsModel();
+              },
+            ),
+            ChangeNotifierProvider<PlatesModel>(
+              create: (_) {
+                return PlatesModel();
+              },
+            )
+          ],
           child: Consumer<DarkThemeProvider>(
             builder: (BuildContext context, value, Widget child) {
               SystemChrome.setSystemUIOverlayStyle(themeChangeProvider.darkTheme
@@ -97,12 +153,14 @@ class _MyAppState extends State<MyApp> {
                   '/': (context) => IntroPage(),
                   '/themeSelector': (context) => ThemeModeSelectorPage(),
                   '/termsAndLicense': (context) => TermsOfServiceView(),
+                  '/forgetPassword': (context) => ForgetPasswordPage(),
+                  '/otpSection': (context) => OTPSubmission(),
+                  '/recoverPassword': (context) => RecoverPassword(),
                   '/login': (context) => LoginPage(),
+                  '/2factorAuth': (context) => TwoFactorAuthScreen(),
                   '/confirm': (context) => ConfirmScreen(),
                   '/loginCheckout': (context) => LoginCheckingoutPage(),
                   '/dashboard': (context) => Maino(),
-                  '/addReserve': (context) => ReservedTab(),
-                  '/myPlate': (context) => MYPlateScreen(),
                   '/addingPlateIntro': (context) => AddingPlateIntro(),
                   '/addingMinPlate': (context) => MinPlateView(),
                   '/addingFamilyPage': (context) => FamilyPlateView(),
@@ -110,9 +168,6 @@ class _MyAppState extends State<MyApp> {
                   '/settings': (context) => SettingsPage(),
                   '/changePassword': (context) => ChangePassPage(),
                   '/reserveEditaion': (context) => ReserveEditaion(),
-                  '/addUserplateAlternative': (context) =>
-                      AddUserPlatAlternative(),
-                  '/changeEmail': (context) => ModifyUserEmail(),
                   '/listLengthSettingPage': (context) => ChangePageIndex(),
                   '/loadedTimeToChangeAvatar': (context) =>
                       LoadingChangeAvatar(),

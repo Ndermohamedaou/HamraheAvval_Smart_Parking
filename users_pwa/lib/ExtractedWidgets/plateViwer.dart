@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class PlateViewer extends StatelessWidget {
@@ -15,11 +14,11 @@ class PlateViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final double widthSizedResponse = size.width > 500 ? 400 : double.infinity;
-    final double responsiveFontSize = size.width > 500 ? 26 : 12.0.sp;
+    // final double widthSizedResponse = size.width > 500 ? 400 : double.infinity;
+    final double responsiveFontSize = size.width > 500 ? 32 : 32;
 
     return Container(
-        width: widthSizedResponse,
+        width: double.infinity,
         height: 70,
         // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         margin: EdgeInsets.only(top: 10, right: 13, left: 10, bottom: 5),
@@ -63,7 +62,9 @@ class PlateViewer extends StatelessWidget {
             FittedBox(
               fit: BoxFit.fitWidth,
               child: Container(
-                margin: EdgeInsets.only(top: 0),
+                width: 40,
+                height: 70,
+                margin: EdgeInsets.only(top: 20),
                 child: Text(
                   plate0,
                   style: TextStyle(
@@ -77,6 +78,9 @@ class PlateViewer extends StatelessWidget {
             FittedBox(
               fit: BoxFit.fitWidth,
               child: Container(
+                width: 60,
+                height: 70,
+                margin: EdgeInsets.only(top: 20),
                 child: Text(
                   plate1,
                   style: TextStyle(
@@ -90,6 +94,9 @@ class PlateViewer extends StatelessWidget {
             FittedBox(
               fit: BoxFit.fitWidth,
               child: Container(
+                width: 60,
+                height: 70,
+                margin: EdgeInsets.only(top: 20, right: 0),
                 child: Text(
                   plate2,
                   style: TextStyle(
@@ -107,10 +114,11 @@ class PlateViewer extends StatelessWidget {
             FittedBox(
               fit: BoxFit.fitWidth,
               child: Container(
-                margin: EdgeInsets.only(right: 10),
+                width: 50,
+                height: 70,
+                margin: EdgeInsets.only(top: 20, left: 0, right: 30),
                 child: Text(
                   plate3,
-                  textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,

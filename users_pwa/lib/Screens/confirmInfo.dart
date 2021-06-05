@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_web/image_picker_web.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
-import 'package:payausers/Classes/SavingData.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
-import 'package:payausers/Classes/imageConvertor.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/SavingData.dart';
+import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/imageConvertor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
@@ -153,11 +153,11 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           emptyTextFieldErrPassword = null;
           emptyTextFieldErrRePassword = null;
         });
-        alert(
+        rAlert(
             context: context,
-            themeChange: themeChange,
-            aType: AlertType.warning,
-            dstRoute: "confirm",
+            tAlert: AlertType.warning,
+            onTapped: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/confirm")),
             title: "ورودی اطلاعات برای ثبت ناقص است",
             desc:
                 "شما نمی توانید فیلد های مهمی که در این صفحه وجود دارد را خالی رها کنید");

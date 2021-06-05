@@ -1,23 +1,30 @@
 import 'dart:async';
+
+import 'package:badges/badges.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:payausers/Classes/ApiAccess.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/Screens/Tabs/addUserPlate.dart';
-import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/gettingLocalData.dart';
+import 'package:payausers/Model/streamAPI.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/traffics_model.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'Tabs/userPlate.dart';
 import 'Tabs/userTraffic.dart';
 
 class Maino extends StatefulWidget {
@@ -25,46 +32,21 @@ class Maino extends StatefulWidget {
   _MainoState createState() => _MainoState();
 }
 
-Timer timer;
-dynamic themeChange;
-int tabBarIndex;
-var _pageController;
-String userId = "";
-String name = "";
-String personalCode = "";
-String avatar = "";
-String userToken = "";
-String userSection = "";
-String userRole = "";
-String email = "";
-String lastLogin = "";
-
-// Traffic List
-List userTraffic = [];
-int userTrafficListLen = userTraffic.length;
-
-// Reserve View both list and length
-List userReserved = [];
-int userReservedListLen = userReserved.length;
-
-String lenOfTrafic = "";
-String lenOfReserve = "";
-String lenOfUserPlate = "";
-String locationBuilding = "";
-String slotNumberInSituation = "";
-
-// User PLates view
-List userPlates = [];
-
-// Loading Buffer
-bool isLoadTraffics = false;
-bool isLoadReserves = false;
-bool isLoadUserPlates = false;
-//reserve Special pices
-// int showPiceces = 0;
-ApiAccess api = ApiAccess();
-
 class _MainoState extends State<Maino> {
+  // Providers
+  dynamic themeChange;
+  // App Providers
+  ReservesModel reservesModel;
+  TrafficsModel trafficsModel;
+  PlatesModel plateModel;
+  AvatarModel avatarModel;
+
+  int tabBarIndex;
+  var _pageController;
+
+  ApiAccess api = ApiAccess();
+  LocalDataGetterClass loadLocalData = LocalDataGetterClass();
+  StreamAPI streamAPI = StreamAPI();
   // Check internet connection
   String _connectionStatus = 'Un';
   final Connectivity _connectivity = Connectivity();
@@ -73,12 +55,6 @@ class _MainoState extends State<Maino> {
   @override
   void initState() {
     super.initState();
-
-    // Init Loading Buffer
-    isLoadTraffics = false;
-    isLoadReserves = false;
-    isLoadUserPlates = false;
-
     // Initialize Connection Subscription
     initConnectivity();
     _connectivitySubscription =
@@ -86,18 +62,12 @@ class _MainoState extends State<Maino> {
 
     _pageController = PageController();
     tabBarIndex = 0;
-    timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      READYLOCALVAR();
-    });
-    READYLOCALVAR();
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 
   @override
   void dispose() {
     _pageController.dispose();
-    timer.cancel();
-
     initConnectivity();
     // Close init
     _connectivitySubscription.cancel();
@@ -115,15 +85,16 @@ class _MainoState extends State<Maino> {
     if (!mounted) {
       return Future.value(null);
     }
-
     return _updateConnectionStatus(result);
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
     switch (result) {
       case ConnectivityResult.wifi:
+        updateProvider();
         break;
       case ConnectivityResult.mobile:
+        updateProvider();
         break;
       case ConnectivityResult.none:
         showStatusInCaseOfFlush(
@@ -139,264 +110,28 @@ class _MainoState extends State<Maino> {
     }
   }
 
-  // ignore: non_constant_identifier_names
-  void READYLOCALVAR() {
-    getStaffInfoFromLocal().then((value) {
-      setState(() {
-        userId = value["userId"];
-        name = value["name"];
-        personalCode = value["personalCode"];
-        avatar = value["avatar"];
-        userSection = value["section"];
-        userRole = value["role"];
-        email = value["email"];
-        lastLogin = value["lastLogin"];
-      });
-      getUserTrafficLogsApi(userToken).then((logs) {
-        setState(() {
-          // print(logs);
-          userTraffic = logs;
-        });
-      });
-      getLenUserPlates().then((userLens) {
-        setState(() {
-          lenOfUserPlate = userLens["platesNum"];
-          lenOfTrafic = userLens["userTrafficNum"];
-        });
-      });
-      getUserReservedHistory().then((reserves) {
-        setState(() {
-          userReserved = reserves;
-          // print(userReserved);
-          lenOfReserve = reserves.length.toString();
-        });
-      });
-      getUserCarSituation().then((situation) {
-        locationBuilding = situation["locationBuilding"];
-        slotNumberInSituation = situation["slotNo"];
-      });
-    });
-
-    gettingMyPlates().then((plate) {
-      setState(() {
-        userPlates = plate;
-      });
-    });
-  }
-
-  Future<Map> getStaffInfoFromLocal() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    String readyAvatar = "";
-    String readyEmail = "";
-    String readyUserId = "";
-    final userId = prefs.getString("user_id");
-    final localEmail = prefs.getString("email");
-    userToken = prefs.getString("token");
-    final name = prefs.getString("name");
-    final personalCode = prefs.getString("personal_code");
-    final localAvatar = prefs.getString("avatar");
-    String section = prefs.getString("section");
-    String role = prefs.getString("role");
-    String lastLogin = prefs.getString("lastLogin");
-
-    try {
-      Map staffInfo = await api.getStaffInfo(token: userToken);
-      // Getting server info to check if they had change
-      String serverAvatar = staffInfo['avatar'];
-      String serverEmail = staffInfo['email'];
-      String serverUserId = staffInfo["user_id"];
-
-      // print(staffInfo);
-      // Matching local Avatar with Server side
-      // avatar if anythings has change it will update!
-      if (localAvatar != serverAvatar) {
-        setState(() {
-          readyAvatar = serverAvatar;
-        });
-        prefs.setString("avatar", serverAvatar);
-      }
-      // If local if changed by HR
-      if (localEmail != serverEmail) {
-        setState(() {
-          readyEmail = serverEmail;
-        });
-        prefs.setString("email", serverEmail);
-      }
-      // If userID for QR-code had change from API
-      if (userId != serverUserId) {
-        setState(() {
-          readyUserId = serverUserId;
-        });
-        prefs.setString("user_id", serverUserId);
-      }
-    } catch (e) {
-      // print(e);
-      // IF users connection had problem, use LocalData
-      readyAvatar = prefs.getString("avatar");
-      readyEmail = prefs.getString("email");
-      readyUserId = prefs.getString("user_id");
-    }
-
-    return {
-      "userId": readyUserId != "" ? readyUserId : userId,
-      "name": name,
-      "personalCode": personalCode,
-      "avatar": readyAvatar != "" ? readyAvatar : localAvatar,
-      "email": readyEmail != "" ? readyEmail : email,
-      "section": section,
-      "role": role,
-      "lastLogin": lastLogin,
-    };
-  }
-
-  Future<List> getUserTrafficLogsApi(token) async {
-    try {
-      setState(() => isLoadTraffics = true);
-      List trafficLog = await api.getUserTrafficLogs(token: token);
-      return trafficLog;
-    } catch (e) {
-      setState(() => isLoadTraffics = false);
-      return [];
-    }
-  }
-
-  Future<List> getUserReservedHistory() async {
-    try {
-      setState(() => isLoadReserves = true);
-      List reservedList = await api.userReserveHistory(token: userToken);
-      // print(reservedList);
-      return reservedList;
-    } catch (e) {
-      setState(() => isLoadReserves = false);
-      print(e);
-      return [];
-    }
-  }
-
-  // Real View in Bottom Navigation Bar
-  // and View in User Plates
-  Future<List> gettingMyPlates() async {
-    try {
-      setState(() => isLoadUserPlates = true);
-      final plates = await api.getUserPlate(token: userToken);
-      return plates;
-    } catch (e) {
-      setState(() => isLoadUserPlates = true);
-      print("Erorr from loading User Plates view ===> $e");
-      return [];
-    }
-  }
-
-  // Deleting User Selected Plate
-  void delUserPlate(id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    try {
-      final userToken = prefs.getString("token");
-      final delStatus = await api.delUserPlate(token: userToken, id: id);
-      if (delStatus == "200") {
-        alert(
-            context: context,
-            aType: AlertType.success,
-            title: delProcSucTitle,
-            desc: delProcDesc,
-            themeChange: themeChange,
-            dstRoute: "dashboard");
-      }
-      gettingMyPlates();
-    } catch (e) {
-      alert(
-          aType: AlertType.warning,
-          title: delProcFailTitle,
-          desc: delProcFailDesc);
-    }
-  }
-
-  Future<Map> getLenUserPlates() async {
-    List userPlateList = await api.getUserPlate(token: userToken);
-    // Traffic Logs
-    List userTrafficLeng = await api.getUserTrafficLogs(token: userToken);
-
-    final lenUserPlate = userPlateList.length.toString();
-    final lenUserTrafficNo = userTrafficLeng.length.toString();
-
-    return {"platesNum": lenUserPlate, "userTrafficNum": lenUserTrafficNo};
-  }
-
-  // User car plate situation function
-  Future<Map> getUserCarSituation() async {
-    Map staffSitu;
-    try {
-      staffSitu = await api.getStaffInfo(token: userToken);
-      // User Car Plate situation
-      return {
-        "locationBuilding": staffSitu["location"]["building"],
-        "slotNo": staffSitu["location"]["slot"],
-      };
-    } catch (e) {
-      staffSitu = await api.getStaffInfo(token: userToken);
-      return {"locationBuilding": staffSitu["location"], "slotNo": ""};
-    }
-  }
-
-  // Delete and Canceling users reseved
-  void delReserve({reserveID}) async {
-    try {
-      String caneclingResult =
-          await api.cancelingReserve(token: userToken, reservID: reserveID);
-      if (caneclingResult == "200") {
-        Navigator.pop(context);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: "لغو رزرو",
-            msg: "لغو رزرو شما با موفقیت صورت گرفت",
-            iconColor: Colors.green,
-            icon: Icons.done_outline);
-      } else if (caneclingResult == "500") {
-        Navigator.pop(context);
-        showStatusInCaseOfFlush(
-            context: context,
-            title: "حذف رزرو",
-            msg: "این رزرو یک بار لغو شده است",
-            iconColor: Colors.orange,
-            icon: Icons.warning);
-      }
-    } catch (e) {
-      showStatusInCaseOfFlush(
-          context: context,
-          title: "حذف رزرو",
-          msg: "حذف رزرو شما با مشکلی مواجه شده است، لطفا بعدا امتحان کنید",
-          iconColor: Colors.red,
-          icon: Icons.close);
-      print("Error from Canceling Reserve $e");
-    }
+  // If internet connection had interrupt
+  // Please update all provider even check wifi connectivity
+  void updateProvider() {
+    reservesModel.fetchReservesData;
+    trafficsModel.fetchTrafficsData;
+    plateModel.fetchPlatesData;
+    avatarModel.fetchUserAvatar;
   }
 
   @override
   Widget build(BuildContext context) {
-    //  Dark Theme Changer
+    // Getting instance from Providers
     themeChange = Provider.of<DarkThemeProvider>(context);
+    reservesModel = Provider.of<ReservesModel>(context);
+    trafficsModel = Provider.of<TrafficsModel>(context);
+    plateModel = Provider.of<PlatesModel>(context);
+    avatarModel = Provider.of<AvatarModel>(context);
+
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
         ? SystemUiOverlayStyle.light
         : SystemUiOverlayStyle.dark);
-
-    // Number of user plate
-    final plateNo = lenOfUserPlate != "" ? lenOfUserPlate : emptyPlateNumber;
-    // Number of Users traffics
-    final userTrafficStatus =
-        lenOfTrafic != "" ? lenOfTrafic : emptyPlateNumber;
-
-    final String userReseveStatusLen =
-        lenOfReserve != "" ? lenOfReserve : emptyPlateNumber;
-
-    final String mainImgLogoLightMode =
-        "assets/images/Titile_Logo_Mark_light.png";
-    final String mainImgLogoDarkMode =
-        "assets/images/Titile_Logo_Mark_dark.png";
-    final String mainLogo =
-        themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
 
     return WillPopScope(
         child: Scaffold(
@@ -413,136 +148,37 @@ class _MainoState extends State<Maino> {
             child: PageView(
               // Getting Reserve length
               onPageChanged: (pageIndex) async {
-                getUserReservedHistory().then((reserves) {
-                  setState(() {
-                    userReservedListLen = reserves.length;
-                  });
-                });
+                if (pageIndex == 3) {
+                  // user_plate_notif_number
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setInt("user_plate_notif_number", 0);
+                  themeChange.userPlateNumNotif = 0;
+                }
 
-                // Getting Traffic length
-                getUserTrafficLogsApi(userToken).then((logs) {
-                  setState(() {
-                    userTrafficListLen = userTraffic.length;
-                  });
-                });
-
-                // if (pageIndex == 3) {
-                //   // user_plate_notif_number
-                //   SharedPreferences prefs =
-                //       await SharedPreferences.getInstance();
-                //   prefs.setInt("user_plate_notif_number", 0);
-                //   themeChange.userPlateNumNotif = 0;
-                // }
+                if (pageIndex == 2) {
+                  // user_plate_notif_number
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setInt("instant_reserve_notif_number", 0);
+                  themeChange.instantUserReserve = 0;
+                }
               },
               controller: _pageController,
               physics: NeverScrollableScrollPhysics(),
               children: [
                 Dashboard(
                   openUserDashSettings: () {
-                    setState(() {
-                      tabBarIndex = 4;
-                    });
+                    setState(() => tabBarIndex = 4);
                     _pageController.animateToPage(4,
                         duration: Duration(milliseconds: 1),
                         curve: Curves.easeOut);
                   },
-                  lastLogin: lastLogin,
-                  userQRCode: userId != "" ? userId : "-",
-                  temporarLogo: mainLogo,
-                  fullnameMeme: name != "" ? name : "-",
-                  userPersonalCodeMeme: personalCode != "" ? personalCode : "-",
-                  avatarMeme: avatar != null ? avatar : null,
-                  section: locationBuilding != "" ? locationBuilding : "-",
-                  role:
-                      slotNumberInSituation != "" ? slotNumberInSituation : "-",
-                  userPlateNumber: plateNo != "" ? plateNo : "-",
-                  userTrafficNumber:
-                      userTrafficStatus != "" ? userTrafficStatus : "-",
-                  userReserveNumber:
-                      userReseveStatusLen != "" ? userReseveStatusLen : "-",
                 ),
-                UserTraffic(
-                  userTrafficLog: userTraffic,
-                  trafficListLen: userTrafficListLen,
-                  refreshFunction: () async {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                  },
-                  filterOn10: () {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                    userTrafficListLen > 5
-                        ? setState(() => userTrafficListLen = 5)
-                        : userTrafficListLen;
-                    Navigator.pop(context);
-                  },
-                  filterOn20: () {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                    userTrafficListLen > 20
-                        ? setState(() => userTrafficListLen = 20)
-                        : userTrafficListLen;
-                    Navigator.pop(context);
-                  },
-                  filterOn50: () {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                    userTrafficListLen > 50
-                        ? setState(() => userTrafficListLen = 50)
-                        : userTrafficListLen;
-                    Navigator.pop(context);
-                  },
-                  noFilter: () {
-                    setState(() => userTrafficListLen = userTraffic.length);
-                    Navigator.pop(context);
-                  },
-                  loadingTraffics: isLoadTraffics,
-                ),
-                ReservedTab(
-                  // reserveRefreshController: _reserveRefreshController,
-                  mainThemeColor: themeChange,
-                  reserves: userReserved,
-                  reservListLen: userReservedListLen,
-                  refreshFunction: () async {
-                    setState(() => userReservedListLen = userReserved.length);
-                  },
-                  filterOn10: () {
-                    setState(() => userReservedListLen = userReserved.length);
-                    userReservedListLen > 5
-                        ? setState(() => userReservedListLen = 5)
-                        : userReservedListLen;
-                    Navigator.pop(context);
-                  },
-                  filterOn20: () {
-                    setState(() => userReservedListLen = userReserved.length);
-                    userReservedListLen > 20
-                        ? setState(() => userReservedListLen = 20)
-                        : userReservedListLen;
-                    Navigator.pop(context);
-                  },
-                  filterOn50: () {
-                    setState(() => userReservedListLen = userReserved.length);
-                    userReservedListLen > 50
-                        ? setState(() => userReservedListLen = 50)
-                        : userReservedListLen;
-                    Navigator.pop(context);
-                  },
-                  noFilter: () {
-                    setState(() => userReservedListLen = userReserved.length);
-                    // print(userReserved.length);
-                    Navigator.pop(context);
-                  },
-                  loadingReserves: isLoadReserves,
-                  deletingReserve: ({reserveID}) =>
-                      delReserve(reserveID: reserveID),
-                ),
-                UserPlates(
-                  userPlates: userPlates,
-                  delUserPlate: ({plateID}) => delUserPlate(plateID),
-                  loadingUserplate: isLoadUserPlates,
-                ),
-                Settings(
-                  fullNameMeme: name,
-                  avatarMeme: avatar != ""
-                      ? avatar
-                      : "https://style.anu.edu.au/_anu/4/images/placeholders/person.png",
-                ),
+                UserTraffic(),
+                ReservedTab(),
+                UserPlates(),
+                Settings(),
               ],
             ),
           ),
@@ -554,8 +190,8 @@ class _MainoState extends State<Maino> {
               selectedItemColor: mainSectionCTA,
               unselectedItemColor: HexColor('#C9C9C9'),
               selectedIconTheme: IconThemeData(color: mainSectionCTA),
-              iconSize: 25,
-              // unselectedIconTheme: IconThemeData(size: 25),
+              iconSize: 32,
+              unselectedIconTheme: IconThemeData(size: 25),
               selectedFontSize: 14,
               unselectedFontSize: 14,
               currentIndex: tabBarIndex,
@@ -570,7 +206,9 @@ class _MainoState extends State<Maino> {
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
-                    Icons.view_quilt,
+                    tabBarIndex == 0
+                        ? Icons.view_quilt
+                        : Icons.view_quilt_outlined,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -579,7 +217,7 @@ class _MainoState extends State<Maino> {
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
-                    Icons.view_day,
+                    tabBarIndex == 1 ? Icons.view_day : Icons.view_day_outlined,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -589,26 +227,47 @@ class _MainoState extends State<Maino> {
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
                   ),
-                  icon: CircleAvatar(
-                    backgroundColor: mainSectionCTA,
-                    radius: 25,
-                    child: Icon(
-                      Icons.add_business_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
+                  icon: themeChange.instantUserReserve == 0
+                      ? Icon(
+                          tabBarIndex == 2
+                              ? Icons.add_business
+                              : Icons.add_business_outlined,
+                        )
+                      : Badge(
+                          animationType: BadgeAnimationType.slide,
+                          badgeContent: Text(
+                            '${themeChange.instantUserReserve}',
+                            style: TextStyle(fontFamily: mainFaFontFamily),
+                          ),
+                          child: Icon(
+                            tabBarIndex == 2
+                                ? Icons.add_business
+                                : Icons.add_business_outlined,
+                          ),
+                        ),
                 ),
                 BottomNavigationBarItem(
-                  title: FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      myPlateText,
-                      style: TextStyle(fontFamily: mainFaFontFamily),
-                    ),
+                  title: Text(
+                    myPlateText,
+                    style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
-                  icon: Icon(
-                    Icons.post_add_sharp,
-                  ),
+                  icon: themeChange.userPlateNumNotif == 0
+                      ? Icon(
+                          tabBarIndex == 3
+                              ? Icons.post_add
+                              : Icons.post_add_sharp,
+                        )
+                      : Badge(
+                          animationType: BadgeAnimationType.slide,
+                          badgeContent: Text(
+                            '${themeChange.userPlateNumNotif}',
+                            style: TextStyle(fontFamily: mainFaFontFamily),
+                          ),
+                          child: Icon(
+                            tabBarIndex == 3
+                                ? Icons.post_add
+                                : Icons.post_add_sharp,
+                          )),
                 ),
                 BottomNavigationBarItem(
                   title: Text(
@@ -616,7 +275,7 @@ class _MainoState extends State<Maino> {
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   icon: Icon(
-                    Icons.settings,
+                    tabBarIndex == 4 ? Icons.settings : Icons.settings_outlined,
                   ),
                 ),
               ],

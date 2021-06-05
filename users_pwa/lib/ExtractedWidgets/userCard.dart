@@ -37,7 +37,11 @@ class UserCard extends StatelessWidget {
       height: cardResponsiveHeightSize,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        gradient: LinearGradient(colors: [mainCTA, mainSectionCTA]),
+        gradient: LinearGradient(
+          colors: [mainCTA, mainSectionCTA],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

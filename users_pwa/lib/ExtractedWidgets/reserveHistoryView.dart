@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/Model/ReserveColorsStatus.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:sizer/sizer.dart';
 
 class ReserveHistoryView extends StatelessWidget {
   const ReserveHistoryView(
@@ -18,21 +18,11 @@ class ReserveHistoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final specificReserveStatusColor = reserveStatusColor == -1
-        ? Colors.red
-        : reserveStatusColor == 0
-            ? Colors.yellow[700]
-            : reserveStatusColor == 1
-                ? Colors.green
-                : reserveStatusColor == 2
-                    ? Colors.blue
-                    : reserveStatusColor == -2
-                        ? Colors.grey.shade900
-                        : Colors.white;
+    final specificReserveStatusColor =
+        ReserveStatusSpecification().getReserveStatusColor(reserveStatusColor);
 
     var size = MediaQuery.of(context).size;
-    final double widthSizedResponse = size.width > 500 ? 600 : double.infinity;
-
+    final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: widthSizedResponse,
@@ -41,11 +31,13 @@ class ReserveHistoryView extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
         image: DecorationImage(
           image: AssetImage("assets/images/back.jpg"),
+          colorFilter: new ColorFilter.mode(
+              Colors.black.withOpacity(0.25), BlendMode.srcOver),
           fit: BoxFit.cover,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.6),
+            color: darkBar.withOpacity(0.6),
             spreadRadius: 2,
             blurRadius: 7,
             offset: Offset(2, 3),
@@ -58,10 +50,6 @@ class ReserveHistoryView extends StatelessWidget {
           textDirection: TextDirection.ltr,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.arrow_back_ios,
-              color: Colors.grey.shade700,
-            ),
             CircularStatus(
               specificReserveStatusColor: specificReserveStatusColor,
             ),
@@ -91,16 +79,13 @@ class ReserveSection1 extends StatelessWidget {
       child: Column(
         textDirection: TextDirection.ltr,
         children: [
-          FittedBox(
-            fit: BoxFit.fitWidth,
-            child: Text(
-              "ساختمان : $buildingName",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: mainFaFontFamily,
-                fontSize: 8.0.sp,
-                color: Colors.white,
-              ),
+          Text(
+            "ساختمان : $buildingName",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: mainFaFontFamily,
+              fontSize: 15,
+              color: Colors.white,
             ),
           ),
           Text(
@@ -108,7 +93,7 @@ class ReserveSection1 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 8.0.sp,
+              fontSize: 15,
               color: Colors.white,
             ),
           ),
@@ -139,7 +124,7 @@ class ReserveSection2 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 8.0.sp,
+              fontSize: 15,
               color: Colors.white,
             ),
           ),
@@ -148,7 +133,7 @@ class ReserveSection2 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 8.0.sp,
+              fontSize: 15,
               color: Colors.white,
             ),
           ),
@@ -168,19 +153,14 @@ class CircularStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            width: 20,
-            height: 20,
-            decoration: BoxDecoration(
-              color: specificReserveStatusColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-        ],
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Container(
+        width: 20,
+        height: 20,
+        decoration: BoxDecoration(
+          color: specificReserveStatusColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
       ),
     );
   }

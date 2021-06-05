@@ -1,93 +1,112 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:payausers/ExtractedWidgets/customClipOval.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
+import 'package:payausers/ExtractedWidgets/filterModal.dart';
+import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/miniPlate.dart';
+import 'package:payausers/providers/traffics_model.dart';
+import 'package:payausers/spec/enum_state.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class UserTraffic extends StatelessWidget {
-  const UserTraffic({
-    this.userTrafficLog,
-    this.trafficListLen,
-    this.filterOn10,
-    this.filterOn20,
-    this.filterOn50,
-    this.noFilter,
-    this.refreshFunction,
-    this.loadingTraffics,
-  });
+class UserTraffic extends StatefulWidget {
+  const UserTraffic();
 
-  final List userTrafficLog;
-  final int trafficListLen;
-  final Function filterOn10;
-  final Function filterOn20;
-  final Function filterOn50;
-  final Function noFilter;
-  final refreshFunction;
-  final bool loadingTraffics;
+  @override
+  _UserTrafficState createState() => _UserTrafficState();
+}
+
+int filtered = 0;
+TrafficsModel trafficsModel;
+Timer _onRefreshTrafficsPerMin;
+
+class _UserTrafficState extends State<UserTraffic>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    _onRefreshTrafficsPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
+      trafficsModel.fetchTrafficsData;
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _onRefreshTrafficsPerMin.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final themeChange = Provider.of<DarkThemeProvider>(context);
-    Widget traffics = Column(
-      children: [
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: trafficListLen,
-          primary: false,
-          itemBuilder: (BuildContext context, index) {
-            return (Column(
-              children: [
-                MiniPlate(
-                  plate0: userTrafficLog[index]["plate0"],
-                  plate1: userTrafficLog[index]["plate1"],
-                  plate2: userTrafficLog[index]["plate2"],
-                  plate3: userTrafficLog[index]["plate3"],
-                  buildingName: userTrafficLog[index]["building"] != null
-                      ? userTrafficLog[index]["building"]
-                      : "",
-                  startedTime: userTrafficLog[index]["entry_datetime"],
-                  endedTime: userTrafficLog[index]["exit_datetime"],
-                  slotNo: userTrafficLog[index]["slot"],
-                ),
-              ],
-            ));
-          },
-        ),
-      ],
-    );
+    super.build(context);
+    // Providers
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    trafficsModel = Provider.of<TrafficsModel>(context);
 
-    Widget searchingProcess = Column(
-      children: [
-        Image.asset(
-          "assets/images/emptyBox.png",
-          width: 180,
-          height: 180,
-        ),
-        Text("شما ترددی ندارید",
-            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-      ],
-    );
+    // UI loading or Error Class
+    LogLoading logLoadingWidgets = LogLoading();
 
-    Widget notFoundTrafficData = Column(
-      children: [
-        Lottie.asset(
-          "assets/lottie/notFoundTraffics.json",
-          width: 180,
-          height: 180,
-        ),
-        Text("عدم برقراری ارتباط با سرویس دهنده",
-            style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-      ],
-    );
+    Widget traffics = Builder(builder: (_) {
+      if (trafficsModel.trafficsState == FlowState.Loading)
+        return logLoadingWidgets.waitCircularProgress();
 
-    final plateContext =
-        userTrafficLog.length == 0 ? searchingProcess : traffics;
+      if (trafficsModel.trafficsState == FlowState.Error)
+        return logLoadingWidgets.internetProblem;
 
-    final trafficView = loadingTraffics ? plateContext : notFoundTrafficData;
+      // reversed Traffics list
+      final trafficsList = trafficsModel.traffics.reversed.toList();
+
+      if (trafficsList.isEmpty)
+        return logLoadingWidgets.notFoundReservedData(msg: "تردد");
+      return Column(
+        children: [
+          filtered != 0
+              ? Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  alignment: Alignment.centerRight,
+                  child: CustomRichText(
+                    themeChange: themeChange,
+                    textOne: "نمایش $filtered ",
+                    textTwo: "از ${trafficsList.length} تردد",
+                  ),
+                )
+              : SizedBox(),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: filtered == 0
+                ? trafficsList.length
+                : trafficsList.length > filtered
+                    ? filtered
+                    : trafficsList.length,
+            primary: false,
+            itemBuilder: (BuildContext context, index) {
+              return (Column(
+                children: [
+                  MiniPlate(
+                    plate0: trafficsList[index]["plate0"],
+                    plate1: trafficsList[index]["plate1"],
+                    plate2: trafficsList[index]["plate2"],
+                    plate3: trafficsList[index]["plate3"],
+                    buildingName: trafficsList[index]["building"] != null
+                        ? trafficsList[index]["building"]
+                        : "",
+                    startedTime: trafficsList[index]["entry_datetime"],
+                    endedTime: trafficsList[index]["exit_datetime"],
+                    slotNo: trafficsList[index]["slot"],
+                  ),
+                ],
+              ));
+            },
+          ),
+        ],
+      );
+    });
 
     void filterSection() {
       showMaterialModalBottomSheet(
@@ -125,20 +144,36 @@ class UserTraffic extends StatelessWidget {
                 ],
               ),
               FilterMenu(
-                text: "نمایش 5 رزور",
-                filterPressed: filterOn10,
+                text: "نمایش 5 تردد",
+                filterPressed: () {
+                  setState(() => filtered = 5);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
-                text: "نمایش ۲۰ رزرو",
-                filterPressed: filterOn20,
+                text: "نمایش ۲۰ تردد",
+                filterPressed: () {
+                  setState(() => filtered = 20);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
-                text: "نمایش ۵۰ رزرو",
-                filterPressed: filterOn50,
+                text: "نمایش ۵۰ تردد",
+                filterPressed: () {
+                  setState(() => filtered = 50);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               FilterMenu(
-                text: "نمایش تمام رزروها",
-                filterPressed: noFilter,
+                text: "نمایش تمام تردد",
+                filterPressed: () {
+                  setState(() => filtered = 0);
+                  print("Filter is $filtered");
+                  Navigator.pop(context);
+                },
               ),
               SizedBox(height: 2.0.h),
             ],
@@ -147,114 +182,45 @@ class UserTraffic extends StatelessWidget {
       );
     }
 
-    final filterBar = userTrafficLog.length != 0
-        ? Directionality(
-            textDirection: TextDirection.rtl,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "نمایش $trafficListLen تردد",
-                      style: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontFamily: mainFaFontFamily,
-                          fontSize: subTitleSize,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ]),
-            ),
-          )
-        : SizedBox();
-
     return Scaffold(
       body: SafeArea(
-          child: LiquidPullToRefresh(
-        onRefresh: refreshFunction,
-        showChildOpacityTransition: false,
-        backgroundColor: Colors.white,
-        color: mainCTA,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        trafficsLogText,
-                        style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: subTitleSize,
-                          fontWeight: FontWeight.bold,
-                        ),
+          child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      trafficsLogText,
+                      style: TextStyle(
+                        fontFamily: mainFaFontFamily,
+                        fontSize: subTitleSize,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              filterBar,
-              trafficView,
-            ],
-          ),
-        ),
-      )),
-      floatingActionButton: userTrafficLog.length != 0
-          ? ClipOval(
-              child: Material(
-                color: mainCTA, // button color
-                child: InkWell(
-                  splashColor: mainSectionCTA, // inkwell color
-                  child: SizedBox(
-                      width: 46,
-                      height: 46,
-                      child: Icon(
-                        Icons.filter_alt_outlined,
-                        color: Colors.white,
-                      )),
-                  onTap: () => filterSection(),
-                ),
-              ),
-            )
-          : SizedBox(),
-    );
-  }
-}
-
-class FilterMenu extends StatelessWidget {
-  const FilterMenu({
-    this.text,
-    this.filterPressed,
-  });
-
-  final String text;
-  final Function filterPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: filterPressed,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                text,
-                style: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                  fontSize: 14.0.sp,
-                ),
+                  ),
+                ],
               ),
             ),
+            traffics,
           ],
         ),
-      ),
+      )),
+      floatingActionButton: trafficsModel.traffics.isEmpty
+          ? SizedBox()
+          : CustomClipOval(
+              icon: Icons.filter_alt_outlined,
+              firstColor: mainCTA,
+              secondColor: mainSectionCTA,
+              aggreementPressed: () => filterSection(),
+            ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

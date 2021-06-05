@@ -1,5 +1,5 @@
-import 'package:payausers/Classes/ApiAccess.dart';
-import 'package:payausers/Classes/imageConvertor.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/imageConvertor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ApiAccess api = ApiAccess();

@@ -31,8 +31,13 @@ class TextFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TextField Size
+    var size = MediaQuery.of(context).size;
+    final textFiledSize = size.width > 700 ? 400.0 : double.infinity;
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
+      width: textFiledSize,
       child: TextFormField(
         readOnly: readOnly,
         keyboardType: keyType,
@@ -55,7 +60,7 @@ class TextFields extends StatelessWidget {
           fillColor: mainCTA,
           labelText: lblText,
           //TODO Fill this section for extract my custom Widget
-          labelStyle: TextStyle(fontFamily: mainFaFontFamily),
+          labelStyle: TextStyle(fontFamily: mainFaFontFamily, color: mainCTA),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),

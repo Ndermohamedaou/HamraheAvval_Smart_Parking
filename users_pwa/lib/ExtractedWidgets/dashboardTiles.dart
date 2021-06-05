@@ -24,6 +24,12 @@ class DashboardTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final double mainFont = size.width > 900 ? 8.0.sp : 12.0.sp;
+    final double subFont = size.width > 900 ? 6.0.sp : 10.0.sp;
+    final double iconSize = size.width > 900 ? 3.0.w : 4.0.w;
+    final double circleIconSize = size.width > 900 ? 4.0.w : 8.0.w;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28.0),
@@ -42,9 +48,9 @@ class DashboardTiles extends StatelessWidget {
             children: [
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Icon(icon, size: 33.0, color: iconColor),
-                width: 60.0,
-                height: 60.0,
+                child: Icon(icon, size: iconSize, color: iconColor),
+                width: circleIconSize,
+                height: circleIconSize,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100)),
@@ -57,18 +63,16 @@ class DashboardTiles extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextPos(
-                      mainText: text,
-                      fontColor: Colors.white,
-                      size: mainFontSize),
+                      mainText: text, fontColor: Colors.white, size: mainFont),
                   TextPos(
                     mainText: subText,
                     fontColor: Colors.white,
-                    size: mainFontSize,
+                    size: mainFont,
                   ),
                   TextPos(
                     mainText: subSubText,
                     fontColor: subSubTextColor,
-                    size: subFontSize,
+                    size: subFont,
                   ),
                 ]),
           ),

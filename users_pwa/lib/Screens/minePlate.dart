@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
-import 'package:payausers/Classes/imageConvertor.dart';
+import 'package:payausers/Model/imageConvertor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:payausers/Classes/AlphabetClassList.dart';
+import 'package:payausers/Model/AlphabetClassList.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
@@ -178,7 +178,6 @@ class _MinPlateViewState extends State<MinPlateView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainCTA,
         centerTitle: true,
         title: Text(
           appBarTitle[pageIndex],

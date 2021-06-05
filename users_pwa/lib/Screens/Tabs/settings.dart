@@ -1,40 +1,38 @@
-import 'dart:html';
-
+import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/spec/enum_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/Classes/ThemeColor.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sizer/sizer.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({this.fullNameMeme, this.avatarMeme});
-
-  final fullNameMeme;
-  final avatarMeme;
+class Settings extends StatefulWidget {
+  const Settings();
 
   @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
-    // print("Avatar Meme: $avatarMeme");
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-    final themeIconLeading = themeChange.darkTheme
-        ? Icon(Icons.brightness_5, color: Colors.yellow)
-        : Icon(Icons.bedtime, color: Colors.blue);
-
-    var size = MediaQuery.of(context).size;
-
-    final sliverTabSize = size.width > 1000 ? 500.0 : 400.0;
+    super.build(context);
+    final targetPlatform =
+        Theme.of(context).platform == TargetPlatform.iOS ? "iOS" : "Android";
 
     void logoutSection() {
       showMaterialModalBottomSheet(
         context: context,
         enableDrag: true,
         bounce: true,
+        // backgroundColor: ,
         duration: const Duration(milliseconds: 550),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
@@ -68,7 +66,7 @@ class Settings extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontSize: 25.0,
+                  fontSize: 16.0.sp,
                   color: Colors.orange,
                   fontWeight: FontWeight.bold,
                 ),
@@ -79,8 +77,8 @@ class Settings extends StatelessWidget {
                 child: Text(
                   logoutMsg,
                   textAlign: TextAlign.center,
-                  style:
-                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 20.0),
+                  style: TextStyle(
+                      fontFamily: mainFaFontFamily, fontSize: 14.0.sp),
                 ),
               ),
               SizedBox(height: 2.0.h),
@@ -89,8 +87,8 @@ class Settings extends StatelessWidget {
                 textDirection: TextDirection.rtl,
                 children: [
                   MaterialButton(
-                    color: mainCTA,
-                    minWidth: 100.0,
+                    color: Colors.red,
+                    minWidth: 45.0.w,
                     onPressed: () async {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
@@ -101,20 +99,20 @@ class Settings extends StatelessWidget {
                       "بلی",
                       style: TextStyle(
                           fontFamily: mainFaFontFamily,
-                          fontSize: 14.0,
+                          fontSize: 14.0.sp,
                           color: Colors.white),
                     ),
                   ),
                   SizedBox(width: 10),
                   MaterialButton(
-                    minWidth: 100.0,
+                    minWidth: 45.0.w,
                     color: Colors.white,
                     onPressed: () => Navigator.pop(context),
                     child: Text(
                       "خیر",
                       style: TextStyle(
                           fontFamily: mainFaFontFamily,
-                          fontSize: 14.0,
+                          fontSize: 14.0.sp,
                           color: Colors.black),
                     ),
                   ),
@@ -127,25 +125,50 @@ class Settings extends StatelessWidget {
       );
     }
 
+    // Providers
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    final avatarModel = Provider.of<AvatarModel>(context);
+
+    final themeIconLeading = themeChange.darkTheme
+        ? Icon(Icons.brightness_5, color: Colors.yellow)
+        : Icon(Icons.bedtime, color: Colors.blue);
+
+    Widget sliverAppBar({name, avatar}) => SliverAppBar(
+          expandedHeight: 70.0.w,
+          floating: false,
+          pinned: true,
+          backgroundColor: mainCTA,
+          flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
+            title: Text(
+              name,
+              style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Colors.white),
+            ),
+            background: Image(
+              image: NetworkImage(avatar),
+              fit: BoxFit.cover,
+            ),
+          ),
+          leading: SizedBox(),
+        );
+
     return CustomScrollView(
       slivers: [
-        SliverAppBar(
-            expandedHeight: sliverTabSize,
-            floating: false,
-            pinned: true,
-            backgroundColor: mainCTA,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(
-                fullNameMeme,
-                style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 15),
-              ),
-              background: Image(
-                image: NetworkImage(avatarMeme),
-                fit: BoxFit.cover,
-              ),
-            ),
-            leading: SizedBox()),
+        Builder(
+          builder: (_) {
+            if (avatarModel.avatarState == FlowState.Loading)
+              return sliverAppBar(
+                  name: "",
+                  avatar:
+                      "https://style.anu.edu.au/_anu/4/images/placeholders/person.png");
+            return sliverAppBar(
+                name: avatarModel.fullname, avatar: avatarModel.avatar);
+          },
+        ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
               (context, index) => Container(
@@ -221,4 +244,7 @@ class Settings extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
