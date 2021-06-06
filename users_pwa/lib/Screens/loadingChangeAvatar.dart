@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 List byteImg = [];
+AvatarModel avatarModel;
 
 class LoadingChangeAvatar extends StatefulWidget {
   @override
@@ -31,6 +34,8 @@ class _LoadingChangeAvatarState extends State<LoadingChangeAvatar> {
         String result = await sendingImage(byteImg);
         print("Result of sending $result");
         if (result == "200") {
+          // Update Avatar in Provider
+          avatarModel.fetchUserAvatar;
           // print(result);
           final uToken = prefs.getString("token");
           final userDetails = await api.getStaffInfo(token: uToken);
@@ -41,6 +46,8 @@ class _LoadingChangeAvatarState extends State<LoadingChangeAvatar> {
           // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
           Navigator.pop(context);
           if (testAvatar != "") {
+            // Update Avatar in Provider
+            avatarModel.fetchUserAvatar;
             showStatusInCaseOfFlush(
                 context: context,
                 title: "",
@@ -84,6 +91,7 @@ class _LoadingChangeAvatarState extends State<LoadingChangeAvatar> {
   @override
   Widget build(BuildContext context) {
     byteImg = ModalRoute.of(context).settings.arguments;
+    avatarModel = Provider.of<AvatarModel>(context);
 
     return Scaffold(
       body: SafeArea(

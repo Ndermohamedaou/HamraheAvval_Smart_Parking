@@ -8,6 +8,7 @@ import 'package:payausers/Model/ChangeAvatar.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,6 +75,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    final avatarModel = Provider.of<AvatarModel>(context);
 
     Future galleryViewer() async {
       // Getting user token from LDS
@@ -122,9 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                     SettingCircle(
-                      uA: imgSource == null
-                          ? NetworkImage(userAvatar)
-                          : MemoryImage(base64Decode(imgSource)),
+                      uA: NetworkImage(avatarModel.avatar),
                       uId: userIdentify,
                     ),
                     FlatButton(

@@ -31,8 +31,6 @@ class ReserveHistoryView extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
         image: DecorationImage(
           image: AssetImage("assets/images/back.jpg"),
-          colorFilter: new ColorFilter.mode(
-              Colors.black.withOpacity(0.25), BlendMode.srcOver),
           fit: BoxFit.cover,
         ),
         boxShadow: [
