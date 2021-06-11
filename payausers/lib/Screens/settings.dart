@@ -84,15 +84,8 @@ class _SettingsPageState extends State<SettingsPage> {
     final avatarModel = Provider.of<AvatarModel>(context);
 
     Future galleryViewer(ImageSource changeType) async {
-      final image = await ImagePicker.pickImage(
-        source: changeType,
-        maxWidth: 512,
-        maxHeight: 512,
-        imageQuality: 50,
-      );
-      setState(() {
-        imgSource = image;
-      });
+      final image = await ImagePicker.pickImage(source: changeType);
+      setState(() => imgSource = image);
       try {
         if (imgSource != null) {
           // Go to Controller/changeAvatar.dart
