@@ -87,6 +87,8 @@ A future app for security mode!!
     
 ## FCM Notification in raw and JSON
 
+URL is: https://fcm.googleapis.com/fcm/send
+
 Authorization is required, it's server key from Firebase:
 (If does't work, go to Firebase console)
 
@@ -100,13 +102,20 @@ Body:
 
 ```json
 {
-"to": "",
+"to": "fMqFpF9lTMmisolKb7YX6Y:APA91bGPwa4reTo-A74m--jUuoLq1BsmQJ8-hEGRb8RNqUIRSdJkjDfJb8DyljOkhxo2cEAXF6AM0rp22FTNMv7yvlPz63KAU9U61BBF7oFdKEnTmvU08-zsUF6Zy2LTT_w49LXyc4xO", // Device Token 
  "notification" : {
   "sound" : "default",
-  "title" : "TITLE",
-  "body" :  "BODY",
+  "body" :  "Notif",
+  "title" : "Title",
   "content_available" : true,
   "priority" : "high"
+ },
+ "data": {
+     "click_action": "FLUTTER_NOTIFICATION_CLICK",
+     "sound": "default",
+     "status": "done",
+     "target": "2" // Target2 is reserve result
+                   // Target3 is plate result
  }
 }
 ```
