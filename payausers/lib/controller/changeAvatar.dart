@@ -22,8 +22,13 @@ class ImageConvetion {
           imgEdit.copyResizeCropSquare(imageSrc, 512);
       final setMediumQuality = imgEdit.encodeJpg(cropedImageSrc, quality: 50);
       return img2Base64(setMediumQuality);
-    } else
-      return await img2Base64(img.readAsBytesSync());
+    } else {
+      imgEdit.Image imageSrc = imgEdit.decodeImage(img.readAsBytesSync());
+      imgEdit.Image cropedImageSrc =
+          imgEdit.copyResizeCropSquare(imageSrc, 512);
+      final editedAvatar = imgEdit.encodeJpg(cropedImageSrc);
+      return img2Base64(editedAvatar);
+    }
   }
 
   Future<String> img2Base64(imgByte) async {

@@ -27,7 +27,7 @@ class AvatarModel extends ChangeNotifier {
       avatar = localAvatar;
       fullname = localfullname;
     } catch (e) {
-      print("Error in Getting data from reserve notifier $e");
+      print("Error in Getting data from avatar notifier $e");
       _avatarState = FlowState.Error;
     }
     notifyListeners();

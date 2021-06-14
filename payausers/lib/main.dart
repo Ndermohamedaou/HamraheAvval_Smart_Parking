@@ -47,22 +47,16 @@ ValueNotifier<int> userPlateNotiCounter =
 ValueNotifier<int> userInstantReserveCounter =
     ValueNotifier(themeChangeProvider.instantUserReserve);
 
-// Backgroud Worker
-Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print("Handling a background Message ${message.messageId}");
-  print(message.notification.title);
-  print(message.notification.body);
-  print(message.data["target"]);
-
-  if (message.data["target"] == "3") {
+// Set notification number in provider (user number notification) Specific
+void setFCMNotifire(targetPoint) {
+  if (targetPoint == "3") {
     userPlateNotiCounter.value = themeChangeProvider.userPlateNumNotif == 0
         ? 0
         : themeChangeProvider.userPlateNumNotif;
     userPlateNotiCounter.value++;
     userPlateNotiCounter.notifyListeners();
     themeChangeProvider.userPlateNumNotif = userPlateNotiCounter.value;
-  } else if (message.data["target"] == "2") {
+  } else if (targetPoint == "2") {
     userInstantReserveCounter.value =
         themeChangeProvider.instantUserReserve == 0
             ? 0
@@ -71,6 +65,19 @@ Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
     userInstantReserveCounter.notifyListeners();
     themeChangeProvider.instantUserReserve = userInstantReserveCounter.value;
   }
+}
+
+// Backgroud Worker
+Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background Message ${message.messageId}");
+  print(message.notification.title);
+  print(message.notification.body);
+  print(message.data["target"]);
+
+  // Set notification number in provider (user number notification) Specific
+  setFCMNotifire(message.data["target"]);
+
   flutterLocalNotificationsPlugin.show(
       message.notification.hashCode,
       message.notification.title,
@@ -141,17 +148,7 @@ class _MyAppState extends State<MyApp> {
       AndroidNotification android = message.notification?.android;
 
       // Set notification number in provider (user number notification) Specific
-
-      if (message.data["target"] == "3") {
-        userPlateNotiCounter.value++;
-        userPlateNotiCounter.notifyListeners();
-        themeChangeProvider.userPlateNumNotif = userPlateNotiCounter.value;
-      } else if (message.data["target"] == "2") {
-        userInstantReserveCounter.value++;
-        userInstantReserveCounter.notifyListeners();
-        themeChangeProvider.instantUserReserve =
-            userInstantReserveCounter.value;
-      }
+      setFCMNotifire(message.data["target"]);
 
       if (notification != null || android != null) {
         flutterLocalNotificationsPlugin.show(

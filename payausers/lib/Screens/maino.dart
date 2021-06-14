@@ -239,7 +239,9 @@ class _MainoState extends State<Maino> {
                           animationType: BadgeAnimationType.slide,
                           badgeContent: Text(
                             '${themeChange.instantUserReserve}',
-                            style: TextStyle(fontFamily: mainFaFontFamily),
+                            style: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                color: Colors.white),
                           ),
                           child: Icon(
                             tabBarIndex == 2
@@ -263,7 +265,9 @@ class _MainoState extends State<Maino> {
                           animationType: BadgeAnimationType.slide,
                           badgeContent: Text(
                             '${themeChange.userPlateNumNotif}',
-                            style: TextStyle(fontFamily: mainFaFontFamily),
+                            style: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                color: Colors.white),
                           ),
                           child: Icon(
                             tabBarIndex == 3
