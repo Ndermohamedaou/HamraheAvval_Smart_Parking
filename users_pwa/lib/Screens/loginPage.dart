@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ThemeColor.dart';
@@ -65,6 +66,14 @@ class _LoginPageState extends State<LoginPage> {
     void navigatedToDashboard({email, pass}) async {
       GettingReadyAccount gettingReadyAccount = GettingReadyAccount();
 
+      String devToken = "";
+      try {
+        devToken = await FirebaseMessaging.instance.getToken();
+      } catch (e) {
+        devToken = "";
+        print(e);
+      }
+
       setState(() {
         email = email.trim();
         pass = pass.trim();
@@ -72,8 +81,8 @@ class _LoginPageState extends State<LoginPage> {
       if (email != "" || pass != "") {
         try {
           setState(() => isLogin = true);
-          final getLoginStatus =
-              await api.getAccessToLogin(email: email, password: pass);
+          final getLoginStatus = await api.getAccessToLogin(
+              email: email, password: pass, deviceToken: devToken);
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
             if (getLoginStatus["first_visit"]) {

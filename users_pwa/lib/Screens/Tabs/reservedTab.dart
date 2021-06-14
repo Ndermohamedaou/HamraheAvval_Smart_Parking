@@ -266,8 +266,10 @@ class _ReservedTabState extends State<ReservedTab>
                                 builder: (BuildContext context, snapshot) {
                                   if (snapshot.hasData) {
                                     Map status = jsonDecode(snapshot.data);
+                                    print(status["status"]);
                                     return IsInstantReserve().getInstantButton(
-                                        status, () => instantResrver());
+                                        status["status"],
+                                        () => instantResrver());
                                   }
 
                                   if (snapshot.hasError)
