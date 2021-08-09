@@ -198,6 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 },
               ),
+              SizedBox(height: 20),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 width: textFiledSize,

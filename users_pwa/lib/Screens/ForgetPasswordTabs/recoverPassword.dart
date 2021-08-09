@@ -143,8 +143,9 @@ class RecoverPasswordState extends State<RecoverPassword> {
     otpCode = ModalRoute.of(context).settings.arguments;
     print("Your otp code : $otpCode");
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         Navigator.popUntil(context, ModalRoute.withName("/login"));
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -159,55 +160,62 @@ class RecoverPasswordState extends State<RecoverPassword> {
           child: Column(
             children: [
               SizedBox(height: 2.0.h),
-              TextFields(
-                  lblText: passwordPlaceHolder,
-                  maxLen: 20,
-                  keyType: TextInputType.visiblePassword,
-                  readOnly: false,
-                  textInputType: protectedPassword,
-                  errText: emptyPassCheck == null ? null : emptyTextFieldMsg,
-                  textFieldIcon:
-                      password == "" ? Icons.vpn_key_outlined : showMePass,
-                  iconPressed: () {
-                    setState(() {
-                      protectedPassword
-                          ? protectedPassword = false
-                          : protectedPassword = true;
-                      // Changing eye icon pressing
-                      showMePass == Icons.remove_red_eye
-                          ? showMePass = Icons.remove_red_eye_outlined
-                          : showMePass = Icons.remove_red_eye;
-                    });
-                  },
-                  onChangeText: (onChangePass) => setState(() {
-                        password = onChangePass;
-                        emptyPassCheck = null;
-                      })),
+              Container(
+                alignment: Alignment.center,
+                child: TextFields(
+                    lblText: passwordPlaceHolder,
+                    maxLen: 20,
+                    keyType: TextInputType.visiblePassword,
+                    readOnly: false,
+                    textInputType: protectedPassword,
+                    errText: emptyPassCheck == null ? null : emptyTextFieldMsg,
+                    textFieldIcon:
+                        password == "" ? Icons.vpn_key_outlined : showMePass,
+                    iconPressed: () {
+                      setState(() {
+                        protectedPassword
+                            ? protectedPassword = false
+                            : protectedPassword = true;
+                        // Changing eye icon pressing
+                        showMePass == Icons.remove_red_eye
+                            ? showMePass = Icons.remove_red_eye_outlined
+                            : showMePass = Icons.remove_red_eye;
+                      });
+                    },
+                    onChangeText: (onChangePass) => setState(() {
+                          password = onChangePass;
+                          emptyPassCheck = null;
+                        })),
+              ),
               SizedBox(height: 2.0.h),
-              TextFields(
-                  lblText: passwordPlaceHolderNew,
-                  maxLen: 20,
-                  keyType: TextInputType.visiblePassword,
-                  readOnly: false,
-                  textInputType: protectedPassword,
-                  errText: emptyRepassCheck == null ? null : emptyTextFieldMsg,
-                  textFieldIcon:
-                      repassword == "" ? Icons.vpn_key_outlined : showMePass,
-                  iconPressed: () {
-                    setState(() {
-                      protectedPassword
-                          ? protectedPassword = false
-                          : protectedPassword = true;
-                      // Changing eye icon pressing
-                      showMePass == Icons.remove_red_eye
-                          ? showMePass = Icons.remove_red_eye_outlined
-                          : showMePass = Icons.remove_red_eye;
-                    });
-                  },
-                  onChangeText: (onChangeRepass) => setState(() {
-                        repassword = onChangeRepass;
-                        emptyRepassCheck = null;
-                      }))
+              Container(
+                alignment: Alignment.center,
+                child: TextFields(
+                    lblText: passwordPlaceHolderNew,
+                    maxLen: 20,
+                    keyType: TextInputType.visiblePassword,
+                    readOnly: false,
+                    textInputType: protectedPassword,
+                    errText:
+                        emptyRepassCheck == null ? null : emptyTextFieldMsg,
+                    textFieldIcon:
+                        repassword == "" ? Icons.vpn_key_outlined : showMePass,
+                    iconPressed: () {
+                      setState(() {
+                        protectedPassword
+                            ? protectedPassword = false
+                            : protectedPassword = true;
+                        // Changing eye icon pressing
+                        showMePass == Icons.remove_red_eye
+                            ? showMePass = Icons.remove_red_eye_outlined
+                            : showMePass = Icons.remove_red_eye;
+                      });
+                    },
+                    onChangeText: (onChangeRepass) => setState(() {
+                          repassword = onChangeRepass;
+                          emptyRepassCheck = null;
+                        })),
+              )
             ],
           ),
         ),

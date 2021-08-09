@@ -146,6 +146,7 @@ class _MyAppState extends State<MyApp> {
                     child: child,
                   );
                 },
+                debugShowCheckedModeBanner: false,
                 theme: Styles.themeData(themeChangeProvider.darkTheme, context),
                 initialRoute: '/splashScreen',
                 routes: {

@@ -75,14 +75,17 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
           child: SingleChildScrollView(
         child: Column(
           children: [
-            TextFields(
-                lblText: personalCodePlaceHolder,
-                keyType: TextInputType.emailAddress,
-                textFieldIcon: Icons.account_circle,
-                textInputType: false,
-                readOnly: false,
-                onChangeText: (onChangePers) =>
-                    setState(() => personalCode = onChangePers)),
+            Container(
+              alignment: Alignment.center,
+              child: TextFields(
+                  lblText: personalCodePlaceHolder,
+                  keyType: TextInputType.emailAddress,
+                  textFieldIcon: Icons.account_circle,
+                  textInputType: false,
+                  readOnly: false,
+                  onChangeText: (onChangePers) =>
+                      setState(() => personalCode = onChangePers)),
+            ),
           ],
         ),
       )),
