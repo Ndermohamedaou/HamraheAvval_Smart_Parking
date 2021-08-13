@@ -28,7 +28,8 @@ HexColor mainSectionCTA = HexColor("#ee934b");
 const primarySubmitBtnColor = Colors.green;
 
 // Main Persian font
-const mainFaFontFamily = "BYekan";
+// const mainFaFontFamily = "BYekan";
+const mainFaFontFamily = "IranSanse";
 const mainEnFontFamily = "OpenSans";
 
 HexColor mainTitleColor = HexColor("#1D75E3");

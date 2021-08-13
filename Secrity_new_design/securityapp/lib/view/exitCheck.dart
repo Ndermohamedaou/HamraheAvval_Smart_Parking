@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,15 +24,19 @@ class _ExitCheckState extends State<ExitCheck> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     Future gettingPhoto(ImageSource sourceType) async {
-      final image = await ImagePicker.pickImage(
+      final ImagePicker _picker = ImagePicker();
+      final image = await _picker.getImage(
         source: sourceType,
         maxWidth: 500,
         maxHeight: 500,
         imageQuality: 50,
       );
-      if (image != null)
+
+      File imgFile = File(image.path);
+
+      if (imgFile != null)
         Navigator.pushNamed(context, imgChecker,
-            arguments: {"img": image, "cameraStatus": "1"});
+            arguments: {"img": imgFile, "cameraStatus": "1"});
     }
 
     return WillPopScope(

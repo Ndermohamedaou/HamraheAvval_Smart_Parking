@@ -68,14 +68,15 @@ class _ConfirmationState extends State<Confirmation> {
     token = ModalRoute.of(context).settings.arguments;
 
     Future gettingPhoto(ImageSource sourceType) async {
-      final image = await ImagePicker.pickImage(
+      final ImagePicker _picker = ImagePicker();
+      final image = await _picker.getImage(
         source: sourceType,
         maxWidth: 500,
         maxHeight: 500,
         imageQuality: 50,
       );
       setState(() {
-        imageSource = image;
+        imageSource = File(image.path);
       });
     }
 

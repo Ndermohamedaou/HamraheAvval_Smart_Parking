@@ -6,8 +6,10 @@ import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/gettingLogin.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
+import 'package:securityapp/view/buildingForUsers.dart';
 import 'package:securityapp/view/introPages/intro.dart';
 import 'package:securityapp/view/introPages/themeChange.dart';
+import 'package:securityapp/widgets/alert.dart';
 import 'package:securityapp/widgets/bottomBtn.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
 
@@ -90,13 +92,21 @@ class _LoginState extends State<Login> {
           );
         } else {
           // print(initUser);
-          if (initUser["first_visit"]) {
-            setState(() => isLogin = false);
-            updateStaffInfo(initUser["token"]);
+
+          if (initUser['role'] == "security") {
+            if (initUser["first_visit"]) {
+              setState(() => isLogin = false);
+              updateStaffInfo(initUser["token"]);
+            } else {
+              setState(() => isLogin = false);
+              staffWillNavigateBuildings(initUser["token"]);
+            }
           } else {
             setState(() => isLogin = false);
-
-            staffWillNavigateBuildings(initUser["token"]);
+            securityAlertLogin(
+              context: context,
+              onPressed: () => Navigator.pop(context),
+            );
           }
         }
       } else {

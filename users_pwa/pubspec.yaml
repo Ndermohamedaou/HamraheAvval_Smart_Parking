@@ -79,3 +79,8 @@ flutter:
     - family: OpenSans
       fonts:
         - asset: assets/fonts/opensans/OpenSans-Regular.ttf
+
+    - family: IranSanse
+      fonts:
+        - asset: assets/fonts/iranSanse/regularSanse.TTF
+

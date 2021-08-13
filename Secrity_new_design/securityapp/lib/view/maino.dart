@@ -10,7 +10,6 @@ import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/controller/slotController.dart';
-import 'package:securityapp/main.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/shrinkMenuBuilder.dart';
@@ -62,6 +61,24 @@ class _MainoState extends State<Maino> {
     // getting tiles of slot grid
     slotView.gettingSlots().then((slots) => setState(() {
           slotsMap = slots;
+          // print(slots);
+          // print(slotsMap['floors'][0]);
+          // final test = slots["${slotsMap['floors']}"];
+          // print("This =======> $test");
+
+          print(slotsMap["${slotsMap['floors'][4]}"] == null
+              ? "nulllll"
+              : "okay");
+          // print(slotsMap["-5"].length);
+          // print(slotsMap['floors']);
+          // print(slotsMap['floors'][4]);
+
+          // print(slotsMap['floors'].length);
+          // print(slotsMap["${slotsMap['floors'][0]}"].length);
+          // print(slotsMap['floors']);
+          // print(slots["${slots['floors'][0]}"][0]['key']);
+          // print(slots["${slots['floors'][0]}"][0]);
+          // print(slotsMap["${slotsMap['floors'][-1]}"].length);
         }));
   }
 
@@ -96,21 +113,16 @@ class _MainoState extends State<Maino> {
         : LiveList.options(
             shrinkWrap: true,
             primary: false,
-            itemBuilder: (
-              BuildContext context,
-              int item,
-              Animation<double> animation,
-            ) =>
-                FadeTransition(
-              opacity: Tween<double>(
-                begin: 0,
-                end: 1,
-              ).animate(animation),
+            itemCount:
+                slotsMap['floors'] != null ? slotsMap['floors'].length - 1 : 0,
+            itemBuilder:
+                (BuildContext context, int item, Animation<double> animation) =>
+                    FadeTransition(
+              opacity: Tween<double>(begin: 0, end: 1).animate(animation),
               child: SlideTransition(
-                position: Tween<Offset>(
-                  begin: Offset(0, -0.1),
-                  end: Offset.zero,
-                ).animate(animation),
+                position:
+                    Tween<Offset>(begin: Offset(0, -0.1), end: Offset.zero)
+                        .animate(animation),
                 child: Column(
                   children: [
                     Row(
@@ -125,38 +137,33 @@ class _MainoState extends State<Maino> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 1.0.h),
                     LiveGrid.options(
                       options: options,
                       primary: false,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: slotsMap[slotsMap["floors"][item]] != null
-                          ? slotsMap[slotsMap["floors"][item]].length
+                      itemCount: slotsMap["${slotsMap['floors'][item]}"] != null
+                          ? slotsMap["${slotsMap['floors'][item]}"].length - 1
                           : 0,
                       shrinkWrap: true,
-                      itemBuilder: (
-                        BuildContext context,
-                        int index,
-                        Animation<double> animation,
-                      ) =>
+                      itemBuilder: (BuildContext context, int index,
+                              Animation<double> animation) =>
                           FadeTransition(
-                        opacity: Tween<double>(
-                          begin: 0,
-                          end: 1,
-                        ).animate(animation),
+                        opacity:
+                            Tween<double>(begin: 0, end: 1).animate(animation),
                         // And slide transition
                         child: SlideTransition(
                           position: Tween<Offset>(
-                            begin: Offset(0, -0.1),
-                            end: Offset.zero,
-                          ).animate(animation),
+                                  begin: Offset(0, -0.1), end: Offset.zero)
+                              .animate(animation),
                           child: Container(
                             decoration: BoxDecoration(
-                                color: slotsMap[slotsMap["floors"][item]][index]
-                                            ["status"] ==
+                                color: slotsMap["${slotsMap['floors'][item]}"]
+                                            [index]["status"] ==
                                         0
                                     ? empty
-                                    : slotsMap[slotsMap["floors"][item]][index]
-                                                ["status"] ==
+                                    : slotsMap["${slotsMap['floors'][item]}"]
+                                                [index]["status"] ==
                                             1
                                         ? fullSlot
                                         : reserve,
@@ -167,14 +174,15 @@ class _MainoState extends State<Maino> {
                             child: Center(
                               child: CustomText(
                                 size: 13.0.sp,
+                                // slotsMap["${slotsMap['floors'][item]}"][index]["id"]
                                 text:
-                                    "P ${slotsMap[slotsMap["floors"][item]][index]["id"]}",
-                                color: slotsMap[slotsMap["floors"][item]][index]
-                                            ["status"] ==
+                                    "P ${slotsMap["${slotsMap['floors'][item]}"][index]["id"]}",
+                                color: slotsMap["${slotsMap['floors'][item]}"]
+                                            [index]["status"] ==
                                         1
                                     ? Colors.white
-                                    : slotsMap[slotsMap["floors"][item]][index]
-                                                ["status"] ==
+                                    : slotsMap["${slotsMap['floors'][item]}"]
+                                                [index]["status"] ==
                                             -1
                                         ? Colors.white
                                         : Colors.black,
@@ -193,7 +201,6 @@ class _MainoState extends State<Maino> {
                 ),
               ),
             ),
-            itemCount: slotsMap['floors'].length,
             options: options,
           );
 

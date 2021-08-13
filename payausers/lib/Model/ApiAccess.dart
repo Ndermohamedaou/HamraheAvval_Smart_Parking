@@ -11,6 +11,14 @@ class ApiAccess {
     return res.data;
   }
 
+  // If user hasn't Access to thier account
+  Future<Map> getUserStatusAccount({token}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response res = await dio.get("$baseUrl/");
+    return res.data;
+  }
+
   Future<Map> submitOTPCode({code, persCode, devToken}) async {
     Response res = await dio.post(
         "$baseUrl/submitCode?code=$code&personal_code=$persCode&DeviceToken=$devToken");

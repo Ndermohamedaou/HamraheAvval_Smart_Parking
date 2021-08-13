@@ -15,6 +15,16 @@ const notMatchPassDsc = "گذرواژه جدید و تایید آن بایستی
 const defectiveInfo = "ورودی اطلاعات ناقص است";
 const defectiveInfoMsg = "لطفا اطلاعات را با دقت وارد کنید";
 
+// Access denied
+const accessDeniedTextTitle =
+    'شما بنا به دلایلی اجازه دسترسی به حساب خود ندارید';
+const visitHRTextTitle = "لطفا به مدیریت منابع انسانی مراجعه نمایید";
+
+// Connection error text
+const connectionErrorTitle = 'از صحت ارتباط با شبکه اطمینان حاصل کنید';
+const tryAgainConnectionErrorSubtitle = 'لطفا باری دیگر سعی کنید';
+const exitFromAppTextTitle = 'خروج از برنامه';
+
 // Intro main title
 const introTitle1Text = "کاربران پایا";
 const loginToAccount = "ورود به حساب خود";

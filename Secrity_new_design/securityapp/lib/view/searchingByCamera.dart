@@ -31,16 +31,18 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
     themeChange = Provider.of<DarkThemeProvider>(context);
 
     Future gettingPhoto(ImageSource sourceType) async {
-      final image = await ImagePicker.pickImage(
+      final ImagePicker _picker = ImagePicker();
+      final image = await _picker.getImage(
         source: sourceType,
         maxWidth: 512,
         maxHeight: 512,
         imageQuality: 50,
       );
-      setState(() => imgSource = image);
+      File imgFile = File(image.path);
+      setState(() => imgSource = imgFile);
 
       if (imgSource != null) {
-        String capturedImage = await convertImage.img2Base64(img: image);
+        String capturedImage = await convertImage.img2Base64(img: imgFile);
         // print(capturedImage);
         // Sending base 64 to api
         //  // init Flutter Secure Storage

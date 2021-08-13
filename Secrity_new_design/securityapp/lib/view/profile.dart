@@ -83,7 +83,9 @@ class _ProfileState extends State<Profile> {
   }
 
   Future gettingPhoto(ImageSource sourceType) async {
-    final image = await ImagePicker.pickImage(
+    final ImagePicker _picker = ImagePicker();
+
+    final image = await _picker.getImage(
       source: sourceType,
       maxWidth: 500,
       maxHeight: 500,
@@ -91,7 +93,8 @@ class _ProfileState extends State<Profile> {
     );
 
     if (image != null) {
-      String _img64 = await convert.img2Base64(img: image);
+      File imgFile = File(image.path);
+      String _img64 = await convert.img2Base64(img: imgFile);
       // print(_img64);
       bool result = await auth.updateStaffAvatar(avatar: _img64, token: token);
       if (result) {

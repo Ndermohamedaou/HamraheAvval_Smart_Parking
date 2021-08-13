@@ -42,7 +42,7 @@ class _SetAppLockOTPViewState extends State<SetAppLockOTPView> {
       appBar: AppBar(
         backgroundColor: mainCTA,
         title: Text(
-          "تنظیم بایومتریک",
+          "فعالسازی پین کد",
           style: TextStyle(
             fontFamily: mainFont,
           ),
@@ -62,7 +62,7 @@ class _SetAppLockOTPViewState extends State<SetAppLockOTPView> {
                     leading: Icon(Icons.lock),
                     value: themeChange.appLock,
                     subtitle: Text(
-                      "برای ورود به اپلیکیشن میتوانید از حسگر اثرانگشت و تشخیص صورت استفاده کنید",
+                      "برای ورود به اپلیکیشن میتوانید از گذرواژه ای که تنظیم کرده اید استفاده کنید",
                       style: TextStyle(fontFamily: mainFont),
                     ),
                     onChanged: (bool lockState) {
@@ -80,7 +80,7 @@ class _SetAppLockOTPViewState extends State<SetAppLockOTPView> {
                       }
                     },
                     title: Text(
-                      "فعال سازی بایومتریک",
+                      "فعال سازی قفل برنامه",
                       style: TextStyle(fontFamily: mainFont, fontSize: 15),
                     ),
                   ),

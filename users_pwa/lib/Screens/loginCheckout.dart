@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:payausers/Model/ThemeColor.dart';
+import 'package:provider/provider.dart';
 
 class LoginCheckingoutPage extends StatefulWidget {
   @override
@@ -16,10 +18,19 @@ class _LoginCheckingoutPageState extends State<LoginCheckingoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
+    final mainTitleLogo = themeChange.darkTheme
+        ? "assets/images/Titile_Logo_Mark_dark.png"
+        : "assets/images/Titile_Logo_Mark_light.png";
+
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Image.asset("assets/images/checkingOut.gif"),
+          child: Image.asset(
+            mainTitleLogo,
+            width: 200,
+          ),
         ),
       ),
     );

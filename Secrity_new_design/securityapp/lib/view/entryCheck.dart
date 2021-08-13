@@ -27,15 +27,19 @@ class _EntryCheckState extends State<EntryCheck> {
     themeChange = Provider.of<DarkThemeProvider>(context);
 
     Future gettingPhoto(ImageSource sourceType) async {
-      final image = await ImagePicker.pickImage(
+      final ImagePicker _picker = ImagePicker();
+
+      final image = await _picker.getImage(
         source: sourceType,
         maxWidth: 500,
         maxHeight: 500,
         imageQuality: 50,
       );
-      if (image != null)
+      File imgFile = File(image.path);
+
+      if (imgFile != null)
         Navigator.pushNamed(context, imgChecker,
-            arguments: {"img": image, "cameraStatus": "0"});
+            arguments: {"img": imgFile, "cameraStatus": "0"});
     }
 
     return WillPopScope(

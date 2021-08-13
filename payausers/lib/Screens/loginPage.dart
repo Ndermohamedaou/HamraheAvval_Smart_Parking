@@ -86,14 +86,23 @@ class _LoginPageState extends State<LoginPage> {
 
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
-            if (getLoginStatus["first_visit"]) {
-              Navigator.pushNamed(context, "/2factorAuth",
-                  arguments: {"persCode": email, "password": pass});
-              setState(() => isLogin = false);
+            // Checking role
+            if (getLoginStatus["role"] == "staff") {
+              if (getLoginStatus["first_visit"]) {
+                Navigator.pushNamed(context, "/2factorAuth",
+                    arguments: {"persCode": email, "password": pass});
+                setState(() => isLogin = false);
+              } else {
+                setState(() => isLogin = false);
+                gettingReadyAccount.getUserAccInfo(
+                    getLoginStatus['token'], context);
+              }
             } else {
               setState(() => isLogin = false);
-              gettingReadyAccount.getUserAccInfo(
-                  getLoginStatus['token'], context);
+              Toast.show("عدم دسترسی به سیستم", context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  textColor: Colors.white);
             }
           } else {
             Toast.show("خطا در ورود", context,

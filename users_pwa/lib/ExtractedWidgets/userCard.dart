@@ -20,8 +20,8 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final cardResponsiveWidthSize = size.width > 500 ? 95.0.w / 1.25 : 95.0.w;
-    final cardResponsiveHeightSize = size.width > 500 ? 35.0.h / 1.25 : 35.0.h;
+    final cardResponsiveWidthSize = size.width > 500 ? 500 / 1.25 : 95.0.w;
+    final cardResponsiveHeightSize = size.width > 500 ? 300 / 1.25 : 35.0.h;
     final qrCodeResponsiveSize = size.width > 500 ? 7.0.h : 12.0.h;
     final logoResponsiveSize = size.width > 500 ? 8.0.w : 10.0.w;
     final placeOfWidthLogoTitle = size.width > 500 ? 30.0.w : 40.0.w;

@@ -15,12 +15,14 @@ import 'package:provider/provider.dart';
 // Screens
 import 'Screens/ForgetPasswordTabs/recoverPassword.dart';
 import 'Screens/addingPlateIntro.dart';
+import 'package:payausers/Screens/checkingAccess.dart';
 import 'package:payausers/Screens/familyPage.dart';
 import 'package:payausers/Screens/minePlate.dart';
 import 'package:payausers/Screens/ForgetPasswordTabs/OTPSection.dart';
 import 'package:payausers/Screens/otherPlateView.dart';
 import 'Screens/auth_entered_users.dart';
 import 'package:payausers/Screens/forgetPassword.dart';
+import 'Screens/check_connection.dart';
 import 'Screens/enableAppLock.dart';
 import 'Screens/splashScreen.dart';
 import 'Screens/intro.dart';
@@ -251,6 +253,8 @@ class _MyAppState extends State<MyApp> {
                   initialRoute: '/splashScreen',
                   routes: {
                     '/splashScreen': (context) => SplashScreen(),
+                    '/checkConnection': (context) => CheckConnection(),
+                    '/checkingAccess': (context) => CheckingAccess(),
                     '/': (context) => IntroPage(),
                     '/themeSelector': (context) => ThemeModeSelectorPage(),
                     '/termsAndLicense': (context) => TermsOfServiceView(),

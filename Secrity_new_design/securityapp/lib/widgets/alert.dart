@@ -32,6 +32,32 @@ void alertCheckTip({context, Function onPressed}) {
   ).show();
 }
 
+void securityAlertLogin({context, Function onPressed}) {
+  Alert(
+    context: context,
+    type: AlertType.warning,
+    title: "ورود به اپلیکیشن فقط برای انتظامات می باشد نه برای کاربران عادی ",
+    style: AlertStyle(
+        backgroundColor: Colors.white,
+        titleStyle: TextStyle(
+          fontFamily: mainFont,
+          color: Colors.black,
+        ),
+        descStyle: TextStyle(fontFamily: mainFont)),
+    buttons: [
+      DialogButton(
+        child: CustomText(
+          text: understandingMater,
+          align: TextAlign.center,
+          size: 15.0.sp,
+          color: Colors.white,
+        ),
+        onPressed: onPressed,
+      ),
+    ],
+  ).show();
+}
+
 void alertSayStatus({context}) {
   Alert(
     context: context,

@@ -1,3 +1,4 @@
+import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ReserveColorsStatus.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -23,6 +24,7 @@ class ReserveHistoryView extends StatelessWidget {
 
     var size = MediaQuery.of(context).size;
     final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: widthSizedResponse,
@@ -72,6 +74,9 @@ class ReserveSection1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final listFontSize = size.width > 700 ? 15 : 11.0.sp;
+
     return FittedBox(
       fit: BoxFit.fitWidth,
       child: Column(
@@ -82,7 +87,7 @@ class ReserveSection1 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 15,
+              fontSize: listFontSize,
               color: Colors.white,
             ),
           ),
@@ -91,7 +96,7 @@ class ReserveSection1 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 15,
+              fontSize: listFontSize,
               color: Colors.white,
             ),
           ),
@@ -112,6 +117,9 @@ class ReserveSection2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    final listFontSize = size.width > 700 ? 15 : 11.0.sp;
+
     return FittedBox(
       fit: BoxFit.fitWidth,
       child: Column(
@@ -122,7 +130,7 @@ class ReserveSection2 extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
-              fontSize: 15,
+              fontSize: listFontSize,
               color: Colors.white,
             ),
           ),

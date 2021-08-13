@@ -28,13 +28,11 @@ class LogLoading {
   Widget internetProblem = Column(
     children: [
       Container(
-        alignment: Alignment.center,
-        child: Lottie.asset(
-          "assets/lottie/notFoundTraffics.json",
-          width: 180,
-          height: 180,
-        ),
-      ),
+          alignment: Alignment.center,
+          child: Icon(
+            Icons.signal_cellular_connected_no_internet_0_bar_outlined,
+            size: 35,
+          )),
       Text(
         serverConnectionProblem,
         textAlign: TextAlign.center,
