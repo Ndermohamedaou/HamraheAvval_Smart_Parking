@@ -21,6 +21,9 @@ class CancelReserve {
 
     String caneclingResult =
         await cancelUserReserve(token: userToken, userReserveID: reserveID);
+    print("Ready....");
+    print(caneclingResult);
+
     if (caneclingResult == "200") {
       Navigator.pop(context);
       showStatusInCaseOfFlush(

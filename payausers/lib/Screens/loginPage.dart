@@ -83,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
           setState(() => isLogin = true);
           final getLoginStatus = await api.getAccessToLogin(
               email: email, password: pass, deviceToken: devToken);
+          print(getLoginStatus);
 
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
