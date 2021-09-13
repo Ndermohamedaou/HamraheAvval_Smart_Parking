@@ -71,6 +71,6 @@ const double mainFontSize = 18;
 const double subFontSize = 15;
 
 // API details
-const baseUrl = "http://188.213.64.78:8000/api";
+const baseUrl = "http://172.16.48.225:4047/api";
 // Old API
 // http://188.213.64.78:8000
