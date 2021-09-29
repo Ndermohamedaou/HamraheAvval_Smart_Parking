@@ -250,7 +250,7 @@ class _MyAppState extends State<MyApp> {
                   },
                   theme:
                       Styles.themeData(themeChangeProvider.darkTheme, context),
-                  initialRoute: '/termsAndLicense',
+                  initialRoute: '/splashScreen',
                   routes: {
                     '/splashScreen': (context) => SplashScreen(),
                     '/checkConnection': (context) => CheckConnection(),
