@@ -35,13 +35,13 @@ void reserveMe({st, et, context}) async {
             desc: descOfFailedReserve);
       }
     } catch (e) {
-      Toast.show(dataEntryUnCorrect, context,
+      Toast.show(dataEntryInCorrect, context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);
     }
   } else
-    Toast.show(dataEntryUnCorrect, context,
+    Toast.show(dataEntryInCorrect, context,
         duration: Toast.LENGTH_LONG,
         gravity: Toast.BOTTOM,
         textColor: Colors.white);

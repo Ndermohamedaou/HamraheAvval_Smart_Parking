@@ -58,7 +58,7 @@ class UserCard extends StatelessWidget {
                     ),
                     SizedBox(width: 4.0.w),
                     Text(
-                      "پارکینگ هوشمند من",
+                      "پارکینگ هوشمند",
                       style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           color: mainCardColor,

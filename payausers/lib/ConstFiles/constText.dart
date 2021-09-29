@@ -97,7 +97,7 @@ const cancelText = 'لغو';
 // Reserve
 const String reserveTextTitle = "رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
-const String dataEntryUnCorrect = "ورودی اطلاعات ناقص است";
+const String dataEntryInCorrect = "ورودی اطلاعات ناقص است";
 const titleOfReserve = "رزرو شما با موفقیت انجام شد";
 const resultOfReserve =
     "رزرو شما در تاریخ انتخابی ثبت و درحال بررسی می باشد. در صورت تایید به شما اعلام خواهد شد";
