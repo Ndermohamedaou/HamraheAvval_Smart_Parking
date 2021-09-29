@@ -111,7 +111,7 @@ class AppBarAsNavigate extends StatelessWidget {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
-                "${termsLastUpdate} ${DateTime.now().year}",
+                "$termsLastUpdate ${DateTime.now().year}",
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: 18,
