@@ -54,7 +54,7 @@ class _MainIntroState extends State<MainIntro> {
                 ),
                 SizedBox(height: 7),
                 Text(
-                  "به اپلیکیشن کاربران پایا خوش آمدید",
+                  "به اپلیکیشن پارکینگ هوشمند همراه اول خوش آمدید",
                   style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: subTitleSize,

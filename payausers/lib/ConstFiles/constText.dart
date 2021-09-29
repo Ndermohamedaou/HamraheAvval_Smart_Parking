@@ -26,8 +26,8 @@ const tryAgainConnectionErrorSubtitle = 'لطفا باری دیگر سعی کن�
 const exitFromAppTextTitle = 'خروج از برنامه';
 
 // Intro main title
-const introTitle1Text = "کاربران پایا";
-const loginToAccount = "ورود به حساب خود";
+const introTitle1Text = "پارکینگ هوشمند من";
+const loginToAccount = "ورود به حساب کاربری";
 const nextLevel1 = "بعدی";
 // Dark Mode Changer Text
 const themeChangeText = "حالت تاریک یا روشن";
