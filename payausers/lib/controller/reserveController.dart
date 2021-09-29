@@ -35,7 +35,7 @@ void reserveMe({st, et, context}) async {
             desc: descOfFailedReserve);
       }
     } catch (e) {
-      Toast.show(dataEntryInCorrect, context,
+      Toast.show(serverConnectionProblem, context,
           duration: Toast.LENGTH_LONG,
           gravity: Toast.BOTTOM,
           textColor: Colors.white);

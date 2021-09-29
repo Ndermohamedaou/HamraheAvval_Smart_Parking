@@ -131,8 +131,8 @@ const existUserPlateTitleErr = "پلاک تکراری";
 const existUserPlateDescErr = "شما نمی توانید پلاک تکراری وارد کنید";
 
 // Delete User plate section in Swap
-const delProcSucTitle = "با موفقیت حذف شد";
-const delProcDesc = "پلاک موردنظر شما با موفیت حذف شد";
+const delProcSucTitle = "عملیات حذف موفقیت آمیز بود";
+const delProcDesc = "پلاک موردنظر شما با موفقیت حذف شد";
 // if warning had happend
 const delProcFailTitle = "عملیات با شکست مواجه شد";
 const delProcFailDesc = "پلاک شما در دیتابیس حذف نشد";
