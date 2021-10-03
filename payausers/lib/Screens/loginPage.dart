@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -185,6 +186,10 @@ class _LoginPageState extends State<LoginPage> {
                     ? null
                     : emptyTextFieldMsg,
                 textInputType: protectedPassword,
+                inputFormat: [
+                  new WhitelistingTextInputFormatter(
+                      RegExp("[-/:-?{-~!\"^_*'()@#\$%&=+,}0-9a-zA-Z]")),
+                ],
                 textFieldIcon:
                     password == "" ? Icons.vpn_key_outlined : showMePass,
                 iconPressed: () {
