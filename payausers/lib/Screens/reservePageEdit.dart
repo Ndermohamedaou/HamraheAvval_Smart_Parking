@@ -127,6 +127,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
           datePickedByUser = newDate;
           // print("This is new date $newDate");
         });
+        Navigator.pop(context);
       },
     ).init();
 

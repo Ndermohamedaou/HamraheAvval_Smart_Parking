@@ -74,6 +74,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/lottie/
+    - assets/logo/
 
   fonts:
     - family: BYekan

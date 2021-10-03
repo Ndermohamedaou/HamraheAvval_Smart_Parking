@@ -13,7 +13,7 @@
 
     <application
         android:name=".Application"
-        android:label="payausers"
+        android:label="MCI Parking"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity

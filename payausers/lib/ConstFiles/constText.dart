@@ -296,7 +296,7 @@ const errorPlateAddTitle = "عملیات ثبت پلاک شما با شکست م
 const errorPlateAddDsc =
     "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید";
 
-const noticeMsg = "نکته بسیار مهمی که باید در اینجا قرار داشته باشد";
+const noticeMsg = "لطفا تاریخ رزرو مورد نظر خود را انتخاب کنید";
 const acceptedPlateText = "تایید شده";
 const ignoredPlateText = "رد شده";
 const deniedPlateText = "تایید نشده";
