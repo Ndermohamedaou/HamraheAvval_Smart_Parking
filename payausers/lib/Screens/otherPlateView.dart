@@ -74,7 +74,8 @@ class _OtherPageViewState extends State<OtherPageView> {
           showStatusInCaseOfFlush(
               context: context,
               title: successfullPlateAddTitle,
-              msg: "جهت تایید پلاک به سازمان مراجعه کنید",
+              msg:
+                  "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید",
               iconColor: Colors.green,
               icon: Icons.done_outline);
         }

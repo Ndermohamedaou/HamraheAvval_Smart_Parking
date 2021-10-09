@@ -49,7 +49,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     appBarTitle = [
       addPlateNumAppBar,
       nationalCardAppBar,
-      ownerNationalCardAppBar,
+      // ownerNationalCardAppBar,
       ownerCarCardAppBar
     ];
     plate0 = "";
@@ -88,25 +88,25 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       );
   }
 
-  Future gettingOwnerNC(ImageSource source) async {
-    final image = await ImagePicker.pickImage(
-      source: source,
-      maxHeight: 500,
-      maxWidth: 500,
-      imageQuality: 50,
-    );
+  // Future gettingOwnerNC(ImageSource source) async {
+  //   final image = await ImagePicker.pickImage(
+  //     source: source,
+  //     maxHeight: 500,
+  //     maxWidth: 500,
+  //     imageQuality: 50,
+  //   );
 
-    if (image != null) {
-      setState(() => ncOwnerCard = image);
-    } else
-      showStatusInCaseOfFlushBottom(
-        context: context,
-        icon: Icons.close,
-        iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
-        title: "عدم انتخاب تصویر",
-      );
-  }
+  //   if (image != null) {
+  //     setState(() => ncOwnerCard = image);
+  //   } else
+  //     showStatusInCaseOfFlushBottom(
+  //       context: context,
+  //       icon: Icons.close,
+  //       iconColor: Colors.red,
+  //       msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
+  //       title: "عدم انتخاب تصویر",
+  //     );
+  // }
 
   Future gettingOwnerCarCard(ImageSource source) async {
     final image = await ImagePicker.pickImage(
@@ -142,7 +142,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         plate2 != "" &&
         plate3 != "" &&
         nationalCardImg != null &&
-        ownerNationalCard != null &&
+        // ownerNationalCard != null &&
         ownerCarCard != null) {
       if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
         setState(() => isAddingDocs = false);
@@ -274,12 +274,12 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               albumTapped: () => gettingNationalCard(ImageSource.gallery),
               cameraTapped: () => gettingNationalCard(ImageSource.camera),
             ),
-            CardEntry(
-              customIcon: "assets/images/nationalCardIcon.png",
-              imgShow: ncOwnerCard,
-              albumTapped: () => gettingOwnerNC(ImageSource.gallery),
-              cameraTapped: () => gettingOwnerNC(ImageSource.camera),
-            ),
+            // CardEntry(
+            //   customIcon: "assets/images/nationalCardIcon.png",
+            //   imgShow: ncOwnerCard,
+            //   albumTapped: () => gettingOwnerNC(ImageSource.gallery),
+            //   cameraTapped: () => gettingOwnerNC(ImageSource.camera),
+            // ),
             CardEntry(
               customIcon: "assets/images/OwnerCarCard.png",
               imgShow: ownerCarCard,
@@ -291,8 +291,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       ),
       bottomNavigationBar: BottomButton(
         hasCondition: isAddingDocs,
-        text: pageIndex == 3 ? "ثبت اطلاعات" : nextLevel1,
-        ontapped: () => pageIndex == 3
+        text: pageIndex == 2 ? "ثبت اطلاعات" : nextLevel1,
+        ontapped: () => pageIndex == 2
             ? addPlateProcInNow(
                 plate0: plate0,
                 plate1: alp.getAlphabet()[_value].item,
@@ -308,7 +308,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   }
 
   void nextPage() {
-    if (pageIndex < 3) {
+    if (pageIndex < 2) {
       setState(() => pageIndex++);
       _pageController.animateToPage(pageIndex,
           duration: Duration(milliseconds: 500), curve: Curves.decelerate);

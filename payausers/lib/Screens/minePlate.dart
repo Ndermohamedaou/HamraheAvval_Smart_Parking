@@ -45,7 +45,8 @@ class _MinPlateViewState extends State<MinPlateView> {
   void initState() {
     _pageController = PageController();
     pageIndex = 0;
-    appBarTitle = [addPlateNumAppBar, nationalCardAppBar, carCardAppBar];
+    // rm nationalCardAppBar view
+    appBarTitle = [addPlateNumAppBar, carCardAppBar];
     plate0 = "";
     plate2 = "";
     plate3 = "";
@@ -61,27 +62,27 @@ class _MinPlateViewState extends State<MinPlateView> {
     super.dispose();
   }
 
-  Future gettingNationalCard(ImageSource source) async {
-    final image = await ImagePicker.pickImage(
-      source: source,
-      maxHeight: 512,
-      maxWidth: 512,
-      imageQuality: 50,
-    );
+  // Future gettingNationalCard(ImageSource source) async {
+  //   final image = await ImagePicker.pickImage(
+  //     source: source,
+  //     maxHeight: 512,
+  //     maxWidth: 512,
+  //     imageQuality: 50,
+  //   );
 
-    print("Your image is : $image");
+  //   print("Your image is : $image");
 
-    if (image != null) {
-      setState(() => ncCard = image);
-    } else
-      showStatusInCaseOfFlushBottom(
-        context: context,
-        icon: Icons.close,
-        iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
-        title: "عدم انتخاب تصویر",
-      );
-  }
+  //   if (image != null) {
+  //     setState(() => ncCard = image);
+  //   } else
+  //     showStatusInCaseOfFlushBottom(
+  //       context: context,
+  //       icon: Icons.close,
+  //       iconColor: Colors.red,
+  //       msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
+  //       title: "عدم انتخاب تصویر",
+  //     );
+  // }
 
   Future gettingCarCard(ImageSource source) async {
     final image = await ImagePicker.pickImage(
@@ -114,7 +115,7 @@ class _MinPlateViewState extends State<MinPlateView> {
         plate1 != null &&
         plate2 != "" &&
         plate3 != "" &&
-        nationalCardImg != null &&
+        // nationalCardImg != null &&
         carCardImg != null) {
       setState(() => isAddingDocs = false);
       if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
@@ -238,12 +239,12 @@ class _MinPlateViewState extends State<MinPlateView> {
               plate3: plate3,
               plate3Adder: (value) => setState(() => plate3 = value),
             ),
-            CardEntry(
-              customIcon: "assets/images/nationalCardIcon.png",
-              imgShow: ncCard,
-              albumTapped: () => gettingNationalCard(ImageSource.gallery),
-              cameraTapped: () => gettingNationalCard(ImageSource.camera),
-            ),
+            // CardEntry(
+            //   customIcon: "assets/images/nationalCardIcon.png",
+            //   imgShow: ncCard,
+            //   albumTapped: () => gettingNationalCard(ImageSource.gallery),
+            //   cameraTapped: () => gettingNationalCard(ImageSource.camera),
+            // ),
             CardEntry(
               customIcon: "assets/images/OwnerCarCard.png",
               imgShow: carCard,
@@ -255,8 +256,8 @@ class _MinPlateViewState extends State<MinPlateView> {
       ),
       bottomNavigationBar: BottomButton(
         hasCondition: isAddingDocs,
-        text: pageIndex == 2 ? "ثبت اطلاعات" : nextLevel1,
-        ontapped: () => pageIndex == 2
+        text: pageIndex == 1 ? "ثبت اطلاعات" : nextLevel1,
+        ontapped: () => pageIndex == 1
             ? addPlateProcInNow(
                 plate0: plate0,
                 plate1: alp.getAlphabet()[_value].item,
@@ -271,7 +272,7 @@ class _MinPlateViewState extends State<MinPlateView> {
   }
 
   void nextPage() {
-    if (pageIndex < 2) {
+    if (pageIndex < 1) {
       setState(() => pageIndex++);
       _pageController.animateToPage(pageIndex,
           duration: Duration(milliseconds: 500), curve: Curves.decelerate);
