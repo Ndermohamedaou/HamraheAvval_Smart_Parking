@@ -7,7 +7,7 @@ HexColor persCodeColor = HexColor("#814B00");
 HexColor lastVisitColor = HexColor("#0C4C4E");
 
 // Main Background color
-HexColor mainBgColorLight = HexColor("#F9F9F9");
+HexColor mainBgColorLight = HexColor("#EEF3F7");
 HexColor mainBgColorDark = HexColor("#303841");
 
 // Dashboard Gradient Colors

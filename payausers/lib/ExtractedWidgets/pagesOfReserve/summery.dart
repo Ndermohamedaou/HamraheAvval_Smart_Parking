@@ -36,7 +36,7 @@ class Summery extends StatelessWidget {
           TicketView(
             backgroundPadding:
                 EdgeInsets.symmetric(vertical: 24, horizontal: 40),
-            backgroundColor: mainSectionCTA,
+            backgroundColor: mainCTA,
             contentBackgroundColor: themeChange ? darkBar : lightBar,
             contentPadding: EdgeInsets.symmetric(vertical: 44, horizontal: 20),
             drawArc: true,
@@ -46,6 +46,7 @@ class Summery extends StatelessWidget {
             trianglePos: .65,
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
+              alignment: Alignment.center,
               width: ticketSize,
               height: 250, //400
               child: Column(

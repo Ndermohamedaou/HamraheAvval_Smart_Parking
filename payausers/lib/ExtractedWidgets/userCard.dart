@@ -92,10 +92,7 @@ class UserCard extends StatelessWidget {
                 Container(
                   child: Column(
                     children: [
-                      Text(
-                        fullname.length > 15
-                            ? "${fullname.substring(0, 15)}..."
-                            : fullname,
+                      Text(fullname,
                         style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           color: mainCardColor,
