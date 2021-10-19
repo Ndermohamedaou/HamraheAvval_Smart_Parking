@@ -8,6 +8,7 @@ class SlotsViewer {
   Future<Map> gettingSlots() async {
     String token = await lStorage.read(key: "uToken");
     String buildingName = await lStorage.read(key: "buildingName");
+    // print(buildingName);
 
     try {
       return await api.getSlots(
