@@ -1,5 +1,7 @@
 import 'package:securityapp/model/ApiAccess.dart';
 
+import 'localDataController.dart';
+
 class SearchingCar {
   ApiAccess api = ApiAccess();
   Future<List> searchingByPlate({token, List plates}) async {
@@ -12,8 +14,14 @@ class SearchingCar {
   }
 
   Future<Map> searchingBySlot({token, slot}) async {
+    LoadingLocalData llds = LoadingLocalData();
+
+    Map loadLocalData = await llds.gettingStaffInfoInLocal();
+    String buildingName = loadLocalData["buildingName"];
+
     try {
-      return await api.searchingBySlot(uToken: token, slotNum: slot);
+      return await api.searchingBySlot(
+          uToken: token, slotNum: slot, buildingName: buildingName);
     } catch (e) {
       print("Error from searching by slot: $e");
       return {};

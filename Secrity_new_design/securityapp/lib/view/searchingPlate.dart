@@ -8,7 +8,6 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/searchingController.dart';
 import 'package:securityapp/model/classes/AlphabetClassList.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
-import 'package:securityapp/view/searchingByPersonalCode.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/dorpdownMenuItem.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
@@ -49,7 +48,7 @@ class _SearchByPlateState extends State<SearchByPlate> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    void SearchedByPlate({plate0, plate1, plate2, plate3}) async {
+    void searchedByPlate({plate0, plate1, plate2, plate3}) async {
       if (plate0 != "" && plate1 != "" && plate2 != "" && plate3 != "") {
         // init Flutter Secure Storage
         // First getting token form Flutter local storage
@@ -290,7 +289,7 @@ class _SearchByPlateState extends State<SearchByPlate> {
                               ),
                               SizedBox(height: 5.0.h),
                               SearchBtn(
-                                searchPressed: () => SearchedByPlate(
+                                searchPressed: () => searchedByPlate(
                                   plate0: plate0,
                                   plate1: alp.getAlphabet()[_value].item,
                                   plate2: plate2,
