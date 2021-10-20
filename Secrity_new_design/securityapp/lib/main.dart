@@ -169,6 +169,8 @@ class _MyAppState extends State<MyApp> {
                     editPage: (context) => EditPage(),
                     setAppLock: (context) => SetAppLockOTPView(),
                     savingAppLockPass: (context) => SavingAppLock(),
+                    // If user enable app local lock show this view and
+                    // prevent from entry without passcode
                     localAuthLocker: (context) => LocalAuthEnter(),
                   },
                 ),

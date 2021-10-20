@@ -1,4 +1,5 @@
 import 'package:hexcolor/hexcolor.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/ExtractedWidgets/userCard.dart';
@@ -93,6 +94,25 @@ class _DashboardState extends State<Dashboard>
           ),
         );
 
+    void openOptionsData({data}) {
+      showMaterialModalBottomSheet(
+        context: context,
+        enableDrag: true,
+        bounce: true,
+        duration: const Duration(milliseconds: 550),
+        builder: (context) => SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 20.0.h,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return SafeArea(
         child: SingleChildScrollView(
       child: Column(
@@ -116,58 +136,17 @@ class _DashboardState extends State<Dashboard>
             future: loadLocalData.getStaffInfoFromLocal(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasData) {
-                return Column(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      width: 30.0.h,
-                      height: 30.0.h,
-                      padding: EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                        color: themeChange.darkTheme ? darkBar : Colors.white,
-                        borderRadius: BorderRadius.circular(50.0),
-                        border: Border.all(color: mainCTA, width: 15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: mainCTA.withOpacity(0.6),
-                            spreadRadius: 2,
-                            blurRadius: 7,
-                            offset: Offset(2, 3),
-                          ),
-                        ],
-                      ),
-                      child: QrImage(
-                        data: snapshot.data['userId'],
-                        version: QrVersions.auto,
-                        padding: EdgeInsets.all(10),
-                        foregroundColor: themeChange.darkTheme
-                            ? Colors.white
-                            : HexColor("#000000"),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        "جهت استفاده از شناسه کاربری خود، شناسه کیو آر بالا را اسکن کنید",
-                        style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 13.0.sp,
-                          color: Colors.grey.shade800,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
+                return QRHolder(
+                  qrValue: snapshot.data['userId'],
                 );
               } else if (snapshot.hasError) {
-                return null;
+                return QRHolder(
+                  qrValue: "صبر کنید یا اتصال خود را به اینترنت بررسی کنید",
+                );
               } else {
-                return null;
+                return QRHolder(
+                  qrValue: "صبر کنید یا اتصال خود را به اینترنت بررسی کنید",
+                );
               }
             },
           ),
@@ -194,22 +173,22 @@ class _DashboardState extends State<Dashboard>
                 SecondOptions(
                   icon: Ionicons.bar_chart_outline,
                   title: "ترددها",
-                  onPressed: () {},
+                  onPressed: () => openOptionsData(),
                 ),
                 SecondOptions(
                   icon: Ionicons.ticket_outline,
                   title: "رزروها",
-                  onPressed: () {},
+                  onPressed: () => openOptionsData(),
                 ),
                 SecondOptions(
                   icon: Ionicons.file_tray_full_outline,
                   title: "پلاک ها",
-                  onPressed: () {},
+                  onPressed: () => openOptionsData(),
                 ),
                 SecondOptions(
                   icon: Ionicons.location_outline,
                   title: "جایگاه",
-                  onPressed: () {},
+                  onPressed: () => openOptionsData(),
                 ),
               ],
             ),
@@ -227,6 +206,64 @@ class _DashboardState extends State<Dashboard>
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class QRHolder extends StatelessWidget {
+  const QRHolder({this.qrValue});
+
+  final String qrValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          width: 30.0.h,
+          height: 30.0.h,
+          padding: EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+            color: themeChange.darkTheme ? darkBar : Colors.white,
+            borderRadius: BorderRadius.circular(50.0),
+            border: Border.all(color: mainCTA, width: 15),
+            boxShadow: [
+              BoxShadow(
+                color: mainCTA.withOpacity(0.6),
+                spreadRadius: 2,
+                blurRadius: 7,
+                offset: Offset(2, 3),
+              ),
+            ],
+          ),
+          child: QrImage(
+            data: qrValue,
+            version: QrVersions.auto,
+            padding: EdgeInsets.all(10),
+            foregroundColor:
+                themeChange.darkTheme ? Colors.white : HexColor("#000000"),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          width: double.infinity,
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            "جهت استفاده از شناسه کاربری خود، شناسه کیو آر بالا را اسکن کنید",
+            style: TextStyle(
+              fontFamily: mainFaFontFamily,
+              fontWeight: FontWeight.normal,
+              fontSize: 13.0.sp,
+              color:
+                  themeChange.darkTheme ? Colors.white : Colors.grey.shade800,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class VerticalSlide extends StatelessWidget {

@@ -39,6 +39,11 @@ const initSettingsText = "تنظیمات";
 // APP bar
 const securityAppBarText = "اپليکيشن انتظامات";
 const slotsTitleText = "جایگاه های پارکینگ";
+
+// On pressed slots
+const slotTitleInBottomAction = "شماره جایگاه";
+const slotStatusString = ": وضعیت جایگاه";
+
 // Menu For Grid Number showing
 
 // Searching

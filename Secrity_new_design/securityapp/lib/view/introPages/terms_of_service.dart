@@ -32,8 +32,14 @@ class Terms extends StatelessWidget {
                         data: terms,
                         styleSheet: MarkdownStyleSheet.fromTheme(ThemeData(
                             textTheme: TextTheme(
-                                body1: TextStyle(
+                                bodyText1: TextStyle(
                                     fontSize: 18.0,
+                                    color: themeChange
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontFamily: mainFont),
+                                bodyText2: TextStyle(
+                                    fontSize: 16.0,
                                     color: themeChange
                                         ? Colors.white
                                         : Colors.black,

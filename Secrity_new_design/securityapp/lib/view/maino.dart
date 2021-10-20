@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
@@ -11,6 +13,7 @@ import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/controller/slotController.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
+import 'package:securityapp/widgets/alert.dart';
 import 'package:securityapp/widgets/shrinkMenuBuilder.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:sizer/sizer.dart';
@@ -27,6 +30,21 @@ Map slotsMap = {};
 
 // Set for getting data
 Timer timer;
+
+class Util {
+  Map getColorByStatus({status: int}) {
+    switch (status) {
+      case 0:
+        return {"color": empty, "string": "خالی"};
+
+      case 1:
+        return {"color": fullSlot, "string": "پر"};
+
+      default:
+        return {"color": reserve, "string": "رزرو"};
+    }
+  }
+}
 
 class Maino extends StatefulWidget {
   @override
@@ -63,10 +81,58 @@ class _MainoState extends State<Maino> {
         }));
   }
 
+  void openSlotDetails({status: Map, slotNum}) {
+    showMaterialModalBottomSheet(
+      context: context,
+      enableDrag: true,
+      bounce: true,
+      duration: const Duration(milliseconds: 550),
+      builder: (context) => SingleChildScrollView(
+        controller: ModalScrollController.of(context),
+        child: Column(
+          children: [
+            SizedBox(height: 10.0.h),
+            CustomText(
+              text: slotTitleInBottomAction,
+              size: 25.0.sp,
+              fw: FontWeight.w500,
+              align: TextAlign.center,
+            ),
+            CustomText(
+              text: slotNum,
+              size: 20.0.sp,
+              align: TextAlign.center,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              textDirection: TextDirection.rtl,
+              children: [
+                CustomText(
+                  text: slotStatusString,
+                  size: 18.0.sp,
+                  align: TextAlign.center,
+                ),
+                SizedBox(width: 10),
+                CustomText(
+                  text: status["string"],
+                  size: 18.0.sp,
+                  color: status["color"],
+                  align: TextAlign.center,
+                ),
+              ],
+            ),
+            SizedBox(height: 10.0.h)
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+    Util indicatorUtil = new Util();
 
     final gridContext = slotsMap.isEmpty
         ? SizedBox()
@@ -102,34 +168,37 @@ class _MainoState extends State<Maino> {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) => Container(
                       decoration: BoxDecoration(
-                          color: slotsMap["${slotsMap['floors'][item]}"][index]
-                                      ["status"] ==
-                                  0
-                              ? empty
-                              : slotsMap["${slotsMap['floors'][item]}"][index]
-                                          ["status"] ==
-                                      1
-                                  ? fullSlot
-                                  : reserve,
+                          color: indicatorUtil.getColorByStatus(
+                              status: slotsMap["${slotsMap['floors'][item]}"]
+                                  [index]["status"])["color"],
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(
                             width: 1,
                           )),
                       child: Center(
-                        child: CustomText(
-                          size: 13.0.sp,
-                          // slotsMap["${slotsMap['floors'][item]}"][index]["id"]
-                          text:
-                              "P ${slotsMap["${slotsMap['floors'][item]}"][index]["id"]}",
-                          color: slotsMap["${slotsMap['floors'][item]}"][index]
-                                      ["status"] ==
-                                  1
-                              ? Colors.white
-                              : slotsMap["${slotsMap['floors'][item]}"][index]
-                                          ["status"] ==
-                                      -1
-                                  ? Colors.white
-                                  : Colors.black,
+                        child: GestureDetector(
+                          onTap: () => openSlotDetails(
+                              slotNum: slotsMap["${slotsMap['floors'][item]}"]
+                                  [index]["id"],
+                              status: indicatorUtil.getColorByStatus(
+                                  status:
+                                      slotsMap["${slotsMap['floors'][item]}"]
+                                          [index]["status"])),
+                          child: CustomText(
+                            size: 13.0.sp,
+                            // slotsMap["${slotsMap['floors'][item]}"][index]["id"]
+                            text:
+                                "P ${slotsMap["${slotsMap['floors'][item]}"][index]["id"]}",
+                            color: slotsMap["${slotsMap['floors'][item]}"]
+                                        [index]["status"] ==
+                                    1
+                                ? Colors.white
+                                : slotsMap["${slotsMap['floors'][item]}"][index]
+                                            ["status"] ==
+                                        -1
+                                    ? Colors.white
+                                    : Colors.black,
+                          ),
                         ),
                       ),
                     ),

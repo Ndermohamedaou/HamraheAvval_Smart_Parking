@@ -1,7 +1,7 @@
 name: securityapp
 description: A new Flutter project.
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -12,24 +12,24 @@ dependencies:
   flutter:
     sdk: flutter
 
-  modal_bottom_sheet: 
+  modal_bottom_sheet: ^1.0.0+1
   # Custom hex color
-  hexcolor: ^1.0.6
+  hexcolor: ^2.0.5
   # MarkDown Plug in
   flutter_markdown:
   # Connection with API
-  dio: 
+  dio:
   # Provide provider model in theme mode
   provider:
   # Alerts
   toast:
   flushbar:
-  rflutter_alert: 
+  rflutter_alert:
   # Saving user data in LDS
   flutter_secure_storage:
   shared_preferences: ^0.5.12+4
   #  Custom Cupertino Icons
-  cupertino_icons: 
+  cupertino_icons:
   # Side Menu in Main
   shrink_sidemenu: ^1.0.0+3
   liquid_ui:
@@ -41,7 +41,7 @@ dependencies:
   lottie:
   # Nice Switch
   xlive_switch: ^1.0.5
-  # case of any menu 
+  # case of any menu
   fab_circular_menu: ^1.0.1
   # use for animated Icon in BTNS
   animated_icon_button: ^0.3.0
@@ -56,30 +56,25 @@ dependencies:
   # For Socket communication
   socket_io_client: any
   # Getting Notifications
-  flutter_local_notifications: any
+  flutter_local_notifications:
   # For OPT Password view
   otp_screen: ^0.0.3
   list_tile_switch: ^0.0.2
-  
 
-  
   double_back_to_close_app:
   connectivity:
-
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-
 flutter:
-
   uses-material-design: true
 
   assets:
-   - assets/
-   - assets/images/
-   - assets/animation/
+    - assets/
+    - assets/images/
+    - assets/animation/
 
   fonts:
     - family: IranSans

@@ -76,9 +76,9 @@ class ApiAccess {
   Future<Map> searchingBySlot({uToken, slotNum, buildingName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
-    print("searchSlot?type=slot&slot=$buildingName-$slotNum");
-    Response res = await dio
-        .post("$baseURL/searchSlot?type=slot&slot=$buildingName-$slotNum");
+    // print("searchSlot?type=slot&slot=$buildingName-$slotNum");
+    Response res = await dio.post(
+        "$baseURL/searchSlot?type=slot&slot=$slotNum&building=$buildingName");
     return res.data;
   }
 

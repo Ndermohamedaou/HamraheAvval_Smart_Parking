@@ -43,6 +43,9 @@ class _SearchResultsState extends State<SearchResults> {
     var entryTime = info["entry_datetime"];
     var exitTime = info["exit_datetime"];
 
+    // print("this is personal code: ${info['personal_code']}");
+    // print("this is name: ${info['name']}");
+
     // print(info);
     return Scaffold(
       appBar: AppBar(
