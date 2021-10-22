@@ -7,6 +7,7 @@ class SlotsViewer {
   ApiAccess api = ApiAccess();
   Future<Map> gettingSlots() async {
     String token = await lStorage.read(key: "uToken");
+    // print(token);
     String buildingName = await lStorage.read(key: "buildingName");
     // print(buildingName);
 

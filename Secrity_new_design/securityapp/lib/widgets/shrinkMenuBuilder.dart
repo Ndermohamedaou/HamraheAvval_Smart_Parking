@@ -77,7 +77,7 @@ Widget buildMenu({
           ListMenu(
             themeChange: themeChange,
             text: personalCodeSearchText,
-            icon: Icons.person_add_alt_1_rounded,
+            icon: Icons.person,
             pressedMenu: () =>
                 Navigator.pushNamed(context, searchByPersCodeRoute),
           ),

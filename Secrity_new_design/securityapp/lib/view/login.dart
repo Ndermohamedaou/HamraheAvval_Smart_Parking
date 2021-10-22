@@ -6,7 +6,6 @@ import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/gettingLogin.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
-import 'package:securityapp/view/buildingForUsers.dart';
 import 'package:securityapp/view/introPages/intro.dart';
 import 'package:securityapp/view/introPages/themeChange.dart';
 import 'package:securityapp/widgets/alert.dart';

@@ -13,7 +13,6 @@ import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/controller/slotController.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
-import 'package:securityapp/widgets/alert.dart';
 import 'package:securityapp/widgets/shrinkMenuBuilder.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:sizer/sizer.dart';
@@ -137,13 +136,12 @@ class _MainoState extends State<Maino> {
     final gridContext = slotsMap.isEmpty
         ? SizedBox()
         : Container(
-            margin: EdgeInsets.only(bottom: 100),
+            margin: EdgeInsets.only(bottom: 100, top: 20),
             child: ListView.builder(
               shrinkWrap: true,
               primary: false,
-              itemCount: slotsMap['floors'] != null
-                  ? slotsMap['floors'].length - 1
-                  : 0,
+              itemCount:
+                  slotsMap['floors'] != null ? slotsMap['floors'].length : 0,
               itemBuilder: (BuildContext context, int item) => Column(
                 children: [
                   Row(
@@ -158,12 +156,11 @@ class _MainoState extends State<Maino> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 1.0.h),
                   GridView.builder(
                     primary: false,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: slotsMap["${slotsMap['floors'][item]}"] != null
-                        ? slotsMap["${slotsMap['floors'][item]}"].length - 1
+                        ? slotsMap["${slotsMap['floors'][item]}"].length
                         : 0,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) => Container(
@@ -208,6 +205,7 @@ class _MainoState extends State<Maino> {
                       mainAxisSpacing: 10,
                     ),
                   ),
+                  SizedBox(height: 2.0.h),
                 ],
               ),
             ),
@@ -286,7 +284,6 @@ class _MainoState extends State<Maino> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 4.0.h),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     child: slotsContainer,

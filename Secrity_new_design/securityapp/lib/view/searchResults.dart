@@ -40,11 +40,10 @@ class _SearchResultsState extends State<SearchResults> {
         : info['slot'] == 1
             ? "پر"
             : "خالی";
-    var entryTime = info["entry_datetime"];
-    var exitTime = info["exit_datetime"];
-
-    // print("this is personal code: ${info['personal_code']}");
-    // print("this is name: ${info['name']}");
+    final entryTime = info["entry_datetime"];
+    final exitTime = info["exit_datetime"];
+    final personalCode = info["personal_code"];
+    final name = info["name"];
 
     // print(info);
     return Scaffold(
@@ -99,7 +98,7 @@ class _SearchResultsState extends State<SearchResults> {
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         width: double.infinity,
-                        height: 30.0.h,
+                        height: 55.0.h,
                         decoration: BoxDecoration(
                           color: themeChange.darkTheme
                               ? darkOptionBg
@@ -107,6 +106,7 @@ class _SearchResultsState extends State<SearchResults> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ResultTiles(
                               icon: Icons.layers,
@@ -127,23 +127,37 @@ class _SearchResultsState extends State<SearchResults> {
                               title: slotStatusResult,
                               subtitle: slotStatus,
                             ),
+                            Divider(
+                              height: 2,
+                              thickness: 1,
+                            ),
+                            ResultTiles(
+                              icon: Icons.supervised_user_circle_sharp,
+                              iconBg: Colors.blueAccent,
+                              iconColor: Colors.white,
+                              title: "نام کاربر",
+                              subtitle: name,
+                            ),
+                            SizedBox(height: 1.25.h),
+                            Divider(
+                              height: 2,
+                              thickness: 1,
+                            ),
+                            ResultTiles(
+                              icon: Icons.person_pin_circle_sharp,
+                              iconBg: mainCTA,
+                              iconColor: Colors.white,
+                              title: "شناسه پرسنلی",
+                              subtitle: personalCode,
+                            ),
                           ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 30),
-                        width: 85.0.w,
-                        child: CustomText(
-                          text: resultSlotTip,
-                          size: 11.0.sp,
-                          color: Colors.grey,
                         ),
                       ),
                       SizedBox(height: 5.0.h),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20),
                         width: double.infinity,
-                        height: 30.0.h,
+                        height: 28.0.h,
                         decoration: BoxDecoration(
                           color: themeChange.darkTheme
                               ? darkOptionBg
@@ -151,11 +165,12 @@ class _SearchResultsState extends State<SearchResults> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ResultTiles(
                               icon: Icons.login,
                               iconBg: entrySlotBg,
-                              iconColor: Colors.white,
+                              iconColor: Colors.black,
                               title: entryTimeResult,
                               subtitle: entryTime,
                             ),
@@ -172,15 +187,6 @@ class _SearchResultsState extends State<SearchResults> {
                               subtitle: exitTime,
                             ),
                           ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 30),
-                        width: 85.0.w,
-                        child: CustomText(
-                          text: resultTimeTips,
-                          size: 11.0.sp,
-                          color: Colors.grey,
                         ),
                       ),
                       SizedBox(height: 5.0.h),

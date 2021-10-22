@@ -72,6 +72,7 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
     return WillPopScope(
       onWillPop: () {
         Navigator.popUntil(context, ModalRoute.withName(mainoRoute));
+        return null;
       },
       child: Scaffold(
         body: CustomScrollView(
@@ -113,7 +114,7 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
                               TextFields(
                                 keyType: TextInputType.number,
                                 lblText: persCodeInSearch,
-                                textFieldIcon: Icons.person_add_alt_1_rounded,
+                                textFieldIcon: Icons.person,
                                 textInputType: false,
                                 readOnly: false,
                                 onChangeText: (onChangePersCode) => setState(
