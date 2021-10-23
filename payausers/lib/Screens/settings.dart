@@ -9,6 +9,7 @@ import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/optionViewer.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -80,7 +81,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final themeChange = Provider.of<DarkThemeProvider>(context);
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     final avatarModel = Provider.of<AvatarModel>(context);
 
     Future galleryViewer(ImageSource changeType) async {
@@ -143,11 +144,17 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+        ),
         centerTitle: true,
         title: Text(
           settingsText,
-          style:
-              TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            fontSize: subTitleSize,
+            color: themeChange.darkTheme ? Colors.white : Colors.black,
+          ),
         ),
       ),
       body: SafeArea(

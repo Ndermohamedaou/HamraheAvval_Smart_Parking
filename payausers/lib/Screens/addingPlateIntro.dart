@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/customClipOval.dart';
+import 'package:payausers/Model/ThemeColor.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 int pageIndex = 0;
@@ -28,11 +30,21 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+        ),
         centerTitle: true,
-        title: Text("ثبت پلاک به همراه اسناد",
-            style: TextStyle(fontFamily: mainFaFontFamily)),
+        title: Text(
+          "ثبت پلاک به همراه اسناد",
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            color: themeChange.darkTheme ? Colors.white : Colors.black,
+          ),
+        ),
       ),
       body: SafeArea(
         child: PageView(

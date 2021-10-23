@@ -176,6 +176,24 @@ class _MainoState extends State<Maino> {
                         duration: Duration(milliseconds: 1),
                         curve: Curves.easeOut);
                   },
+                  navigateToTrafficsTab: () {
+                    setState(() => tabBarIndex = 1);
+                    _pageController.animateToPage(1,
+                        duration: Duration(milliseconds: 1),
+                        curve: Curves.easeOut);
+                  },
+                  navigateToReservesTab: () {
+                    setState(() => tabBarIndex = 2);
+                    _pageController.animateToPage(2,
+                        duration: Duration(milliseconds: 1),
+                        curve: Curves.easeOut);
+                  },
+                  navigateToPlatesTab: () {
+                    setState(() => tabBarIndex = 3);
+                    _pageController.animateToPage(3,
+                        duration: Duration(milliseconds: 1),
+                        curve: Curves.easeOut);
+                  },
                 ),
                 UserTraffic(),
                 ReservedTab(),

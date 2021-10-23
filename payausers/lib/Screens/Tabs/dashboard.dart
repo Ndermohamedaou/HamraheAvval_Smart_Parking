@@ -2,9 +2,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
-import 'package:payausers/ExtractedWidgets/userCard.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/Screens/familyPage.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Model/streamAPI.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -12,16 +11,23 @@ import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
+  final openUserDashSettings;
+  final navigateToTrafficsTab;
+  final navigateToReservesTab;
+  final navigateToPlatesTab;
   const Dashboard({
     this.openUserDashSettings,
+    this.navigateToTrafficsTab,
+    this.navigateToReservesTab,
+    this.navigateToPlatesTab,
   });
-  final Function openUserDashSettings;
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -51,23 +57,10 @@ class _DashboardState extends State<Dashboard>
 
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
-    final double itemHeight = (size.height - kToolbarHeight) / 4;
-    final double itemWidth = size.width;
     LocalDataGetterClass loadLocalData = LocalDataGetterClass();
 
     final double containerWidth = size.width > 500 ? 500 : double.infinity;
     final double optionsHolderWidth = size.width > 500 ? 150 : 100;
-
-    // Check if device be in portrait or Landscape
-    final double widthSizedResponse = size.width >= 410 && size.width < 600
-        ? (itemWidth / itemHeight) / 3
-        : size.width >= 390 && size.width <= 409
-            ? (itemWidth / itemHeight) / 2.4
-            : size.width <= 380
-                ? (itemWidth / itemHeight) / 3.2
-                : size.width >= 700 && size.width < 1000
-                    ? (itemWidth / itemHeight) / 6
-                    : (itemWidth / itemHeight) / 0.65.w;
 
     Widget userLeadingCircleAvatar(avatar, fullname) => GestureDetector(
           onTap: widget.openUserDashSettings,
@@ -94,7 +87,39 @@ class _DashboardState extends State<Dashboard>
           ),
         );
 
-    void openOptionsData({data}) {
+    void openOptionsData(
+        {data = "0",
+        title,
+        hasAction = false,
+        onPressedNavigationButton: Function}) {
+      Widget actionButton = hasAction
+          ? Container(
+              width: 200,
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(8.0),
+                color: mainSectionCTA,
+                child: MaterialButton(
+                    padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                    onPressed: onPressedNavigationButton,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "مشاهده جزئیات",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: loginBtnTxtColor,
+                              fontFamily: mainFaFontFamily,
+                              fontSize: btnSized,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )),
+              ),
+            )
+          : SizedBox();
       showMaterialModalBottomSheet(
         context: context,
         enableDrag: true,
@@ -103,10 +128,28 @@ class _DashboardState extends State<Dashboard>
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 20.0.h,
+              SizedBox(height: 5.0.h),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontSize: 24,
+                ),
               ),
+              Text(
+                "$data",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontSize: 22,
+                  color: mainCTA,
+                ),
+              ),
+              actionButton,
+              SizedBox(height: 5.0.h),
             ],
           ),
         ),
@@ -120,10 +163,6 @@ class _DashboardState extends State<Dashboard>
           SizedBox(height: 2.0.h),
           Builder(
             builder: (_) {
-              // if (avatarModel.avatarState == FlowState.Loading) {
-              //   return userLeadingCircleAvatar(
-              //       Icon(Icons.airline_seat_individual_suite_sharp));
-              // }
               return userLeadingCircleAvatar(
                   avatarModel.avatar != ""
                       ? NetworkImage(avatarModel.avatar)
@@ -170,25 +209,145 @@ class _DashboardState extends State<Dashboard>
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                SecondOptions(
-                  icon: Ionicons.bar_chart_outline,
-                  title: "ترددها",
-                  onPressed: () => openOptionsData(),
+                Builder(
+                  builder: (_) {
+                    if (trafficsModel.trafficsState == FlowState.Error) {
+                      return SecondOptions(
+                        icon: Ionicons.bar_chart_outline,
+                        title: "ترددها",
+                        onPressed: () {
+                          return showStatusInCaseOfFlush(
+                              context: context,
+                              title:
+                                  "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
+                              msg:
+                                  "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                              iconColor: Colors.orange,
+                              icon: Icons.warning);
+                        },
+                      );
+                    }
+                    return SecondOptions(
+                      icon: Ionicons.bar_chart_outline,
+                      title: "ترددها",
+                      onPressed: () => openOptionsData(
+                          title: "تعداد تردد های شما",
+                          data: trafficsModel.traffics.length,
+                          hasAction: true,
+                          onPressedNavigationButton: () {
+                            widget.navigateToTrafficsTab();
+                            Navigator.pop(context);
+                          }),
+                    );
+                  },
                 ),
-                SecondOptions(
-                  icon: Ionicons.ticket_outline,
-                  title: "رزروها",
-                  onPressed: () => openOptionsData(),
-                ),
-                SecondOptions(
-                  icon: Ionicons.file_tray_full_outline,
-                  title: "پلاک ها",
-                  onPressed: () => openOptionsData(),
-                ),
-                SecondOptions(
-                  icon: Ionicons.location_outline,
-                  title: "جایگاه",
-                  onPressed: () => openOptionsData(),
+                Builder(builder: (_) {
+                  if (reservesModel.reserveState == FlowState.Error) {
+                    return SecondOptions(
+                      icon: Ionicons.ticket_outline,
+                      title: "رزروها",
+                      onPressed: () => openOptionsData(
+                        title: "تعداد رزروهای شما",
+                        data: reservesModel.reserves.length,
+                        onPressedNavigationButton: () {
+                          return showStatusInCaseOfFlush(
+                              context: context,
+                              title:
+                                  "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
+                              msg:
+                                  "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                              iconColor: Colors.orange,
+                              icon: Icons.warning);
+                        },
+                      ),
+                    );
+                  }
+                  return SecondOptions(
+                    icon: Ionicons.ticket_outline,
+                    title: "رزروها",
+                    onPressed: () => openOptionsData(
+                        title: "تعداد کل رزروهای شما",
+                        data: reservesModel.reserves.length,
+                        hasAction: true,
+                        onPressedNavigationButton: () {
+                          widget.navigateToReservesTab();
+                          Navigator.pop(context);
+                        }),
+                  );
+                }),
+                Builder(builder: (_) {
+                  if (plateModel.platesState == FlowState.Error) {
+                    return SecondOptions(
+                      icon: Ionicons.file_tray_full_outline,
+                      title: "پلاک ها",
+                      onPressed: () => openOptionsData(
+                        title: "تعداد پلاک های ثبت شده در سامانه",
+                        data: plateModel.plates.length,
+                        onPressedNavigationButton: () {
+                          return showStatusInCaseOfFlush(
+                              context: context,
+                              title:
+                                  "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
+                              msg:
+                                  "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                              iconColor: Colors.orange,
+                              icon: Icons.warning);
+                        },
+                      ),
+                    );
+                  }
+                  return SecondOptions(
+                    icon: Ionicons.file_tray_full_outline,
+                    title: "پلاک ها",
+                    onPressed: () => openOptionsData(
+                      title: "تعداد پلاک های شما",
+                      data: plateModel.plates.length,
+                      hasAction: true,
+                      onPressedNavigationButton: () {
+                        widget.navigateToPlatesTab();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
+                }),
+                StreamBuilder(
+                  stream: streamAPI.getUserInfoInReal(),
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.hasData) {
+                      try {
+                        return SecondOptions(
+                          icon: Ionicons.location_outline,
+                          title: "جایگاه",
+                          onPressed: () => openOptionsData(
+                            title: "جایگاه فعلی وسیله نقلیه شما",
+                            data: "${snapshot.data["location"]}",
+                            onPressedNavigationButton: () {
+                              widget.navigateToPlatesTab();
+                              Navigator.pop(context);
+                            },
+                          ),
+                        );
+                      } catch (e) {
+                        return SecondOptions(
+                          icon: Ionicons.location_outline,
+                          title: "جایگاه",
+                          onPressed: () => openOptionsData(
+                            title: "جایگاه فعلی وسیله نقلیه شما",
+                            data: "در حال لود شدن",
+                          ),
+                        );
+                      }
+                    } else {
+                      return SecondOptions(
+                        icon: Ionicons.location_outline,
+                        title: "جایگاه",
+                        onPressed: () => openOptionsData(
+                          title: "جایگاه فعلی وسیله نقلیه شما",
+                          data: "در حال لود شدن",
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             ),

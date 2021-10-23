@@ -9,6 +9,7 @@ import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/cardEntery.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Screens/confirmInfo.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
@@ -34,7 +35,6 @@ PlatesModel plateModel;
 String plate0 = "";
 String plate2 = "";
 String plate3 = "";
-dynamic themeChange;
 int _value = 0;
 File ncCard;
 File carCard;
@@ -214,13 +214,20 @@ class _MinPlateViewState extends State<MinPlateView> {
   @override
   Widget build(BuildContext context) {
     plateModel = Provider.of<PlatesModel>(context);
+    final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+        ),
         centerTitle: true,
         title: Text(
           appBarTitle[pageIndex],
-          style: TextStyle(fontFamily: mainFaFontFamily),
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            color: themeChange.darkTheme ? Colors.white : Colors.black,
+          ),
         ),
       ),
       body: SafeArea(
