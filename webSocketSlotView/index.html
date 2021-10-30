@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>web socket slot view</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js"
+        integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <!-- Modal -->
+    <div class="modalAction" id="myModal">
+        <p class="greeting">خوش آمدید</p>
+        <p class="staffFullName">علیرضا سلطانی نشان</p>
+        <div class="slotNumPlace">
+            <p>جایگاه</p>
+            <span>125</span>
+        </div>
+    </div>
+
+
+
+    <div class="main">
+        <div class="mainTitle">
+            <img src="assets/images/littleLogo.png" alt="Hamrah logo">
+            <p>وضعیت کلی پارکینگ </p>
+        </div>
+
+        <div class="mainSection">
+            <div class="slotData">
+                <p class="emptyNum">25</p>
+                <p class="slash">/</p>
+                <p class="total">250</p>
+            </div>
+
+            <div class="chartData">
+                <canvas id="slotChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+
+        <div class="footerLegend">
+            <div class="emptyLegendPlace">
+                <div class="emptyCircle"></div>
+                <p>خالی</p>
+            </div>
+            <div class="fullLegendPlace">
+                <div class="fullCircle"></div>
+                <p>پر</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const ctx = document.getElementById('slotChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    "پر",
+                    "خالی"
+                ],
+                datasets: [{
+                    label: 'My First Dataset',
+                    data: [270, 100],
+                    backgroundColor: [
+                        '#60C7D0',
+                        '#F8A600',
+                    ],
+                    hoverOffset: 2
+                }]
+            },
+            options: {
+                cutout: 100,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+            },
+        });
+    </script>
+
+    <!-- Modal Script -->
+    <script>
+    </script>
+
+</body>
+
+</html>

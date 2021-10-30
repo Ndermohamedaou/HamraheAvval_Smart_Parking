@@ -1,0 +1,238 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  
+  :root,
+  body,
+  html {
+    background-color:#2C3E50;
+    box-sizing: border-box;
+  }BYEKAN
+  
+  div,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  header,
+  html,
+  i,
+  img,
+  label,
+  li,
+  nav,
+  p,
+  small,
+  span,
+  ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    font-size: 100%;
+    vertical-align: baseline;
+    background-color: transparent;
+  }
+  
+  body {
+    font-family: BYEKAN, Arial, sens-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
+  
+  @font-face {
+    font-family: BYEKAN;
+    src: url(/assets/fonts/BYEKAN.TTF);
+  }
+
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    background-color: #34495E;
+    width: 90%;
+    height: 95vh;
+    align-self: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+  }
+
+  .mainTitle {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 40px;
+    margin-right: 40px;
+  }
+
+  .mainTitle img {
+    width: 55px;
+    height: 32px;
+    padding: 20px;
+    margin-right: 20px;
+  }
+
+  .mainTitle p {
+    color: #fff;
+    font-family: BYEKAN;
+    font-size: 51px;
+  }
+
+  .mainSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  #slotChart {
+    margin-top: 40px;
+    margin-right: 100px;
+    width: 300px;
+  }
+
+  .slotData {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    color: #fff;
+    margin-top: 100px;
+    margin-left: 100px;
+  }
+
+  .emptyNum { 
+    color: #F8A600;
+    font-size: 165px;
+    margin-top: -150px;
+  }
+
+  .slash {
+    color: #B0B0B0;
+    font-size: 80px;
+  }
+
+  .total {
+    color: #fff;
+    font-size: 130px;
+  }
+
+  .footerLegend {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    color: #fff;
+    margin-top: 0px;
+    margin-left: 60px;
+    position: relative;
+  }
+
+  @media(max-width: 1440px) {
+    .footerLegend {
+      margin-top: 0px;
+    }
+  }
+
+  @media(min-width: 1440px) {
+    .footerLegend {
+      margin-top: 100px;
+    }
+  }
+
+  .emptyLegendPlace {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .emptyLegendPlace p {
+    font-size: 60px;
+    margin-right: 20px;
+  }
+
+  .emptyCircle {
+    width: 50px;
+    height: 50px;
+    background-color: #5BC5CE;
+    border-radius: 100%;
+  }
+
+  .fullLegendPlace {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-left: 70px;
+  }
+
+  .fullLegendPlace p {
+    font-size: 60px;
+    margin-right: 20px;
+  }
+
+  .fullCircle {
+    width: 60px;
+    height: 60px;
+    background-color: #F8A600;
+    border-radius: 100%;
+  }
+
+  .modalAction{
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-radius: 20px;
+    position: fixed;
+    background-color: #2C3E50;
+    color: #fff;
+    padding: 10px;
+    width: 60%;
+    height: 520px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
+  .greeting {
+    font-size: 40px;
+    text-align: right;
+    margin: 20px;
+  }
+
+  .staffFullName {
+    font-size: 80px;
+    text-align: center;
+  }
+
+  .slotNumPlace {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-content: center;
+    align-self: center;
+    width: 500px;
+    height: 100px;
+    margin-top: 100px;
+  }
+
+  .slotNumPlace p {
+    font-size: 60px;
+  }
+
+  .slotNumPlace span {
+    display: flex;
+    flex-direction: row;
+    color: #F8A600;
+    font-size: 190px;
+    margin-top: -150px;
+  }
