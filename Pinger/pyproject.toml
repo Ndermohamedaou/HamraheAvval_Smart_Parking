@@ -1,0 +1,24 @@
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Alireza Soltani Neshan", email = "asn80.asn@hotmail.com"},
+]
+dependencies = [
+    "pymongo~=3.12",
+    "requests~=2.18",
+]
+requires-python = ""
+dynamic = ["classifiers"]
+license = {text = "MIT"}
+
+[project.urls]
+homepage = ""
+
+[build-system]
+requires = ["pdm-pep517"]
+build-backend = "pdm.pep517.api"
+
+[tool]
+[tool.pdm]
