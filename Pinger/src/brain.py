@@ -34,12 +34,13 @@ def ps_command(ip: str):
         return False
 
 
-def ping_by_config(config: Dict):
+def ping_by_config(config: Dict, srcIP: str):
     """Ping the host by config.py"""
 
     for nodes in config:
         for obj in config[nodes]:
             for node, ip in obj.items():
-                print(f"ping n1 {node}: {ip}")
-                print(ps_command(ip))
+                # print(ps_command(ip))
                 # Getting result of ping ip cmd and log it to file or database or somethings else
+                if not ps_command(ip):
+                    print(f"Failed ping n1 src: {srcIP}, dst: {ip}")
