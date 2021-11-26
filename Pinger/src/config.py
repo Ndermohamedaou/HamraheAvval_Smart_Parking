@@ -12,6 +12,12 @@ What we will use in this config file:
  py /src/main.py <-b or --building> (setare|main|huawei)
 """
 
+main_config = {
+    "db": {
+        "conn_string": "",
+    }
+}
+
 setare = {
     "server": [
         {"server1": "10.99.176.60"},
