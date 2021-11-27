@@ -13,8 +13,11 @@ What we will use in this config file:
 """
 
 main_config = {
+    # Change this string if you want use the replicated Mongos database
     "db": {
-        "conn_string": "",
+        "conn_string": "mongodb://172.16.24.14:1000/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false",
+        "db_name": "Ayandeh_DB",
+        "collection_name": "Syslog",
     }
 }
 
