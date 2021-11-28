@@ -22,8 +22,9 @@ def ps_command(ip: str):
         run = [ps_default_path, f"ping -n 1 {ip} | select-string -pattern 'Reply'"]
         # Decode the output of the command to normal and simple string witout \n\r and etc...
         res = str(subprocess.check_output(run).decode("utf-8"))
-        # Will return 128 as ttl and keep that as string
-        ttl = int(res.split(" ")[5].strip()[4:])
+        # Will return 128 as ttl and keep that as string, to
+        # getting only number of ttl like 64 or 128
+        ttl = int(res.split(" ")[5].strip()[4:])  # make it integer
         # Check if ttl is not 0ms or above of 10ms, True is okay, and False is not connected.
         if ttl > 10:
             return True
