@@ -15,8 +15,9 @@ What we will use in this config file:
 main_config = {
     # Change this string if you want use the replicated Mongos database
     "db": {
-        "conn_string": "mongodb://172.16.24.14:1000/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false",
-        "db_name": "Ayandeh_DB",
+        # Loopback DB
+        "conn_string": "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false",
+        "db_name": "CPR_Paya_DB",
         "collection_name": "Syslog",
     }
 }
@@ -34,11 +35,13 @@ setare = {
         {"camera4": "10.99.176.53"},
     ],
     "gateway": [
-        {"gateway1": "10.99.176.54"},
-        {"gateway2": "10.99.176.55"},
-        {"gateway3": "10.99.176.56"},
-        {"gateway4": "10.99.176.57"},
-        {"gateway5": "10.99.176.58"},
+        {"gateway1": "10.99.176.113"},
+        {"gateway2": "10.99.176.114"},
+        {"gateway3": "10.99.176.115"},
+        {"gateway4": "10.99.176.116"},
+        {"gateway5": "10.99.176.117"},
+        {"gateway6": "10.99.176.118"},
+        {"gateway7": "10.99.176.119"},
     ],
 }
 
