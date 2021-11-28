@@ -15,7 +15,7 @@ def main(buildingName: str = "huawei", ip: str = "127.0.0.1"):
     while True:
         brain.ping_by_config(config.__dict__[buildingName], ip)
         # Awaiting 100 seconds and continue after that
-        time.sleep(100)
+        time.sleep(config.time_to_wait)
 
 
 if args.building and args.ip:
