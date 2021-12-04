@@ -13,7 +13,6 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
-import 'package:payausers/Model/streamAPI.dart';
 
 class Settings extends StatefulWidget {
   const Settings();

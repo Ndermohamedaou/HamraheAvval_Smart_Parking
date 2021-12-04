@@ -39,10 +39,13 @@ class _SettingBiometricState extends State<SettingBiometric> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+            color: themeChange.darkTheme ? Colors.white : Colors.black),
         title: Text(
           "تنظیم بایومتریک",
           style: TextStyle(
             fontFamily: mainFaFontFamily,
+            color: themeChange.darkTheme ? Colors.white : Colors.black,
           ),
         ),
         centerTitle: true,

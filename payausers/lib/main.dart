@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
+import 'package:root_detector/root_detector.dart';
 
 // Screens
 import 'Screens/ForgetPasswordTabs/recoverPassword.dart';
@@ -109,7 +111,28 @@ void main() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
+
+  // Root and emulator detection function
+  // rootDetector();
   runApp(MyApp());
+}
+
+/// this function, is a root detector function by root_detector package from beer root detector.
+/// root_detector is nativly for java by beer root github repo.
+/// In flutter we will use from root_detector package.
+/// In this function we check if machine was root or not.
+/// If machine (phone) was root, the application will close automatically from the phone.
+/// GPhone emulator all of avd is root, so we can use from that for emulator detector.
+Future<void> rootDetector() async {
+  try {
+    await RootDetector.isRooted(busyBox: false, ignoreSimulator: false)
+        .then((result) {
+      return result ? exit(0) : null;
+    });
+  } on PlatformException {
+    print("Failed to get root status");
+    return null;
+  }
 }
 
 class MyApp extends StatefulWidget {
