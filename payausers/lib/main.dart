@@ -117,7 +117,8 @@ void main() async {
   runApp(MyApp());
 }
 
-/// this function, is a root detector function by root_detector package from beer root detector.
+// this function, is a root detector function by root_detector package from beer root detector.
+///
 /// root_detector is nativly for java by beer root github repo.
 /// In flutter we will use from root_detector package.
 /// In this function we check if machine was root or not.
