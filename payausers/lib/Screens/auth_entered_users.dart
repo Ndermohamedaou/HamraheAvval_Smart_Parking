@@ -23,8 +23,6 @@ class _LocalAuthEnterState extends State<LocalAuthEnter> {
     super.initState();
 
     checkBiometric().then((checkBiomatricAvailable) {
-      print(
-          "==================================================================");
       print(checkBiomatricAvailable);
       if (checkBiomatricAvailable) {
         _authenticateWithBiometrics();
