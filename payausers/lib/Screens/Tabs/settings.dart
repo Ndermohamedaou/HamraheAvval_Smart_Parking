@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +31,8 @@ class _SettingsState extends State<Settings>
         Theme.of(context).platform == TargetPlatform.iOS ? "iOS" : "Android";
 
     void logoutSection() {
+      ApiAccess api = ApiAccess();
+
       showMaterialModalBottomSheet(
         context: context,
         enableDrag: true,
@@ -92,16 +95,21 @@ class _SettingsState extends State<Settings>
                     color: Colors.red,
                     minWidth: 45.0.w,
                     onPressed: () async {
-                      FlutterSecureStorage lds = FlutterSecureStorage();
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      // SystemChannels.platform
-                      //     .invokeMethod('SystemNavigator.pop');
-                      await lds.deleteAll();
-                      prefs.setInt("user_plate_notif_number", 0);
-                      prefs.clear();
-                      Navigator.popUntil(context, ModalRoute.withName("/"));
-                      // exit(0);
+                      final lStorage = FlutterSecureStorage();
+                      final userToken = await lStorage.read(key: "token");
+
+                      if (await api.logout(token: userToken) == "200") {
+                        FlutterSecureStorage lds = FlutterSecureStorage();
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        // SystemChannels.platform
+                        //     .invokeMethod('SystemNavigator.pop');
+                        await lds.deleteAll();
+                        prefs.setInt("user_plate_notif_number", 0);
+                        prefs.clear();
+                        Navigator.popUntil(context, ModalRoute.withName("/"));
+                        // exit(0);
+                      }
                     },
                     child: Text(
                       "بلی",

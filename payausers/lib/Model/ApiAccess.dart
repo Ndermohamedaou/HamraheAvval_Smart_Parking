@@ -11,6 +11,13 @@ class ApiAccess {
     return res.data;
   }
 
+  Future<String> logout({String token}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response res = await dio.post("$baseUrl/logout");
+    return res.data;
+  }
+
   // If user hasn't Access to thier account
   Future<Map> getUserStatusAccount({token}) async {
     dio.options.headers['Content-Type'] = 'application/json';
