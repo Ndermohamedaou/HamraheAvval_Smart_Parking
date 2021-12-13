@@ -113,7 +113,7 @@ void main() async {
       ?.createNotificationChannel(channel);
 
   // Root and emulator detection function
-  // rootDetector();
+  rootDetector();
   runApp(MyApp());
 }
 

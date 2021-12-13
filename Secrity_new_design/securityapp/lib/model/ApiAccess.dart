@@ -12,6 +12,13 @@ class ApiAccess {
     return res.data;
   }
 
+  Future<String> logout({String token}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response res = await dio.post("$baseURL/logout");
+    return res.data;
+  }
+
   Future<Map> gettingUsersInfo(uToken) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["authorization"] = "Bearer $uToken";

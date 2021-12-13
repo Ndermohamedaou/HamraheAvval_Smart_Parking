@@ -91,7 +91,6 @@ class _LoginState extends State<Login> {
           );
         } else {
           // print(initUser);
-
           if (initUser['role'] == "security") {
             if (initUser["first_visit"]) {
               setState(() => isLogin = false);

@@ -429,6 +429,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  root_detector:
+    dependency: "direct main"
+    description:
+      name: root_detector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6"
   shared_preferences:
     dependency: "direct main"
     description:

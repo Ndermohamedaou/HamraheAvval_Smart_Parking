@@ -294,14 +294,9 @@ class _CustomOtpScreenState extends State<CustomOtpScreen>
       width: 35.0,
       height: 45.0,
       alignment: Alignment.center,
-      child: new Text(
-        digit != null ? digit.toString() : "",
-        style: new TextStyle(
-          fontSize: 30.0,
-          fontFamily: mainFont,
-          color: widget.titleColor,
-        ),
-      ),
+      child: digit != null
+          ? Icon(Icons.fiber_manual_record, color: Colors.white)
+          : null,
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(

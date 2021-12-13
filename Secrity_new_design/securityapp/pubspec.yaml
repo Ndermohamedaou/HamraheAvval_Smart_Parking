@@ -63,6 +63,8 @@ dependencies:
 
   double_back_to_close_app:
   connectivity:
+  # For detecting root device
+  root_detector: ^0.0.6
 
 dev_dependencies:
   flutter_test:

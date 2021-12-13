@@ -11,11 +11,13 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/gettingLogin.dart';
 import 'package:securityapp/controller/imgConversion.dart';
 import 'package:securityapp/controller/localDataController.dart';
+import 'package:securityapp/model/ApiAccess.dart';
 import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:toast/toast.dart';
 
 // Conversion Image
 ConvertImage convert = ConvertImage();
@@ -124,12 +126,17 @@ class _ProfileState extends State<Profile> {
   }
 
   void logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear();
-    final lStorage = FlutterSecureStorage();
-    await lStorage.deleteAll();
-    await seveSecurity.delAllSavedSecurity();
-    exit(0);
+    ApiAccess api = ApiAccess();
+    String logoutResult = await api.logout(token: token);
+
+    if (logoutResult == "200") {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.clear();
+      final lStorage = FlutterSecureStorage();
+      await lStorage.deleteAll();
+      await seveSecurity.delAllSavedSecurity();
+      exit(0);
+    }
   }
 
   @override

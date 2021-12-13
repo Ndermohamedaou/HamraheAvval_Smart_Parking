@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:liquid_ui/liquid_ui.dart';
 import 'package:flutter/services.dart';
@@ -31,10 +33,32 @@ import 'package:securityapp/view/settingsView.dart';
 import 'package:securityapp/view/setAppLock.dart';
 import 'package:securityapp/view/savingAppLockPass.dart';
 import 'package:securityapp/view/localAuthEnter.dart';
+import 'package:root_detector/root_detector.dart';
 
 void main() {
   runApp(MyApp());
   connectSocket();
+  // Getting start for checking if device was root app doest open.
+  rootDetector();
+}
+
+// this function, is a root detector function by root_detector package from beer root detector.
+///
+/// root_detector is nativly for java by beer root github repo.
+/// In flutter we will use from root_detector package.
+/// In this function we check if machine was root or not.
+/// If machine (phone) was root, the application will close automatically from the phone.
+/// GPhone emulator all of avd is root, so we can use from that for emulator detector.
+Future<void> rootDetector() async {
+  try {
+    await RootDetector.isRooted(busyBox: false, ignoreSimulator: false)
+        .then((result) {
+      return result ? exit(0) : null;
+    });
+  } on PlatformException {
+    // print("Failed to get root status");
+    return null;
+  }
 }
 
 // Flutter local notification
