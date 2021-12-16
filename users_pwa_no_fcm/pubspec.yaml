@@ -16,14 +16,14 @@ dependencies:
   sizer: ^1.1.8
   cupertino_icons: ^1.0.0
   ionicons: ^0.1.2
-  hexcolor: ^1.0.6
+  hexcolor: any
   # MarkDown Plug in
   flutter_markdown:
   carousel_slider: ^2.3.1
   dio:
   shared_preferences: ^2.0.5
   provider: ^4.3.2+2
-  file_picker:
+  file_picker: any
   path_provider:
   image_picker: ^0.7.4
   image_native_resizer: ^0.1.2

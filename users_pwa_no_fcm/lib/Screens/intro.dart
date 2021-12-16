@@ -46,7 +46,7 @@ class _MainIntroState extends State<MainIntro> {
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     color: titleTextColor,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     fontSize: titleTextSize),
               ),
               SizedBox(height: 7),

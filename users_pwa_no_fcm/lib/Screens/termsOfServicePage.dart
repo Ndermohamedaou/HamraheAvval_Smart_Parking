@@ -45,14 +45,24 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
                         textDirection: TextDirection.rtl,
                         child: MarkdownBody(
                           data: terms,
-                          styleSheet: MarkdownStyleSheet.fromTheme(ThemeData(
+                          styleSheet: MarkdownStyleSheet.fromTheme(
+                            ThemeData(
                               textTheme: TextTheme(
-                                  body1: TextStyle(
-                                      fontSize: 15.0,
-                                      color: themeChange.darkTheme
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontFamily: mainFaFontFamily)))),
+                                bodyText1: TextStyle(
+                                    fontSize: 15.0,
+                                    color: themeChange.darkTheme
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontFamily: mainFaFontFamily),
+                                bodyText2: TextStyle(
+                                    fontSize: 15.0,
+                                    color: themeChange.darkTheme
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontFamily: mainFaFontFamily),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
