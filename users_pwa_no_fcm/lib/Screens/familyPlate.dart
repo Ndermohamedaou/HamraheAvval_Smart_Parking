@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/imageConvertor.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:payausers/Model/AlphabetClassList.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -219,12 +221,20 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+        ),
         centerTitle: true,
         title: Text(
           appBarTitle[pageIndex],
-          style: TextStyle(fontFamily: mainFaFontFamily),
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            color: themeChange.darkTheme ? Colors.white : Colors.black,
+          ),
         ),
       ),
       body: SafeArea(

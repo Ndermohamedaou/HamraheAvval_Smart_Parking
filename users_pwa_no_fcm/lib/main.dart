@@ -13,7 +13,7 @@ import 'package:payausers/providers/traffics_model.dart';
 
 // Screens
 import 'Screens/addingPlateIntro.dart';
-import 'Screens/familyPage.dart';
+import 'Screens/familyPlate.dart';
 import 'Screens/loadingChangeAvatar.dart';
 import 'Screens/minePlate.dart';
 import 'Screens/otherPlateView.dart';
@@ -164,7 +164,7 @@ class _MyAppState extends State<MyApp> {
                   '/dashboard': (context) => Maino(),
                   '/addingPlateIntro': (context) => AddingPlateIntro(),
                   '/addingMinePlate': (context) => MinePlateView(),
-                  '/addingFamilyPage': (context) => FamilyPlateView(),
+                  '/addingFamilyPlate': (context) => FamilyPlateView(),
                   '/addingOtherPlate': (context) => OtherPageView(),
                   '/settings': (context) => SettingsPage(),
                   '/changePassword': (context) => ChangePassPage(),

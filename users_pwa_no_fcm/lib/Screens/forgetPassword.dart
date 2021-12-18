@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:lottie/lottie.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:provider/provider.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   @override
@@ -62,13 +63,19 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+        ),
         centerTitle: true,
         title: Text("بازنشانی گذرواژه حساب شما",
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               fontSize: subTitleSize,
+              color: themeChange.darkTheme ? Colors.white : Colors.black,
             )),
       ),
       body: SafeArea(
