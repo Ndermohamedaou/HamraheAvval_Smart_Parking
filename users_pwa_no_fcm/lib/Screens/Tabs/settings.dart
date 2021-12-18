@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +27,8 @@ class _SettingsState extends State<Settings>
     super.build(context);
     final targetPlatform =
         Theme.of(context).platform == TargetPlatform.iOS ? "iOS" : "Android";
+
+    ApiAccess api = ApiAccess();
 
     void logoutSection() {
       showMaterialModalBottomSheet(
@@ -90,10 +93,16 @@ class _SettingsState extends State<Settings>
                     color: Colors.red,
                     minWidth: 45.0.w,
                     onPressed: () async {
+                      // Getting token from shared preferences and cleaning LocalStorage as logout user
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
-                      prefs.clear();
-                      Navigator.popUntil(context, ModalRoute.withName("/"));
+
+                      // Send token for logout from the system if response was 200
+                      if (await api.logout(token: prefs.getString("token")) ==
+                          "200") {
+                        prefs.clear();
+                        Navigator.popUntil(context, ModalRoute.withName("/"));
+                      }
                     },
                     child: Text(
                       "بلی",

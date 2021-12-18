@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void navigatedToRoot() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final userToken = await prefs.getString("token");
+    final userToken = prefs.getString("token");
     if (userToken != null)
       Navigator.pushNamed(context, "/dashboard");
     else

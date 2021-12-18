@@ -10,6 +10,13 @@ class ApiAccess {
     return res.data;
   }
 
+  Future<String> logout({String token}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response res = await dio.post("$baseUrl/logout");
+    return res.data;
+  }
+
   Future<Map> submitOTPCode({code, persCode, devToken}) async {
     Response res = await dio.post(
         "$baseUrl/submitCode?code=$code&personal_code=$persCode&DeviceToken=$devToken");
