@@ -37,6 +37,7 @@ bool isAddingDocs = true;
 class _FamilyPlateViewState extends State<FamilyPlateView> {
   @override
   void initState() {
+    // Init all side effect variables :)
     _pageController = PageController();
     pageIndex = 0;
     appBarTitle = [
@@ -53,6 +54,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     ncOwnerCard = "";
     ownerCarCard = "";
     isAddingDocs = true;
+
     super.initState();
   }
 
@@ -62,29 +64,30 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   }
 
   Future gettingNationalCard() async {
+    // Getting image from the phone system and convert it to bytes
     final pickedImage =
         await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-
+    // Convert bytes image to base64
     String melliCard64Img = await imgConvertor.img2Base64(pickedImage);
 
-    if (pickedImage != null) {
+    // If user doen't select any image from the file system or gallery
+    if (pickedImage != null)
       setState(() => ncCard = melliCard64Img);
-    } else
+    else
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
-        title: "عدم انتخاب تصویر",
+        msg: ignoreToPickImageFromSystemTitle,
+        title: ignoreToPickImageFromSystemDesc,
       );
   }
 
+  /// For future if you want add national card of car owner to system
   // Future gettingOwnerNC() async {
   //   final pickedImage =
   //       await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-
   //   String ownerMelliCard64Img = await imgConvertor.img2Base64(pickedImage);
-
   //   if (pickedImage != null) {
   //     setState(() => ncOwnerCard = ownerMelliCard64Img);
   //   } else
@@ -98,23 +101,25 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   // }
 
   Future gettingOwnerCarCard() async {
+    // Getting image from the phone system and convert it to bytes
     final pickedImage =
         await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-
+    // Convert bytes image to base64
     String ownerCarCard64Img = await imgConvertor.img2Base64(pickedImage);
 
-    if (pickedImage != null) {
+    if (pickedImage != null)
       setState(() => ownerCarCard = ownerCarCard64Img);
-    } else
+    else
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
-        title: "عدم انتخاب تصویر",
+        msg: ignoreToPickImageFromSystemTitle,
+        title: ignoreToPickImageFromSystemDesc,
       );
   }
 
+  // Final process for preparing document, send to the server
   void addPlateProcInNow({
     plate0,
     plate1,
@@ -132,16 +137,11 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         nationalCardImg != "" &&
         // ownerNationalCard != "" &&
         ownerCarCard != "") {
+      // Defining the loader indicator
       setState(() => isAddingDocs = false);
       final uToken = prefs.getString("token");
+      // Preparing plate number for send to server
       List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-      // print(plate0);
-      // print(plate1);
-      // print(plate2);
-      // print(plate3);
-      // print(_melliImg);
-      // print(_ownerMelliImg);
-      // print(_ownerCarCard);
       int result = await addPlateProc.familyPlateReq(
           token: uToken,
           plate: lsPlate,
@@ -149,11 +149,15 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
           ownerMelli: ownerNationalCard,
           ownerCarCard: ownerCarCard);
 
+      // If all documents sent successfully
+      // You will see successfull flush message from top of the phone
       if (result == 200) {
         // Prevent to twice tapping happen
         setState(() => isAddingDocs = true);
         // Twice poping
         int count = 0;
+        // Back to home page or maino dashboard view
+        // with popUntill twice back in application
         Navigator.popUntil(context, (route) {
           return count++ == 2;
         });
@@ -165,6 +169,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
             icon: Icons.done_outline);
       }
 
+      // If you have more than 3 plate in db you will get warning message
       if (result == 100) {
         // Twice poping
         int count = 0;
@@ -179,6 +184,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
             iconColor: Colors.red,
             icon: Icons.close);
       }
+
+      // If you enter repetitious plate you will get warning message
       if (result == 1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
@@ -188,6 +195,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
             iconColor: Colors.red,
             icon: Icons.close);
       }
+
+      // If server can't handle request of add document to db you will get error message
       if (result == -1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
@@ -199,11 +208,10 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       }
     } else {
       setState(() => isAddingDocs = true);
-
       showStatusInCaseOfFlush(
           context: context,
-          title: "اطلاعات خود را تکمیل کنید",
-          msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+          title: completeInformationTitle,
+          msg: completeInformationDesc,
           iconColor: Colors.red,
           icon: Icons.close);
     }

@@ -11,9 +11,9 @@ import 'package:payausers/ExtractedWidgets/cardEntery.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 
-class MinPlateView extends StatefulWidget {
+class MinePlateView extends StatefulWidget {
   @override
-  _MinPlateViewState createState() => _MinPlateViewState();
+  _MinePlateViewState createState() => _MinePlateViewState();
 }
 
 int pageIndex = 0;
@@ -33,11 +33,14 @@ String ncCard;
 String carCard;
 bool isAddingDocs = true;
 
-class _MinPlateViewState extends State<MinPlateView> {
+class _MinePlateViewState extends State<MinePlateView> {
   @override
   void initState() {
+    // Init all variable for ready side effecting from useState statemanager
     _pageController = PageController();
     pageIndex = 0;
+
+    // rm nationalCardAppBar view
     appBarTitle = [addPlateNumAppBar, carCardAppBar];
     plate0 = "";
     plate2 = "";
@@ -46,6 +49,7 @@ class _MinPlateViewState extends State<MinPlateView> {
     ncCard = "";
     carCard = "";
     isAddingDocs = true;
+
     super.initState();
   }
 
@@ -54,12 +58,11 @@ class _MinPlateViewState extends State<MinPlateView> {
     super.dispose();
   }
 
+  /// For future if you want add national card of car owner to system
   // Future gettingNationalCard() async {
   //   final pickedImage =
   //       await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-
   //   String melliCard64Img = await imgConvertor.img2Base64(pickedImage);
-
   //   if (pickedImage != null) {
   //     setState(() => ncCard = melliCard64Img);
   //   } else
@@ -73,23 +76,25 @@ class _MinPlateViewState extends State<MinPlateView> {
   // }
 
   Future gettingCarCard() async {
+    // Getting image from the phone system and convert it to bytes
     final pickedImage =
         await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-
+    // Convert bytes image to base64
     String carCard64Img = await imgConvertor.img2Base64(pickedImage);
-
-    if (pickedImage != null) {
+    // If user doen't select any image from the file system or gallery
+    if (pickedImage != null)
       setState(() => carCard = carCard64Img);
-    } else
+    else
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
-        title: "عدم انتخاب تصویر",
+        title: ignoreToPickImageFromSystemTitle,
+        msg: ignoreToPickImageFromSystemDesc,
       );
   }
 
+  // Final process for preparing document, send to the server
   void addPlateProcInNow(
       {plate0, plate1, plate2, plate3, nationalCardImg, carCardImg}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -101,12 +106,8 @@ class _MinPlateViewState extends State<MinPlateView> {
         carCardImg != "") {
       setState(() => isAddingDocs = false);
       final uToken = prefs.getString("token");
+      // Preparing plate number to sending to the server
       List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-      // print(uToken);
-      // print(lsPlate);
-      // print(_selfMelliCardImg);
-      // print(_selfCarCardImg);
-
       int result = await addPlateProc.minePlateReq(
         token: uToken,
         plate: lsPlate,
@@ -114,11 +115,15 @@ class _MinPlateViewState extends State<MinPlateView> {
         selfCarCard: carCardImg,
       );
 
+      // If all documents sent successfully
+      // You will see successfull flush message from top of the phone
       if (result == 200) {
         // Prevent to twice tapping happen
         setState(() => isAddingDocs = true);
         // Twice poping
         int count = 0;
+        // Back to home page or maino dashboard view
+        // with popUntill twice back in application
         Navigator.popUntil(context, (route) {
           return count++ == 2;
         });
@@ -130,6 +135,7 @@ class _MinPlateViewState extends State<MinPlateView> {
             icon: Icons.done_outline);
       }
 
+      // If you have more than 3 plate in db you will get warning message
       if (result == 100) {
         // Twice poping
         int count = 0;
@@ -145,6 +151,7 @@ class _MinPlateViewState extends State<MinPlateView> {
             icon: Icons.close);
       }
 
+      // If you enter repetitious plate you will get warning message
       if (result == 1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
@@ -155,6 +162,7 @@ class _MinPlateViewState extends State<MinPlateView> {
             icon: Icons.close);
       }
 
+      // If server can't handle request of add document to db you will get error message
       if (result == -1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
@@ -166,11 +174,10 @@ class _MinPlateViewState extends State<MinPlateView> {
       }
     } else {
       setState(() => isAddingDocs = true);
-
       showStatusInCaseOfFlush(
           context: context,
-          title: "اطلاعات خود را تکمیل کنید",
-          msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+          title: completeInformationTitle,
+          msg: completeInformationDesc,
           iconColor: Colors.red,
           icon: Icons.close);
     }

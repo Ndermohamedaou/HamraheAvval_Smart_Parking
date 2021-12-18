@@ -163,7 +163,7 @@ class _MyAppState extends State<MyApp> {
                   '/loginCheckout': (context) => LoginCheckingoutPage(),
                   '/dashboard': (context) => Maino(),
                   '/addingPlateIntro': (context) => AddingPlateIntro(),
-                  '/addingMinPlate': (context) => MinPlateView(),
+                  '/addingMinePlate': (context) => MinePlateView(),
                   '/addingFamilyPage': (context) => FamilyPlateView(),
                   '/addingOtherPlate': (context) => OtherPageView(),
                   '/settings': (context) => SettingsPage(),

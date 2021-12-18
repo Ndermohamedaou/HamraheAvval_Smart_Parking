@@ -31,6 +31,7 @@ class _OtherPageViewState extends State<OtherPageView> {
     plate3 = "";
     _value = 0;
     isAddingDocs = true;
+
     super.initState();
   }
 
@@ -43,32 +44,33 @@ class _OtherPageViewState extends State<OtherPageView> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (plate0 != "" && plate1 != null && plate2 != "" && plate3 != "") {
-      // print(plate0);
-      // print(plate1);
-      // print(plate2);
-      // print(plate3);
       setState(() => isAddingDocs = false);
       final uToken = prefs.getString("token");
       List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
       int result =
           await addPlateProc.otherPlateReq(token: uToken, plate: lsPlate);
 
+      // If all documents sent successfully
+      // You will see successfull flush message from top of the phone
       if (result == 200) {
         // Prevent to twice tapping happen
         setState(() => isAddingDocs = true);
         // Twice poping
         int count = 0;
+        // Back to home page or maino dashboard view
+        // with popUntill twice back in application
         Navigator.popUntil(context, (route) {
           return count++ == 2;
         });
         showStatusInCaseOfFlush(
             context: context,
             title: successfullPlateAddTitle,
-            msg: successfullPlateAddDsc,
+            msg: successFullOtherPlateAddDesc,
             iconColor: Colors.green,
             icon: Icons.done_outline);
       }
 
+      // If you have more than 3 plate in db you will get warning message
       if (result == 100) {
         // Twice poping
         int count = 0;
@@ -83,6 +85,8 @@ class _OtherPageViewState extends State<OtherPageView> {
             iconColor: Colors.red,
             icon: Icons.close);
       }
+
+      // If you enter repetitious plate you will get warning message
       if (result == 1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
@@ -92,6 +96,8 @@ class _OtherPageViewState extends State<OtherPageView> {
             iconColor: Colors.red,
             icon: Icons.close);
       }
+
+      // If server can't handle request of add document to db you will get error message
       if (result == -1) {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
@@ -103,11 +109,10 @@ class _OtherPageViewState extends State<OtherPageView> {
       }
     } else {
       setState(() => isAddingDocs = true);
-
       showStatusInCaseOfFlush(
           context: context,
-          title: "اطلاعات خود را تکمیل کنید",
-          msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+          title: completeInformationTitle,
+          msg: completeInformationDesc,
           iconColor: Colors.red,
           icon: Icons.close);
     }
