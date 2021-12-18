@@ -95,6 +95,7 @@ class _SettingsState extends State<Settings>
                     color: Colors.red,
                     minWidth: 45.0.w,
                     onPressed: () async {
+                      // Getting token from lStorage and cleaning LocalStorage as logout user
                       final lStorage = FlutterSecureStorage();
                       final userToken = await lStorage.read(key: "token");
 
