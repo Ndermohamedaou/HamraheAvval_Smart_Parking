@@ -76,18 +76,19 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       imageQuality: 50,
     );
 
-    if (image != null) {
+    if (image != null)
       setState(() => ncCard = image);
-    } else
+    else
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
-        title: "عدم انتخاب تصویر",
+        title: ignoreToPickImageFromSystemDesc,
+        msg: ignoreToPickImageFromSystemTitle,
       );
   }
 
+  /// For future if you want add national card of car owner to system
   // Future gettingOwnerNC(ImageSource source) async {
   //   final image = await ImagePicker.pickImage(
   //     source: source,
@@ -95,7 +96,6 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   //     maxWidth: 500,
   //     imageQuality: 50,
   //   );
-
   //   if (image != null) {
   //     setState(() => ncOwnerCard = image);
   //   } else
@@ -116,15 +116,15 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       imageQuality: 50,
     );
 
-    if (image != null) {
+    if (image != null)
       setState(() => ownerCarCard = image);
-    } else
+    else
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
-        title: "عدم انتخاب تصویر",
+        title: ignoreToPickImageFromSystemDesc,
+        msg: ignoreToPickImageFromSystemTitle,
       );
   }
 
@@ -145,20 +145,18 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         // ownerNationalCard != null &&
         ownerCarCard != null) {
       if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
+        // Defining the loader indicator
         setState(() => isAddingDocs = false);
         final uToken = await lds.read(key: "token");
+        // Preparing plate number for send to server
         List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
+        // Convert byte image to base64 image
         String _selfMelliImg = await imgConvertor.img2Base64(nationalCardImg);
         String _ownerMelliImg =
             await imgConvertor.img2Base64(ownerNationalCard);
         String _ownerCarCard = await imgConvertor.img2Base64(ownerCarCard);
-        // print(plate0);
-        // print(plate1);
-        // print(plate2);
-        // print(plate3);
-        // print(_melliImg);
-        // print(_ownerMelliImg);
-        // print(_ownerCarCard);
+
+        // Seding data
         int result = await addPlateProc.familyPlateReq(
             token: uToken,
             plate: lsPlate,
@@ -166,6 +164,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
             ownerMelli: _ownerMelliImg,
             ownerCarCard: _ownerCarCard);
 
+        // If all documents sent successfully
+        // You will see successfull flush message from top of the phone
         if (result == 200) {
           // Update Plate in Provider
           plateModel.fetchPlatesData;
@@ -176,6 +176,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
           setState(() => isAddingDocs = true);
           // Twice poping
           int count = 0;
+          // Back to home page or maino dashboard view
+          // with popUntill twice back in application
           Navigator.popUntil(context, (route) {
             return count++ == 2;
           });
@@ -187,6 +189,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               icon: Icons.done_outline);
         }
 
+        // If you have more than 3 plate in db you will get warning message
         if (result == 100) {
           // Twice poping
           int count = 0;
@@ -201,6 +204,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               iconColor: Colors.red,
               icon: Icons.close);
         }
+
+        // If you enter repetitious plate you will get warning message
         if (result == 1) {
           setState(() => isAddingDocs = true);
           showStatusInCaseOfFlush(
@@ -210,6 +215,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               iconColor: Colors.red,
               icon: Icons.close);
         }
+
+        // If server can't handle request of add document to db you will get error message
         if (result == -1) {
           setState(() => isAddingDocs = true);
           showStatusInCaseOfFlush(
@@ -223,18 +230,17 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
             context: context,
-            title: "خطا در ارسال پلاک",
-            msg: "لطفا پلاک معتبر وارد نمایید",
+            title: errorInSendPlateTitle,
+            msg: errorInSendPlateDsc,
             iconColor: Colors.red,
             icon: Icons.close);
       }
     } else {
       setState(() => isAddingDocs = true);
-
       showStatusInCaseOfFlush(
           context: context,
-          title: "اطلاعات خود را تکمیل کنید",
-          msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+          title: completeInformationTitle,
+          msg: completeInformationDesc,
           iconColor: Colors.red,
           icon: Icons.close);
     }

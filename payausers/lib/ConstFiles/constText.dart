@@ -293,6 +293,8 @@ const terms = '''
 const successfullPlateAddTitle = "پلاک شما با موفیت ثبت شد";
 const successfullPlateAddDsc =
     "پلاک و اسناد شما ثبت شد و منتظر اعلان از طرف سامانه باشید";
+const successFullOtherPlateAddDesc =
+    "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید";
 const errorPlateAddTitle = "عملیات ثبت پلاک شما با شکست مواجه شد";
 const errorPlateAddDsc =
     "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید";
@@ -308,3 +310,11 @@ const inprocessReserveStatus = "در حال پردازش";
 const cancelReserveStatus = "رزرو لغو شده";
 const performTrafficReserveStatus = "تردد صورت گرفته";
 const ignoredReserveStatus = "رزرو رد شده";
+const ignoreToPickImageFromSystemTitle = "عدم انتخاب تصویر";
+const ignoreToPickImageFromSystemDesc =
+    "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید";
+const errorInSendPlateTitle = "خطا در ارسال پلاک";
+const errorInSendPlateDsc = "لطفا پلاک معتبر وارد نمایید";
+const completeInformationTitle = "اطلاعات خود را تکمیل کنید";
+const completeInformationDesc =
+    "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید";

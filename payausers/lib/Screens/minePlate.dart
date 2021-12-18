@@ -16,9 +16,9 @@ import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:provider/provider.dart';
 
-class MinPlateView extends StatefulWidget {
+class MinePlateView extends StatefulWidget {
   @override
-  _MinPlateViewState createState() => _MinPlateViewState();
+  _MinePlateViewState createState() => _MinePlateViewState();
 }
 
 int pageIndex = 0;
@@ -40,11 +40,13 @@ File ncCard;
 File carCard;
 bool isAddingDocs = true;
 
-class _MinPlateViewState extends State<MinPlateView> {
+class _MinePlateViewState extends State<MinePlateView> {
   @override
   void initState() {
+    // Init all variable for ready side effecting from useState statemanager
     _pageController = PageController();
     pageIndex = 0;
+
     // rm nationalCardAppBar view
     appBarTitle = [addPlateNumAppBar, carCardAppBar];
     plate0 = "";
@@ -54,6 +56,7 @@ class _MinPlateViewState extends State<MinPlateView> {
     ncCard = null;
     carCard = null;
     isAddingDocs = true;
+
     super.initState();
   }
 
@@ -62,6 +65,7 @@ class _MinPlateViewState extends State<MinPlateView> {
     super.dispose();
   }
 
+  /// For future if you want add national card of car owner to system
   // Future gettingNationalCard(ImageSource source) async {
   //   final image = await ImagePicker.pickImage(
   //     source: source,
@@ -69,9 +73,7 @@ class _MinPlateViewState extends State<MinPlateView> {
   //     maxWidth: 512,
   //     imageQuality: 50,
   //   );
-
   //   print("Your image is : $image");
-
   //   if (image != null) {
   //     setState(() => ncCard = image);
   //   } else
@@ -85,6 +87,10 @@ class _MinPlateViewState extends State<MinPlateView> {
   // }
 
   Future gettingCarCard(ImageSource source) async {
+    // Getting image from the phone system and convert it to bytes
+    // Config new settings to grep image from the Mobile file system or gallery
+    // I put my source as main source with maxium height and width size for sending to server
+    // imageQuality is half but is okay for seding document to the system.
     final image = await ImagePicker.pickImage(
       source: source,
       maxHeight: 512,
@@ -92,18 +98,19 @@ class _MinPlateViewState extends State<MinPlateView> {
       imageQuality: 50,
     );
 
-    if (image != null) {
+    if (image != null)
       setState(() => carCard = image);
-    } else
+    else
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
         iconColor: Colors.red,
-        msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
-        title: "عدم انتخاب تصویر",
+        title: ignoreToPickImageFromSystemTitle,
+        msg: ignoreToPickImageFromSystemDesc,
       );
   }
 
+  // Final process for preparing document, send to the server
   void addPlateProcInNow(
       {plate0,
       plate1,
@@ -117,18 +124,17 @@ class _MinPlateViewState extends State<MinPlateView> {
         plate3 != "" &&
         // nationalCardImg != null &&
         carCardImg != null) {
+      // Active loading indicator for waiting for server response
       setState(() => isAddingDocs = false);
+      // Validating plate number
       if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
         final uToken = await lds.read(key: "token");
+        // Preparing plate number for sending to the server
         List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
+        // Preparing image that will be base64 to send to the server
         String _selfMelliCardImg =
             await imgConvertor.img2Base64(nationalCardImg);
         String _selfCarCardImg = await imgConvertor.img2Base64(carCardImg);
-
-        // print(uToken);
-        // print(lsPlate);
-        // print(_selfMelliCardImg);
-        // print(_selfCarCardImg);
 
         int result = await addPlateProc.minePlateReq(
           token: uToken,
@@ -137,6 +143,8 @@ class _MinPlateViewState extends State<MinPlateView> {
           selfCarCard: _selfCarCardImg,
         );
 
+        // If all documents sent successfully
+        // You will see successfull flush message from top of the phone
         if (result == 200) {
           // Update Plate in Provider
           plateModel.fetchPlatesData;
@@ -147,6 +155,8 @@ class _MinPlateViewState extends State<MinPlateView> {
           setState(() => isAddingDocs = true);
           // Twice poping
           int count = 0;
+          // Back to home page or maino dashboard view
+          // with popUntill twice back in application
           Navigator.popUntil(context, (route) {
             return count++ == 2;
           });
@@ -158,6 +168,7 @@ class _MinPlateViewState extends State<MinPlateView> {
               icon: Icons.done_outline);
         }
 
+        // If you have more than 3 plate in db you will get warning message
         if (result == 100) {
           // Twice poping
           int count = 0;
@@ -172,6 +183,8 @@ class _MinPlateViewState extends State<MinPlateView> {
               iconColor: Colors.red,
               icon: Icons.close);
         }
+
+        // If you enter repetitious plate you will get warning message
         if (result == 1) {
           setState(() => isAddingDocs = true);
           showStatusInCaseOfFlush(
@@ -181,6 +194,8 @@ class _MinPlateViewState extends State<MinPlateView> {
               iconColor: Colors.red,
               icon: Icons.close);
         }
+
+        // If server can't handle request of add document to db you will get error message
         if (result == -1) {
           setState(() => isAddingDocs = true);
           showStatusInCaseOfFlush(
@@ -194,8 +209,8 @@ class _MinPlateViewState extends State<MinPlateView> {
         setState(() => isAddingDocs = true);
         showStatusInCaseOfFlush(
             context: context,
-            title: "خطا در ارسال پلاک",
-            msg: "لطفا پلاک معتبر وارد نمایید",
+            title: errorInSendPlateTitle,
+            msg: errorInSendPlateDsc,
             iconColor: Colors.red,
             icon: Icons.close);
       }
@@ -204,8 +219,8 @@ class _MinPlateViewState extends State<MinPlateView> {
 
       showStatusInCaseOfFlush(
           context: context,
-          title: "اطلاعات خود را تکمیل کنید",
-          msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+          title: completeInformationTitle,
+          msg: completeInformationDesc,
           iconColor: Colors.red,
           icon: Icons.close);
     }

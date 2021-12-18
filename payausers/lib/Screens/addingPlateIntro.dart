@@ -203,7 +203,7 @@ class AddPlateOption extends StatelessWidget {
             mainTitle: minePlateTitleText,
             mainDsc: minePlateDescText,
             optionClicked: () =>
-                Navigator.pushNamed(context, "/addingMinPlate"),
+                Navigator.pushNamed(context, "/addingMinePlate"),
           ),
           OptionChoser(
             infoColor: familyPlateInfoIcon,

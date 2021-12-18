@@ -46,15 +46,15 @@ class _OtherPageViewState extends State<OtherPageView> {
     super.dispose();
   }
 
+  // Final level for preparing and sending data to the server
   void addPlateProcInNow({plate0, plate1, plate2, plate3}) async {
     if (plate0 != "" && plate1 != null && plate2 != "" && plate3 != "") {
       if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
-// |      print(plate0);
-//       print(plate1);
-//       print(plate2);
-//       print(plate3);
+        // isAddingDocs is a loader indicator for wating user to prevent send more data
+        // and prevent to create queue from the user side
         setState(() => isAddingDocs = false);
         final uToken = await lds.read(key: "token");
+        // Preparing plate number to send to the server
         List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
         int result =
             await addPlateProc.otherPlateReq(token: uToken, plate: lsPlate);
@@ -75,8 +75,7 @@ class _OtherPageViewState extends State<OtherPageView> {
           showStatusInCaseOfFlush(
               context: context,
               title: successfullPlateAddTitle,
-              msg:
-                  "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید",
+              msg: successFullOtherPlateAddDesc,
               iconColor: Colors.green,
               icon: Icons.done_outline);
         }
