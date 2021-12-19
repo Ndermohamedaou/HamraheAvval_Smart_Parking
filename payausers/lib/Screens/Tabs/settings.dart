@@ -285,6 +285,33 @@ class _SettingsState extends State<Settings>
                               height: 55,
                               color: themeChange.darkTheme ? darkBar : lightBar,
                               child: FlatButton(
+                                onPressed: () => Navigator.pushNamed(
+                                    context, "/readTermsOfService"),
+                                child: ListTile(
+                                  title: Text(
+                                    "قوانین و مقررات",
+                                    style: TextStyle(
+                                        fontFamily: mainFaFontFamily,
+                                        fontSize: 15),
+                                  ),
+                                  leading: Icon(
+                                    Icons.design_services,
+                                    color: Colors.blue,
+                                    size: 25,
+                                  ),
+                                ),
+                              )),
+                          Divider(
+                            color: Colors.grey,
+                            thickness: .25,
+                            indent: 20,
+                            height: 0,
+                          ),
+                          Container(
+                              width: double.infinity,
+                              height: 55,
+                              color: themeChange.darkTheme ? darkBar : lightBar,
+                              child: FlatButton(
                                 onPressed: () => logoutSection(),
                                 child: ListTile(
                                   title: Text(

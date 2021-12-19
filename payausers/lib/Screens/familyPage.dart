@@ -7,11 +7,12 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
-import 'package:payausers/ExtractedWidgets/cardEntery.dart';
+import 'package:payausers/ExtractedWidgets/cardEntry.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Screens/confirmInfo.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
+import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ List appBarTitle = [];
 AddPlateProc addPlateProc = AddPlateProc();
 FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
+ImageConvetion imageConvetion = ImageConvetion();
 
 // Providers
 PlatesModel plateModel;
@@ -151,17 +153,17 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         // Preparing plate number for send to server
         List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
         // Convert byte image to base64 image
-        String _selfMelliImg = await imgConvertor.img2Base64(nationalCardImg);
-        String _ownerMelliImg =
-            await imgConvertor.img2Base64(ownerNationalCard);
-        String _ownerCarCard = await imgConvertor.img2Base64(ownerCarCard);
+        String _selfMelliImg = await imageConvetion.checkSize(nationalCardImg);
+        // String _ownerMelliImg =
+        //     await imgConvertor.img2Base64(ownerNationalCard);
+        String _ownerCarCard = await imageConvetion.checkSize(ownerCarCard);
 
         // Seding data
         int result = await addPlateProc.familyPlateReq(
             token: uToken,
             plate: lsPlate,
             selfMelli: _selfMelliImg,
-            ownerMelli: _ownerMelliImg,
+            // ownerMelli: _ownerMelliImg,
             ownerCarCard: _ownerCarCard);
 
         // If all documents sent successfully

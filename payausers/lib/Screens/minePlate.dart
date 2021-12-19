@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -7,11 +8,11 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
-import 'package:payausers/ExtractedWidgets/cardEntery.dart';
+import 'package:payausers/ExtractedWidgets/cardEntry.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/Screens/confirmInfo.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
+import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ List appBarTitle = [];
 AddPlateProc addPlateProc = AddPlateProc();
 FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
+ImageConvetion imageConvetion = ImageConvetion();
 
 // Provider
 PlatesModel plateModel;
@@ -125,22 +127,19 @@ class _MinePlateViewState extends State<MinePlateView> {
         // nationalCardImg != null &&
         carCardImg != null) {
       // Active loading indicator for waiting for server response
-      setState(() => isAddingDocs = false);
+      // setState(() => isAddingDocs = false);
       // Validating plate number
       if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
         final uToken = await lds.read(key: "token");
         // Preparing plate number for sending to the server
         List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-        // Preparing image that will be base64 to send to the server
-        String _selfMelliCardImg =
-            await imgConvertor.img2Base64(nationalCardImg);
-        String _selfCarCardImg = await imgConvertor.img2Base64(carCardImg);
+        String _selfCarCard = await imageConvetion.checkSize(carCardImg);
 
         int result = await addPlateProc.minePlateReq(
           token: uToken,
           plate: lsPlate,
-          selfMelli: _selfMelliCardImg,
-          selfCarCard: _selfCarCardImg,
+          // selfMelli: _selfMelliCard,
+          selfCarCard: _selfCarCard,
         );
 
         // If all documents sent successfully

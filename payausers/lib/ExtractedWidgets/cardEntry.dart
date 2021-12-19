@@ -49,10 +49,10 @@ class CardEntry extends StatelessWidget {
           ),
           SizedBox(height: 2.0.w),
           Container(
-            margin: EdgeInsets.only(right: 40),
+            margin: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               attentionToConfidance,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   fontSize: 15,

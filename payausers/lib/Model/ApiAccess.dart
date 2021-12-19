@@ -111,8 +111,8 @@ class ApiAccess {
     Response response = await dio.post(
         "$baseUrl/uploadDocuments?type=self&plate0=${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}",
         data: {
-          "melli_card_image": selfMelliCard,
           "car_card_image": selfCarCard,
+          // "melli_card_image": selfMelliCard,
         });
     // print(response.data);
     return response.data;

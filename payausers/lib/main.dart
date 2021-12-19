@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:liquid_ui/liquid_ui.dart';
+import 'package:payausers/Screens/readTermsOfService.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
@@ -113,7 +114,7 @@ void main() async {
       ?.createNotificationChannel(channel);
 
   // Root and emulator detection function
-  rootDetector();
+  // rootDetector();
   runApp(MyApp());
 }
 
@@ -296,6 +297,7 @@ class _MyAppState extends State<MyApp> {
                     '/addingFamilyPage': (context) => FamilyPlateView(),
                     '/addingOtherPlate': (context) => OtherPageView(),
                     '/settings': (context) => SettingsPage(),
+                    '/readTermsOfService': (context) => ReadTermsOfService(),
                     '/changePassword': (context) => ChangePassPage(),
                     '/reserveEditaion': (context) => ReserveEditaion(),
                     '/setBiometric': (context) => SettingBiometric(),

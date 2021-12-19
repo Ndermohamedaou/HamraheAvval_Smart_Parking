@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'dart:async';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:image/image.dart' as imgEdit;
@@ -37,9 +37,8 @@ class ImageConvetion {
         // final byteImg = img.readAsBytesSync();
         String _img64 = base64Encode(imgByte);
         return _img64;
-      } else {
+      } else
         return "";
-      }
     } catch (e) {
       return "";
     }
@@ -48,7 +47,7 @@ class ImageConvetion {
   Future<String> sendingImage(File img) async {
     final uToken = await lds.read(key: "token");
     String imgConverted = await checkSize(img);
-    // print("Conversion IMAGE TO -----> \n $imgConverted");
+    // print("Conversion image TO -----> \n $imgConverted");
     String takenSuccessful =
         await api.updatingUserAvatar(token: uToken, uAvatar: imgConverted);
     // print(takenSuccessful);
