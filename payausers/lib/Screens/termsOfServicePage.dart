@@ -75,7 +75,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
               child: CheckboxListTile(
                   activeColor: mainSectionCTA,
                   title: Text(
-                    "تمام شرایط را می پذیرم",
+                    acceptAllTermsOfService,
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   value: acceptedTerms,
@@ -85,7 +85,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
         ),
       ),
       bottomNavigationBar: BottomButton(
-        text: acceptedTerms ? "ورود" : "الزام در پذیرش شرایط",
+        text: acceptedTerms ? finalLoginText : mustAcceptTerms,
         hasCondition: acceptedTerms,
         ontapped: goToLogin,
       ),

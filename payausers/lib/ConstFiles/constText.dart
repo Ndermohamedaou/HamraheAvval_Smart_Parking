@@ -33,6 +33,7 @@ const nextLevel1 = "بعدی";
 const themeChangeText = "حالت تاریک یا روشن";
 const loginAppBarText = "ورود به حساب";
 const finalLoginText = "ورود";
+const mustAcceptTerms = "الزام در پذیرش شرایط";
 const welcomeToInfo = "ورود به حساب کاربری";
 const personalCodePlaceHolder = "کد پرسنلی";
 const passwordTextFieldPlace = "گذرواژه";
@@ -318,3 +319,4 @@ const errorInSendPlateDsc = "لطفا پلاک معتبر وارد نمایید"
 const completeInformationTitle = "اطلاعات خود را تکمیل کنید";
 const completeInformationDesc =
     "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید";
+const acceptAllTermsOfService = "تمام شرایط را می پذیرم";
