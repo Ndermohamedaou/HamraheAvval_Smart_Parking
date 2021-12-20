@@ -72,7 +72,7 @@ void setFCMNotifire(targetPoint) {
   }
 }
 
-// Backgroud Worker
+// Background Worker
 Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("Handling a background Message ${message.messageId}");
