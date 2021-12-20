@@ -71,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
         // devToken = await FirebaseMessaging.instance.getToken();
       } catch (e) {
         devToken = "";
-        print(e);
+        // print(e);
       }
 
       setState(() {
@@ -85,14 +85,24 @@ class _LoginPageState extends State<LoginPage> {
               email: email, password: pass, deviceToken: devToken);
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
-            if (getLoginStatus["first_visit"]) {
-              Navigator.pushNamed(context, "/2factorAuth",
-                  arguments: {"persCode": email, "password": pass});
-              setState(() => isLogin = false);
+            // Checking if user is admin or staff
+            if (getLoginStatus["role"] == "staff" ||
+                getLoginStatus["role"] == "admin") {
+              if (getLoginStatus["first_visit"]) {
+                Navigator.pushNamed(context, "/2factorAuth",
+                    arguments: {"persCode": email, "password": pass});
+                setState(() => isLogin = false);
+              } else {
+                setState(() => isLogin = false);
+                gettingReadyAccount.getUserAccInfo(
+                    getLoginStatus['token'], context);
+              }
             } else {
               setState(() => isLogin = false);
-              gettingReadyAccount.getUserAccInfo(
-                  getLoginStatus['token'], context);
+              Toast.show("عدم دسترسی به سیستم", context,
+                  duration: Toast.LENGTH_LONG,
+                  gravity: Toast.BOTTOM,
+                  textColor: Colors.white);
             }
           } else {
             Toast.show("خطا در ورود", context,
@@ -103,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         } catch (e) {
           setState(() => isLogin = false);
-          print("Erorr in self login ==> $e");
+          // print("Erorr in self login ==> $e");
           Toast.show("شماره پرسنلی یا گذرواژه اشتباه است", context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,

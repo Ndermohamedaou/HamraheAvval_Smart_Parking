@@ -18,17 +18,18 @@ import 'Screens/loadingChangeAvatar.dart';
 import 'Screens/minePlate.dart';
 import 'Screens/otherPlateView.dart';
 import 'Screens/splashScreen.dart';
-import 'package:payausers/Screens/two_factor_auth.dart';
-import 'package:payausers/Screens/forgetPassword.dart';
-import 'package:payausers/Screens/ForgetPasswordTabs/OTPSection.dart';
-import 'package:payausers/Screens/ForgetPasswordTabs/recoverPassword.dart';
-import 'package:payausers/Screens/termsOfServicePage.dart';
+import 'Screens/two_factor_auth.dart';
+import 'Screens/forgetPassword.dart';
+import 'Screens/ForgetPasswordTabs/OTPSection.dart';
+import 'Screens/ForgetPasswordTabs/recoverPassword.dart';
+import 'Screens/termsOfServicePage.dart';
 import 'Screens/intro.dart';
 import 'Screens/loginPage.dart';
 import 'Screens/confirmInfo.dart';
 import 'Screens/themeModeSelector.dart';
 import 'Screens/maino.dart';
 import 'Screens/settings.dart';
+import 'Screens/readTermsOfService.dart';
 import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
 import 'Screens/reservePageEdit.dart';
@@ -167,6 +168,7 @@ class _MyAppState extends State<MyApp> {
                   '/addingFamilyPlate': (context) => FamilyPlateView(),
                   '/addingOtherPlate': (context) => OtherPageView(),
                   '/settings': (context) => SettingsPage(),
+                  '/readTermsOfService': (context) => ReadTermsOfService(),
                   '/changePassword': (context) => ChangePassPage(),
                   '/reserveEditaion': (context) => ReserveEditaion(),
                   '/listLengthSettingPage': (context) => ChangePageIndex(),

@@ -187,26 +187,50 @@ class _SettingsState extends State<Settings>
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Container(
-                              width: double.infinity,
-                              height: 55,
-                              color: themeChange.darkTheme ? darkBar : lightBar,
-                              child: FlatButton(
-                                onPressed: () =>
-                                    Navigator.pushNamed(context, "/settings"),
-                                child: ListTile(
-                                  title: Text(
-                                    "تنظیمات",
-                                    style: TextStyle(
-                                        fontFamily: mainFaFontFamily,
-                                        fontSize: 15),
-                                  ),
-                                  leading: Icon(
-                                    Icons.settings,
-                                    color: Colors.blue,
-                                    size: 30,
-                                  ),
+                            width: double.infinity,
+                            height: 55,
+                            color: themeChange.darkTheme ? darkBar : lightBar,
+                            child: FlatButton(
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, "/settings"),
+                              child: ListTile(
+                                title: Text(
+                                  "تنظیمات",
+                                  style: TextStyle(
+                                      fontFamily: mainFaFontFamily,
+                                      fontSize: 15),
                                 ),
-                              )),
+                                leading: Icon(
+                                  Icons.settings,
+                                  color: Colors.blue,
+                                  size: 30,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            width: double.infinity,
+                            height: 55,
+                            color: themeChange.darkTheme ? darkBar : lightBar,
+                            child: FlatButton(
+                              onPressed: () => Navigator.pushNamed(
+                                  context, "/readTermsOfService"),
+                              child: ListTile(
+                                title: Text(
+                                  "قوانین و مقررات",
+                                  style: TextStyle(
+                                      fontFamily: mainFaFontFamily,
+                                      fontSize: 15),
+                                ),
+                                leading: Icon(
+                                  Icons.design_services,
+                                  color: Colors.blue,
+                                  size: 30,
+                                ),
+                              ),
+                            ),
+                          ),
                           SizedBox(height: 10),
                           Container(
                             color: themeChange.darkTheme ? darkBar : lightBar,
