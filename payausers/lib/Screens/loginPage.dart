@@ -89,26 +89,26 @@ class _LoginPageState extends State<LoginPage> {
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
             // Checking role if users was staff or admin
-            if (getLoginStatus["role"] == "staff" ||
-                getLoginStatus["role"] == "admin") {
-              if (getLoginStatus["first_visit"]) {
-                Navigator.pushNamed(context, "/2factorAuth",
-                    arguments: {"persCode": email, "password": pass});
-                setState(() => isLogin = false);
-              } else {
-                setState(() => isLogin = false);
-                print("Your token: ${getLoginStatus["token"]}");
-
-                gettingReadyAccount.getUserAccInfo(
-                    getLoginStatus['token'], context);
-              }
+            // if (getLoginStatus["role"] == "staff" ||
+            //     getLoginStatus["role"] == "admin") {
+            if (getLoginStatus["first_visit"]) {
+              Navigator.pushNamed(context, "/2factorAuth",
+                  arguments: {"persCode": email, "password": pass});
+              setState(() => isLogin = false);
             } else {
               setState(() => isLogin = false);
-              Toast.show("عدم دسترسی به سیستم", context,
-                  duration: Toast.LENGTH_LONG,
-                  gravity: Toast.BOTTOM,
-                  textColor: Colors.white);
+              // print("Your token: ${getLoginStatus["token"]}");
+
+              gettingReadyAccount.getUserAccInfo(
+                  getLoginStatus['token'], context);
             }
+            // } else {
+            //   setState(() => isLogin = false);
+            //   Toast.show("عدم دسترسی به سیستم", context,
+            //       duration: Toast.LENGTH_LONG,
+            //       gravity: Toast.BOTTOM,
+            //       textColor: Colors.white);
+            // }
           } else {
             Toast.show("خطا در ورود", context,
                 duration: Toast.LENGTH_LONG,
