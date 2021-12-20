@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>101311359139-t6ssqe48vdtq75d4ccsbm957dntrlcsr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.101311359139-t6ssqe48vdtq75d4ccsbm957dntrlcsr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC07vD48arHjoTu36qNsMdcXpfUQGtVRRQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>101311359139</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.wonderfulapp.payausers</string>
+	<key>PROJECT_ID</key>
+	<string>payacprnotifi</string>
+	<key>STORAGE_BUCKET</key>
+	<string>payacprnotifi.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:101311359139:ios:f795f1363c3b337eab7716</string>
+</dict>
+</plist>
