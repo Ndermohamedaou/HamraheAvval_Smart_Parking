@@ -18,6 +18,19 @@ class _ReadTermsOfServiceState extends State<ReadTermsOfService> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+        ),
+        centerTitle: true,
+        title: Text(
+          "قوانین و مقررات",
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            color: themeChange.darkTheme ? Colors.white : Colors.black,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [

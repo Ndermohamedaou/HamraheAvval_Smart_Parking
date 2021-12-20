@@ -24,7 +24,6 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
