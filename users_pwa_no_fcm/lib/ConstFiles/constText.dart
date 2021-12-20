@@ -33,6 +33,7 @@ const nextLevel1 = "بعدی";
 const themeChangeText = "حالت تاریک یا روشن";
 const loginAppBarText = "ورود به حساب";
 const finalLoginText = "ورود";
+const mustAcceptTerms = "الزام در پذیرش شرایط";
 const welcomeToInfo = "ورود به حساب کاربری";
 const personalCodePlaceHolder = "کد پرسنلی";
 const passwordTextFieldPlace = "گذرواژه";
@@ -318,3 +319,4 @@ const completeInformationDesc =
     "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید";
 const successFullOtherPlateAddDesc =
     "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید";
+const acceptAllTermsOfService = "تمام شرایط را می پذیرم";

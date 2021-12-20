@@ -129,7 +129,7 @@ class _UserPlatesState extends State<UserPlates>
         final _plates = plateModel.plates;
 
         if (_plates.isEmpty)
-          return logLoadingWidgets.notFoundReservedData(msg: "پلاک");
+          return logLoadingWidgets.notFoundReservedData(msg: "ثبت پلاک");
 
         return ListView.builder(
           shrinkWrap: true,

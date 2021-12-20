@@ -9,7 +9,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
-import 'package:payausers/ExtractedWidgets/cardEntery.dart';
+import 'package:payausers/ExtractedWidgets/cardEntry.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 

@@ -16,6 +16,7 @@ class TermsOfServiceView extends StatefulWidget {
 class _TermsOfServiceViewState extends State<TermsOfServiceView> {
   @override
   void initState() {
+    // Bydefault terms of service is not accepted
     acceptedTerms = false;
     super.initState();
   }
@@ -75,7 +76,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
               child: CheckboxListTile(
                   activeColor: mainSectionCTA,
                   title: Text(
-                    "تمام شرایط را می پذیرم",
+                    acceptAllTermsOfService,
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   value: acceptedTerms,
@@ -85,7 +86,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
         ),
       ),
       bottomNavigationBar: BottomButton(
-        text: acceptedTerms ? "ورود" : "الزام در پذیرش شرایط",
+        text: acceptedTerms ? finalLoginText : mustAcceptTerms,
         hasCondition: acceptedTerms,
         ontapped: goToLogin,
       ),
@@ -121,7 +122,7 @@ class AppBarAsNavigate extends StatelessWidget {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
-                "${termsLastUpdate} ${DateTime.now().year}",
+                "$termsLastUpdate ${DateTime.now().year}",
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: 18,
