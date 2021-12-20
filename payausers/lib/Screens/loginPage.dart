@@ -84,18 +84,21 @@ class _LoginPageState extends State<LoginPage> {
           setState(() => isLogin = true);
           final getLoginStatus = await api.getAccessToLogin(
               email: email, password: pass, deviceToken: devToken);
-          print(getLoginStatus);
+          // print(getLoginStatus);
 
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
-            // Checking role
-            if (getLoginStatus["role"] == "staff") {
+            // Checking role if users was staff or admin
+            if (getLoginStatus["role"] == "staff" ||
+                getLoginStatus["role"] == "admin") {
               if (getLoginStatus["first_visit"]) {
                 Navigator.pushNamed(context, "/2factorAuth",
                     arguments: {"persCode": email, "password": pass});
                 setState(() => isLogin = false);
               } else {
                 setState(() => isLogin = false);
+                print("Your token: ${getLoginStatus["token"]}");
+
                 gettingReadyAccount.getUserAccInfo(
                     getLoginStatus['token'], context);
               }
