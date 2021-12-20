@@ -62,31 +62,6 @@ class _DashboardState extends State<Dashboard>
     final double containerWidth = size.width > 500 ? 500 : double.infinity;
     final double optionsHolderWidth = size.width > 500 ? 150 : 100;
 
-    Widget userLeadingCircleAvatar(avatar, fullname) => GestureDetector(
-          onTap: widget.openUserDashSettings,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25,
-                  backgroundColor: mainCTA,
-                  backgroundImage: avatar,
-                ),
-                title: Text(
-                  "خوش آمدید",
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-                subtitle: Text(
-                  fullname,
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-              ),
-            ),
-          ),
-        );
-
     void openOptionsData(
         {data = "0",
         title,
@@ -161,14 +136,75 @@ class _DashboardState extends State<Dashboard>
       child: Column(
         children: [
           SizedBox(height: 2.0.h),
-          Builder(
-            builder: (_) {
-              return userLeadingCircleAvatar(
-                  avatarModel.avatar != ""
-                      ? NetworkImage(avatarModel.avatar)
-                      : null,
-                  avatarModel.fullname);
-            },
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              textDirection: TextDirection.rtl,
+              children: [
+                GestureDetector(
+                  onTap: widget.openUserDashSettings,
+                  child: Row(
+                    textDirection: TextDirection.rtl,
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: avatarModel.avatar != ""
+                            ? NetworkImage(avatarModel.avatar)
+                            : null,
+                      ),
+                      SizedBox(width: 20.0),
+                      Column(
+                        children: [
+                          Text(
+                            "خوش آمدید",
+                            style: TextStyle(
+                              fontFamily: mainFaFontFamily,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                          Text(
+                            avatarModel.fullname,
+                            style: TextStyle(
+                              fontFamily: mainFaFontFamily,
+                              fontSize: 15.0,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                StreamBuilder(
+                  stream: streamAPI.getUserInfoInReal(),
+                  builder: (BuildContext context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Column(children: [
+                        Icon(Icons.star, color: Colors.yellow, size: 40.0),
+                        Text(
+                          snapshot.data["score"].toString(),
+                          style: TextStyle(
+                            fontFamily: mainFaFontFamily,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ]);
+                    } else {
+                      return Column(children: [
+                        Icon(Icons.star, color: Colors.yellow, size: 40.0),
+                        Text(
+                          "-",
+                          style: TextStyle(
+                            fontFamily: mainFaFontFamily,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ]);
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 2.0.h),
           FutureBuilder(
