@@ -183,7 +183,7 @@ const ownerCarCardAppBar = "تصویر کارت وسیله نقلیه مالک";
 
 // Attention in page view
 const attentionToConfidance =
-    "تا آنجایی که میتوانید سعی کنید تصویرتان را به صورت کامل از کارت خواسته شده بگیرید.";
+    "تا آنجایی که میتوانید سعی کنید تصویرتان را به صورت کامل از کارت خواسته شده بگیرید";
 const captureImage = "گرفتن تصویر";
 const useAlbumImage = "بازکردن آلبوم";
 

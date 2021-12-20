@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-// import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ticketview/ticketview.dart';
 
@@ -82,7 +81,7 @@ class Summery extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: mainFaFontFamily,
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                             color: Colors.red),
                       )
                     ],
@@ -142,13 +141,14 @@ class Summery extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: mainFaFontFamily,
                                 fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.normal),
                           ),
                           Text(
                             datePickedByUser.toString(),
                             style: TextStyle(
                               fontFamily: mainFaFontFamily,
                               fontSize: 16,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ],

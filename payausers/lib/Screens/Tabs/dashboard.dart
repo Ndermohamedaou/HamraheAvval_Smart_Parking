@@ -152,7 +152,7 @@ class _DashboardState extends State<Dashboard>
                             ? NetworkImage(avatarModel.avatar)
                             : null,
                       ),
-                      SizedBox(width: 20.0),
+                      SizedBox(width: 10.0),
                       Column(
                         children: [
                           Text(
@@ -161,6 +161,7 @@ class _DashboardState extends State<Dashboard>
                               fontFamily: mainFaFontFamily,
                               fontSize: 18.0,
                             ),
+                            textAlign: TextAlign.right,
                           ),
                           Text(
                             avatarModel.fullname,
