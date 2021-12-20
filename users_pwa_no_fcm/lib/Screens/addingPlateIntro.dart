@@ -149,9 +149,10 @@ class IntroInfo extends StatelessWidget {
             introSec1Title,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontFamily: mainFaFontFamily,
-                fontSize: 25,
-                fontWeight: FontWeight.bold),
+              fontFamily: mainFaFontFamily,
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           SizedBox(height: 1.0.h),
           Text(
@@ -188,7 +189,7 @@ class AddPlateOption extends StatelessWidget {
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   fontSize: 25,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w600),
             ),
           ),
 
@@ -258,16 +259,16 @@ class OptionChoser extends StatelessWidget {
     final double widthSizedResponse =
         size.width > 500 ? 80.0.w : double.infinity;
 
-    final double heightSizedResponse = size.width >= 501
-        ? 120
-        : size.width < 500 && size.width > 421
-            ? 30.0.w
-            : size.width > 280 && size.width < 420
-                ? 50.0.w
-                : 70.0.w;
+    // final double heightSizedResponse = size.width >= 501
+    //     ? 120
+    //     : size.width < 500 && size.width > 421
+    //         ? 30.0.w
+    //         : size.width > 280 && size.width < 420
+    //             ? 50.0.w
+    //             : 70.0.w;
     // print(size.width);
 
-    final responsiveFontSize = size.width > 300 ? 13 : 13.0.sp;
+    // final responsiveFontSize = size.width > 300 ? 13 : 13.0.sp;
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
       width: widthSizedResponse,
@@ -309,9 +310,11 @@ class CustomTextOption extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          fontFamily: mainFaFontFamily,
-          fontSize: fontSize,
-          color: Colors.white),
+        fontFamily: mainFaFontFamily,
+        fontSize: fontSize,
+        color: Colors.white,
+        fontWeight: FontWeight.normal,
+      ),
     );
   }
 }

@@ -84,15 +84,15 @@ class CameraTile extends StatelessWidget {
     final double boxSelectedSizedResponse = size.width >= 501
         ? 20.0.w
         : size.width < 500 && size.width > 421
-            ? 30.0.w
+            ? 15.0.w
             : size.width > 280 && size.width < 420
-                ? 30.0.w
-                : 50.0.w;
+                ? 15.0.w
+                : 15.0.w;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: boxSelectedSizedResponse,
-        height: boxSelectedSizedResponse,
+        width: 25.0.w,
+        height: 25.0.w,
         decoration: BoxDecoration(
           color: themeChange.darkTheme ? darkBar : bgOfChoice,
           borderRadius: BorderRadius.circular(17),
@@ -140,8 +140,8 @@ class AlbumTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: boxSelectedSizedResponse,
-        height: boxSelectedSizedResponse,
+        width: 25.0.w,
+        height: 25.0.w,
         decoration: BoxDecoration(
           color: themeChange.darkTheme ? darkBar : bgOfChoice,
           borderRadius: BorderRadius.circular(17),

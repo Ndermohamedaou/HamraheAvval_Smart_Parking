@@ -378,9 +378,15 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        iconTheme: IconThemeData(
+          color: themeChange.darkTheme ? Colors.white : Colors.black,
+        ),
         title: Text(
           summery,
-          style: TextStyle(fontFamily: mainFaFontFamily),
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            color: themeChange.darkTheme ? Colors.white : Colors.black,
+          ),
         ),
       ),
       body: SafeArea(
