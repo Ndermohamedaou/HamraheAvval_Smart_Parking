@@ -3,6 +3,8 @@ const connectionFailedTitle = "مشکل در برقرار ارتباط با سر
 const connectionFailed =
     "اتصال خود را به اینترنت بررسی کنید یا از خاموش بودن VPN خود اطمینان حاصل کنید";
 
+const welcomeTitle = "خوش آمدید";
+
 const notValidPassText = "گذرواژه نامعتبر";
 const passwordCheckerText =
     "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد";
