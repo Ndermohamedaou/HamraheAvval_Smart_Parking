@@ -112,6 +112,12 @@ Widget buildMenu({
             icon: Icons.settings,
             pressedMenu: () => Navigator.pushNamed(context, settingsRoute),
           ),
+          ListMenu(
+            themeChange: themeChange,
+            text: termsAndLicense,
+            icon: Icons.design_services,
+            pressedMenu: () => Navigator.pushNamed(context, readTermsOfService),
+          ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),
             child: CustomText(
@@ -122,7 +128,7 @@ Widget buildMenu({
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),
             child: CustomText(
-              text: "نسخه 0.0.2",
+              text: "نسخه 0.0.4",
             ),
           ),
         ],

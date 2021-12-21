@@ -10,36 +10,37 @@ import 'package:sizer/sizer.dart';
 import 'model/classes/ThemeColor.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:root_detector/root_detector.dart';
 
 // Screens
-import 'package:securityapp/view/splashScreen.dart';
-import 'package:securityapp/view/login.dart';
-import 'package:securityapp/view/maino.dart';
-import 'package:securityapp/view/searchingPlate.dart';
-import 'package:securityapp/view/searchingSlot.dart';
-import 'package:securityapp/view/searchingByCamera.dart';
-import 'package:securityapp/view/searchingByPersonalCode.dart';
-import 'package:securityapp/view/searchResults.dart';
-import 'package:securityapp/view/entryCheck.dart';
-import 'package:securityapp/view/exitCheck.dart';
-import 'package:securityapp/view/ImageCheckingTime.dart';
-import 'package:securityapp/view/profile.dart';
-import 'package:securityapp/view/buildingForUsers.dart';
-import 'package:securityapp/view/confirmation.dart';
+import 'view/splashScreen.dart';
+import 'view/login.dart';
+import 'view/maino.dart';
+import 'view/searchingPlate.dart';
+import 'view/searchingSlot.dart';
+import 'view/searchingByCamera.dart';
+import 'view/searchingByPersonalCode.dart';
+import 'view/searchResults.dart';
+import 'view/entryCheck.dart';
+import 'view/exitCheck.dart';
+import 'view/ImageCheckingTime.dart';
+import 'view/profile.dart';
+import 'view/buildingForUsers.dart';
+import 'view/confirmation.dart';
 import 'view/bookmarked.dart';
 import 'view/imgProcessResult.dart';
-import 'package:securityapp/view/editePage.dart';
-import 'package:securityapp/view/settingsView.dart';
-import 'package:securityapp/view/setAppLock.dart';
-import 'package:securityapp/view/savingAppLockPass.dart';
-import 'package:securityapp/view/localAuthEnter.dart';
-import 'package:root_detector/root_detector.dart';
+import 'view/editePage.dart';
+import 'view/settingsView.dart';
+import 'view/setAppLock.dart';
+import 'view/savingAppLockPass.dart';
+import 'view/localAuthEnter.dart';
+import 'view/readTermsOfService.dart';
 
 void main() {
   runApp(MyApp());
   connectSocket();
   // Getting start for checking if device was root app doest open.
-  rootDetector();
+  // rootDetector();
 }
 
 // this function, is a root detector function by root_detector package from beer root detector.
@@ -193,6 +194,7 @@ class _MyAppState extends State<MyApp> {
                     editPage: (context) => EditPage(),
                     setAppLock: (context) => SetAppLockOTPView(),
                     savingAppLockPass: (context) => SavingAppLock(),
+                    readTermsOfService: (context) => ReadTermsOfService(),
                     // If user enable app local lock show this view and
                     // prevent from entry without passcode
                     localAuthLocker: (context) => LocalAuthEnter(),

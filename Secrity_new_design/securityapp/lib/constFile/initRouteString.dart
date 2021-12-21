@@ -18,4 +18,5 @@ const imgProcessRoute = "imgProcessRoute";
 const editPage = "edit";
 const setAppLock = "setAppLock";
 const savingAppLockPass = "savingAppLockPass";
+const readTermsOfService = "readTermsOfService";
 const settingsRoute = "settings";
