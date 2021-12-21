@@ -11,10 +11,10 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
-import 'package:payausers/Model/streamAPI.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
@@ -41,22 +41,29 @@ class _MainoState extends State<Maino> {
   TrafficsModel trafficsModel;
   PlatesModel plateModel;
   AvatarModel avatarModel;
+  StaffInfoModel staffInfoModel;
 
   int tabBarIndex;
   var _pageController;
 
   ApiAccess api = ApiAccess();
   LocalDataGetterClass loadLocalData = LocalDataGetterClass();
-  StreamAPI streamAPI = StreamAPI();
   FlutterSecureStorage lds = FlutterSecureStorage();
   // Check internet connection
   String _connectionStatus = 'Un';
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
+  Timer _onRefreshData;
+
   @override
   void initState() {
     super.initState();
+
+    _onRefreshData = Timer.periodic(Duration(minutes: 1), (Timer t) {
+      staffInfoModel.fetchStaffInfo;
+    });
+
     // Initialize Connection Subscription
     initConnectivity();
     _connectivitySubscription =
@@ -73,6 +80,7 @@ class _MainoState extends State<Maino> {
     initConnectivity();
     // Close init
     _connectivitySubscription.cancel();
+    _onRefreshData.cancel();
     super.dispose();
   }
 
@@ -119,6 +127,7 @@ class _MainoState extends State<Maino> {
     trafficsModel.fetchTrafficsData;
     plateModel.fetchPlatesData;
     avatarModel.fetchUserAvatar;
+    staffInfoModel.fetchStaffInfo;
   }
 
   @override
@@ -129,6 +138,7 @@ class _MainoState extends State<Maino> {
     trafficsModel = Provider.of<TrafficsModel>(context);
     plateModel = Provider.of<PlatesModel>(context);
     avatarModel = Provider.of<AvatarModel>(context);
+    staffInfoModel = Provider.of<StaffInfoModel>(context);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme

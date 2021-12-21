@@ -68,6 +68,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -79,6 +80,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
 
     persianDatePicker = PersianDatePicker(
       controller: textEditingController,
+      rangeDatePicker: true,
       headerTextStyle: TextStyle(
           color: themeChange.darkTheme ? Colors.white : Colors.black,
           fontSize: 18),

@@ -6,10 +6,10 @@ import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
-import 'package:payausers/Model/streamAPI.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:payausers/spec/enum_state.dart';
@@ -40,7 +40,6 @@ class _DashboardState extends State<Dashboard>
     with AutomaticKeepAliveClientMixin<Dashboard> {
   LocalDataGetterClass localDataGetterClass = LocalDataGetterClass();
 
-  StreamAPI streamAPI = StreamAPI();
   GridTiles gridTile = GridTiles();
   @override
   Widget build(BuildContext context) {
@@ -55,6 +54,8 @@ class _DashboardState extends State<Dashboard>
     final plateModel = Provider.of<PlatesModel>(context);
     // Getting user Avatar data from provider model
     final avatarModel = Provider.of<AvatarModel>(context);
+    // Getting Score and car location of uesr
+    final staffInfoModel = Provider.of<StaffInfoModel>(context);
 
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
@@ -177,34 +178,31 @@ class _DashboardState extends State<Dashboard>
                     ],
                   ),
                 ),
-                StreamBuilder(
-                  stream: streamAPI.getUserInfoInReal(),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(children: [
-                        Icon(Icons.star, color: Colors.yellow, size: 40.0),
-                        Text(
-                          snapshot.data["score"].toString(),
-                          style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ]);
-                    } else {
-                      return Column(children: [
-                        Icon(Icons.star, color: Colors.yellow, size: 40.0),
-                        Text(
-                          "-",
-                          style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ]);
-                    }
-                  },
-                ),
+                Column(children: [
+                  Icon(Icons.star, color: Colors.yellow, size: 40.0),
+                  Builder(
+                    builder: (_) {
+                      if (staffInfoModel.staffLoadState == FlowState.Loading) {
+                        return Text("-");
+                      }
+                      if (staffInfoModel.staffLoadState == FlowState.Error) {
+                        return Text("-");
+                      }
+                      if (staffInfoModel.staffLoadState == FlowState.Loading) {
+                        return Text("-");
+                      }
+                      return staffInfoModel.staffInfo["score"] == null
+                          ? Text("-")
+                          : Text(
+                              "${staffInfoModel.staffInfo["score"]}",
+                              style: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                fontSize: 18,
+                              ),
+                            );
+                    },
+                  ),
+                ]),
               ],
             ),
           ),
@@ -348,45 +346,50 @@ class _DashboardState extends State<Dashboard>
                     ),
                   );
                 }),
-                StreamBuilder(
-                  stream: streamAPI.getUserInfoInReal(),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.hasData) {
-                      try {
-                        return SecondOptions(
-                          icon: Ionicons.location_outline,
-                          title: "جایگاه",
-                          onPressed: () => openOptionsData(
-                            title: "جایگاه فعلی وسیله نقلیه شما",
-                            data: "${snapshot.data["location"]}",
-                            onPressedNavigationButton: () {
-                              widget.navigateToPlatesTab();
-                              Navigator.pop(context);
-                            },
-                          ),
-                        );
-                      } catch (e) {
-                        return SecondOptions(
-                          icon: Ionicons.location_outline,
-                          title: "جایگاه",
-                          onPressed: () => openOptionsData(
-                            title: "جایگاه فعلی وسیله نقلیه شما",
-                            data: "در حال لود شدن",
-                          ),
-                        );
-                      }
-                    } else {
-                      return SecondOptions(
-                        icon: Ionicons.location_outline,
-                        title: "جایگاه",
-                        onPressed: () => openOptionsData(
-                          title: "جایگاه فعلی وسیله نقلیه شما",
-                          data: "در حال لود شدن",
-                        ),
-                      );
-                    }
-                  },
-                ),
+                Builder(builder: (_) {
+                  if (staffInfoModel.staffLoadState == FlowState.Error) {
+                    return SecondOptions(
+                      icon: Ionicons.location_outline,
+                      title: "جایگاه",
+                      onPressed: () => openOptionsData(
+                        title: "عدم اتصال به شبکه",
+                        data: "لطفا ارتباط خود را با شبکه اینترنت بررسی کنید",
+                      ),
+                    );
+                  }
+                  try {
+                    return staffInfoModel.staffInfo["location"] == null
+                        ? SecondOptions(
+                            icon: Ionicons.location_outline,
+                            title: "جایگاه",
+                            onPressed: () => openOptionsData(
+                              title: "جایگاه فعلی وسیله نقلیه شما",
+                              data: "در حال لود شدن",
+                            ),
+                          )
+                        : SecondOptions(
+                            icon: Ionicons.location_outline,
+                            title: "جایگاه",
+                            onPressed: () => openOptionsData(
+                              title: "جایگاه فعلی وسیله نقلیه شما",
+                              data: "${staffInfoModel.staffInfo["location"]}",
+                              onPressedNavigationButton: () {
+                                widget.navigateToPlatesTab();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          );
+                  } catch (e) {
+                    return SecondOptions(
+                      icon: Ionicons.location_outline,
+                      title: "جایگاه",
+                      onPressed: () => openOptionsData(
+                        title: "جایگاه فعلی وسیله نقلیه شما",
+                        data: "در حال لود شدن",
+                      ),
+                    );
+                  }
+                }),
               ],
             ),
           ),
