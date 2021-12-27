@@ -28,7 +28,7 @@ HexColor mainSectionCTA = HexColor("#ee934b");
 const primarySubmitBtnColor = Colors.green;
 
 // Main Persian font
-const mainFaFontFamily = "IranSanse";
+const mainFaFontFamily = "IranSans";
 const mainEnFontFamily = "OpenSans";
 
 HexColor mainTitleColor = HexColor("#1D75E3");
@@ -71,7 +71,7 @@ const double subFontSize = 12;
 
 // API details
 // const baseUrl = "http://188.213.64.78:8000/api";
-const baseUrl = "http://172.16.24.14:8000/api";
+const baseUrl = "http://188.213.64.78:8000/api";
 // Old API
 // http://188.213.64.78:8000
 // http://172.16.24.14:8000

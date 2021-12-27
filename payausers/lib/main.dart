@@ -1,3 +1,7 @@
+/// This Main file that will be used to run the program.
+/// Some things use in this here for loading somethings at background.
+/// The most important things is all Provider state manager at start in multi-provider.
+/// Next things is DarkTheme Provider as consumer in entir program.
 import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -42,18 +46,27 @@ import 'Screens/reservePageEdit.dart';
 import 'package:payausers/Screens/set_biometric.dart';
 import 'package:payausers/Screens/termsOfServicePage.dart';
 
+// Init Firebase Cloud Messaging system before start main
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 // Adding Dark theme provider to have provider changer theme
 DarkThemeProvider themeChangeProvider = DarkThemeProvider();
 
+/// This two value notifier is used to define the badge state.
+///
+/// We have two Badge value number that we define it as ValueNotifier.
+/// - Reserver submit from admin panel to notify user it reserve submitted.
+/// - Plate added from admin panel to notify user it plate added.
+/// This notifiers have a value to separate notification from other.
+/// The key of this notifier is target.
+/// Value of that is (0) => Reserver submit, (1) => Plate added.
 ValueNotifier<int> userPlateNotiCounter =
     ValueNotifier(themeChangeProvider.userPlateNumNotif);
 ValueNotifier<int> userInstantReserveCounter =
     ValueNotifier(themeChangeProvider.instantUserReserve);
 
-// Set notification number in provider (user number notification) Specific
+// Set notification number in provider user number notification Specification.
 void setFCMNotifire(targetPoint) {
   if (targetPoint == "3") {
     userPlateNotiCounter.value = themeChangeProvider.userPlateNumNotif == 0
@@ -94,6 +107,11 @@ Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
           channel.name,
           channel.description,
           icon: '@mipmap/ic_launcher',
+        ),
+        iOS: IOSNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
         ),
       ));
 }
@@ -180,17 +198,21 @@ class _MyAppState extends State<MyApp> {
 
       if (notification != null || android != null) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channel.description,
-                icon: '@mipmap/ic_launcher',
-              ),
-            ));
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channel.description,
+              icon: '@mipmap/ic_launcher',
+            ),
+            iOS: IOSNotificationDetails(
+              subtitle: notification.body,
+            ),
+          ),
+        );
       }
     });
   }

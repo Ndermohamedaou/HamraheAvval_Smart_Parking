@@ -170,7 +170,7 @@ class AddPlateOption extends StatelessWidget {
         children: [
           SizedBox(height: 5.0.h),
           Container(
-            margin: EdgeInsets.only(right: 40, left: 20),
+            margin: EdgeInsets.symmetric(horizontal: 40),
             child: Text(
               introSec2Title,
               textAlign: TextAlign.right,
@@ -189,7 +189,7 @@ class AddPlateOption extends StatelessWidget {
               textAlign: TextAlign.right,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontSize: 18,
+                  fontSize: 15,
                   color: subtitleInIntro,
                   fontWeight: FontWeight.normal),
             ),

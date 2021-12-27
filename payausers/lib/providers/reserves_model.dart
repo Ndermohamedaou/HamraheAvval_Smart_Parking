@@ -7,7 +7,7 @@ class ReservesModel extends ChangeNotifier {
   FlowState _reserveState = FlowState.Initial;
   final lStorage = FlutterSecureStorage();
   ApiAccess api = ApiAccess();
-  List reserves = [];
+  Map reserves = {};
 
   ReservesModel() {
     _getReserves();

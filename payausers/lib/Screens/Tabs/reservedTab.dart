@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:payausers/ExtractedWidgets/customClipOval.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/InstantReserveBtn.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -23,7 +25,9 @@ import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 import 'package:sizer/sizer.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 class ReservedTab extends StatefulWidget {
   const ReservedTab();
@@ -36,12 +40,14 @@ int filtered = 0;
 ReservesModel reservesModel;
 PlatesModel platesModel;
 Timer _onRefreshReservesPerMin;
+List selectedDays = [];
 
 class _ReservedTabState extends State<ReservedTab>
     with AutomaticKeepAliveClientMixin {
   // Timer for refresh in a min, if data had any change.
   @override
   void initState() {
+    getAWeek();
     _onRefreshReservesPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
       reservesModel.fetchReservesData;
     });
@@ -51,7 +57,29 @@ class _ReservedTabState extends State<ReservedTab>
   @override
   void dispose() {
     _onRefreshReservesPerMin.cancel();
+    selectedDays = [];
     super.dispose();
+  }
+
+  void getAWeek() {
+    /// Get next week that will start with Saturday.
+    ///
+    /// With this function you can get a free week from Saturday to Thursday.
+    /// This DateTime shall be Persian DateTime to show users, what is their selected dates.
+    ///
+    Jalali now = Jalali.now();
+    var weekDay = now.weekDay;
+    var firstOfTheWeek = now - weekDay + 8;
+    for (var i = 0; i < 6; i++) {
+      final date = firstOfTheWeek + i;
+      String year = "${date.year}".toPersianDigit();
+      String month = "${date.month}".toPersianDigit();
+      String day = "${date.day}".toPersianDigit();
+      selectedDays.add({
+        "value": "${date.year}-${date.month}-${date.day}",
+        "label": "$year-$month-$day"
+      });
+    }
   }
 
   @override
@@ -63,6 +91,10 @@ class _ReservedTabState extends State<ReservedTab>
     platesModel = Provider.of<PlatesModel>(context);
     // StreamAPI only for Instant reserve per 30 second
     StreamAPI streamAPI = StreamAPI();
+    ApiAccess api = ApiAccess();
+
+    // print(reservesModel.reserves["reserved_days"]);
+    // [date1, date2, etc...]
 
     // UI loading or Error Class
     LogLoading logLoadingWidgets = LogLoading();
@@ -227,6 +259,67 @@ class _ReservedTabState extends State<ReservedTab>
       );
     }
 
+    void _showMultiSelect(BuildContext context) async {
+      // print(selectedDays);
+      final listOfDays = selectedDays
+          .map((day) => MultiSelectItem(day["value"], day["label"]))
+          .toList();
+
+      await showModalBottomSheet(
+        isScrollControlled: true, // required for min/max child size
+        context: context,
+        builder: (ctx) {
+          return Directionality(
+            textDirection: TextDirection.rtl,
+            child: MultiSelectBottomSheet(
+              items: listOfDays,
+              initialValue: reservesModel.reserves["reserved_days"],
+              onConfirm: (values) async {
+                final lStorage = FlutterSecureStorage();
+                final userToken = await lStorage.read(key: "token");
+                final res =
+                    await api.reserveByUser(token: userToken, days: values);
+                reservesModel.fetchReservesData;
+                if (res == "200") {
+                  rAlert(
+                      context: context,
+                      onTapped: () {
+                        Navigator.pop(context);
+                      },
+                      tAlert: AlertType.success,
+                      title: titleOfReserve,
+                      desc: resultOfReserve);
+                } else {
+                  rAlert(
+                      context: context,
+                      onTapped: () => Navigator.pop(context),
+                      tAlert: AlertType.warning,
+                      title: titleOfFailedReserve,
+                      desc: descOfFailedReserve);
+                }
+              },
+              checkColor: mainCTA,
+              itemsTextStyle:
+                  TextStyle(fontFamily: mainFaFontFamily, fontSize: 20.0),
+              selectedItemsTextStyle:
+                  TextStyle(fontFamily: mainFaFontFamily, fontSize: 20.0),
+              maxChildSize: 0.8,
+              title: Text("انتخاب یک یا چند روز از هفته",
+                  textAlign: TextAlign.right,
+                  style:
+                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 25.0)),
+              cancelText: Text("انصراف",
+                  style:
+                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 24.0)),
+              confirmText: Text("تایید",
+                  style:
+                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 24.0)),
+            ),
+          );
+        },
+      );
+    }
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -254,8 +347,8 @@ class _ReservedTabState extends State<ReservedTab>
                               icon: Icons.add,
                               firstColor: mainCTA,
                               secondColor: mainSectionCTA,
-                              aggreementPressed: () => Navigator.pushNamed(
-                                  context, "/reserveEditaion"),
+                              aggreementPressed: () =>
+                                  _showMultiSelect(context),
                             ),
                             SizedBox(width: 10),
                             // Stream Instant reserve
@@ -288,7 +381,9 @@ class _ReservedTabState extends State<ReservedTab>
                   if (reservesModel.reserveState == FlowState.Error)
                     return logLoadingWidgets.internetProblem;
 
-                  final reserveList = reservesModel.reserves.reversed.toList();
+                  List reserveList =
+                      reservesModel.reserves["reserves"].reversed.toList();
+
                   if (reserveList.isEmpty)
                     return logLoadingWidgets.notFoundReservedData(msg: "رزرو");
 
