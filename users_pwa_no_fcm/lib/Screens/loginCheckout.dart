@@ -20,16 +20,13 @@ class _LoginCheckingoutPageState extends State<LoginCheckingoutPage> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    final mainTitleLogo = themeChange.darkTheme
-        ? "assets/images/Titile_Logo_Mark_dark.png"
-        : "assets/images/Titile_Logo_Mark_light.png";
-
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: Image.asset(
-            mainTitleLogo,
-            width: 200,
+          child: CircleAvatar(
+            radius: 100,
+            backgroundColor: Colors.white,
+            backgroundImage: AssetImage("assets/images/mainLogo.png"),
           ),
         ),
       ),

@@ -98,7 +98,7 @@ const delText = 'پاک کردن';
 const cancelText = 'لغو';
 
 // Reserve
-const String reserveTextTitle = "رزروها";
+const String reserveTextTitle = "لیست رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
 const String dataEntryInCorrect = "ورودی اطلاعات ناقص است";
 const titleOfReserve = "رزرو شما با موفقیت انجام شد";
@@ -157,9 +157,38 @@ const sendDenied = "ثبت تصویر جدید لغو شد";
 const chPass = "تغییر گذرواژه";
 
 // Adding Plate section texts
+const guideViewAppBarTitle = "راهنمای بارگزاری مدارک خودرو";
 const introSec1Title = "اضافه کردن پلاک به همراه اسنادخواسته شده";
 const introSec1Subtitle =
     "اسنادی که در هر مرحله از شما خواسته میشودرا برای سامانه ارسال کنید";
+
+const plateViewEntry =
+    "کاربر گرامی، پلاک مورد نظر خود را وارد کرده و سپس با فشردن دکمه بعدی اعتبار آن پس از بررسی به مرحله بعد خواهید رفت";
+const nationalCardEntry =
+    "کاربر گرامی، جهت ارسال مدارک خود بایستی تصویر خود را به کمتر از ۱ مگابایت بارگذاری کنید";
+const carLicenseEntry = "";
+const imageIgnoredByHugeSizeTitle = "حجم تصویر انتخاب بیشتر از ۱ مگابایت است";
+const imageIgnoredByHugeSizeDesc =
+    "لطفا برای ارسال مدارک از تصویر با حجم حداقل ۱ مگابایت استفاده کنید";
+
+const plateIntroViewTitle =
+    "کاربر گرامی، لطفا یکی از گزینه های زیر را جهت افزودن پلاک مورد نظر به سامانه را انتخاب کنید";
+const colorIndicatorDescription = "معنای هر رنگ در قسمت رزرو های شما چیست؟";
+const greenColorTitle = "دایره سبز";
+const greenColorDesc = "رنگ سبز به معنای تایید ررزو شما از سمت سیستم می‌‌باشد.";
+const redColorTitle = "دایره قرمز";
+const redColorDesc = "رنگ قرمز به معنای رد رزرو شما از سمت سیستم می‌باشد.";
+const orangeColorTitle = "دایره نارنجی";
+const orangeColorDesc =
+    "رنگ نارنجی به معنای آن است که رزرو شما در حال بررسی در انتظار تایید سامانه می‌باشد.";
+const greyColorTitle = "دایره خاکستری";
+const greyColorDesc = "رنگ خاکستری به معنای آن است که رزرو شما لعو شده است.";
+const isPlateValidTitle = "پلاک وارد شده صحیح نمی باشد.";
+const isPlateValidDesc = "لطفا از صحت پلاک وارد شده اطمینان حاصل نمایید.";
+const documentMustNotNullTitle = "سند شما خالی است";
+const documentMustNotNullDesc =
+    "برای وارد کردن سند باید تصویر آن را بارگذاری کنید.";
+
 const introSec2Title =
     "براساس موقعیت حاضر خود اقدام به وارد کردن اطلاعات به یکی از روش های زیر کنید";
 const introSec2Subtitle =
@@ -218,8 +247,7 @@ const failedChangedServerEmailTitle = "مشکل از سوی سرور";
 const failedChangedServerEmailDesc =
     "سرویس دهنده نمیتواند به سرویس گیرنده سرویس دهد";
 
-const logoutMsg =
-    "با خروج از حساب کاربری خود، تمام اطلاعاتی که در این دستگاه ذخیره شده است، پاک خواهد شد و از برنامه خارج خواهید شد";
+const logoutMsg = "آیا مایل به خروج از حساب کاربری خود هستید؟";
 
 const biometricInfoToCheck =
     "برای تنظیم سیستم تشخیص بایومتریک لازم است تا شما دارای فناوری حسگر اثرانگشت (تاچ آی دی) و یا فناوری تشخیص چهره (فیس آی دی) و یا سیستم تشخیص عنبیه چشم باشید در غیر این صورت شما فقط برای ورود به اپلیکیشن خود نیازمند به گذرواژه ای هستید که بعد از این مرحله تنظیم خواهید کرد";

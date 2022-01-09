@@ -19,15 +19,17 @@ class _ReadTermsOfServiceState extends State<ReadTermsOfService> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
+          color: Colors.black,
         ),
         centerTitle: true,
         title: Text(
           "قوانین و مقررات",
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            color: Colors.black,
           ),
         ),
       ),

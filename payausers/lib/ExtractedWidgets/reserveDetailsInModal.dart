@@ -1,4 +1,3 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ReserveColorsStatus.dart';
 import 'package:payausers/Model/ThemeColor.dart';
@@ -42,8 +41,6 @@ class ReserveInDetails extends StatelessWidget {
           decoration: BoxDecoration(
               color: Colors.grey, borderRadius: BorderRadius.circular(20)),
         ),
-        // SizedBox(height: 2.0.h),
-        // CustomTitle(textTitle: "پلاک منتخب رزرو", fw: FontWeight.bold),
         plate.isEmpty
             ? SizedBox()
             : PlateViewer(
@@ -60,7 +57,7 @@ class ReserveInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "نتیجه رزرو", fw: FontWeight.bold),
+            CustomTitle(textTitle: "نتیجه رزرو", fw: FontWeight.normal),
             CustomSubTitle(
                 textTitle: ReserveStatusSpecification()
                     .getReserveStatusString(reserveStatusDesc),
@@ -72,7 +69,7 @@ class ReserveInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "زمان ورود", fw: FontWeight.bold),
+            CustomTitle(textTitle: "زمان ورود", fw: FontWeight.normal),
             CustomSubTitle(textTitle: startTime),
           ],
         ),
@@ -81,7 +78,7 @@ class ReserveInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "زمان خروج", fw: FontWeight.bold),
+            CustomTitle(textTitle: "زمان خروج", fw: FontWeight.normal),
             CustomSubTitle(textTitle: endTime),
           ],
         ),
@@ -90,7 +87,7 @@ class ReserveInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "ساختمان", fw: FontWeight.bold),
+            CustomTitle(textTitle: "ساختمان", fw: FontWeight.normal),
             CustomSubTitle(textTitle: building),
           ],
         ),
@@ -99,7 +96,7 @@ class ReserveInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "جایگاه", fw: FontWeight.bold),
+            CustomTitle(textTitle: "جایگاه", fw: FontWeight.normal),
             CustomSubTitle(textTitle: slot),
           ],
         ),
@@ -124,7 +121,7 @@ class ReserveInDetails extends StatelessWidget {
                           color: loginBtnTxtColor,
                           fontFamily: mainFaFontFamily,
                           fontSize: 18.0,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.normal),
                     ),
                     Icon(
                       Icons.delete,

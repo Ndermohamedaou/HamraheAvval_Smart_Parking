@@ -6,7 +6,7 @@ void showStatusInCaseOfFlush({context, String msg, title, icon, iconColor}) {
   Flushbar(
     margin: EdgeInsets.all(8),
     borderRadius: 8,
-    backgroundColor: darkBar,
+    backgroundColor: mainSectionCTA,
     flushbarPosition: FlushbarPosition.TOP,
     titleText: Text(
       title,
@@ -30,7 +30,7 @@ void showStatusInCaseOfFlush({context, String msg, title, icon, iconColor}) {
       textDirection: TextDirection.ltr,
     ),
     duration: Duration(seconds: 10),
-  )..show(context);
+  ).show(context);
 }
 
 void showStatusInCaseOfFlushBottom(
@@ -38,7 +38,7 @@ void showStatusInCaseOfFlushBottom(
   Flushbar(
     margin: EdgeInsets.all(8),
     borderRadius: 8,
-    backgroundColor: darkBar,
+    backgroundColor: mainSectionCTA,
     flushbarPosition: FlushbarPosition.BOTTOM,
     titleText: Text(
       title,
@@ -62,5 +62,5 @@ void showStatusInCaseOfFlushBottom(
       textDirection: TextDirection.ltr,
     ),
     duration: Duration(seconds: 10),
-  )..show(context);
+  ).show(context);
 }

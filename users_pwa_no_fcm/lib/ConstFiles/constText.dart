@@ -3,6 +3,8 @@ const connectionFailedTitle = "مشکل در برقرار ارتباط با سر
 const connectionFailed =
     "اتصال خود را به اینترنت بررسی کنید یا از خاموش بودن VPN خود اطمینان حاصل کنید";
 
+const welcomeTitle = "خوش آمدید";
+
 const notValidPassText = "گذرواژه نامعتبر";
 const passwordCheckerText =
     "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد";
@@ -96,7 +98,7 @@ const delText = 'پاک کردن';
 const cancelText = 'لغو';
 
 // Reserve
-const String reserveTextTitle = "رزروها";
+const String reserveTextTitle = "لیست رزروها";
 const String noReserveThere = "!شما رزروی ندارید";
 const String dataEntryInCorrect = "ورودی اطلاعات ناقص است";
 const titleOfReserve = "رزرو شما با موفقیت انجام شد";
@@ -155,9 +157,38 @@ const sendDenied = "ثبت تصویر جدید لغو شد";
 const chPass = "تغییر گذرواژه";
 
 // Adding Plate section texts
+const guideViewAppBarTitle = "راهنمای بارگزاری مدارک خودرو";
 const introSec1Title = "اضافه کردن پلاک به همراه اسنادخواسته شده";
 const introSec1Subtitle =
     "اسنادی که در هر مرحله از شما خواسته میشودرا برای سامانه ارسال کنید";
+
+const plateViewEntry =
+    "کاربر گرامی، پلاک مورد نظر خود را وارد کرده و سپس با فشردن دکمه بعدی اعتبار آن پس از بررسی به مرحله بعد خواهید رفت";
+const nationalCardEntry =
+    "کاربر گرامی، جهت ارسال مدارک خود بایستی تصویر خود را به کمتر از ۱ مگابایت بارگذاری کنید";
+const carLicenseEntry = "";
+const imageIgnoredByHugeSizeTitle = "حجم تصویر انتخاب بیشتر از ۱ مگابایت است";
+const imageIgnoredByHugeSizeDesc =
+    "لطفا برای ارسال مدارک از تصویر با حجم حداقل ۱ مگابایت استفاده کنید";
+
+const plateIntroViewTitle =
+    "کاربر گرامی، لطفا یکی از گزینه های زیر را جهت افزودن پلاک مورد نظر به سامانه را انتخاب کنید";
+const colorIndicatorDescription = "معنای هر رنگ در قسمت رزرو های شما چیست؟";
+const greenColorTitle = "دایره سبز";
+const greenColorDesc = "رنگ سبز به معنای تایید ررزو شما از سمت سیستم می‌‌باشد.";
+const redColorTitle = "دایره قرمز";
+const redColorDesc = "رنگ قرمز به معنای رد رزرو شما از سمت سیستم می‌باشد.";
+const orangeColorTitle = "دایره نارنجی";
+const orangeColorDesc =
+    "رنگ نارنجی به معنای آن است که رزرو شما در حال بررسی در انتظار تایید سامانه می‌باشد.";
+const greyColorTitle = "دایره خاکستری";
+const greyColorDesc = "رنگ خاکستری به معنای آن است که رزرو شما لعو شده است.";
+const isPlateValidTitle = "پلاک وارد شده صحیح نمی باشد.";
+const isPlateValidDesc = "لطفا از صحت پلاک وارد شده اطمینان حاصل نمایید.";
+const documentMustNotNullTitle = "سند شما خالی است";
+const documentMustNotNullDesc =
+    "برای وارد کردن سند باید تصویر آن را بارگذاری کنید.";
+
 const introSec2Title =
     "براساس موقعیت حاضر خود اقدام به وارد کردن اطلاعات به یکی از روش های زیر کنید";
 const introSec2Subtitle =
@@ -168,7 +199,7 @@ const minePlateDescText =
     "پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت خودرو در سامانه بارگزاری نمایید";
 const familyPlateTitleText = "پلاک برای افراد درجه یک است";
 const familyPlateDscText =
-    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر شناسنامه و کارت وسیله نقلیه برای  سامانه ارسال کنید";
+    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر شناسنامه خود و کارت وسیله نقلیه، برای سامانه ارسال کنید";
 const otherPlateText = "پلاک برای من نیست";
 const otherPlateDscText =
     "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را در سامانه وارد کرده و به صورت حضوری مراجعه نمایید تا فرایند ثبت پلاک شما با موفقیت انجام شود";
@@ -216,8 +247,7 @@ const failedChangedServerEmailTitle = "مشکل از سوی سرور";
 const failedChangedServerEmailDesc =
     "سرویس دهنده نمیتواند به سرویس گیرنده سرویس دهد";
 
-const logoutMsg =
-    "با خروج از حساب کاربری خود، تمام اطلاعاتی که در این دستگاه ذخیره شده است، پاک خواهد شد و از برنامه خارج خواهید شد";
+const logoutMsg = "آیا مایل به خروج از حساب کاربری خود هستید؟";
 
 const biometricInfoToCheck =
     "برای تنظیم سیستم تشخیص بایومتریک لازم است تا شما دارای فناوری حسگر اثرانگشت (تاچ آی دی) و یا فناوری تشخیص چهره (فیس آی دی) و یا سیستم تشخیص عنبیه چشم باشید در غیر این صورت شما فقط برای ورود به اپلیکیشن خود نیازمند به گذرواژه ای هستید که بعد از این مرحله تنظیم خواهید کرد";
@@ -294,8 +324,8 @@ const terms = '''
 const successfullPlateAddTitle = "پلاک شما با موفیت ثبت شد";
 const successfullPlateAddDsc =
     "پلاک و اسناد شما ثبت شد و منتظر اعلان از طرف سامانه باشید";
-// const successfullPlateAddDsc =
-//     "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه فرمایید";
+const successFullOtherPlateAddDesc =
+    "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید";
 const errorPlateAddTitle = "عملیات ثبت پلاک شما با شکست مواجه شد";
 const errorPlateAddDsc =
     "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید";
@@ -314,9 +344,9 @@ const ignoredReserveStatus = "رزرو رد شده";
 const ignoreToPickImageFromSystemTitle = "عدم انتخاب تصویر";
 const ignoreToPickImageFromSystemDesc =
     "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید";
+const errorInSendPlateTitle = "خطا در ارسال پلاک";
+const errorInSendPlateDsc = "لطفا پلاک معتبر وارد نمایید";
 const completeInformationTitle = "اطلاعات خود را تکمیل کنید";
 const completeInformationDesc =
     "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید";
-const successFullOtherPlateAddDesc =
-    "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید";
 const acceptAllTermsOfService = "تمام شرایط را می پذیرم";

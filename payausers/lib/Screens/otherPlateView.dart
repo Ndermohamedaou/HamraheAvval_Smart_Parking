@@ -76,7 +76,7 @@ class _OtherPageViewState extends State<OtherPageView> {
               context: context,
               title: successfullPlateAddTitle,
               msg: successFullOtherPlateAddDesc,
-              iconColor: Colors.green,
+              iconColor: Colors.white,
               icon: Icons.done_outline);
         }
 
@@ -91,7 +91,7 @@ class _OtherPageViewState extends State<OtherPageView> {
               context: context,
               title: warnningOnAddPlate,
               msg: moreThanPlateAdded,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
         if (result == 1) {
@@ -100,7 +100,7 @@ class _OtherPageViewState extends State<OtherPageView> {
               context: context,
               title: existUserPlateTitleErr,
               msg: existUserPlateDescErr,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
         if (result == -1) {
@@ -109,7 +109,7 @@ class _OtherPageViewState extends State<OtherPageView> {
               context: context,
               title: errorPlateAddTitle,
               msg: errorPlateAddDsc,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
       } else {
@@ -118,7 +118,7 @@ class _OtherPageViewState extends State<OtherPageView> {
             context: context,
             title: "خطا در ارسال پلاک",
             msg: "لطفا پلاک معتبر وارد نمایید",
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
     } else {
@@ -128,7 +128,7 @@ class _OtherPageViewState extends State<OtherPageView> {
           context: context,
           title: "اطلاعات خود را تکمیل کنید",
           msg: "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
     }
   }
@@ -140,16 +140,18 @@ class _OtherPageViewState extends State<OtherPageView> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
-        ),
-        centerTitle: true,
+        backgroundColor: defaultAppBarColor,
         title: Text(
           addPlateNumAppBar,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            fontSize: subTitleSize,
+            color: Colors.black,
           ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black,
         ),
       ),
       body: SafeArea(
@@ -172,6 +174,7 @@ class _OtherPageViewState extends State<OtherPageView> {
       ),
       bottomNavigationBar: BottomButton(
         hasCondition: isAddingDocs,
+        color: mainSectionCTA,
         text: "ثبت اطلاعات",
         ontapped: () => addPlateProcInNow(
           plate0: plate0,

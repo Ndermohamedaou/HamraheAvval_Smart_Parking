@@ -9,26 +9,23 @@ ApiAccess api = ApiAccess();
 FlutterSecureStorage lds = FlutterSecureStorage();
 
 class ImageConvetion {
-  Future<dynamic> checkSize(File img) async {
-    final imgSizeInput = (await img.readAsBytes()).lengthInBytes / 1000000;
-    // print("Image size $imgSizeInput");
-    // If user selected avatar is larger than 2MB
-    // Convret it to small size and getting base64 image String
-    print(imgSizeInput > 2.0);
+  Future<String> checkSize(File img) async {
+    // Read image as bytes. preparing for generate base64 format string.
+    imgEdit.Image imageSrc = imgEdit.decodeImage(img.readAsBytesSync());
+    // Crop image
+    // imgEdit.Image cropedImageSrc =
+    //     imgEdit.copyResizeCropSquare(imageSrc, imageSrc.width);
+    final editedAvatar = imgEdit.encodeJpg(imageSrc);
+    return img2Base64(editedAvatar);
+  }
 
-    if (imgSizeInput > 2.0) {
-      imgEdit.Image imageSrc = imgEdit.decodeImage(img.readAsBytesSync());
-      imgEdit.Image cropedImageSrc =
-          imgEdit.copyResizeCropSquare(imageSrc, 512);
-      final setMediumQuality = imgEdit.encodeJpg(cropedImageSrc, quality: 50);
-      return img2Base64(setMediumQuality);
-    } else {
-      imgEdit.Image imageSrc = imgEdit.decodeImage(img.readAsBytesSync());
-      imgEdit.Image cropedImageSrc =
-          imgEdit.copyResizeCropSquare(imageSrc, 512);
-      final editedAvatar = imgEdit.encodeJpg(cropedImageSrc);
-      return img2Base64(editedAvatar);
-    }
+  bool imgSizeChecker(File img) {
+    /// Checking image size in MB.
+    ///
+    /// We need check image size if had more than 1 MB, we will show error to user.
+    final imgSize = (img.readAsBytesSync()).lengthInBytes / 1000000;
+    print(imgSize);
+    return imgSize > 1.0 ? false : true;
   }
 
   Future<String> img2Base64(imgByte) async {

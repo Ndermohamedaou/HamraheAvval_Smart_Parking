@@ -5,6 +5,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -205,10 +206,11 @@ class _MainoState extends State<Maino> {
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               backgroundColor: themeChange.darkTheme ? darkBar : lightBar,
-              selectedItemColor: mainSectionCTA,
-              unselectedItemColor: HexColor('#C9C9C9'),
-              selectedIconTheme: IconThemeData(color: mainSectionCTA),
-              iconSize: 32,
+              selectedItemColor: mainCTA,
+              unselectedItemColor:
+                  HexColor(themeChange.darkTheme ? "#f9f9f9" : '#4F4D4E'),
+              selectedIconTheme: IconThemeData(color: mainCTA),
+              iconSize: 28,
               unselectedIconTheme: IconThemeData(size: 25),
               selectedFontSize: 14,
               unselectedFontSize: 14,
@@ -225,8 +227,8 @@ class _MainoState extends State<Maino> {
                   ),
                   icon: Icon(
                     tabBarIndex == 0
-                        ? Icons.view_quilt
-                        : Icons.view_quilt_outlined,
+                        ? Icons.grid_view
+                        : Icons.grid_view_outlined,
                   ),
                 ),
                 BottomNavigationBarItem(
@@ -248,14 +250,16 @@ class _MainoState extends State<Maino> {
                   icon: themeChange.instantUserReserve == 0
                       ? Icon(
                           tabBarIndex == 2
-                              ? Icons.add_business
-                              : Icons.add_business_outlined,
+                              ? Icons.add_circle
+                              : Icons.add_circle_outline,
                         )
                       : Badge(
                           animationType: BadgeAnimationType.slide,
                           badgeContent: Text(
                             '${themeChange.instantUserReserve}',
-                            style: TextStyle(fontFamily: mainFaFontFamily),
+                            style: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                color: Colors.white),
                           ),
                           child: Icon(
                             tabBarIndex == 2
@@ -279,7 +283,9 @@ class _MainoState extends State<Maino> {
                           animationType: BadgeAnimationType.slide,
                           badgeContent: Text(
                             '${themeChange.userPlateNumNotif}',
-                            style: TextStyle(fontFamily: mainFaFontFamily),
+                            style: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                color: Colors.white),
                           ),
                           child: Icon(
                             tabBarIndex == 3

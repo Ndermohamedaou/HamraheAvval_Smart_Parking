@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ReservesModel extends ChangeNotifier {
   FlowState _reserveState = FlowState.Initial;
   ApiAccess api = ApiAccess();
-  List reserves = [];
+  Map reserves = {};
 
   ReservesModel() {
     _getReserves();

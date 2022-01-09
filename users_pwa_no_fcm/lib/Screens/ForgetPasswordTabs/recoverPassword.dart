@@ -149,11 +149,18 @@ class RecoverPasswordState extends State<RecoverPassword> {
       },
       child: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
+          backgroundColor: defaultAppBarColor,
           title: Text(
             "ویرایش گذرواژه",
-            style:
-                TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: mainFaFontFamily,
+              fontSize: subTitleSize,
+              color: Colors.black,
+            ),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.black,
           ),
         ),
         body: SingleChildScrollView(

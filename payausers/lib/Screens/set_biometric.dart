@@ -34,18 +34,16 @@ class _SettingBiometricState extends State<SettingBiometric> {
       await lStorage.delete(key: "local_lock");
     }
 
-    // print("This is lock ? $appLockPassword");
-    // print(themeChange.appLock);
-
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-            color: themeChange.darkTheme ? Colors.white : Colors.black),
+        backgroundColor: defaultAppBarColor,
+        iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           "تنظیم بایومتریک",
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            color: Colors.black,
           ),
         ),
         centerTitle: true,
@@ -58,7 +56,11 @@ class _SettingBiometricState extends State<SettingBiometric> {
               child: Directionality(
                 textDirection: TextDirection.rtl,
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(40.0),
+                    color: themeChange.darkTheme ? darkBar : lightBar,
+                  ),
                   child: ListTileSwitch(
                     leading: Icon(Icons.lock),
                     value: themeChange.appLock,

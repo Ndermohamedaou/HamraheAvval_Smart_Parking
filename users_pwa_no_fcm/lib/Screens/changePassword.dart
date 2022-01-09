@@ -3,8 +3,10 @@ import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/validator/textValidator.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
@@ -48,6 +50,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     // Sending to api
     // ignore: missing_return
     Future<String> sendPassword(currentPassword, newPassword) async {
@@ -124,11 +127,19 @@ class _ChangePassPageState extends State<ChangePassPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultAppBarColor,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
         centerTitle: true,
         title: Text(
           changePassText,
-          style:
-              TextStyle(fontFamily: mainFaFontFamily, fontSize: subTitleSize),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            fontSize: subTitleSize,
+            color: Colors.black,
+          ),
         ),
       ),
       body: SafeArea(
@@ -265,7 +276,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
         child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(16.0),
-          color: mainCTA,
+          color: mainSectionCTA,
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () => changePass(

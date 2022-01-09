@@ -16,9 +16,10 @@ class PlateViewer extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     // final double widthSizedResponse = size.width > 500 ? 400 : double.infinity;
     final double responsiveFontSize = size.width > 500 ? 32 : 32;
+    final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;
 
     return Container(
-        width: double.infinity,
+        width: widthSizedResponse,
         height: 70,
         // margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         margin: EdgeInsets.only(top: 10, right: 13, left: 10, bottom: 5),
@@ -70,7 +71,7 @@ class PlateViewer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -86,7 +87,7 @@ class PlateViewer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -102,7 +103,7 @@ class PlateViewer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -122,7 +123,7 @@ class PlateViewer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                 ),
               ),
             ),

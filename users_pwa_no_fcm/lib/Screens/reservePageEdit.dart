@@ -4,10 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-// import 'package:payausers/Screens/addingPlateIntro.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
-import 'package:payausers/controller/reserveController.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:persian_datepicker/persian_datepicker.dart';
@@ -289,59 +287,59 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
     //         "plate3": finalSelectedPlate['plate3'],
     //       };
 
-    void gettingReserve() async {
-      if (datePickedByUser.isNotEmpty) {
-        setState(() => isLoadingReserve = true);
+    // void gettingReserve() async {
+    //   if (datePickedByUser.isNotEmpty) {
+    //     setState(() => isLoadingReserve = true);
 
-        await Future.delayed(Duration(seconds: 2));
-        List plate = plateModel.plates;
-        final pickDate = datePickedByUser.split("/");
+    //     await Future.delayed(Duration(seconds: 2));
+    //     List plate = plateModel.plates;
+    //     final pickDate = datePickedByUser.split("/");
 
-        final strDateTimeStart = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]}";
-        final strDateTimeEnd = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} ";
+    //     final strDateTimeStart = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]}";
+    //     final strDateTimeEnd = "${pickDate[0]}-${pickDate[1]}-${pickDate[2]} ";
 
-        // final reallyPlate = finalSelectedString == ""
-        //     ? bydefaultSelectedString
-        //     : finalSelectedString;
-        // print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
+    //     // final reallyPlate = finalSelectedString == ""
+    //     //     ? bydefaultSelectedString
+    //     //     : finalSelectedString;
+    //     // print("$strDateTimeStart \n $strDateTimeEnd \n $reallyPlate ");
 
-        // Go to controller
-        if (plate.isNotEmpty) {
-          reserveMe(
-            context: context,
-            st: strDateTimeStart,
-            et: strDateTimeEnd,
-            // pt: reallyPlate,
-          );
-          setState(() => isLoadingReserve = false);
-        } else {
-          customAlert(
-            context: context,
-            alertIcon: Icons.close_sharp,
-            borderColor: Colors.red,
-            iconColor: Colors.red,
-            acceptPressed: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, "/addingPlateIntro");
-            },
-            ignorePressed: () =>
-                Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
-            title: failedReserveMsgTitle,
-            desc: failedReserveMsgDesc,
-          );
-          setState(() => isLoadingReserve = false);
-        }
+    //     // Go to controller
+    //     if (plate.isNotEmpty) {
+    //       reserveMe(
+    //         context: context,
+    //         st: strDateTimeStart,
+    //         et: strDateTimeEnd,
+    //         // pt: reallyPlate,
+    //       );
+    //       setState(() => isLoadingReserve = false);
+    //     } else {
+    //       customAlert(
+    //         context: context,
+    //         alertIcon: Icons.close_sharp,
+    //         borderColor: Colors.red,
+    //         iconColor: Colors.red,
+    //         acceptPressed: () {
+    //           Navigator.pop(context);
+    //           Navigator.pushNamed(context, "/addingPlateIntro");
+    //         },
+    //         ignorePressed: () =>
+    //             Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
+    //         title: failedReserveMsgTitle,
+    //         desc: failedReserveMsgDesc,
+    //       );
+    //       setState(() => isLoadingReserve = false);
+    //     }
 
-        reservesModel.fetchReservesData;
-      } else {
-        showStatusInCaseOfFlush(
-            context: context,
-            title: defectiveInfo,
-            msg: defectiveInfoMsg,
-            iconColor: Colors.red,
-            icon: Icons.details_outlined);
-      }
-    }
+    //     reservesModel.fetchReservesData;
+    //   } else {
+    //     showStatusInCaseOfFlush(
+    //         context: context,
+    //         title: defectiveInfo,
+    //         msg: defectiveInfoMsg,
+    //         iconColor: Colors.red,
+    //         icon: Icons.details_outlined);
+    //   }
+    // }
 
     // List<Widget> mainTakenReserve = [
     //   // DateUserPicker(pressedDate: openCalend, pickedDateText: datePickedByUser),
@@ -398,7 +396,7 @@ class _ReserveEditaionState extends State<ReserveEditaion> {
           // endTime: endTime != 0 ? endTime : "-",
           // finalSelectedPlateToSending: switchingPlate,
           isLoad: isLoadingReserve,
-          sendToSubmit: () => gettingReserve(),
+          // sendToSubmit: () => gettingReserve(),
         ),
       ),
     );

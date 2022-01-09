@@ -70,7 +70,7 @@ class PlateViewer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -86,7 +86,7 @@ class PlateViewer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -102,7 +102,7 @@ class PlateViewer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -122,7 +122,7 @@ class PlateViewer extends StatelessWidget {
                   style: TextStyle(
                       fontSize: responsiveFontSize,
                       fontFamily: mainFaFontFamily,
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.w500),
                 ),
               ),
             ),

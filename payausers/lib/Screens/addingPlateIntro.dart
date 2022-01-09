@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/customClipOval.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-
-int pageIndex = 0;
-PageController _pageController;
 
 class AddingPlateIntro extends StatefulWidget {
   @override
@@ -17,8 +14,6 @@ class AddingPlateIntro extends StatefulWidget {
 class _AddingPlateIntroState extends State<AddingPlateIntro> {
   @override
   void initState() {
-    _pageController = PageController();
-    pageIndex = 0;
     super.initState();
   }
 
@@ -29,130 +24,40 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
-        ),
-        centerTitle: true,
+        backgroundColor: defaultAppBarColor,
         title: Text(
           "ثبت پلاک به همراه اسناد",
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            fontSize: subTitleSize,
+            color: Colors.black,
           ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Iconsax.information,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, "/addPlateGuideView");
+            },
+          ),
+        ],
+        iconTheme: IconThemeData(
+          color: Colors.black,
         ),
       ),
       body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (onChangeIndex) =>
-              setState(() => pageIndex = onChangeIndex),
-          children: [
-            IntroInfo(),
-            AddPlateOption(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              AddPlateOption(),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          textDirection: TextDirection.rtl,
-          children: [
-            CustomClipOval(
-              aggreementPressed: () {
-                pageIndex == 0
-                    ? {
-                        setState(() => pageIndex++),
-                        _pageController.animateToPage(pageIndex,
-                            duration: Duration(milliseconds: 500),
-                            curve: Curves.decelerate),
-                      }
-                    : setState(() => pageIndex--);
-                _pageController.animateToPage(pageIndex,
-                    duration: Duration(milliseconds: 500),
-                    curve: Curves.decelerate);
-              },
-              icon: pageIndex == 0
-                  ? Icons.arrow_forward_ios
-                  : Icons.arrow_back_ios,
-              firstColor: mainCTA,
-              secondColor: mainSectionCTA,
-            ),
-            Row(
-              children: [
-                MenuIndecator(
-                    colorIndicator:
-                        pageIndex == 0 ? mainCTA : deactiveIndicator),
-                SizedBox(width: 2.0.w),
-                MenuIndecator(
-                    colorIndicator:
-                        pageIndex == 1 ? mainCTA : deactiveIndicator),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MenuIndecator extends StatelessWidget {
-  const MenuIndecator({this.colorIndicator});
-
-  final colorIndicator;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 10,
-      height: 10,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20), color: colorIndicator),
-    );
-  }
-}
-
-class IntroInfo extends StatelessWidget {
-  const IntroInfo({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 10.0.h),
-          Image.asset(
-            "assets/images/AddingPlateSectionIntro.png",
-            width: 100.0.w,
-            filterQuality: FilterQuality.low,
-            // height: 10.0.h,
-          ),
-          SizedBox(height: 1.0.h),
-          Text(
-            introSec1Title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontFamily: mainFaFontFamily,
-                fontSize: 25,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 1.0.h),
-          Text(
-            introSec1Subtitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontFamily: mainFaFontFamily,
-                fontSize: 18,
-                color: subtitleInIntro,
-                fontWeight: FontWeight.normal),
-          ),
-        ],
       ),
     );
   }
@@ -165,60 +70,62 @@ class AddPlateOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 5.0.h),
+          SizedBox(height: 2.0.h),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 40),
+            margin: EdgeInsets.symmetric(horizontal: 10.0),
+            width: double.infinity,
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: themeChange.darkTheme ? darkBar : lightBar,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            alignment: Alignment.centerRight,
             child: Text(
-              introSec2Title,
+              plateIntroViewTitle,
               textAlign: TextAlign.right,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-
-          SizedBox(height: 1.0.h),
-          Container(
-            margin: EdgeInsets.only(right: 40),
-            child: Text(
-              introSec2Subtitle,
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                  fontSize: 15,
-                  color: subtitleInIntro,
-                  fontWeight: FontWeight.normal),
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w500),
             ),
           ),
           SizedBox(height: 1.0.h),
-          // Options
-          OptionChoser(
-            infoColor: minPlateInfoIcon,
-            bgColor: minPlate,
-            mainTitle: minePlateTitleText,
-            mainDsc: minePlateDescText,
-            optionClicked: () =>
-                Navigator.pushNamed(context, "/addingMinePlate"),
+          UploadDocumentMethod(
+            title: minePlateTitleText,
+            iconLeading: "assets/images/self.png",
+            onPressd: () => Navigator.pushNamed(context, "/addingMinePlate"),
           ),
-          OptionChoser(
-            infoColor: familyPlateInfoIcon,
-            bgColor: familyPlate,
-            mainTitle: familyPlateTitleText,
-            mainDsc: familyPlateDscText,
-            optionClicked: () =>
-                Navigator.pushNamed(context, "/addingFamilyPage"),
+          Divider(
+            color: Colors.grey,
+            thickness: .25,
+            indent: 20,
+            height: 10,
           ),
-          OptionChoser(
-            infoColor: otherPlateInfoIcon,
-            bgColor: otherPlate,
-            mainTitle: otherPlateText,
-            mainDsc: otherPlateDscText,
-            optionClicked: () =>
-                Navigator.pushNamed(context, "/addingOtherPlate"),
+          UploadDocumentMethod(
+            title: familyPlateTitleText,
+            iconLeading: "assets/images/family.png",
+            onPressd: () => Navigator.pushNamed(context, "/addingFamilyPage"),
+          ),
+          Divider(
+            color: Colors.grey,
+            thickness: .25,
+            indent: 20,
+            height: 10,
+          ),
+          UploadDocumentMethod(
+            title: familyPlateTitleText,
+            iconLeading: "assets/images/other.png",
+            onPressd: () => Navigator.pushNamed(context, "/addingOtherPlate"),
+          ),
+          Divider(
+            color: Colors.grey,
+            thickness: .25,
+            indent: 20,
+            height: 10,
           ),
         ],
       ),
@@ -226,71 +133,37 @@ class AddPlateOption extends StatelessWidget {
   }
 }
 
-class OptionChoser extends StatelessWidget {
-  const OptionChoser({
-    this.bgColor,
-    this.infoColor,
-    this.mainTitle,
-    this.mainDsc,
-    this.optionClicked,
+class UploadDocumentMethod extends StatelessWidget {
+  const UploadDocumentMethod({
+    this.onPressd,
+    this.title,
+    this.iconLeading,
   });
-
-  final infoColor;
-  final bgColor;
-  final mainTitle;
-  final mainDsc;
-  final Function optionClicked;
+  final Function onPressd;
+  final String title;
+  final String iconLeading;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      width: double.infinity,
-      height: 120,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6.0),
-      ),
-      child: Material(
-        color: bgColor,
-        child: InkWell(
-          onTap: optionClicked,
-          child: Column(
-            children: [
-              Row(
-                textDirection: TextDirection.rtl,
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: CircleAvatar(
-                      radius: 12,
-                      backgroundColor: infoColor,
-                      child: Text("i"),
-                    ),
-                  ),
-                  Text(
-                    mainTitle,
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                        fontFamily: mainFaFontFamily,
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.only(right: 40),
-                child: Text(
-                  mainDsc,
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      fontFamily: mainFaFontFamily,
-                      fontSize: 13.0,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal),
-                ),
-              ),
-            ],
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onPressd,
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: ListTile(
+            title: Text(
+              title,
+              style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500),
+            ),
+            leading: Image.asset(
+              iconLeading,
+              width: 40,
+              height: 40,
+            ),
           ),
         ),
       ),

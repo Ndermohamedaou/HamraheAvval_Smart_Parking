@@ -54,6 +54,7 @@ class _MainIntroState extends State<MainIntro> {
                 "به اپلیکیشن پارکینگ هوشمند همراه اول خوش آمدید",
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
+                  fontWeight: FontWeight.normal,
                   fontSize: subTitleSize,
                 ),
               ),

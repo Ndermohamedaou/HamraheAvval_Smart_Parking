@@ -14,6 +14,9 @@ dependencies:
 
   cupertino_icons: ^1.0.0
   ionicons: ^0.1.2
+  iconsax: ^0.0.8
+  loading_indicator: ^3.0.2
+  url_launcher: ^6.0.17
   hexcolor: ^2.0.5
   # MarkDown Plug in
   flutter_markdown:
@@ -78,6 +81,7 @@ flutter:
     - assets/images/
     - assets/lottie/
     - assets/logo/
+    - certificate/
 
   fonts:
     - family: BYekan

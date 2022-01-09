@@ -52,7 +52,7 @@ class UserPlateInDetails extends StatelessWidget {
               color: Colors.grey, borderRadius: BorderRadius.circular(20)),
         ),
         SizedBox(height: 2.0.h),
-        CustomTitle(textTitle: "پلاک شما در سامانه", fw: FontWeight.bold),
+        CustomTitle(textTitle: "پلاک شما در سامانه", fw: FontWeight.w500),
         PlateViewer(
           plate0: plate[0],
           plate1: plate[1],
@@ -64,13 +64,13 @@ class UserPlateInDetails extends StatelessWidget {
         DottedLine(dashColor: Colors.grey),
         SizedBox(height: 2.0.h),
         CustomTitle(
-            textTitle: "وضعیت جاری پلاک شما در سامانه", fw: FontWeight.bold),
+            textTitle: "وضعیت جاری پلاک شما در سامانه", fw: FontWeight.w500),
         SizedBox(height: 1.0.h),
         Row(
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "منابع انسانی", fw: FontWeight.bold),
+            CustomTitle(textTitle: "منابع انسانی", fw: FontWeight.w500),
             CustomSubTitle(textTitle: hrStatusFinal, color: hrStatusColorFinal),
           ],
         ),
@@ -79,7 +79,7 @@ class UserPlateInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "حراست", fw: FontWeight.bold),
+            CustomTitle(textTitle: "حراست", fw: FontWeight.w500),
             CustomSubTitle(
                 textTitle: secStatusFinal, color: secStatusColorFinal),
           ],
@@ -89,7 +89,7 @@ class UserPlateInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "وضعیت کلی پلاک", fw: FontWeight.bold),
+            CustomTitle(textTitle: "وضعیت کلی پلاک", fw: FontWeight.w500),
             CustomSubTitle(
                 textTitle: overalStatusFinal, color: overalStatusColorFinal),
           ],
@@ -115,7 +115,7 @@ class UserPlateInDetails extends StatelessWidget {
                           color: loginBtnTxtColor,
                           fontFamily: mainFaFontFamily,
                           fontSize: 18.0,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w500),
                     ),
                     Icon(
                       Icons.delete,
@@ -191,7 +191,7 @@ class CustomSubTitle extends StatelessWidget {
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               color: color,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               fontSize: 20.0,
             ),
           ),

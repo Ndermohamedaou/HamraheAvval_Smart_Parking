@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class BottomButton extends StatelessWidget {
-  const BottomButton({this.ontapped, this.text, this.hasCondition = true});
+  const BottomButton(
+      {this.ontapped, this.text, this.hasCondition = true, this.color});
 
   final Function ontapped;
   final String text;
   final bool hasCondition;
+  final color;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class BottomButton extends StatelessWidget {
       child: Material(
         elevation: 10.0,
         borderRadius: BorderRadius.circular(8.0),
-        color: mainCTA,
+        color: color ?? mainCTA,
         child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {

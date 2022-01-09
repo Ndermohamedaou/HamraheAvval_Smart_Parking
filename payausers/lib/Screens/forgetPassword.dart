@@ -49,7 +49,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
             context: context,
             title: "خطا در شناسه کاربری",
             msg: "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
         print("Error from reset password: $e");
       }
@@ -58,26 +58,27 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
           context: context,
           title: "فیلد خالی",
           msg: "فیلد کدپرسنلی نمیتواند خالی رها شود",
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
+        backgroundColor: defaultAppBarColor,
+        title: Text(
+          "بازنشانی گذرواژه حساب شما",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            fontSize: subTitleSize,
+            color: Colors.black,
+          ),
         ),
-        centerTitle: true,
-        title: Text("بازنشانی گذرواژه حساب شما",
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: subTitleSize,
-              color: themeChange.darkTheme ? Colors.white : Colors.black,
-            )),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
       ),
       body: SafeArea(
           child: SingleChildScrollView(

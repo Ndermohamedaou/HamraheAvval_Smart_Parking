@@ -90,7 +90,7 @@ class _MinePlateViewState extends State<MinePlateView> {
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
-        iconColor: Colors.red,
+        iconColor: Colors.white,
         title: ignoreToPickImageFromSystemTitle,
         msg: ignoreToPickImageFromSystemDesc,
       );
@@ -133,7 +133,7 @@ class _MinePlateViewState extends State<MinePlateView> {
             context: context,
             title: successfullPlateAddTitle,
             msg: successfullPlateAddDsc,
-            iconColor: Colors.green,
+            iconColor: Colors.white,
             icon: Icons.done_outline);
       }
 
@@ -149,7 +149,7 @@ class _MinePlateViewState extends State<MinePlateView> {
             context: context,
             title: warnningOnAddPlate,
             msg: moreThanPlateAdded,
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
 
@@ -160,7 +160,7 @@ class _MinePlateViewState extends State<MinePlateView> {
             context: context,
             title: existUserPlateTitleErr,
             msg: existUserPlateDescErr,
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
 
@@ -171,7 +171,7 @@ class _MinePlateViewState extends State<MinePlateView> {
             context: context,
             title: errorPlateAddTitle,
             msg: errorPlateAddDsc,
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
     } else {
@@ -180,9 +180,19 @@ class _MinePlateViewState extends State<MinePlateView> {
           context: context,
           title: completeInformationTitle,
           msg: completeInformationDesc,
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
     }
+  }
+
+  bool isPlateValid() {
+    /// We check length of entry plate at this function.
+    ///
+    /// After checking length of the plate number, we will send request
+    /// to check this plate does exist or not for preventing from duplicate error at last.
+    return plate0.length == 2 && plate2.length == 3 && plate3.length == 2
+        ? true
+        : false;
   }
 
   @override
@@ -191,23 +201,32 @@ class _MinePlateViewState extends State<MinePlateView> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
-        ),
-        centerTitle: true,
+        backgroundColor: defaultAppBarColor,
         title: Text(
           appBarTitle[pageIndex],
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            fontSize: subTitleSize,
+            color: Colors.black,
           ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black,
         ),
       ),
       body: SafeArea(
         child: PageView(
           controller: _pageController,
-          onPageChanged: (onChangePage) =>
-              setState(() => pageIndex = onChangePage),
+          physics: NeverScrollableScrollPhysics(),
+          onPageChanged: (onChangePage) => isPlateValid()
+              ? setState(() => pageIndex = onChangePage)
+              : showStatusInCaseOfFlush(
+                  context: context,
+                  title: isPlateValidTitle,
+                  msg: isPlateValidDesc,
+                  iconColor: Colors.white,
+                  icon: Icons.close),
           children: [
             PlateEntery(
               plate0: plate0,
@@ -226,7 +245,7 @@ class _MinePlateViewState extends State<MinePlateView> {
             //   cameraTapped: () => gettingNationalCard(),
             // ),
             CardEntry(
-              customIcon: "assets/images/OwnerCarCard.png",
+              customIcon: "assets/images/paper1.png",
               imgShow: carCard,
               albumTapped: () => gettingCarCard(),
               cameraTapped: () => gettingCarCard(),
@@ -251,11 +270,41 @@ class _MinePlateViewState extends State<MinePlateView> {
     );
   }
 
+  void doNextPage() {
+    /// In this Function we only change page index to increate view.
+    ///
+    /// This function is called when user tap on next button in bottom navigation bar.
+    setState(() => pageIndex++);
+    _pageController.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+  }
+
   void nextPage() {
+    /// Next page checker function.
+    ///
+    /// Next page has a plate number validator and when it's not valid
+    /// we will show error message to complete user plate.
     if (pageIndex < 1) {
-      setState(() => pageIndex++);
-      _pageController.animateToPage(pageIndex,
-          duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+      if (pageIndex == 0)
+        isPlateValid()
+            ? doNextPage()
+            : showStatusInCaseOfFlush(
+                context: context,
+                title: isPlateValidTitle,
+                msg: isPlateValidDesc,
+                iconColor: Colors.white,
+                icon: Icons.close);
+      else if (pageIndex == 1)
+        carCard == null
+            ? showStatusInCaseOfFlush(
+                context: context,
+                title: documentMustNotNullTitle,
+                msg: documentMustNotNullDesc,
+                iconColor: Colors.red,
+                icon: Icons.close)
+            : doNextPage();
+      else
+        doNextPage();
     }
   }
 }

@@ -17,7 +17,10 @@ dependencies:
   cupertino_icons: ^1.0.0
   ionicons: ^0.1.2
   hexcolor: any
-  # MarkDown Plug in
+  iconsax: ^0.0.8
+  loading_indicator: ^3.0.2
+  url_launcher: any
+  # MarkDown Plugin
   flutter_markdown:
   carousel_slider: ^2.3.1
   dio:
@@ -50,10 +53,12 @@ dependencies:
   image_picker_web: ^2.0.1
   image:
   numberpicker: ^2.1.1
-  # firebase_messaging:
-  # firebase_core:
+  firebase_messaging:
+  firebase_core:
   badges: ^1.2.0
   pinput: ^1.2.0
+  multi_select_flutter: ^4.0.0
+  shamsi_date: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -65,18 +70,19 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/fonts/
     - assets/images/
     - assets/lottie/
 
   fonts:
     - family: BYekan
       fonts:
-        - asset: assets/fonts/byekan/BYEKAN.TTF
+        - asset: assets/fonts/byekan/BYekan.TTF
 
     - family: OpenSans
       fonts:
         - asset: assets/fonts/opensans/OpenSans-Regular.ttf
 
-    - family: IranSanse
+    - family: IranSans
       fonts:
-        - asset: assets/fonts/iranSanse/regularSanse.TTF
+        - asset: assets/fonts/iranSans/regularSans.TTF

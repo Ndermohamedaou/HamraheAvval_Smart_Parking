@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/ConstFiles/constText.dart';
+import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateEditor.dart';
+import 'package:payausers/Model/ThemeColor.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class PlateEntery extends StatelessWidget {
@@ -27,16 +31,36 @@ class PlateEntery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 20),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 10.0),
+              width: double.infinity,
+              padding: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                color: themeChange.darkTheme ? darkBar : lightBar,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              alignment: Alignment.centerRight,
+              child: Text(
+                plateViewEntry,
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                    fontFamily: mainFaFontFamily,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500),
+              ),
+            ),
             Container(
               margin: EdgeInsets.only(top: 20.0.w),
               child: Image.asset(
-                "assets/images/plateWriting.png",
-                width: 50.0.w,
+                "assets/images/myTraffic.png",
+                width: 40.0.w,
               ),
             ),
             SizedBox(height: 15.0.w),

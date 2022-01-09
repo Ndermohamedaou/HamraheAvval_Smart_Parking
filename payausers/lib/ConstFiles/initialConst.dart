@@ -5,10 +5,11 @@ import 'package:hexcolor/hexcolor.dart';
 HexColor mainCardColor = HexColor("#AA642A");
 HexColor persCodeColor = HexColor("#814B00");
 HexColor lastVisitColor = HexColor("#0C4C4E");
+HexColor defaultAppBarColor = HexColor("#BDEAF1");
 
 // Main Background color
-HexColor mainBgColorLight = HexColor("#EEF3F7");
-HexColor mainBgColorDark = HexColor("#303841");
+HexColor mainBgColorLight = HexColor("#f6f7f9");
+HexColor mainBgColorDark = HexColor("#1d2733");
 
 // Dashboard Gradient Colors
 HexColor trafficsTileC1 = HexColor("#FF5B48");
@@ -22,7 +23,7 @@ HexColor userPlateNumberTileC2 = HexColor("#00BBFF");
 
 // main app bar bg color
 HexColor mainCTA = HexColor("#4AC4CB");
-HexColor mainSectionCTA = HexColor("#ee934b");
+HexColor mainSectionCTA = HexColor("#F38137");
 
 // Primary color (CTR)
 const primarySubmitBtnColor = Colors.green;
@@ -51,16 +52,9 @@ HexColor appBarColor = HexColor("#216DCD");
 
 // Bottom navigation bar color details
 HexColor lightBar = HexColor("#FFFFFF");
-HexColor darkBar = HexColor("#3A4750");
+HexColor darkBar = HexColor("#171f2a");
 HexColor bgColorTrendingUp = HexColor("#D9E1F3");
 
-// Adding plate section Colors
-HexColor minPlate = HexColor("#1A64DD");
-HexColor minPlateInfoIcon = HexColor("#C2DAFF");
-HexColor familyPlate = HexColor("#088349");
-HexColor familyPlateInfoIcon = HexColor("#BBE5CF");
-HexColor otherPlate = HexColor("#FF3710");
-HexColor otherPlateInfoIcon = HexColor("#FFCBBC");
 const subtitleInIntro = Colors.grey;
 HexColor deactiveIndicator = HexColor("#E2E2E2");
 HexColor bgOfChoice = HexColor("#EBEBEB");
@@ -69,9 +63,15 @@ HexColor bgOfChoice = HexColor("#EBEBEB");
 const double mainFontSize = 18;
 const double subFontSize = 12;
 
+// Image URLs
+const String first_slide =
+    "https://shop.mci.ir/product-details/fcbdd53f-cd31-4256-9ac5-058f8ff6fb80";
+const String second_slide = "https://mci.ir/notrino-plans";
+const String third_slide = "https://shop.mci.ir";
+
 // API details
 // const baseUrl = "http://188.213.64.78:8000/api";
 const baseUrl = "http://188.213.64.78:8000/api";
-// Old API
+// Old APIR
 // http://188.213.64.78:8000
 // http://172.16.24.14:8000

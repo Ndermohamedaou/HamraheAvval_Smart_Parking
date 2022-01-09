@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ApiAccess.dart';
@@ -24,9 +23,8 @@ class _SettingsState extends State<Settings>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
     super.build(context);
-    final targetPlatform =
-        Theme.of(context).platform == TargetPlatform.iOS ? "iOS" : "Android";
 
     ApiAccess api = ApiAccess();
 
@@ -35,53 +33,48 @@ class _SettingsState extends State<Settings>
         context: context,
         enableDrag: true,
         bounce: true,
-        // backgroundColor: ,
+        backgroundColor:
+            themeChange.darkTheme ? mainBgColorDark : mainBgColorLight,
         duration: const Duration(milliseconds: 550),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Column(
             children: [
               Row(
+                textDirection: TextDirection.rtl,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(left: 20, top: 10),
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Icon(
                         Icons.arrow_circle_down_sharp,
-                        size: 40,
+                        size: 30,
                       ),
                     ),
                   ),
                 ],
               ),
-              CircleAvatar(
-                maxRadius: 30,
-                backgroundColor: Colors.orange,
-                child: Icon(
-                  Icons.warning_amber_sharp,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: 2.0.h),
               Text(
                 "خروج از حساب",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontSize: 16.0.sp,
+                  fontSize: 20.0,
                   color: Colors.orange,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
-              SizedBox(height: 2.0.h),
+              SizedBox(height: 10.0),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   logoutMsg,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontFamily: mainFaFontFamily, fontSize: 14.0.sp),
+                    fontFamily: mainFaFontFamily,
+                    fontSize: 18.0,
+                  ),
                 ),
               ),
               SizedBox(height: 2.0.h),
@@ -89,40 +82,58 @@ class _SettingsState extends State<Settings>
                 mainAxisAlignment: MainAxisAlignment.center,
                 textDirection: TextDirection.rtl,
                 children: [
-                  MaterialButton(
-                    color: Colors.red,
-                    minWidth: 45.0.w,
-                    onPressed: () async {
-                      // Getting token from shared preferences and cleaning LocalStorage as logout user
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                    child: Material(
+                      elevation: 10.0,
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: mainSectionCTA,
+                      child: MaterialButton(
+                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          onPressed: () async {
+                            // Getting token from shared preferences and cleaning LocalStorage as logout user
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
 
-                      // Send token for logout from the system if response was 200
-                      if (await api.logout(token: prefs.getString("token")) ==
-                          "200") {
-                        prefs.clear();
-                        Navigator.popUntil(context, ModalRoute.withName("/"));
-                      }
-                    },
-                    child: Text(
-                      "بلی",
-                      style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 14.0.sp,
-                          color: Colors.white),
+                            // Send token for logout from the system if response was 200
+                            if (await api.logout(
+                                    token: prefs.getString("token")) ==
+                                "200") {
+                              prefs.clear();
+                              Navigator.popUntil(
+                                  context, ModalRoute.withName("/"));
+                            }
+                          },
+                          child: Text(
+                            "بله",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: loginBtnTxtColor,
+                                fontFamily: mainFaFontFamily,
+                                fontSize: btnSized,
+                                fontWeight: FontWeight.bold),
+                          )),
                     ),
                   ),
                   SizedBox(width: 10),
-                  MaterialButton(
-                    minWidth: 45.0.w,
-                    color: Colors.white,
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      "خیر",
-                      style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 14.0.sp,
-                          color: Colors.black),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                    child: Material(
+                      elevation: 10.0,
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: themeChange.darkTheme ? darkBar : Colors.white,
+                      child: MaterialButton(
+                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(
+                            "خیر",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: mainSectionCTA,
+                                fontFamily: mainFaFontFamily,
+                                fontSize: btnSized,
+                                fontWeight: FontWeight.bold),
+                          )),
                     ),
                   ),
                 ],
@@ -135,7 +146,6 @@ class _SettingsState extends State<Settings>
     }
 
     // Providers
-    final themeChange = Provider.of<DarkThemeProvider>(context);
     final avatarModel = Provider.of<AvatarModel>(context);
 
     final themeIconLeading = themeChange.darkTheme
@@ -146,7 +156,7 @@ class _SettingsState extends State<Settings>
           expandedHeight: 70.0.w,
           floating: false,
           pinned: true,
-          backgroundColor: mainCTA,
+          backgroundColor: defaultAppBarColor,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
             title: Text(
@@ -226,7 +236,7 @@ class _SettingsState extends State<Settings>
                                 leading: Icon(
                                   Icons.design_services,
                                   color: Colors.blue,
-                                  size: 30,
+                                  size: 25,
                                 ),
                               ),
                             ),
@@ -253,18 +263,34 @@ class _SettingsState extends State<Settings>
                           ),
                           Container(
                             width: double.infinity,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 15),
+                            height: 55,
+                            color: themeChange.darkTheme ? darkBar : lightBar,
                             child: FlatButton(
                               onPressed: () => logoutSection(),
-                              child: Text(
-                                logoutBtnText,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.red.shade800,
-                                    fontFamily: mainFaFontFamily,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
+                              child: ListTile(
+                                title: Text(
+                                  "خروج از حساب کاربری خود",
+                                  style: TextStyle(
+                                      fontFamily: mainFaFontFamily,
+                                      fontSize: 15),
+                                ),
+                                leading: Icon(
+                                  Icons.logout,
+                                  color: Colors.red,
+                                  size: 25,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            child: Text(
+                              "توسعه داده شده صنایع ارتباطی پایا نسخه وب",
+                              style: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                fontSize: 10.0.sp,
+                                color: Colors.grey,
                               ),
                             ),
                           ),

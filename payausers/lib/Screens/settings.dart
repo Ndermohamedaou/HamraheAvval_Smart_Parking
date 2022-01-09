@@ -144,8 +144,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
+          color: Colors.black,
         ),
         centerTitle: true,
         title: Text(
@@ -153,7 +154,7 @@ class _SettingsPageState extends State<SettingsPage> {
           style: TextStyle(
             fontFamily: mainFaFontFamily,
             fontSize: subTitleSize,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            color: Colors.black,
           ),
         ),
       ),
@@ -240,7 +241,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(16.0),
-          color: mainCTA,
+          color: mainSectionCTA,
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {

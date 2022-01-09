@@ -16,21 +16,41 @@ class CardEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: 20),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10.0),
+            width: double.infinity,
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: themeChange.darkTheme ? darkBar : lightBar,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            alignment: Alignment.centerRight,
+            child: Text(
+              nationalCardEntry,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
           Container(
             margin: EdgeInsets.only(top: 20.0.w),
             child: imgShow == null
                 ? Image.asset(
                     customIcon,
-                    width: 50.0.w,
+                    width: 40.0.w,
                   )
                 : Image.file(
                     imgShow,
-                    width: 50.0.w,
-                    height: 50.0.w,
-                    fit: BoxFit.fitWidth,
+                    width: 70.0.w,
+                    // fit: BoxFit.cover,
                   ),
           ),
           SizedBox(height: 10.0.w),
@@ -89,9 +109,9 @@ class CameraTile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.camera_alt,
-              color: mainSectionCTA,
+            Image.asset(
+              "assets/images/myCamera.png",
+              width: 10.0.w,
             ),
             Text(
               captureImage,
@@ -131,9 +151,9 @@ class AlbumTile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.photo_album,
-              color: mainSectionCTA,
+            Image.asset(
+              "assets/images/myGallery.png",
+              width: 10.0.w,
             ),
             Text(
               useAlbumImage,

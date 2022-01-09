@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:iconsax/iconsax.dart';
 import 'package:badges/badges.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
@@ -212,6 +213,8 @@ class _MainoState extends State<Maino> {
               ],
             ),
           ),
+          // Prevent from bad background of radius in border of tabbar
+          // extendBody: true,
           bottomNavigationBar: ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
@@ -223,9 +226,10 @@ class _MainoState extends State<Maino> {
                 type: BottomNavigationBarType.fixed,
                 backgroundColor: themeChange.darkTheme ? darkBar : lightBar,
                 selectedItemColor: mainCTA,
-                unselectedItemColor: HexColor('#C9C9C9'),
+                unselectedItemColor:
+                    HexColor(themeChange.darkTheme ? "#f9f9f9" : '#4F4D4E'),
                 selectedIconTheme: IconThemeData(color: mainCTA),
-                iconSize: 32,
+                iconSize: 28,
                 unselectedIconTheme: IconThemeData(size: 25),
                 selectedFontSize: 14,
                 unselectedFontSize: 14,
@@ -236,26 +240,16 @@ class _MainoState extends State<Maino> {
                 },
                 items: [
                   BottomNavigationBarItem(
-                    title: Text(
-                      dashboardText,
-                      style: TextStyle(fontFamily: mainFaFontFamily),
-                    ),
-                    icon: Icon(
-                      tabBarIndex == 0
-                          ? Icons.grid_view
-                          : Icons.grid_view_outlined,
-                    ),
+                    title: Text(dashboardText,
+                        style: TextStyle(fontFamily: mainFaFontFamily)),
+                    icon: Icon(Iconsax.home),
                   ),
                   BottomNavigationBarItem(
                     title: Text(
                       transactionText,
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
-                    icon: Icon(
-                      tabBarIndex == 1
-                          ? Icons.view_day
-                          : Icons.view_day_outlined,
-                    ),
+                    icon: Icon(Iconsax.car),
                   ),
                   BottomNavigationBarItem(
                     title: Container(
@@ -265,11 +259,7 @@ class _MainoState extends State<Maino> {
                       ),
                     ),
                     icon: themeChange.instantUserReserve == 0
-                        ? Icon(
-                            tabBarIndex == 2
-                                ? Icons.add_circle
-                                : Icons.add_circle_outline,
-                          )
+                        ? Icon(Iconsax.clipboard)
                         : Badge(
                             animationType: BadgeAnimationType.slide,
                             badgeContent: Text(
@@ -278,11 +268,7 @@ class _MainoState extends State<Maino> {
                                   fontFamily: mainFaFontFamily,
                                   color: Colors.white),
                             ),
-                            child: Icon(
-                              tabBarIndex == 2
-                                  ? Icons.add_business
-                                  : Icons.add_business_outlined,
-                            ),
+                            child: Icon(Iconsax.clipboard),
                           ),
                   ),
                   BottomNavigationBarItem(
@@ -291,11 +277,7 @@ class _MainoState extends State<Maino> {
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
                     icon: themeChange.userPlateNumNotif == 0
-                        ? Icon(
-                            tabBarIndex == 3
-                                ? Icons.post_add
-                                : Icons.post_add_sharp,
-                          )
+                        ? Icon(Iconsax.book)
                         : Badge(
                             animationType: BadgeAnimationType.slide,
                             badgeContent: Text(
@@ -304,22 +286,14 @@ class _MainoState extends State<Maino> {
                                   fontFamily: mainFaFontFamily,
                                   color: Colors.white),
                             ),
-                            child: Icon(
-                              tabBarIndex == 3
-                                  ? Icons.post_add
-                                  : Icons.post_add_sharp,
-                            )),
+                            child: Icon(Iconsax.book)),
                   ),
                   BottomNavigationBarItem(
                     title: Text(
                       settingsText,
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
-                    icon: Icon(
-                      tabBarIndex == 4
-                          ? Icons.settings
-                          : Icons.settings_outlined,
-                    ),
+                    icon: Icon(Iconsax.setting_5),
                   ),
                 ],
               ),

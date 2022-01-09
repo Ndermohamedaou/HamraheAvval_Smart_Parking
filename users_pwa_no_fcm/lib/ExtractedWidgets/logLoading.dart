@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
@@ -27,20 +29,34 @@ class LogLoading {
   Widget internetProblem = Column(
     children: [
       Container(
-          alignment: Alignment.center,
-          child: Icon(
-            Icons.signal_cellular_connected_no_internet_0_bar_outlined,
-            size: 35,
-          )),
+        alignment: Alignment.center,
+        margin: EdgeInsets.only(bottom: 20),
+        child: Icon(Iconsax.direct_normal, size: 80.0),
+      ),
       Text(
         serverConnectionProblem,
         textAlign: TextAlign.center,
-        style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),
+        style: TextStyle(
+            fontFamily: mainFaFontFamily, fontSize: 18, color: Colors.red),
       ),
     ],
   );
 
   Widget waitCircularProgress() => const Center(
         child: CupertinoActivityIndicator(),
+      );
+
+  Widget loading() => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 200,
+            alignment: Alignment.center,
+            child: LoadingIndicator(
+              indicatorType: Indicator.ballPulse,
+              colors: [mainSectionCTA],
+            ),
+          ),
+        ],
       );
 }

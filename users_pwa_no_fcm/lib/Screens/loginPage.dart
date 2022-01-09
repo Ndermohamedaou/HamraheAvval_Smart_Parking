@@ -55,12 +55,7 @@ class _LoginPageState extends State<LoginPage> {
     ApiAccess api = ApiAccess();
     // Setting dark theme provider class
     final themeChange = Provider.of<DarkThemeProvider>(context);
-    final String mainImgLogoLightMode =
-        "assets/images/Titile_Logo_Mark_light.png";
-    final String mainImgLogoDarkMode =
-        "assets/images/Titile_Logo_Mark_dark.png";
-    final String mainLogo =
-        themeChange.darkTheme ? mainImgLogoDarkMode : mainImgLogoLightMode;
+    final String mainImgLogoLightMode = "assets/images/mainLogo.png";
 
     // Login process
     void navigatedToDashboard({email, pass}) async {
@@ -100,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
             // } else {
             //   setState(() => isLogin = false);
             //   Toast.show("عدم دسترسی به سیستم", context,
-            //       duration: Toast.LENGTH_LONG,
+            //       duration: Toast.LENGTH_LON`G,
             //       gravity: Toast.BOTTOM,
             //       textColor: Colors.white);
             // }
@@ -139,7 +134,10 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.only(top: 20),
                 child: Center(
-                  child: Image.asset(mainLogo, width: 170),
+                  child: CircleAvatar(
+                    radius: 100,
+                    backgroundImage: AssetImage(mainImgLogoLightMode),
+                  ),
                 ),
               ),
               SizedBox(height: 30),

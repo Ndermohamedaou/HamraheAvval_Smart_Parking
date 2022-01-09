@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/cardEntry.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Screens/settings.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
@@ -33,7 +33,8 @@ ImageConvetion imageConvetion = ImageConvetion();
 // Provider
 PlatesModel plateModel;
 
-// Plate Modifire
+// Plate Modifire,
+// note plate1 is middle character.
 String plate0 = "";
 String plate2 = "";
 String plate3 = "";
@@ -95,12 +96,9 @@ class _MinePlateViewState extends State<MinePlateView> {
     // imageQuality is half but is okay for seding document to the system.
     final image = await ImagePicker.pickImage(
       source: source,
-      maxHeight: 512,
-      maxWidth: 512,
-      imageQuality: 50,
     );
 
-    if (image != null)
+    if (imgConvertor.imgSizeChecker(image)) if (image != null)
       setState(() => carCard = image);
     else
       showStatusInCaseOfFlushBottom(
@@ -109,6 +107,14 @@ class _MinePlateViewState extends State<MinePlateView> {
         iconColor: Colors.red,
         title: ignoreToPickImageFromSystemTitle,
         msg: ignoreToPickImageFromSystemDesc,
+      );
+    else
+      showStatusInCaseOfFlushBottom(
+        context: context,
+        icon: Icons.close,
+        iconColor: Colors.red,
+        title: imageIgnoredByHugeSizeTitle,
+        msg: imageIgnoredByHugeSizeDesc,
       );
   }
 
@@ -127,7 +133,7 @@ class _MinePlateViewState extends State<MinePlateView> {
         // nationalCardImg != null &&
         carCardImg != null) {
       // Active loading indicator for waiting for server response
-      // setState(() => isAddingDocs = false);
+      setState(() => isAddingDocs = false);
       // Validating plate number
       if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
         final uToken = await lds.read(key: "token");
@@ -163,7 +169,7 @@ class _MinePlateViewState extends State<MinePlateView> {
               context: context,
               title: successfullPlateAddTitle,
               msg: successfullPlateAddDsc,
-              iconColor: Colors.green,
+              iconColor: Colors.white,
               icon: Icons.done_outline);
         }
 
@@ -179,7 +185,7 @@ class _MinePlateViewState extends State<MinePlateView> {
               context: context,
               title: warnningOnAddPlate,
               msg: moreThanPlateAdded,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
 
@@ -190,7 +196,7 @@ class _MinePlateViewState extends State<MinePlateView> {
               context: context,
               title: existUserPlateTitleErr,
               msg: existUserPlateDescErr,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
 
@@ -201,7 +207,7 @@ class _MinePlateViewState extends State<MinePlateView> {
               context: context,
               title: errorPlateAddTitle,
               msg: errorPlateAddDsc,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
       } else {
@@ -210,7 +216,7 @@ class _MinePlateViewState extends State<MinePlateView> {
             context: context,
             title: errorInSendPlateTitle,
             msg: errorInSendPlateDsc,
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
     } else {
@@ -225,30 +231,49 @@ class _MinePlateViewState extends State<MinePlateView> {
     }
   }
 
+  bool isPlateValid() {
+    /// We check length of entry plate at this function.
+    ///
+    /// After checking length of the plate number, we will send request
+    /// to check this plate does exist or not for preventing from duplicate error at last.
+    return plate0.length == 2 && plate2.length == 3 && plate3.length == 2
+        ? true
+        : false;
+  }
+
   @override
   Widget build(BuildContext context) {
     plateModel = Provider.of<PlatesModel>(context);
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    // final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
-        ),
-        centerTitle: true,
+        backgroundColor: defaultAppBarColor,
         title: Text(
           appBarTitle[pageIndex],
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            fontSize: subTitleSize,
+            color: Colors.black,
           ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black,
         ),
       ),
       body: SafeArea(
         child: PageView(
           controller: _pageController,
-          onPageChanged: (onChangePage) =>
-              setState(() => pageIndex = onChangePage),
+          physics: NeverScrollableScrollPhysics(),
+          onPageChanged: (onChangePage) => isPlateValid()
+              ? setState(() => pageIndex = onChangePage)
+              : showStatusInCaseOfFlush(
+                  context: context,
+                  title: isPlateValidTitle,
+                  msg: isPlateValidDesc,
+                  iconColor: Colors.white,
+                  icon: Icons.close),
           children: [
             PlateEntery(
               plate0: plate0,
@@ -267,7 +292,7 @@ class _MinePlateViewState extends State<MinePlateView> {
             //   cameraTapped: () => gettingNationalCard(ImageSource.camera),
             // ),
             CardEntry(
-              customIcon: "assets/images/OwnerCarCard.png",
+              customIcon: "assets/images/paper1.png",
               imgShow: carCard,
               albumTapped: () => gettingCarCard(ImageSource.gallery),
               cameraTapped: () => gettingCarCard(ImageSource.camera),
@@ -278,6 +303,7 @@ class _MinePlateViewState extends State<MinePlateView> {
       bottomNavigationBar: BottomButton(
         hasCondition: isAddingDocs,
         text: pageIndex == 1 ? "ثبت اطلاعات" : nextLevel1,
+        color: mainSectionCTA,
         ontapped: () => pageIndex == 1
             ? addPlateProcInNow(
                 plate0: plate0,
@@ -292,11 +318,41 @@ class _MinePlateViewState extends State<MinePlateView> {
     );
   }
 
+  void doNextPage() {
+    /// In this Function we only change page index to increate view.
+    ///
+    /// This function is called when user tap on next button in bottom navigation bar.
+    setState(() => pageIndex++);
+    _pageController.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+  }
+
   void nextPage() {
+    /// Next page checker function.
+    ///
+    /// Next page has a plate number validator and when it's not valid
+    /// we will show error message to complete user plate.
     if (pageIndex < 1) {
-      setState(() => pageIndex++);
-      _pageController.animateToPage(pageIndex,
-          duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+      if (pageIndex == 0)
+        isPlateValid()
+            ? doNextPage()
+            : showStatusInCaseOfFlush(
+                context: context,
+                title: isPlateValidTitle,
+                msg: isPlateValidDesc,
+                iconColor: Colors.white,
+                icon: Icons.close);
+      else if (pageIndex == 1)
+        carCard == null
+            ? showStatusInCaseOfFlush(
+                context: context,
+                title: documentMustNotNullTitle,
+                msg: documentMustNotNullDesc,
+                iconColor: Colors.red,
+                icon: Icons.close)
+            : doNextPage();
+      else
+        doNextPage();
     }
   }
 }

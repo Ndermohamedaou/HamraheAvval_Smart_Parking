@@ -72,12 +72,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   Future gettingNationalCard(ImageSource source) async {
     final image = await ImagePicker.pickImage(
       source: source,
-      maxHeight: 512,
-      maxWidth: 512,
-      imageQuality: 50,
     );
-
-    if (image != null)
+    if (imageConvetion.imgSizeChecker(image)) if (image != null)
       setState(() => ncCard = image);
     else
       showStatusInCaseOfFlushBottom(
@@ -86,6 +82,14 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         iconColor: Colors.red,
         title: ignoreToPickImageFromSystemDesc,
         msg: ignoreToPickImageFromSystemTitle,
+      );
+    else
+      showStatusInCaseOfFlushBottom(
+        context: context,
+        icon: Icons.close,
+        iconColor: Colors.red,
+        title: imageIgnoredByHugeSizeTitle,
+        msg: imageIgnoredByHugeSizeDesc,
       );
   }
 
@@ -112,12 +116,9 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   Future gettingOwnerCarCard(ImageSource source) async {
     final image = await ImagePicker.pickImage(
       source: source,
-      maxHeight: 500,
-      maxWidth: 500,
-      imageQuality: 50,
     );
 
-    if (image != null)
+    if (imageConvetion.imgSizeChecker(image)) if (image != null)
       setState(() => ownerCarCard = image);
     else
       showStatusInCaseOfFlushBottom(
@@ -126,6 +127,14 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         iconColor: Colors.red,
         title: ignoreToPickImageFromSystemDesc,
         msg: ignoreToPickImageFromSystemTitle,
+      );
+    else
+      showStatusInCaseOfFlushBottom(
+        context: context,
+        icon: Icons.close,
+        iconColor: Colors.red,
+        title: imageIgnoredByHugeSizeTitle,
+        msg: imageIgnoredByHugeSizeDesc,
       );
   }
 
@@ -247,6 +256,16 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     }
   }
 
+  bool isPlateValid() {
+    /// We check length of entry plate at this function.
+    ///
+    /// After checking length of the plate number, we will send request
+    /// to check this plate does exist or not for preventing from duplicate error at last.
+    return plate0.length == 2 && plate2.length == 3 && plate3.length == 2
+        ? true
+        : false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
@@ -254,23 +273,32 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
-        ),
-        centerTitle: true,
+        backgroundColor: defaultAppBarColor,
         title: Text(
           appBarTitle[pageIndex],
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            fontSize: subTitleSize,
+            color: Colors.black,
           ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black,
         ),
       ),
       body: SafeArea(
         child: PageView(
           controller: _pageController,
-          onPageChanged: (onChangePage) =>
-              setState(() => pageIndex = onChangePage),
+          physics: NeverScrollableScrollPhysics(),
+          onPageChanged: (onChangePage) => isPlateValid()
+              ? setState(() => pageIndex = onChangePage)
+              : showStatusInCaseOfFlush(
+                  context: context,
+                  title: isPlateValidTitle,
+                  msg: isPlateValidDesc,
+                  iconColor: Colors.white,
+                  icon: Icons.close),
           children: [
             PlateEntery(
               plate0: plate0,
@@ -283,7 +311,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               plate3Adder: (value) => setState(() => plate3 = value),
             ),
             CardEntry(
-              customIcon: "assets/images/nationalCardIcon.png",
+              customIcon: "assets/images/paper2.png",
               imgShow: ncCard,
               albumTapped: () => gettingNationalCard(ImageSource.gallery),
               cameraTapped: () => gettingNationalCard(ImageSource.camera),
@@ -295,7 +323,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
             //   cameraTapped: () => gettingOwnerNC(ImageSource.camera),
             // ),
             CardEntry(
-              customIcon: "assets/images/OwnerCarCard.png",
+              customIcon: "assets/images/paper1.png",
               imgShow: ownerCarCard,
               albumTapped: () => gettingOwnerCarCard(ImageSource.gallery),
               cameraTapped: () => gettingOwnerCarCard(ImageSource.camera),
@@ -306,6 +334,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       bottomNavigationBar: BottomButton(
         hasCondition: isAddingDocs,
         text: pageIndex == 2 ? "ثبت اطلاعات" : nextLevel1,
+        color: mainSectionCTA,
         ontapped: () => pageIndex == 2
             ? addPlateProcInNow(
                 plate0: plate0,
@@ -321,11 +350,41 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     );
   }
 
+  void doNextPage() {
+    /// In this Function we only change page index to increate view.
+    ///
+    /// This function is called when user tap on next button in bottom navigation bar.
+    setState(() => pageIndex++);
+    _pageController.animateToPage(pageIndex,
+        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+  }
+
   void nextPage() {
+    /// Next page checker function.
+    ///
+    /// Next page has a plate number validator and when it's not valid
+    /// we will show error message to complete user plate.
     if (pageIndex < 2) {
-      setState(() => pageIndex++);
-      _pageController.animateToPage(pageIndex,
-          duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+      if (pageIndex == 0)
+        isPlateValid()
+            ? doNextPage()
+            : showStatusInCaseOfFlush(
+                context: context,
+                title: isPlateValidTitle,
+                msg: isPlateValidDesc,
+                iconColor: Colors.white,
+                icon: Icons.close);
+      else if (pageIndex == 1 || pageIndex == 2)
+        ncCard != null || ownerCarCard != null
+            ? doNextPage()
+            : showStatusInCaseOfFlush(
+                context: context,
+                title: documentMustNotNullTitle,
+                msg: documentMustNotNullDesc,
+                iconColor: Colors.white,
+                icon: Icons.close);
+      else
+        doNextPage();
     }
   }
 }

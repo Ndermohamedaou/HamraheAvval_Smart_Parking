@@ -10,7 +10,7 @@ class AddPlateProc {
       final result = await api.addSelfPlate(
           token: token,
           lsPlate: plate,
-          selfMelliCard: selfMelli,
+          // selfMelliCard: selfMelli,
           selfCarCard: selfCarCard);
 
       if (result == "200") {
@@ -38,7 +38,7 @@ class AddPlateProc {
           token: token,
           lsPlate: plate,
           selfMelliCard: selfMelli,
-          ownerMelliCard: ownerMelli,
+          // ownerMelliCard: ownerMelli,
           ownerCarCard: ownerCarCard);
       if (result == "200") {
         return 200;

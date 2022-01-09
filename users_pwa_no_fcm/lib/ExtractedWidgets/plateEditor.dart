@@ -83,7 +83,7 @@ class PlateEditor extends StatelessWidget {
               style: TextStyle(
                   fontSize: 26,
                   fontFamily: mainFaFontFamily,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
               initialValue: plate0,
               decoration:
@@ -101,7 +101,7 @@ class PlateEditor extends StatelessWidget {
               child: DropdownButton(
                 value: plate1,
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                     fontFamily: mainFaFontFamily,
                     color: themeChange.darkTheme ? Colors.white : Colors.black,
                     fontSize: 22),
@@ -119,7 +119,7 @@ class PlateEditor extends StatelessWidget {
               style: TextStyle(
                   fontSize: 26,
                   fontFamily: mainFaFontFamily,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
               decoration:
                   InputDecoration(counterText: "", border: InputBorder.none),
@@ -141,7 +141,7 @@ class PlateEditor extends StatelessWidget {
               style: TextStyle(
                   fontSize: 26,
                   fontFamily: mainFaFontFamily,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
               decoration:
                   InputDecoration(counterText: "", border: InputBorder.none),

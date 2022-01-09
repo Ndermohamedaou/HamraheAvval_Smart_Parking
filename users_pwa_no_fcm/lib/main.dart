@@ -1,5 +1,6 @@
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/services.dart';
 import 'package:payausers/Model/ThemeColor.dart';
@@ -15,6 +16,8 @@ import 'package:payausers/providers/traffics_model.dart';
 import 'Screens/addingPlateIntro.dart';
 import 'Screens/familyPlate.dart';
 import 'Screens/loadingChangeAvatar.dart';
+import 'Screens/add_plate_guide_view.dart';
+import 'Screens/reserve_guide_view.dart';
 import 'Screens/minePlate.dart';
 import 'Screens/otherPlateView.dart';
 import 'Screens/splashScreen.dart';
@@ -37,7 +40,15 @@ import 'Screens/pageLengthIndex.dart';
 
 void main() async {
   runApp(MyApp());
-  // FirebaseMessaging.instance.getToken().then(print);
+
+  /// Getting Device Token of every user from their device
+  ///
+  /// I will send it to server app, and server app will save it as an index of
+  /// user_device_token list. This most important from this list is sending notification to which device?
+  /// If my device_token list was 3 index, notification will send to entire of this device tokens and 3 device will
+  /// have notification from notification center
+  FirebaseMessaging.instance.getToken().then(
+      print); // I want show it from terminal maybe i want use that in my API
 }
 
 class MyApp extends StatefulWidget {
@@ -46,56 +57,73 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-// Adding Dark theme provider to have provider changer theme
+  /// Adding Dark theme provider to have provider changer theme
   DarkThemeProvider themeChangeProvider = DarkThemeProvider();
-  ValueNotifier<int> userPlateNotiCounter;
+
+  /// userPlateNotiCount
+  ValueNotifier<int> userPlateNotifCounter;
   ValueNotifier<int> userInstantReserveCounter;
+
   @override
   void initState() {
     super.initState();
 
-    userPlateNotiCounter = ValueNotifier(themeChangeProvider.userPlateNumNotif);
+    userPlateNotifCounter =
+        ValueNotifier(themeChangeProvider.userPlateNumNotif);
     userInstantReserveCounter =
         ValueNotifier(themeChangeProvider.instantUserReserve);
 
     getCurrentAppTheme();
-    // firebaseOnMessage();
-    // onFirebaseOpenedApp();
+    firebaseOnMessage();
+    onFirebaseOpenedApp();
   }
 
-  // void onFirebaseOpenedApp() {
-  //   FirebaseMessaging.onMessageOpenedApp.listen((event) {
-  //     print(event.notification.title);
-  //   });
-  // }
+  void onFirebaseOpenedApp() {
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      print(event.notification.title);
+    });
+  }
 
-  // void firebaseOnMessage() {
-  //   FirebaseMessaging.onMessage.listen((msg) {
-  //     print(msg.notification.title);
-  //     print(msg.notification.body);
-  //     print(msg.data["target"]);
+  void firebaseOnMessage() {
+    /// This two value notifier is used to define the badge state.
+    ///
+    /// We have two Badge value number that we define it as ValueNotifier.
+    /// - Reserver submit from admin panel to notify user it reserve submitted.
+    /// - Plate added from admin panel to notify user it plate added.
+    /// This notifiers have a value to separate notification from other.
+    /// The key of this notifier is target.
+    /// Value of that is (0) => Reserver submit, (1) => Plate added.
+    FirebaseMessaging.onMessage.listen((msg) {
+      print(msg.notification.title);
+      print(msg.notification.body);
+      print(msg.data["target"]);
 
-  //     if (msg.data["target"] == "3") {
-  //       userPlateNotiCounter.value = themeChangeProvider.userPlateNumNotif == 0
-  //           ? 0
-  //           : themeChangeProvider.userPlateNumNotif;
-  //       userPlateNotiCounter.value++;
-  //       userPlateNotiCounter.notifyListeners();
-  //       themeChangeProvider.userPlateNumNotif = userPlateNotiCounter.value;
-  //     } else if (msg.data["target"] == "2") {
-  //       userInstantReserveCounter.value =
-  //           themeChangeProvider.instantUserReserve == 0
-  //               ? 0
-  //               : themeChangeProvider.instantUserReserve;
-  //       userInstantReserveCounter.value++;
-  //       userInstantReserveCounter.notifyListeners();
-  //       themeChangeProvider.instantUserReserve =
-  //           userInstantReserveCounter.value;
-  //     }
-  //   });
-  // }
+      if (msg.data["target"] == "3") {
+        /// Check if user doesn't see notification badge inside of App
+        userPlateNotifCounter.value = themeChangeProvider.userPlateNumNotif == 0
+            ? 0
+            : themeChangeProvider.userPlateNumNotif;
+        userPlateNotifCounter.value++;
+        userPlateNotifCounter.notifyListeners();
+        themeChangeProvider.userPlateNumNotif = userPlateNotifCounter.value;
+      } else if (msg.data["target"] == "2") {
+        userInstantReserveCounter.value =
+            themeChangeProvider.instantUserReserve == 0
+                ? 0
+                : themeChangeProvider.instantUserReserve;
+        userInstantReserveCounter.value++;
+        userInstantReserveCounter.notifyListeners();
+        themeChangeProvider.instantUserReserve =
+            userInstantReserveCounter.value;
+      }
+    });
+  }
 
   void getCurrentAppTheme() async {
+    /// Getting Current theme provider from provider of darktheme
+    ///
+    /// It will be use to change theme of app from consumer side of app.
+    /// Because app had a state of dark theme and light theme.
     themeChangeProvider.darkTheme =
         await themeChangeProvider.darkThemePreferences.getTheme();
   }
@@ -112,6 +140,9 @@ class _MyAppState extends State<MyApp> {
                 return themeChangeProvider;
               },
             ),
+            ChangeNotifierProvider<StaffInfoModel>(create: (_) {
+              return StaffInfoModel();
+            }),
             ChangeNotifierProvider<AvatarModel>(
               create: (_) {
                 return AvatarModel();
@@ -163,6 +194,8 @@ class _MyAppState extends State<MyApp> {
                   '/confirm': (context) => ConfirmScreen(),
                   '/loginCheckout': (context) => LoginCheckingoutPage(),
                   '/dashboard': (context) => Maino(),
+                  '/addPlateGuideView': (context) => AddPlateGuideView(),
+                  '/reserveGuideView': (context) => ReserveGuideView(),
                   '/addingPlateIntro': (context) => AddingPlateIntro(),
                   '/addingMinePlate': (context) => MinePlateView(),
                   '/addingFamilyPlate': (context) => FamilyPlateView(),

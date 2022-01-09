@@ -3,11 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
-import 'package:payausers/ExtractedWidgets/customClipOval.dart';
 import 'package:payausers/Model/ApiAccess.dart';
-import 'package:payausers/Model/InstantReserveBtn.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -27,7 +26,6 @@ import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:sizer/sizer.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 
 class ReservedTab extends StatefulWidget {
   const ReservedTab();
@@ -70,14 +68,12 @@ class _ReservedTabState extends State<ReservedTab>
     Jalali now = Jalali.now();
     var weekDay = now.weekDay;
     var firstOfTheWeek = now - weekDay + 8;
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 5; i++) {
       final date = firstOfTheWeek + i;
-      String year = "${date.year}".toPersianDigit();
-      String month = "${date.month}".toPersianDigit();
-      String day = "${date.day}".toPersianDigit();
       selectedDays.add({
         "value": "${date.year}-${date.month}-${date.day}",
-        "label": "$year-$month-$day"
+        "label":
+            "${date.formatter.wN} ${date.formatter.d} ${date.formatter.mN} ${date.formatter.yy}"
       });
     }
   }
@@ -98,7 +94,7 @@ class _ReservedTabState extends State<ReservedTab>
 
     // UI loading or Error Class
     LogLoading logLoadingWidgets = LogLoading();
-    // // Prepare class for getting right plate from database
+    // Prepare class for getting right plate from database
     // PreparedPlate preparedPlate = PreparedPlate();
     // Controller of Instant reserve
     InstantReserve instantReserve = InstantReserve();
@@ -200,21 +196,21 @@ class _ReservedTabState extends State<ReservedTab>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 textDirection: TextDirection.rtl,
                 children: [
-                  Text("فیلتر نتایج",
-                      style: TextStyle(
-                        fontFamily: mainFaFontFamily,
-                        color: mainCTA,
-                        fontSize: 14.0.sp,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  Text(
+                    "فیلتر نتایج",
+                    style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                   Container(
                     margin: EdgeInsets.only(left: 20, top: 10),
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Icon(
-                        Icons.arrow_drop_down_sharp,
-                        color: mainCTA,
-                        size: 40,
+                        Iconsax.close_circle,
+                        size: 29,
                       ),
                     ),
                   ),
@@ -260,9 +256,9 @@ class _ReservedTabState extends State<ReservedTab>
     }
 
     void _showMultiSelect(BuildContext context) async {
-      // print(selectedDays);
+      // Preparing list of one next week.
       final listOfDays = selectedDays
-          .map((day) => MultiSelectItem(day["value"], day["label"]))
+          .map((day) => MultiSelectItem(day["value"], day["label"].toString()))
           .toList();
 
       await showModalBottomSheet(
@@ -273,6 +269,7 @@ class _ReservedTabState extends State<ReservedTab>
             textDirection: TextDirection.rtl,
             child: MultiSelectBottomSheet(
               items: listOfDays,
+              listType: MultiSelectListType.CHIP,
               initialValue: reservesModel.reserves["reserved_days"],
               onConfirm: (values) async {
                 final lStorage = FlutterSecureStorage();
@@ -298,11 +295,13 @@ class _ReservedTabState extends State<ReservedTab>
                       desc: descOfFailedReserve);
                 }
               },
-              checkColor: mainCTA,
+              selectedColor: mainCTA,
               itemsTextStyle:
                   TextStyle(fontFamily: mainFaFontFamily, fontSize: 20.0),
-              selectedItemsTextStyle:
-                  TextStyle(fontFamily: mainFaFontFamily, fontSize: 20.0),
+              selectedItemsTextStyle: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontSize: 20.0,
+                  color: Colors.white),
               maxChildSize: 0.8,
               title: Text("انتخاب یک یا چند روز از هفته",
                   textAlign: TextAlign.right,
@@ -313,7 +312,7 @@ class _ReservedTabState extends State<ReservedTab>
                       TextStyle(fontFamily: mainFaFontFamily, fontSize: 24.0)),
               confirmText: Text("تایید",
                   style:
-                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 24.0)),
+                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 18.0)),
             ),
           );
         },
@@ -321,116 +320,99 @@ class _ReservedTabState extends State<ReservedTab>
     }
 
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: defaultAppBarColor,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Iconsax.filter),
+            onPressed:
+                reservesModel.reserves.isEmpty ? null : () => filterSection(),
+          ),
+          StreamBuilder(
+            stream: streamAPI.getUserCanInstantReserveReal(),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.hasData) {
+                Map status = jsonDecode(snapshot.data);
+                IconButton(
+                    icon: Icon(Iconsax.timer_start),
+                    onPressed:
+                        status["status"] == 1 ? () => instantResrver() : null);
+              }
+
+              if (snapshot.hasError)
+                return SizedBox();
+              else
+                return SizedBox();
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Iconsax.information,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, "/reserveGuideView");
+            },
+          ),
+        ],
+        centerTitle: true,
+        title: Text(
+          reserveTextTitle,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            fontSize: subTitleSize,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Container(
+            margin: EdgeInsets.only(top: 20.0),
+            child: Column(
+              children: [
+                Builder(
+                  builder: (_) {
+                    if (reservesModel.reserveState == FlowState.Loading)
+                      return logLoadingWidgets.loading();
+
+                    if (reservesModel.reserveState == FlowState.Error)
+                      return logLoadingWidgets.internetProblem;
+
+                    List reserveList =
+                        reservesModel.reserves["reserves"].reversed.toList();
+
+                    if (reserveList.isEmpty)
+                      return logLoadingWidgets.notFoundReservedData(
+                          msg: "رزرو");
+
+                    return Column(
                       children: [
-                        Text(
-                          reserveTextTitle,
-                          style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              fontSize: subTitleSize,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Row(
-                          textDirection: TextDirection.ltr,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CustomClipOval(
-                              icon: Icons.add,
-                              firstColor: mainCTA,
-                              secondColor: mainSectionCTA,
-                              aggreementPressed: () =>
-                                  _showMultiSelect(context),
-                            ),
-                            SizedBox(width: 10),
-                            // Stream Instant reserve
-                            StreamBuilder(
-                                stream:
-                                    streamAPI.getUserCanInstantReserveReal(),
-                                builder: (BuildContext context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    Map status = jsonDecode(snapshot.data);
-                                    return IsInstantReserve().getInstantButton(
-                                        status["status"],
-                                        () => instantResrver());
-                                  }
-
-                                  if (snapshot.hasError)
-                                    return SizedBox();
-                                  else
-                                    return SizedBox();
-                                }),
-                          ],
-                        ),
-                      ]),
-                ),
-              ),
-              Builder(
-                builder: (_) {
-                  if (reservesModel.reserveState == FlowState.Loading)
-                    return logLoadingWidgets.waitCircularProgress();
-
-                  if (reservesModel.reserveState == FlowState.Error)
-                    return logLoadingWidgets.internetProblem;
-
-                  List reserveList =
-                      reservesModel.reserves["reserves"].reversed.toList();
-
-                  if (reserveList.isEmpty)
-                    return logLoadingWidgets.notFoundReservedData(msg: "رزرو");
-
-                  return Column(
-                    children: [
-                      filtered != 0
-                          ? Container(
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              alignment: Alignment.centerRight,
-                              child: CustomRichText(
-                                themeChange: themeChange,
-                                textOne: "نمایش $filtered ",
-                                textTwo: "از ${reserveList.length} رزرو",
-                              ),
-                            )
-                          : SizedBox(),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: filtered == 0
-                            ? reserveList.length
-                            : reserveList.length > filtered
-                                ? filtered
-                                : reserveList.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return SingleChildScrollView(
-                            child: GestureDetector(
-                              onTap: () {
-                                // Update user reserves in provider
-                                reservesModel.fetchReservesData;
-
-                                openDetailsInModal(
-                                  reservID: reserveList[index]["id"],
-                                  reserveStatus: reserveList[index]['status'],
-                                  // plate: preparedPlate.preparePlateInReserve(
-                                  //     rawPlate: reserveList[index]['plate']),
-                                  plate: [],
-                                  building:
-                                      reserveList[index]["building"] != null
-                                          ? reserveList[index]["building"]
-                                          : "",
-                                  slot: reserveList[index]["slot"],
-                                  startTime: reserveList[index]
-                                      ["reserveTimeStart"],
-                                  endTime: reserveList[index]["reserveTimeEnd"],
-                                );
-                              },
+                        filtered != 0
+                            ? Container(
+                                margin: EdgeInsets.symmetric(horizontal: 20),
+                                alignment: Alignment.centerRight,
+                                child: CustomRichText(
+                                  themeChange: themeChange,
+                                  textOne: "نمایش $filtered ",
+                                  textTwo: "از ${reserveList.length} رزرو",
+                                ),
+                              )
+                            : SizedBox(),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: filtered == 0
+                              ? reserveList.length
+                              : reserveList.length > filtered
+                                  ? filtered
+                                  : reserveList.length,
+                          itemBuilder: (BuildContext context, index) {
+                            return SingleChildScrollView(
                               child: (Column(
                                 children: [
                                   ReserveHistoryView(
@@ -445,29 +427,71 @@ class _ReservedTabState extends State<ReservedTab>
                                         ["reserveTimeStart"],
                                     historyEndTime: reserveList[index]
                                         ["reserveTimeEnd"],
+                                    onPressed: () {
+                                      // Update user reserves in provider
+                                      reservesModel.fetchReservesData;
+                                      openDetailsInModal(
+                                        reservID: reserveList[index]["id"],
+                                        reserveStatus: reserveList[index]
+                                            ['status'],
+                                        // plate: preparedPlate.preparePlateInReserve(
+                                        //     rawPlate: reserveList[index]['plate']),
+                                        plate: [],
+                                        building: reserveList[index]
+                                                    ["building"] !=
+                                                null
+                                            ? reserveList[index]["building"]
+                                            : "",
+                                        slot: reserveList[index]["slot"],
+                                        startTime: reserveList[index]
+                                            ["reserveTimeStart"],
+                                        endTime: reserveList[index]
+                                            ["reserveTimeEnd"],
+                                      );
+                                    },
                                   ),
                                 ],
                               )),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ],
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
-      floatingActionButton: reservesModel.reserves.isEmpty
-          ? SizedBox()
-          : CustomClipOval(
-              icon: Icons.filter_alt_outlined,
-              firstColor: mainCTA,
-              secondColor: mainSectionCTA,
-              aggreementPressed: () => filterSection(),
+      floatingActionButton: Container(
+        width: 170,
+        height: 55,
+        child: Material(
+          elevation: 10.0,
+          borderRadius: BorderRadius.circular(100.0),
+          color: mainSectionCTA,
+          child: MaterialButton(
+            onPressed: () => _showMultiSelect(context),
+            child: Row(
+              textDirection: TextDirection.rtl,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "افزودن رزرو جدید",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: mainFaFontFamily,
+                      fontSize: btnSized,
+                      fontWeight: FontWeight.normal),
+                ),
+                Icon(Iconsax.receipt, color: Colors.white),
+              ],
             ),
+          ),
+        ),
+      ),
     );
   }
 

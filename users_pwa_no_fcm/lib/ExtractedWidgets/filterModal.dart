@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 
 class FilterMenu extends StatelessWidget {
   const FilterMenu({
@@ -30,7 +29,7 @@ class FilterMenu extends StatelessWidget {
                   style: TextStyle(
                     color: themeChange.darkTheme ? Colors.white : Colors.black,
                     fontFamily: mainFaFontFamily,
-                    fontSize: 14.0.sp,
+                    fontSize: 18.0,
                   ),
                 ),
               ),

@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/ExtractedWidgets/customClipOval.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -54,7 +54,7 @@ class _UserTrafficState extends State<UserTraffic>
 
     Widget traffics = Builder(builder: (_) {
       if (trafficsModel.trafficsState == FlowState.Loading)
-        return logLoadingWidgets.waitCircularProgress();
+        return logLoadingWidgets.loading();
 
       if (trafficsModel.trafficsState == FlowState.Error)
         return logLoadingWidgets.internetProblem;
@@ -183,41 +183,41 @@ class _UserTrafficState extends State<UserTraffic>
     }
 
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: defaultAppBarColor,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Iconsax.filter),
+            onPressed:
+                trafficsModel.traffics.isEmpty ? null : () => filterSection(),
+          ),
+        ],
+        centerTitle: true,
+        title: Text(
+          trafficsLogText,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            fontSize: subTitleSize,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: SafeArea(
           child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      trafficsLogText,
-                      style: TextStyle(
-                        fontFamily: mainFaFontFamily,
-                        fontSize: subTitleSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            traffics,
-          ],
+        child: Container(
+          margin: EdgeInsets.only(top: 10),
+          child: Column(
+            children: [
+              traffics,
+            ],
+          ),
         ),
       )),
-      floatingActionButton: trafficsModel.traffics.isEmpty
-          ? SizedBox()
-          : CustomClipOval(
-              icon: Icons.filter_alt_outlined,
-              firstColor: mainCTA,
-              secondColor: mainSectionCTA,
-              aggreementPressed: () => filterSection(),
-            ),
     );
   }
 

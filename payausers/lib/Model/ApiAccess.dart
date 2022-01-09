@@ -5,7 +5,6 @@ class ApiAccess {
   Dio dio = Dio();
 
   Future<Map> getAccessToLogin({email, password, deviceToken}) async {
-    print(deviceToken);
     Response res = await dio.post(
         "$baseUrl/login?personal_code=$email&password=$password&DeviceToken=$deviceToken");
     return res.data;
@@ -120,7 +119,7 @@ class ApiAccess {
         "$baseUrl/uploadDocuments?type=family&plate0=${lsPlate[0]}&plate1=${lsPlate[1]}&plate2=${lsPlate[2]}&plate3=${lsPlate[3]}",
         data: {
           "melli_card_image": selfMelliCard,
-          "melli_card_owner": ownerMelliCard,
+          // "melli_card_owner": ownerMelliCard,
           "car_card_image": ownerCarCard,
         });
     // print(response.data);

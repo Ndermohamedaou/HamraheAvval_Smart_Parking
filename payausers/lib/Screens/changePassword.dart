@@ -127,16 +127,19 @@ class _ChangePassPageState extends State<ChangePassPage> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
+          color: Colors.black,
         ),
         centerTitle: true,
         title: Text(
           changePassText,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
             fontSize: subTitleSize,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            color: Colors.black,
           ),
         ),
       ),
@@ -274,7 +277,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
         child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(16.0),
-          color: mainCTA,
+          color: mainSectionCTA,
           child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () => changePass(

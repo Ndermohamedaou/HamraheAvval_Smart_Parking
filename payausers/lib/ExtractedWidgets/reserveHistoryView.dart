@@ -1,62 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ReserveColorsStatus.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/Model/ThemeColor.dart';
+import 'package:provider/provider.dart';
 
 class ReserveHistoryView extends StatelessWidget {
-  const ReserveHistoryView(
-      {this.reserveStatusColor,
-      this.historyBuildingName,
-      this.historySlotName,
-      this.historyStartTime,
-      this.historyEndTime});
+  const ReserveHistoryView({
+    this.reserveStatusColor,
+    this.historyBuildingName,
+    this.historySlotName,
+    this.historyStartTime,
+    this.historyEndTime,
+    this.onPressed,
+  });
 
   final reserveStatusColor;
   final historySlotName;
   final historyBuildingName;
   final historyStartTime;
   final historyEndTime;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
     final specificReserveStatusColor =
         ReserveStatusSpecification().getReserveStatusColor(reserveStatusColor);
 
     var size = MediaQuery.of(context).size;
     final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;
+
+    // Split date time for right alignment.
+    String alignDate(String date) {
+      List<String> dateSplit = date.split("-");
+      return "${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}";
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: widthSizedResponse,
-      height: 70.0,
+      height: 100.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0),
-        image: DecorationImage(
-          image: AssetImage("assets/images/back.jpg"),
-          colorFilter: new ColorFilter.mode(
-              Colors.black.withOpacity(0.25), BlendMode.srcOver),
-          fit: BoxFit.cover,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: darkBar.withOpacity(0.6),
-            spreadRadius: 2,
-            blurRadius: 7,
-            offset: Offset(2, 3),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          textDirection: TextDirection.ltr,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CircularStatus(
-              specificReserveStatusColor: specificReserveStatusColor,
+      child: Material(
+        color: themeChange.darkTheme ? darkBar : lightBar,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8.0),
+          onTap: onPressed,
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+              textDirection: TextDirection.ltr,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CircularStatus(
+                  specificReserveStatusColor: specificReserveStatusColor,
+                ),
+                ReserveSection2(
+                    slotName: historySlotName,
+                    endTime: alignDate(historyEndTime)),
+                ReserveSection1(
+                    buildingName: historyBuildingName,
+                    startTime: alignDate(historyStartTime)),
+              ],
             ),
-            ReserveSection2(slotName: historySlotName, endTime: historyEndTime),
-            ReserveSection1(
-                buildingName: historyBuildingName, startTime: historyStartTime),
-          ],
+          ),
         ),
       ),
     );
@@ -85,7 +95,6 @@ class ReserveSection1 extends StatelessWidget {
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               fontSize: 15,
-              color: Colors.white,
             ),
           ),
           Text(
@@ -94,7 +103,6 @@ class ReserveSection1 extends StatelessWidget {
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               fontSize: 15,
-              color: Colors.white,
             ),
           ),
         ],
@@ -125,7 +133,6 @@ class ReserveSection2 extends StatelessWidget {
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               fontSize: 15,
-              color: Colors.white,
             ),
           ),
           Text(
@@ -134,7 +141,6 @@ class ReserveSection2 extends StatelessWidget {
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               fontSize: 15,
-              color: Colors.white,
             ),
           ),
         ],

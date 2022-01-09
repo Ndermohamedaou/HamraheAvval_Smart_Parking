@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -80,48 +80,10 @@ class _UserPlatesState extends State<UserPlates>
       );
     }
 
-    void openActionSheet(plateId) {
-      showCupertinoModalBottomSheet(
-        context: context,
-        builder: (_) => CupertinoActionSheet(
-          title: Text("حذف پلاک",
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 20)),
-          message: Text(
-              "آیا می خواهید پلاک خود را حذف کنید؟ این عمل باعث حذف پلاک شما در سامانه می شود",
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18)),
-          actions: <CupertinoActionSheetAction>[
-            CupertinoActionSheetAction(
-              child: loadingDelTime
-                  ? CupertinoActivityIndicator()
-                  : const Text("حذف پلاک",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: mainFaFontFamily,
-                          color: Colors.red)),
-              onPressed: () {
-                setState(() => loadingDelTime = true);
-                deletePlate.delUserPlate(
-                  id: plateId,
-                  context: context,
-                );
-                // Update user plates in Provider
-                plateModel.fetchPlatesData;
-                setState(() => loadingDelTime = false);
-              },
-            ),
-          ],
-          cancelButton: CupertinoActionSheetAction(
-              child: const Text("لغو",
-                  style: TextStyle(fontFamily: mainFaFontFamily)),
-              onPressed: () => Navigator.pop(context)),
-        ),
-      );
-    }
-
     Widget plates = Builder(
       builder: (_) {
         if (plateModel.platesState == FlowState.Loading)
-          return logLoadingWidgets.waitCircularProgress();
+          return logLoadingWidgets.loading();
 
         if (plateModel.platesState == FlowState.Error)
           return logLoadingWidgets.internetProblem;
@@ -130,55 +92,45 @@ class _UserPlatesState extends State<UserPlates>
 
         if (_plates.isEmpty)
           return logLoadingWidgets.notFoundReservedData(msg: "ثبت پلاک");
+
         return ListView.builder(
           shrinkWrap: true,
           primary: false,
           itemCount: _plates.length,
           itemBuilder: (BuildContext context, index) {
             return SingleChildScrollView(
-              child: Slidable(
-                actionPane: SlidableDrawerActionPane(),
-                actionExtentRatio: 0.25,
-                fastThreshold: 1.25,
-                movementDuration: Duration(milliseconds: 200),
-                child: GestureDetector(
-                    onTap: () {
-                      // Update User Plates Provider
-                      plateModel.fetchPlatesData;
+              child: GestureDetector(
+                onTap: () {
+                  // Update User Plates Provider
+                  plateModel.fetchPlatesData;
 
-                      openDetailsInModal(
-                          plate: [
-                            _plates[index]['plate0'],
-                            _plates[index]['plate1'],
-                            _plates[index]['plate2'],
-                            _plates[index]['plate3']
-                          ],
-                          plateEn: _plates[index]['plate_en'],
-                          hrStatus1: _plates[index]["status1"],
-                          secStatus2: _plates[index]["status2"],
-                          overalStatus: _plates[index]["status"]);
-                    },
-                    child: PlateViewer(
-                        plate0: _plates[index]['plate0'] != null
-                            ? _plates[index]['plate0']
-                            : "",
-                        plate1: _plates[index]['plate1'] != null
-                            ? _plates[index]['plate1']
-                            : "",
-                        plate2: _plates[index]['plate2'] != null
-                            ? _plates[index]['plate2']
-                            : "",
-                        plate3: _plates[index]['plate3'] != null
-                            ? _plates[index]['plate3']
-                            : "",
-                        themeChange: themeChange.darkTheme)),
-                actions: <Widget>[
-                  IconSlideAction(
-                      caption: delText,
-                      color: Colors.red,
-                      icon: Icons.delete,
-                      onTap: () => openActionSheet(_plates[index]['plate_en'])),
-                ],
+                  openDetailsInModal(
+                      plate: [
+                        _plates[index]['plate0'],
+                        _plates[index]['plate1'],
+                        _plates[index]['plate2'],
+                        _plates[index]['plate3']
+                      ],
+                      plateEn: _plates[index]['plate_en'],
+                      hrStatus1: _plates[index]["status1"],
+                      secStatus2: _plates[index]["status2"],
+                      overalStatus: _plates[index]["status"]);
+                },
+                child: PlateViewer(
+                  plate0: _plates[index]['plate0'] != null
+                      ? _plates[index]['plate0']
+                      : "",
+                  plate1: _plates[index]['plate1'] != null
+                      ? _plates[index]['plate1']
+                      : "",
+                  plate2: _plates[index]['plate2'] != null
+                      ? _plates[index]['plate2']
+                      : "",
+                  plate3: _plates[index]['plate3'] != null
+                      ? _plates[index]['plate3']
+                      : "",
+                  themeChange: themeChange.darkTheme,
+                ),
               ),
             );
           },
@@ -186,13 +138,59 @@ class _UserPlatesState extends State<UserPlates>
       },
     );
 
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            AppBarAsNavigate(),
-            plates,
-          ],
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: defaultAppBarColor,
+        title: Text(
+          myPlateText,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            fontSize: subTitleSize,
+            color: Colors.black,
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              plates,
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: Container(
+        width: 170,
+        height: 55,
+        margin: EdgeInsets.only(top: 20.0),
+        child: Material(
+          elevation: 10.0,
+          borderRadius: BorderRadius.circular(100.0),
+          color: mainSectionCTA,
+          child: MaterialButton(
+              onPressed: () =>
+                  Navigator.pushNamed(context, "/addingPlateIntro"),
+              child: Row(
+                textDirection: TextDirection.rtl,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "افزودن پلاک جدید",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: mainFaFontFamily,
+                        fontSize: btnSized,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  Icon(Iconsax.clipboard_text, color: Colors.white),
+                ],
+              )),
         ),
       ),
     );
@@ -200,46 +198,4 @@ class _UserPlatesState extends State<UserPlates>
 
   @override
   bool get wantKeepAlive => true;
-}
-
-class AppBarAsNavigate extends StatelessWidget {
-  const AppBarAsNavigate({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(
-            myPlateText,
-            style: TextStyle(
-                fontFamily: mainFaFontFamily,
-                fontSize: subTitleSize,
-                fontWeight: FontWeight.bold),
-          ),
-          ClipOval(
-            child: Material(
-              color: mainCTA, // button color
-              child: InkWell(
-                splashColor: mainSectionCTA, // inkwell color
-                child: SizedBox(
-                    width: 46,
-                    height: 46,
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    )),
-                onTap: () => Navigator.pushNamed(context, "/addingPlateIntro"),
-              ),
-            ),
-          ),
-        ]),
-      ),
-    );
-  }
 }

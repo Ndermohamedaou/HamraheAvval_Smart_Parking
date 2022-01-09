@@ -24,6 +24,8 @@ import 'package:root_detector/root_detector.dart';
 import 'Screens/ForgetPasswordTabs/recoverPassword.dart';
 import 'Screens/addingPlateIntro.dart';
 import 'package:payausers/Screens/checkingAccess.dart';
+import 'package:payausers/Screens/add_plate_guide_view.dart';
+import 'package:payausers/Screens/reserve_guide_view.dart';
 import 'package:payausers/Screens/familyPage.dart';
 import 'package:payausers/Screens/minePlate.dart';
 import 'package:payausers/Screens/ForgetPasswordTabs/OTPSection.dart';
@@ -320,6 +322,8 @@ class _MyAppState extends State<MyApp> {
                     '/loginCheckout': (context) => LoginCheckingoutPage(),
                     '/localAuth': (context) => LocalAuthEnter(),
                     '/dashboard': (context) => Maino(),
+                    '/addPlateGuideView': (context) => AddPlateGuideView(),
+                    '/reserveGuideView': (context) => ReserveGuideView(),
                     '/addingPlateIntro': (context) => AddingPlateIntro(),
                     '/addingMinePlate': (context) => MinePlateView(),
                     '/addingFamilyPage': (context) => FamilyPlateView(),

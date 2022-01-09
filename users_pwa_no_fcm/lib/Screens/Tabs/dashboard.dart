@@ -1,21 +1,20 @@
-import 'package:hexcolor/hexcolor.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
-import 'package:payausers/Model/streamAPI.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Dashboard extends StatefulWidget {
   final openUserDashSettings;
@@ -39,7 +38,6 @@ class _DashboardState extends State<Dashboard>
     with AutomaticKeepAliveClientMixin<Dashboard> {
   LocalDataGetterClass localDataGetterClass = LocalDataGetterClass();
 
-  StreamAPI streamAPI = StreamAPI();
   GridTiles gridTile = GridTiles();
   @override
   Widget build(BuildContext context) {
@@ -54,38 +52,12 @@ class _DashboardState extends State<Dashboard>
     final plateModel = Provider.of<PlatesModel>(context);
     // Getting user Avatar data from provider model
     final avatarModel = Provider.of<AvatarModel>(context);
+    // Getting Score and car location of uesr
+    final staffInfoModel = Provider.of<StaffInfoModel>(context);
 
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
-    LocalDataGetterClass loadLocalData = LocalDataGetterClass();
-
     final double containerWidth = size.width > 500 ? 500 : double.infinity;
-    final double optionsHolderWidth = size.width > 500 ? 160 : 130;
-
-    Widget userLeadingCircleAvatar(avatar, fullname) => GestureDetector(
-          onTap: widget.openUserDashSettings,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 25,
-                  backgroundColor: mainCTA,
-                  backgroundImage: avatar,
-                ),
-                title: Text(
-                  "خوش آمدید",
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-                subtitle: Text(
-                  fullname,
-                  style: TextStyle(fontFamily: mainFaFontFamily),
-                ),
-              ),
-            ),
-          ),
-        );
 
     void openOptionsData(
         {data = "0",
@@ -156,366 +128,410 @@ class _DashboardState extends State<Dashboard>
       );
     }
 
-    return SafeArea(
-        child: SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: 2.0.h),
-          // Builder(
-          //   builder: (_) {
-          //     return userLeadingCircleAvatar(
-          //         avatarModel.avatar != ""
-          //             ? NetworkImage(avatarModel.avatar)
-          //             : null,
-          //         avatarModel.fullname);
-          //   },
-          // ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              textDirection: TextDirection.rtl,
-              children: [
-                GestureDetector(
-                  onTap: widget.openUserDashSettings,
-                  child: Row(
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: avatarModel.avatar != ""
-                            ? NetworkImage(avatarModel.avatar)
-                            : null,
+    void launchURL(String urlString) async {
+      /// Launch specific URL in browser.
+      await launch(
+        urlString,
+        forceSafariVC: true,
+      );
+    }
+
+    return Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/dashboardBg.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(height: 3.0.h),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      textDirection: TextDirection.rtl,
+                      children: [
+                        GestureDetector(
+                          onTap: widget.openUserDashSettings,
+                          child: Row(
+                            textDirection: TextDirection.rtl,
+                            children: [
+                              CircleAvatar(
+                                radius: 25,
+                                backgroundImage: avatarModel.avatar != ""
+                                    ? NetworkImage(avatarModel.avatar)
+                                    : null,
+                              ),
+                              SizedBox(width: 10.0),
+                              Column(
+                                children: [
+                                  Text(
+                                    welcomeTitle,
+                                    style: TextStyle(
+                                      fontFamily: mainFaFontFamily,
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    avatarModel.fullname,
+                                    style: TextStyle(
+                                      fontFamily: mainFaFontFamily,
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Material(
+                          color: themeChange.darkTheme ? darkBar : lightBar,
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.all(5.0),
+                              margin: EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color:
+                                    themeChange.darkTheme ? darkBar : lightBar,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                textDirection: TextDirection.rtl,
+                                children: [
+                                  Image.asset("assets/images/myScore.png",
+                                      width: 30),
+                                  Builder(
+                                    builder: (_) {
+                                      if (staffInfoModel.staffLoadState ==
+                                          FlowState.Loading) {
+                                        return Text(
+                                          "انتظار",
+                                          style: TextStyle(
+                                            fontFamily: mainFaFontFamily,
+                                            color: Colors.black,
+                                            fontSize: 18.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        );
+                                      }
+                                      if (staffInfoModel.staffLoadState ==
+                                          FlowState.Error) {
+                                        return Text(
+                                          "خطا",
+                                          style: TextStyle(
+                                            fontFamily: mainFaFontFamily,
+                                            color: Colors.red,
+                                            fontSize: 18.0,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        );
+                                      }
+                                      return staffInfoModel
+                                                  .staffInfo["score"] ==
+                                              null
+                                          ? Text("-")
+                                          : Directionality(
+                                              textDirection: TextDirection.ltr,
+                                              child: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 5),
+                                                child: Row(
+                                                  children: [
+                                                    Text(
+                                                      "امتیاز",
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            mainFaFontFamily,
+                                                        fontSize: 18,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                    ),
+                                                    SizedBox(width: 3.0),
+                                                    Text(
+                                                      "${staffInfoModel.staffInfo["score"]}",
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            mainFaFontFamily,
+                                                        fontSize: 18,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 6.0.h),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    width: containerWidth,
+                    padding: EdgeInsets.all(5.0),
+                    child: GridView.count(
+                      crossAxisCount: 4,
+                      mainAxisSpacing: 5.0,
+                      crossAxisSpacing: 5.0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        Builder(
+                          builder: (_) {
+                            if (trafficsModel.trafficsState ==
+                                FlowState.Error) {
+                              return SecondOptions(
+                                icon: "myTraffic.png",
+                                title: "ترددها",
+                                onPressed: () {
+                                  return showStatusInCaseOfFlush(
+                                      context: context,
+                                      title:
+                                          "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
+                                      msg:
+                                          "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                                      iconColor: Colors.orange,
+                                      icon: Icons.warning);
+                                },
+                              );
+                            }
+                            return SecondOptions(
+                              icon: "myTraffic.png",
+                              title: "ترددها",
+                              onPressed: () => openOptionsData(
+                                  title: "تعداد تردد های شما",
+                                  data: trafficsModel.traffics.length,
+                                  hasAction: true,
+                                  onPressedNavigationButton: () {
+                                    widget.navigateToTrafficsTab();
+                                    Navigator.pop(context);
+                                  }),
+                            );
+                          },
+                        ),
+                        Builder(builder: (_) {
+                          if (reservesModel.reserveState == FlowState.Error) {
+                            return SecondOptions(
+                              icon: "myReserveList.png",
+                              title: "رزروها",
+                              onPressed: () => openOptionsData(
+                                title: "تعداد رزروهای شما",
+                                data: reservesModel.reserves["reserves"].length,
+                                onPressedNavigationButton: () {
+                                  return showStatusInCaseOfFlush(
+                                      context: context,
+                                      title:
+                                          "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
+                                      msg:
+                                          "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                                      iconColor: Colors.orange,
+                                      icon: Icons.warning);
+                                },
+                              ),
+                            );
+                          }
+                          return SecondOptions(
+                            icon: "myReserveList.png",
+                            title: "رزروها",
+                            onPressed: () => openOptionsData(
+                                title: "تعداد کل رزروهای شما",
+                                data: reservesModel.reserves["reserves"].length,
+                                hasAction: true,
+                                onPressedNavigationButton: () {
+                                  widget.navigateToReservesTab();
+                                  Navigator.pop(context);
+                                }),
+                          );
+                        }),
+                        Builder(builder: (_) {
+                          if (plateModel.platesState == FlowState.Error) {
+                            return SecondOptions(
+                              icon: "myTraffic.png",
+                              title: "پلاک ها",
+                              onPressed: () => openOptionsData(
+                                title: "تعداد پلاک های ثبت شده در سامانه",
+                                data: plateModel.plates.length,
+                                onPressedNavigationButton: () {
+                                  return showStatusInCaseOfFlush(
+                                      context: context,
+                                      title:
+                                          "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
+                                      msg:
+                                          "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                                      iconColor: Colors.orange,
+                                      icon: Icons.warning);
+                                },
+                              ),
+                            );
+                          }
+                          return SecondOptions(
+                            icon: "myPlate.png",
+                            title: "پلاک ها",
+                            onPressed: () => openOptionsData(
+                              title: "تعداد پلاک های شما",
+                              data: plateModel.plates.length,
+                              hasAction: true,
+                              onPressedNavigationButton: () {
+                                widget.navigateToPlatesTab();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          );
+                        }),
+                        Builder(builder: (_) {
+                          if (staffInfoModel.staffLoadState ==
+                              FlowState.Error) {
+                            return SecondOptions(
+                              icon: "myPlate.png",
+                              title: "جایگاه",
+                              onPressed: () => openOptionsData(
+                                title: "عدم اتصال به شبکه",
+                                data:
+                                    "لطفا ارتباط خود را با شبکه اینترنت بررسی کنید",
+                              ),
+                            );
+                          }
+                          try {
+                            return staffInfoModel.staffInfo["location"] == null
+                                ? SecondOptions(
+                                    icon: "myLastLocation.png",
+                                    title: "جایگاه",
+                                    onPressed: () => openOptionsData(
+                                      title: "جایگاه فعلی وسیله نقلیه شما",
+                                      data: "در حال لود شدن",
+                                    ),
+                                  )
+                                : SecondOptions(
+                                    icon: "myLastLocation.png",
+                                    title: "جایگاه",
+                                    onPressed: () => openOptionsData(
+                                      title: "جایگاه فعلی وسیله نقلیه شما",
+                                      data:
+                                          "${staffInfoModel.staffInfo["location"]}",
+                                      onPressedNavigationButton: () {
+                                        widget.navigateToPlatesTab();
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  );
+                          } catch (e) {
+                            return SecondOptions(
+                              icon: "myLastLocation.png",
+                              title: "جایگاه",
+                              onPressed: () => openOptionsData(
+                                title: "جایگاه فعلی وسیله نقلیه شما",
+                                data: "در حال لود شدن",
+                              ),
+                            );
+                          }
+                        }),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.57,
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.only(top: 70),
+                    decoration: BoxDecoration(
+                      color: themeChange.darkTheme
+                          ? mainBgColorDark
+                          : mainBgColorLight,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
                       ),
-                      SizedBox(width: 20.0),
-                      Column(
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
                         children: [
-                          Text(
-                            "خوش آمدید",
-                            style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              fontSize: 18.0,
+                          SizedBox(height: 2.0.h),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            margin: EdgeInsets.symmetric(horizontal: 20),
+                            child: Text(
+                              "تبلیغات",
+                              style: TextStyle(
+                                fontFamily: mainFaFontFamily,
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
-                          Text(
-                            avatarModel.fullname,
-                            style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              fontSize: 15.0,
-                            ),
-                            textAlign: TextAlign.right,
+                          SizedBox(height: 1.0.h),
+                          VerticalSlide(
+                            imgSrc: "assets/images/slider-1.jpg",
+                            openURL: () => launchURL(first_slide),
                           ),
+                          VerticalSlide(
+                            imgSrc: "assets/images/slider-2.jpg",
+                            openURL: () => launchURL(second_slide),
+                          ),
+                          VerticalSlide(
+                            imgSrc: "assets/images/slider-3.jpg",
+                            openURL: () => launchURL(third_slide),
+                          )
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                StreamBuilder(
-                  stream: streamAPI.getUserInfoInReal(),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(children: [
-                        Icon(Icons.star, color: Colors.yellow, size: 40.0),
-                        Text(
-                          snapshot.data["score"].toString(),
-                          style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ]);
-                    } else {
-                      return Column(children: [
-                        Icon(Icons.star, color: Colors.yellow, size: 40.0),
-                        Text(
-                          "-",
-                          style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ]);
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 2.0.h),
-          FutureBuilder(
-            future: loadLocalData.getStaffInfoFromLocal(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {
-                return QRHolder(
-                  qrValue: snapshot.data['userId'],
-                );
-              } else if (snapshot.hasError) {
-                return QRHolder(
-                  qrValue: "صبر کنید یا اتصال خود را به اینترنت بررسی کنید",
-                );
-              } else {
-                return QRHolder(
-                  qrValue: "صبر کنید یا اتصال خود را به اینترنت بررسی کنید",
-                );
-              }
-            },
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0),
-            width: containerWidth,
-            height: optionsHolderWidth,
-            padding: EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-              color: themeChange.darkTheme ? darkBar : Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: GridView.count(
-              crossAxisCount: 4,
-              padding: const EdgeInsets.all(4.0),
-              mainAxisSpacing: 8.0,
-              crossAxisSpacing: 8.0,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                Builder(
-                  builder: (_) {
-                    if (trafficsModel.trafficsState == FlowState.Error) {
-                      return SecondOptions(
-                        icon: Ionicons.bar_chart_outline,
-                        title: "ترددها",
-                        onPressed: () {
-                          return showStatusInCaseOfFlush(
-                              context: context,
-                              title:
-                                  "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
-                              msg:
-                                  "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                              iconColor: Colors.orange,
-                              icon: Icons.warning);
-                        },
-                      );
-                    }
-                    return SecondOptions(
-                      icon: Ionicons.bar_chart_outline,
-                      title: "ترددها",
-                      onPressed: () => openOptionsData(
-                          title: "تعداد تردد های شما",
-                          data: trafficsModel.traffics.length,
-                          hasAction: true,
-                          onPressedNavigationButton: () {
-                            widget.navigateToTrafficsTab();
-                            Navigator.pop(context);
-                          }),
-                    );
-                  },
-                ),
-                Builder(builder: (_) {
-                  if (reservesModel.reserveState == FlowState.Error) {
-                    return SecondOptions(
-                      icon: Ionicons.ticket_outline,
-                      title: "رزروها",
-                      onPressed: () => openOptionsData(
-                        title: "تعداد رزروهای شما",
-                        data: reservesModel.reserves.length,
-                        onPressedNavigationButton: () {
-                          return showStatusInCaseOfFlush(
-                              context: context,
-                              title:
-                                  "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
-                              msg:
-                                  "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                              iconColor: Colors.orange,
-                              icon: Icons.warning);
-                        },
-                      ),
-                    );
-                  }
-                  return SecondOptions(
-                    icon: Ionicons.ticket_outline,
-                    title: "رزروها",
-                    onPressed: () => openOptionsData(
-                        title: "تعداد کل رزروهای شما",
-                        data: reservesModel.reserves.length,
-                        hasAction: true,
-                        onPressedNavigationButton: () {
-                          widget.navigateToReservesTab();
-                          Navigator.pop(context);
-                        }),
-                  );
-                }),
-                Builder(builder: (_) {
-                  if (plateModel.platesState == FlowState.Error) {
-                    return SecondOptions(
-                      icon: Ionicons.file_tray_full_outline,
-                      title: "پلاک ها",
-                      onPressed: () => openOptionsData(
-                        title: "تعداد پلاک های ثبت شده در سامانه",
-                        data: plateModel.plates.length,
-                        onPressedNavigationButton: () {
-                          return showStatusInCaseOfFlush(
-                              context: context,
-                              title:
-                                  "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
-                              msg:
-                                  "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                              iconColor: Colors.orange,
-                              icon: Icons.warning);
-                        },
-                      ),
-                    );
-                  }
-                  return SecondOptions(
-                    icon: Ionicons.file_tray_full_outline,
-                    title: "پلاک ها",
-                    onPressed: () => openOptionsData(
-                      title: "تعداد پلاک های شما",
-                      data: plateModel.plates.length,
-                      hasAction: true,
-                      onPressedNavigationButton: () {
-                        widget.navigateToPlatesTab();
-                        Navigator.pop(context);
-                      },
                     ),
-                  );
-                }),
-                StreamBuilder(
-                  stream: streamAPI.getUserInfoInReal(),
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.hasData) {
-                      try {
-                        return SecondOptions(
-                          icon: Ionicons.location_outline,
-                          title: "جایگاه",
-                          onPressed: () => openOptionsData(
-                            title: "جایگاه فعلی وسیله نقلیه شما",
-                            data: "${snapshot.data["location"]}",
-                            onPressedNavigationButton: () {
-                              widget.navigateToPlatesTab();
-                              Navigator.pop(context);
-                            },
-                          ),
-                        );
-                      } catch (e) {
-                        return SecondOptions(
-                          icon: Ionicons.location_outline,
-                          title: "جایگاه",
-                          onPressed: () => openOptionsData(
-                            title: "جایگاه فعلی وسیله نقلیه شما",
-                            data: "در حال لود شدن",
-                          ),
-                        );
-                      }
-                    } else {
-                      return SecondOptions(
-                        icon: Ionicons.location_outline,
-                        title: "جایگاه",
-                        onPressed: () => openOptionsData(
-                          title: "جایگاه فعلی وسیله نقلیه شما",
-                          data: "در حال لود شدن",
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          VerticalSlide(imgSrc: "assets/images/slider-1.jpg"),
-          VerticalSlide(imgSrc: "assets/images/slider-2.jpg"),
-          VerticalSlide(imgSrc: "assets/images/slider-3.jpg")
-        ],
-      ),
-    ));
+        ));
   }
 
   @override
   bool get wantKeepAlive => true;
 }
 
-class QRHolder extends StatelessWidget {
-  const QRHolder({this.qrValue});
-
-  final String qrValue;
-
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final double qrWidth = size.width > 600 ? 20.0.h : 30.0.h;
-
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          width: qrWidth,
-          height: qrWidth,
-          padding: EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-            color: themeChange.darkTheme ? darkBar : Colors.white,
-            borderRadius: BorderRadius.circular(50.0),
-            border: Border.all(color: mainCTA, width: 15),
-            boxShadow: [
-              BoxShadow(
-                color: mainCTA.withOpacity(0.6),
-                spreadRadius: 2,
-                blurRadius: 7,
-                offset: Offset(2, 3),
-              ),
-            ],
-          ),
-          child: QrImage(
-            data: qrValue,
-            version: QrVersions.auto,
-            padding: EdgeInsets.all(10),
-            foregroundColor:
-                themeChange.darkTheme ? Colors.white : HexColor("#000000"),
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          width: double.infinity,
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            "جهت استفاده از شناسه کاربری خود، شناسه کیو آر بالا را اسکن کنید",
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontWeight: FontWeight.normal,
-              fontSize: size.width > 600 ? 10.0.sp : 13.0.sp,
-              color:
-                  themeChange.darkTheme ? Colors.white : Colors.grey.shade800,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class VerticalSlide extends StatelessWidget {
-  const VerticalSlide({this.imgSrc});
+  const VerticalSlide({this.imgSrc, this.openURL});
 
   final String imgSrc;
+  final Function openURL;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final double containerWidth = size.width > 500 ? 500 : double.infinity;
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      width: containerWidth,
-      height: 100.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          image: AssetImage(imgSrc),
-          fit: BoxFit.cover,
+
+    return GestureDetector(
+      onTap: openURL,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        width: containerWidth,
+        height: 100.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          image: DecorationImage(
+            image: AssetImage(imgSrc),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -541,17 +557,13 @@ class SecondOptions extends StatelessWidget {
         padding: EdgeInsets.all(10.0),
         margin: EdgeInsets.symmetric(horizontal: 2.0),
         decoration: BoxDecoration(
-          color: themeChange.darkTheme ? mainBgColorDark : HexColor("#EEF3F6"),
+          color: themeChange.darkTheme ? mainBgColorDark : mainBgColorLight,
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              icon,
-              color: mainCTA,
-              size: 40,
-            ),
+            Image.asset("assets/images/$icon", width: 30.0, height: 30.0),
             SizedBox(
               height: 10,
             ),
@@ -560,7 +572,7 @@ class SecondOptions extends StatelessWidget {
               style: TextStyle(
                 fontFamily: mainFaFontFamily,
                 fontWeight: FontWeight.w600,
-                fontSize: 15,
+                fontSize: 10.0.sp,
               ),
               textAlign: TextAlign.center,
             ),
