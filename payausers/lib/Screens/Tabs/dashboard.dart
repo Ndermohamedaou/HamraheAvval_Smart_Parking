@@ -223,7 +223,7 @@ class _DashboardState extends State<Dashboard>
                                           "انتظار",
                                           style: TextStyle(
                                             fontFamily: mainFaFontFamily,
-                                            color: Colors.black,
+                                            color: Colors.yellow,
                                             fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
@@ -313,7 +313,7 @@ class _DashboardState extends State<Dashboard>
                                           "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
                                       msg:
                                           "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                                      iconColor: Colors.orange,
+                                      iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
                               );
@@ -347,7 +347,7 @@ class _DashboardState extends State<Dashboard>
                                           "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
                                       msg:
                                           "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                                      iconColor: Colors.orange,
+                                      iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
                               ),
@@ -381,7 +381,7 @@ class _DashboardState extends State<Dashboard>
                                           "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
                                       msg:
                                           "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                                      iconColor: Colors.orange,
+                                      iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
                               ),
@@ -473,7 +473,7 @@ class _DashboardState extends State<Dashboard>
                             alignment: Alignment.centerRight,
                             margin: EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              "تبلیغات",
+                              "پیشنهادات",
                               style: TextStyle(
                                 fontFamily: mainFaFontFamily,
                                 fontSize: 24.0,

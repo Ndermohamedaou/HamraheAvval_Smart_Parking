@@ -79,7 +79,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
-        iconColor: Colors.red,
+        iconColor: Colors.white,
         title: ignoreToPickImageFromSystemDesc,
         msg: ignoreToPickImageFromSystemTitle,
       );
@@ -87,7 +87,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
-        iconColor: Colors.red,
+        iconColor: Colors.white,
         title: imageIgnoredByHugeSizeTitle,
         msg: imageIgnoredByHugeSizeDesc,
       );
@@ -124,7 +124,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
-        iconColor: Colors.red,
+        iconColor: Colors.white,
         title: ignoreToPickImageFromSystemDesc,
         msg: ignoreToPickImageFromSystemTitle,
       );
@@ -132,7 +132,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
-        iconColor: Colors.red,
+        iconColor: Colors.white,
         title: imageIgnoredByHugeSizeTitle,
         msg: imageIgnoredByHugeSizeDesc,
       );
@@ -195,7 +195,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               context: context,
               title: successfullPlateAddTitle,
               msg: successfullPlateAddDsc,
-              iconColor: Colors.green,
+              iconColor: Colors.white,
               icon: Icons.done_outline);
         }
 
@@ -211,7 +211,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               context: context,
               title: warnningOnAddPlate,
               msg: moreThanPlateAdded,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
 
@@ -222,7 +222,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               context: context,
               title: existUserPlateTitleErr,
               msg: existUserPlateDescErr,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
 
@@ -233,7 +233,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               context: context,
               title: errorPlateAddTitle,
               msg: errorPlateAddDsc,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
       } else {
@@ -242,7 +242,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
             context: context,
             title: errorInSendPlateTitle,
             msg: errorInSendPlateDsc,
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
     } else {
@@ -251,7 +251,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
           context: context,
           title: completeInformationTitle,
           msg: completeInformationDesc,
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
     }
   }

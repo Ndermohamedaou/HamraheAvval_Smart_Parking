@@ -30,6 +30,7 @@ const primarySubmitBtnColor = Colors.green;
 
 // Main Persian font
 const mainFaFontFamily = "IranSans";
+const secondFaFontFamily = "BYekan";
 const mainEnFontFamily = "OpenSans";
 
 HexColor mainTitleColor = HexColor("#1D75E3");

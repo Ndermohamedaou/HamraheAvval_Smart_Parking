@@ -125,7 +125,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     title: "",
                     msg: e.toString(),
                     icon: Icons.workspaces_outline,
-                    iconColor: Colors.red);
+                    iconColor: Colors.white);
               }
             } else {
               showStatusInCaseOfFlush(
@@ -133,7 +133,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   title: notValidPassText,
                   msg: passwordCheckerText,
                   icon: Icons.email,
-                  iconColor: Colors.deepOrange);
+                  iconColor: Colors.white);
             }
           } else {
             showStatusInCaseOfFlush(
@@ -141,7 +141,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 title: "گذرواژه جدید باید با تکرار آن یکسان باشد",
                 msg: "",
                 icon: Icons.workspaces_outline,
-                iconColor: Colors.red);
+                iconColor: Colors.white);
           }
         } else {
           showStatusInCaseOfFlush(
@@ -149,7 +149,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               title: "گذرواژه شما باید بیشتر از 6 حرف باشد",
               msg: "",
               icon: Icons.vpn_key_outlined,
-              iconColor: Colors.yellow.shade800);
+              iconColor: Colors.white);
         }
       } else {
         setState(() {

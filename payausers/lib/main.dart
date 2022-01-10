@@ -295,6 +295,7 @@ class _MyAppState extends State<MyApp> {
                   : SystemUiOverlayStyle.dark);
               return LiquidApp(
                 materialApp: MaterialApp(
+                  debugShowCheckedModeBanner: false,
                   // For set app fontSize by default size without system fontSize
                   builder: (BuildContext context, Widget child) {
                     final MediaQueryData data = MediaQuery.of(context);

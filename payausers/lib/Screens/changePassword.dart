@@ -100,7 +100,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   title: notMatchPassTitle,
                   msg: notMatchPassDsc,
                   icon: Icons.email,
-                  iconColor: Colors.deepOrange);
+                  iconColor: Colors.white);
             }
           } else {
             showStatusInCaseOfFlush(
@@ -108,7 +108,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                 title: notValidPassText,
                 msg: passwordCheckerText,
                 icon: Icons.email,
-                iconColor: Colors.deepOrange);
+                iconColor: Colors.white);
           }
         } else {
           Toast.show(notEnouthLen, context,

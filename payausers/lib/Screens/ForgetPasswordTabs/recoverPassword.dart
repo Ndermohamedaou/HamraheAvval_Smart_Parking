@@ -74,7 +74,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
                     title: "عملیات تغییر گذرواژه موفقیت آمیز بود",
                     msg:
                         "گذرواژه شما با موفقیت تغییر کرد، لطفا دوباره اقدام به ورود کنید",
-                    iconColor: Colors.green,
+                    iconColor: Colors.white,
                     icon: Icons.done_all_rounded);
               } else {
                 showStatusInCaseOfFlush(
@@ -82,7 +82,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
                     title: "خطا در کد وارد شده",
                     msg:
                         "لطفا از صحت کد اطمینان حاصل کنید یا دوباره اقدام کنید",
-                    iconColor: Colors.red,
+                    iconColor: Colors.white,
                     icon: Icons.close);
               }
             } else {
@@ -93,7 +93,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
                   title: notValidPassText,
                   msg: passwordCheckerText,
                   icon: Icons.email,
-                  iconColor: Colors.deepOrange);
+                  iconColor: Colors.white);
             }
           } else {
             setState(() => _isSubmit = true);
@@ -101,7 +101,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
                 context: context,
                 title: "ناهمسان بودن گذرواژه ها",
                 msg: notMatch,
-                iconColor: Colors.red,
+                iconColor: Colors.white,
                 icon: Icons.close);
           }
         } else {
@@ -110,7 +110,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
               context: context,
               title: "تعداد کارکتر های گذرواژه شما کافی نیست",
               msg: notEnouthLen,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.close);
         }
       } else {
@@ -123,7 +123,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
             context: context,
             title: "فیلد گذرواژه ها خالی است",
             msg: "لطفا گذرواژه مورد نظر را وارد نمایید",
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
     } catch (e) {
@@ -132,7 +132,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
           context: context,
           title: "خطا در برقراری ارتباط با سرویس دهنده",
           msg: "ارتباط خود را بررسی کنید یا با سرویس دهنده در تماس باشید",
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
       print("Error from reset password: $e");
     }

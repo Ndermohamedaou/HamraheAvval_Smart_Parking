@@ -10,6 +10,7 @@ import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/Screens/Tabs/weekReserveTab.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -112,7 +113,7 @@ class _MainoState extends State<Maino> {
             context: context,
             title: connectionFailedTitle,
             msg: connectionFailed,
-            iconColor: Colors.blue,
+            iconColor: Colors.white,
             icon: Icons.wifi_off_rounded);
         break;
       default:
@@ -207,6 +208,7 @@ class _MainoState extends State<Maino> {
                   },
                 ),
                 UserTraffic(),
+                // WeekReservedTab(),
                 ReservedTab(),
                 UserPlates(),
                 Settings(),

@@ -99,6 +99,8 @@ const cancelText = 'لغو';
 
 // Reserve
 const String reserveTextTitle = "لیست رزروها";
+const String weekCategoriesTextTitle = "لیست هفته های رزرو شده";
+const String startWeekDaysFrom = "شروع هفته از تاریخ";
 const String noReserveThere = "!شما رزروی ندارید";
 const String dataEntryInCorrect = "ورودی اطلاعات ناقص است";
 const titleOfReserve = "رزرو شما با موفقیت انجام شد";
@@ -163,16 +165,17 @@ const introSec1Subtitle =
     "اسنادی که در هر مرحله از شما خواسته میشودرا برای سامانه ارسال کنید";
 
 const plateViewEntry =
-    "کاربر گرامی، پلاک مورد نظر خود را وارد کرده و سپس با فشردن دکمه بعدی اعتبار آن پس از بررسی به مرحله بعد خواهید رفت";
+    "کاربر گرامی، پلاک مورد نظر خود را وارد کرده و سپس با فشردن دکمه بعدی به مرحله بعد خواهید رفت";
 const nationalCardEntry =
-    "کاربر گرامی، جهت ارسال مدارک خود بایستی تصویر خود را به کمتر از ۱ مگابایت بارگذاری کنید";
+    "کاربر گرامی، جهت ارسال مدارک خود بایستی تصویر خود را به کمتر از ۱ مگابایت برسانید";
 const carLicenseEntry = "";
-const imageIgnoredByHugeSizeTitle = "حجم تصویر انتخاب بیشتر از ۱ مگابایت است";
+const imageIgnoredByHugeSizeTitle =
+    "حجم تصویر انتخاب شده بیشتر از ۱ مگابایت است";
 const imageIgnoredByHugeSizeDesc =
     "لطفا برای ارسال مدارک از تصویر با حجم حداقل ۱ مگابایت استفاده کنید";
 
 const plateIntroViewTitle =
-    "کاربر گرامی، لطفا یکی از گزینه های زیر را جهت افزودن پلاک مورد نظر به سامانه را انتخاب کنید";
+    "کاربر گرامی، لطفا یکی از گزینه های زیر را جهت افزودن پلاک مورد نظر به سامانه، انتخاب کنید";
 const colorIndicatorDescription = "معنای هر رنگ در قسمت رزرو های شما چیست؟";
 const greenColorTitle = "دایره سبز";
 const greenColorDesc = "رنگ سبز به معنای تایید ررزو شما از سمت سیستم می‌‌باشد.";
@@ -180,9 +183,9 @@ const redColorTitle = "دایره قرمز";
 const redColorDesc = "رنگ قرمز به معنای رد رزرو شما از سمت سیستم می‌باشد.";
 const orangeColorTitle = "دایره نارنجی";
 const orangeColorDesc =
-    "رنگ نارنجی به معنای آن است که رزرو شما در حال بررسی در انتظار تایید سامانه می‌باشد.";
+    "رنگ نارنجی به معنای آن است که رزرو شما در حال بررسی و در انتظار تایید سامانه می‌باشد.";
 const greyColorTitle = "دایره خاکستری";
-const greyColorDesc = "رنگ خاکستری به معنای آن است که رزرو شما لعو شده است.";
+const greyColorDesc = "رنگ خاکستری به معنای آن است که رزرو شما لغو شده است.";
 const isPlateValidTitle = "پلاک وارد شده صحیح نمی باشد.";
 const isPlateValidDesc = "لطفا از صحت پلاک وارد شده اطمینان حاصل نمایید.";
 const documentMustNotNullTitle = "سند شما خالی است";

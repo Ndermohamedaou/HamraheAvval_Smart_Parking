@@ -104,7 +104,7 @@ class _MinePlateViewState extends State<MinePlateView> {
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
-        iconColor: Colors.red,
+        iconColor: Colors.white,
         title: ignoreToPickImageFromSystemTitle,
         msg: ignoreToPickImageFromSystemDesc,
       );
@@ -112,7 +112,7 @@ class _MinePlateViewState extends State<MinePlateView> {
       showStatusInCaseOfFlushBottom(
         context: context,
         icon: Icons.close,
-        iconColor: Colors.red,
+        iconColor: Colors.white,
         title: imageIgnoredByHugeSizeTitle,
         msg: imageIgnoredByHugeSizeDesc,
       );
@@ -226,7 +226,7 @@ class _MinePlateViewState extends State<MinePlateView> {
           context: context,
           title: completeInformationTitle,
           msg: completeInformationDesc,
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
     }
   }
@@ -348,7 +348,7 @@ class _MinePlateViewState extends State<MinePlateView> {
                 context: context,
                 title: documentMustNotNullTitle,
                 msg: documentMustNotNullDesc,
-                iconColor: Colors.red,
+                iconColor: Colors.white,
                 icon: Icons.close)
             : doNextPage();
       else

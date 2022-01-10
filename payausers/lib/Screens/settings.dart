@@ -107,14 +107,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   context: context,
                   title: "",
                   msg: sendSuccessful,
-                  iconColor: Colors.green,
+                  iconColor: Colors.white,
                   icon: Icons.done_outline);
             } else {
               showStatusInCaseOfFlush(
                   context: context,
                   title: "",
                   msg: sendFailed,
-                  iconColor: Colors.red,
+                  iconColor: Colors.white,
                   icon: Icons.remove_done);
             }
           } else {
@@ -128,7 +128,7 @@ class _SettingsPageState extends State<SettingsPage> {
               context: context,
               title: "",
               msg: sendDenied,
-              iconColor: Colors.red,
+              iconColor: Colors.white,
               icon: Icons.remove_done);
         }
       } catch (e) {
@@ -137,7 +137,7 @@ class _SettingsPageState extends State<SettingsPage> {
             context: context,
             title: "",
             msg: sendDenied,
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.remove_done);
       }
     }

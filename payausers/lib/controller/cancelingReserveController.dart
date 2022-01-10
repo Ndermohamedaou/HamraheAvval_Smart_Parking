@@ -30,7 +30,7 @@ class CancelReserve {
           context: context,
           title: "لغو رزرو",
           msg: "لغو رزرو شما با موفقیت صورت گرفت",
-          iconColor: Colors.green,
+          iconColor: Colors.white,
           icon: Icons.done_outline);
     } else if (caneclingResult == "500") {
       Navigator.pop(context);
@@ -38,14 +38,14 @@ class CancelReserve {
           context: context,
           title: "حذف رزرو",
           msg: "این رزرو یک بار لغو شده است",
-          iconColor: Colors.orange,
+          iconColor: Colors.white,
           icon: Icons.warning);
     } else if (caneclingResult == "400")
       showStatusInCaseOfFlush(
           context: context,
           title: "حذف رزرو",
           msg: "حذف رزرو شما با مشکلی مواجه شده است، لطفا بعدا امتحان کنید",
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
   }
 }

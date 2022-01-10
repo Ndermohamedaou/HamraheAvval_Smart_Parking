@@ -83,7 +83,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
             context: context,
             title: "خطا در کد وارد شده",
             msg: "کد وارد شده شما یا منقضی شده است یا اشتباه است",
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
       if (getLoginThirdParty["status"] == "WrongEmailOrPersonalCode") {
@@ -91,7 +91,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
             context: context,
             title: "خطا در شناسه کاربری",
             msg: "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
       if (getLoginThirdParty["status"] == "200") {
@@ -112,7 +112,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
           context: context,
           title: "خطا در برقراری ارتباط با سرویس دهنده",
           msg: "ارتباط خود را بررسی کنید یا با سرویس دهنده در تماس باشید",
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
     }
   }
@@ -144,7 +144,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
           context: context,
           title: "خطا در برقراری ارتباط با سرویس دهنده",
           msg: "ارتباط خود را بررسی کنید یا با سرویس دهنده در تماس باشید",
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
     }
   }
