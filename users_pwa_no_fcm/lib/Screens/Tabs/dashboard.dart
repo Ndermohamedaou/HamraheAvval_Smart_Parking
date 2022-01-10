@@ -223,7 +223,9 @@ class _DashboardState extends State<Dashboard>
                                           "انتظار",
                                           style: TextStyle(
                                             fontFamily: mainFaFontFamily,
-                                            color: Colors.black,
+                                            color: themeChange.darkTheme
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,
@@ -473,7 +475,7 @@ class _DashboardState extends State<Dashboard>
                             alignment: Alignment.centerRight,
                             margin: EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              "تبلیغات",
+                              "پیشنهادات",
                               style: TextStyle(
                                 fontFamily: mainFaFontFamily,
                                 fontSize: 24.0,

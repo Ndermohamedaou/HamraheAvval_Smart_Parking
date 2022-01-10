@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/imageConvertor.dart';
 import 'package:provider/provider.dart';
@@ -219,14 +220,37 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     }
   }
 
-  bool isPlateValid() {
-    /// We check length of entry plate at this function.
-    ///
-    /// After checking length of the plate number, we will send request
-    /// to check this plate does exist or not for preventing from duplicate error at last.
-    return plate0.length == 2 && plate2.length == 3 && plate3.length == 2
-        ? true
-        : false;
+  Future<Map> isPlateValid() async {
+    ApiAccess api = ApiAccess();
+
+    bool plateNumberOk =
+        plate0.length == 2 && plate2.length == 3 && plate3.length == 2;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final uToken = prefs.getString("token");
+
+    Map checkedPlate = await api.checkPlateExistence(
+        token: uToken,
+        plate: [plate0, alp.getAlphabet()[_value].item, plate2, plate3]);
+
+    Map message = {
+      "plateNumber": plateNumberOk,
+      "plateExist": checkedPlate["status"] == "200" ? true : false,
+      "title": !plateNumberOk
+          ? isPlateValidTitle
+          : checkedPlate["status"] == "409"
+              ? isPlateExistTitle
+              : "",
+      "desc": !plateNumberOk
+          ? isPlateValidDesc
+          : checkedPlate["status"] == "409"
+              ? isPlateExistDesc
+              : "",
+    };
+
+    print(message);
+
+    return message;
   }
 
   @override
@@ -253,14 +277,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         child: PageView(
           controller: _pageController,
           physics: NeverScrollableScrollPhysics(),
-          onPageChanged: (onChangePage) => isPlateValid()
-              ? setState(() => pageIndex = onChangePage)
-              : showStatusInCaseOfFlush(
-                  context: context,
-                  title: isPlateValidTitle,
-                  msg: isPlateValidDesc,
-                  iconColor: Colors.white,
-                  icon: Icons.close),
+          onPageChanged: (onChangePage) =>
+              setState(() => pageIndex = onChangePage),
           children: [
             PlateEntery(
               plate0: plate0,
@@ -320,19 +338,21 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         duration: Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 
-  void nextPage() {
+  void nextPage() async {
     /// Next page checker function.
     ///
     /// Next page has a plate number validator and when it's not valid
     /// we will show error message to complete user plate.
+    final result = await isPlateValid();
+
     if (pageIndex < 2) {
       if (pageIndex == 0)
-        isPlateValid()
+        result["plateNumber"] && result["plateExist"]
             ? doNextPage()
             : showStatusInCaseOfFlush(
                 context: context,
-                title: isPlateValidTitle,
-                msg: isPlateValidDesc,
+                title: result["title"],
+                msg: result["desc"],
                 iconColor: Colors.white,
                 icon: Icons.close);
       else if (pageIndex == 1 || pageIndex == 2)

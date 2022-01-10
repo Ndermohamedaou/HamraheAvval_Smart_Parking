@@ -7,9 +7,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:liquid_ui/liquid_ui.dart';
+import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/Screens/readTermsOfService.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/reserve_weeks_model.dart';
+import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
@@ -277,6 +280,16 @@ class _MyAppState extends State<MyApp> {
                 return ReservesModel();
               },
             ),
+            ChangeNotifierProvider<ReservesByWeek>(
+              create: (_) {
+                return ReservesByWeek();
+              },
+            ),
+            ChangeNotifierProvider<ReserveWeeks>(
+              create: (_) {
+                return ReserveWeeks();
+              },
+            ),
             ChangeNotifierProvider<TrafficsModel>(
               create: (_) {
                 return TrafficsModel();
@@ -323,6 +336,7 @@ class _MyAppState extends State<MyApp> {
                     '/loginCheckout': (context) => LoginCheckingoutPage(),
                     '/localAuth': (context) => LocalAuthEnter(),
                     '/dashboard': (context) => Maino(),
+                    '/reservedTab': (context) => ReservedTab(),
                     '/addPlateGuideView': (context) => AddPlateGuideView(),
                     '/reserveGuideView': (context) => ReserveGuideView(),
                     '/addingPlateIntro': (context) => AddingPlateIntro(),

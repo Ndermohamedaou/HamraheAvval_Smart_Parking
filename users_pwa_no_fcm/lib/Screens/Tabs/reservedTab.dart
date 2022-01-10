@@ -18,6 +18,7 @@ import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/Model/streamAPI.dart';
 import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 class ReservedTab extends StatefulWidget {
   const ReservedTab();
@@ -34,9 +36,12 @@ class ReservedTab extends StatefulWidget {
 }
 
 int filtered = 0;
+// Only for getting list of currently reserved.
 ReservesModel reservesModel;
+// To having reserves list of specific week.
+ReservesByWeek reservesByWeek;
 PlatesModel platesModel;
-Timer _onRefreshReservesPerMin;
+// Timer _onRefreshReservesPerMin;
 List selectedDays = [];
 ApiAccess api = ApiAccess();
 
@@ -46,15 +51,16 @@ class _ReservedTabState extends State<ReservedTab>
   @override
   void initState() {
     getAWeek();
-    _onRefreshReservesPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
-      reservesModel.fetchReservesData;
-    });
+    // _onRefreshReservesPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
+    //   reservesModel.fetchReservesData;
+    // });
     super.initState();
   }
 
   @override
   void dispose() {
-    _onRefreshReservesPerMin.cancel();
+    // _onRefreshReservesPerMin.cancel();
+    selectedDays = [];
     super.dispose();
   }
 
@@ -72,7 +78,7 @@ class _ReservedTabState extends State<ReservedTab>
       selectedDays.add({
         "value": "${date.year}-${date.month}-${date.day}",
         "label":
-            "${date.formatter.wN} ${date.formatter.d} ${date.formatter.mN} ${date.formatter.yy}"
+            "${date.formatter.wN} ${date.formatter.d.toPersianDigit()} ${date.formatter.mN} ${date.formatter.yy.toPersianDigit()}"
       });
     }
   }
@@ -100,6 +106,8 @@ class _ReservedTabState extends State<ReservedTab>
                   await api.reserveByUser(token: userToken, days: values);
               reservesModel.fetchReservesData;
               if (res == "200") {
+                reservesModel.fetchReservesData;
+                reservesByWeek.fetchReserveWeeks;
                 rAlert(
                     context: context,
                     onTapped: () {
@@ -144,6 +152,7 @@ class _ReservedTabState extends State<ReservedTab>
     final themeChange = Provider.of<DarkThemeProvider>(context);
     // Reserve model for fetch and Reserve list getter
     reservesModel = Provider.of<ReservesModel>(context);
+    reservesByWeek = Provider.of<ReservesByWeek>(context);
     platesModel = Provider.of<PlatesModel>(context);
     // StreamAPI only for Instant reserve per 30 second
     StreamAPI streamAPI = StreamAPI();
@@ -175,14 +184,15 @@ class _ReservedTabState extends State<ReservedTab>
           child: ReserveInDetails(
             plate: plate,
             reserveStatusDesc: reserveStatus,
-            startTime: startTime,
-            endTime: endTime,
-            building: building,
-            slot: slot,
+            startTime: startTime.toString(),
+            endTime: endTime.toString(),
+            building: building.toString(),
+            slot: slot.toString(),
             themeChange: themeChange,
             delReserve: () {
               cancelReserve.delReserve(reserveID: reservID, context: context);
               // Refetch data in Providers
+              reservesByWeek.fetchReserveWeeks;
               reservesModel.fetchReservesData;
             },
           ),
@@ -314,14 +324,13 @@ class _ReservedTabState extends State<ReservedTab>
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter),
+            icon: Icon(Icons.filter_list),
             onPressed:
                 reservesModel.reserves.isEmpty ? null : () => filterSection(),
           ),
@@ -368,14 +377,14 @@ class _ReservedTabState extends State<ReservedTab>
             children: [
               Builder(
                 builder: (_) {
-                  if (reservesModel.reserveState == FlowState.Loading)
+                  if (reservesByWeek.reservesByWeekState == FlowState.Loading)
                     return logLoadingWidgets.loading();
 
-                  if (reservesModel.reserveState == FlowState.Error)
+                  if (reservesByWeek.reservesByWeekState == FlowState.Error)
                     return logLoadingWidgets.internetProblem;
 
                   List reserveList =
-                      reservesModel.reserves["reserves"].reversed.toList();
+                      reservesByWeek.reservesList.reversed.toList();
 
                   if (reserveList.isEmpty)
                     return logLoadingWidgets.notFoundReservedData(msg: "رزرو");

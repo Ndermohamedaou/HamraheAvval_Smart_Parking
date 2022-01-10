@@ -344,10 +344,10 @@ class _SettingsState extends State<Settings>
                             margin: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             child: Text(
-                              "توسعه داده شده صنایع ارتباطی پایا نسخه $targetPlatform",
+                              "توسعه داده شده توسط صنایع ارتباطی پایا نسخه $targetPlatform",
                               style: TextStyle(
                                 fontFamily: mainFaFontFamily,
-                                fontSize: 10.0.sp,
+                                fontSize: 15,
                                 color: Colors.grey,
                               ),
                             ),

@@ -223,7 +223,9 @@ class _DashboardState extends State<Dashboard>
                                           "انتظار",
                                           style: TextStyle(
                                             fontFamily: mainFaFontFamily,
-                                            color: Colors.yellow,
+                                            color: themeChange.darkTheme
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontSize: 18.0,
                                           ),
                                           textAlign: TextAlign.center,

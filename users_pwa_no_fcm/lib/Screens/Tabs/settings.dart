@@ -199,6 +199,7 @@ class _SettingsState extends State<Settings>
                           Container(
                             width: double.infinity,
                             height: 55,
+                            margin: EdgeInsets.symmetric(vertical: 5),
                             color: themeChange.darkTheme ? darkBar : lightBar,
                             child: FlatButton(
                               onPressed: () =>
@@ -218,8 +219,8 @@ class _SettingsState extends State<Settings>
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
                           Container(
+                            margin: EdgeInsets.symmetric(vertical: 5),
                             width: double.infinity,
                             height: 55,
                             color: themeChange.darkTheme ? darkBar : lightBar,
@@ -241,11 +242,11 @@ class _SettingsState extends State<Settings>
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
                           Container(
                             color: themeChange.darkTheme ? darkBar : lightBar,
                             child: Container(
-                              margin: EdgeInsets.symmetric(horizontal: 15),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
                               child: ListTileSwitch(
                                 leading: themeIconLeading,
                                 value: themeChange.darkTheme,
@@ -264,6 +265,7 @@ class _SettingsState extends State<Settings>
                           Container(
                             width: double.infinity,
                             height: 55,
+                            margin: EdgeInsets.symmetric(vertical: 5),
                             color: themeChange.darkTheme ? darkBar : lightBar,
                             child: FlatButton(
                               onPressed: () => logoutSection(),
@@ -286,10 +288,10 @@ class _SettingsState extends State<Settings>
                             margin: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             child: Text(
-                              "توسعه داده شده صنایع ارتباطی پایا نسخه وب",
+                              "توسعه داده شده توسط صنایع ارتباطی پایا نسخه وب",
                               style: TextStyle(
                                 fontFamily: mainFaFontFamily,
-                                fontSize: 10.0.sp,
+                                fontSize: 15,
                                 color: Colors.grey,
                               ),
                             ),

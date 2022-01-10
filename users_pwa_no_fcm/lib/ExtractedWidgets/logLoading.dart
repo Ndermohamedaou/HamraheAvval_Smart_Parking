@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -31,7 +30,7 @@ class LogLoading {
       Container(
         alignment: Alignment.center,
         margin: EdgeInsets.only(bottom: 20),
-        child: Icon(Iconsax.direct_normal, size: 80.0),
+        child: Icon(Icons.inbox, size: 80.0),
       ),
       Text(
         serverConnectionProblem,

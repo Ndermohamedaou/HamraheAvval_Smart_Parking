@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -191,7 +190,7 @@ class _UserTrafficState extends State<UserTraffic>
         ),
         actions: [
           IconButton(
-            icon: Icon(Iconsax.filter),
+            icon: Icon(Icons.filter_list),
             onPressed:
                 trafficsModel.traffics.isEmpty ? null : () => filterSection(),
           ),

@@ -17,7 +17,6 @@ dependencies:
   cupertino_icons: ^1.0.0
   ionicons: ^0.1.2
   hexcolor: any
-  iconsax: ^0.0.8
   loading_indicator: ^3.0.2
   url_launcher: any
   # MarkDown Plugin

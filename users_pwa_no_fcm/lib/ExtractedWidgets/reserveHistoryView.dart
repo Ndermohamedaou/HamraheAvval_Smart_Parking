@@ -34,7 +34,7 @@ class ReserveHistoryView extends StatelessWidget {
     // Split date time for right alignment.
     String alignDate(String date) {
       List<String> dateSplit = date.split("-");
-      return "${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}";
+      return "${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}" ?? "";
     }
 
     return Container(
@@ -58,9 +58,11 @@ class ReserveHistoryView extends StatelessWidget {
                 CircularStatus(
                   specificReserveStatusColor: specificReserveStatusColor,
                 ),
-                ReserveSection2(
-                    slotName: historySlotName,
-                    endTime: alignDate(historyEndTime)),
+                historyEndTime != null
+                    ? ReserveSection2(
+                        slotName: historySlotName,
+                        endTime: alignDate(historyEndTime))
+                    : SizedBox(),
                 ReserveSection1(
                     buildingName: historyBuildingName,
                     startTime: alignDate(historyStartTime)),

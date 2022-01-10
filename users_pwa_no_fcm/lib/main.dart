@@ -1,5 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:payausers/Screens/Tabs/reservedTab.dart';
+import 'package:payausers/providers/reserve_weeks_model.dart';
+import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/services.dart';
@@ -128,6 +131,8 @@ class _MyAppState extends State<MyApp> {
         await themeChangeProvider.darkThemePreferences.getTheme();
   }
 
+  String urlPrefix = "/WebApp";
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -151,6 +156,16 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider<ReservesModel>(
               create: (_) {
                 return ReservesModel();
+              },
+            ),
+            ChangeNotifierProvider<ReservesByWeek>(
+              create: (_) {
+                return ReservesByWeek();
+              },
+            ),
+            ChangeNotifierProvider<ReserveWeeks>(
+              create: (_) {
+                return ReserveWeeks();
               },
             ),
             ChangeNotifierProvider<TrafficsModel>(
@@ -196,6 +211,7 @@ class _MyAppState extends State<MyApp> {
                   '/dashboard': (context) => Maino(),
                   '/addPlateGuideView': (context) => AddPlateGuideView(),
                   '/reserveGuideView': (context) => ReserveGuideView(),
+                  '/reservedTab': (context) => ReservedTab(),
                   '/addingPlateIntro': (context) => AddingPlateIntro(),
                   '/addingMinePlate': (context) => MinePlateView(),
                   '/addingFamilyPlate': (context) => FamilyPlateView(),

@@ -5,11 +5,11 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/Screens/Tabs/weekReserveTab.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/Model/streamAPI.dart';
@@ -195,7 +195,8 @@ class _MainoState extends State<Maino> {
                   },
                 ),
                 UserTraffic(),
-                ReservedTab(),
+                // ReservedTab(),
+                WeekReservedTab(),
                 UserPlates(),
                 Settings(),
               ],

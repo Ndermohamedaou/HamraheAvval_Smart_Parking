@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Model/ThemeColor.dart';
@@ -39,7 +38,7 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
         actions: [
           IconButton(
             icon: Icon(
-              Iconsax.information,
+              Icons.info,
             ),
             onPressed: () {
               Navigator.pushNamed(context, "/addPlateGuideView");

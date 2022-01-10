@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:payausers/Model/ApiAccess.dart';
@@ -15,6 +13,7 @@ import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/controller/instentReserveController.dart';
@@ -27,33 +26,32 @@ import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
-class ReservedTab extends StatefulWidget {
-  const ReservedTab();
+class WeekReservedTab extends StatefulWidget {
+  const WeekReservedTab();
 
   @override
-  _ReservedTabState createState() => _ReservedTabState();
+  _WeekReservedTabState createState() => _WeekReservedTabState();
 }
 
 int filtered = 0;
-// Only for getting list of currently reserved.
-ReservesModel reservesModel;
-// To having reserves list of specific week.
+ReserveWeeks reserveWeeks;
 ReservesByWeek reservesByWeek;
 PlatesModel platesModel;
 // Timer _onRefreshReservesPerMin;
 List selectedDays = [];
 
-class _ReservedTabState extends State<ReservedTab>
+class _WeekReservedTabState extends State<WeekReservedTab>
     with AutomaticKeepAliveClientMixin {
   // Timer for refresh in a min, if data had any change.
   @override
   void initState() {
     getAWeek();
     // _onRefreshReservesPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
-    //   reservesByWeek.fetchReserveWeeks;
+    //   reservesModel.fetchReservesData;
     // });
     super.initState();
   }
@@ -89,12 +87,14 @@ class _ReservedTabState extends State<ReservedTab>
     super.build(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     // Reserve model for fetch and Reserve list getter
+    reserveWeeks = Provider.of<ReserveWeeks>(context);
     reservesModel = Provider.of<ReservesModel>(context);
     reservesByWeek = Provider.of<ReservesByWeek>(context);
     platesModel = Provider.of<PlatesModel>(context);
     // StreamAPI only for Instant reserve per 30 second
     StreamAPI streamAPI = StreamAPI();
     ApiAccess api = ApiAccess();
+
     // print(reservesModel.reserves["reserved_days"]);
     // [date1, date2, etc...]
 
@@ -104,90 +104,7 @@ class _ReservedTabState extends State<ReservedTab>
     // PreparedPlate preparedPlate = PreparedPlate();
     // Controller of Instant reserve
     InstantReserve instantReserve = InstantReserve();
-    FlutterSecureStorage lds = FlutterSecureStorage();
     CancelReserve cancelReserve = CancelReserve();
-
-    void openDetailsInModal({
-      reservID,
-      reserveStatus,
-      List plate,
-      startTime,
-      endTime,
-      building,
-      slot,
-    }) {
-      showMaterialModalBottomSheet(
-        context: context,
-        enableDrag: true,
-        bounce: true,
-        duration: const Duration(milliseconds: 550),
-        builder: (context) => SingleChildScrollView(
-          controller: ModalScrollController.of(context),
-          child: ReserveInDetails(
-            plate: plate,
-            reserveStatusDesc: reserveStatus,
-            startTime: startTime.toString(),
-            endTime: endTime.toString(),
-            building: building.toString(),
-            slot: slot.toString(),
-            themeChange: themeChange,
-            delReserve: () {
-              cancelReserve.delReserve(reserveID: reservID, context: context);
-              // Refetch data in Providers
-              reservesByWeek.fetchReserveWeeks;
-              reservesModel.fetchReservesData;
-            },
-          ),
-        ),
-      );
-    }
-
-    void instentReserveProcess() async {
-      final token = await lds.read(key: "token");
-      final result = await instantReserve.instantReserve(token: token);
-
-      if (result != "") {
-        // Update Reserves in Provider
-        reservesModel.fetchReservesData;
-        rAlert(
-            context: context,
-            tAlert: AlertType.success,
-            title: titleResultInstantReserve,
-            desc:
-                "رزرو لحظه ای شما با موفقیت انجام شد و در موقعیت $result می تواند پارک خود را انجام دهید",
-            onTapped: () =>
-                Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
-      } else {
-        rAlert(
-            context: context,
-            tAlert: AlertType.error,
-            title: titleResultInstantReserve,
-            desc: descFailedInstantReserve,
-            onTapped: () =>
-                Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
-      }
-    }
-
-    // Instant reserve in Modal
-    instantResrver() {
-      // Create new time now
-      DateTime dateTime = DateTime.now();
-      final timeNow = "${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
-
-      customAlert(
-          context: context,
-          alertIcon: Icons.access_time_outlined,
-          borderColor: Colors.blue,
-          iconColor: Colors.blue,
-          title: "رزرو لحظه ای",
-          desc:
-              "آیا میخواید امروز در این زمان $timeNow رزرو لحظه ای خود را انجام دهید؟ ",
-          acceptPressed: () {
-            instentReserveProcess();
-            Navigator.pop(context);
-          },
-          ignorePressed: () => Navigator.pop(context));
-    }
 
     void filterSection() {
       showMaterialModalBottomSheet(
@@ -216,7 +133,7 @@ class _ReservedTabState extends State<ReservedTab>
                     child: GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Icon(
-                        Iconsax.close_circle,
+                        Icons.close,
                         size: 29,
                       ),
                     ),
@@ -282,14 +199,13 @@ class _ReservedTabState extends State<ReservedTab>
                 print(change);
               },
               onConfirm: (values) async {
-                final lStorage = FlutterSecureStorage();
-                final userToken = await lStorage.read(key: "token");
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                final userToken = prefs.getString("token");
                 final res =
                     await api.reserveByUser(token: userToken, days: values);
                 reservesModel.fetchReservesData;
                 if (res == "200") {
                   reservesModel.fetchReservesData;
-                  reservesByWeek.fetchReserveWeeks;
                   rAlert(
                       context: context,
                       onTapped: () {
@@ -312,7 +228,7 @@ class _ReservedTabState extends State<ReservedTab>
                   TextStyle(fontFamily: mainFaFontFamily, fontSize: 20.0),
               selectedItemsTextStyle: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontFamilyFallback: [secondFaFontFamily],
+                  fontFamilyFallback: [mainFaFontFamily],
                   fontSize: 20.0,
                   color: Colors.white),
               maxChildSize: 0.8,
@@ -334,45 +250,46 @@ class _ReservedTabState extends State<ReservedTab>
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
         actions: [
-          IconButton(
-            icon: Icon(Iconsax.filter),
-            onPressed:
-                reservesModel.reserves.isEmpty ? null : () => filterSection(),
-          ),
-          StreamBuilder(
-            stream: streamAPI.getUserCanInstantReserveReal(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {
-                Map status = jsonDecode(snapshot.data);
-                IconButton(
-                    icon: Icon(Iconsax.timer_start),
-                    onPressed:
-                        status["status"] == 1 ? () => instantResrver() : null);
-              }
+          // IconButton(
+          //   icon: Icon(Iconsax.filter),
+          //   onPressed:
+          //       reservesModel.reserves.isEmpty ? null : () => filterSection(),
+          // ),
+          // StreamBuilder(
+          //   stream: streamAPI.getUserCanInstantReserveReal(),
+          //   builder: (BuildContext context, snapshot) {
+          //     if (snapshot.hasData) {
+          //       Map status = jsonDecode(snapshot.data);
+          //       IconButton(
+          //           icon: Icon(Iconsax.timer_start),
+          //           onPressed:
+          //               status["status"] == 1 ? () => instantResrver() : null);
+          //     }
 
-              if (snapshot.hasError)
-                return SizedBox();
-              else
-                return SizedBox();
-            },
-          ),
-          IconButton(
-            icon: Icon(
-              Iconsax.information,
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, "/reserveGuideView");
-            },
-          ),
+          //     if (snapshot.hasError)
+          //       return SizedBox();
+          //     else
+          //       return SizedBox();
+          //   },
+          // ),
+          // IconButton(
+          //   icon: Icon(
+          //     Iconsax.information,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.pushNamed(context, "/reserveGuideView");
+          //   },
+          // ),
         ],
         centerTitle: true,
         title: Text(
-          reserveTextTitle,
+          weekCategoriesTextTitle,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
@@ -389,16 +306,16 @@ class _ReservedTabState extends State<ReservedTab>
               children: [
                 Builder(
                   builder: (_) {
-                    if (reservesByWeek.reservesByWeekState == FlowState.Loading)
+                    if (reserveWeeks.reserveWeeksState == FlowState.Loading)
                       return logLoadingWidgets.loading();
 
-                    if (reservesByWeek.reservesByWeekState == FlowState.Error)
+                    if (reserveWeeks.reserveWeeksState == FlowState.Error)
                       return logLoadingWidgets.internetProblem;
 
-                    List reserveList =
-                        reservesByWeek.reservesList.reversed.toList();
+                    List reserveWeeksList =
+                        reserveWeeks.finalReserveWeeks.toList();
 
-                    if (reserveList.isEmpty)
+                    if (reserveWeeksList.isEmpty)
                       return logLoadingWidgets.notFoundReservedData(
                           msg: "رزرو");
 
@@ -411,7 +328,7 @@ class _ReservedTabState extends State<ReservedTab>
                                 child: CustomRichText(
                                   themeChange: themeChange,
                                   textOne: "نمایش $filtered ",
-                                  textTwo: "از ${reserveList.length} رزرو",
+                                  textTwo: "از ${reserveWeeksList.length} رزرو",
                                 ),
                               )
                             : SizedBox(),
@@ -419,47 +336,33 @@ class _ReservedTabState extends State<ReservedTab>
                           shrinkWrap: true,
                           primary: false,
                           itemCount: filtered == 0
-                              ? reserveList.length
-                              : reserveList.length > filtered
+                              ? reserveWeeksList.length
+                              : reserveWeeksList.length > filtered
                                   ? filtered
-                                  : reserveList.length,
+                                  : reserveWeeksList.length,
                           itemBuilder: (BuildContext context, index) {
                             return SingleChildScrollView(
                               child: (Column(
                                 children: [
                                   ReserveHistoryView(
-                                    historyBuildingName:
-                                        reserveList[index]["building"] != null
-                                            ? reserveList[index]["building"]
-                                            : "",
-                                    reserveStatusColor: reserveList[index]
+                                    historyBuildingName: reserveWeeksList[index]
+                                                ["building"] !=
+                                            null
+                                        ? reserveWeeksList[index]["building"]
+                                        : "",
+                                    reserveStatusColor: reserveWeeksList[index]
                                         ['status'],
-                                    historySlotName: reserveList[index]["slot"],
-                                    historyStartTime: reserveList[index]
-                                        ["reserveTimeStart"],
-                                    historyEndTime: reserveList[index]
-                                        ["reserveTimeEnd"],
+                                    historySlotName: reserveWeeksList[index]
+                                        ["slot"],
+                                    historyStartTime: reserveWeeksList[index]
+                                        ["week"],
+                                    historyEndTime: null,
                                     onPressed: () {
-                                      // Update user reserves in provider
-                                      reservesModel.fetchReservesData;
-                                      openDetailsInModal(
-                                        reservID: reserveList[index]["id"],
-                                        reserveStatus: reserveList[index]
-                                            ['status'],
-                                        // plate: preparedPlate.preparePlateInReserve(
-                                        //     rawPlate: reserveList[index]['plate']),
-                                        plate: [],
-                                        building: reserveList[index]
-                                                    ["building"] !=
-                                                null
-                                            ? reserveList[index]["building"]
-                                            : "",
-                                        slot: reserveList[index]["slot"],
-                                        startTime: reserveList[index]
-                                            ["reserveTimeStart"],
-                                        endTime: reserveList[index]
-                                            ["reserveTimeEnd"],
-                                      );
+                                      // print(reserveWeeksList[index]["week"]);
+                                      reservesByWeek.setStartDate =
+                                          reserveWeeksList[index]["week"];
+                                      Navigator.pushNamed(
+                                          context, "/reservedTab");
                                     },
                                   ),
                                 ],
@@ -498,7 +401,7 @@ class _ReservedTabState extends State<ReservedTab>
                       fontSize: btnSized,
                       fontWeight: FontWeight.normal),
                 ),
-                Icon(Iconsax.receipt, color: Colors.white),
+                Icon(Icons.add, color: Colors.white),
               ],
             ),
           ),

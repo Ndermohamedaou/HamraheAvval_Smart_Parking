@@ -151,6 +151,29 @@ class ApiAccess {
     return response.data;
   }
 
+  Future<List> reserveWeeks({token}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.get("$baseUrl/getReserveWeeks");
+    return response.data;
+  }
+
+  Future<List> userReservesByWeeks({token, String startWeekDate}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response =
+        await dio.post("$baseUrl/getUserReservesByWeek?week=$startWeekDate");
+    return response.data;
+  }
+
+  Future<Map> checkPlateExistence({token, List plate}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    dio.options.headers["Authorization"] = "Bearer $token";
+    Response response = await dio.post(
+        "$baseUrl/checkPlateExistence?plate0=${plate[0]}&plate1=${plate[1]}&plate2=${plate[2]}&plate3=${plate[3]}");
+    return response.data;
+  }
+
   Future<String> updatingUserAvatar({token, uAvatar}) async {
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";

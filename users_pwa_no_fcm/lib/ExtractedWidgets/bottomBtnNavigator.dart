@@ -18,7 +18,7 @@ class BottomButton extends StatelessWidget {
       child: Material(
         elevation: 10.0,
         borderRadius: BorderRadius.circular(8.0),
-        color: color ?? mainCTA,
+        color: color ?? mainSectionCTA,
         child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {

@@ -188,6 +188,8 @@ const greyColorTitle = "دایره خاکستری";
 const greyColorDesc = "رنگ خاکستری به معنای آن است که رزرو شما لغو شده است.";
 const isPlateValidTitle = "پلاک وارد شده صحیح نمی باشد.";
 const isPlateValidDesc = "لطفا از صحت پلاک وارد شده اطمینان حاصل نمایید.";
+const isPlateExistTitle = "پلاک وارد شده در سیستم موجود است.";
+const isPlateExistDesc = "لطفا از پلاک دیگری استفاده نمایید.";
 const documentMustNotNullTitle = "سند شما خالی است";
 const documentMustNotNullDesc =
     "برای وارد کردن سند باید تصویر آن را بارگذاری کنید.";
@@ -202,7 +204,7 @@ const minePlateDescText =
     "پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت خودرو در سامانه بارگزاری نمایید";
 const familyPlateTitleText = "پلاک برای افراد درجه یک است";
 const familyPlateDscText =
-    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر شناسنامه خود و کارت وسیله نقلیه، برای سامانه ارسال کنید";
+    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر شناسنامه پدر، مادر، همسر و یا فرزندان و کارت وسیله نقلیه، برای سامانه ارسال کنید";
 const otherPlateText = "پلاک برای من نیست";
 const otherPlateDscText =
     "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را در سامانه وارد کرده و به صورت حضوری مراجعه نمایید تا فرایند ثبت پلاک شما با موفقیت انجام شود";
@@ -211,9 +213,9 @@ const otherPlateDscText =
 const addPlateNumAppBar = "شماره پلاک را وارد کنید";
 // const nationalCardAppBar = "تصویر کارت ملی شما";
 const nationalCardAppBar = "تصویر شناسنامه شما";
-const carCardAppBar = "تصویر کارت وسیله نقلیه شما";
+const carCardAppBar = "تصویر کارت ماشین یا برگ سبز";
 const ownerNationalCardAppBar = "تصویر کارت ملی مالک وسیله نقلیه";
-const ownerCarCardAppBar = "تصویر کارت وسیله نقلیه مالک";
+const ownerCarCardAppBar = "تصویر کارت ماشین یا برگ سبز ";
 
 // Attention in page view
 const attentionToConfidance =
