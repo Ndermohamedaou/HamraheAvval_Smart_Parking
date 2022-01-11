@@ -1,55 +1,139 @@
+import 'dart:io';
+
+import 'package:dio/adapter.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:dio/dio.dart';
 
 class ApiAccess {
+  // As a constructor getting init value for token.
+  // ApiAccess(this.token);
+  // final String token;
+
+  // Define dio framework for getting object of dio.
   Dio dio = Dio();
 
+  // Request handler method for getting proper response from the server.
+  // Future<ResponseType> requestHandler(
+  //     String route, String method, Map data) async {
+  //   /// Request Handler.
+  //   ///
+  //   /// route: [String] -> Route to be called which endpoint.
+  //   /// method: [String] -> Method to be used which method we will use to send request.
+  //   /// data: [Map] -> Data to be sent allmost to body.
+  //   /// With this method we can send our route and send method as request to API,
+  //   /// also we can send some data if we need to that.
+
+  //   // Setting up the x509 standart certificate for the request.
+  //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+  //       (client) {
+  //     client.badCertificateCallback =
+  //         (X509Certificate cert, String host, int port) {
+  //       return true;
+  //     };
+  //   };
+  //   Response response = await dio.request(
+  //     route,
+  //     data: data,
+  //     options: Options(
+  //       method: method,
+  //       headers: {
+  //         "Accept": "application/json",
+  //         "Content-Type": "application/json",
+  //         "Authorization": "Bearer $token",
+  //       },
+  //     ),
+  //   );
+
+  //   return response.data;
+  // }
+
   Future<Map> getAccessToLogin({email, password, deviceToken}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     Response res = await dio.post(
         "$baseUrl/login?personal_code=$email&password=$password&DeviceToken=$deviceToken");
     return res.data;
   }
 
   Future<String> logout({String token}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response res = await dio.post("$baseUrl/logout");
     return res.data;
   }
 
-  // If user hasn't Access to thier account
-  Future<Map> getUserStatusAccount({token}) async {
-    dio.options.headers['Content-Type'] = 'application/json';
-    dio.options.headers["Authorization"] = "Bearer $token";
-    Response res = await dio.get("$baseUrl/");
-    return res.data;
-  }
-
   Future<Map> submitOTPCode({code, persCode, devToken}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     Response res = await dio.post(
         "$baseUrl/submitCode?code=$code&personal_code=$persCode&DeviceToken=$devToken");
     return res.data;
   }
 
   Future<String> resendsubmitOTPCode({persCode}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     Response res = await dio.post("$baseUrl/resendOTP?personal_code=$persCode");
     return res.data;
   }
 
   // Reset password for forget password
   Future<String> submitOTPPasswordReset({personalCode}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     Response res =
         await dio.post("$baseUrl/PasswordReset?personal_code=$personalCode");
     return res.data;
   }
 
   Future<String> recoverUserPassword({otpCode, password}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     Response res = await dio
         .post("$baseUrl/recover_password?otp_code=$otpCode&password=$password");
     return res.data;
   }
 
   Future<Map> getStaffInfo({token}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/staffInfo");
@@ -58,6 +142,13 @@ class ApiAccess {
 
   Future<String> updateStaffInfoInConfrimation(
       {token, avatar, curPass, newPass}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post("$baseUrl/updateStaffInfo", data: {
@@ -69,6 +160,13 @@ class ApiAccess {
   }
 
   Future<String> modifyUserEmail({token, email}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response =
@@ -77,6 +175,13 @@ class ApiAccess {
   }
 
   Future<List> getUserPlate({token}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getUserPlates");
@@ -84,6 +189,13 @@ class ApiAccess {
   }
 
   Future<List> getUserTrafficLogs({token}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getUserTraffic");
@@ -97,6 +209,13 @@ class ApiAccess {
   // melli_card_owner
   Future<String> addSelfPlate(
       {token, lsPlate, selfMelliCard, selfCarCard}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
 
@@ -112,6 +231,13 @@ class ApiAccess {
 
   Future<String> addFamilyPlate(
       {token, lsPlate, selfMelliCard, ownerCarCard, ownerMelliCard}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
 
@@ -127,6 +253,13 @@ class ApiAccess {
   }
 
   Future<String> addOtherPlate({token, lsPlate}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
 
@@ -137,6 +270,13 @@ class ApiAccess {
   }
 
   Future<String> delUserPlate({token, id}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post("$baseUrl/delUserPlate?plate_en=$id");
@@ -145,6 +285,13 @@ class ApiAccess {
   }
 
   Future<String> reserveByUser({token, List days}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response =
@@ -153,6 +300,13 @@ class ApiAccess {
   }
 
   Future<List> reserveWeeks({token}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getReserveWeeks");
@@ -160,6 +314,13 @@ class ApiAccess {
   }
 
   Future<List> userReservesByWeeks({token, String startWeekDate}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response =
@@ -168,6 +329,13 @@ class ApiAccess {
   }
 
   Future<Map> checkPlateExistence({token, List plate}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post(
@@ -176,6 +344,13 @@ class ApiAccess {
   }
 
   Future<String> updatingUserAvatar({token, uAvatar}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response =
@@ -184,6 +359,13 @@ class ApiAccess {
   }
 
   Future<dynamic> userReserveHistory({token}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.get("$baseUrl/getUserReserves");
@@ -191,6 +373,13 @@ class ApiAccess {
   }
 
   Future<String> changingUserPassword({token, curPass, newPass}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post(
@@ -200,6 +389,13 @@ class ApiAccess {
   }
 
   Future<String> cancelingReserve({token, reservID}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response = await dio.post("$baseUrl/cancelReserve?id=$reservID");
@@ -208,6 +404,13 @@ class ApiAccess {
   }
 
   Future<String> performInstantReserve({token, plate}) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        return true;
+      };
+    };
     dio.options.headers['Content-Type'] = 'application/json';
     dio.options.headers["Authorization"] = "Bearer $token";
     Response response =

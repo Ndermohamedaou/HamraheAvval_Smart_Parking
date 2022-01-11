@@ -359,7 +359,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
                                 child: CustomRichText(
                                   themeChange: themeChange,
                                   textOne: "نمایش $filtered ",
-                                  textTwo: "از ${reserveWeeksList.length} رزرو",
+                                  textTwo: "از ${reserveWeeksList.length} هفته",
                                 ),
                               )
                             : SizedBox(),

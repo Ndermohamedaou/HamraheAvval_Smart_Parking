@@ -85,7 +85,7 @@ class _DashboardState extends State<Dashboard>
                               color: loginBtnTxtColor,
                               fontFamily: mainFaFontFamily,
                               fontSize: btnSized,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.normal),
                         ),
                       ],
                     )),
@@ -574,7 +574,7 @@ class SecondOptions extends StatelessWidget {
               style: TextStyle(
                 fontFamily: mainFaFontFamily,
                 fontWeight: FontWeight.w600,
-                fontSize: 10.0.sp,
+                fontSize: 14,
               ),
               textAlign: TextAlign.center,
             ),

@@ -26,7 +26,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
-import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'Tabs/userPlate.dart';
 import 'Tabs/userTraffic.dart';
 

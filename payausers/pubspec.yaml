@@ -82,6 +82,7 @@ flutter:
     - assets/images/
     - assets/lottie/
     - assets/logo/
+    - assets/raw/
     - certificate/
 
   fonts:

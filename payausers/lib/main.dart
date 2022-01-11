@@ -128,7 +128,15 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
   importance: Importance.high,
 );
 
+// SSL Pining apply
+sslPining() async {
+  ByteData data = await rootBundle.load("assets/raw/certificate.pem");
+  SecurityContext context = SecurityContext.defaultContext;
+  context.setTrustedCertificatesBytes(data.buffer.asUint8List());
+}
+
 void main() async {
+  sslPining();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessaginBackgroundHandler);

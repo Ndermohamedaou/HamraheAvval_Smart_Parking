@@ -6,6 +6,7 @@ class AvatarModel extends ChangeNotifier {
   FlowState _avatarState = FlowState.Initial;
   final lStorage = FlutterSecureStorage();
 
+  String userToken = "";
   String avatar = "";
   String fullname = "";
 
@@ -19,11 +20,13 @@ class AvatarModel extends ChangeNotifier {
   Future<void> _getUserAvatar() async {
     final localAvatar = await lStorage.read(key: "avatar");
     final localfullname = await lStorage.read(key: "name");
+    final localToken = await lStorage.read(key: "token");
     _avatarState = FlowState.Loading;
 
     try {
       _avatarState = FlowState.Loaded;
-
+      // Init data from the Local Storage
+      userToken = localToken;
       avatar = localAvatar;
       fullname = localfullname;
     } catch (e) {
