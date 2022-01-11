@@ -150,6 +150,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: defaultAppBarColor,
+          centerTitle: true,
           title: Text(
             "ویرایش گذرواژه",
             textAlign: TextAlign.center,
