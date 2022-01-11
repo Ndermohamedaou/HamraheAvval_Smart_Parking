@@ -143,8 +143,9 @@ class RecoverPasswordState extends State<RecoverPassword> {
     otpCode = ModalRoute.of(context).settings.arguments;
     print("Your otp code : $otpCode");
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         Navigator.popUntil(context, ModalRoute.withName("/login"));
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -158,6 +159,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
               color: Colors.black,
             ),
           ),
+          centerTitle: true,
           iconTheme: IconThemeData(
             color: Colors.black,
           ),

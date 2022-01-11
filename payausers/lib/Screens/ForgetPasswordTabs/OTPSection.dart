@@ -45,6 +45,7 @@ class _OTPSubmissionState extends State<OTPSubmission> {
             color: Colors.black,
           ),
         ),
+        centerTitle: true,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),

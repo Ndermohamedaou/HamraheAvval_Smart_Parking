@@ -142,6 +142,7 @@ class _UserPlatesState extends State<UserPlates>
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           myPlateText,
           textAlign: TextAlign.center,
