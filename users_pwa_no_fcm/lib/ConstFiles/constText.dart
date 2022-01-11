@@ -159,7 +159,7 @@ const sendDenied = "ثبت تصویر جدید لغو شد";
 const chPass = "تغییر گذرواژه";
 
 // Adding Plate section texts
-const guideViewAppBarTitle = "راهنمای بارگزاری مدارک خودرو";
+const guideViewAppBarTitle = "راهنمای وضعیت رزرو شما";
 const introSec1Title = "اضافه کردن پلاک به همراه اسنادخواسته شده";
 const introSec1Subtitle =
     "اسنادی که در هر مرحله از شما خواسته میشودرا برای سامانه ارسال کنید";

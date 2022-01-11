@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
@@ -106,7 +104,10 @@ class _ReservedTabState extends State<ReservedTab>
                   await api.reserveByUser(token: userToken, days: values);
               reservesModel.fetchReservesData;
               if (res == "200") {
+                // If reserve was successful, then update reserves model for getting
+                // New week date list.
                 reservesModel.fetchReservesData;
+                // Update own data of reserves.
                 reservesByWeek.fetchReserveWeeks;
                 rAlert(
                     context: context,
@@ -355,9 +356,7 @@ class _ReservedTabState extends State<ReservedTab>
             icon: Icon(
               Icons.info,
             ),
-            onPressed: () {
-              Navigator.pushNamed(context, "/reserveGuideView");
-            },
+            onPressed: () => Navigator.pushNamed(context, "/reserveGuideView"),
           ),
         ],
         centerTitle: true,
