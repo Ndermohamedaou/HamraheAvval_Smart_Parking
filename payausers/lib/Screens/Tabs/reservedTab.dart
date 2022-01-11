@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -19,8 +17,6 @@ import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/Model/streamAPI.dart';
-import 'package:payausers/providers/plate_model.dart';
-import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
@@ -42,7 +38,6 @@ int filtered = 0;
 ReservesModel reservesModel;
 // To having reserves list of specific week.
 ReservesByWeek reservesByWeek;
-PlatesModel platesModel;
 // Timer _onRefreshReservesPerMin;
 List selectedDays = [];
 
@@ -91,7 +86,6 @@ class _ReservedTabState extends State<ReservedTab>
     // Reserve model for fetch and Reserve list getter
     reservesModel = Provider.of<ReservesModel>(context);
     reservesByWeek = Provider.of<ReservesByWeek>(context);
-    platesModel = Provider.of<PlatesModel>(context);
     // StreamAPI only for Instant reserve per 30 second
     StreamAPI streamAPI = StreamAPI();
     ApiAccess api = ApiAccess();
@@ -286,26 +280,25 @@ class _ReservedTabState extends State<ReservedTab>
                 final userToken = await lStorage.read(key: "token");
                 final res =
                     await api.reserveByUser(token: userToken, days: values);
-                reservesModel.fetchReservesData;
                 if (res == "200") {
+                  // If reserve was successful, then update reserves model for getting
+                  // New week date list.
                   reservesModel.fetchReservesData;
+                  // Update own data of reserves.
                   reservesByWeek.fetchReserveWeeks;
                   rAlert(
                       context: context,
-                      onTapped: () {
-                        Navigator.pop(context);
-                      },
+                      onTapped: () => Navigator.pop(context),
                       tAlert: AlertType.success,
                       title: titleOfReserve,
                       desc: resultOfReserve);
-                } else {
+                } else
                   rAlert(
                       context: context,
                       onTapped: () => Navigator.pop(context),
                       tAlert: AlertType.warning,
                       title: titleOfFailedReserve,
                       desc: descOfFailedReserve);
-                }
               },
               selectedColor: mainCTA,
               itemsTextStyle:
@@ -354,7 +347,6 @@ class _ReservedTabState extends State<ReservedTab>
                     onPressed:
                         status["status"] == 1 ? () => instantResrver() : null);
               }
-
               if (snapshot.hasError)
                 return SizedBox();
               else

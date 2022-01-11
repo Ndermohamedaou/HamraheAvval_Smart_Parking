@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
@@ -13,14 +11,11 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
-import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/controller/alert.dart';
-import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/Model/streamAPI.dart';
-import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
@@ -41,7 +36,6 @@ class WeekReservedTab extends StatefulWidget {
 int filtered = 0;
 ReserveWeeks reserveWeeks;
 ReservesByWeek reservesByWeek;
-PlatesModel platesModel;
 // Timer _onRefreshReservesPerMin;
 List selectedDays = [];
 
@@ -91,22 +85,15 @@ class _WeekReservedTabState extends State<WeekReservedTab>
     reserveWeeks = Provider.of<ReserveWeeks>(context);
     reservesModel = Provider.of<ReservesModel>(context);
     reservesByWeek = Provider.of<ReservesByWeek>(context);
-    platesModel = Provider.of<PlatesModel>(context);
     // StreamAPI only for Instant reserve per 30 second
     StreamAPI streamAPI = StreamAPI();
     ApiAccess api = ApiAccess();
-
-    // print(reservesModel.reserves["reserved_days"]);
-    // [date1, date2, etc...]
-
     // UI loading or Error Class
     LogLoading logLoadingWidgets = LogLoading();
     // Prepare class for getting right plate from database
-    // PreparedPlate preparedPlate = PreparedPlate();
     // Controller of Instant reserve
     InstantReserve instantReserve = InstantReserve();
     FlutterSecureStorage lds = FlutterSecureStorage();
-    CancelReserve cancelReserve = CancelReserve();
 
     void filterSection() {
       showMaterialModalBottomSheet(
@@ -197,33 +184,32 @@ class _WeekReservedTabState extends State<WeekReservedTab>
               items: listOfDays,
               listType: MultiSelectListType.CHIP,
               initialValue: reservesModel.reserves["reserved_days"],
-              onSelectionChanged: (change) {
-                print(change);
-              },
               onConfirm: (values) async {
+                // Sending list of reserves to server.
                 final lStorage = FlutterSecureStorage();
                 final userToken = await lStorage.read(key: "token");
                 final res =
                     await api.reserveByUser(token: userToken, days: values);
-                reservesModel.fetchReservesData;
                 if (res == "200") {
+                  // If reserve was successful, then update reserves model for getting
+                  // New week date list.
                   reservesModel.fetchReservesData;
+                  // After getting list of week date, we need to update our week reserve list.
+                  // For exp: [week1, week2, week3, etc...]
+                  reserveWeeks.fetchReserveWeeks;
                   rAlert(
                       context: context,
-                      onTapped: () {
-                        Navigator.pop(context);
-                      },
+                      onTapped: () => Navigator.pop(context),
                       tAlert: AlertType.success,
                       title: titleOfReserve,
                       desc: resultOfReserve);
-                } else {
+                } else
                   rAlert(
                       context: context,
                       onTapped: () => Navigator.pop(context),
                       tAlert: AlertType.warning,
                       title: titleOfFailedReserve,
                       desc: descOfFailedReserve);
-                }
               },
               selectedColor: mainCTA,
               itemsTextStyle:
@@ -250,6 +236,52 @@ class _WeekReservedTabState extends State<WeekReservedTab>
       );
     }
 
+    void instentReserveProcess() async {
+      final token = await lds.read(key: "token");
+      final result = await instantReserve.instantReserve(token: token);
+
+      if (result != "") {
+        // Update Reserves in Provider
+        reservesModel.fetchReservesData;
+        rAlert(
+            context: context,
+            tAlert: AlertType.success,
+            title: titleResultInstantReserve,
+            desc:
+                "رزرو لحظه ای شما با موفقیت انجام شد و در موقعیت $result می تواند پارک خود را انجام دهید",
+            onTapped: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
+      } else {
+        rAlert(
+            context: context,
+            tAlert: AlertType.error,
+            title: titleResultInstantReserve,
+            desc: descFailedInstantReserve,
+            onTapped: () =>
+                Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
+      }
+    }
+
+    instantResrver() {
+      // Create new time now
+      DateTime dateTime = DateTime.now();
+      final timeNow = "${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+
+      customAlert(
+          context: context,
+          alertIcon: Icons.access_time_outlined,
+          borderColor: Colors.blue,
+          iconColor: Colors.blue,
+          title: "رزرو لحظه ای",
+          desc:
+              "آیا میخواید امروز در این زمان $timeNow رزرو لحظه ای خود را انجام دهید؟ ",
+          acceptPressed: () {
+            instentReserveProcess();
+            Navigator.pop(context);
+          },
+          ignorePressed: () => Navigator.pop(context));
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -258,36 +290,33 @@ class _WeekReservedTabState extends State<WeekReservedTab>
           color: Colors.black,
         ),
         actions: [
-          // IconButton(
-          //   icon: Icon(Iconsax.filter),
-          //   onPressed:
-          //       reservesModel.reserves.isEmpty ? null : () => filterSection(),
-          // ),
-          // StreamBuilder(
-          //   stream: streamAPI.getUserCanInstantReserveReal(),
-          //   builder: (BuildContext context, snapshot) {
-          //     if (snapshot.hasData) {
-          //       Map status = jsonDecode(snapshot.data);
-          //       IconButton(
-          //           icon: Icon(Iconsax.timer_start),
-          //           onPressed:
-          //               status["status"] == 1 ? () => instantResrver() : null);
-          //     }
-
-          //     if (snapshot.hasError)
-          //       return SizedBox();
-          //     else
-          //       return SizedBox();
-          //   },
-          // ),
-          // IconButton(
-          //   icon: Icon(
-          //     Iconsax.information,
-          //   ),
-          //   onPressed: () {
-          //     Navigator.pushNamed(context, "/reserveGuideView");
-          //   },
-          // ),
+          IconButton(
+            icon: Icon(Iconsax.filter),
+            onPressed:
+                reservesModel.reserves.isEmpty ? null : () => filterSection(),
+          ),
+          StreamBuilder(
+            stream: streamAPI.getUserCanInstantReserveReal(),
+            builder: (BuildContext context, snapshot) {
+              if (snapshot.hasData) {
+                Map status = jsonDecode(snapshot.data);
+                IconButton(
+                    icon: Icon(Iconsax.timer_start),
+                    onPressed:
+                        status["status"] == 1 ? () => instantResrver() : null);
+              }
+              if (snapshot.hasError)
+                return SizedBox();
+              else
+                return SizedBox();
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Iconsax.information,
+            ),
+            onPressed: () => Navigator.pushNamed(context, "/reserveGuideView"),
+          ),
         ],
         centerTitle: true,
         title: Text(
