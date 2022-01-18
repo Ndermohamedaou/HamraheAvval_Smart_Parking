@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class TextFields extends StatelessWidget {
-  TextFields(
-      {this.lblText,
-      this.onChangeText,
-      this.textFieldIcon,
-      this.textInputType,
-      this.keyType,
-      this.validate,
-      this.iconPressed,
-      this.maxLen,
-      this.errText,
-      this.enteringEditing,
-      this.readOnly,
-      this.initValue});
+  TextFields({
+    this.lblText,
+    this.onChangeText,
+    this.textFieldIcon,
+    this.textInputType,
+    this.keyType,
+    this.validate,
+    this.iconPressed,
+    this.maxLen,
+    this.errText,
+    this.enteringEditing,
+    this.readOnly,
+    this.initValue,
+    this.keyboardType,
+    this.inputFormat,
+  });
 
   final String lblText;
   final Function onChangeText;
@@ -28,6 +31,8 @@ class TextFields extends StatelessWidget {
   final Function enteringEditing;
   final bool readOnly;
   final String initValue;
+  final TextInputType keyboardType;
+  final inputFormat;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +50,7 @@ class TextFields extends StatelessWidget {
         maxLength: maxLen,
         validator: validate,
         obscureText: textInputType,
+        inputFormatters: inputFormat,
         textAlign: TextAlign.center,
         cursorColor: mainCTA,
         decoration: InputDecoration(

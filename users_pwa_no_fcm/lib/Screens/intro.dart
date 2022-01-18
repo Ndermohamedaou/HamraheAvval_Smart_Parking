@@ -14,8 +14,8 @@ class _IntroPageState extends State<IntroPage> {
     void navigatedToLogin() => Navigator.pushNamed(context, '/termsAndLicense');
     return Scaffold(
         body: MainIntro(),
-        bottomNavigationBar:
-            BottomButton(text: nextLevel1, ontapped: navigatedToLogin));
+        bottomNavigationBar: BottomButton(
+            color: mainCTA, text: nextLevel1, ontapped: navigatedToLogin));
   }
 }
 

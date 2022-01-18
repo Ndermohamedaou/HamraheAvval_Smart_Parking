@@ -36,7 +36,7 @@ class BottomButton extends StatelessWidget {
                             color: loginBtnTxtColor,
                             fontFamily: mainFaFontFamily,
                             fontSize: btnSized,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.normal),
                       ),
                 Icon(
                   Icons.chevron_right,

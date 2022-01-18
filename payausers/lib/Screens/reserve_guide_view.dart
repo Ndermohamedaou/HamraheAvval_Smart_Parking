@@ -20,6 +20,7 @@ class _ReserveGuideViewState extends State<ReserveGuideView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           guideViewAppBarTitle,
           textAlign: TextAlign.center,

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,8 +34,6 @@ class _SettingsState extends State<Settings>
         Theme.of(context).platform == TargetPlatform.iOS ? "iOS" : "Android";
 
     void logoutSection() {
-      ApiAccess api = ApiAccess();
-
       showMaterialModalBottomSheet(
         context: context,
         enableDrag: true,
@@ -100,13 +99,18 @@ class _SettingsState extends State<Settings>
                             // Getting token from lStorage and cleaning LocalStorage as logout user
                             final lStorage = FlutterSecureStorage();
                             final userToken = await lStorage.read(key: "token");
+                            ApiAccess api = ApiAccess(userToken);
+                            // Getting logout endpoint.
+                            Endpoint logoutEndpoint =
+                                apiEndpointsMap["auth"]["logout"];
 
-                            if (await api.logout(token: userToken) == "200") {
+                            if (await api.requestHandler(logoutEndpoint.route,
+                                    logoutEndpoint.method, {}) ==
+                                "200") {
                               FlutterSecureStorage lds = FlutterSecureStorage();
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              // SystemChannels.platform
-                              //     .invokeMethod('SystemNavigator.pop');
+                              // Clear local storage data.
                               await lds.deleteAll();
                               prefs.setInt("user_plate_notif_number", 0);
                               prefs.clear();
@@ -158,12 +162,13 @@ class _SettingsState extends State<Settings>
     void firstStepToSetBiometric() {
       CoolAlert.show(
         context: context,
-        backgroundColor: mainCTA,
+        backgroundColor: mainSectionCTA,
         type: CoolAlertType.info,
         title: "!لازم است بدانید",
         text: biometricInfoToCheck,
-        confirmBtnTextStyle: TextStyle(fontFamily: mainFaFontFamily),
-        confirmBtnColor: mainCTA,
+        confirmBtnTextStyle: TextStyle(
+            fontFamily: mainFaFontFamily, color: Colors.white, fontSize: 18.0),
+        confirmBtnColor: mainSectionCTA,
         confirmBtnText: "مرحله بعدی",
         onConfirmBtnTap: () {
           Navigator.pop(context);

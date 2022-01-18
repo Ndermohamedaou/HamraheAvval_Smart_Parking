@@ -11,6 +11,7 @@ import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/userPlateDetailsInModal.dart';
 import 'package:payausers/controller/deleteUserPlate.dart';
 import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ class UserPlates extends StatefulWidget {
 }
 
 PlatesModel plateModel;
+ReservesModel reservesModel;
 Timer _onRefreshPlatesPerMin;
 bool loadingDelTime = false;
 
@@ -49,6 +51,7 @@ class _UserPlatesState extends State<UserPlates>
     // Providers
     final themeChange = Provider.of<DarkThemeProvider>(context);
     plateModel = Provider.of<PlatesModel>(context);
+    reservesModel = Provider.of<ReservesModel>(context);
 
     // UI Loading or Error handler
     LogLoading logLoadingWidgets = LogLoading();
@@ -73,6 +76,8 @@ class _UserPlatesState extends State<UserPlates>
               deletePlate.delUserPlate(id: plateEn, context: context);
               // Update user plates in Provider
               plateModel.fetchPlatesData;
+              // Update reserves
+              reservesModel.fetchReservesData;
             },
           ),
         ),

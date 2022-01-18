@@ -4,10 +4,11 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/validator/textValidator.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 String currentPassword = "";
@@ -16,9 +17,9 @@ String confirmNewPassword = "";
 bool validatePassword1 = false;
 bool validatePassword2 = false;
 IconData showMePass = Icons.remove_red_eye;
-dynamic emptyTextFieldErrCurPassword = null;
-dynamic emptyTextFieldErrNewPassword = null;
-dynamic emptyTextFieldErrConfNewPassword = null;
+dynamic emptyTextFieldErrCurPassword;
+dynamic emptyTextFieldErrNewPassword;
+dynamic emptyTextFieldErrConfNewPassword;
 bool protectedPassword = true;
 
 class ChangePassPage extends StatefulWidget {
@@ -51,17 +52,19 @@ class _ChangePassPageState extends State<ChangePassPage> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    final localData = Provider.of<AvatarModel>(context);
+    ApiAccess api = ApiAccess(localData.userToken);
     // Sending to api
     // ignore: missing_return
     Future<String> sendPassword(currentPassword, newPassword) async {
-      ApiAccess api = ApiAccess();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      final uToken = prefs.getString("token");
+      Endpoint changePasswordEndpoint =
+          apiEndpointsMap["auth"]["changePassword"];
 
       try {
-        final result = await api.changingUserPassword(
-            token: uToken, curPass: currentPassword, newPass: newPassword);
-        // print(result);
+        final result = await api.requestHandler(
+            "${changePasswordEndpoint.route}?current_password=$currentPassword&new_password=$newPassword",
+            changePasswordEndpoint.method, {});
+        print(result);
         return result;
       } catch (e) {
         Toast.show(doesNotChange, context,
@@ -89,6 +92,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                     gravity: Toast.BOTTOM,
                     textColor: Colors.white);
               } else {
+                print(result);
                 Toast.show(failedToUpdatePass, context,
                     duration: Toast.LENGTH_LONG,
                     gravity: Toast.BOTTOM,
@@ -100,7 +104,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   title: notMatchPassTitle,
                   msg: notMatchPassDsc,
                   icon: Icons.email,
-                  iconColor: Colors.deepOrange);
+                  iconColor: Colors.white);
             }
           } else {
             showStatusInCaseOfFlush(
@@ -108,7 +112,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                 title: notValidPassText,
                 msg: passwordCheckerText,
                 icon: Icons.email,
-                iconColor: Colors.deepOrange);
+                iconColor: Colors.white);
           }
         } else {
           Toast.show(notEnouthLen, context,
@@ -144,129 +148,133 @@ class _ChangePassPageState extends State<ChangePassPage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              TextFields(
-                lblText: curPass,
-                keyType: TextInputType.visiblePassword,
-                maxLen: 20,
-                readOnly: false,
-                errText: emptyTextFieldErrCurPassword == null
-                    ? null
-                    : emptyTextFieldMsg,
-                textInputType: protectedPassword,
-                textFieldIcon:
-                    currentPassword == "" ? Icons.vpn_key_outlined : showMePass,
-                iconPressed: () {
-                  setState(() {
-                    protectedPassword
-                        ? protectedPassword = false
-                        : protectedPassword = true;
-                    // Changing eye icon pressing
-                    showMePass == Icons.remove_red_eye
-                        ? showMePass = Icons.remove_red_eye_outlined
-                        : showMePass = Icons.remove_red_eye;
-                  });
-                },
-                onChangeText: (onChangePassword) {
-                  setState(() {
-                    emptyTextFieldErrCurPassword = null;
-                    currentPassword = onChangePassword;
-                  });
-                },
-              ),
-              SizedBox(height: 10),
-              TextFields(
-                keyType: TextInputType.visiblePassword,
-                lblText: newPass,
-                maxLen: 20,
-                readOnly: false,
-                errText: emptyTextFieldErrNewPassword == null
-                    ? null
-                    : emptyTextFieldMsg,
-                textInputType: protectedPassword,
-                textFieldIcon:
-                    newPassword == "" ? Icons.vpn_key_outlined : showMePass,
-                iconPressed: () {
-                  setState(() {
-                    protectedPassword
-                        ? protectedPassword = false
-                        : protectedPassword = true;
-                    // Changing eye icon pressing
-                    showMePass == Icons.remove_red_eye
-                        ? showMePass = Icons.remove_red_eye_outlined
-                        : showMePass = Icons.remove_red_eye;
-                  });
-                },
-                onChangeText: (onChangePassword) {
-                  setState(() {
-                    emptyTextFieldErrNewPassword = null;
-                    newPassword = onChangePassword;
-                    validatePassword1 = passwordRegex(onChangePassword);
-                  });
-                },
-              ),
-              newPassword != ""
-                  ? validatePassword1
-                      ? CustomTextErrorChecker(
-                          text: "گذرواژه مناسب است",
-                          textColor: Colors.green,
-                          icon: Icons.done,
-                        )
-                      : CustomTextErrorChecker(
-                          text:
-                              "گذرواژه مناسب نیست، گذرواژه جدید باید ترکیبی از حروف بزرگ و کوچک باشد و بیشتر از ۶ کاراکتر",
-                          textColor: Colors.red,
-                          icon: Icons.close)
-                  : SizedBox(),
-              SizedBox(height: 10),
-              TextFields(
-                keyType: TextInputType.visiblePassword,
-                lblText: confNewPass,
-                maxLen: 20,
-                readOnly: false,
-                errText: emptyTextFieldErrConfNewPassword == null
-                    ? null
-                    : emptyTextFieldMsg,
-                textInputType: protectedPassword,
-                textFieldIcon: confirmNewPassword == ""
-                    ? Icons.vpn_key_outlined
-                    : showMePass,
-                iconPressed: () {
-                  setState(() {
-                    protectedPassword
-                        ? protectedPassword = false
-                        : protectedPassword = true;
-                    // Changing eye icon pressing
-                    showMePass == Icons.remove_red_eye
-                        ? showMePass = Icons.remove_red_eye_outlined
-                        : showMePass = Icons.remove_red_eye;
-                  });
-                },
-                onChangeText: (onChangePassword) {
-                  setState(() {
-                    emptyTextFieldErrConfNewPassword = null;
-                    confirmNewPassword = onChangePassword;
-                    validatePassword2 = passwordRegex(onChangePassword);
-                  });
-                },
-              ),
-              confirmNewPassword != ""
-                  ? validatePassword2
-                      ? CustomTextErrorChecker(
-                          text: "گذرواژه مناسب است",
-                          textColor: Colors.green,
-                          icon: Icons.done,
-                        )
-                      : CustomTextErrorChecker(
-                          text:
-                              "گذرواژه مناسب نیست، تایید گذرواژه جدید باید ترکیبی از حروف بزرگ و کوچک باشد و بیشتر از ۶ کاراکتر",
-                          textColor: Colors.red,
-                          icon: Icons.close,
-                        )
-                  : SizedBox(),
-            ],
+          child: Container(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                TextFields(
+                  lblText: curPass,
+                  keyboardType: TextInputType.visiblePassword,
+                  maxLen: 20,
+                  readOnly: false,
+                  errText: emptyTextFieldErrCurPassword == null
+                      ? null
+                      : emptyTextFieldMsg,
+                  textInputType: protectedPassword,
+                  textFieldIcon: currentPassword == ""
+                      ? Icons.vpn_key_outlined
+                      : showMePass,
+                  iconPressed: () {
+                    setState(() {
+                      protectedPassword
+                          ? protectedPassword = false
+                          : protectedPassword = true;
+                      // Changing eye icon pressing
+                      showMePass == Icons.remove_red_eye
+                          ? showMePass = Icons.remove_red_eye_outlined
+                          : showMePass = Icons.remove_red_eye;
+                    });
+                  },
+                  onChangeText: (onChangePassword) {
+                    setState(() {
+                      emptyTextFieldErrCurPassword = null;
+                      currentPassword = onChangePassword;
+                    });
+                  },
+                ),
+                SizedBox(height: 10),
+                TextFields(
+                  keyboardType: TextInputType.visiblePassword,
+                  lblText: newPass,
+                  maxLen: 20,
+                  readOnly: false,
+                  errText: emptyTextFieldErrNewPassword == null
+                      ? null
+                      : emptyTextFieldMsg,
+                  textInputType: protectedPassword,
+                  textFieldIcon:
+                      newPassword == "" ? Icons.vpn_key_outlined : showMePass,
+                  iconPressed: () {
+                    setState(() {
+                      protectedPassword
+                          ? protectedPassword = false
+                          : protectedPassword = true;
+                      // Changing eye icon pressing
+                      showMePass == Icons.remove_red_eye
+                          ? showMePass = Icons.remove_red_eye_outlined
+                          : showMePass = Icons.remove_red_eye;
+                    });
+                  },
+                  onChangeText: (onChangePassword) {
+                    setState(() {
+                      emptyTextFieldErrNewPassword = null;
+                      newPassword = onChangePassword;
+                      validatePassword1 = passwordRegex(onChangePassword);
+                    });
+                  },
+                ),
+                newPassword != ""
+                    ? validatePassword1
+                        ? CustomTextErrorChecker(
+                            text: "گذرواژه مناسب است",
+                            textColor: Colors.green,
+                            icon: Icons.done,
+                          )
+                        : CustomTextErrorChecker(
+                            text:
+                                "گذرواژه مناسب نیست، گذرواژه جدید باید ترکیبی از حروف بزرگ و کوچک باشد و بیشتر از ۶ کاراکتر",
+                            textColor: Colors.red,
+                            icon: Icons.close)
+                    : SizedBox(),
+                SizedBox(height: 10),
+                TextFields(
+                  keyboardType: TextInputType.visiblePassword,
+                  lblText: confNewPass,
+                  maxLen: 20,
+                  readOnly: false,
+                  errText: emptyTextFieldErrConfNewPassword == null
+                      ? null
+                      : emptyTextFieldMsg,
+                  textInputType: protectedPassword,
+                  textFieldIcon: confirmNewPassword == ""
+                      ? Icons.vpn_key_outlined
+                      : showMePass,
+                  iconPressed: () {
+                    setState(() {
+                      protectedPassword
+                          ? protectedPassword = false
+                          : protectedPassword = true;
+                      // Changing eye icon pressing
+                      showMePass == Icons.remove_red_eye
+                          ? showMePass = Icons.remove_red_eye_outlined
+                          : showMePass = Icons.remove_red_eye;
+                    });
+                  },
+                  onChangeText: (onChangePassword) {
+                    setState(() {
+                      emptyTextFieldErrConfNewPassword = null;
+                      confirmNewPassword = onChangePassword;
+                      validatePassword2 = passwordRegex(onChangePassword);
+                    });
+                  },
+                ),
+                confirmNewPassword != ""
+                    ? validatePassword2
+                        ? CustomTextErrorChecker(
+                            text: "گذرواژه مناسب است",
+                            textColor: Colors.green,
+                            icon: Icons.done,
+                          )
+                        : CustomTextErrorChecker(
+                            text:
+                                "گذرواژه مناسب نیست، تایید گذرواژه جدید باید ترکیبی از حروف بزرگ و کوچک باشد و بیشتر از ۶ کاراکتر",
+                            textColor: Colors.red,
+                            icon: Icons.close,
+                          )
+                    : SizedBox(),
+              ],
+            ),
           ),
         ),
       ),

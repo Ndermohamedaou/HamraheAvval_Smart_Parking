@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/spec/enum_state.dart';
 
 class PlatesModel extends ChangeNotifier {
   FlowState _platesState = FlowState.Initial;
   final lStorage = FlutterSecureStorage();
-  ApiAccess api = ApiAccess();
-
   List plates = [];
 
   PlatesModel() {
@@ -21,8 +20,13 @@ class PlatesModel extends ChangeNotifier {
     final userToken = await lStorage.read(key: "token");
     _platesState = FlowState.Loading;
     try {
-      await Future.delayed(Duration(seconds: 2));
-      final plateList = await api.getUserPlate(token: userToken);
+      // Getting api broker.
+      ApiAccess api = ApiAccess(userToken);
+      Endpoint userPlate = apiEndpointsMap["plateEndpoint"]["getUserPlates"];
+      await Future.delayed(Duration(seconds: 1));
+      // Getting data.
+      final plateList =
+          await api.requestHandler(userPlate.route, userPlate.method, {});
       plates = plateList;
       _platesState = FlowState.Loaded;
     } catch (e) {

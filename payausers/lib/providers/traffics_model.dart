@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/spec/enum_state.dart';
 
 class TrafficsModel extends ChangeNotifier {
   FlowState _trafficsState = FlowState.Initial;
   final lStorage = FlutterSecureStorage();
-  ApiAccess api = ApiAccess();
 
   List traffics = [];
 
@@ -19,10 +19,15 @@ class TrafficsModel extends ChangeNotifier {
 
   Future<void> _getTraffics() async {
     final userToken = await lStorage.read(key: "token");
+    ApiAccess api = ApiAccess(userToken);
     _trafficsState = FlowState.Loading;
     try {
-      await Future.delayed(Duration(seconds: 2));
-      final trafficsList = await api.getUserTrafficLogs(token: userToken);
+      // Getting stucture of endpoint.
+      Endpoint userTrafficEndpoint = apiEndpointsMap["getUserTraffic"];
+      await Future.delayed(Duration(seconds: 1));
+      final trafficsList = await api.requestHandler(
+          userTrafficEndpoint.route, userTrafficEndpoint.method, {});
+
       traffics = trafficsList;
       _trafficsState = FlowState.Loaded;
     } catch (e) {

@@ -10,6 +10,7 @@ import 'package:liquid_ui/liquid_ui.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/Screens/readTermsOfService.dart';
 import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
@@ -47,7 +48,6 @@ import 'Screens/maino.dart';
 import 'Screens/settings.dart';
 import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
-import 'Screens/reservePageEdit.dart';
 import 'package:payausers/Screens/set_biometric.dart';
 import 'package:payausers/Screens/termsOfServicePage.dart';
 
@@ -130,6 +130,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 
 // SSL Pining apply
 sslPining() async {
+  SecurityContext(withTrustedRoots: false);
   ByteData data = await rootBundle.load("assets/raw/certificate.pem");
   SecurityContext context = SecurityContext.defaultContext;
   context.setTrustedCertificatesBytes(data.buffer.asUint8List());
@@ -274,39 +275,28 @@ class _MyAppState extends State<MyApp> {
               },
             ),
             ChangeNotifierProvider<StaffInfoModel>(
-              create: (_) {
-                return StaffInfoModel();
-              },
+              create: (_) => StaffInfoModel(),
             ),
             ChangeNotifierProvider<AvatarModel>(
-              create: (_) {
-                return AvatarModel();
-              },
+              create: (_) => AvatarModel(),
             ),
             ChangeNotifierProvider<ReservesModel>(
-              create: (_) {
-                return ReservesModel();
-              },
+              create: (_) => ReservesModel(),
             ),
             ChangeNotifierProvider<ReservesByWeek>(
-              create: (_) {
-                return ReservesByWeek();
-              },
+              create: (_) => ReservesByWeek(),
             ),
             ChangeNotifierProvider<ReserveWeeks>(
-              create: (_) {
-                return ReserveWeeks();
-              },
+              create: (_) => ReserveWeeks(),
             ),
             ChangeNotifierProvider<TrafficsModel>(
-              create: (_) {
-                return TrafficsModel();
-              },
+              create: (_) => TrafficsModel(),
             ),
             ChangeNotifierProvider<PlatesModel>(
-              create: (_) {
-                return PlatesModel();
-              },
+              create: (_) => PlatesModel(),
+            ),
+            ChangeNotifierProvider<InstantReserveModel>(
+              create: (_) => InstantReserveModel(),
             )
           ],
           child: Consumer<DarkThemeProvider>(
@@ -354,7 +344,6 @@ class _MyAppState extends State<MyApp> {
                     '/settings': (context) => SettingsPage(),
                     '/readTermsOfService': (context) => ReadTermsOfService(),
                     '/changePassword': (context) => ChangePassPage(),
-                    '/reserveEditaion': (context) => ReserveEditaion(),
                     '/setBiometric': (context) => SettingBiometric(),
                     '/savingAppLockPass': (context) => SavingAppLock(),
                   },

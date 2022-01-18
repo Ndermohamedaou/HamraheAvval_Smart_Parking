@@ -4,8 +4,9 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
@@ -17,7 +18,7 @@ String personalCode;
 bool _submitPers;
 
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
-  ApiAccess api = ApiAccess();
+  ApiAccess api;
 
   @override
   void initState() {
@@ -35,8 +36,12 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     if (personalCode != "") {
       try {
         setState(() => _submitPers = false);
-        final result =
-            await api.submitOTPPasswordReset(personalCode: personalCode);
+        Endpoint passwordResetEndpoint =
+            apiEndpointsMap["auth"]["otp"]["PasswordReset"];
+
+        final result = await api.requestHandler(
+            "${passwordResetEndpoint.route}?personal_code=$personalCode",
+            passwordResetEndpoint.method, {});
 
         if (result == "200") {
           setState(() => _submitPers = true);
@@ -63,11 +68,13 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    final localData = Provider.of<AvatarModel>(context);
+    api = ApiAccess(localData.userToken);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           "بازنشانی گذرواژه حساب شما",
           textAlign: TextAlign.center,
@@ -84,12 +91,14 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               alignment: Alignment.center,
+              margin: EdgeInsets.only(top: 20),
               child: TextFields(
                   lblText: personalCodePlaceHolder,
-                  keyType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.emailAddress,
                   textFieldIcon: Icons.account_circle,
                   textInputType: false,
                   readOnly: false,
@@ -100,6 +109,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
         ),
       )),
       bottomNavigationBar: BottomButton(
+        color: mainCTA,
         text: "بعدی",
         ontapped: () => submitOTP(personalCode),
       ),

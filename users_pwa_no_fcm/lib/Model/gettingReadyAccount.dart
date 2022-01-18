@@ -1,17 +1,19 @@
-// If user is not new
+// If user was not new
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/SavingData.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:toast/toast.dart';
 
 class GettingReadyAccount {
   void getUserAccInfo(token, context) async {
-    ApiAccess api = ApiAccess();
+    ApiAccess api = ApiAccess(token);
     SavingData savingData = SavingData();
+
     try {
-      Map userInfo = await api.getStaffInfo(token: token);
-      // Convert plate list from api to lStorage
-      // final List userPlates = userInfo["plates"] as List;
+      Endpoint staffInfo = apiEndpointsMap["auth"]["staffInfo"];
+      Map userInfo =
+          await api.requestHandler(staffInfo.route, staffInfo.method, {});
 
       bool result = await savingData.LDS(
         token: token,
@@ -26,14 +28,13 @@ class GettingReadyAccount {
         lastLogin: userInfo["last_login"],
       );
 
-      if (result) {
+      if (result)
         Navigator.pushNamed(context, "/loginCheckout");
-      } else {
+      else
         Toast.show("Your info can not saved", context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
             textColor: Colors.white);
-      }
     } catch (e) {
       Toast.show("Error in Get User info!", context,
           duration: Toast.LENGTH_LONG,

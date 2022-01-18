@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payausers/Model/ApiAccess.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -43,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigatedToRoot() async {
-    ApiAccess api = ApiAccess();
     final lStorage = FlutterSecureStorage();
     final userToken = await lStorage.read(key: "token");
     final localAuthPasas = await lStorage.read(key: "local_lock");

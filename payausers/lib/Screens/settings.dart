@@ -10,6 +10,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/optionViewer.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -29,7 +30,6 @@ String userPersonal = "";
 String userRole = "";
 String userSection = "";
 File imgSource;
-ApiAccess api = ApiAccess();
 FlutterSecureStorage lds = FlutterSecureStorage();
 ImageConvetion imgConvertor = ImageConvetion();
 
@@ -83,18 +83,20 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final avatarModel = Provider.of<AvatarModel>(context);
+    ApiAccess api = ApiAccess(avatarModel.userToken);
 
     Future galleryViewer(ImageSource changeType) async {
       final image = await ImagePicker.pickImage(source: changeType);
       setState(() => imgSource = image);
       try {
         if (imgSource != null) {
+          // Getting endpoint of staffInfo
+          Endpoint getStaffInfoEndpoint = apiEndpointsMap["auth"]["staffInfo"];
           // Go to Controller/changeAvatar.dart
           String result = await imgConvertor.sendingImage(imgSource);
           if (result == "200") {
-            // print(result);
-            final uToken = await lds.read(key: "token");
-            final userDetails = await api.getStaffInfo(token: uToken);
+            final userDetails = await api.requestHandler(
+                getStaffInfoEndpoint.route, getStaffInfoEndpoint.method, {});
             final userAvatarChanged = userDetails["avatar"];
             await lds.write(key: "avatar", value: userAvatarChanged);
             final testAvatar = await lds.read(key: "avatar");
@@ -167,7 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 uA: imgSource == null
                     ? NetworkImage(userAvatar)
                     : FileImage(imgSource),
-                uId: "userId",
+                uId: avatarModel.userID,
               ),
               FlatButton(
                 onPressed: () {

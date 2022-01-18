@@ -4,7 +4,6 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
-import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
@@ -36,8 +35,6 @@ dynamic themeChange;
 
 class _DashboardState extends State<Dashboard>
     with AutomaticKeepAliveClientMixin<Dashboard> {
-  LocalDataGetterClass localDataGetterClass = LocalDataGetterClass();
-
   GridTiles gridTile = GridTiles();
   @override
   Widget build(BuildContext context) {
@@ -54,6 +51,18 @@ class _DashboardState extends State<Dashboard>
     final avatarModel = Provider.of<AvatarModel>(context);
     // Getting Score and car location of uesr
     final staffInfoModel = Provider.of<StaffInfoModel>(context);
+
+    String finalCarSlotLocation() {
+      /// Checking location of car slot from the API data.
+      try {
+        String userCarLocation =
+            staffInfoModel.staffInfo["location"]["slot"].toString();
+        List carLocationSplitString = userCarLocation.split("-");
+        return "${carLocationSplitString[0]} - ${carLocationSplitString[1]}";
+      } catch (e) {
+        return staffInfoModel.staffInfo["location"];
+      }
+    }
 
     // Create Responsive Grid Container view
     var size = MediaQuery.of(context).size;
@@ -85,7 +94,7 @@ class _DashboardState extends State<Dashboard>
                               color: loginBtnTxtColor,
                               fontFamily: mainFaFontFamily,
                               fontSize: btnSized,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.normal),
                         ),
                       ],
                     )),
@@ -111,6 +120,7 @@ class _DashboardState extends State<Dashboard>
                   fontSize: 24,
                 ),
               ),
+              SizedBox(height: 2.0.h),
               Text(
                 "$data",
                 textAlign: TextAlign.center,
@@ -315,7 +325,7 @@ class _DashboardState extends State<Dashboard>
                                           "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
                                       msg:
                                           "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                                      iconColor: Colors.orange,
+                                      iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
                               );
@@ -349,7 +359,7 @@ class _DashboardState extends State<Dashboard>
                                           "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
                                       msg:
                                           "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                                      iconColor: Colors.orange,
+                                      iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
                               ),
@@ -371,7 +381,7 @@ class _DashboardState extends State<Dashboard>
                         Builder(builder: (_) {
                           if (plateModel.platesState == FlowState.Error) {
                             return SecondOptions(
-                              icon: "myTraffic.png",
+                              icon: "myPlate.png",
                               title: "پلاک ها",
                               onPressed: () => openOptionsData(
                                 title: "تعداد پلاک های ثبت شده در سامانه",
@@ -383,7 +393,7 @@ class _DashboardState extends State<Dashboard>
                                           "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
                                       msg:
                                           "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
-                                      iconColor: Colors.orange,
+                                      iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
                               ),
@@ -407,7 +417,7 @@ class _DashboardState extends State<Dashboard>
                           if (staffInfoModel.staffLoadState ==
                               FlowState.Error) {
                             return SecondOptions(
-                              icon: "myPlate.png",
+                              icon: "myLastLocation.png",
                               title: "جایگاه",
                               onPressed: () => openOptionsData(
                                 title: "عدم اتصال به شبکه",
@@ -431,8 +441,7 @@ class _DashboardState extends State<Dashboard>
                                     title: "جایگاه",
                                     onPressed: () => openOptionsData(
                                       title: "جایگاه فعلی وسیله نقلیه شما",
-                                      data:
-                                          "${staffInfoModel.staffInfo["location"]}",
+                                      data: finalCarSlotLocation(),
                                       onPressedNavigationButton: () {
                                         widget.navigateToPlatesTab();
                                         Navigator.pop(context);
@@ -574,7 +583,7 @@ class SecondOptions extends StatelessWidget {
               style: TextStyle(
                 fontFamily: mainFaFontFamily,
                 fontWeight: FontWeight.w600,
-                fontSize: 10.0.sp,
+                fontSize: 14,
               ),
               textAlign: TextAlign.center,
             ),

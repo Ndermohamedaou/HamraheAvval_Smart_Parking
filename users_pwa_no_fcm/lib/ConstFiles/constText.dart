@@ -5,6 +5,16 @@ const connectionFailed =
 
 const welcomeTitle = "خوش آمدید";
 
+// Status of weekReservedTab:
+const weeklyReserveText = "هفته ای";
+const staticReserveText = "ثابت";
+const instantReserveText = "لحظه ای";
+const unknownReserve = "نامشخص";
+const dateOfReserve = "تاریخ ورود";
+const reserveTypeText = "نوع رزرو";
+const buildingNameText = "ساختمان";
+const slotNameText = "جایگاه";
+
 const notValidPassText = "گذرواژه نامعتبر";
 const passwordCheckerText =
     "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد";
@@ -53,7 +63,7 @@ const notMatch = "گذرواژه های باهم یکسان نیستند";
 const serverNotResponse = "مشکلی از سوی سرور رخ داده است";
 const confirmLogin = "تایید اطلاعات";
 const userEmailLbl = "آدرس ایمیل";
-const String causeOfEmail = 'برای بازنشانی گذرواژه ایمیل خود را وارد کنید';
+const changeDefaultPassword = "گذرواژه پیش فرض خود را ویرایش کنید";
 // Dark Mode message
 const themeMsg = "یک حالت را انتخاب کنید";
 
@@ -98,14 +108,13 @@ const delText = 'پاک کردن';
 const cancelText = 'لغو';
 
 // Reserve
-const String reserveTextTitle = "لیست رزروها";
+const String reserveTextTitle = "لیست روز های رزرو شده";
 const String weekCategoriesTextTitle = "لیست هفته های رزرو شده";
 const String startWeekDaysFrom = "شروع هفته از تاریخ";
 const String noReserveThere = "!شما رزروی ندارید";
 const String dataEntryInCorrect = "ورودی اطلاعات ناقص است";
-const titleOfReserve = "رزرو شما با موفقیت انجام شد";
-const resultOfReserve =
-    "رزرو شما در تاریخ انتخابی ثبت و درحال بررسی می باشد. در صورت تایید به شما اعلام خواهد شد";
+const titleOfReserve = "عملیات موفقیت آمیز بود";
+const resultOfReserve = "عملیات روی رزرو شما با موفقیت انجام شد";
 const titleOfFailedReserve = "فرایند رزرو با شکست رو به رو شد";
 const descOfFailedReserve =
     "شما نمیتوانید در یک روز چند رزرو داشته باشید. لطفا روز دیگری را انتخاب کنید";
@@ -156,6 +165,7 @@ const sendSuccessful = "آواتار شما تا چند ثانیه دیگر ثب
 const sendFailed = "آواتار جدید ثبت نشد";
 const sendServerFailed = "آواتار در سرور ثبت نشد";
 const sendDenied = "ثبت تصویر جدید لغو شد";
+const reserveWasCanceled = "رزرو لغو شده است";
 const chPass = "تغییر گذرواژه";
 
 // Adding Plate section texts
@@ -205,21 +215,21 @@ const minePlateDescText =
 const familyPlateTitleText = "پلاک برای افراد درجه یک است";
 const familyPlateDscText =
     "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر شناسنامه پدر، مادر، همسر و یا فرزندان و کارت وسیله نقلیه، برای سامانه ارسال کنید";
-const otherPlateText = "پلاک برای من نیست";
+const otherPlateText = "پلاک برای سایر افراد است";
 const otherPlateDscText =
     "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را در سامانه وارد کرده و به صورت حضوری مراجعه نمایید تا فرایند ثبت پلاک شما با موفقیت انجام شود";
 
 // - Section App Bar
 const addPlateNumAppBar = "شماره پلاک را وارد کنید";
 // const nationalCardAppBar = "تصویر کارت ملی شما";
-const nationalCardAppBar = "تصویر شناسنامه شما";
+const nationalCardAppBar = "تصویر شناسنامه مالک";
 const carCardAppBar = "تصویر کارت ماشین یا برگ سبز";
 const ownerNationalCardAppBar = "تصویر کارت ملی مالک وسیله نقلیه";
 const ownerCarCardAppBar = "تصویر کارت ماشین یا برگ سبز ";
 
 // Attention in page view
 const attentionToConfidance =
-    "تا آنجایی که میتوانید سعی کنید تصویرتان را به صورت کامل از کارت خواسته شده بگیرید";
+    "تا آنجایی که میتوانید سعی کنید تصویرتان را به صورت کامل از سند خواسته شده بگیرید";
 const captureImage = "گرفتن تصویر";
 const useAlbumImage = "بازکردن آلبوم";
 

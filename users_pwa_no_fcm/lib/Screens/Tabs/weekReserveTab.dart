@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -10,10 +8,13 @@ import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/instentReserveController.dart';
-import 'package:payausers/Model/streamAPI.dart';
+import 'package:payausers/controller/specific_reserve_type.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
@@ -35,27 +36,27 @@ class WeekReservedTab extends StatefulWidget {
 int filtered = 0;
 ReserveWeeks reserveWeeks;
 ReservesByWeek reservesByWeek;
-// Timer _onRefreshReservesPerMin;
+InstantReserveModel instantReserveModel;
 List selectedDays = [];
+List selectChipList = [];
+List<Widget> chipsDate = [];
+List<bool> selectedDaysAsBool = [];
 
 class _WeekReservedTabState extends State<WeekReservedTab>
     with AutomaticKeepAliveClientMixin {
-  // Timer for refresh in a min, if data had any change.
   @override
   void initState() {
     getAWeek();
-    // _onRefreshReservesPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
-    //   reservesModel.fetchReservesData;
-    // });
     super.initState();
   }
 
   @override
   void dispose() {
-    // _onRefreshReservesPerMin.cancel();
     selectedDays = [];
     super.dispose();
   }
+
+  List<String> loadNextWeekDays = [];
 
   void getAWeek() {
     /// Get next week that will start with Saturday.
@@ -68,10 +69,14 @@ class _WeekReservedTabState extends State<WeekReservedTab>
     var firstOfTheWeek = now - weekDay + 8;
     for (var i = 0; i < 5; i++) {
       final date = firstOfTheWeek + i;
+      // Create zero before date;
+      final correctMonth = date.month < 10 ? '0${date.month}' : date.month;
+      final correctDate = date.day < 10 ? '0${date.day}' : date.day;
+
       selectedDays.add({
-        "value": "${date.year}-${date.month}-${date.day}",
+        "value": "${date.year}-$correctMonth-$correctDate",
         "label":
-            "${date.formatter.wN} ${date.formatter.d.toPersianDigit()} ${date.formatter.mN} ${date.formatter.yy.toPersianDigit()}"
+            "${date.formatter.wN} ${date.formatter.d.toPersianDigit()} ${date.formatter.mN} ${date.formatter.yyyy.toPersianDigit()}"
       });
     }
   }
@@ -84,19 +89,18 @@ class _WeekReservedTabState extends State<WeekReservedTab>
     reserveWeeks = Provider.of<ReserveWeeks>(context);
     reservesModel = Provider.of<ReservesModel>(context);
     reservesByWeek = Provider.of<ReservesByWeek>(context);
-    // StreamAPI only for Instant reserve per 30 second
-    StreamAPI streamAPI = StreamAPI();
-    ApiAccess api = ApiAccess();
+    instantReserveModel = Provider.of<InstantReserveModel>(context);
 
-    // print(reservesModel.reserves["reserved_days"]);
-    // [date1, date2, etc...]
-
+    // Getting local data.
+    final localData = Provider.of<AvatarModel>(context);
+    ApiAccess api = ApiAccess(localData.userToken);
     // UI loading or Error Class
     LogLoading logLoadingWidgets = LogLoading();
     // Prepare class for getting right plate from database
-    // PreparedPlate preparedPlate = PreparedPlate();
     // Controller of Instant reserve
     InstantReserve instantReserve = InstantReserve();
+    // Checking type of reserve.
+    SpecificReserveType specificReserveType = SpecificReserveType();
 
     void filterSection() {
       showMaterialModalBottomSheet(
@@ -171,80 +175,172 @@ class _WeekReservedTabState extends State<WeekReservedTab>
       );
     }
 
-    void _showMultiSelect(BuildContext context) async {
-      // Preparing list of one next week.
-      final listOfDays = selectedDays
-          .map((day) => MultiSelectItem(day["value"], day["label"].toString()))
-          .toList();
+    // Reserve by select chips
+    reserveByChips(String date) async {
+      Endpoint reserveEndpoint =
+          apiEndpointsMap["reserveEndpoint"]["changeDailyReserveStatus"];
 
-      await showModalBottomSheet(
-        isScrollControlled: true, // required for min/max child size
-        context: context,
-        builder: (ctx) {
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: MultiSelectBottomSheet(
-              items: listOfDays,
-              listType: MultiSelectListType.CHIP,
-              initialValue: reservesModel.reserves["reserved_days"],
-              onSelectionChanged: (change) {
-                print(change);
-              },
-              onConfirm: (values) async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                final userToken = prefs.getString("token");
-                final res =
-                    await api.reserveByUser(token: userToken, days: values);
-                if (res == "200") {
-                  // If reserve was successful, then update reserves model for getting
-                  // New week date list.
-                  reservesModel.fetchReservesData;
-                  // After getting list of week date, we need to update our week reserve list.
-                  // For exp: [week1, week2, week3, etc...]
-                  reserveWeeks.fetchReserveWeeks;
-                  rAlert(
-                      context: context,
-                      onTapped: () => Navigator.pop(context),
-                      tAlert: AlertType.success,
-                      title: titleOfReserve,
-                      desc: resultOfReserve);
-                } else
-                  rAlert(
-                      context: context,
-                      onTapped: () => Navigator.pop(context),
-                      tAlert: AlertType.warning,
-                      title: titleOfFailedReserve,
-                      desc: descOfFailedReserve);
-              },
-              selectedColor: mainCTA,
-              itemsTextStyle:
-                  TextStyle(fontFamily: mainFaFontFamily, fontSize: 20.0),
-              selectedItemsTextStyle: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                  fontFamilyFallback: [mainFaFontFamily],
-                  fontSize: 20.0,
-                  color: Colors.white),
-              maxChildSize: 0.8,
-              title: Text("انتخاب یک یا چند روز از هفته",
-                  textAlign: TextAlign.right,
-                  style:
-                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 25.0)),
-              cancelText: Text("انصراف",
-                  style:
-                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 24.0)),
-              confirmText: Text("تایید",
-                  style:
-                      TextStyle(fontFamily: mainFaFontFamily, fontSize: 18.0)),
+      try {
+        final result = await api.requestHandler(
+            "${reserveEndpoint.route}?date=$date", reserveEndpoint.method, {});
+
+        if (result == "200") {
+          // If reserve was successful, then update reserves model for getting
+          // New week date list.
+          reservesModel.fetchReservesData;
+          // After getting list of week date, we need to update our week reserve list.
+          // For exp: [week1, week2, week3, etc...]
+          reserveWeeks.fetchReserveWeeks;
+
+          Navigator.pop(context);
+          rAlert(
+              context: context,
+              onTapped: () => Navigator.pop(context),
+              tAlert: AlertType.success,
+              title: titleOfReserve,
+              desc: resultOfReserve);
+        } else if (result == "501")
+          rAlert(
+              context: context,
+              onTapped: () => Navigator.pop(context),
+              tAlert: AlertType.warning,
+              title: "شکست در فرآیند رزرو",
+              desc:
+                  "شما پلاک تایید شده ای در سامانه ندارید. لطفا قبل از رزرو پلاک مورد نظر خود را وارد نمایید");
+        else
+          rAlert(
+              context: context,
+              onTapped: () => Navigator.pop(context),
+              tAlert: AlertType.warning,
+              title: titleOfFailedReserve,
+              desc: descOfFailedReserve);
+      } catch (e) {
+        rAlert(
+            context: context,
+            onTapped: () => Navigator.pop(context),
+            tAlert: AlertType.error,
+            title: "شکست در انجام عملیات",
+            desc:
+                "رزرو شما انجام نشد. لطفا ارتباط خود را با سرویس دهنده بررسی کنید.");
+      }
+    }
+
+    // Fetching data from server to render date chips
+    prepareChips() {
+      // print("This is ==> ${reservesModel.reserves["reserved_days"]}");
+      setState(() {
+        selectedDaysAsBool = [];
+        chipsDate = [];
+      });
+      for (var i = 0; i < selectedDays.length; i++) {
+        // Checking next week days contained reserve_days API [data].
+        // If was contain will return true, else false.
+        try {
+          selectedDaysAsBool.add(reservesModel.reserves["reserved_days"]
+              .contains(selectedDays[i]["value"]));
+        } catch (e) {
+          // Catch for network connection lost.
+          selectedDaysAsBool.add(false);
+        }
+      }
+
+      for (int i = 0; i < selectedDays.length; i++) {
+        chipsDate.add(Container(
+          margin: EdgeInsets.symmetric(horizontal: 5.0),
+          child: FilterChip(
+            label: Text(
+              selectedDays[i]["label"],
+              style: TextStyle(fontSize: 20.0, fontFamily: mainFaFontFamily),
             ),
+            selected: selectedDaysAsBool[i],
+            selectedColor: mainCTA,
+            onSelected: (bool value) async {
+              setState(() {
+                selectedDaysAsBool[i] = !selectedDaysAsBool[i];
+              });
+              reserveByChips(selectedDays[i]["value"]);
+            },
+          ),
+        ));
+      }
+    }
+
+    reserveBottomSheet() async {
+      prepareChips();
+      showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                controller: ModalScrollController.of(context),
+                child: Column(
+                  children: [
+                    SizedBox(height: 1.0.h),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          Text("انتخاب یک یا چند روز از هفته",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  fontFamily: mainFaFontFamily,
+                                  fontSize: 22.0)),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 2.0.h),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: chipsDate,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 2.0.h),
+                    Container(
+                      width: double.infinity,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      child: Material(
+                        elevation: 10.0,
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: mainSectionCTA,
+                        child: MaterialButton(
+                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(
+                            "بستن",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: mainFaFontFamily,
+                                fontSize: btnSized,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 2.0.h),
+                  ],
+                ),
+              );
+            },
           );
         },
       );
     }
 
-    void instentReserveProcess() async {
+    instentReserveProcess() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final token = prefs.getString("token");
-
       final result = await instantReserve.instantReserve(token: token);
 
       if (result != "") {
@@ -269,10 +365,11 @@ class _WeekReservedTabState extends State<WeekReservedTab>
       }
     }
 
-    // Instant reserve in Modal
     instantResrver() {
       // Create new time now
       DateTime dateTime = DateTime.now();
+
+      // Create now DateTime to ensure user from choice.
       final timeNow = "${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
 
       customAlert(
@@ -290,6 +387,16 @@ class _WeekReservedTabState extends State<WeekReservedTab>
           ignorePressed: () => Navigator.pop(context));
     }
 
+    // Getting Reserve Weeks as reversed list.
+    List reserveWeeksList = reserveWeeks.finalReserveWeeks.toList();
+
+    // Calculate item count of ListView:
+    final listViewItemCount = filtered == 0
+        ? reserveWeeksList.length
+        : reserveWeeksList.length > filtered
+            ? filtered
+            : reserveWeeksList.length;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -300,25 +407,9 @@ class _WeekReservedTabState extends State<WeekReservedTab>
         actions: [
           IconButton(
             icon: Icon(Icons.filter_list),
-            onPressed:
-                reservesModel.reserves.isEmpty ? null : () => filterSection(),
-          ),
-          StreamBuilder(
-            stream: streamAPI.getUserCanInstantReserveReal(),
-            builder: (BuildContext context, snapshot) {
-              if (snapshot.hasData) {
-                Map status = jsonDecode(snapshot.data);
-                IconButton(
-                    icon: Icon(Icons.timelapse),
-                    onPressed:
-                        status["status"] == 1 ? () => instantResrver() : null);
-              }
-
-              if (snapshot.hasError)
-                return SizedBox();
-              else
-                return SizedBox();
-            },
+            onPressed: reserveWeeks.finalReserveWeeks.isEmpty
+                ? null
+                : () => filterSection(),
           ),
           IconButton(
             icon: Icon(
@@ -328,6 +419,12 @@ class _WeekReservedTabState extends State<WeekReservedTab>
           ),
         ],
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.timer),
+          onPressed: instantReserveModel.canInstantReserve == 1
+              ? () => instantResrver()
+              : null,
+        ),
         title: Text(
           weekCategoriesTextTitle,
           textAlign: TextAlign.center,
@@ -352,9 +449,6 @@ class _WeekReservedTabState extends State<WeekReservedTab>
                     if (reserveWeeks.reserveWeeksState == FlowState.Error)
                       return logLoadingWidgets.internetProblem;
 
-                    List reserveWeeksList =
-                        reserveWeeks.finalReserveWeeks.toList();
-
                     if (reserveWeeksList.isEmpty)
                       return logLoadingWidgets.notFoundReservedData(
                           msg: "رزرو");
@@ -375,37 +469,15 @@ class _WeekReservedTabState extends State<WeekReservedTab>
                         ListView.builder(
                           shrinkWrap: true,
                           primary: false,
-                          itemCount: filtered == 0
-                              ? reserveWeeksList.length
-                              : reserveWeeksList.length > filtered
-                                  ? filtered
-                                  : reserveWeeksList.length,
+                          itemCount: listViewItemCount,
                           itemBuilder: (BuildContext context, index) {
                             return SingleChildScrollView(
-                              child: (Column(
-                                children: [
-                                  ReserveHistoryView(
-                                    historyBuildingName: reserveWeeksList[index]
-                                                ["building"] !=
-                                            null
-                                        ? reserveWeeksList[index]["building"]
-                                        : "",
-                                    reserveStatusColor: reserveWeeksList[index]
-                                        ['status'],
-                                    historySlotName: reserveWeeksList[index]
-                                        ["slot"],
-                                    historyStartTime: reserveWeeksList[index]
-                                        ["week"],
-                                    historyEndTime: null,
-                                    onPressed: () {
-                                      // print(reserveWeeksList[index]["week"]);
-                                      reservesByWeek.setStartDate =
-                                          reserveWeeksList[index]["week"];
-                                      Navigator.pushNamed(
-                                          context, "/reservedTab");
-                                    },
-                                  ),
-                                ],
+                              child: (WeekList(
+                                reserveWeeksList: reserveWeeksList,
+                                index: index,
+                                reserveType:
+                                    specificReserveType.checkReserveTypeString(
+                                        reserveWeeksList[index]["type"]),
                               )),
                             );
                           },
@@ -427,7 +499,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
           borderRadius: BorderRadius.circular(100.0),
           color: mainSectionCTA,
           child: MaterialButton(
-            onPressed: () => _showMultiSelect(context),
+            onPressed: () => reserveBottomSheet(),
             child: Row(
               textDirection: TextDirection.rtl,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -452,4 +524,39 @@ class _WeekReservedTabState extends State<WeekReservedTab>
 
   @override
   bool get wantKeepAlive => true;
+}
+
+// List of every weeks.
+class WeekList extends StatelessWidget {
+  const WeekList(
+      {@required this.reserveWeeksList,
+      @required this.index,
+      this.reserveType});
+
+  final List reserveWeeksList;
+  final int index;
+  final String reserveType;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ReserveHistoryView(
+          historyBuildingName: reserveWeeksList[index]["building"] ?? "",
+          reserveStatusColor: reserveWeeksList[index]["status"] ?? "",
+          historySlotName: reserveWeeksList[index]["slot"] ?? "",
+          historyStartTime: reserveWeeksList[index]["week"] ?? "",
+          reserveType: reserveType,
+          onPressed: () {
+            if (reserveWeeksList[index]["type"] == "list") {
+              return null;
+            } else if (reserveWeeksList[index]["type"] == "weekly") {
+              reservesByWeek.setStartDate = reserveWeeksList[index]["week"];
+              Navigator.pushNamed(context, "/reservedTab");
+            }
+          },
+        ),
+      ],
+    );
+  }
 }

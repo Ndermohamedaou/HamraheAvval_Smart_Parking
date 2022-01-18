@@ -27,6 +27,7 @@ class _AddingPlateIntroState extends State<AddingPlateIntro> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           "ثبت پلاک به همراه اسناد",
           textAlign: TextAlign.center,
@@ -117,7 +118,7 @@ class AddPlateOption extends StatelessWidget {
             height: 10,
           ),
           UploadDocumentMethod(
-            title: familyPlateTitleText,
+            title: otherPlateText,
             iconLeading: "assets/images/other.png",
             onPressd: () => Navigator.pushNamed(context, "/addingOtherPlate"),
           ),

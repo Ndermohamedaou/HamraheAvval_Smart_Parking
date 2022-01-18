@@ -101,36 +101,39 @@ class ReserveInDetails extends StatelessWidget {
           ],
         ),
         SizedBox(height: 2.0.h),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Material(
-            elevation: 10.0,
-            borderRadius: BorderRadius.circular(8.0),
-            color: Colors.red,
-            child: MaterialButton(
-                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () => delReserve(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    Text(
-                      "لغو کردن رزرو",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: loginBtnTxtColor,
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    )
-                  ],
-                )),
-          ),
-        ),
+        // Check if reserve was canceled you don't show any button to cancel again.
+        reserveStatusDesc == -2
+            ? SizedBox()
+            : Container(
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Material(
+                  elevation: 10.0,
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Colors.red,
+                  child: MaterialButton(
+                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: () => delReserve(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          Text(
+                            "لغو کردن رزرو",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: loginBtnTxtColor,
+                                fontFamily: mainFaFontFamily,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.normal),
+                          ),
+                          Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          )
+                        ],
+                      )),
+                ),
+              ),
       ],
     );
   }
@@ -153,7 +156,7 @@ class CustomTitle extends StatelessWidget {
         children: [
           Text(
             textTitle,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.right,
             style: TextStyle(
                 fontFamily: mainFaFontFamily, fontSize: 20.0, fontWeight: fw),
           ),

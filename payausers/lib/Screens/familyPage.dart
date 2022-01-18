@@ -9,11 +9,13 @@ import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/cardEntry.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/Plate.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/validate_plate.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +31,7 @@ AddPlateProc addPlateProc = AddPlateProc();
 FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
 ImageConvetion imageConvetion = ImageConvetion();
+AvatarModel localData;
 
 // Providers
 PlatesModel plateModel;
@@ -74,7 +77,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     final image = await ImagePicker.pickImage(
       source: source,
     );
-    if (imageConvetion.imgSizeChecker(image)) if (image != null)
+
+    if (image != null)
       setState(() => ncCard = image);
     else
       showStatusInCaseOfFlushBottom(
@@ -83,14 +87,6 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         iconColor: Colors.white,
         title: ignoreToPickImageFromSystemDesc,
         msg: ignoreToPickImageFromSystemTitle,
-      );
-    else
-      showStatusInCaseOfFlushBottom(
-        context: context,
-        icon: Icons.close,
-        iconColor: Colors.white,
-        title: imageIgnoredByHugeSizeTitle,
-        msg: imageIgnoredByHugeSizeDesc,
       );
   }
 
@@ -119,7 +115,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       source: source,
     );
 
-    if (imageConvetion.imgSizeChecker(image)) if (image != null)
+    if (image != null)
       setState(() => ownerCarCard = image);
     else
       showStatusInCaseOfFlushBottom(
@@ -128,14 +124,6 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         iconColor: Colors.white,
         title: ignoreToPickImageFromSystemDesc,
         msg: ignoreToPickImageFromSystemTitle,
-      );
-    else
-      showStatusInCaseOfFlushBottom(
-        context: context,
-        icon: Icons.close,
-        iconColor: Colors.white,
-        title: imageIgnoredByHugeSizeTitle,
-        msg: imageIgnoredByHugeSizeDesc,
       );
   }
 
@@ -160,20 +148,22 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         setState(() => isAddingDocs = false);
         final uToken = await lds.read(key: "token");
         // Preparing plate number for send to server
-        List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
         // Convert byte image to base64 image
         String _selfMelliImg = await imageConvetion.checkSize(nationalCardImg);
-        // String _ownerMelliImg =
-        //     await imgConvertor.img2Base64(ownerNationalCard);
         String _ownerCarCard = await imageConvetion.checkSize(ownerCarCard);
 
-        // Seding data
-        int result = await addPlateProc.familyPlateReq(
-            token: uToken,
-            plate: lsPlate,
-            selfMelli: _selfMelliImg,
-            // ownerMelli: _ownerMelliImg,
-            ownerCarCard: _ownerCarCard);
+        // Preparing plate number for sending to the server
+        PlateStructure plate = PlateStructure(plate0, plate1, plate2, plate3);
+
+        int result = await addPlateProc.uploadDocument(
+          token: uToken,
+          plate: plate,
+          type: "family",
+          data: {
+            "melli_card_image": _selfMelliImg,
+            "car_card_image": _ownerCarCard
+          },
+        );
 
         // If all documents sent successfully
         // You will see successfull flush message from top of the phone
@@ -257,45 +247,16 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     }
   }
 
-  Future<Map> isPlateValid() async {
-    ApiAccess api = ApiAccess();
-
-    bool plateNumberOk =
-        plate0.length == 2 && plate2.length == 3 && plate3.length == 2;
-
-    final uToken = await lds.read(key: "token");
-    Map checkedPlate = await api.checkPlateExistence(
-        token: uToken,
-        plate: [plate0, alp.getAlphabet()[_value].item, plate2, plate3]);
-
-    Map message = {
-      "plateNumber": plateNumberOk,
-      "plateExist": checkedPlate["status"] == "200" ? true : false,
-      "title": !plateNumberOk
-          ? isPlateValidTitle
-          : checkedPlate["status"] == "409"
-              ? isPlateExistTitle
-              : "",
-      "desc": !plateNumberOk
-          ? isPlateValidDesc
-          : checkedPlate["status"] == "409"
-              ? isPlateExistDesc
-              : "",
-    };
-
-    print(message);
-
-    return message;
-  }
-
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     plateModel = Provider.of<PlatesModel>(context);
+    localData = Provider.of<AvatarModel>(context);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           appBarTitle[pageIndex],
           textAlign: TextAlign.center,
@@ -381,7 +342,10 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     /// Next page has a plate number validator and when it's not valid
     /// we will show error message to complete user plate.
 
-    final result = await isPlateValid();
+    ValidatePlate plateValidation = ValidatePlate();
+
+    final result = await plateValidation.isPlateValid(plate0,
+        alp.getAlphabet()[_value].item, plate2, plate3, localData.userToken);
     if (pageIndex < 2) {
       if (pageIndex == 0)
         result["plateNumber"] && result["plateExist"]

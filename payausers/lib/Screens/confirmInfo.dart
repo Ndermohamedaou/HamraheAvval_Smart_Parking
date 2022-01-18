@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'package:sizer/sizer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/SavingData.dart';
@@ -10,6 +10,7 @@ import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
@@ -24,11 +25,11 @@ Map<String, Object> modalRoute;
 File imgSource;
 String password = "";
 String rePassword = "";
-dynamic emptyTextFieldErrEmailCode = null;
-dynamic emptyTextFieldErrEmail = null;
-dynamic emptyTextFieldErrPassword = null;
-dynamic emptyTextFieldErrRePassword = null;
-ApiAccess api = ApiAccess();
+dynamic emptyTextFieldErrEmailCode;
+dynamic emptyTextFieldErrEmail;
+dynamic emptyTextFieldErrPassword;
+dynamic emptyTextFieldErrRePassword;
+
 FlutterSecureStorage lds = FlutterSecureStorage();
 SavingData savingData = SavingData();
 ImageConvetion imgConvertor = ImageConvetion();
@@ -70,15 +71,16 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     // Getting Arguments from login page all about user info.
     modalRoute = ModalRoute.of(context).settings.arguments;
-
     userInfo = modalRoute["userInfo"];
     final currentPass = modalRoute["curPass"];
     final uToken = modalRoute["token"];
+    // Sending token to constructor of ApiAccess class.
+    ApiAccess api = ApiAccess(uToken);
+    // print(uToken);
 
-    // print(userInfo);
+    void gettingLogin({curPass, pass, rePass, avatar}) async {
+      final _img64 = await imgConvertor.checkSize(avatar);
 
-    void gettingLogin({uToken, curPass, pass, rePass, avatar}) async {
-      final _img64 = await imgConvertor.img2Base64(avatar);
       if (pass != "" && rePass != "") {
         if (pass.length >= 6 && rePass.length >= 6) {
           if (pass == rePass) {
@@ -88,14 +90,26 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
             if (testPass && testRePass) {
               try {
                 setState(() => isConfirm = true);
-                final result = await api.updateStaffInfoInConfrimation(
-                    token: uToken,
-                    curPass: curPass,
-                    newPass: pass,
-                    avatar: _img64);
-                if (result == "200") {
+
+                Endpoint updateStaffInfoEndpoint =
+                    apiEndpointsMap["auth"]["updateStaffInfo"];
+
+                final result = await api.requestHandler(
+                    updateStaffInfoEndpoint.route,
+                    updateStaffInfoEndpoint.method, {
+                  "avatar": _img64,
+                  "current_password": curPass,
+                  "new_password": pass,
+                });
+
+                if (result["status"] == "200") {
                   // Saving data to local
-                  Map staffInfo = await api.getStaffInfo(token: uToken);
+                  Endpoint staffInfoEndpoint =
+                      apiEndpointsMap["auth"]["staffInfo"];
+
+                  Map staffInfo = await api.requestHandler(
+                      staffInfoEndpoint.route, staffInfoEndpoint.method, {});
+
                   bool result = await savingData.LDS(
                     token: uToken,
                     user_id: staffInfo["user_id"],
@@ -119,11 +133,12 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   }
                 }
               } catch (e) {
+                print(e);
                 setState(() => isConfirm = false);
                 showStatusInCaseOfFlush(
                     context: context,
-                    title: "",
-                    msg: e.toString(),
+                    title: "خطا در ارسال اطلاعات",
+                    msg: "مشکلی در ارتباط با سرویس دهنده رخ داده است",
                     icon: Icons.workspaces_outline,
                     iconColor: Colors.white);
               }
@@ -179,52 +194,43 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: defaultAppBarColor,
+        centerTitle: true,
+        title: Text(
+          "تکمیل اطلاعات اولیه",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: mainFaFontFamily,
+            fontSize: subTitleSize,
+            color: Colors.black,
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "سلام، خوش آمدی",
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 20,
-                            color: HexColor("#8B8B8B"),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        userInfo['name'],
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              SizedBox(height: 2.0.h),
               CircleAvatar(
                 radius: circleAvatarRadiusSize,
                 backgroundImage: imgSource != null
                     ? FileImage(imgSource)
                     : NetworkImage(userInfo['avatar']),
                 child: Container(
-                  margin: EdgeInsets.only(top: 150, left: 100),
+                  margin: EdgeInsets.only(top: 100, left: 80),
                   child: ClipOval(
                     child: Material(
-                      color: Colors.blue, // button color
+                      color: mainSectionCTA, // button color
                       child: InkWell(
                         splashColor: Colors.black, // inkwell color
                         child: SizedBox(
-                            width: 46,
-                            height: 46,
+                            width: 40,
+                            height: 40,
                             child: Icon(
                               Icons.add,
                               color: Colors.white,
@@ -236,28 +242,15 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 ),
               ),
               SizedBox(height: 30),
-              MaterialButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, "/addingPlateIntro"),
-                color: mainSectionCTA,
-                child: Text(
-                  "اولین پلاک را در حساب خود وارد کنید",
-                  style: TextStyle(
-                      fontFamily: mainFaFontFamily, color: Colors.white),
-                  textAlign: TextAlign.right,
-                ),
-              ),
-              SizedBox(height: 30),
               Container(
-                alignment: Alignment.topRight,
-                margin: EdgeInsets.fromLTRB(0, 10, 40, 0),
+                alignment: Alignment.centerRight,
+                margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  causeOfEmail,
+                  changeDefaultPassword,
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     fontFamily: mainFaFontFamily,
-                    fontSize: 16,
-                    color: Colors.grey,
+                    fontSize: 20.0,
                   ),
                 ),
               ),
@@ -321,6 +314,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   });
                 },
               ),
+              SizedBox(height: 2.0.h),
             ],
           ),
         ),
@@ -336,7 +330,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               onPressed: () {
                 !isConfirm
                     ? gettingLogin(
-                        uToken: uToken,
                         curPass: currentPass,
                         pass: password,
                         rePass: rePassword,
@@ -355,7 +348,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                               color: loginBtnTxtColor,
                               fontFamily: mainFaFontFamily,
                               fontSize: btnSized,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.normal),
                         ),
                   Icon(
                     Icons.chevron_right,

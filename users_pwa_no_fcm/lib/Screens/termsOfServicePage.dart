@@ -86,6 +86,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
         ),
       ),
       bottomNavigationBar: BottomButton(
+        color: mainCTA,
         text: acceptedTerms ? finalLoginText : mustAcceptTerms,
         hasCondition: acceptedTerms,
         ontapped: goToLogin,

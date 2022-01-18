@@ -1,6 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
+import 'package:payausers/config_nonweb.dart';
+import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/staffInfo_model.dart';
@@ -38,10 +40,10 @@ import 'Screens/settings.dart';
 import 'Screens/readTermsOfService.dart';
 import 'Screens/changePassword.dart';
 import 'Screens/loginCheckout.dart';
-import 'Screens/reservePageEdit.dart';
 import 'Screens/pageLengthIndex.dart';
 
 void main() async {
+  configApp();
   runApp(MyApp());
 
   /// Getting Device Token of every user from their device
@@ -140,43 +142,34 @@ class _MyAppState extends State<MyApp> {
         SizerUtil().init(constraints, orientation);
         return MultiProvider(
           providers: [
-            ChangeNotifierProvider(
+            ChangeNotifierProvider<DarkThemeProvider>(
               create: (_) {
                 return themeChangeProvider;
               },
             ),
-            ChangeNotifierProvider<StaffInfoModel>(create: (_) {
-              return StaffInfoModel();
-            }),
+            ChangeNotifierProvider<StaffInfoModel>(
+              create: (_) => StaffInfoModel(),
+            ),
             ChangeNotifierProvider<AvatarModel>(
-              create: (_) {
-                return AvatarModel();
-              },
+              create: (_) => AvatarModel(),
             ),
             ChangeNotifierProvider<ReservesModel>(
-              create: (_) {
-                return ReservesModel();
-              },
+              create: (_) => ReservesModel(),
             ),
             ChangeNotifierProvider<ReservesByWeek>(
-              create: (_) {
-                return ReservesByWeek();
-              },
+              create: (_) => ReservesByWeek(),
             ),
             ChangeNotifierProvider<ReserveWeeks>(
-              create: (_) {
-                return ReserveWeeks();
-              },
+              create: (_) => ReserveWeeks(),
             ),
             ChangeNotifierProvider<TrafficsModel>(
-              create: (_) {
-                return TrafficsModel();
-              },
+              create: (_) => TrafficsModel(),
             ),
             ChangeNotifierProvider<PlatesModel>(
-              create: (_) {
-                return PlatesModel();
-              },
+              create: (_) => PlatesModel(),
+            ),
+            ChangeNotifierProvider<InstantReserveModel>(
+              create: (_) => InstantReserveModel(),
             )
           ],
           child: Consumer<DarkThemeProvider>(
@@ -219,7 +212,6 @@ class _MyAppState extends State<MyApp> {
                   '/settings': (context) => SettingsPage(),
                   '/readTermsOfService': (context) => ReadTermsOfService(),
                   '/changePassword': (context) => ChangePassPage(),
-                  '/reserveEditaion': (context) => ReserveEditaion(),
                   '/listLengthSettingPage': (context) => ChangePageIndex(),
                   '/loadedTimeToChangeAvatar': (context) =>
                       LoadingChangeAvatar(),

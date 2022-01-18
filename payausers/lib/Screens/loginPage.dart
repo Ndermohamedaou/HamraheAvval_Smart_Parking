@@ -3,24 +3,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Model/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:toast/toast.dart';
 
 String personalCode = "";
 String password = "";
-dynamic emptyTextFieldErrPersonalCode = null;
-dynamic emptyTextFieldErrEmail = null;
-dynamic emptyTextFieldErrPassword = null;
+dynamic emptyTextFieldErrPersonalCode;
+dynamic emptyTextFieldErrEmail;
+dynamic emptyTextFieldErrPassword;
 bool isLogin = false;
-
 IconData showMePass = Icons.remove_red_eye;
-
 bool protectedPassword = true;
+ApiAccess api;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -52,8 +53,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final localData = Provider.of<AvatarModel>(context);
     // Accessing to Api
-    ApiAccess api = ApiAccess();
+    api = ApiAccess(localData.userToken);
     // Setting dark theme provider class
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final String mainImgLogoLightMode = "assets/images/mainLogo.png";
@@ -77,9 +79,12 @@ class _LoginPageState extends State<LoginPage> {
       if (email != "" || pass != "") {
         try {
           setState(() => isLogin = true);
-          final getLoginStatus = await api.getAccessToLogin(
-              email: email, password: pass, deviceToken: devToken);
-          // print(getLoginStatus);
+          Endpoint loginEndpoint = apiEndpointsMap["auth"]["login"];
+          final getLoginStatus = await api.requestHandler(
+              "${loginEndpoint.route}?personal_code=$email&password=$pass&DeviceToken=$devToken",
+              loginEndpoint.method, {});
+
+          print(getLoginStatus);
 
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {

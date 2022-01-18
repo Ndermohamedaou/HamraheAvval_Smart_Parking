@@ -1,21 +1,20 @@
 import 'dart:async';
-
 import 'package:badges/badges.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Screens/Tabs/weekReserveTab.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
-import 'package:payausers/controller/gettingLocalData.dart';
-import 'package:payausers/Model/streamAPI.dart';
 import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
@@ -24,7 +23,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
-import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'Tabs/userPlate.dart';
 import 'Tabs/userTraffic.dart';
 
@@ -41,21 +39,29 @@ class _MainoState extends State<Maino> {
   TrafficsModel trafficsModel;
   PlatesModel plateModel;
   AvatarModel avatarModel;
+  StaffInfoModel staffInfoModel;
+  ReserveWeeks reserveWeeks;
+  InstantReserveModel instantReserve;
 
   int tabBarIndex;
   var _pageController;
 
-  ApiAccess api = ApiAccess();
-  LocalDataGetterClass loadLocalData = LocalDataGetterClass();
-  StreamAPI streamAPI = StreamAPI();
   // Check internet connection
   String _connectionStatus = 'Un';
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
+  Timer _onRefreshData;
+
   @override
   void initState() {
     super.initState();
+
+    _onRefreshData = Timer.periodic(Duration(seconds: 30), (Timer t) {
+      // staffInfoModel.fetchStaffInfo;
+      instantReserveModel.fetchInstantReserve;
+    });
+
     // Initialize Connection Subscription
     initConnectivity();
     _connectivitySubscription =
@@ -72,6 +78,7 @@ class _MainoState extends State<Maino> {
     initConnectivity();
     // Close init
     _connectivitySubscription.cancel();
+    _onRefreshData.cancel();
     super.dispose();
   }
 
@@ -102,7 +109,7 @@ class _MainoState extends State<Maino> {
             context: context,
             title: connectionFailedTitle,
             msg: connectionFailed,
-            iconColor: Colors.blue,
+            iconColor: Colors.white,
             icon: Icons.wifi_off_rounded);
         break;
       default:
@@ -118,6 +125,9 @@ class _MainoState extends State<Maino> {
     trafficsModel.fetchTrafficsData;
     plateModel.fetchPlatesData;
     avatarModel.fetchUserAvatar;
+    staffInfoModel.fetchStaffInfo;
+    reserveWeeks.fetchReserveWeeks;
+    instantReserve.fetchInstantReserve;
   }
 
   @override
@@ -128,6 +138,11 @@ class _MainoState extends State<Maino> {
     trafficsModel = Provider.of<TrafficsModel>(context);
     plateModel = Provider.of<PlatesModel>(context);
     avatarModel = Provider.of<AvatarModel>(context);
+    staffInfoModel = Provider.of<StaffInfoModel>(context);
+    reserveWeeks = Provider.of<ReserveWeeks>(context);
+    instantReserveModel = Provider.of<InstantReserveModel>(context);
+
+    print(avatarModel.avatar);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
@@ -195,13 +210,14 @@ class _MainoState extends State<Maino> {
                   },
                 ),
                 UserTraffic(),
-                // ReservedTab(),
                 WeekReservedTab(),
                 UserPlates(),
                 Settings(),
               ],
             ),
           ),
+          // Prevent from bad background of radius in border of tabbar
+          // extendBody: true,
           bottomNavigationBar: Directionality(
             textDirection: TextDirection.rtl,
             child: BottomNavigationBar(

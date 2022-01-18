@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:image/image.dart' as img;
 
@@ -20,13 +19,4 @@ class ImgConversion {
       return "";
     }
   }
-
-  // bool imgSizeChecker(File img) {
-  //   /// Checking image size in MB.
-  //   ///
-  //   /// We need check image size if had more than 1 MB, we will show error to user.
-  //   final imgSize = (img.readAsBytesSync()).lengthInBytes / 1000000;
-  //   print(imgSize);
-  //   return imgSize > 1.0 ? false : true;
-  // }
 }

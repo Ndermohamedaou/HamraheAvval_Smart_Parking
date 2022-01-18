@@ -1,80 +1,34 @@
 import 'package:payausers/Model/ApiAccess.dart';
-
-ApiAccess api = ApiAccess();
+import 'package:payausers/Model/Plate.dart';
+import 'package:payausers/Model/endpoints.dart';
 
 class AddPlateProc {
-  // Self
-  Future<int> minePlateReq({token, List plate, selfMelli, selfCarCard}) async {
-    print(token);
+  Future<int> uploadDocument(
+      {token, String type, PlateStructure plate, data}) async {
+    ApiAccess api = new ApiAccess(token);
     try {
-      final result = await api.addSelfPlate(
-          token: token,
-          lsPlate: plate,
-          // selfMelliCard: selfMelli,
-          selfCarCard: selfCarCard);
+      Endpoint uploadDocumentEndpoint =
+          apiEndpointsMap["plateEndpoint"]["uploadDocuments"];
+      // Getting data from request handler
+      final result = await api.requestHandler(
+          "${uploadDocumentEndpoint.route}?type=$type&plate0=${plate.plate0}&plate1=${plate.plate1}&plate2=${plate.plate2}&plate3=${plate.plate3}",
+          uploadDocumentEndpoint.method,
+          data);
 
-      if (result == "200") {
-        return 200;
-      }
-
-      if (result == "MaxPlateCount") {
-        return 100;
-      }
-
-      if (result == "PlateExists") {
-        return 1;
+      switch (result) {
+        case "200":
+          return 200;
+          break;
+        case "MaxPlateCount":
+          return 100;
+        case "PlateExists":
+          return 1;
+        default:
       }
     } catch (e) {
       print("Erorr from addingaddUserPlat mine plate $e");
       return -1;
     }
-  }
-
-  // Family
-  Future<int> familyPlateReq(
-      {token, List plate, selfMelli, ownerMelli, ownerCarCard}) async {
-    try {
-      final result = await api.addFamilyPlate(
-          token: token,
-          lsPlate: plate,
-          selfMelliCard: selfMelli,
-          // ownerMelliCard: ownerMelli,
-          ownerCarCard: ownerCarCard);
-      if (result == "200") {
-        return 200;
-      }
-
-      if (result == "MaxPlateCount") {
-        return 100;
-      }
-
-      if (result == "PlateExists") {
-        return 1;
-      }
-    } catch (e) {
-      print("Erorr from addingaddUserPlat mine plate $e");
-      return -1;
-    }
-  }
-
-  // Other
-  Future<int> otherPlateReq({token, List plate}) async {
-    try {
-      final result = await api.addOtherPlate(token: token, lsPlate: plate);
-      if (result == "InPersonVisit") {
-        return 200;
-      }
-
-      if (result == "MaxPlateCount") {
-        return 100;
-      }
-
-      if (result == "PlateExists") {
-        return 1;
-      }
-    } catch (e) {
-      print("Erorr from addingaddUserPlat mine plate $e");
-      return -1;
-    }
+    return -1;
   }
 }

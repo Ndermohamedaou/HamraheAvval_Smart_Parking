@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalDataGetterClass {
-  ApiAccess api = ApiAccess();
   Dio dio = Dio();
 
   Future<Map> getStaffInfoFromLocal() async {
@@ -21,8 +21,12 @@ class LocalDataGetterClass {
     String role = prefs.getString("role");
     String lastLogin = prefs.getString("lastLogin");
 
+    ApiAccess api = ApiAccess(userToken);
     try {
-      Map staffInfo = await api.getStaffInfo(token: userToken);
+      Endpoint staffInfoEndpoint = apiEndpointsMap["auth"]["staffInfo"];
+      final staffInfo = await api.requestHandler(
+          staffInfoEndpoint.route, staffInfoEndpoint.method, {});
+
       // Getting server info to check if they had change
       String serverAvatar = staffInfo['avatar'];
       String serverUserId = staffInfo["user_id"];

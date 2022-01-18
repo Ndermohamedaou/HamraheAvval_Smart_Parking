@@ -4,6 +4,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 class ReadTermsOfService extends StatefulWidget {
   const ReadTermsOfService({Key key}) : super(key: key);
@@ -19,15 +20,17 @@ class _ReadTermsOfServiceState extends State<ReadTermsOfService> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(
-          color: themeChange.darkTheme ? Colors.white : Colors.black,
+          color: Colors.black,
         ),
         centerTitle: true,
         title: Text(
           "قوانین و مقررات",
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
-            color: themeChange.darkTheme ? Colors.white : Colors.black,
+            color: Colors.black,
           ),
         ),
       ),
@@ -85,6 +88,9 @@ class AppBarAsNavigate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Getting now date time in jalali DateTime.
+    Jalali now = Jalali.now();
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -106,7 +112,7 @@ class AppBarAsNavigate extends StatelessWidget {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
-                "$termsLastUpdate ${DateTime.now().year}",
+                "$termsLastUpdate ${now.year}",
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: 18,

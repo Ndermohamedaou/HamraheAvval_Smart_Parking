@@ -5,6 +5,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:provider/provider.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 bool acceptedTerms = false;
 
@@ -85,6 +86,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
         ),
       ),
       bottomNavigationBar: BottomButton(
+        color: mainCTA,
         text: acceptedTerms ? finalLoginText : mustAcceptTerms,
         hasCondition: acceptedTerms,
         ontapped: goToLogin,
@@ -100,6 +102,9 @@ class AppBarAsNavigate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Getting now date time in jalali DateTime.
+    Jalali now = Jalali.now();
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -121,7 +126,7 @@ class AppBarAsNavigate extends StatelessWidget {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
-                "$termsLastUpdate ${DateTime.now().year}",
+                "$termsLastUpdate ${now.year}",
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: 18,

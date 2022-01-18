@@ -127,7 +127,7 @@ class _UserTrafficState extends State<UserTraffic>
                         fontFamily: mainFaFontFamily,
                         color: mainCTA,
                         fontSize: 14.0.sp,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.normal,
                       )),
                   Container(
                     margin: EdgeInsets.only(left: 20, top: 10),

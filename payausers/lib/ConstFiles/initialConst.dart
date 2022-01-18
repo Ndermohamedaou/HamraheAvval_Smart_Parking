@@ -47,7 +47,7 @@ HexColor forgetOptionColor = HexColor("#285C9D");
 HexColor lockDownColor = HexColor("#2985F8");
 
 // Confirm
-const double circleAvatarRadiusSize = 100;
+const double circleAvatarRadiusSize = 70;
 
 HexColor appBarColor = HexColor("#216DCD");
 
@@ -72,8 +72,11 @@ const String third_slide = "https://shop.mci.ir";
 
 // API details
 // const baseUrl = "http://188.213.64.78:8000/api";
-const baseUrl = "https://5.106.4.85/api";
+const baseUrl = "https://smartparking.mci.ir/api";
 // Old APIR
 // http://188.213.64.78:8000
 // http://172.16.24.14:8000
-// 5.106.4.85/api
+// https://5.106.4.85/api
+// https://10.110.10.85/api Hamrah
+// https://5.106.4.85/api Irancell
+// https://172.16.48.228/api

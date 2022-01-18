@@ -4,8 +4,11 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/validator/textValidator.dart';
+import 'package:payausers/providers/avatar_model.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class RecoverPassword extends StatefulWidget {
@@ -25,9 +28,9 @@ String otpCode;
 bool _isSubmit;
 dynamic emptyPassCheck = null;
 dynamic emptyRepassCheck = null;
+ApiAccess api;
 
 class RecoverPasswordState extends State<RecoverPassword> {
-  ApiAccess api = ApiAccess();
   @override
   void initState() {
     showMePass = Icons.remove_red_eye;
@@ -59,8 +62,12 @@ class RecoverPasswordState extends State<RecoverPassword> {
             if (testRegexPass && testRegexRePass) {
               setState(() => _isSubmit = false);
 
-              final recoverPasswordResult = await api.recoverUserPassword(
-                  otpCode: otpCode, password: pass);
+              Endpoint otpEndpoint =
+                  apiEndpointsMap["auth"]["otp"]["recoverPassword"];
+
+              final recoverPasswordResult = await api.requestHandler(
+                  "${otpEndpoint.route}?otp_code=$otpCode&password=$pass",
+                  otpEndpoint.method, {});
 
               if (recoverPasswordResult == "200") {
                 setState(() => _isSubmit = true);
@@ -140,8 +147,12 @@ class RecoverPasswordState extends State<RecoverPassword> {
 
   @override
   Widget build(BuildContext context) {
+    // Getting user token from local storage.
+    final localData = Provider.of<AvatarModel>(context);
+    // Passing user token to api.
+    api = ApiAccess(localData.userToken);
     otpCode = ModalRoute.of(context).settings.arguments;
-    print("Your otp code : $otpCode");
+    // print("Your otp code : $otpCode");
     return WillPopScope(
       onWillPop: () async {
         Navigator.popUntil(context, ModalRoute.withName("/login"));

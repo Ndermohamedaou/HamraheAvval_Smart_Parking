@@ -6,15 +6,15 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Screens/Tabs/weekReserveTab.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
-import 'package:payausers/controller/gettingLocalData.dart';
 import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
@@ -22,7 +22,6 @@ import 'package:provider/provider.dart';
 import 'package:payausers/Screens/Tabs/settings.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
@@ -43,13 +42,12 @@ class _MainoState extends State<Maino> {
   PlatesModel plateModel;
   AvatarModel avatarModel;
   StaffInfoModel staffInfoModel;
+  ReserveWeeks reserveWeeks;
+  InstantReserveModel instantReserve;
 
   int tabBarIndex;
   var _pageController;
 
-  ApiAccess api = ApiAccess();
-  LocalDataGetterClass loadLocalData = LocalDataGetterClass();
-  FlutterSecureStorage lds = FlutterSecureStorage();
   // Check internet connection
   String _connectionStatus = 'Un';
   final Connectivity _connectivity = Connectivity();
@@ -61,8 +59,9 @@ class _MainoState extends State<Maino> {
   void initState() {
     super.initState();
 
-    _onRefreshData = Timer.periodic(Duration(minutes: 1), (Timer t) {
-      staffInfoModel.fetchStaffInfo;
+    _onRefreshData = Timer.periodic(Duration(seconds: 30), (Timer t) {
+      // staffInfoModel.fetchStaffInfo;
+      instantReserveModel.fetchInstantReserve;
     });
 
     // Initialize Connection Subscription
@@ -129,6 +128,8 @@ class _MainoState extends State<Maino> {
     plateModel.fetchPlatesData;
     avatarModel.fetchUserAvatar;
     staffInfoModel.fetchStaffInfo;
+    reserveWeeks.fetchReserveWeeks;
+    instantReserve.fetchInstantReserve;
   }
 
   @override
@@ -140,6 +141,8 @@ class _MainoState extends State<Maino> {
     plateModel = Provider.of<PlatesModel>(context);
     avatarModel = Provider.of<AvatarModel>(context);
     staffInfoModel = Provider.of<StaffInfoModel>(context);
+    reserveWeeks = Provider.of<ReserveWeeks>(context);
+    instantReserveModel = Provider.of<InstantReserveModel>(context);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
@@ -208,7 +211,6 @@ class _MainoState extends State<Maino> {
                 ),
                 UserTraffic(),
                 WeekReservedTab(),
-                // ReservedTab(),
                 UserPlates(),
                 Settings(),
               ],

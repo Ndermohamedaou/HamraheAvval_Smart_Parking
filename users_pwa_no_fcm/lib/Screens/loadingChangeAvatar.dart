@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/constText.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -38,7 +40,10 @@ class _LoadingChangeAvatarState extends State<LoadingChangeAvatar> {
           avatarModel.fetchUserAvatar;
           // print(result);
           final uToken = prefs.getString("token");
-          final userDetails = await api.getStaffInfo(token: uToken);
+          ApiAccess api = ApiAccess(uToken);
+          Endpoint staffInfoEndpoint = apiEndpointsMap["auth"]["staffInfo"];
+          final userDetails = await api.requestHandler(
+              staffInfoEndpoint.route, staffInfoEndpoint.method, {});
           final userAvatarChanged = userDetails["avatar"];
           print(userAvatarChanged);
           await prefs.setString("avatar", userAvatarChanged);

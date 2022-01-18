@@ -20,6 +20,7 @@ void rAlert({context, title, desc, tAlert, onTapped}) {
         color: mainCTA,
         child: Text(
           "تایید",
+          textAlign: TextAlign.center,
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontFamily: mainFaFontFamily),
         ),

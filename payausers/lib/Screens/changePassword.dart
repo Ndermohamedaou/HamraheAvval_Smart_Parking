@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/validator/textValidator.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -16,9 +17,9 @@ String confirmNewPassword = "";
 bool validatePassword1 = false;
 bool validatePassword2 = false;
 IconData showMePass = Icons.remove_red_eye;
-dynamic emptyTextFieldErrCurPassword = null;
-dynamic emptyTextFieldErrNewPassword = null;
-dynamic emptyTextFieldErrConfNewPassword = null;
+dynamic emptyTextFieldErrCurPassword;
+dynamic emptyTextFieldErrNewPassword;
+dynamic emptyTextFieldErrConfNewPassword;
 bool protectedPassword = true;
 
 class ChangePassPage extends StatefulWidget {
@@ -51,17 +52,19 @@ class _ChangePassPageState extends State<ChangePassPage> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-
+    final localData = Provider.of<AvatarModel>(context);
+    ApiAccess api = ApiAccess(localData.userToken);
     // Sending to api
     // ignore: missing_return
     Future<String> sendPassword(currentPassword, newPassword) async {
-      ApiAccess api = ApiAccess();
-      FlutterSecureStorage lds = FlutterSecureStorage();
-      final uToken = await lds.read(key: "token");
+      Endpoint changePasswordEndpoint =
+          apiEndpointsMap["auth"]["changePassword"];
+
       try {
-        final result = await api.changingUserPassword(
-            token: uToken, curPass: currentPassword, newPass: newPassword);
-        // print(result);
+        final result = await api.requestHandler(
+            "${changePasswordEndpoint.route}?current_password=$currentPassword&new_password=$newPassword",
+            changePasswordEndpoint.method, {});
+        print(result);
         return result;
       } catch (e) {
         Toast.show(doesNotChange, context,
@@ -89,6 +92,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                     gravity: Toast.BOTTOM,
                     textColor: Colors.white);
               } else {
+                print(result);
                 Toast.show(failedToUpdatePass, context,
                     duration: Toast.LENGTH_LONG,
                     gravity: Toast.BOTTOM,
@@ -127,7 +131,6 @@ class _ChangePassPageState extends State<ChangePassPage> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(
           color: Colors.black,

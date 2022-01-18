@@ -5,6 +5,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/Model/Plate.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
@@ -55,9 +56,9 @@ class _OtherPageViewState extends State<OtherPageView> {
         setState(() => isAddingDocs = false);
         final uToken = await lds.read(key: "token");
         // Preparing plate number to send to the server
-        List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-        int result =
-            await addPlateProc.otherPlateReq(token: uToken, plate: lsPlate);
+        PlateStructure plate = PlateStructure(plate0, plate1, plate2, plate3);
+        int result = await addPlateProc.uploadDocument(
+            token: uToken, type: "other", plate: plate, data: {});
 
         if (result == 200) {
           // Update user plate in Provider
@@ -141,6 +142,7 @@ class _OtherPageViewState extends State<OtherPageView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           addPlateNumAppBar,
           textAlign: TextAlign.center,

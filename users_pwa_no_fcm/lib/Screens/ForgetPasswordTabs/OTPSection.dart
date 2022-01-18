@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:sizer/sizer.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
@@ -26,6 +26,10 @@ class _OTPSubmissionState extends State<OTPSubmission> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    // Change width of Pinput widget to center of the screen if size is larger than 500px.
+    final double widthSizedResponse = size.width > 500 ? 300 : double.infinity;
+
     final TextEditingController _pinPutController = TextEditingController();
     final FocusNode _pinPutFocusNode = FocusNode();
 
@@ -53,10 +57,13 @@ class _OTPSubmissionState extends State<OTPSubmission> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(height: 2.0.h),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 100),
+              // width: widthSizedResponse,
               child: PinPut(
-                textStyle: TextStyle(fontFamily: mainFaFontFamily),
+                textStyle:
+                    TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
                 fieldsCount: 4,
                 autofocus: true,
                 onSubmit: (String pin) => Navigator.pushNamed(

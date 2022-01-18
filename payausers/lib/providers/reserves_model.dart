@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/spec/enum_state.dart';
 
 class ReservesModel extends ChangeNotifier {
   FlowState _reserveState = FlowState.Initial;
   final lStorage = FlutterSecureStorage();
-  ApiAccess api = ApiAccess();
   Map reserves = {};
 
   ReservesModel() {
@@ -18,10 +18,16 @@ class ReservesModel extends ChangeNotifier {
 
   Future<void> _getReserves() async {
     final userToken = await lStorage.read(key: "token");
+    ApiAccess api = ApiAccess(userToken);
     _reserveState = FlowState.Loading;
+
     try {
-      await Future.delayed(Duration(seconds: 2));
-      final regularReserves = await api.userReserveHistory(token: userToken);
+      Endpoint userReserves =
+          apiEndpointsMap["reserveEndpoint"]["getUserReserves"];
+      // Wait for 2 second for getting safe data.
+      await Future.delayed(Duration(seconds: 1));
+      final regularReserves =
+          await api.requestHandler(userReserves.route, userReserves.method, {});
       reserves = regularReserves;
       _reserveState = FlowState.Loaded;
     } catch (e) {

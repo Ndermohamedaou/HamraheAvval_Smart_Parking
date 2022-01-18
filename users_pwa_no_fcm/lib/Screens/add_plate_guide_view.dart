@@ -20,6 +20,7 @@ class _AddPlateGuideViewState extends State<AddPlateGuideView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           guideViewAppBarTitle,
           textAlign: TextAlign.center,

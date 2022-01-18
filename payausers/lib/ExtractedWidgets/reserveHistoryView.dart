@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/Model/ReserveColorsStatus.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
 
 class ReserveHistoryView extends StatelessWidget {
-  const ReserveHistoryView({
-    this.reserveStatusColor,
-    this.historyBuildingName,
-    this.historySlotName,
-    this.historyStartTime,
-    this.historyEndTime,
-    this.onPressed,
-  });
+  const ReserveHistoryView(
+      {this.reserveStatusColor,
+      this.historyBuildingName,
+      this.historySlotName,
+      this.historyStartTime,
+      this.historyEndTime,
+      this.onPressed,
+      this.reserveType});
 
   final reserveStatusColor;
   final historySlotName;
   final historyBuildingName;
   final historyStartTime;
   final historyEndTime;
+  final String reserveType;
   final Function onPressed;
 
   @override
@@ -34,40 +36,85 @@ class ReserveHistoryView extends StatelessWidget {
     // Split date time for right alignment.
     String alignDate(String date) {
       List<String> dateSplit = date.split("-");
-      return "${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}" ?? "";
+      try {
+        return "${dateSplit[0]}/${dateSplit[1]}/${dateSplit[2]}" ?? "";
+      } catch (e) {
+        return "";
+      }
     }
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       width: widthSizedResponse,
-      height: 100.0,
+      padding: EdgeInsets.all(5.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+              color: themeChange.darkTheme
+                  ? Colors.grey.shade900
+                  : Colors.grey.shade300,
+              spreadRadius: 3,
+              blurRadius: 20.0),
+        ],
       ),
       child: Material(
+        borderRadius: BorderRadius.circular(10.0),
         color: themeChange.darkTheme ? darkBar : lightBar,
         child: InkWell(
-          borderRadius: BorderRadius.circular(8.0),
+          borderRadius: BorderRadius.circular(10.0),
           onTap: onPressed,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              textDirection: TextDirection.ltr,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CircularStatus(
-                  specificReserveStatusColor: specificReserveStatusColor,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    Text("$dateOfReserve: ${alignDate(historyStartTime)}",
+                        style: TextStyle(
+                            fontSize: 15, fontFamily: mainFaFontFamily)),
+                    CircularStatus(
+                      specificReserveStatusColor: specificReserveStatusColor,
+                    ),
+                  ],
                 ),
-                historyEndTime != null
-                    ? ReserveSection2(
-                        slotName: historySlotName,
-                        endTime: alignDate(historyEndTime))
-                    : SizedBox(),
-                ReserveSection1(
-                    buildingName: historyBuildingName,
-                    startTime: alignDate(historyStartTime)),
-              ],
-            ),
+              ),
+              // Reserve type
+              reserveType == null
+                  ? SizedBox()
+                  : Divider(
+                      color: Colors.grey,
+                      thickness: 0.25,
+                      indent: 0,
+                    ),
+              reserveType == null
+                  ? SizedBox()
+                  : RowItem(
+                      title: reserveTypeText,
+                      value: reserveType,
+                    ),
+              // Building section.
+              Divider(
+                color: Colors.grey,
+                thickness: 0.25,
+                indent: 0,
+              ),
+              RowItem(
+                title: buildingNameText,
+                value: historyBuildingName,
+              ),
+              Divider(
+                color: Colors.grey,
+                thickness: 0.25,
+                indent: 0,
+              ),
+              RowItem(
+                title: slotNameText,
+                value: historySlotName,
+              ),
+              SizedBox(height: 10),
+            ],
           ),
         ),
       ),
@@ -75,76 +122,27 @@ class ReserveHistoryView extends StatelessWidget {
   }
 }
 
-class ReserveSection1 extends StatelessWidget {
-  const ReserveSection1({
-    this.buildingName,
-    this.startTime,
-  });
+class RowItem extends StatelessWidget {
+  const RowItem({Key key, this.title, this.value}) : super(key: key);
 
-  final buildingName;
-  final startTime;
+  final String title;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.fitWidth,
-      child: Column(
-        textDirection: TextDirection.ltr,
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        textDirection: TextDirection.rtl,
         children: [
-          Text(
-            "ساختمان : $buildingName",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: 15,
-            ),
-          ),
-          Text(
-            "از : $startTime",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: 15,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ReserveSection2 extends StatelessWidget {
-  const ReserveSection2({
-    this.slotName,
-    this.endTime,
-  });
-
-  final slotName;
-  final endTime;
-
-  @override
-  Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.fitWidth,
-      child: Column(
-        textDirection: TextDirection.ltr,
-        children: [
-          Text(
-            "جایگاه : $slotName",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: 15,
-            ),
-          ),
-          Text(
-            "تا : $endTime",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              fontSize: 15,
-            ),
-          ),
+          Text(title,
+              style: TextStyle(
+                  fontSize: 15,
+                  fontFamily: mainFaFontFamily,
+                  fontWeight: FontWeight.w100)),
+          Text(value,
+              style: TextStyle(fontSize: 15, fontFamily: mainFaFontFamily)),
         ],
       ),
     );
@@ -163,8 +161,8 @@ class CircularStatus extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Container(
-        width: 20,
-        height: 20,
+        width: 15,
+        height: 15,
         decoration: BoxDecoration(
           color: specificReserveStatusColor,
           borderRadius: BorderRadius.circular(20),

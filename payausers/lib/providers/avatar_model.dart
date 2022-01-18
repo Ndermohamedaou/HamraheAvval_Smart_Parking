@@ -9,6 +9,7 @@ class AvatarModel extends ChangeNotifier {
   String userToken = "";
   String avatar = "";
   String fullname = "";
+  String userID = "";
 
   AvatarModel() {
     _getUserAvatar();
@@ -21,6 +22,8 @@ class AvatarModel extends ChangeNotifier {
     final localAvatar = await lStorage.read(key: "avatar");
     final localfullname = await lStorage.read(key: "name");
     final localToken = await lStorage.read(key: "token");
+    final localUserID = await lStorage.read(key: "user_id");
+
     _avatarState = FlowState.Loading;
 
     try {
@@ -29,6 +32,7 @@ class AvatarModel extends ChangeNotifier {
       userToken = localToken;
       avatar = localAvatar;
       fullname = localfullname;
+      userID = localUserID;
     } catch (e) {
       print("Error in Getting data from avatar notifier $e");
       _avatarState = FlowState.Error;

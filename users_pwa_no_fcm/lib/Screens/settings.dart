@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_web/image_picker_web.dart';
-import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ChangeAvatar.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -21,7 +20,6 @@ String userPersonal = "";
 String userRole = "";
 String userSection = "";
 String imgSource;
-ApiAccess api = ApiAccess();
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -108,135 +106,50 @@ class _SettingsPageState extends State<SettingsPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: double.infinity,
-                height: 400,
-                decoration: BoxDecoration(
-                    color: themeChange.darkTheme ? darkBar : lightBar),
-                child: Column(
-                  children: [
-                    Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                              onTap: () => Navigator.pop(context),
-                              child: Icon(Icons.arrow_back_ios_rounded)),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(
-                              settingsText,
-                              style: TextStyle(
-                                  fontFamily: mainFaFontFamily,
-                                  fontSize: subTitleSize),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SettingCircle(
-                      uA: NetworkImage(avatarModel.avatar),
-                      uId: userIdentify,
-                    ),
-                    FlatButton(
-                      onPressed: () => galleryViewer(),
-                      child: Text(
-                        changeAvatarScreen,
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 18,
-                            color: Colors.blue),
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.black38,
-                      thickness: 1,
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      margin: EdgeInsets.only(top: 10),
-                      child: TextShow(
-                        title: userName,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Divider(
-                      color: Colors.black38,
-                      thickness: 1,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        textDirection: TextDirection.rtl,
-                        children: [
-                          Text(
-                            userEmail,
-                            style: TextStyle(
-                              fontFamily: mainEnFontFamily,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      color: Colors.black38,
-                      thickness: 1,
-                    ),
-                  ],
+              SizedBox(height: 20),
+              SettingCircle(
+                uA: NetworkImage(avatarModel.avatar),
+                uId: userIdentify,
+              ),
+              FlatButton(
+                onPressed: () => galleryViewer(),
+                child: Text(
+                  changeAvatarScreen,
+                  style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      fontSize: 18,
+                      color: Colors.blue),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(right: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(readOnlyInfo,
-                        style: TextStyle(
-                            fontFamily: mainFaFontFamily,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w100,
-                            color: Colors.grey)),
-                  ],
-                ),
+              TilsInfo(
+                textTitle: "نام کاربری",
+                textSubtitle: userName,
               ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                width: double.infinity,
-                height: 86,
-                color: themeChange.darkTheme ? darkBar : lightBar,
-                child: Column(
-                  children: [
-                    SizedBox(height: 10),
-                    Rowed(
-                      title: personalCodeText,
-                      realPost: userPersonal,
-                    ),
-                    Divider(
-                      color: Colors.black38,
-                      thickness: 1,
-                    ),
-                    Rowed(title: melliCodeText, realPost: userMelli),
-                  ],
-                ),
+              TilsInfo(
+                textTitle: "نشانی پست الکترونیکی",
+                textSubtitle: userEmail,
               ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                child: FlatButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, "/changePassword"),
-                  child: Center(
-                    child: Text(
-                      chPass,
-                      style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 18,
-                          color: Colors.red),
-                      textAlign: TextAlign.center,
+              TilsInfo(
+                textTitle: "شناسه پرسنلی",
+                textSubtitle: userPersonal,
+              ),
+              TilsInfo(
+                textTitle: "شناسه ملی",
+                textSubtitle: userMelli,
+              ),
+              FlatButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, "/changePassword"),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(
+                    chPass,
+                    style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      color: Colors.red,
+                      fontSize: 18,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
@@ -272,49 +185,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 }
 
-class Rowed extends StatelessWidget {
-  const Rowed({this.title, this.realPost});
-
-  final title;
-  final realPost;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 16)),
-          Text(realPost,
-              style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 16)),
-        ],
-      ),
-    );
-  }
-}
-
-class TextShow extends StatelessWidget {
-  const TextShow({this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(title,
-              style: TextStyle(fontFamily: mainEnFontFamily, fontSize: 16)),
-        ],
-      ),
-    );
-  }
-}
-
 class SettingCircle extends StatelessWidget {
   const SettingCircle({this.uA, this.uId});
 
@@ -338,6 +208,33 @@ class SettingCircle extends StatelessWidget {
           version: QrVersions.auto,
           padding: EdgeInsets.all(4),
           foregroundColor: HexColor("#000000"),
+        ),
+      ),
+    );
+  }
+}
+
+class TilsInfo extends StatelessWidget {
+  const TilsInfo({
+    this.textTitle,
+    this.textSubtitle,
+  });
+
+  final textTitle;
+  final textSubtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: ListTile(
+        title: Text(
+          textTitle != null ? textTitle : "",
+          style: TextStyle(fontFamily: mainFaFontFamily),
+        ),
+        subtitle: Text(
+          textSubtitle != null ? textSubtitle : "",
+          style: TextStyle(fontFamily: mainFaFontFamily),
         ),
       ),
     );

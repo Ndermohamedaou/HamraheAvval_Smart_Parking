@@ -163,7 +163,7 @@ class CustomTitle extends StatelessWidget {
         children: [
           Text(
             textTitle,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.right,
             style: TextStyle(
                 fontFamily: mainFaFontFamily, fontSize: 20.0, fontWeight: fw),
           ),
@@ -187,7 +187,7 @@ class CustomSubTitle extends StatelessWidget {
         children: [
           Text(
             textTitle,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               color: color,

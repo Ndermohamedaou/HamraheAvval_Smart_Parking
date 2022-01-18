@@ -4,6 +4,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/Model/Plate.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,9 +49,9 @@ class _OtherPageViewState extends State<OtherPageView> {
     if (plate0 != "" && plate1 != null && plate2 != "" && plate3 != "") {
       setState(() => isAddingDocs = false);
       final uToken = prefs.getString("token");
-      List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-      int result =
-          await addPlateProc.otherPlateReq(token: uToken, plate: lsPlate);
+      PlateStructure plate = PlateStructure(plate0, plate1, plate2, plate3);
+      int result = await addPlateProc
+          .uploadDocument(token: uToken, type: "other", plate: plate, data: {});
 
       // If all documents sent successfully
       // You will see successfull flush message from top of the phone

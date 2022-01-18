@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,8 +26,6 @@ class _SettingsState extends State<Settings>
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     super.build(context);
-
-    ApiAccess api = ApiAccess();
 
     void logoutSection() {
       showMaterialModalBottomSheet(
@@ -94,10 +93,14 @@ class _SettingsState extends State<Settings>
                             // Getting token from shared preferences and cleaning LocalStorage as logout user
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
+                            ApiAccess api = ApiAccess(prefs.getString("token"));
 
+                            // Getting logout endpoint.
+                            Endpoint logoutEndpoint =
+                                apiEndpointsMap["auth"]["logout"];
                             // Send token for logout from the system if response was 200
-                            if (await api.logout(
-                                    token: prefs.getString("token")) ==
+                            if (await api.requestHandler(logoutEndpoint.route,
+                                    logoutEndpoint.method, {}) ==
                                 "200") {
                               prefs.clear();
                               Navigator.popUntil(

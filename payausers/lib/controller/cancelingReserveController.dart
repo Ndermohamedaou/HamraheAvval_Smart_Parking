@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 
 class CancelReserve {
-  ApiAccess api = ApiAccess();
   FlutterSecureStorage lds = FlutterSecureStorage();
 
   Future<String> cancelUserReserve({token, userReserveID}) async {
+    ApiAccess api = ApiAccess(token);
     try {
-      return await api.cancelingReserve(token: token, reservID: userReserveID);
+      Endpoint cancelReserveEndpoint =
+          apiEndpointsMap["reserveEndpoint"]["cancelReserve"];
+      return await api.requestHandler(
+          "${cancelReserveEndpoint.route}?id=$userReserveID",
+          cancelReserveEndpoint.method, {});
     } catch (e) {
       print("Error from Canceling Reserve $e");
       return "400";
@@ -18,11 +23,8 @@ class CancelReserve {
 
   void delReserve({reserveID, context}) async {
     final userToken = await lds.read(key: "token");
-
     String caneclingResult =
         await cancelUserReserve(token: userToken, userReserveID: reserveID);
-    print("Ready....");
-    print(caneclingResult);
 
     if (caneclingResult == "200") {
       Navigator.pop(context);

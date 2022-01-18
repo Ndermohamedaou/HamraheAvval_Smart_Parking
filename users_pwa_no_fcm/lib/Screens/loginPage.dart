@@ -1,25 +1,27 @@
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Model/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:toast/toast.dart';
 
 String personalCode = "";
 String password = "";
-dynamic emptyTextFieldErrPersonalCode = null;
-dynamic emptyTextFieldErrEmail = null;
-dynamic emptyTextFieldErrPassword = null;
+dynamic emptyTextFieldErrPersonalCode;
+dynamic emptyTextFieldErrEmail;
+dynamic emptyTextFieldErrPassword;
 bool isLogin = false;
-
 IconData showMePass = Icons.remove_red_eye;
-
 bool protectedPassword = true;
+ApiAccess api;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -51,11 +53,13 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Accessing to Api
-    ApiAccess api = ApiAccess();
-    // Setting dark theme provider class
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    // Setting Responsive for forget password flat button.
+    Size size = MediaQuery.of(context).size;
+    double widthOfForget = size.width > 700.0 ? 410.0 : double.infinity;
     final String mainImgLogoLightMode = "assets/images/mainLogo.png";
+    final localData = Provider.of<AvatarModel>(context);
+    // Accessing to Api
+    api = ApiAccess(localData.userToken);
 
     // Login process
     void navigatedToDashboard({email, pass}) async {
@@ -63,10 +67,10 @@ class _LoginPageState extends State<LoginPage> {
 
       String devToken = "";
       try {
-        // devToken = await FirebaseMessaging.instance.getToken();
+        devToken = await FirebaseMessaging.instance.getToken();
       } catch (e) {
         devToken = "";
-        // print(e);
+        print(e);
       }
 
       setState(() {
@@ -76,11 +80,16 @@ class _LoginPageState extends State<LoginPage> {
       if (email != "" || pass != "") {
         try {
           setState(() => isLogin = true);
-          final getLoginStatus = await api.getAccessToLogin(
-              email: email, password: pass, deviceToken: devToken);
+          Endpoint loginEndpoint = apiEndpointsMap["auth"]["login"];
+          final getLoginStatus = await api.requestHandler(
+              "${loginEndpoint.route}?personal_code=$email&password=$pass&DeviceToken=$devToken",
+              loginEndpoint.method, {});
+
+          print(getLoginStatus);
+
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
-            // Checking if user is admin or staff
+            // Checking role if users was staff or admin
             // if (getLoginStatus["role"] == "staff" ||
             //     getLoginStatus["role"] == "admin") {
             if (getLoginStatus["first_visit"]) {
@@ -89,13 +98,15 @@ class _LoginPageState extends State<LoginPage> {
               setState(() => isLogin = false);
             } else {
               setState(() => isLogin = false);
+              // print("Your token: ${getLoginStatus["token"]}");
+
               gettingReadyAccount.getUserAccInfo(
                   getLoginStatus['token'], context);
             }
             // } else {
             //   setState(() => isLogin = false);
             //   Toast.show("عدم دسترسی به سیستم", context,
-            //       duration: Toast.LENGTH_LON`G,
+            //       duration: Toast.LENGTH_LONG,
             //       gravity: Toast.BOTTOM,
             //       textColor: Colors.white);
             // }
@@ -108,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
           }
         } catch (e) {
           setState(() => isLogin = false);
-          // print("Erorr in self login ==> $e");
+          print("Erorr in self login ==> $e");
           Toast.show("شماره پرسنلی یا گذرواژه اشتباه است", context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
@@ -121,10 +132,6 @@ class _LoginPageState extends State<LoginPage> {
         });
       }
     }
-
-    // Size of forget text button
-    var size = MediaQuery.of(context).size;
-    final textFiledSize = size.width > 700 ? 410.0 : double.infinity;
 
     return Scaffold(
       body: SafeArea(
@@ -145,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
                 "پارکینگ هوشمند من",
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.bold,
                   color: mainCTA,
                   fontSize: 30,
                 ),
@@ -163,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 30),
               TextFields(
                 lblText: personalCodePlaceHolder,
-                keyType: TextInputType.emailAddress,
+                keyboardType: TextInputType.emailAddress,
                 textFieldIcon: Icons.account_circle,
                 textInputType: false,
                 readOnly: false,
@@ -180,12 +187,16 @@ class _LoginPageState extends State<LoginPage> {
               TextFields(
                 lblText: passwordTextFieldPlace,
                 maxLen: 20,
-                keyType: TextInputType.visiblePassword,
+                keyboardType: TextInputType.visiblePassword,
                 readOnly: false,
                 errText: emptyTextFieldErrPassword == null
                     ? null
                     : emptyTextFieldMsg,
                 textInputType: protectedPassword,
+                inputFormat: [
+                  new WhitelistingTextInputFormatter(
+                      RegExp("[-/:-?{-~!\"^_*'()@#\$%&=+,}0-9a-zA-Z]")),
+                ],
                 textFieldIcon:
                     password == "" ? Icons.vpn_key_outlined : showMePass,
                 iconPressed: () {
@@ -206,10 +217,9 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 },
               ),
-              SizedBox(height: 20),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                width: textFiledSize,
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                width: widthOfForget,
                 child: FlatButton(
                     onPressed: () =>
                         Navigator.pushNamed(context, "/forgetPassword"),
@@ -255,7 +265,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: loginBtnTxtColor,
                               fontFamily: mainFaFontFamily,
                               fontSize: btnSized,
-                              fontWeight: FontWeight.normal),
+                              fontWeight: FontWeight.bold),
                         ),
                   Icon(
                     Icons.chevron_right,

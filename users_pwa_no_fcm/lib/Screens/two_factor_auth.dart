@@ -1,8 +1,9 @@
 import 'dart:async';
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Model/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
@@ -11,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:toast/toast.dart';
 
-ApiAccess api = ApiAccess();
+ApiAccess api;
 Map<String, Object> personalLoginInfo;
 String userotpCode = "";
 Timer _timer;
@@ -46,8 +47,12 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
 
   // Confirmation
   void goToConfirm(token, password) async {
+    Endpoint staffInfoEndpoint = apiEndpointsMap["auth"]["staffInfo"];
+
     try {
-      Map userInfo = await api.getStaffInfo(token: token);
+      ApiAccess api = ApiAccess(token);
+      final userInfo = await api.requestHandler(
+          staffInfoEndpoint.route, staffInfoEndpoint.method, {});
       Navigator.pushNamed(context, "/confirm", arguments: {
         "userInfo": userInfo,
         "curPass": password,
@@ -65,7 +70,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
     GettingReadyAccount gettingReadyAccount = GettingReadyAccount();
     String devToken = "";
     try {
-      // setState(() async => await FirebaseMessaging.instance.getToken());
+      setState(() async => await FirebaseMessaging.instance.getToken());
     } catch (e) {
       setState(() => devToken = "");
       print(e);
@@ -73,9 +78,11 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
 
     try {
       setState(() => _isSubmit = true);
-      Map getLoginThirdParty = await api.submitOTPCode(
-          persCode: persCode, code: otpCode, devToken: devToken);
-      print(getLoginThirdParty);
+      ApiAccess api = ApiAccess("");
+      Endpoint submitOTPCode = apiEndpointsMap["auth"]["otp"]["submitCode"];
+      final getLoginThirdParty = await api.requestHandler(
+          "${submitOTPCode.route}?code=$otpCode&personal_code=$persCode&DeviceToken=$devToken",
+          submitOTPCode.method, {});
 
       if (getLoginThirdParty["status"] == "WrongCodeOrExpired") {
         setState(() => _isSubmit = false);
@@ -83,7 +90,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
             context: context,
             title: "خطا در کد وارد شده",
             msg: "کد وارد شده شما یا منقضی شده است یا اشتباه است",
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
       if (getLoginThirdParty["status"] == "WrongEmailOrPersonalCode") {
@@ -91,7 +98,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
             context: context,
             title: "خطا در شناسه کاربری",
             msg: "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
-            iconColor: Colors.red,
+            iconColor: Colors.white,
             icon: Icons.close);
       }
       if (getLoginThirdParty["status"] == "200") {
@@ -112,7 +119,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
           context: context,
           title: "خطا در برقراری ارتباط با سرویس دهنده",
           msg: "ارتباط خود را بررسی کنید یا با سرویس دهنده در تماس باشید",
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
     }
   }
@@ -131,12 +138,17 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
     });
   }
 
-  void resendCode(persCode) async {
+  resendCode(String persCode) async {
     setState(() => _start = 60);
     _isRestart = false;
     startTimer();
+
+    ApiAccess api = ApiAccess("");
+    Endpoint resendEndpoint = apiEndpointsMap["auth"]["otp"]["resendOTP"];
     try {
-      String res = await api.resendsubmitOTPCode(persCode: persCode);
+      final res = await api.requestHandler(
+          "${resendEndpoint.route}?personal_code=$persCode",
+          resendEndpoint.method, {});
       print(res);
     } catch (e) {
       print("Erorr of Resend OTP ==> $e");
@@ -144,7 +156,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
           context: context,
           title: "خطا در برقراری ارتباط با سرویس دهنده",
           msg: "ارتباط خود را بررسی کنید یا با سرویس دهنده در تماس باشید",
-          iconColor: Colors.red,
+          iconColor: Colors.white,
           icon: Icons.close);
     }
   }
@@ -164,45 +176,15 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: _start != 0 ? mainCTA : mainSectionCTA,
+        backgroundColor: _start != 0 ? defaultAppBarColor : mainSectionCTA,
+        automaticallyImplyLeading: false,
         centerTitle: true,
-        // actions: [
-        //   FlatButton(
-        //       onPressed: () => _isSubmit
-        //           ? null
-        //           : (userotpCode != "" && userotpCode.length == 4
-        //               ? checkingOTPReq(
-        //                   otpCode: userotpCode,
-        //                   persCode: personalLoginInfo["persCode"],
-        //                   password: personalLoginInfo["password"])
-        //               : null),
-        //       child: _isSubmit
-        //           ? Container(
-        //               width: 10,
-        //               height: 10,
-        //               child: CircularProgressIndicator(
-        //                 backgroundColor: mainCTA,
-        //                 valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        //               ),
-        //             )
-        //           : (userotpCode != "" && userotpCode.length == 4
-        //               ? Text(
-        //                   "ادامه",
-        //                   style: TextStyle(
-        //                       fontFamily: mainFaFontFamily,
-        //                       fontSize: 18,
-        //                       color: Colors.white,
-        //                       fontWeight: FontWeight.bold),
-        //                 )
-        //               : Text(
-        //                   "ادامه",
-        //                   style: TextStyle(
-        //                       fontFamily: mainFaFontFamily,
-        //                       color: Colors.black12,
-        //                       fontSize: 18,
-        //                       fontWeight: FontWeight.bold),
-        //                 )))
-        // ],
+        title: Text("وارد کردن کد امنیتی",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontFamily: mainFaFontFamily,
+                fontSize: 20,
+                color: _start != 0 ? Colors.black : Colors.white)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -210,21 +192,12 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
             onTap: () => FocusScope.of(context).unfocus(),
             child: Column(
               children: [
-                SizedBox(height: 1.0.h),
-                Container(
-                  alignment: Alignment.topRight,
-                  child: Text("ما پیامکی حاوی کد برای شما ارسال کردیم",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold)),
-                ),
                 SizedBox(height: 2.0.h),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 100),
                   child: PinPut(
-                    textStyle: TextStyle(fontFamily: mainFaFontFamily),
+                    textStyle:
+                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
                     fieldsCount: 4,
                     autofocus: true,
                     onSubmit: (String pin) => checkingOTPReq(
@@ -243,33 +216,6 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
                     ),
                   ),
                 ),
-                // SizedBox(height: 5.0.h),
-                // Image.asset(
-                //   "assets/images/sms_opt_img.png",
-                //   width: 50.0.w,
-                // ),
-
-                // SizedBox(height: 5.0.h),
-                // Container(
-                //   width: 250,
-                //   child: TextFields(
-                //     lblText: "کد",
-                //     cursorColor: _start == 0 ? mainSectionCTA : mainCTA,
-                //     borderColor: _start == 0 ? mainSectionCTA : mainCTA,
-                //     keyboardType: TextInputType.number,
-                //     textFieldIcon: Icons.sms,
-                //     textInputType: false,
-                //     readOnly: false,
-                //     maxLen: 4,
-                //     // errText:
-                //     //     emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
-                //     onChangeText: (onChangeOTPCode) {
-                //       setState(() {
-                //         userotpCode = onChangeOTPCode;
-                //       });
-                //     },
-                //   ),
-                // ),
                 SizedBox(height: 5.0.h),
                 Container(
                   width: 350,

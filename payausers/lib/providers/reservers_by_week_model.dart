@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/spec/enum_state.dart';
 
 class ReservesByWeek extends ChangeNotifier {
   // Flow state for loading, loaded, error.
   FlowState _reservesByWeekState = FlowState.Initial;
   final lStorage = FlutterSecureStorage();
-  ApiAccess api = ApiAccess();
   // Final list of weeks reserves.
   List reservesList = [];
   String startDate = "";
@@ -24,12 +24,19 @@ class ReservesByWeek extends ChangeNotifier {
 
   Future<void> _reservesByWeek() async {
     final userToken = await lStorage.read(key: "token");
+    ApiAccess api = ApiAccess(userToken);
     _reservesByWeekState = FlowState.Loading;
 
     try {
+      // Getting Endpoint class of userReservesByWeek.
+      Endpoint getUserReservesByWeek =
+          apiEndpointsMap["reserveEndpoint"]["getUserReservesByWeek"];
       await Future.delayed(Duration(seconds: 2));
-      final reserversOfWeek = await api.userReservesByWeeks(
-          token: userToken, startWeekDate: startDate);
+      // Getting data.
+      final reserversOfWeek = await api.requestHandler(
+          "${getUserReservesByWeek.route}?week=$startDate",
+          getUserReservesByWeek.method, {});
+
       reservesList = reserversOfWeek;
       _reservesByWeekState = FlowState.Loaded;
     } catch (e) {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/Plate.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/imageConvertor.dart';
+import 'package:payausers/controller/validate_plate.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:payausers/Model/AlphabetClassList.dart';
@@ -35,6 +38,7 @@ int _value = 0;
 String ncCard;
 String carCard;
 bool isAddingDocs = true;
+AvatarModel localData;
 
 class _MinePlateViewState extends State<MinePlateView> {
   @override
@@ -109,13 +113,17 @@ class _MinePlateViewState extends State<MinePlateView> {
         carCardImg != "") {
       setState(() => isAddingDocs = false);
       final uToken = prefs.getString("token");
-      // Preparing plate number to sending to the server
-      List<dynamic> lsPlate = [plate0, plate1, plate2, plate3];
-      int result = await addPlateProc.minePlateReq(
+
+      // Preparing plate number for sending to the server
+      PlateStructure plate = PlateStructure(plate0, plate1, plate2, plate3);
+      int result = await addPlateProc.uploadDocument(
         token: uToken,
-        plate: lsPlate,
-        selfMelli: nationalCardImg,
-        selfCarCard: carCardImg,
+        plate: plate,
+        type: "self",
+        data: {
+          // selfMelli: _selfMelliCard,
+          "car_card_image": carCardImg,
+        },
       );
 
       // If all documents sent successfully
@@ -186,42 +194,10 @@ class _MinePlateViewState extends State<MinePlateView> {
     }
   }
 
-  Future<Map> isPlateValid() async {
-    ApiAccess api = ApiAccess();
-
-    bool plateNumberOk =
-        plate0.length == 2 && plate2.length == 3 && plate3.length == 2;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final uToken = prefs.getString("token");
-
-    Map checkedPlate = await api.checkPlateExistence(
-        token: uToken,
-        plate: [plate0, alp.getAlphabet()[_value].item, plate2, plate3]);
-
-    Map message = {
-      "plateNumber": plateNumberOk,
-      "plateExist": checkedPlate["status"] == "200" ? true : false,
-      "title": !plateNumberOk
-          ? isPlateValidTitle
-          : checkedPlate["status"] == "409"
-              ? isPlateExistTitle
-              : "",
-      "desc": !plateNumberOk
-          ? isPlateValidDesc
-          : checkedPlate["status"] == "409"
-              ? isPlateExistDesc
-              : "",
-    };
-
-    print(message);
-
-    return message;
-  }
-
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    localData = Provider.of<AvatarModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -303,7 +279,10 @@ class _MinePlateViewState extends State<MinePlateView> {
     /// Next page has a plate number validator and when it's not valid
     /// we will show error message to complete user plate.
 
-    final result = await isPlateValid();
+    ValidatePlate plateValidation = ValidatePlate();
+
+    final result = await plateValidation.isPlateValid(plate0,
+        alp.getAlphabet()[_value].item, plate2, plate3, localData.userToken);
     if (pageIndex < 1) {
       if (pageIndex == 0)
         result["plateNumber"] && result["plateExist"]

@@ -30,7 +30,7 @@ class CustomRichText extends StatelessWidget {
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     color: mainCTA,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                     fontSize: 19)),
           ]),
     );
