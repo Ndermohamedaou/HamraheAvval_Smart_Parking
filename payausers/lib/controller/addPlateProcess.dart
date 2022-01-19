@@ -5,6 +5,7 @@ import 'package:payausers/Model/endpoints.dart';
 class AddPlateProc {
   Future<int> uploadDocument(
       {token, String type, PlateStructure plate, data}) async {
+    /// Upload user plate document to server.
     ApiAccess api = new ApiAccess(token);
     try {
       Endpoint uploadDocumentEndpoint =
@@ -17,6 +18,9 @@ class AddPlateProc {
 
       switch (result) {
         case "200":
+          return 200;
+          break;
+        case "InPersonVisit":
           return 200;
           break;
         case "MaxPlateCount":
