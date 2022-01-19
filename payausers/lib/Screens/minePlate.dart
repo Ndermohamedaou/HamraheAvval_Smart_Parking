@@ -10,7 +10,6 @@ import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/cardEntry.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Model/Plate.dart';
-import 'package:payausers/Screens/settings.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
@@ -70,27 +69,6 @@ class _MinePlateViewState extends State<MinePlateView> {
   void dispose() {
     super.dispose();
   }
-
-  /// For future if you want add national card of car owner to system
-  // Future gettingNationalCard(ImageSource source) async {
-  //   final image = await ImagePicker.pickImage(
-  //     source: source,
-  //     maxHeight: 512,
-  //     maxWidth: 512,
-  //     imageQuality: 50,
-  //   );
-  //   print("Your image is : $image");
-  //   if (image != null) {
-  //     setState(() => ncCard = image);
-  //   } else
-  //     showStatusInCaseOfFlushBottom(
-  //       context: context,
-  //       icon: Icons.close,
-  //       iconColor: Colors.red,
-  //       msg: "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید",
-  //       title: "عدم انتخاب تصویر",
-  //     );
-  // }
 
   Future gettingCarCard(ImageSource source) async {
     // Getting image from the phone system and convert it to bytes
@@ -167,6 +145,7 @@ class _MinePlateViewState extends State<MinePlateView> {
               context: context,
               title: successfullPlateAddTitle,
               msg: successfullPlateAddDsc,
+              mainBackgroundColor: "#00c853",
               iconColor: Colors.white,
               icon: Icons.done_outline);
         }

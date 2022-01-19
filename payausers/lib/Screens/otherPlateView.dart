@@ -77,6 +77,7 @@ class _OtherPageViewState extends State<OtherPageView> {
               context: context,
               title: successfullPlateAddTitle,
               msg: successFullOtherPlateAddDesc,
+              mainBackgroundColor: "#00c853",
               iconColor: Colors.white,
               icon: Icons.done_outline);
         }

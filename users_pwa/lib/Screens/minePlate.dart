@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
-import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/Plate.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/imageConvertor.dart';
@@ -65,23 +64,6 @@ class _MinePlateViewState extends State<MinePlateView> {
     super.dispose();
   }
 
-  /// For future if you want add national card of car owner to system
-  // Future gettingNationalCard() async {
-  //   final pickedImage =
-  //       await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-  //   String melliCard64Img = await imgConvertor.img2Base64(pickedImage);
-  //   if (pickedImage != null) {
-  //     setState(() => ncCard = melliCard64Img);
-  //   } else
-  //     showStatusInCaseOfFlushBottom(
-  //       context: context,
-  //       icon: Icons.close,
-  //       iconColor: Colors.red,
-  //       msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
-  //       title: "عدم انتخاب تصویر",
-  //     );
-  // }
-
   Future gettingCarCard() async {
     // Getting image from the phone system and convert it to bytes
     final pickedImage =
@@ -142,6 +124,7 @@ class _MinePlateViewState extends State<MinePlateView> {
             context: context,
             title: successfullPlateAddTitle,
             msg: successfullPlateAddDsc,
+            mainBackgroundColor: "#00c853",
             iconColor: Colors.white,
             icon: Icons.done_outline);
       }

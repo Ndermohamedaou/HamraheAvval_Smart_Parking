@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -7,7 +8,6 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
-import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/controller/alert.dart';
@@ -541,7 +541,7 @@ class WeekList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ReserveHistoryView(
+        DataHisotry(
           historyBuildingName: reserveWeeksList[index]["building"] ?? "",
           reserveStatusColor: reserveWeeksList[index]["status"] ?? "",
           historySlotName: reserveWeeksList[index]["slot"] ?? "",

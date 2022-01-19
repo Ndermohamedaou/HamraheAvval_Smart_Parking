@@ -10,7 +10,8 @@ const weeklyReserveText = "هفته ای";
 const staticReserveText = "ثابت";
 const instantReserveText = "لحظه ای";
 const unknownReserve = "نامشخص";
-const dateOfReserve = "تاریخ ورود";
+const entranceDateReserve = "تاریخ ورود";
+const exitDateReserve = "تاریخ خروج";
 const reserveTypeText = "نوع رزرو";
 const buildingNameText = "ساختمان";
 const slotNameText = "جایگاه";
@@ -126,7 +127,7 @@ const failedReserveMsgDesc =
 const titleResultInstantReserve = "نتیجه رزرو لحظه ای شما";
 const descFailedInstantReserve =
     "شما نمیتوانید رزرو لحظه ای خود را در این زمان انجام دهید. لطفا باری دیگر امتحان کنید";
-
+const dateWasNull = "بدون تاریخ";
 // User Traffic
 const trafficsLogText = "لیست تردد های شما";
 
@@ -136,7 +137,7 @@ const serverConnectionProblem = "عدم برقراری ارتباط با سرو�
 // Add user plate
 const addUserPlate = "افزودن پلاک من";
 const correctEntry = "از صحت پلاک خود اطمینان حاصل کنید";
-const moreThanPlateAdded = "شما نمی توانید بیشتر از ۳ پلاک را ثبت کنید";
+const moreThanPlateAdded = "شما نمی توانید بیشتر از ۲ پلاک را ثبت کنید";
 const warnningOnAddPlate = "هشدار";
 const successAlert = "عملیات با موفقیت انجام شد";
 const userPlateAdded = "پلاک شما با موفقیت ثبت شد";

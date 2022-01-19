@@ -5,8 +5,8 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
 
-class ReserveHistoryView extends StatelessWidget {
-  const ReserveHistoryView(
+class DataHisotry extends StatelessWidget {
+  const DataHisotry(
       {this.reserveStatusColor,
       this.historyBuildingName,
       this.historySlotName,
@@ -39,7 +39,7 @@ class ReserveHistoryView extends StatelessWidget {
       try {
         return "${dateSplit[0]}/${dateSplit[1]}/${dateSplit[2]}" ?? "";
       } catch (e) {
-        return "";
+        return dateWasNull;
       }
     }
 
@@ -65,21 +65,53 @@ class ReserveHistoryView extends StatelessWidget {
           onTap: onPressed,
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    Text("$dateOfReserve: ${alignDate(historyStartTime)}",
-                        style: TextStyle(
-                            fontSize: 15, fontFamily: mainFaFontFamily)),
-                    CircularStatus(
-                      specificReserveStatusColor: specificReserveStatusColor,
+              reserveStatusColor == null
+                  ? SizedBox()
+                  : Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          Text(
+                              "$entranceDateReserve: ${alignDate(historyStartTime)}",
+                              style: TextStyle(
+                                  fontSize: 15, fontFamily: mainFaFontFamily)),
+                          CircularStatus(
+                            specificReserveStatusColor:
+                                specificReserveStatusColor,
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
+
+              reserveStatusColor != null
+                  ? SizedBox()
+                  : Container(
+                      margin: EdgeInsets.only(top: 8),
+                      child: RowItem(
+                          title: entranceDateReserve,
+                          value: alignDate(historyStartTime)),
+                    ),
+
+              // End time for exit time traffic in traffic tab view.
+              // When we use this widget in reserve view we will see
+              // Circle indicator on this widget else when we use that in
+              // traffic tab view we must not see indicator, we only see exit
+              // DateTime of user traffic in parking.
+              historyEndTime == "" && reserveStatusColor != null
+                  ? SizedBox()
+                  : Divider(
+                      color: Colors.grey,
+                      thickness: 0.25,
+                      indent: 0,
+                    ),
+
+              historyEndTime == "" && reserveStatusColor != null
+                  ? SizedBox()
+                  : RowItem(
+                      title: exitDateReserve, value: alignDate(historyEndTime)),
+
               // Reserve type
               reserveType == null
                   ? SizedBox()
@@ -104,6 +136,7 @@ class ReserveHistoryView extends StatelessWidget {
                 title: buildingNameText,
                 value: historyBuildingName,
               ),
+              // Slot section.
               Divider(
                 color: Colors.grey,
                 thickness: 0.25,

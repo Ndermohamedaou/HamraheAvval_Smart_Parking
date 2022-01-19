@@ -1,12 +1,19 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
-void showStatusInCaseOfFlush({context, String msg, title, icon, iconColor}) {
+void showStatusInCaseOfFlush(
+    {context,
+    mainBackgroundColor = "#F38137",
+    String msg,
+    title,
+    icon,
+    iconColor}) {
   Flushbar(
     margin: EdgeInsets.all(8),
     borderRadius: 8,
-    backgroundColor: mainSectionCTA,
+    backgroundColor: HexColor(mainBackgroundColor),
     flushbarPosition: FlushbarPosition.TOP,
     titleText: Text(
       title,

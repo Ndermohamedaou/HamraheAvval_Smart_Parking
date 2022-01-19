@@ -186,6 +186,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               context: context,
               title: successfullPlateAddTitle,
               msg: successfullPlateAddDsc,
+              mainBackgroundColor: "#00c853",
               iconColor: Colors.white,
               icon: Icons.done_outline);
         }

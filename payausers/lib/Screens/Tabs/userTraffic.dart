@@ -3,13 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:payausers/ExtractedWidgets/custom_divider.dart';
+import 'package:payausers/ExtractedWidgets/custom_sub_title.dart';
+import 'package:payausers/ExtractedWidgets/custom_title.dart';
+import 'package:payausers/ExtractedWidgets/data_history.dart';
+import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
-import 'package:payausers/ExtractedWidgets/miniPlate.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
@@ -52,6 +56,86 @@ class _UserTrafficState extends State<UserTraffic>
     // UI loading or Error Class
     LogLoading logLoadingWidgets = LogLoading();
 
+    openTrafficInfoInBottomActionSheet(
+        {List plate, String startTime, String endTime}) {
+      /// Show user plate + start time and end time
+      showMaterialModalBottomSheet(
+        context: context,
+        enableDrag: true,
+        bounce: true,
+        duration: const Duration(milliseconds: 550),
+        builder: (context) => SingleChildScrollView(
+          controller: ModalScrollController.of(context),
+          child: Container(
+            child: Column(
+              children: [
+                SizedBox(height: 1.0.h),
+                Container(
+                  width: 30,
+                  height: 5,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(20)),
+                ),
+                PlateViewer(
+                  plate0: plate[0],
+                  plate1: plate[1],
+                  plate2: plate[2],
+                  plate3: plate[3],
+                  themeChange: themeChange.darkTheme,
+                ),
+                SizedBox(height: 2.0.h),
+                Row(
+                  textDirection: TextDirection.rtl,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomTitle(
+                        textTitle: entranceDateReserve, fw: FontWeight.normal),
+                    CustomSubTitle(textTitle: startTime),
+                  ],
+                ),
+                CustomDivider(),
+                Row(
+                  textDirection: TextDirection.rtl,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomTitle(
+                        textTitle: exitDateReserve, fw: FontWeight.normal),
+                    CustomSubTitle(textTitle: endTime),
+                  ],
+                ),
+                SizedBox(height: 2.0.h),
+                Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  child: Material(
+                    elevation: 10.0,
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: mainSectionCTA,
+                    child: MaterialButton(
+                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        "بستن",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: mainFaFontFamily,
+                            fontSize: btnSized,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 1.0.h),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     Widget traffics = Builder(builder: (_) {
       if (trafficsModel.trafficsState == FlowState.Loading)
         return logLoadingWidgets.loading();
@@ -62,6 +146,7 @@ class _UserTrafficState extends State<UserTraffic>
       // reversed Traffics list
       final trafficsList = trafficsModel.traffics.reversed.toList();
 
+      // Loading Traffic Widget.
       if (trafficsList.isEmpty)
         return logLoadingWidgets.notFoundReservedData(msg: "تردد");
       return Column(
@@ -88,17 +173,25 @@ class _UserTrafficState extends State<UserTraffic>
             itemBuilder: (BuildContext context, index) {
               return (Column(
                 children: [
-                  MiniPlate(
-                    plate0: trafficsList[index]["plate0"],
-                    plate1: trafficsList[index]["plate1"],
-                    plate2: trafficsList[index]["plate2"],
-                    plate3: trafficsList[index]["plate3"],
-                    buildingName: trafficsList[index]["building"] != null
-                        ? trafficsList[index]["building"]
-                        : "",
-                    startedTime: trafficsList[index]["entry_datetime"],
-                    endedTime: trafficsList[index]["exit_datetime"],
-                    slotNo: trafficsList[index]["slot"],
+                  DataHisotry(
+                    reserveStatusColor: null,
+                    historyBuildingName: trafficsList[index]["building"] ?? "",
+                    historySlotName: trafficsList[index]["slot"] ?? "",
+                    historyStartTime:
+                        trafficsList[index]["entry_datetime"] ?? "",
+                    historyEndTime: trafficsList[index]["exit_datetime"] ?? "",
+                    onPressed: () => openTrafficInfoInBottomActionSheet(
+                      plate: [
+                        trafficsList[index]["plate0"],
+                        trafficsList[index]["plate1"],
+                        trafficsList[index]["plate2"],
+                        trafficsList[index]["plate3"]
+                      ],
+                      startTime:
+                          trafficsList[index]["entry_datetime"] ?? dateWasNull,
+                      endTime:
+                          trafficsList[index]["exit_datetime"] ?? dateWasNull,
+                    ),
                   ),
                 ],
               ));
@@ -128,7 +221,7 @@ class _UserTrafficState extends State<UserTraffic>
                         fontFamily: mainFaFontFamily,
                         color: mainCTA,
                         fontSize: 14.0.sp,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.normal,
                       )),
                   Container(
                     margin: EdgeInsets.only(left: 20, top: 10),

@@ -9,7 +9,7 @@ import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
-import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
@@ -451,7 +451,7 @@ class _ReservedTabState extends State<ReservedTab>
                             return SingleChildScrollView(
                               child: (Column(
                                 children: [
-                                  ReserveHistoryView(
+                                  DataHisotry(
                                     historyBuildingName:
                                         reserveList[index]["building"] != null
                                             ? reserveList[index]["building"]

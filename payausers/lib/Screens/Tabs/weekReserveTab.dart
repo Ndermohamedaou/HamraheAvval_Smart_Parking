@@ -9,7 +9,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
-import 'package:payausers/ExtractedWidgets/reserveHistoryView.dart';
+import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/controller/alert.dart';
@@ -493,34 +493,37 @@ class _WeekReservedTabState extends State<WeekReservedTab>
           ),
         ),
       ),
-      floatingActionButton: Container(
-        width: 170,
-        height: 55,
-        child: Material(
-          elevation: 10.0,
-          borderRadius: BorderRadius.circular(100.0),
-          color: mainSectionCTA,
-          child: MaterialButton(
-            onPressed: () => reserveBottomSheet(),
-            child: Row(
-              textDirection: TextDirection.rtl,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "افزودن رزرو جدید",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: mainFaFontFamily,
-                      fontSize: btnSized,
-                      fontWeight: FontWeight.normal),
+      floatingActionButton: reserveWeeks.reserveWeeksState == FlowState.Error ||
+              reserveWeeks.reserveWeeksState == FlowState.Loading
+          ? SizedBox()
+          : Container(
+              width: 170,
+              height: 55,
+              child: Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(100.0),
+                color: mainSectionCTA,
+                child: MaterialButton(
+                  onPressed: () => reserveBottomSheet(),
+                  child: Row(
+                    textDirection: TextDirection.rtl,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "افزودن رزرو جدید",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: mainFaFontFamily,
+                            fontSize: btnSized,
+                            fontWeight: FontWeight.normal),
+                      ),
+                      Icon(Iconsax.receipt, color: Colors.white),
+                    ],
+                  ),
                 ),
-                Icon(Iconsax.receipt, color: Colors.white),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -543,11 +546,12 @@ class WeekList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ReserveHistoryView(
+        DataHisotry(
           historyBuildingName: reserveWeeksList[index]["building"] ?? "",
           reserveStatusColor: reserveWeeksList[index]["status"] ?? "",
           historySlotName: reserveWeeksList[index]["slot"] ?? "",
           historyStartTime: reserveWeeksList[index]["week"] ?? "",
+          historyEndTime: "",
           reserveType: reserveType,
           onPressed: () {
             if (reserveWeeksList[index]["type"] == "list") {

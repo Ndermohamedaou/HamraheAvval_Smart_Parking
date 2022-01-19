@@ -1,5 +1,8 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:payausers/ExtractedWidgets/custom_divider.dart';
+import 'package:payausers/ExtractedWidgets/custom_sub_title.dart';
+import 'package:payausers/ExtractedWidgets/custom_title.dart';
 import 'package:payausers/Model/PlateColorsStatus.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
@@ -126,77 +129,6 @@ class UserPlateInDetails extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class CustomDivider extends StatelessWidget {
-  const CustomDivider({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Divider(
-      color: Colors.grey,
-      thickness: 1,
-      indent: 20,
-      height: 10,
-    );
-  }
-}
-
-class CustomTitle extends StatelessWidget {
-  const CustomTitle({
-    this.textTitle,
-    this.fw,
-  });
-  final textTitle;
-  final fw;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        textDirection: TextDirection.rtl,
-        children: [
-          Text(
-            textTitle,
-            textAlign: TextAlign.right,
-            style: TextStyle(
-                fontFamily: mainFaFontFamily, fontSize: 20.0, fontWeight: fw),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomSubTitle extends StatelessWidget {
-  const CustomSubTitle({this.textTitle, this.color});
-  final textTitle;
-  final color;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        textDirection: TextDirection.rtl,
-        children: [
-          Text(
-            textTitle,
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontFamily: mainFaFontFamily,
-              color: color,
-              fontWeight: FontWeight.normal,
-              fontSize: 20.0,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

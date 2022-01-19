@@ -30,7 +30,7 @@ import 'Screens/addingPlateIntro.dart';
 import 'package:payausers/Screens/checkingAccess.dart';
 import 'package:payausers/Screens/add_plate_guide_view.dart';
 import 'package:payausers/Screens/reserve_guide_view.dart';
-import 'package:payausers/Screens/familyPage.dart';
+import 'package:payausers/Screens/familyPlate.dart';
 import 'package:payausers/Screens/minePlate.dart';
 import 'package:payausers/Screens/ForgetPasswordTabs/OTPSection.dart';
 import 'package:payausers/Screens/otherPlateView.dart';

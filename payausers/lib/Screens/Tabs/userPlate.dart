@@ -58,7 +58,7 @@ class _UserPlatesState extends State<UserPlates>
     LogLoading logLoadingWidgets = LogLoading();
     DeletePlate deletePlate = DeletePlate();
 
-    void openDetailsInModal(
+    openDetailsInModal(
         {List plate, hrStatus1, secStatus2, overalStatus, plateEn}) {
       showMaterialModalBottomSheet(
         context: context,
@@ -170,35 +170,39 @@ class _UserPlatesState extends State<UserPlates>
           ),
         ),
       ),
-      floatingActionButton: Container(
-        width: 170,
-        height: 55,
-        margin: EdgeInsets.only(top: 20.0),
-        child: Material(
-          elevation: 10.0,
-          borderRadius: BorderRadius.circular(100.0),
-          color: mainSectionCTA,
-          child: MaterialButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, "/addingPlateIntro"),
-              child: Row(
-                textDirection: TextDirection.rtl,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "افزودن پلاک جدید",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: mainFaFontFamily,
-                        fontSize: btnSized,
-                        fontWeight: FontWeight.normal),
-                  ),
-                  Icon(Iconsax.clipboard_text, color: Colors.white),
-                ],
-              )),
-        ),
-      ),
+      floatingActionButton: plateModel.platesState == FlowState.Loading ||
+              plateModel.platesState == FlowState.Error ||
+              plateModel.plates.length >= 2
+          ? SizedBox()
+          : Container(
+              width: 170,
+              height: 55,
+              margin: EdgeInsets.only(top: 20.0),
+              child: Material(
+                elevation: 10.0,
+                borderRadius: BorderRadius.circular(100.0),
+                color: mainSectionCTA,
+                child: MaterialButton(
+                    onPressed: () =>
+                        Navigator.pushNamed(context, "/addingPlateIntro"),
+                    child: Row(
+                      textDirection: TextDirection.rtl,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "افزودن پلاک جدید",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: mainFaFontFamily,
+                              fontSize: btnSized,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Icon(Iconsax.clipboard_text, color: Colors.white),
+                      ],
+                    )),
+              ),
+            ),
     );
   }
 
