@@ -88,7 +88,7 @@ class _MainoState extends State<Maino> {
     try {
       result = await _connectivity.checkConnectivity();
     } on PlatformException catch (e) {
-      print(e.toString());
+      // print(e.toString());
     }
     if (!mounted) {
       return Future.value(null);
@@ -141,8 +141,6 @@ class _MainoState extends State<Maino> {
     staffInfoModel = Provider.of<StaffInfoModel>(context);
     reserveWeeks = Provider.of<ReserveWeeks>(context);
     instantReserveModel = Provider.of<InstantReserveModel>(context);
-
-    print(avatarModel.avatar);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme

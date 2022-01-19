@@ -433,7 +433,7 @@ class _DashboardState extends State<Dashboard>
                                     title: "جایگاه",
                                     onPressed: () => openOptionsData(
                                       title: "جایگاه فعلی وسیله نقلیه شما",
-                                      data: "در حال لود شدن",
+                                      data: "در حال بارگیری اطلاعات",
                                     ),
                                   )
                                 : SecondOptions(
@@ -454,7 +454,7 @@ class _DashboardState extends State<Dashboard>
                               title: "جایگاه",
                               onPressed: () => openOptionsData(
                                 title: "جایگاه فعلی وسیله نقلیه شما",
-                                data: "در حال لود شدن",
+                                data: "در حال بارگیری اطلاعات",
                               ),
                             );
                           }

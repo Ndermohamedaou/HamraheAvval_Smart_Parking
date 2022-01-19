@@ -64,8 +64,8 @@ class _LoginPageState extends State<LoginPage> {
     // Login process
     void navigatedToDashboard({email, pass}) async {
       GettingReadyAccount gettingReadyAccount = GettingReadyAccount();
-
       String devToken = "";
+
       try {
         devToken = await FirebaseMessaging.instance.getToken();
       } catch (e) {

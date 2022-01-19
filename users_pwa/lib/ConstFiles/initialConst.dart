@@ -73,7 +73,8 @@ const String third_slide = "https://shop.mci.ir";
 // API details
 // const baseUrl = "http://188.213.64.78:8000/api";
 const baseUrl = "https://smartparking.mci.ir/api";
-
+// http://172.16.48.228/api
+// https://smartparking.mci.ir/api
 // Old API
 // http://188.213.64.78:8000
 // http://172.16.24.14:8000

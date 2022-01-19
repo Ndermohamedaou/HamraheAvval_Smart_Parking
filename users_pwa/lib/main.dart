@@ -51,7 +51,7 @@ void main() async {
   /// I will send it to server app, and server app will save it as an index of
   /// user_device_token list. This most important from this list is sending notification to which device?
   /// If my device_token list was 3 index, notification will send to entire of this device tokens and 3 device will
-  /// have notification from notification center
+  /// have notification from notification center.
   FirebaseMessaging.instance.getToken().then(
       print); // I want show it from terminal maybe i want use that in my API
 }
@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
   /// Adding Dark theme provider to have provider changer theme
   DarkThemeProvider themeChangeProvider = DarkThemeProvider();
 
-  /// userPlateNotiCount
+  // userPlateNotiCount
   ValueNotifier<int> userPlateNotifCounter;
   ValueNotifier<int> userInstantReserveCounter;
 
@@ -132,8 +132,6 @@ class _MyAppState extends State<MyApp> {
     themeChangeProvider.darkTheme =
         await themeChangeProvider.darkThemePreferences.getTheme();
   }
-
-  String urlPrefix = "/WebApp";
 
   @override
   Widget build(BuildContext context) {
