@@ -130,6 +130,16 @@ class _MainoState extends State<Maino> {
     instantReserve.fetchInstantReserve;
   }
 
+  willPopTo() {
+    /// When user tab on back button in Android phone, it will pop to previous screen.
+    if (tabBarIndex >= 1 && tabBarIndex <= 4) {
+      setState(() => tabBarIndex -= 1);
+      pageController(tabBarIndex);
+    } else {
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // Getting instance from Providers
@@ -149,70 +159,49 @@ class _MainoState extends State<Maino> {
 
     return WillPopScope(
         child: Scaffold(
-          body: DoubleBackToCloseApp(
-            snackBar: SnackBar(
-              content: Text(
-                'برای خروج دوبار روی بازگشت کلیک کنید',
-                style: TextStyle(
-                  fontFamily: mainFaFontFamily,
-                ),
-                textAlign: TextAlign.right,
-              ),
-            ),
-            child: PageView(
-              // Getting Reserve length
-              onPageChanged: (pageIndex) async {
-                if (pageIndex == 3) {
-                  // user_plate_notif_number
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.setInt("user_plate_notif_number", 0);
-                  themeChange.userPlateNumNotif = 0;
-                }
+          body: PageView(
+            // Getting Reserve length
+            onPageChanged: (pageIndex) async {
+              if (pageIndex == 3) {
+                // user_plate_notif_number
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setInt("user_plate_notif_number", 0);
+                themeChange.userPlateNumNotif = 0;
+              }
 
-                if (pageIndex == 2) {
-                  // user_plate_notif_number
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  prefs.setInt("instant_reserve_notif_number", 0);
-                  themeChange.instantUserReserve = 0;
-                }
-              },
-              controller: _pageController,
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                Dashboard(
-                  openUserDashSettings: () {
-                    setState(() => tabBarIndex = 4);
-                    _pageController.animateToPage(4,
-                        duration: Duration(milliseconds: 1),
-                        curve: Curves.easeOut);
-                  },
-                  navigateToTrafficsTab: () {
-                    setState(() => tabBarIndex = 1);
-                    _pageController.animateToPage(1,
-                        duration: Duration(milliseconds: 1),
-                        curve: Curves.easeOut);
-                  },
-                  navigateToReservesTab: () {
-                    setState(() => tabBarIndex = 2);
-                    _pageController.animateToPage(2,
-                        duration: Duration(milliseconds: 1),
-                        curve: Curves.easeOut);
-                  },
-                  navigateToPlatesTab: () {
-                    setState(() => tabBarIndex = 3);
-                    _pageController.animateToPage(3,
-                        duration: Duration(milliseconds: 1),
-                        curve: Curves.easeOut);
-                  },
-                ),
-                UserTraffic(),
-                WeekReservedTab(),
-                UserPlates(),
-                Settings(),
-              ],
-            ),
+              if (pageIndex == 2) {
+                // user_plate_notif_number
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setInt("instant_reserve_notif_number", 0);
+                themeChange.instantUserReserve = 0;
+              }
+            },
+            controller: _pageController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Dashboard(
+                openUserDashSettings: () {
+                  setState(() => tabBarIndex = 4);
+                  pageController(tabBarIndex);
+                },
+                navigateToTrafficsTab: () {
+                  setState(() => tabBarIndex = 1);
+                  pageController(tabBarIndex);
+                },
+                navigateToReservesTab: () {
+                  setState(() => tabBarIndex = 2);
+                  pageController(tabBarIndex);
+                },
+                navigateToPlatesTab: () {
+                  setState(() => tabBarIndex = 3);
+                  pageController(tabBarIndex);
+                },
+              ),
+              UserTraffic(),
+              WeekReservedTab(),
+              UserPlates(),
+              Settings(),
+            ],
           ),
           // Prevent from bad background of radius in border of tabbar
           // extendBody: true,
@@ -232,7 +221,7 @@ class _MainoState extends State<Maino> {
               currentIndex: tabBarIndex,
               onTap: (indexValue) {
                 setState(() => tabBarIndex = indexValue);
-                pageControllerFunc(tabBarIndex);
+                pageController(tabBarIndex);
               },
               items: [
                 BottomNavigationBarItem(
@@ -327,7 +316,7 @@ class _MainoState extends State<Maino> {
         );
   }
 
-  void pageControllerFunc(index) {
+  void pageController(index) {
     _pageController.animateToPage(index,
         duration: Duration(milliseconds: 1), curve: Curves.ease);
   }
