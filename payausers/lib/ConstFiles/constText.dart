@@ -14,6 +14,7 @@ const dateOfReserve = "تاریخ ورود";
 const reserveTypeText = "نوع رزرو";
 const buildingNameText = "ساختمان";
 const slotNameText = "جایگاه";
+const dataLoadingTextString = "در حال بارگیری اطلاعات";
 
 const notValidPassText = "گذرواژه نامعتبر";
 const passwordCheckerText =
