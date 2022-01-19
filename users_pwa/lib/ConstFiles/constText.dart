@@ -259,7 +259,7 @@ const userTrafficNull = "تردد شما خالی می باشد";
 const successChangedEmailTitle = "عملیات با موفقیت انجام شد";
 const successChangedEmailDesc = "ایمیل شما با موفقیت ویرایش شد";
 const failedChangedEmailTitle = "باری دیگر عمل ویرایش ایمیل خود را انجام دهید";
-const failedChangedEmailDesc = "عملیات با موفقیت انجام شد";
+const changeSuccessed = "عملیات با موفقیت انجام شد";
 // Settings -> change user email texts -> alert
 const emailSubmissionStructureError = "خطا در بررسی آدرس ایمیل شما";
 const emailSubmissionStructureErrorDesc =

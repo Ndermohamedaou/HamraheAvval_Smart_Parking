@@ -32,6 +32,7 @@ class CancelReserve {
           context: context,
           title: "لغو رزرو",
           msg: "لغو رزرو شما با موفقیت صورت گرفت",
+          mainBackgroundColor: "#00c853",
           iconColor: Colors.white,
           icon: Icons.done_outline);
     } else if (caneclingResult == "500") {

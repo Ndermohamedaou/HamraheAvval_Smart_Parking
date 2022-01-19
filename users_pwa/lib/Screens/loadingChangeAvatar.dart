@@ -55,8 +55,9 @@ class _LoadingChangeAvatarState extends State<LoadingChangeAvatar> {
             avatarModel.fetchUserAvatar;
             showStatusInCaseOfFlush(
                 context: context,
-                title: "",
+                title: changeSuccess,
                 msg: sendSuccessful,
+                mainBackgroundColor: "#00c853",
                 iconColor: Colors.green,
                 icon: Icons.done_outline);
           } else {

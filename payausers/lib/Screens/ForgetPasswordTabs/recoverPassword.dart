@@ -81,6 +81,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
                     title: "عملیات تغییر گذرواژه موفقیت آمیز بود",
                     msg:
                         "گذرواژه شما با موفقیت تغییر کرد، لطفا دوباره اقدام به ورود کنید",
+                    mainBackgroundColor: "#00c853",
                     iconColor: Colors.white,
                     icon: Icons.done_all_rounded);
               } else {

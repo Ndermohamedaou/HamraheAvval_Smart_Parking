@@ -30,6 +30,7 @@ class CancelReserve {
       Navigator.pop(context);
       showStatusInCaseOfFlush(
           context: context,
+          mainBackgroundColor: "#00c853",
           title: "لغو رزرو",
           msg: "لغو رزرو شما با موفقیت صورت گرفت",
           iconColor: Colors.white,
