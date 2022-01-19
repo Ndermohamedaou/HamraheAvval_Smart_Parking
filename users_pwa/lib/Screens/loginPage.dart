@@ -1,8 +1,7 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Model/gettingReadyAccount.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -66,12 +65,12 @@ class _LoginPageState extends State<LoginPage> {
       GettingReadyAccount gettingReadyAccount = GettingReadyAccount();
       String devToken = "";
 
-      try {
-        devToken = await FirebaseMessaging.instance.getToken();
-      } catch (e) {
-        devToken = "";
-        print(e);
-      }
+      // try {
+      //   devToken = await FirebaseMessaging.instance.getToken();
+      // } catch (e) {
+      //   devToken = "";
+      //   print(e);
+      // }
 
       setState(() {
         email = email.trim();

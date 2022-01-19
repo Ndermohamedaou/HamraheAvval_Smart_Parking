@@ -547,6 +547,7 @@ class WeekList extends StatelessWidget {
           historySlotName: reserveWeeksList[index]["slot"] ?? "",
           historyStartTime: reserveWeeksList[index]["week"] ?? "",
           reserveType: reserveType,
+          historyEndTime: "",
           onPressed: () {
             if (reserveWeeksList[index]["type"] == "list") {
               return null;

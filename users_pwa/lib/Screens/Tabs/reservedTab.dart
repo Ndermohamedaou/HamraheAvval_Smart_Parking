@@ -460,8 +460,7 @@ class _ReservedTabState extends State<ReservedTab>
                                     historySlotName: reserveList[index]["slot"],
                                     historyStartTime: reserveList[index]
                                         ["reserveTimeStart"],
-                                    historyEndTime: reserveList[index]
-                                        ["reserveTimeEnd"],
+                                    historyEndTime: "",
                                     onPressed: () {
                                       // Update user reserves in provider
                                       reservesModel.fetchReservesData;

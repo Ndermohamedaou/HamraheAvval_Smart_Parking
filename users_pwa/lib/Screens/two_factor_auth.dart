@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
@@ -69,12 +69,12 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
   void checkingOTPReq({otpCode, persCode, password}) async {
     GettingReadyAccount gettingReadyAccount = GettingReadyAccount();
     String devToken = "";
-    try {
-      setState(() async => await FirebaseMessaging.instance.getToken());
-    } catch (e) {
-      setState(() => devToken = "");
-      print(e);
-    }
+    // try {
+    //   setState(() async => await FirebaseMessaging.instance.getToken());
+    // } catch (e) {
+    //   setState(() => devToken = "");
+    //   print(e);
+    // }
 
     try {
       setState(() => _isSubmit = true);

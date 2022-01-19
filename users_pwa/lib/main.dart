@@ -1,4 +1,4 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/config_nonweb.dart';
@@ -52,8 +52,8 @@ void main() async {
   /// user_device_token list. This most important from this list is sending notification to which device?
   /// If my device_token list was 3 index, notification will send to entire of this device tokens and 3 device will
   /// have notification from notification center.
-  FirebaseMessaging.instance.getToken().then(
-      print); // I want show it from terminal maybe i want use that in my API
+  // FirebaseMessaging.instance.getToken().then(
+  //     print); // I want show it from terminal maybe i want use that in my API
 }
 
 class MyApp extends StatefulWidget {
@@ -66,63 +66,63 @@ class _MyAppState extends State<MyApp> {
   DarkThemeProvider themeChangeProvider = DarkThemeProvider();
 
   // userPlateNotiCount
-  ValueNotifier<int> userPlateNotifCounter;
-  ValueNotifier<int> userInstantReserveCounter;
+  // ValueNotifier<int> userPlateNotifCounter;
+  // ValueNotifier<int> userInstantReserveCounter;
 
   @override
   void initState() {
     super.initState();
 
-    userPlateNotifCounter =
-        ValueNotifier(themeChangeProvider.userPlateNumNotif);
-    userInstantReserveCounter =
-        ValueNotifier(themeChangeProvider.instantUserReserve);
+    // userPlateNotifCounter =
+    //     ValueNotifier(themeChangeProvider.userPlateNumNotif);
+    // userInstantReserveCounter =
+    //     ValueNotifier(themeChangeProvider.instantUserReserve);
 
     getCurrentAppTheme();
-    firebaseOnMessage();
-    onFirebaseOpenedApp();
+    // firebaseOnMessage();
+    // onFirebaseOpenedApp();
   }
 
-  void onFirebaseOpenedApp() {
-    FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      print(event.notification.title);
-    });
-  }
+  // void onFirebaseOpenedApp() {
+  //   FirebaseMessaging.onMessageOpenedApp.listen((event) {
+  //     print(event.notification.title);
+  //   });
+  // }
 
-  void firebaseOnMessage() {
-    /// This two value notifier is used to define the badge state.
-    ///
-    /// We have two Badge value number that we define it as ValueNotifier.
-    /// - Reserver submit from admin panel to notify user it reserve submitted.
-    /// - Plate added from admin panel to notify user it plate added.
-    /// This notifiers have a value to separate notification from other.
-    /// The key of this notifier is target.
-    /// Value of that is (0) => Reserver submit, (1) => Plate added.
-    FirebaseMessaging.onMessage.listen((msg) {
-      print(msg.notification.title);
-      print(msg.notification.body);
-      print(msg.data["target"]);
+  // void firebaseOnMessage() {
+  //   /// This two value notifier is used to define the badge state.
+  //   ///
+  //   /// We have two Badge value number that we define it as ValueNotifier.
+  //   /// - Reserver submit from admin panel to notify user it reserve submitted.
+  //   /// - Plate added from admin panel to notify user it plate added.
+  //   /// This notifiers have a value to separate notification from other.
+  //   /// The key of this notifier is target.
+  //   /// Value of that is (0) => Reserver submit, (1) => Plate added.
+  //   FirebaseMessaging.onMessage.listen((msg) {
+  //     print(msg.notification.title);
+  //     print(msg.notification.body);
+  //     print(msg.data["target"]);
 
-      if (msg.data["target"] == "3") {
-        /// Check if user doesn't see notification badge inside of App
-        userPlateNotifCounter.value = themeChangeProvider.userPlateNumNotif == 0
-            ? 0
-            : themeChangeProvider.userPlateNumNotif;
-        userPlateNotifCounter.value++;
-        userPlateNotifCounter.notifyListeners();
-        themeChangeProvider.userPlateNumNotif = userPlateNotifCounter.value;
-      } else if (msg.data["target"] == "2") {
-        userInstantReserveCounter.value =
-            themeChangeProvider.instantUserReserve == 0
-                ? 0
-                : themeChangeProvider.instantUserReserve;
-        userInstantReserveCounter.value++;
-        userInstantReserveCounter.notifyListeners();
-        themeChangeProvider.instantUserReserve =
-            userInstantReserveCounter.value;
-      }
-    });
-  }
+  //     if (msg.data["target"] == "3") {
+  //       /// Check if user doesn't see notification badge inside of App
+  //       userPlateNotifCounter.value = themeChangeProvider.userPlateNumNotif == 0
+  //           ? 0
+  //           : themeChangeProvider.userPlateNumNotif;
+  //       userPlateNotifCounter.value++;
+  //       userPlateNotifCounter.notifyListeners();
+  //       themeChangeProvider.userPlateNumNotif = userPlateNotifCounter.value;
+  //     } else if (msg.data["target"] == "2") {
+  //       userInstantReserveCounter.value =
+  //           themeChangeProvider.instantUserReserve == 0
+  //               ? 0
+  //               : themeChangeProvider.instantUserReserve;
+  //       userInstantReserveCounter.value++;
+  //       userInstantReserveCounter.notifyListeners();
+  //       themeChangeProvider.instantUserReserve =
+  //           userInstantReserveCounter.value;
+  //     }
+  //   });
+  // }
 
   void getCurrentAppTheme() async {
     /// Getting Current theme provider from provider of darktheme
