@@ -209,7 +209,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
               tAlert: AlertType.warning,
               title: "شکست در فرآیند رزرو",
               desc:
-                  "شما پلاک تایید شده ای در سامانه ندارید. لطفا قبل از رزرو پلاک مورد نظر خود را وارد نمایید");
+                  "شما پلاک تایید شده ای در سامانه ندارید. لطفا قبل از رزرو، پلاک مورد نظر خود را وارد نمایید");
         else
           rAlert(
               context: context,

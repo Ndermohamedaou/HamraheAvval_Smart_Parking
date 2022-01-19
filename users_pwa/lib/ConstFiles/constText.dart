@@ -29,6 +29,10 @@ const notMatchPassDsc = "گذرواژه جدید و تایید آن بایستی
 const defectiveInfo = "ورودی اطلاعات ناقص است";
 const defectiveInfoMsg = "لطفا اطلاعات را با دقت وارد کنید";
 
+// Plate view section details
+const insideSectionText = "اداره امور داخلی";
+const securitySectionText = "اداره نظارت بر حفاظت فیزیکی";
+
 // Access denied
 const accessDeniedTextTitle =
     'شما بنا به دلایلی اجازه دسترسی به حساب خود ندارید';

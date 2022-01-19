@@ -1,5 +1,6 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/custom_divider.dart';
 import 'package:payausers/ExtractedWidgets/custom_sub_title.dart';
 import 'package:payausers/ExtractedWidgets/custom_title.dart';
@@ -73,7 +74,7 @@ class UserPlateInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "منابع انسانی", fw: FontWeight.normal),
+            CustomTitle(textTitle: insideSectionText, fw: FontWeight.normal),
             CustomSubTitle(textTitle: hrStatusFinal, color: hrStatusColorFinal),
           ],
         ),
@@ -82,7 +83,7 @@ class UserPlateInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "حراست", fw: FontWeight.normal),
+            CustomTitle(textTitle: securitySectionText, fw: FontWeight.normal),
             CustomSubTitle(
                 textTitle: secStatusFinal, color: secStatusColorFinal),
           ],
