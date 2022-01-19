@@ -254,6 +254,9 @@ const changeSuccess = "گذرواژه جدید شما با موفقیت ثبت �
 const searchingProcessText = "درحال یافتن پلاک";
 const searchingUserTraffics = "در حال یافتن اطلاعات تردد";
 const userTrafficNull = "تردد شما خالی می باشد";
+// Detele plate
+const deletePlateTitle = "حذف پلاک";
+const deletePlateDesc = "آیا از حذف پلاک خود مطمئن هستید؟";
 
 // Settings -> change user email texts
 const successChangedEmailTitle = "عملیات با موفقیت انجام شد";

@@ -4,7 +4,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/custom_opt.dart';
+import 'package:payausers/ExtractedWidgets/custom_local_auth.dart';
 
 class LocalAuthEnter extends StatefulWidget {
   @override

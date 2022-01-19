@@ -10,6 +10,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/userPlateDetailsInModal.dart';
+import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/deleteUserPlate.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
@@ -60,6 +61,7 @@ class _UserPlatesState extends State<UserPlates>
 
     openDetailsInModal(
         {List plate, hrStatus1, secStatus2, overalStatus, plateEn}) {
+      /// Tow factor delete.
       showMaterialModalBottomSheet(
         context: context,
         enableDrag: true,
@@ -73,13 +75,22 @@ class _UserPlatesState extends State<UserPlates>
             secStatus: secStatus2,
             overalStatus: overalStatus,
             themeChange: themeChange,
-            delUserPlate: () {
-              deletePlate.delUserPlate(id: plateEn, context: context);
-              // Update user plates in Provider
-              plateModel.fetchPlatesData;
-              // Update reserves
-              reservesModel.fetchReservesData;
-            },
+            delUserPlate: () => customAlert(
+              context: context,
+              alertIcon: Iconsax.box_remove,
+              borderColor: Colors.blue,
+              iconColor: Colors.blue,
+              title: deletePlateTitle,
+              desc: deletePlateDesc,
+              acceptPressed: () {
+                deletePlate.delUserPlate(id: plateEn, context: context);
+                // Update user plates in Provider
+                plateModel.fetchPlatesData;
+                // Update reserves
+                reservesModel.fetchReservesData;
+              },
+              ignorePressed: () => Navigator.pop(context),
+            ),
           ),
         ),
       );

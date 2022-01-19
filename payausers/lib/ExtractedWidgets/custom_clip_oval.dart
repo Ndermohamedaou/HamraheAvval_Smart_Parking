@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/initialConst.dart';
 
 class CustomClipOval extends StatelessWidget {
   const CustomClipOval(

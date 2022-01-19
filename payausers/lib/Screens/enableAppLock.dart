@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/custom_opt.dart';
+import 'package:payausers/ExtractedWidgets/custom_local_auth.dart';
 import 'package:provider/provider.dart';
 
 class SavingAppLock extends StatefulWidget {
