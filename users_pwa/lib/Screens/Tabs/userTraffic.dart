@@ -122,7 +122,7 @@ class _UserTrafficState extends State<UserTraffic>
                             color: Colors.white,
                             fontFamily: mainFaFontFamily,
                             fontSize: btnSized,
-                            fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.normal),
                       ),
                     ),
                   ),

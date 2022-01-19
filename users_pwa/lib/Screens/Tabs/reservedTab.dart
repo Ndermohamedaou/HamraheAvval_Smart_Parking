@@ -357,7 +357,7 @@ class _ReservedTabState extends State<ReservedTab>
                                 color: Colors.white,
                                 fontFamily: mainFaFontFamily,
                                 fontSize: btnSized,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),

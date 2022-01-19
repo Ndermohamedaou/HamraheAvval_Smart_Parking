@@ -238,7 +238,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
                                     style: TextStyle(
                                         fontFamily: mainFaFontFamily,
                                         color: mainCTA,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.normal,
                                         fontSize: 19)),
                               ]),
                         )
@@ -249,7 +249,7 @@ class _TwoFactorAuthScreenState extends State<TwoFactorAuthScreen> {
                               style: TextStyle(
                                   fontFamily: mainFaFontFamily,
                                   color: mainSectionCTA,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                   fontSize: 19)),
                         ),
                 ),

@@ -70,7 +70,7 @@ void customAlert(
                     style: TextStyle(
                         fontFamily: mainFaFontFamily,
                         fontSize: 24,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.normal),
                     textAlign: TextAlign.center,
                   ),
                   Text(

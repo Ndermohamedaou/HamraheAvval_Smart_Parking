@@ -112,7 +112,7 @@ class UserCard extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: mainFaFontFamily,
                           color: mainCardColor,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                           fontSize: staffNameOnCard,
                           letterSpacing: 2,
                         ),
@@ -123,7 +123,7 @@ class UserCard extends StatelessWidget {
                           fontFamily: mainFaFontFamily,
                           color: persCodeColor,
                           fontSize: persCodeFontSize,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                           letterSpacing: 5.0,
                         ),
                       ),

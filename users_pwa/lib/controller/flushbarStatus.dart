@@ -21,7 +21,7 @@ void showStatusInCaseOfFlush(
       textDirection: TextDirection.rtl,
       style: TextStyle(
           fontFamily: mainFaFontFamily,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.normal,
           color: Colors.white),
     ),
     messageText: Text(
@@ -53,7 +53,7 @@ void showStatusInCaseOfFlushBottom(
       textDirection: TextDirection.rtl,
       style: TextStyle(
           fontFamily: mainFaFontFamily,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.normal,
           color: Colors.white),
     ),
     messageText: Text(

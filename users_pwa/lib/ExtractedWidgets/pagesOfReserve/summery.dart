@@ -88,7 +88,7 @@ class Summery extends StatelessWidget {
                           style: TextStyle(
                               fontFamily: mainFaFontFamily,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.normal,
                               color: Colors.red),
                         )
                       ],
@@ -148,7 +148,7 @@ class Summery extends StatelessWidget {
                               style: TextStyle(
                                   fontFamily: mainFaFontFamily,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.normal),
                             ),
                             Text(
                               datePickedByUser.toString(),
@@ -200,7 +200,7 @@ class Summery extends StatelessWidget {
                                             color: loginBtnTxtColor,
                                             fontFamily: mainFaFontFamily,
                                             fontSize: btnSized,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.normal),
                                       ),
                                 Icon(
                                   Icons.chevron_right,

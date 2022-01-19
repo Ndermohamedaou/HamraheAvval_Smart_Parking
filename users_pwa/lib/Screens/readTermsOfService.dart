@@ -103,7 +103,7 @@ class AppBarAsNavigate extends StatelessWidget {
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: subTitleSize,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.normal),
               ),
               Icon(
                 Icons.verified_user_outlined,

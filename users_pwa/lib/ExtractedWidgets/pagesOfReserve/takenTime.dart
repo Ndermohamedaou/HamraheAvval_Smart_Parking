@@ -31,7 +31,7 @@ class TimerPicker extends StatelessWidget {
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               fontSize: 22,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
             ),
           ),
           SizedBox(height: 30),
@@ -43,7 +43,7 @@ class TimerPicker extends StatelessWidget {
             style: TextStyle(
               fontFamily: mainFaFontFamily,
               fontSize: 22,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.normal,
             ),
           ),
           SizedBox(height: 30),
@@ -80,7 +80,7 @@ class HourPicker extends StatelessWidget {
         fontFamily: mainFaFontFamily,
         color: mainSectionCTA,
         fontSize: 25,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.normal,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),

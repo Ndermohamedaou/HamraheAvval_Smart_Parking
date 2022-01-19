@@ -298,7 +298,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                   color: Colors.white,
                   fontFamily: mainFaFontFamily,
                   fontSize: 18,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.normal),
             ),
           ),
         ),
@@ -332,7 +332,7 @@ class CustomTextErrorChecker extends StatelessWidget {
                   fontFamily: mainFaFontFamily,
                   fontSize: 15,
                   color: textColor,
-                  fontWeight: FontWeight.bold)),
+                  fontWeight: FontWeight.normal)),
         ),
       ),
     );

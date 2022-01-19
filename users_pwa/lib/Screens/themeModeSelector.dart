@@ -51,7 +51,7 @@ class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
                         color: titleTextColor,
                         fontFamily: mainFaFontFamily,
                         fontSize: titleTextSize,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.normal),
                     textAlign: TextAlign.center,
                   ),
                 ),

@@ -323,7 +323,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
                                 color: Colors.white,
                                 fontFamily: mainFaFontFamily,
                                 fontSize: btnSized,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.normal),
                           ),
                         ),
                       ),

@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                 "پارکینگ هوشمند من",
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                   color: mainCTA,
                   fontSize: 30,
                 ),
@@ -264,7 +264,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: loginBtnTxtColor,
                               fontFamily: mainFaFontFamily,
                               fontSize: btnSized,
-                              fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.normal),
                         ),
                   Icon(
                     Icons.chevron_right,
