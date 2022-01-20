@@ -14,6 +14,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
+import 'package:payausers/controller/convert_date_to_string.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,9 @@ class _UserTrafficState extends State<UserTraffic>
     // UI loading or Error Class
     LogLoading logLoadingWidgets = LogLoading();
 
+    // Convert date to date String name.
+    ConvertDate convertDate = ConvertDate();
+
     openTrafficInfoInBottomActionSheet(
         {List plate, String startTime, String endTime}) {
       /// Show user plate + start time and end time
@@ -92,7 +96,21 @@ class _UserTrafficState extends State<UserTraffic>
                   children: [
                     CustomTitle(
                         textTitle: entranceDateReserve, fw: FontWeight.normal),
-                    CustomSubTitle(textTitle: startTime),
+                    CustomSubTitle(
+                        textTitle:
+                            "${convertDate.splitDateTime(startTime)[0] ?? ""}"),
+                  ],
+                ),
+                CustomDivider(),
+                Row(
+                  textDirection: TextDirection.rtl,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomTitle(
+                        textTitle: entranceTimeReserve, fw: FontWeight.normal),
+                    CustomSubTitle(
+                        textTitle:
+                            "${convertDate.splitDateTime(startTime)[1] ?? ""}"),
                   ],
                 ),
                 CustomDivider(),
@@ -102,7 +120,21 @@ class _UserTrafficState extends State<UserTraffic>
                   children: [
                     CustomTitle(
                         textTitle: exitDateReserve, fw: FontWeight.normal),
-                    CustomSubTitle(textTitle: endTime),
+                    CustomSubTitle(
+                        textTitle:
+                            "${convertDate.splitDateTime(endTime)[0] ?? ""}"),
+                  ],
+                ),
+                CustomDivider(),
+                Row(
+                  textDirection: TextDirection.rtl,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomTitle(
+                        textTitle: exitTimeReserve, fw: FontWeight.normal),
+                    CustomSubTitle(
+                        textTitle:
+                            "${convertDate.splitDateTime(endTime)[1] ?? ""}"),
                   ],
                 ),
                 SizedBox(height: 2.0.h),

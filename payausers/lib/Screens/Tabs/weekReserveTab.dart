@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Model/ApiAccess.dart';
@@ -13,6 +12,7 @@ import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/controller/alert.dart';
+import 'package:payausers/controller/convert_date_to_string.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/controller/specific_reserve_type.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -38,10 +38,12 @@ int filtered = 0;
 ReserveWeeks reserveWeeks;
 ReservesByWeek reservesByWeek;
 InstantReserveModel instantReserveModel;
+AvatarModel avatarModel;
 List selectedDays = [];
 List selectChipList = [];
 List<Widget> chipsDate = [];
 List<bool> selectedDaysAsBool = [];
+ConvertDate convertDate;
 
 class _WeekReservedTabState extends State<WeekReservedTab>
     with AutomaticKeepAliveClientMixin {
@@ -91,7 +93,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
     reservesModel = Provider.of<ReservesModel>(context);
     reservesByWeek = Provider.of<ReservesByWeek>(context);
     instantReserveModel = Provider.of<InstantReserveModel>(context);
-
+    avatarModel = Provider.of<AvatarModel>(context);
     // Getting local data.
     final localData = Provider.of<AvatarModel>(context);
     ApiAccess api = ApiAccess(localData.userToken);
@@ -100,7 +102,9 @@ class _WeekReservedTabState extends State<WeekReservedTab>
     // Prepare class for getting right plate from database
     // Controller of Instant reserve
     InstantReserve instantReserve = InstantReserve();
-    FlutterSecureStorage lds = FlutterSecureStorage();
+
+    // Date conversion.
+    convertDate = ConvertDate();
 
     // Checking type of reserve.
     SpecificReserveType specificReserveType = SpecificReserveType();
@@ -342,8 +346,8 @@ class _WeekReservedTabState extends State<WeekReservedTab>
     }
 
     instentReserveProcess() async {
-      final token = await lds.read(key: "token");
-      final result = await instantReserve.instantReserve(token: token);
+      final result =
+          await instantReserve.instantReserve(token: avatarModel.userToken);
 
       if (result != "") {
         // Update Reserves in Provider
@@ -550,7 +554,9 @@ class WeekList extends StatelessWidget {
           historyBuildingName: reserveWeeksList[index]["building"] ?? "",
           reserveStatusColor: reserveWeeksList[index]["status"] ?? "",
           historySlotName: reserveWeeksList[index]["slot"] ?? "",
-          historyStartTime: reserveWeeksList[index]["week"] ?? "",
+          historyStartTime:
+              "${reserveWeeksList[index]["week"]} ${convertDate.convertDateToString(reserveWeeksList[index]["week"])}" ??
+                  "",
           historyEndTime: "",
           reserveType: reserveType,
           onPressed: () {

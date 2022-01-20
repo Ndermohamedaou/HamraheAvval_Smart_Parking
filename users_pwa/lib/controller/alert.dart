@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/Model/ThemeColor.dart';
+import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sizer/sizer.dart';
 
@@ -20,6 +22,7 @@ void rAlert({context, title, desc, tAlert, onTapped}) {
         color: mainCTA,
         child: Text(
           "تایید",
+          textAlign: TextAlign.center,
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontFamily: mainFaFontFamily),
         ),
@@ -41,76 +44,98 @@ void customAlert(
     ignorePressed}) {
   showDialog(
       context: context,
-      builder: (_) => Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0)),
-            child: Container(
-              padding: EdgeInsets.all(20),
-              width: 100.0.w,
-              height: 100.0.w,
-              margin: EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(color: borderColor, width: 2),
-                    ),
-                    child: Icon(
-                      alertIcon,
-                      size: 40,
-                      color: iconColor,
-                    ),
+      builder: (_) {
+        DarkThemeProvider themeChange = Provider.of<DarkThemeProvider>(context);
+        return Dialog(
+          backgroundColor:
+              themeChange.darkTheme ? mainBgColorDark : mainBgColorLight,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            width: 80.0.w,
+            height: 100.0.w,
+            margin: EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(color: borderColor, width: 2),
                   ),
-                  Text(
-                    title,
-                    style: TextStyle(
-                        fontFamily: mainFaFontFamily,
-                        fontSize: 24,
-                        fontWeight: FontWeight.normal),
-                    textAlign: TextAlign.center,
+                  child: Icon(
+                    alertIcon,
+                    size: 10.0.w,
+                    color: iconColor,
                   ),
-                  Text(
-                    desc,
-                    style:
-                        TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    textDirection: TextDirection.rtl,
-                    children: [
-                      DialogButton(
-                        color: mainCTA,
-                        child: Text(
-                          "تایید",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: mainFaFontFamily),
-                        ),
-                        onPressed: acceptPressed,
-                        width: 25.0.w,
-                      ),
-                      DialogButton(
+                ),
+                Text(
+                  title,
+                  style: TextStyle(
+                      fontFamily: mainFaFontFamily,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  desc,
+                  style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                      child: Material(
+                        elevation: 10.0,
+                        borderRadius: BorderRadius.circular(8.0),
                         color: mainSectionCTA,
-                        child: Text(
-                          "خير",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: mainFaFontFamily),
-                        ),
-                        onPressed: ignorePressed,
-                        width: 25.0.w,
+                        child: MaterialButton(
+                            padding:
+                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                            onPressed: acceptPressed,
+                            child: Text(
+                              "بله",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: loginBtnTxtColor,
+                                  fontFamily: mainFaFontFamily,
+                                  fontSize: btnSized,
+                                  fontWeight: FontWeight.bold),
+                            )),
                       ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                      child: Material(
+                        elevation: 10.0,
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: themeChange.darkTheme ? darkBar : Colors.white,
+                        child: MaterialButton(
+                            padding:
+                                EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              "خیر",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: mainSectionCTA,
+                                  fontFamily: mainFaFontFamily,
+                                  fontSize: btnSized,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
-          ));
+          ),
+        );
+      });
 }

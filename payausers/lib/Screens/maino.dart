@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:iconsax/iconsax.dart';
 import 'package:badges/badges.dart';
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';

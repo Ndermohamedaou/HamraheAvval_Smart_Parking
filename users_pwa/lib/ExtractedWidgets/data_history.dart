@@ -3,6 +3,7 @@ import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/Model/ReserveColorsStatus.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/controller/convert_date_to_string.dart';
 import 'package:provider/provider.dart';
 
 class DataHisotry extends StatelessWidget {
@@ -33,11 +34,16 @@ class DataHisotry extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;
 
-    // Split date time for right alignment.
     String alignDate(String date) {
-      List<String> dateSplit = date.split("-");
+      /// Split date time for right alignment.
       try {
-        return "${dateSplit[0]}/${dateSplit[1]}/${dateSplit[2]}" ?? "";
+        ConvertDate convertDate = ConvertDate();
+        // Split DateTime.
+        List<String> dateSplit = date.split(" ");
+        List<String> dateString = dateSplit[0].split("-");
+        convertDate.convertDateToString(dateSplit[0]);
+        return "${dateString[0]}/${dateString[1]}/${dateString[2]} ${convertDate.convertDateToString(dateSplit[0])}" ??
+            "";
       } catch (e) {
         return dateWasNull;
       }
