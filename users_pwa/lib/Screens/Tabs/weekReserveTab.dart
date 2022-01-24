@@ -457,6 +457,8 @@ class _WeekReservedTabState extends State<WeekReservedTab>
                       return logLoadingWidgets.notFoundReservedData(
                           msg: "رزرو");
 
+                    print(reserveWeeksList);
+
                     return Column(
                       children: [
                         filtered != 0
@@ -550,8 +552,7 @@ class WeekList extends StatelessWidget {
           reserveStatusColor: reserveWeeksList[index]["status"] ?? "",
           historySlotName: reserveWeeksList[index]["slot"] ?? "",
           historyStartTime:
-              "${reserveWeeksList[index]["week"]} ${convertDate.convertDateToString(reserveWeeksList[index]["week"])}" ??
-                  "",
+              "${reserveWeeksList[index]["week"] != null ? convertDate.convertDateToString(reserveWeeksList[index]["week"]) : ""}",
           reserveType: reserveType,
           historyEndTime: "",
           onPressed: () {

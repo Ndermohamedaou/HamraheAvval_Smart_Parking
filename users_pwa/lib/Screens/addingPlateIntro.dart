@@ -108,7 +108,7 @@ class AddPlateOption extends StatelessWidget {
           UploadDocumentMethod(
             title: familyPlateTitleText,
             iconLeading: "assets/images/family.png",
-            onPressd: () => Navigator.pushNamed(context, "/addingFamilyPage"),
+            onPressd: () => Navigator.pushNamed(context, "/addingFamilyPlate"),
           ),
           Divider(
             color: Colors.grey,
