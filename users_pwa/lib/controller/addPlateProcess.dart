@@ -16,6 +16,8 @@ class AddPlateProc {
           uploadDocumentEndpoint.method,
           data);
 
+      print(result);
+
       switch (result) {
         case "200":
           return 200;

@@ -5,6 +5,7 @@ import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/imageConvertor.dart';
 import 'package:payausers/controller/validate_plate.dart';
 import 'package:payausers/providers/avatar_model.dart';
+import 'package:payausers/providers/plate_model.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:payausers/Model/AlphabetClassList.dart';
@@ -39,6 +40,8 @@ String ncOwnerCard;
 String ownerCarCard;
 bool isAddingDocs = true;
 AvatarModel localData;
+// Providers
+PlatesModel platesModel;
 
 class _FamilyPlateViewState extends State<FamilyPlateView> {
   @override
@@ -76,7 +79,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     // Convert bytes image to base64
     String melliCard64Img = await imgConvertor.img2Base64(pickedImage);
 
-    // If user doen't select any image from the file system or gallery
+    // If user doen't select any
+    // image from the file system or gallery
     if (pickedImage != null)
       setState(() => ncCard = melliCard64Img);
     else
@@ -89,23 +93,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       );
   }
 
-  /// For future if you want add national card of car owner to system
-  // Future gettingOwnerNC() async {
-  //   final pickedImage =
-  //       await ImagePickerWeb.getImage(outputType: ImageType.bytes);
-  //   String ownerMelliCard64Img = await imgConvertor.img2Base64(pickedImage);
-  //   if (pickedImage != null) {
-  //     setState(() => ncOwnerCard = ownerMelliCard64Img);
-  //   } else
-  //     showStatusInCaseOfFlushBottom(
-  //       context: context,
-  //       icon: Icons.close,
-  //       iconColor: Colors.red,
-  //       msg: "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید",
-  //       title: "عدم انتخاب تصویر",
-  //     );
-  // }
-
+  // TODO:
   Future gettingOwnerCarCard() async {
     // Getting image from the phone system and convert it to bytes
     final pickedImage =
@@ -132,7 +120,6 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     plate2,
     plate3,
     nationalCardImg,
-    ownerNationalCard,
     ownerCarCard,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -141,7 +128,6 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         plate2 != "" &&
         plate3 != "" &&
         nationalCardImg != "" &&
-        // ownerNationalCard != "" &&
         ownerCarCard != "") {
       // Defining the loader indicator
       setState(() => isAddingDocs = false);
@@ -155,14 +141,16 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         plate: plate,
         type: "family",
         data: {
-          "melli_card_image": ownerNationalCard,
-          "car_card_image": ownerCarCard
+          "melli_card_image": ownerCarCard,
+          "car_card_image": nationalCardImg // okay
         },
       );
 
       // If all documents sent successfully
       // You will see successfull flush message from top of the phone
       if (result == 200) {
+        // Update Plate in Provider
+        platesModel.fetchPlatesData;
         // Prevent to twice tapping happen
         setState(() => isAddingDocs = true);
         // Twice poping
@@ -233,6 +221,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
     localData = Provider.of<AvatarModel>(context);
+    platesModel = Provider.of<PlatesModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -273,12 +262,6 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               albumTapped: () => gettingNationalCard(),
               cameraTapped: () => gettingNationalCard(),
             ),
-            // CardEntry(
-            //   customIcon: "assets/images/nationalCardIcon.png",
-            //   imgShow: ncOwnerCard,
-            //   albumTapped: () => gettingOwnerNC(),
-            //   cameraTapped: () => gettingOwnerNC(),
-            // ),
             CardEntry(
               customIcon: "assets/images/paper2.png",
               imgShow: ownerCarCard,
@@ -298,7 +281,6 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
                 plate2: plate2,
                 plate3: plate3,
                 nationalCardImg: ncCard,
-                ownerNationalCard: ncOwnerCard,
                 ownerCarCard: ownerCarCard,
               )
             : nextPage(),
