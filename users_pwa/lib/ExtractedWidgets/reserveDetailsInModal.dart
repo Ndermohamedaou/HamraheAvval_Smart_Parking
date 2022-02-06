@@ -102,7 +102,7 @@ class ReserveInDetails extends StatelessWidget {
         ),
         SizedBox(height: 2.0.h),
         // Check if reserve was canceled you don't show any button to cancel again.
-        reserveStatusDesc == -2
+        reserveStatusDesc == -2 || reserveStatusDesc == 2
             ? SizedBox()
             : Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
