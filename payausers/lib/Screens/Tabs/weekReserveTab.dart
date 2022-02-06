@@ -478,7 +478,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
               reserveWeeks.reserveWeeksState == FlowState.Loading
           ? SizedBox()
           : Container(
-              width: 170,
+              width: 130,
               height: 55,
               child: Material(
                 elevation: 10.0,
