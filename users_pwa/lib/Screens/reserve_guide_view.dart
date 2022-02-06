@@ -60,6 +60,11 @@ class _ReserveGuideViewState extends State<ReserveGuideView> {
                 indicatorColor: Colors.grey,
                 title: greyColorTitle,
                 subTitle: greyColorDesc),
+            LeadingOption(
+                themeChange: themeChange,
+                indicatorColor: Colors.blue,
+                title: blueColorTitle,
+                subTitle: blueColorDesc),
           ],
         ),
       ),

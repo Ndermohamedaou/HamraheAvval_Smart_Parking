@@ -209,6 +209,9 @@ const orangeColorDesc =
     "رنگ نارنجی به معنای آن است که رزرو شما در حال بررسی و در انتظار تایید سامانه می‌باشد.";
 const greyColorTitle = "دایره خاکستری";
 const greyColorDesc = "رنگ خاکستری به معنای آن است که رزرو شما لغو شده است.";
+const blueColorTitle = "دایره آبی";
+const blueColorDesc =
+    "رنگ آبی به معنای آن است که شما تردد خود را انجام داده اید.";
 const isPlateValidTitle = "پلاک وارد شده صحیح نمی باشد.";
 const isPlateValidDesc = "لطفا از صحت پلاک وارد شده اطمینان حاصل نمایید.";
 const isPlateExistTitle = "پلاک وارد شده در سیستم موجود است.";
