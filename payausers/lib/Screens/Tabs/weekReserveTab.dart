@@ -12,6 +12,7 @@ import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/controller/alert.dart';
+import 'package:payausers/controller/calculate_next_week.dart';
 import 'package:payausers/controller/convert_date_to_string.dart';
 import 'package:payausers/controller/instentReserveController.dart';
 import 'package:payausers/controller/specific_reserve_type.dart';
@@ -23,9 +24,7 @@ import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import 'package:sizer/sizer.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 
 class WeekReservedTab extends StatefulWidget {
   const WeekReservedTab();
@@ -44,12 +43,13 @@ List selectChipList = [];
 List<Widget> chipsDate = [];
 List<bool> selectedDaysAsBool = [];
 ConvertDate convertDate;
+DateTimeCalculator dateTimeCalculator = DateTimeCalculator();
 
 class _WeekReservedTabState extends State<WeekReservedTab>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
-    getAWeek();
+    selectedDays = dateTimeCalculator.getAWeek();
     super.initState();
   }
 
@@ -60,29 +60,6 @@ class _WeekReservedTabState extends State<WeekReservedTab>
   }
 
   List<String> loadNextWeekDays = [];
-
-  void getAWeek() {
-    /// Get next week that will start with Saturday.
-    ///
-    /// With this function you can get a free week from Saturday to Thursday.
-    /// This DateTime shall be Persian DateTime to show users, what is their selected dates.
-    ///
-    Jalali now = Jalali.now();
-    var weekDay = now.weekDay;
-    var firstOfTheWeek = now - weekDay + 8;
-    for (var i = 0; i < 5; i++) {
-      final date = firstOfTheWeek + i;
-      // Create zero before date;
-      final correctMonth = date.month < 10 ? '0${date.month}' : date.month;
-      final correctDate = date.day < 10 ? '0${date.day}' : date.day;
-
-      selectedDays.add({
-        "value": "${date.year}-$correctMonth-$correctDate",
-        "label":
-            "${date.formatter.wN} ${date.formatter.d.toPersianDigit()} ${date.formatter.mN} ${date.formatter.yyyy.toPersianDigit()}"
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
