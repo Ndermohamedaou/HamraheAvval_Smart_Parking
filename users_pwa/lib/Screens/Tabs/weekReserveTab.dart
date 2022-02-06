@@ -475,7 +475,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
         ),
       ),
       floatingActionButton: Container(
-        width: 170,
+        width: 130,
         height: 55,
         child: Material(
           elevation: 10.0,

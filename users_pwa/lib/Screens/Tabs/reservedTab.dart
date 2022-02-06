@@ -476,7 +476,7 @@ class _ReservedTabState extends State<ReservedTab>
         ),
       ),
       floatingActionButton: Container(
-        width: 170,
+        width: 130,
         height: 55,
         child: Material(
           elevation: 10.0,
