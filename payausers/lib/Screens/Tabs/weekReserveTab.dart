@@ -555,8 +555,7 @@ class WeekList extends StatelessWidget {
           reserveStatusColor: reserveWeeksList[index]["status"] ?? "",
           historySlotName: reserveWeeksList[index]["slot"] ?? "",
           historyStartTime:
-              "${reserveWeeksList[index]["week"]} ${convertDate.convertDateToString(reserveWeeksList[index]["week"])}" ??
-                  "",
+              "${reserveWeeksList[index]["week"] != null ? convertDate.convertDateToString(reserveWeeksList[index]["week"]) : ""}",
           historyEndTime: "",
           reserveType: reserveType,
           onPressed: () {
