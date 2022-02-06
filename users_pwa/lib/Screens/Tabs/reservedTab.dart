@@ -11,7 +11,6 @@ import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/alert.dart';
-import 'package:payausers/controller/calculate_next_week.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
@@ -37,23 +36,16 @@ ReservesByWeek reservesByWeek;
 // To having reserves of weeks.
 ReserveWeeks reserveWeeks;
 
-List selectedDays = [];
-List<Widget> chipsDate = [];
-List<bool> selectedDaysAsBool = [];
-DateTimeCalculator dateTimeCalculator = DateTimeCalculator();
-
 class _ReservedTabState extends State<ReservedTab>
     with AutomaticKeepAliveClientMixin {
   // Timer for refresh in a min, if data had any change.
   @override
   void initState() {
-    selectedDays = dateTimeCalculator.getAWeek();
     super.initState();
   }
 
   @override
   void dispose() {
-    selectedDays = [];
     super.dispose();
   }
 
@@ -247,119 +239,6 @@ class _ReservedTabState extends State<ReservedTab>
       }
     }
 
-    // Fetching data from server to render date chips
-    prepareChips() {
-      setState(() {
-        selectedDaysAsBool = [];
-        chipsDate = [];
-      });
-      for (var i = 0; i < selectedDays.length; i++) {
-        // Checking next week days contained reserve_days API [data].
-        // If was contain will return true, else false.
-        try {
-          selectedDaysAsBool.add(reservesModel.reserves["reserved_days"]
-              .contains(selectedDays[i]["value"]));
-        } catch (e) {
-          // Catch for network connection lost.
-          selectedDaysAsBool.add(false);
-        }
-      }
-
-      for (int i = 0; i < selectedDays.length; i++) {
-        chipsDate.add(Container(
-          margin: EdgeInsets.symmetric(horizontal: 5.0),
-          child: FilterChip(
-            label: Text(
-              selectedDays[i]["label"],
-              style: TextStyle(fontSize: 20.0, fontFamily: mainFaFontFamily),
-            ),
-            selected: selectedDaysAsBool[i],
-            selectedColor: mainCTA,
-            onSelected: (bool value) async {
-              setState(() {
-                selectedDaysAsBool[i] = !selectedDaysAsBool[i];
-              });
-              reserveByChips(selectedDays[i]["value"]);
-            },
-          ),
-        ));
-      }
-    }
-
-    reserveBottomSheet() async {
-      prepareChips();
-      showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(
-            builder: (BuildContext context,
-                StateSetter setState /*You can rename this!*/) {
-              return SingleChildScrollView(
-                controller: ModalScrollController.of(context),
-                child: Column(
-                  children: [
-                    SizedBox(height: 1.0.h),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        textDirection: TextDirection.rtl,
-                        children: [
-                          Text("انتخاب یک یا چند روز از هفته",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontFamily: mainFaFontFamily,
-                                  fontSize: 25.0)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 2.0.h),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: chipsDate,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 2.0.h),
-                    Container(
-                      width: double.infinity,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      child: Material(
-                        elevation: 10.0,
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: mainSectionCTA,
-                        child: MaterialButton(
-                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          onPressed: () => Navigator.pop(context),
-                          child: Text(
-                            "بستن",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: mainFaFontFamily,
-                                fontSize: btnSized,
-                                fontWeight: FontWeight.normal),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 2.0.h),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
@@ -481,34 +360,6 @@ class _ReservedTabState extends State<ReservedTab>
                     );
                   },
                 ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      floatingActionButton: Container(
-        width: 130,
-        height: 55,
-        child: Material(
-          elevation: 10.0,
-          borderRadius: BorderRadius.circular(100.0),
-          color: mainSectionCTA,
-          child: MaterialButton(
-            onPressed: () => reserveBottomSheet(),
-            child: Row(
-              textDirection: TextDirection.rtl,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  weeklyReserveButtonText,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: mainFaFontFamily,
-                      fontSize: btnSized,
-                      fontWeight: FontWeight.normal),
-                ),
-                Icon(Icons.add, color: Colors.white),
               ],
             ),
           ),
