@@ -98,6 +98,7 @@ const submitPlate = "ثبت پلاک";
 const submitTextForAlert = "تایید";
 
 // Reserve Section
+const weeklyReserveButtonText = "رزرو هفتگی";
 const chooseDate = "انتخاب تاریخ رزرو";
 const openCalender = "تقویم";
 const chooseTime = "انتخاب زمان";
