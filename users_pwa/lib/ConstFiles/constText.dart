@@ -133,7 +133,7 @@ const failedReserveMsgDesc =
 // Instant reserve dialog
 const titleResultInstantReserve = "نتیجه رزرو لحظه ای شما";
 const descFailedInstantReserve =
-    "شما نمیتوانید رزرو لحظه ای خود را در این زمان انجام دهید. لطفا باری دیگر امتحان کنید";
+    "به علت تخصیص پارکینگ، رزرو لحظه ای برای شما غیر فعال می باشد";
 const dateWasNull = "بدون تاریخ";
 // User Traffic
 const trafficsLogText = "لیست تردد های شما";
