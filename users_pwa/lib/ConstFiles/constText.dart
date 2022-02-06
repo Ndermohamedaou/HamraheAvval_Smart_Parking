@@ -141,6 +141,10 @@ const trafficsLogText = "لیست تردد های شما";
 const waitingText = "لطفا کمی شکیبا باشید";
 const serverConnectionProblem = "عدم برقراری ارتباط با سرویس دهنده";
 
+// Delete Reserve
+const deleteReserveTitle = "حذف رزرو";
+const deleteReserveDesc = "آیا از حذف رزرو خود مطمئن هستید؟";
+
 // Add user plate
 const addUserPlate = "افزودن پلاک من";
 const correctEntry = "از صحت پلاک خود اطمینان حاصل کنید";

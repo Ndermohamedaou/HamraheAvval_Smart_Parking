@@ -101,12 +101,23 @@ class _ReservedTabState extends State<ReservedTab>
             slot: slot.toString(),
             themeChange: themeChange,
             delReserve: () {
-              cancelReserve.delReserve(reserveID: reservID, context: context);
-              // Refetch data in Providers
-              reserveWeeks.fetchReserveWeeks;
-              reservesModel.fetchReservesData;
-              reservesByWeek.fetchReserveWeeks;
-              reservesModel.fetchReservesData;
+              customAlert(
+                context: context,
+                alertIcon: Icons.warning,
+                iconColor: Colors.red,
+                title: deleteReserveTitle,
+                desc: deleteReserveDesc,
+                acceptPressed: () {
+                  cancelReserve.delReserve(
+                      reserveID: reservID, context: context);
+                  // Refetch data in Providers
+                  reserveWeeks.fetchReserveWeeks;
+                  reservesModel.fetchReservesData;
+                  reservesByWeek.fetchReserveWeeks;
+                  reservesModel.fetchReservesData;
+                },
+                ignorePressed: () => Navigator.pop(context),
+              );
             },
           ),
         ),

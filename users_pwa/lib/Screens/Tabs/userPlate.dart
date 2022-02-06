@@ -77,7 +77,6 @@ class _UserPlatesState extends State<UserPlates>
             delUserPlate: () => customAlert(
               context: context,
               alertIcon: Icons.delete,
-              borderColor: Colors.blue,
               iconColor: Colors.blue,
               title: deletePlateTitle,
               desc: deletePlateDesc,

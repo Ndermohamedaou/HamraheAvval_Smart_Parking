@@ -356,7 +356,6 @@ class _WeekReservedTabState extends State<WeekReservedTab>
       customAlert(
           context: context,
           alertIcon: Icons.access_time_outlined,
-          borderColor: Colors.blue,
           iconColor: Colors.blue,
           title: "رزرو لحظه ای",
           desc:
