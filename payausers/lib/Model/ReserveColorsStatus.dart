@@ -14,7 +14,6 @@ class ReserveStatusSpecification {
         return Colors.green;
       case 2:
         return Colors.blue;
-        break;
       default:
         return Colors.white;
     }
@@ -32,7 +31,6 @@ class ReserveStatusSpecification {
         return admitReserveStatus;
       case 2:
         return performTrafficReserveStatus;
-        break;
       default:
         return "خارج از انتظار";
     }
