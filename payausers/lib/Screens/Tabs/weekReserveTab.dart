@@ -211,7 +211,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
 
     // Fetching data from server to render date chips
     prepareChips() {
-      print("This is ==> ${reservesModel.reserves["reserved_days"]}");
+      // print("This is ==> ${reservesModel.reserves["reserved_days"]}");
       setState(() {
         selectedDaysAsBool = [];
         chipsDate = [];
@@ -328,7 +328,12 @@ class _WeekReservedTabState extends State<WeekReservedTab>
 
       if (result != "") {
         // Update Reserves in Provider
+        // If reserve was successful, then update reserves model for getting
+        // New week date list.
         reservesModel.fetchReservesData;
+        // After getting list of week date, we need to update our week reserve list.
+        // For exp: [week1, week2, week3, etc...]
+        reserveWeeks.fetchReserveWeeks;
         rAlert(
             context: context,
             tAlert: AlertType.success,
