@@ -548,14 +548,16 @@ class WeekList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String entranceDateTime = reserveWeeksList[index]["week"] != null
+        ? convertDate.convertDateToString(reserveWeeksList[index]["week"])
+        : "";
     return Column(
       children: [
         DataHisotry(
           historyBuildingName: reserveWeeksList[index]["building"] ?? "",
           reserveStatusColor: reserveWeeksList[index]["status"] ?? "",
           historySlotName: reserveWeeksList[index]["slot"] ?? "",
-          historyStartTime:
-              "${reserveWeeksList[index]["week"] != null ? convertDate.convertDateToString(reserveWeeksList[index]["week"]) : ""}",
+          historyStartTime: entranceDateTime,
           historyEndTime: "",
           reserveType: reserveType,
           onPressed: () {
