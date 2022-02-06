@@ -116,6 +116,7 @@ const delText = 'پاک کردن';
 const cancelText = 'لغو';
 
 // Reserve
+const weeklyReserveButtonText = "رزرو هفتگی";
 const String reserveTextTitle = "لیست روز های رزرو شده";
 const String weekCategoriesTextTitle = "لیست هفته های رزرو شده";
 const String startWeekDaysFrom = "شروع هفته از تاریخ";

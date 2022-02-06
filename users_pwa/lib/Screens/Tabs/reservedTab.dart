@@ -489,7 +489,7 @@ class _ReservedTabState extends State<ReservedTab>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "افزودن رزرو جدید",
+                  weeklyReserveButtonText,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
