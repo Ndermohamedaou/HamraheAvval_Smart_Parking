@@ -56,7 +56,7 @@ class _MainoState extends State<Maino> {
   void initState() {
     super.initState();
 
-    _onRefreshData = Timer.periodic(Duration(seconds: 30), (Timer t) {
+    _onRefreshData = Timer.periodic(Duration(seconds: 10), (Timer t) {
       // staffInfoModel.fetchStaffInfo;
       instantReserveModel.fetchInstantReserve;
     });
