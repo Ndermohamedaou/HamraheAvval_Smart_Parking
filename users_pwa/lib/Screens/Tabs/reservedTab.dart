@@ -68,15 +68,16 @@ class _ReservedTabState extends State<ReservedTab>
     // Controller of Instant reserve
     CancelReserve cancelReserve = CancelReserve();
 
-    void openDetailsInModal({
-      reservID,
-      reserveStatus,
-      List plate,
-      startTime,
-      endTime,
-      building,
-      slot,
-    }) {
+    void openDetailsInModal(
+        {reservID,
+        reserveStatus,
+        List plate,
+        startTime,
+        endTime,
+        building,
+        slot,
+        int enDateTime,
+        int expireTime}) {
       showMaterialModalBottomSheet(
         context: context,
         enableDrag: true,
@@ -85,6 +86,7 @@ class _ReservedTabState extends State<ReservedTab>
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: ReserveInDetails(
+            reserveTimeExpire: expireTime,
             plate: plate,
             reserveStatusDesc: reserveStatus,
             startTime: startTime.toString(),
@@ -95,13 +97,14 @@ class _ReservedTabState extends State<ReservedTab>
             delReserve: () {
               customAlert(
                 context: context,
-                alertIcon: Icons.warning,
+                alertIcon: Icons.delete,
                 iconColor: Colors.red,
                 title: deleteReserveTitle,
                 desc: deleteReserveDesc,
                 acceptPressed: () {
                   cancelReserve.delReserve(
                       reserveID: reservID, context: context);
+                  Navigator.pop(context);
                   // Refetch data in Providers
                   reserveWeeks.fetchReserveWeeks;
                   reservesModel.fetchReservesData;
@@ -332,11 +335,11 @@ class _ReservedTabState extends State<ReservedTab>
                                       // Update user reserves in provider
                                       reservesModel.fetchReservesData;
                                       openDetailsInModal(
+                                        expireTime: reserveList[index]
+                                            ["reserveTimeStart_En"],
                                         reservID: reserveList[index]["id"],
                                         reserveStatus: reserveList[index]
                                             ['status'],
-                                        // plate: preparedPlate.preparePlateInReserve(
-                                        //     rawPlate: reserveList[index]['plate']),
                                         plate: [],
                                         building: reserveList[index]
                                                     ["building"] !=
@@ -348,6 +351,8 @@ class _ReservedTabState extends State<ReservedTab>
                                             ["reserveTimeStart"],
                                         endTime: reserveList[index]
                                             ["reserveTimeEnd"],
+                                        enDateTime: reserveList[index]
+                                            ["reserveTimeStart_En"],
                                       );
                                     },
                                   ),

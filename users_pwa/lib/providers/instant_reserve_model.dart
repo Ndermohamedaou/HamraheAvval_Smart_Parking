@@ -37,7 +37,7 @@ class InstantReserveModel extends ChangeNotifier {
       canInstantReserve = jsonDecode(result)["status"];
       // print("Can instant reserve? $canInstantReserve");
     } catch (e) {
-      print("Error in getting data from instant reserve model $e");
+      // print("Error in getting data from instant reserve model $e");
       _instantReserveState = FlowState.Error;
     }
   }

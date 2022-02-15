@@ -6,12 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ReservesByWeek extends ChangeNotifier {
   // Flow state for loading, loaded, error.
-  FlowState _reservesByWeekState = FlowState.Initial;
+  FlowState stateReservesByWeekState = FlowState.Initial;
   // Final list of weeks reserves.
   List reservesList = [];
   String startDate = "";
 
-  FlowState get reservesByWeekState => _reservesByWeekState;
+  FlowState get reservesByWeekState => stateReservesByWeekState;
   Future get fetchReserveWeeks => _reservesByWeek();
 
   // Setter date for getting all reserver by start week.
@@ -25,7 +25,7 @@ class ReservesByWeek extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userToken = prefs.getString("token");
     ApiAccess api = ApiAccess(userToken);
-    _reservesByWeekState = FlowState.Loading;
+    stateReservesByWeekState = FlowState.Loading;
 
     try {
       // Getting Endpoint class of userReservesByWeek.
@@ -38,10 +38,10 @@ class ReservesByWeek extends ChangeNotifier {
           getUserReservesByWeek.method, {});
 
       reservesList = reserversOfWeek;
-      _reservesByWeekState = FlowState.Loaded;
+      stateReservesByWeekState = FlowState.Loaded;
     } catch (e) {
       print("Error in Getting data from reserve notifier $e");
-      _reservesByWeekState = FlowState.Error;
+      stateReservesByWeekState = FlowState.Error;
     }
     notifyListeners();
   }

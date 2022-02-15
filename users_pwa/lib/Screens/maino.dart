@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/Screens/Tabs/reserve_categories.dart';
 import 'package:payausers/Screens/Tabs/weekReserveTab.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -40,7 +41,7 @@ class _MainoState extends State<Maino> {
   AvatarModel avatarModel;
   StaffInfoModel staffInfoModel;
   ReserveWeeks reserveWeeks;
-  InstantReserveModel instantReserve;
+  InstantReserveModel instantReserveModel;
 
   int tabBarIndex;
   var _pageController;
@@ -126,13 +127,13 @@ class _MainoState extends State<Maino> {
     avatarModel.fetchUserAvatar;
     staffInfoModel.fetchStaffInfo;
     reserveWeeks.fetchReserveWeeks;
-    instantReserve.fetchInstantReserve;
+    instantReserveModel.fetchInstantReserve;
   }
 
   willPopTo() {
     /// When user tab on back button in Android phone, it will pop to previous screen.
     if (tabBarIndex >= 1 && tabBarIndex <= 4) {
-      setState(() => tabBarIndex -= 1);
+      setState(() => tabBarIndex = 0);
       pageController(tabBarIndex);
     } else {
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
@@ -197,7 +198,8 @@ class _MainoState extends State<Maino> {
                 },
               ),
               UserTraffic(),
-              WeekReservedTab(),
+              // WeekReservedTab(),
+              ReserveCategories(),
               UserPlates(),
               Settings(),
             ],

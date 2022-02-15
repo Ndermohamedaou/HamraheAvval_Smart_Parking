@@ -34,7 +34,7 @@ class _UserPlatesState extends State<UserPlates>
   void initState() {
     loadingDelTime = false;
 
-    _onRefreshPlatesPerMin = Timer.periodic(Duration(minutes: 1), (timer) {
+    _onRefreshPlatesPerMin = Timer.periodic(Duration(seconds: 30), (timer) {
       plateModel.fetchPlatesData;
     });
     super.initState();

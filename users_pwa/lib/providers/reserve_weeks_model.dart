@@ -8,7 +8,7 @@ class ReserveWeeks extends ChangeNotifier {
   // Flow state for loading, loaded, error.
   FlowState _reserveWeeksState = FlowState.Initial;
   // Final list of weeks reserves.
-  List finalReserveWeeks = [];
+  Map finalReserveWeeks = {};
 
   ReserveWeeks() {
     _getReserveWeeks();

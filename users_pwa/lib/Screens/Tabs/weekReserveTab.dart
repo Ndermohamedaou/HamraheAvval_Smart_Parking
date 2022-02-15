@@ -372,7 +372,7 @@ class _WeekReservedTabState extends State<WeekReservedTab>
     }
 
     // Getting Reserve Weeks as reversed list.
-    List reserveWeeksList = reserveWeeks.finalReserveWeeks.reversed.toList();
+    dynamic reserveWeeksList = reserveWeeks.finalReserveWeeks;
 
     // Calculate item count of ListView:
     final listViewItemCount = filtered == 0

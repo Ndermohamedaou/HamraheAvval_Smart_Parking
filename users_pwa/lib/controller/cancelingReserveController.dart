@@ -5,7 +5,7 @@ import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CancelReserve {
-  Future<String> cancelUserReserve({token, userReserveID}) async {
+  Future<Map> cancelUserReserve({token, userReserveID}) async {
     ApiAccess api = ApiAccess(token);
     try {
       Endpoint cancelReserveEndpoint =
@@ -14,8 +14,14 @@ class CancelReserve {
           "${cancelReserveEndpoint.route}?id=$userReserveID",
           cancelReserveEndpoint.method, {});
     } catch (e) {
-      print("Error from Canceling Reserve $e");
-      return "400";
+      // print("Error from Canceling Reserve $e");
+      return {
+        "status": "error",
+        "message": {
+          "title": "خطا در ارسال درخواست",
+          "desc": "مشکلی در ارتباط با سرویس دهنده رخ داده است."
+        }
+      };
     }
   }
 
@@ -23,31 +29,33 @@ class CancelReserve {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userToken = prefs.getString("token");
 
-    String caneclingResult =
+    final cancelResult =
         await cancelUserReserve(token: userToken, userReserveID: reserveID);
 
-    if (caneclingResult == "200") {
+    if (cancelResult["status"] == "success") {
       Navigator.pop(context);
       showStatusInCaseOfFlush(
           context: context,
-          title: "لغو رزرو",
-          msg: "لغو رزرو شما با موفقیت صورت گرفت",
           mainBackgroundColor: "#00c853",
+          title: cancelResult["message"]["title"],
+          msg: cancelResult["message"]["desc"],
           iconColor: Colors.white,
           icon: Icons.done_outline);
-    } else if (caneclingResult == "500") {
+    } else if (cancelResult["status"] == "warning") {
       Navigator.pop(context);
       showStatusInCaseOfFlush(
           context: context,
-          title: "حذف رزرو",
-          msg: "این رزرو یک بار لغو شده است",
+          title: cancelResult["message"]["title"],
+          msg: cancelResult["message"]["desc"],
+          mainBackgroundColor: Colors.orange,
           iconColor: Colors.white,
           icon: Icons.warning);
-    } else if (caneclingResult == "400")
+    } else if (cancelResult["status"] == "error")
       showStatusInCaseOfFlush(
           context: context,
-          title: "حذف رزرو",
-          msg: "حذف رزرو شما با مشکلی مواجه شده است، لطفا بعدا امتحان کنید",
+          mainBackgroundColor: Colors.red,
+          title: cancelResult["message"]["title"],
+          msg: cancelResult["message"]["desc"],
           iconColor: Colors.white,
           icon: Icons.close);
   }
