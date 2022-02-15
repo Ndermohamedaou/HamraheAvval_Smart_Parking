@@ -61,13 +61,15 @@ class RecoverPasswordState extends State<RecoverPassword> {
             bool testRegexRePass = passwordRegex(repass);
             if (testRegexPass && testRegexRePass) {
               setState(() => _isSubmit = false);
-
               Endpoint otpEndpoint =
                   apiEndpointsMap["auth"]["otp"]["recoverPassword"];
+              print("${otpEndpoint.route}?otp_code=$otpCode&password=$pass");
 
               final recoverPasswordResult = await api.requestHandler(
                   "${otpEndpoint.route}?otp_code=$otpCode&password=$pass",
                   otpEndpoint.method, {});
+
+              print("${otpEndpoint.route}?otp_code=$otpCode&password=$pass");
 
               if (recoverPasswordResult == "200") {
                 setState(() => _isSubmit = true);
@@ -135,6 +137,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
             icon: Icons.close);
       }
     } catch (e) {
+      print("Error from reset password: $e");
       setState(() => _isSubmit = true);
       showStatusInCaseOfFlush(
           context: context,
@@ -142,7 +145,6 @@ class RecoverPasswordState extends State<RecoverPassword> {
           msg: "ارتباط خود را بررسی کنید یا با سرویس دهنده در تماس باشید",
           iconColor: Colors.white,
           icon: Icons.close);
-      print("Error from reset password: $e");
     }
   }
 

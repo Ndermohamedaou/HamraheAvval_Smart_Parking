@@ -370,7 +370,7 @@ class _DashboardState extends State<Dashboard>
                             title: "رزروها",
                             onPressed: () => openOptionsData(
                                 title: "تعداد کل رزروهای شما",
-                                data: reservesModel.reserves["reserves"].length,
+                                data: staffInfoModel.staffInfo["reserves"],
                                 hasAction: true,
                                 onPressedNavigationButton: () {
                                   widget.navigateToReservesTab();

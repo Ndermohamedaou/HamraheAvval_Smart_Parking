@@ -8,7 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/Screens/Tabs/weekReserveTab.dart';
+import 'package:payausers/Screens/Tabs/reserve_categories.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/instant_reserve_model.dart';
@@ -58,9 +58,9 @@ class _MainoState extends State<Maino> {
   void initState() {
     super.initState();
 
-    _onRefreshData = Timer.periodic(Duration(seconds: 10), (Timer t) {
+    _onRefreshData = Timer.periodic(Duration(seconds: 5), (Timer t) {
       // staffInfoModel.fetchStaffInfo;
-      instantReserveModel.fetchInstantReserve;
+      instantReserve.fetchInstantReserve;
     });
 
     // Initialize Connection Subscription
@@ -134,7 +134,7 @@ class _MainoState extends State<Maino> {
   willPopTo() {
     /// When user tab on back button in Android phone, it will pop to previous screen.
     if (tabBarIndex >= 1 && tabBarIndex <= 4) {
-      setState(() => tabBarIndex -= 1);
+      setState(() => tabBarIndex = 0);
       pageController(tabBarIndex);
     } else {
       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
@@ -151,7 +151,7 @@ class _MainoState extends State<Maino> {
     avatarModel = Provider.of<AvatarModel>(context);
     staffInfoModel = Provider.of<StaffInfoModel>(context);
     reserveWeeks = Provider.of<ReserveWeeks>(context);
-    instantReserveModel = Provider.of<InstantReserveModel>(context);
+    instantReserve = Provider.of<InstantReserveModel>(context);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
@@ -199,7 +199,8 @@ class _MainoState extends State<Maino> {
                 },
               ),
               UserTraffic(),
-              WeekReservedTab(),
+              // WeekReservedTab(),
+              ReserveCategories(),
               UserPlates(),
               Settings(),
             ],

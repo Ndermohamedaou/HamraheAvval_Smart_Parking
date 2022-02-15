@@ -1,3 +1,4 @@
+// TODO: Remove this view if i had success in tab response handling.
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -10,7 +11,6 @@ import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/Model/endpoints.dart';
-import 'package:payausers/Screens/Tabs/reservedTab.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/calculate_next_week.dart';
 import 'package:payausers/controller/convert_date_to_string.dart';
@@ -38,6 +38,7 @@ ReserveWeeks reserveWeeks;
 ReservesByWeek reservesByWeek;
 InstantReserveModel instantReserveModel;
 AvatarModel avatarModel;
+ReservesModel reservesModel;
 List selectedDays = [];
 List selectChipList = [];
 List<Widget> chipsDate = [];
@@ -376,7 +377,8 @@ class _WeekReservedTabState extends State<WeekReservedTab>
     }
 
     // Getting Reserve Weeks as reversed list.
-    List reserveWeeksList = reserveWeeks.finalReserveWeeks.reversed.toList();
+    // TODO: fix this if i can't fix this mission.
+    dynamic reserveWeeksList = reserveWeeks.finalReserveWeeks;
 
     // Calculate item count of ListView:
     final listViewItemCount = filtered == 0

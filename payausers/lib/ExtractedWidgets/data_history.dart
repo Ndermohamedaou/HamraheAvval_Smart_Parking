@@ -42,9 +42,11 @@ class DataHisotry extends StatelessWidget {
         List<String> dateSplit = date.split(" ");
         List<String> dateString = dateSplit[0].split("-");
         convertDate.convertDateToString(dateSplit[0]);
-        return "${dateString[0]}/${dateString[1]}/${dateString[2]} ${convertDate.convertDateToString(dateSplit[0])}" ??
+
+        return "${convertDate.convertDateToString(dateSplit[0])} - ${dateString[0]}/${dateString[1]}/${dateString[2]}" ??
             "";
       } catch (e) {
+        // print(e);
         return dateWasNull;
       }
     }
@@ -74,7 +76,7 @@ class DataHisotry extends StatelessWidget {
               reserveStatusColor == null
                   ? SizedBox()
                   : Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      margin: EdgeInsets.symmetric(horizontal: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         textDirection: TextDirection.rtl,

@@ -9,7 +9,7 @@ class ReserveWeeks extends ChangeNotifier {
   FlowState _reserveWeeksState = FlowState.Initial;
   final lStorage = FlutterSecureStorage();
   // Final list of weeks reserves.
-  List finalReserveWeeks = [];
+  Map finalReserveWeeks = {};
 
   ReserveWeeks() {
     _getReserveWeeks();

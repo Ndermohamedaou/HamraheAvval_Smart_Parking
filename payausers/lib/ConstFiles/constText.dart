@@ -6,7 +6,8 @@ const connectionFailed =
 const welcomeTitle = "خوش آمدید";
 
 // Status of weekReservedTab:
-const weeklyReserveText = "هفته ای";
+const reserveCategoriesTitle = "دسته بندی رزروها";
+const weeklyReserveText = "هفتگی";
 const staticReserveText = "ثابت";
 const instantReserveText = "لحظه ای";
 const unknownReserve = "نامشخص";
@@ -108,6 +109,10 @@ const entryTime = "زمان ورود";
 const exitTime = "زمان خروج";
 const lateToloadPlate = "چند لحظه منتظر بمانید";
 const emptyUserPlate = "شما در حال حاضر پلاکی ندارید";
+// List confirmation texts
+const listConfirmTitle = "لغو رزرو ثابت";
+const listConfirmDesc =
+    "آیا از لغو رزرو ثابت خود برای روز انتخابی مطمئن هستید؟ این فرآیند غیر قابل بازگشت می باشد";
 
 // Date and Time Picker texts
 const choseReserveDate = "تاریخ رزرو خود را انتخاب کنید";
@@ -212,6 +217,9 @@ const greyColorDesc = "رنگ خاکستری به معنای آن است که ر
 const blueColorTitle = "دایره آبی";
 const blueColorDesc =
     "رنگ آبی به معنای آن است که شما تردد خود را انجام داده اید.";
+const brownColorTitle = "دایره قهوه ای";
+const brownColorDesc =
+    "این رنگ به معنای آن است که از پارکینگ رزرو شده در روز مشخص شده استفاده نشده است و شامل کسر امتیاز خواهد شد";
 const isPlateValidTitle = "پلاک وارد شده صحیح نمی باشد.";
 const isPlateValidDesc = "لطفا از صحت پلاک وارد شده اطمینان حاصل نمایید.";
 const isPlateExistTitle = "پلاک وارد شده در سیستم موجود است.";

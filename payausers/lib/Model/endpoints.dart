@@ -55,6 +55,8 @@ Map apiEndpointsMap = {
     "getUserReserves": Endpoint("getUserReserves", "/getUserReserves", "GET"),
     // id: ObjectID
     "cancelReserve": Endpoint("cancelReserve", "/cancelReserve", "POST"),
+    "cancelListReserve":
+        Endpoint("cancelListReserve", "/cancelListReserve", "POST"),
     // plate_en
     "InstantReserve": Endpoint("InstantReserve", "/InstantReserve", "POST"),
     "canInstantReserve":

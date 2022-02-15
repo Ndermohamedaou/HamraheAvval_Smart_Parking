@@ -1,3 +1,4 @@
+// TODO: This view would change name and define very clean that mission.
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -10,7 +11,6 @@ import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/data_history.dart';
-import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -19,7 +19,6 @@ import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sizer/sizer.dart';
 
 class ReservedTab extends StatefulWidget {
@@ -69,15 +68,16 @@ class _ReservedTabState extends State<ReservedTab>
     // Controller of Instant reserve
     CancelReserve cancelReserve = CancelReserve();
 
-    void openDetailsInModal({
-      reservID,
-      reserveStatus,
-      List plate,
-      startTime,
-      endTime,
-      building,
-      slot,
-    }) {
+    void openDetailsInModal(
+        {reservID,
+        reserveStatus,
+        List plate,
+        startTime,
+        endTime,
+        building,
+        slot,
+        int enDateTime,
+        int expireTime}) {
       showMaterialModalBottomSheet(
         context: context,
         enableDrag: true,
@@ -86,6 +86,7 @@ class _ReservedTabState extends State<ReservedTab>
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: ReserveInDetails(
+            reserveTimeExpire: expireTime,
             plate: plate,
             reserveStatusDesc: reserveStatus,
             startTime: startTime.toString(),
@@ -104,6 +105,7 @@ class _ReservedTabState extends State<ReservedTab>
                 acceptPressed: () {
                   cancelReserve.delReserve(
                       reserveID: reservID, context: context);
+                  Navigator.pop(context);
                   // Refetch data in Providers
                   reserveWeeks.fetchReserveWeeks;
                   reservesModel.fetchReservesData;
@@ -189,56 +191,6 @@ class _ReservedTabState extends State<ReservedTab>
           ),
         ),
       );
-    }
-
-    // Reserve by select chips
-    reserveByChips(String date) async {
-      Endpoint reserveEndpoint =
-          apiEndpointsMap["reserveEndpoint"]["changeDailyReserveStatus"];
-
-      try {
-        final result = await api.requestHandler(
-            "${reserveEndpoint.route}?date=$date", reserveEndpoint.method, {});
-
-        print(result);
-        if (result == "200") {
-          // If reserve was successful, then update reserves model for getting
-          // New week date list.
-          reservesModel.fetchReservesData;
-          // Update own data of reserves.
-          reservesByWeek.fetchReserveWeeks;
-
-          Navigator.pop(context);
-          rAlert(
-              context: context,
-              onTapped: () => Navigator.pop(context),
-              tAlert: AlertType.success,
-              title: titleOfReserve,
-              desc: resultOfReserve);
-        } else if (result == "501")
-          rAlert(
-              context: context,
-              onTapped: () => Navigator.pop(context),
-              tAlert: AlertType.warning,
-              title: "شکست در فرآیند رزرو",
-              desc:
-                  "شما پلاک تایید شده ای در سامانه ندارید. لطفا قبل از رزرو، پلاک مورد نظر خود را وارد نمایید");
-        else
-          rAlert(
-              context: context,
-              onTapped: () => Navigator.pop(context),
-              tAlert: AlertType.warning,
-              title: titleOfFailedReserve,
-              desc: descOfFailedReserve);
-      } catch (e) {
-        rAlert(
-            context: context,
-            onTapped: () => Navigator.pop(context),
-            tAlert: AlertType.error,
-            title: "شکست در انجام عملیات",
-            desc:
-                "رزرو شما انجام نشد. لطفا ارتباط خود را با سرویس دهنده بررسی کنید.");
-      }
     }
 
     return Scaffold(
@@ -335,11 +287,11 @@ class _ReservedTabState extends State<ReservedTab>
                                       // Update user reserves in provider
                                       reservesModel.fetchReservesData;
                                       openDetailsInModal(
+                                        expireTime: reserveList[index]
+                                            ["reserveTimeStart_En"],
                                         reservID: reserveList[index]["id"],
                                         reserveStatus: reserveList[index]
                                             ['status'],
-                                        // plate: preparedPlate.preparePlateInReserve(
-                                        //     rawPlate: reserveList[index]['plate']),
                                         plate: [],
                                         building: reserveList[index]
                                                     ["building"] !=
@@ -351,6 +303,8 @@ class _ReservedTabState extends State<ReservedTab>
                                             ["reserveTimeStart"],
                                         endTime: reserveList[index]
                                             ["reserveTimeEnd"],
+                                        enDateTime: reserveList[index]
+                                            ["reserveTimeStart_En"],
                                       );
                                     },
                                   ),
@@ -374,3 +328,5 @@ class _ReservedTabState extends State<ReservedTab>
   @override
   bool get wantKeepAlive => true;
 }
+
+//DateTimeStart_En
