@@ -7,14 +7,16 @@ import 'package:payausers/controller/convert_date_to_string.dart';
 import 'package:provider/provider.dart';
 
 class DataHisotry extends StatelessWidget {
-  const DataHisotry(
-      {this.reserveStatusColor,
-      this.historyBuildingName,
-      this.historySlotName,
-      this.historyStartTime,
-      this.historyEndTime,
-      this.onPressed,
-      this.reserveType});
+  const DataHisotry({
+    this.reserveStatusColor,
+    this.historyBuildingName,
+    this.historySlotName,
+    this.historyStartTime,
+    this.historyEndTime,
+    this.onPressed,
+    this.reserveType,
+    this.datePrefix = "",
+  });
 
   final reserveStatusColor;
   final historySlotName;
@@ -23,6 +25,7 @@ class DataHisotry extends StatelessWidget {
   final historyEndTime;
   final String reserveType;
   final Function onPressed;
+  final String datePrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,10 @@ class DataHisotry extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;
 
+    final dateOfHistory = datePrefix == "weekly"
+        ? "لیست رزرو هفتگی-تاریخ شروع هفته از"
+        : entranceDateReserve;
+
     String alignDate(String date) {
       /// Split date time for right alignment.
       try {
@@ -43,8 +50,11 @@ class DataHisotry extends StatelessWidget {
         List<String> dateString = dateSplit[0].split("-");
         convertDate.convertDateToString(dateSplit[0]);
 
-        return "${convertDate.convertDateToString(dateSplit[0])} - ${dateString[0]}/${dateString[1]}/${dateString[2]}" ??
-            "";
+        String dateTimeWeekText = datePrefix == "weekly"
+            ? "${dateString[0]}/${dateString[1]}/${dateString[2]}"
+            : "${convertDate.convertDateToString(dateSplit[0])} - ${dateString[0]}/${dateString[1]}/${dateString[2]}";
+
+        return dateTimeWeekText ?? "";
       } catch (e) {
         // print(e);
         return dateWasNull;
@@ -81,8 +91,7 @@ class DataHisotry extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         textDirection: TextDirection.rtl,
                         children: [
-                          Text(
-                              "$entranceDateReserve: ${alignDate(historyStartTime)}",
+                          Text("$dateOfHistory: ${alignDate(historyStartTime)}",
                               style: TextStyle(
                                   fontSize: 15, fontFamily: mainFaFontFamily)),
                           CircularStatus(

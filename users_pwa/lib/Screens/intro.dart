@@ -15,7 +15,7 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
         body: MainIntro(),
         bottomNavigationBar: BottomButton(
-            color: mainCTA, text: nextLevel1, ontapped: navigatedToLogin));
+            color: mainCTA, text: nextLevel1, onTapped: navigatedToLogin));
   }
 }
 

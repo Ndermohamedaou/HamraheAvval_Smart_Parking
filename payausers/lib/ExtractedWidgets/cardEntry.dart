@@ -7,12 +7,17 @@ import 'package:sizer/sizer.dart';
 
 class CardEntry extends StatelessWidget {
   const CardEntry(
-      {this.albumTapped, this.cameraTapped, this.imgShow, this.customIcon});
+      {this.albumTapped,
+      this.cameraTapped,
+      this.imgShow,
+      this.customIcon,
+      this.attentionText = nationalCardEntry});
 
   final cameraTapped;
   final albumTapped;
   final imgShow;
   final customIcon;
+  final String attentionText;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class CardEntry extends StatelessWidget {
             ),
             alignment: Alignment.centerRight,
             child: Text(
-              nationalCardEntry,
+              attentionText,
               textAlign: TextAlign.right,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
@@ -41,7 +46,15 @@ class CardEntry extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 20.0.w),
+            margin: EdgeInsets.only(
+                top: 20.0.w, bottom: 20.0.w, right: 10.0.w, left: 10.0.w),
+            padding: EdgeInsets.all(10.0),
+            width: double.infinity,
+            height: 200.0,
+            decoration: BoxDecoration(
+              color: themeChange.darkTheme ? darkBar : lightBar,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
             child: imgShow == null
                 ? Image.asset(
                     customIcon,
@@ -50,10 +63,9 @@ class CardEntry extends StatelessWidget {
                 : Image.file(
                     imgShow,
                     width: 70.0.w,
-                    // fit: BoxFit.cover,
+                    fit: BoxFit.fitWidth,
                   ),
           ),
-          SizedBox(height: 10.0.w),
           FittedBox(
             fit: BoxFit.fitWidth,
             child: Row(

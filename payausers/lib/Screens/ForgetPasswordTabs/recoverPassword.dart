@@ -237,7 +237,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
         bottomNavigationBar: BottomButton(
           text: "تایید ویرایش گذرواژه",
           hasCondition: _isSubmit,
-          ontapped: () => submitPassword(
+          onTapped: () => submitPassword(
               otpCode: otpCode, pass: password, repass: repassword),
         ),
       ),

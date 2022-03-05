@@ -1,11 +1,19 @@
 // import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:payausers/Screens/Tabs/reservedTab.dart';
+import 'package:payausers/Screens/parking_type_view.dart';
+import 'package:payausers/Screens/static_reserve_view.dart';
 import 'package:payausers/config_nonweb.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/instant_reserve_model.dart';
+import 'package:payausers/providers/public_parking_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
+import 'package:payausers/providers/server_base_calendar_model.dart';
+import 'package:payausers/providers/server_base_static_reserve_calendar_model.dart';
 import 'package:payausers/providers/staffInfo_model.dart';
+import 'package:payausers/providers/terms_of_service_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/services.dart';
 import 'package:payausers/Model/ThemeColor.dart';
@@ -148,6 +156,9 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider<StaffInfoModel>(
               create: (_) => StaffInfoModel(),
             ),
+            ChangeNotifierProvider<TermsOfServiceModel>(
+              create: (_) => TermsOfServiceModel(),
+            ),
             ChangeNotifierProvider<AvatarModel>(
               create: (_) => AvatarModel(),
             ),
@@ -168,7 +179,16 @@ class _MyAppState extends State<MyApp> {
             ),
             ChangeNotifierProvider<InstantReserveModel>(
               create: (_) => InstantReserveModel(),
-            )
+            ),
+            ChangeNotifierProvider<ServerBaseCalendarModel>(
+              create: (_) => ServerBaseCalendarModel(),
+            ),
+            ChangeNotifierProvider<ServerBaseStaticReserveCalendarModel>(
+              create: (_) => ServerBaseStaticReserveCalendarModel(),
+            ),
+            ChangeNotifierProvider<PublicParkingModel>(
+              create: (_) => PublicParkingModel(),
+            ),
           ],
           child: Consumer<DarkThemeProvider>(
             builder: (BuildContext context, value, Widget child) {
@@ -185,6 +205,15 @@ class _MyAppState extends State<MyApp> {
                   );
                 },
                 debugShowCheckedModeBanner: false,
+                supportedLocales: [
+                  const Locale('fa', 'IR'),
+                ],
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  // Uncomment when we want use app in different rtl like English base languages
+                  // GlobalWidgetsLocalizations.delegate,
+                ],
                 theme: Styles.themeData(themeChangeProvider.darkTheme, context),
                 initialRoute: '/splashScreen',
                 routes: {
@@ -213,6 +242,8 @@ class _MyAppState extends State<MyApp> {
                   '/listLengthSettingPage': (context) => ChangePageIndex(),
                   '/loadedTimeToChangeAvatar': (context) =>
                       LoadingChangeAvatar(),
+                  '/staticReserveView': (context) => StaticReserveView(),
+                  '/selectParkingType': (context) => ParkingTypeView(),
                 },
               );
             },

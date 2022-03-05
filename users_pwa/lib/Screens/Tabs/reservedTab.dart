@@ -1,6 +1,6 @@
+// TODO: This view would change name and define very clean that mission.
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
@@ -9,7 +9,7 @@ import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
-import 'package:payausers/Model/endpoints.dart';
+import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -18,7 +18,6 @@ import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:sizer/sizer.dart';
 
 class ReservedTab extends StatefulWidget {
@@ -77,12 +76,19 @@ class _ReservedTabState extends State<ReservedTab>
         building,
         slot,
         int enDateTime,
-        int expireTime}) {
+        int expireTime,
+        bool isShowCancelReserve}) {
       showMaterialModalBottomSheet(
         context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(modalBottomSheetRoundedSize),
+            topRight: Radius.circular(modalBottomSheetRoundedSize),
+          ),
+        ),
         enableDrag: true,
         bounce: true,
-        duration: const Duration(milliseconds: 550),
+        duration: const Duration(milliseconds: 350),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: ReserveInDetails(
@@ -94,10 +100,12 @@ class _ReservedTabState extends State<ReservedTab>
             building: building.toString(),
             slot: slot.toString(),
             themeChange: themeChange,
+            isShowCancelReserve: isShowCancelReserve,
             delReserve: () {
               customAlert(
                 context: context,
                 alertIcon: Icons.delete,
+                borderColor: Colors.blue,
                 iconColor: Colors.red,
                 title: deleteReserveTitle,
                 desc: deleteReserveDesc,
@@ -192,56 +200,6 @@ class _ReservedTabState extends State<ReservedTab>
       );
     }
 
-    // Reserve by select chips
-    reserveByChips(String date) async {
-      Endpoint reserveEndpoint =
-          apiEndpointsMap["reserveEndpoint"]["changeDailyReserveStatus"];
-
-      try {
-        final result = await api.requestHandler(
-            "${reserveEndpoint.route}?date=$date", reserveEndpoint.method, {});
-
-        print(result);
-        if (result == "200") {
-          // If reserve was successful, then update reserves model for getting
-          // New week date list.
-          reservesModel.fetchReservesData;
-          // Update own data of reserves.
-          reservesByWeek.fetchReserveWeeks;
-
-          Navigator.pop(context);
-          rAlert(
-              context: context,
-              onTapped: () => Navigator.pop(context),
-              tAlert: AlertType.success,
-              title: titleOfReserve,
-              desc: resultOfReserve);
-        } else if (result == "501")
-          rAlert(
-              context: context,
-              onTapped: () => Navigator.pop(context),
-              tAlert: AlertType.warning,
-              title: "شکست در فرآیند رزرو",
-              desc:
-                  "شما پلاک تایید شده ای در سامانه ندارید. لطفا قبل از رزرو پلاک مورد نظر خود را وارد نمایید");
-        else
-          rAlert(
-              context: context,
-              onTapped: () => Navigator.pop(context),
-              tAlert: AlertType.warning,
-              title: titleOfFailedReserve,
-              desc: descOfFailedReserve);
-      } catch (e) {
-        rAlert(
-            context: context,
-            onTapped: () => Navigator.pop(context),
-            tAlert: AlertType.error,
-            title: "شکست در انجام عملیات",
-            desc:
-                "رزرو شما انجام نشد. لطفا ارتباط خود را با سرویس دهنده بررسی کنید.");
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
@@ -256,7 +214,7 @@ class _ReservedTabState extends State<ReservedTab>
           ),
           IconButton(
             icon: Icon(
-              Icons.info,
+              Icons.info_rounded,
             ),
             onPressed: () {
               Navigator.pushNamed(context, "/reserveGuideView");
@@ -283,7 +241,7 @@ class _ReservedTabState extends State<ReservedTab>
                 Builder(
                   builder: (_) {
                     if (reservesByWeek.reservesByWeekState == FlowState.Loading)
-                      return logLoadingWidgets.loading();
+                      return logLoadingWidgets.loading;
 
                     if (reservesByWeek.reservesByWeekState == FlowState.Error)
                       return logLoadingWidgets.internetProblem;
@@ -330,7 +288,8 @@ class _ReservedTabState extends State<ReservedTab>
                                     historySlotName: reserveList[index]["slot"],
                                     historyStartTime: reserveList[index]
                                         ["reserveTimeStart"],
-                                    historyEndTime: "",
+                                    historyEndTime: reserveList[index]
+                                        ["reserveTimeEnd"],
                                     onPressed: () {
                                       // Update user reserves in provider
                                       reservesModel.fetchReservesData;
@@ -353,6 +312,8 @@ class _ReservedTabState extends State<ReservedTab>
                                             ["reserveTimeEnd"],
                                         enDateTime: reserveList[index]
                                             ["reserveTimeStart_En"],
+                                        isShowCancelReserve: reserveList[index]
+                                            ["isShowCancelReserve"],
                                       );
                                     },
                                   ),

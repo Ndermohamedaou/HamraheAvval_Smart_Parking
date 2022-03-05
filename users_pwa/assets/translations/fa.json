@@ -1,0 +1,146 @@
+{
+    "appName": "پارکینگ هوشمند من",
+    "loginToAccount": "ورود به حساب کاربری",
+    "parkingType": {
+        "title": "انتخاب نوع پارکینگ",
+        "dropdownHintParkingType": "انتخاب نوع پارکینگ",
+        "dropdownHintParkingName": "پارکینگ مورد نظر خود را انتخاب کنید",
+        "submitParking": "ثبت پارکینگ مورد نظر",
+        "publicParking": "پارکینگ عمومی",
+        "organizationParking": "پارکینگ سازمانی"
+    },
+    "login": {
+        "welcome": "خوش آمدید",
+        "accessDeniedTitle": "شما بنا به دلایلی اجازه دسترسی به حساب خود ندارید",
+        "accessDeniedDesc": "لطفا به مدیریت منابع انسانی مراجعه نمایید",
+        "accountEntrance": "ورود به حساب کاربری",
+        "personalCode": "کد پرسنلی",
+        "password": "گذرواژه",
+        "newPassword": "گذرواژه جدید",
+        "forgetPassword": "گذرواژه خود را فراموش کرده اید؟",
+        "mailAddress": "آدرس پست الکترونیکی",
+        "changeDefaultPassword": "گذرواژه پیش فرض خود را ویرایش کنید"
+    },
+    "otp": {
+        "otpCheckFailedTitle": "شکست در اعتبارسنجی کد امنیتی",
+        "otpCheckFailedDesc": "کد امنیتی شما اشتباه است یا منقضی شده است"
+    },
+    "dashboard": {},
+    "traffic": {},
+    "reserves": {
+        "reserveCategories": {
+            "reserveCategoriesTitle": "دسته بندی رزروها",
+            "weeklyReserve": "رزرو هفتگی",
+            "staticReserve": "رزرو ثابت",
+            "instantReserve": "رزرو لحظه ای"
+        },
+        "reserveType": "نوع رزرو"
+    },
+    "income": {
+        "entranceDateReserve": "تاریخ ورود",
+        "entranceTimeReserve": "ساعت    ورود"
+    },
+    "buildingName": "ساختمان",
+    "slotNameText": "جایگاه",
+    "outcome": {
+        "exitDateReserve": "تاریخ خروج",
+        "exitTimeReserve": "ساعت خروج"
+    },
+    "plates": {
+        "inModalInfo": {
+            "departmentOfInternalAffairs": "اداره امور داخلی",
+            "departmentOfSecurity": "اداره نظارت بر حفاظت فیزیکی"
+        },
+        "addPlate": {
+            "selfPlate": {},
+            "familyPlate": {},
+            "otherPlate": {}
+        }
+    },
+    "settings": {},
+    "global": {
+        "errors": {
+            "invalidPassword": "گذرواژه نامعتبر",
+            "serverError": "مشکل در برقرار ارتباط با سرویس دهنده",
+            "connectionError": "از صحت ارتباط با شبکه اطمینان حاصل کنی",
+            "connectionFailed": "لطفا اتصال خود را به شبکه بررسی نمایید و سپس مجددا وارد شوید",
+            "checkConnectionAndTryLater": "لطفا اتصال خود را به شبکه بررسی نمایید و دوباره تلاش کنید",
+            "holidayNonSelect": "شما نمی توانید در روز تعطیل رزروی داشته باشید",
+            "canCancelInHoliday": "انتخاب این روز امکانپذیر نمی باشد",
+            "defectiveInfoTitle": "ورودی اطلاعات ناقص است",
+            "defectiveInfoDesc": "لطفا اطلاعات را با دقت وارد کنید",
+            "parkingTypeErrorTitle": "خطایی در وارد کردن اطلاعات نوع پارکینگ رخ داده است",
+            "parkingTypeErrorDesc": "لطفا اتصال خود را به شبکه بررسی نمایید و سپس مجددا پارکینگ مورد نظر خود را انتخاب کنید"
+        },
+        "warnings": {
+            "notMatchedPasswordTitle": "عدم مطابقت گذواژه جدید با تایید آن",
+            "notMatchedPasswordDesc": "گذرواژه جدید و تایید آن بایستی با یکدیگر یکسان باشند",
+            "wrongPersonalOrPassword": "کد پرسنلی یا گذرواژه اشتباه است",
+            "notMatch": "گذرواژه و تایید آن با یکدیگر یکسان نیستند.",
+            "fillAllFieldsTitle": "گزینه مرتبط انتخاب نشد",
+            "fillAllFieldsDesc": "لطفا گزینه مرتبط به انتخاب نوع پارکینگ و اسم آن را انتخاب نمایید"
+        },
+        "success": {},
+        "info": {
+            "checkPassword": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
+            "tryLater": "لطفا باری دیگر سعی کنید",
+            "mustNotEmpty": "فیلد نباید خالی باشد!",
+            "listConfirmTitle": "لغو رزرو ثابت",
+            "listConfirmDesc": "آیا از لغو رزرو ثابت خود برای روز انتخابی مطمئن هستید؟ این فرآیند غیر قابل بازگشت می باشد",
+            "organizationParkingUsed": "به علت استفاده از پارکینگ عمومی، قادر به رزرو پارکینگ نمی باشید."
+        },
+        "default": {
+            "unknown": "نامشخص"
+        },
+        "loading": {
+            "dataLoadingTextString": "در حال بارگیری اطلاعات"
+        },
+        "actions": {
+            "enterOrGo": "ورود",
+            "mustAcceptTerms": "الزام در پذیرش شرایط",
+            "confirmInfo": "تایید اطلاعات",
+            "cancel": "لغو",
+            "close": "بستن",
+            "open": "باز کردن",
+            "save": "ذخیره",
+            "edit": "ویرایش",
+            "delete": "حذف",
+            "confirm": "تایید",
+            "pickReserveDay": "انتخاب تاریخ رزرو",
+            "cancelStaticReserveDays": "لغو رزرو ثابت"
+        }
+    },
+    "bottomNavigation": {
+        "dashboard": "داشبورد",
+        "traffic": "ترددها",
+        "reserve": "رزروها",
+        "plates": "پلاک ها",
+        "settings": "تنظیمات"
+    },
+    "appBar": {
+        "login": "ورود به حساب"
+    },
+    "navigation": {
+        "next": "بعدی",
+        "previous": "قبلی"
+    },
+    "systemSettings": {
+        "darkTheme": "حالت تاریک یا روشن",
+        "selectTheme": "یک حالت را انتخاب کنید"
+    },
+    "calendarAndTime": {
+        "calendar": "تقویم",
+        "pickTime": "انتخاب زمان",
+        "week": {
+            "sat": "شنبه",
+            "sun": "یکشنبه",
+            "mon": "دوشنبه",
+            "tues": "سه شنبه",
+            "wed": "چهارشنبه",
+            "thurs": "پنج شنبه",
+            "fri": "جمعه"
+        },
+        "holiday": "روز تعطیل",
+        "exitFromApp": "خروج از برنامه"
+    }
+}

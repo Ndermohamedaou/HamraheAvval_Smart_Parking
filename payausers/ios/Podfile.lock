@@ -209,8 +209,8 @@ SPEC CHECKSUMS:
   GoogleDataTransport: cd9db2180fcecd8da1b561aea31e3e56cf834aa7
   GoogleUtilities: 684ee790a24f73ebb2d1d966e9711c203f2a4237
   hexcolor: fdfb9c4258ad96e949c2dbcdf790a62194b8aa89
-  image_picker: 66aa71bc96850a90590a35d4c4a2907b0d823109
-  local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
+  image_picker: 541dcbb3b9cf32d87eacbd957845d8651d6c62c3
+  local_auth: 1740f55d7af0a2e2a8684ce225fe79d8931e808c
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96

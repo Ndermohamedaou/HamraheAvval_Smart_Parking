@@ -32,6 +32,7 @@ class _SettingsState extends State<Settings>
     super.build(context);
     final targetPlatform =
         Theme.of(context).platform == TargetPlatform.iOS ? "iOS" : "Android";
+    final localData = Provider.of<AvatarModel>(context);
 
     void logoutSection() {
       showMaterialModalBottomSheet(
@@ -110,6 +111,7 @@ class _SettingsState extends State<Settings>
                               FlutterSecureStorage lds = FlutterSecureStorage();
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
+                              localData.refreshToken = "";
                               // Clear local storage data.
                               await lds.deleteAll();
                               prefs.setInt("user_plate_notif_number", 0);

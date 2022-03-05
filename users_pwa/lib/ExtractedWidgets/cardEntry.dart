@@ -9,26 +9,60 @@ import 'package:sizer/sizer.dart';
 
 class CardEntry extends StatelessWidget {
   const CardEntry(
-      {this.albumTapped, this.cameraTapped, this.imgShow, this.customIcon});
+      {this.albumTapped,
+      this.cameraTapped,
+      this.imgShow,
+      this.customIcon,
+      this.attentionText = nationalCardEntry});
 
   final cameraTapped;
   final albumTapped;
   final imgShow;
   final customIcon;
+  final String attentionText;
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    final double widthSizedResponse = size.width > 500 ? 20.0.w : 30.0.w;
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+
+    print(customIcon);
+
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: 20),
           Container(
-            margin: EdgeInsets.only(top: 20.0.w),
+            margin: EdgeInsets.symmetric(horizontal: 10.0),
+            width: double.infinity,
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(
+              color: themeChange.darkTheme ? darkBar : lightBar,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            alignment: Alignment.centerRight,
+            child: Text(
+              attentionText,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                  fontFamily: mainFaFontFamily,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+                top: 20.0.w, bottom: 20.0.w, right: 10.0.w, left: 10.0.w),
+            padding: EdgeInsets.all(10.0),
+            width: double.infinity,
+            height: 200.0,
+            decoration: BoxDecoration(
+              color: themeChange.darkTheme ? darkBar : lightBar,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
             child: imgShow == ""
                 ? Image.asset(
                     customIcon,
-                    width: widthSizedResponse,
+                    width: 40.0.w,
                   )
                 : Image.memory(
                     base64Decode(imgShow),
@@ -37,7 +71,6 @@ class CardEntry extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                   ),
           ),
-          SizedBox(height: 10.0.w),
           FittedBox(
             fit: BoxFit.fitWidth,
             child: Row(
@@ -51,7 +84,7 @@ class CardEntry extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 5.0.w),
+          SizedBox(height: 2.0.w),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
@@ -80,19 +113,12 @@ class CameraTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-    var size = MediaQuery.of(context).size;
-    final double boxSelectedSizedResponse = size.width >= 501
-        ? 20.0.w
-        : size.width < 500 && size.width > 421
-            ? 15.0.w
-            : size.width > 280 && size.width < 420
-                ? 15.0.w
-                : 15.0.w;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 25.0.w,
-        height: 25.0.w,
+        width: 30.0.w,
+        height: 30.0.w,
         decoration: BoxDecoration(
           color: themeChange.darkTheme ? darkBar : bgOfChoice,
           borderRadius: BorderRadius.circular(17),
@@ -100,9 +126,9 @@ class CameraTile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.camera_alt,
-              color: mainSectionCTA,
+            Image.asset(
+              "assets/images/myCamera.png",
+              width: 10.0.w,
             ),
             Text(
               captureImage,
@@ -129,19 +155,12 @@ class AlbumTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
-    var size = MediaQuery.of(context).size;
-    final double boxSelectedSizedResponse = size.width >= 501
-        ? 20.0.w
-        : size.width < 500 && size.width > 421
-            ? 30.0.w
-            : size.width > 280 && size.width < 420
-                ? 30.0.w
-                : 50.0.w;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 25.0.w,
-        height: 25.0.w,
+        width: 30.0.w,
+        height: 30.0.w,
         decoration: BoxDecoration(
           color: themeChange.darkTheme ? darkBar : bgOfChoice,
           borderRadius: BorderRadius.circular(17),
@@ -149,9 +168,9 @@ class AlbumTile extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.photo_album,
-              color: mainSectionCTA,
+            Image.asset(
+              "assets/images/myGallery.png",
+              width: 10.0.w,
             ),
             Text(
               useAlbumImage,

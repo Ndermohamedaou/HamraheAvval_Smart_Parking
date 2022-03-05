@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
+import 'package:lottie/lottie.dart';
+import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
+import 'package:payausers/controller/alert.dart';
+import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:pinput/pin_put/pin_put.dart';
+import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class OTPSubmission extends StatefulWidget {
   const OTPSubmission({Key key}) : super(key: key);
@@ -26,21 +34,61 @@ class _OTPSubmissionState extends State<OTPSubmission> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    // Change width of Pinput widget to center of the screen if size is larger than 500px.
-    final double widthSizedResponse = size.width > 500 ? 300 : double.infinity;
+    // Getting Data of user and parse user token
+    final localData = Provider.of<AvatarModel>(context);
+    ApiAccess api = ApiAccess(localData.userToken);
 
     final TextEditingController _pinPutController = TextEditingController();
     final FocusNode _pinPutFocusNode = FocusNode();
+
+    // Sent data from forgetPassword.dart with key of {"personalCode"}
+    final personalCode = ModalRoute.of(context).settings.arguments as Map;
 
     BoxDecoration _pinPutDecoration = BoxDecoration(
       border: Border.all(color: mainCTA, width: 2),
       borderRadius: BorderRadius.circular(15.0),
     );
+
+    onSubmitOTPCode(String pin) async {
+      ///
+      /// In this function we will send otp code and personal code to server
+      /// for validating otp code was sent to user at right time.
+
+      Endpoint otpCheckEndpoint = apiEndpointsMap["auth"]["otp"]["checkOTP"];
+      try {
+        final otpCheckResult = await api.requestHandler(
+            "${otpCheckEndpoint.route}?personal_code=${personalCode["personalCode"]}&otp_code=$pin",
+            otpCheckEndpoint.method, {});
+
+        print(otpCheckResult);
+        print(
+            "${otpCheckEndpoint.route}?personal_code=${personalCode["personalCode"]}&otp_code=$pin");
+
+        if (otpCheckResult == "200")
+          Navigator.pushNamed(context, "/recoverPassword", arguments: pin);
+        else if (otpCheckResult == "500")
+          showStatusInCaseOfFlush(
+              context: context,
+              title: otpCheckFailedTitle,
+              msg: otpCheckFailedDesc,
+              mainBackgroundColor: "#F38137",
+              iconColor: Colors.white,
+              icon: Icons.close);
+      } catch (e) {
+        print(e);
+        rAlert(
+          context: context,
+          tAlert: AlertType.error,
+          title: serverConnectionProblem,
+          desc: serverNotRespond,
+          onTapped: () => Navigator.pop(context),
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
-        centerTitle: true,
         title: Text(
           "کدی فرستاده ایم",
           textAlign: TextAlign.center,
@@ -50,6 +98,7 @@ class _OTPSubmissionState extends State<OTPSubmission> {
             color: Colors.black,
           ),
         ),
+        centerTitle: true,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
@@ -57,18 +106,14 @@ class _OTPSubmissionState extends State<OTPSubmission> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 2.0.h),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 100),
-              // width: widthSizedResponse,
               child: PinPut(
                 textStyle:
                     TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
                 fieldsCount: 4,
                 autofocus: true,
-                onSubmit: (String pin) => Navigator.pushNamed(
-                    context, "/recoverPassword",
-                    arguments: pin),
+                onSubmit: onSubmitOTPCode,
                 focusNode: _pinPutFocusNode,
                 controller: _pinPutController,
                 submittedFieldDecoration: _pinPutDecoration.copyWith(

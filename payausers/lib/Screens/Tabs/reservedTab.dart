@@ -77,12 +77,19 @@ class _ReservedTabState extends State<ReservedTab>
         building,
         slot,
         int enDateTime,
-        int expireTime}) {
+        int expireTime,
+        bool isShowCancelReserve}) {
       showMaterialModalBottomSheet(
         context: context,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(modalBottomSheetRoundedSize),
+            topRight: Radius.circular(modalBottomSheetRoundedSize),
+          ),
+        ),
         enableDrag: true,
         bounce: true,
-        duration: const Duration(milliseconds: 550),
+        duration: const Duration(milliseconds: 350),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: ReserveInDetails(
@@ -94,6 +101,7 @@ class _ReservedTabState extends State<ReservedTab>
             building: building.toString(),
             slot: slot.toString(),
             themeChange: themeChange,
+            isShowCancelReserve: isShowCancelReserve,
             delReserve: () {
               customAlert(
                 context: context,
@@ -234,7 +242,7 @@ class _ReservedTabState extends State<ReservedTab>
                 Builder(
                   builder: (_) {
                     if (reservesByWeek.reservesByWeekState == FlowState.Loading)
-                      return logLoadingWidgets.loading();
+                      return logLoadingWidgets.loading;
 
                     if (reservesByWeek.reservesByWeekState == FlowState.Error)
                       return logLoadingWidgets.internetProblem;
@@ -305,6 +313,8 @@ class _ReservedTabState extends State<ReservedTab>
                                             ["reserveTimeEnd"],
                                         enDateTime: reserveList[index]
                                             ["reserveTimeStart_En"],
+                                        isShowCancelReserve: reserveList[index]
+                                            ["isShowCancelReserve"],
                                       );
                                     },
                                   ),
@@ -328,5 +338,3 @@ class _ReservedTabState extends State<ReservedTab>
   @override
   bool get wantKeepAlive => true;
 }
-
-//DateTimeStart_En

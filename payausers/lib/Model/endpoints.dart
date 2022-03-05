@@ -28,6 +28,9 @@ Map apiEndpointsMap = {
       // otp_code, password.
       "recoverPassword":
           Endpoint("recover_password", "/recover_password", "POST"),
+      // Checking OTP was sent to validate from user OTP entry.
+      // Sending data in query params. String personal_code, String otp_code.
+      "checkOTP": Endpoint("checkOTP", "/checkOTP", "POST"),
     },
     "staffInfo": Endpoint("staffInfo", "/staffInfo", "GET"),
     "updateStaffInfo": Endpoint("updateStaffInfo", "/updateStaffInfo", "POST"),
@@ -61,5 +64,15 @@ Map apiEndpointsMap = {
     "InstantReserve": Endpoint("InstantReserve", "/InstantReserve", "POST"),
     "canInstantReserve":
         Endpoint("InstantReserve", "/canInstantReserve", "GET"),
-  }
+    // Static reserve
+    "getListReserveCalendarDates": Endpoint(
+        "getListReserveCalendarDates", "/getListReserveCalendarDates", "GET"),
+    // Alternative reserve for sending list of selected reserver from the server calendar
+    "doWeeklyReserve": Endpoint("doWeeklyReserve", "/doWeeklyReserve", "POST"),
+  },
+  "getCalendarDates": Endpoint("getCalendarDates", "/getCalendarDates", "GET"),
+  "getPublicParkingTypes":
+      Endpoint("getPublicParkingTypes", "/getPublicParkingTypes", "GET"),
+  "changeParkingTypeStatus":
+      Endpoint("changeParkingTypeStatus", "/changeParkingTypeStatus", "POST"),
 };

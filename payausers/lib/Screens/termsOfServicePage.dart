@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/providers/terms_of_service_model.dart';
+import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -29,7 +32,12 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    TermsOfServiceModel termsOfServiceModel =
+        Provider.of<TermsOfServiceModel>(context);
+    LogLoading logLoadingWidgets = LogLoading();
+
     void goToLogin() => Navigator.pushNamed(context, '/login');
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -42,30 +50,39 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
                     Container(
                       margin:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: MarkdownBody(
-                          data: terms,
-                          styleSheet: MarkdownStyleSheet.fromTheme(
-                            ThemeData(
-                              textTheme: TextTheme(
-                                bodyText1: TextStyle(
-                                    fontSize: 15.0,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontFamily: mainFaFontFamily),
-                                bodyText2: TextStyle(
-                                    fontSize: 15.0,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontFamily: mainFaFontFamily),
+                      child: Builder(builder: (context) {
+                        if (termsOfServiceModel.termsOfServiceStatus ==
+                            FlowState.Loading) return logLoadingWidgets.loading;
+
+                        if (termsOfServiceModel.termsOfServiceStatus ==
+                            FlowState.Error)
+                          return logLoadingWidgets.internetProblem;
+
+                        return Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: MarkdownBody(
+                            data: termsOfServiceModel.termsOfService,
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                              ThemeData(
+                                textTheme: TextTheme(
+                                  bodyText1: TextStyle(
+                                      fontSize: 15.0,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: mainFaFontFamily),
+                                  bodyText2: TextStyle(
+                                      fontSize: 15.0,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: mainFaFontFamily),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      }),
                     ),
                   ],
                 ),
@@ -89,7 +106,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
         color: mainCTA,
         text: acceptedTerms ? finalLoginText : mustAcceptTerms,
         hasCondition: acceptedTerms,
-        ontapped: goToLogin,
+        onTapped: goToLogin,
       ),
     );
   }

@@ -14,6 +14,7 @@ import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/image_picker_controller.dart';
 import 'package:payausers/controller/validate_plate.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
@@ -30,7 +31,7 @@ List appBarTitle = [];
 AddPlateProc addPlateProc = AddPlateProc();
 FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
-ImageConvetion imageConvetion = ImageConvetion();
+ImageConversion imageConversion = ImageConversion();
 AvatarModel localData;
 
 // Providers
@@ -74,7 +75,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   }
 
   Future gettingNationalCard(ImageSource source) async {
-    final image = await ImagePicker.pickImage(
+    FlutterMediaPicker flutterMediaPicker = FlutterMediaPicker();
+    final image = await flutterMediaPicker.pickImage(
       source: source,
     );
 
@@ -111,7 +113,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
   // }
 
   Future gettingOwnerCarCard(ImageSource source) async {
-    final image = await ImagePicker.pickImage(
+    FlutterMediaPicker flutterMediaPicker = FlutterMediaPicker();
+    final image = await flutterMediaPicker.pickImage(
       source: source,
     );
 
@@ -149,8 +152,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         final uToken = await lds.read(key: "token");
         // Preparing plate number for send to server
         // Convert byte image to base64 image
-        String _selfMelliImg = await imageConvetion.checkSize(nationalCardImg);
-        String _ownerCarCard = await imageConvetion.checkSize(ownerCarCard);
+        String _selfMelliImg = await imageConversion.checkSize(nationalCardImg);
+        String _ownerCarCard = await imageConversion.checkSize(ownerCarCard);
 
         // Preparing plate number for sending to the server
         PlateStructure plate = PlateStructure(plate0, plate1, plate2, plate3);
@@ -184,8 +187,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
           });
           showStatusInCaseOfFlush(
               context: context,
-              title: successfullPlateAddTitle,
-              msg: successfullPlateAddDsc,
+              title: successfulPlateAddTitle,
+              msg: successfulPlateAddDsc,
               mainBackgroundColor: "#00c853",
               iconColor: Colors.white,
               icon: Icons.done_outline);
@@ -278,7 +281,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
           onPageChanged: (onChangePage) =>
               setState(() => pageIndex = onChangePage),
           children: [
-            PlateEntery(
+            PlateEntry(
               plate0: plate0,
               plate0Adder: (value) => setState(() => plate0 = value),
               plate1: _value,
@@ -301,8 +304,9 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
             //   cameraTapped: () => gettingOwnerNC(ImageSource.camera),
             // ),
             CardEntry(
-              customIcon: "assets/images/paper1.png",
+              customIcon: "assets/images/carCardWithNationalCard.png",
               imgShow: ownerCarCard,
+              attentionText: attentionForNumberOneFamily,
               albumTapped: () => gettingOwnerCarCard(ImageSource.gallery),
               cameraTapped: () => gettingOwnerCarCard(ImageSource.camera),
             ),
@@ -313,7 +317,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         hasCondition: isAddingDocs,
         text: pageIndex == 2 ? "ثبت اطلاعات" : nextLevel1,
         color: mainSectionCTA,
-        ontapped: () => pageIndex == 2
+        onTapped: () => pageIndex == 2
             ? addPlateProcInNow(
                 plate0: plate0,
                 plate1: alp.getAlphabet()[_value].item,

@@ -11,6 +11,7 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/optionViewer.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/endpoints.dart';
+import 'package:payausers/controller/image_picker_controller.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -31,7 +32,7 @@ String userRole = "";
 String userSection = "";
 File imgSource;
 FlutterSecureStorage lds = FlutterSecureStorage();
-ImageConvetion imgConvertor = ImageConvetion();
+ImageConversion imgConvertor = ImageConversion();
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -86,7 +87,11 @@ class _SettingsPageState extends State<SettingsPage> {
     ApiAccess api = ApiAccess(avatarModel.userToken);
 
     Future galleryViewer(ImageSource changeType) async {
-      final image = await ImagePicker.pickImage(source: changeType);
+      FlutterMediaPicker flutterMediaPicker = FlutterMediaPicker();
+      final image = await flutterMediaPicker.pickImage(
+        source: changeType,
+      );
+
       setState(() => imgSource = image);
       try {
         if (imgSource != null) {

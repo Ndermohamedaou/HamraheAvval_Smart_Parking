@@ -143,7 +143,8 @@ class Styles {
               TextStyle(color: isDarkTheme ? Colors.white : Colors.black)),
 
       appBarTheme: AppBarTheme(
-        color: isDarkTheme ? mainBgColorDark : mainBgColorLight,
+        // color: isDarkTheme ? mainBgColorDark : mainBgColorLight,
+        backgroundColor: defaultAppBarColor,
         elevation: 0.0,
       ),
     );

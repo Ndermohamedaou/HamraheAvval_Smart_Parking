@@ -15,6 +15,8 @@ import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/server_base_calendar_model.dart';
+import 'package:payausers/providers/server_base_static_reserve_calendar_model.dart';
 import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +45,8 @@ class _MainoState extends State<Maino> {
   StaffInfoModel staffInfoModel;
   ReserveWeeks reserveWeeks;
   InstantReserveModel instantReserve;
+  ServerBaseCalendarModel serverBaseCalendarModel;
+  ServerBaseStaticReserveCalendarModel serverBaseStaticReserveCalendarModel;
 
   int tabBarIndex;
   var _pageController;
@@ -129,6 +133,8 @@ class _MainoState extends State<Maino> {
     staffInfoModel.fetchStaffInfo;
     reserveWeeks.fetchReserveWeeks;
     instantReserve.fetchInstantReserve;
+    serverBaseCalendarModel.fetchCalendar;
+    serverBaseStaticReserveCalendarModel.fetchCalendar;
   }
 
   willPopTo() {
@@ -152,6 +158,9 @@ class _MainoState extends State<Maino> {
     staffInfoModel = Provider.of<StaffInfoModel>(context);
     reserveWeeks = Provider.of<ReserveWeeks>(context);
     instantReserve = Provider.of<InstantReserveModel>(context);
+    serverBaseCalendarModel = Provider.of<ServerBaseCalendarModel>(context);
+    serverBaseStaticReserveCalendarModel =
+        Provider.of<ServerBaseStaticReserveCalendarModel>(context);
 
     // set Status colors
     SystemChrome.setSystemUIOverlayStyle(themeChange.darkTheme
@@ -199,7 +208,6 @@ class _MainoState extends State<Maino> {
                 },
               ),
               UserTraffic(),
-              // WeekReservedTab(),
               ReserveCategories(),
               UserPlates(),
               Settings(),
@@ -292,9 +300,7 @@ class _MainoState extends State<Maino> {
             ),
           ),
         ),
-        onWillPop: () => willPopTo()
-        // exit(0),
-        );
+        onWillPop: () => willPopTo());
   }
 
   void pageController(index) {

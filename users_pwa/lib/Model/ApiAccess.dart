@@ -10,7 +10,20 @@ class ApiAccess {
   final String token;
 
   // Define dio framework for getting object.
-  Dio dio = Dio();
+  // Setting connectTimeout and receiveTimeout for fault error handling.
+  Dio dio = Dio(BaseOptions(
+    baseUrl: baseUrl,
+    receiveDataWhenStatusError: true,
+    connectTimeout: 60 * 1000,
+    receiveTimeout: 60 * 1000,
+  ));
+
+  /*
+  "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+  "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+  "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+  "Access-Control-Allow-Methods": "POST, OPTIONS"
+   */
 
   // Request handler method for getting proper response from the server.
   Future requestHandler(String route, String method, Map data) async {
@@ -21,8 +34,9 @@ class ApiAccess {
     /// data: [Map] -> Data to be sent allmost to body.
     /// With this method we can send our route and send method as request to API,
     /// also we can send some data if we need to that.
+
     Response response = await dio.request(
-      "$baseUrl$route",
+      "$route",
       data: data,
       options: Options(
         method: method,
@@ -30,6 +44,10 @@ class ApiAccess {
           "Accept": "application/json",
           "Content-Type": "application/json",
           "Authorization": "Bearer $token",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": true,
+          "Access-Control-Allow-Headers":
+              "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
         },
       ),
     );

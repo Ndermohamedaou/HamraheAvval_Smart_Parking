@@ -6,16 +6,21 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:liquid_ui/liquid_ui.dart';
-import 'package:payausers/Screens/Tabs/reservedTab.dart';
-import 'package:payausers/Screens/readTermsOfService.dart';
+import 'package:payausers/Screens/static_reserve_view.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/public_parking_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
+import 'package:payausers/providers/server_base_calendar_model.dart';
+import 'package:payausers/providers/server_base_static_reserve_calendar_model.dart';
 import 'package:payausers/providers/staffInfo_model.dart';
+import 'package:payausers/providers/terms_of_service_model.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +32,15 @@ import 'package:root_detector/root_detector.dart';
 // Screens
 import 'Screens/ForgetPasswordTabs/recoverPassword.dart';
 import 'Screens/addingPlateIntro.dart';
+import 'package:payausers/Screens/Tabs/reservedTab.dart';
+import 'package:payausers/Screens/readTermsOfService.dart';
 import 'package:payausers/Screens/checkingAccess.dart';
 import 'package:payausers/Screens/add_plate_guide_view.dart';
 import 'package:payausers/Screens/reserve_guide_view.dart';
 import 'package:payausers/Screens/familyPlate.dart';
 import 'package:payausers/Screens/minePlate.dart';
 import 'package:payausers/Screens/ForgetPasswordTabs/OTPSection.dart';
+import 'package:payausers/Screens/parking_type_view.dart';
 import 'package:payausers/Screens/otherPlateView.dart';
 import 'Screens/auth_entered_users.dart';
 import 'package:payausers/Screens/forgetPassword.dart';
@@ -72,7 +80,7 @@ ValueNotifier<int> userInstantReserveCounter =
     ValueNotifier(themeChangeProvider.instantUserReserve);
 
 // Set notification number in provider user number notification Specification.
-void setFCMNotifire(targetPoint) {
+void setFCMNotifier(targetPoint) {
   if (targetPoint == "3") {
     userPlateNotiCounter.value = themeChangeProvider.userPlateNumNotif == 0
         ? 0
@@ -92,7 +100,7 @@ void setFCMNotifire(targetPoint) {
 }
 
 // Background Worker
-Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("Handling a background Message ${message.messageId}");
   print(message.notification.title);
@@ -100,7 +108,7 @@ Future<void> _firebaseMessaginBackgroundHandler(RemoteMessage message) async {
   print(message.data["target"]);
 
   // Set notification number in provider (user number notification) Specific
-  setFCMNotifire(message.data["target"]);
+  setFCMNotifier(message.data["target"]);
 
   flutterLocalNotificationsPlugin.show(
       message.notification.hashCode,
@@ -140,7 +148,7 @@ void main() async {
   sslPining();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessaginBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
@@ -208,7 +216,7 @@ class _MyAppState extends State<MyApp> {
       AndroidNotification android = message.notification?.android;
 
       // Set notification number in provider (user number notification) Specific
-      setFCMNotifire(message.data["target"]);
+      setFCMNotifier(message.data["target"]);
 
       if (notification != null || android != null) {
         flutterLocalNotificationsPlugin.show(
@@ -274,6 +282,9 @@ class _MyAppState extends State<MyApp> {
                 return themeChangeProvider;
               },
             ),
+            ChangeNotifierProvider<TermsOfServiceModel>(
+              create: (_) => TermsOfServiceModel(),
+            ),
             ChangeNotifierProvider<StaffInfoModel>(
               create: (_) => StaffInfoModel(),
             ),
@@ -297,7 +308,16 @@ class _MyAppState extends State<MyApp> {
             ),
             ChangeNotifierProvider<InstantReserveModel>(
               create: (_) => InstantReserveModel(),
-            )
+            ),
+            ChangeNotifierProvider<ServerBaseCalendarModel>(
+              create: (_) => ServerBaseCalendarModel(),
+            ),
+            ChangeNotifierProvider<ServerBaseStaticReserveCalendarModel>(
+              create: (_) => ServerBaseStaticReserveCalendarModel(),
+            ),
+            ChangeNotifierProvider<PublicParkingModel>(
+              create: (_) => PublicParkingModel(),
+            ),
           ],
           child: Consumer<DarkThemeProvider>(
             builder: (BuildContext context, value, Widget child) {
@@ -307,6 +327,15 @@ class _MyAppState extends State<MyApp> {
               return LiquidApp(
                 materialApp: MaterialApp(
                   debugShowCheckedModeBanner: false,
+                  supportedLocales: [
+                    const Locale('fa', 'IR'),
+                  ],
+                  localizationsDelegates: [
+                    AppLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    // Uncomment when we want use app in different rtl like English base languages
+                    // GlobalWidgetsLocalizations.delegate,
+                  ],
                   // For set app fontSize by default size without system fontSize
                   builder: (BuildContext context, Widget child) {
                     final MediaQueryData data = MediaQuery.of(context);
@@ -346,6 +375,8 @@ class _MyAppState extends State<MyApp> {
                     '/changePassword': (context) => ChangePassPage(),
                     '/setBiometric': (context) => SettingBiometric(),
                     '/savingAppLockPass': (context) => SavingAppLock(),
+                    '/staticReserveView': (context) => StaticReserveView(),
+                    '/selectParkingType': (context) => ParkingTypeView(),
                   },
                 ),
               );

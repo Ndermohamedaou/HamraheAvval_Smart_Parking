@@ -1,19 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:payausers/ExtractedWidgets/floating_button_controller.dart';
 import 'package:payausers/ExtractedWidgets/reserve_category_separator.dart';
-import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/ExtractedWidgets/server_calendar.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/calculate_next_week.dart';
 import 'package:payausers/providers/plate_model.dart';
+import 'package:payausers/providers/server_base_calendar_model.dart';
 import 'package:payausers/spec/enum_state.dart';
-import "package:sizer/sizer.dart";
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/alert.dart';
-import 'package:payausers/controller/instentReserveController.dart';
+import 'package:payausers/controller/instantReserveController.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
@@ -21,6 +20,7 @@ import 'package:payausers/providers/reservers_by_week_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 class ReserveCategories extends StatefulWidget {
   const ReserveCategories({Key key}) : super(key: key);
@@ -40,22 +40,14 @@ AvatarModel localData;
 List weekly = [];
 List list = [];
 List instant = [];
-// Controller of Instant reserve
-InstantReserve instantReserve = InstantReserve();
+
 DateTimeCalculator dateTimeCalculator = DateTimeCalculator();
 
-// Reserve day of week states
-List selectedDays = [];
-List selectChipList = [];
-List<Widget> chipsDate = [];
-List<bool> selectedDaysAsBool = [];
 Timer _onRefresh;
 
 class _ReserveCategoriesState extends State<ReserveCategories> {
   @override
   void initState() {
-    selectedDays = dateTimeCalculator.getAWeek();
-
     _onRefresh = Timer.periodic(Duration(seconds: 30), (timer) {
       // Update data from the Provider
       reservesByWeek.fetchReserveWeeks;
@@ -82,8 +74,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
     platesModel = Provider.of<PlatesModel>(context);
     instantReserveModel = Provider.of<InstantReserveModel>(context);
     localData = Provider.of<AvatarModel>(context);
-    // Prepare api with passing token
-    ApiAccess api = ApiAccess(localData.userToken);
+    final persianServerCalendar = Provider.of<ServerBaseCalendarModel>(context);
 
     // Prepared reserve list from the API
     // TODO: Fix this handy revariable after build
@@ -94,223 +85,116 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
     list = reserves["list"] == null ? [] : reserves["list"];
     instant = reserves["instant"] == null ? [] : reserves["instant"];
 
-    // Reserve by select chips
-    reserveByChips(String date) async {
-      String responseStatus = "";
-      Map message = {};
+    // Fetching data from server to render date of week from server calendar.
+    reserveBottomSheet() {
+      showModalBottomSheet(
+        context: context,
+        useRootNavigator: true,
+        isScrollControlled: true,
+        isDismissible: true,
+        // clipBehavior: Clip.antiAlias,
+        backgroundColor:
+            themeChange.darkTheme ? mainBgColorDark : mainBgColorLight,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(modalBottomSheetRoundedSize),
+            topRight: Radius.circular(modalBottomSheetRoundedSize),
+          ),
+        ),
+        builder: (context) {
+          return SingleChildScrollView(
+            child: ServerCalendar(),
+          );
+        },
+      );
+    }
 
-      Endpoint reserveEndpoint =
-          apiEndpointsMap["reserveEndpoint"]["changeDailyReserveStatus"];
+    instantReserveProcess() async {
+      // Controller of Instant reserve
+      InstantReserve instantReserve = InstantReserve();
 
       try {
-        final result = await api.requestHandler(
-            "${reserveEndpoint.route}?date=$date", reserveEndpoint.method, {});
+        final result =
+            await instantReserve.instantReserve(token: localData.userToken);
 
-        // Preparing and handling response details
-        responseStatus = result["status"];
-        message = result["message"];
-
-        if (responseStatus == "success") {
+        if (result["status"] == "success") {
+          // Update Reserves in Provider
           // If reserve was successful, then update reserves model for getting
           // New week date list.
           reservesModel.fetchReservesData;
           // After getting list of week date, we need to update our week reserve list.
           // For exp: [week1, week2, week3, etc...]
           reserveWeeks.fetchReserveWeeks;
+          // Fetch for disappear of material button
+          instantReserveModel.fetchInstantReserve;
 
-          Navigator.pop(context);
           rAlert(
               context: context,
-              onTapped: () => Navigator.pop(context),
               tAlert: AlertType.success,
-              title: message["title"],
-              desc: message["desc"]);
-        } else if (responseStatus == "warning") {
+              title: result["message"]["title"],
+              desc: result["message"]["desc"],
+              onTapped: () => Navigator.popUntil(
+                  context, ModalRoute.withName("/dashboard")));
+        } else {
           rAlert(
               context: context,
-              onTapped: () => Navigator.pop(context),
-              tAlert: AlertType.warning,
-              title: message["title"],
-              desc: message["desc"]);
-        } else if (responseStatus == "failed") {
-          rAlert(
-              context: context,
-              onTapped: () => Navigator.pop(context),
               tAlert: AlertType.error,
-              title: message["title"],
-              desc: message["desc"]);
+              title: result["message"]["title"],
+              desc: result["message"]["desc"],
+              onTapped: () => Navigator.popUntil(
+                  context, ModalRoute.withName("/dashboard")));
         }
       } catch (e) {
-        print(e);
-        rAlert(
-            context: context,
-            onTapped: () => Navigator.pop(context),
-            tAlert: AlertType.error,
-            title: "شکست در انجام عملیات",
-            desc:
-                "رزرو شما انجام نشد. لطفا ارتباط خود را با سرویس دهنده بررسی کنید.");
-      }
-    }
-
-    // Fetching data from server to render date chips
-    prepareChips() {
-      // print("This is ==> ${reservesModel.reserves["reserved_days"]}");
-      setState(() {
-        selectedDaysAsBool = [];
-        chipsDate = [];
-      });
-      for (var i = 0; i < selectedDays.length; i++) {
-        // Checking next week days contained reserve_days API [data].
-        // If was contain will return true, else false.
-        try {
-          selectedDaysAsBool.add(reservesModel.reserves["reserved_days"]
-              .contains(selectedDays[i]["value"]));
-        } catch (e) {
-          // Catch for network connection lost.
-          selectedDaysAsBool.add(false);
-        }
-      }
-
-      for (int i = 0; i < selectedDays.length; i++) {
-        chipsDate.add(Container(
-          margin: EdgeInsets.symmetric(horizontal: 5.0),
-          child: FilterChip(
-            label: Text(
-              selectedDays[i]["label"],
-              style: TextStyle(fontSize: 20.0, fontFamily: mainFaFontFamily),
-            ),
-            selected: selectedDaysAsBool[i],
-            selectedColor: mainCTA,
-            onSelected: (bool value) async {
-              setState(() {
-                selectedDaysAsBool[i] = !selectedDaysAsBool[i];
-              });
-              reserveByChips(selectedDays[i]["value"]);
-            },
-          ),
-        ));
-      }
-    }
-
-    reserveBottomSheet() async {
-      prepareChips();
-      showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return SingleChildScrollView(
-                controller: ModalScrollController.of(context),
-                child: Column(
-                  children: [
-                    SizedBox(height: 1.0.h),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        textDirection: TextDirection.rtl,
-                        children: [
-                          Text("انتخاب یک یا چند روز از هفته",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontFamily: mainFaFontFamily,
-                                  fontSize: 22.0)),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 2.0.h),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: chipsDate,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 2.0.h),
-                    Container(
-                      width: double.infinity,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      child: Material(
-                        elevation: 10.0,
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: mainSectionCTA,
-                        child: MaterialButton(
-                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          onPressed: () => Navigator.pop(context),
-                          child: Text(
-                            "بستن",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: mainFaFontFamily,
-                                fontSize: btnSized,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 2.0.h),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      );
-    }
-
-    instentReserveProcess() async {
-      final result =
-          await instantReserve.instantReserve(token: localData.userToken);
-
-      if (result["status"] == "success") {
-        // Update Reserves in Provider
-        // If reserve was successful, then update reserves model for getting
-        // New week date list.
-        reservesModel.fetchReservesData;
-        // After getting list of week date, we need to update our week reserve list.
-        // For exp: [week1, week2, week3, etc...]
-        reserveWeeks.fetchReserveWeeks;
-        rAlert(
-            context: context,
-            tAlert: AlertType.success,
-            title: result["message"]["title"],
-            desc: result["message"]["desc"],
-            onTapped: () =>
-                Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
-      } else {
         rAlert(
             context: context,
             tAlert: AlertType.error,
-            title: result["message"]["title"],
-            desc: result["message"]["desc"],
+            title: serverCatchErrorTitle,
+            desc: serverCatchErrorDesc,
             onTapped: () =>
                 Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
       }
     }
 
-    instantResrver() {
-      // Create new time now
-      DateTime dateTime = DateTime.now();
+    instantReserve() {
+      bool checkLegalHour(int hour, int legalTime) {
+        ///
+        /// Check hour of Today to say user can reserve today or tomorrow?
+        /// If it was true that mean reserve will be tomorrow.
+        /// else reserve will be today.
+        if (hour >= legalTime)
+          return true;
+        else
+          return false;
+      }
 
-      // Create now DateTime to ensure user from choice.
-      final timeNow = "${dateTime.hour}:${dateTime.minute}:${dateTime.second}";
+      Jalali jDateTime = Jalali.now();
+      JalaliFormatter formattedDateTime = jDateTime.formatter;
+      DateTime dateTimeNow = DateTime.now();
+
+      // Preparing legal time to instant reserve.
+
+      // checkLegalHour
+      String specificDay =
+          checkLegalHour(dateTimeNow.hour, 17) ? tomorrow : today;
+
+      String calculateDay = checkLegalHour(dateTimeNow.hour, 17)
+          ? (jDateTime + 1).formatter.dd
+          : formattedDateTime.dd;
+
+      String legalDate =
+          "$calculateDay/${formattedDateTime.mN}/${formattedDateTime.yyyy}";
+      String instantReserveDateResult =
+          "آیا مایل به رزرو لحظه ای پارکینگ برای $specificDay ساعت $legalDate می باشید؟";
 
       customAlert(
           context: context,
           alertIcon: Icons.access_time_outlined,
+          borderColor: Colors.blue,
           iconColor: Colors.blue,
-          title: "رزرو لحظه ای",
-          desc:
-              "آیا میخواید امروز در این زمان $timeNow رزرو لحظه ای خود را انجام دهید؟ ",
+          title: instantReserveButtonText,
+          desc: instantReserveDateResult,
           acceptPressed: () {
-            instentReserveProcess();
+            instantReserveProcess();
             Navigator.pop(context);
           },
           ignorePressed: () => Navigator.pop(context));
@@ -327,12 +211,6 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
           iconTheme: IconThemeData(color: Colors.black),
           centerTitle: true,
           title: CustomText(reserveCategoriesTitle),
-          leading: IconButton(
-            icon: Icon(Icons.timer),
-            onPressed: instantReserveModel.canInstantReserve == 1
-                ? () => instantResrver()
-                : null,
-          ),
           actions: [
             IconButton(
               icon: Icon(
@@ -380,39 +258,37 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
             reserveTypeName: "list",
           ),
         ]),
-        floatingActionButton:
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            instantReserveModel.canInstantReserve == 1
+                ? FloatingButtonController(
+                    buttonText: instantReserveButtonText,
+                    onPressed: () => instantReserve(),
+                    width: 150,
+                    height: 55,
+                    buttonColor: importantColor,
+                    buttonIcon: Icons.notifications_active,
+                  )
+                : SizedBox(),
+            // Checking all conditions to show or not weekly reserve button.
             reserveWeeks.reserveWeeksState == FlowState.Error ||
                     reserveWeeks.reserveWeeksState == FlowState.Loading ||
                     !reserveWeeks.finalReserveWeeks["canReserve"]
                 ? SizedBox()
-                : Container(
-                    width: 130,
+                : FloatingButtonController(
+                    buttonText: weeklyReserveButtonText,
+                    onPressed: () {
+                      persianServerCalendar.fetchCalendar;
+                      reserveBottomSheet();
+                    },
+                    width: 150,
                     height: 55,
-                    child: Material(
-                      elevation: 10.0,
-                      borderRadius: BorderRadius.circular(100.0),
-                      color: mainSectionCTA,
-                      child: MaterialButton(
-                        onPressed: () => reserveBottomSheet(),
-                        child: Row(
-                          textDirection: TextDirection.rtl,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              weeklyReserveButtonText,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: mainFaFontFamily,
-                                  fontSize: btnSized,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                            Icon(Icons.add, color: Colors.white),
-                          ],
-                        ),
-                      ),
-                    ),
+                    buttonColor: mainSectionCTA,
+                    buttonIcon: Icons.add,
                   ),
+          ],
+        ),
       ),
     );
   }

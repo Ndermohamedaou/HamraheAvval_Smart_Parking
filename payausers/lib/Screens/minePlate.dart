@@ -13,6 +13,7 @@ import 'package:payausers/Model/Plate.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
 import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/image_picker_controller.dart';
 import 'package:payausers/controller/validate_plate.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
@@ -29,7 +30,7 @@ List appBarTitle = [];
 AddPlateProc addPlateProc = AddPlateProc();
 FlutterSecureStorage lds = FlutterSecureStorage();
 AlphabetList alp = AlphabetList();
-ImageConvetion imageConvetion = ImageConvetion();
+ImageConversion imageConversion = ImageConversion();
 
 // Provider
 PlatesModel plateModel;
@@ -75,7 +76,8 @@ class _MinePlateViewState extends State<MinePlateView> {
     // Config new settings to grep image from the Mobile file system or gallery
     // I put my source as main source with maxium height and width size for sending to server
     // imageQuality is half but is okay for seding document to the system.
-    final image = await ImagePicker.pickImage(
+    FlutterMediaPicker flutterMediaPicker = FlutterMediaPicker();
+    final image = await flutterMediaPicker.pickImage(
       source: source,
     );
 
@@ -112,7 +114,7 @@ class _MinePlateViewState extends State<MinePlateView> {
         final uToken = await lds.read(key: "token");
         // Preparing plate number for sending to the server
         PlateStructure plate = PlateStructure(plate0, plate1, plate2, plate3);
-        String _selfCarCard = await imageConvetion.checkSize(carCardImg);
+        String _selfCarCard = await imageConversion.checkSize(carCardImg);
 
         int result = await addPlateProc.uploadDocument(
           token: uToken,
@@ -143,8 +145,8 @@ class _MinePlateViewState extends State<MinePlateView> {
           });
           showStatusInCaseOfFlush(
               context: context,
-              title: successfullPlateAddTitle,
-              msg: successfullPlateAddDsc,
+              title: successfulPlateAddTitle,
+              msg: successfulPlateAddDsc,
               mainBackgroundColor: "#00c853",
               iconColor: Colors.white,
               icon: Icons.done_outline);
@@ -238,7 +240,7 @@ class _MinePlateViewState extends State<MinePlateView> {
           onPageChanged: (onChangePage) =>
               setState(() => pageIndex = onChangePage),
           children: [
-            PlateEntery(
+            PlateEntry(
               plate0: plate0,
               plate0Adder: (value) => setState(() => plate0 = value),
               plate1: _value,
@@ -267,7 +269,7 @@ class _MinePlateViewState extends State<MinePlateView> {
         hasCondition: isAddingDocs,
         text: pageIndex == 1 ? "ثبت اطلاعات" : nextLevel1,
         color: mainSectionCTA,
-        ontapped: () => pageIndex == 1
+        onTapped: () => pageIndex == 1
             ? addPlateProcInNow(
                 plate0: plate0,
                 plate1: alp.getAlphabet()[_value].item,

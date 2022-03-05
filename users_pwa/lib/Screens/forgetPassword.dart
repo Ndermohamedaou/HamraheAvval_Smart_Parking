@@ -45,7 +45,8 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
         if (result == "200") {
           setState(() => _submitPers = true);
-          Navigator.pushNamed(context, "/otpSection");
+          Navigator.pushNamed(context, "/otpSection",
+              arguments: {"personalCode": personalCode});
         }
       } catch (e) {
         setState(() => _submitPers = true);
@@ -111,7 +112,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       bottomNavigationBar: BottomButton(
         color: mainCTA,
         text: "بعدی",
-        ontapped: () => submitOTP(personalCode),
+        onTapped: () => submitOTP(personalCode),
       ),
     );
   }

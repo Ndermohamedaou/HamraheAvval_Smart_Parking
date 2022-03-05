@@ -49,11 +49,12 @@ class UserPlateInDetails extends StatelessWidget {
       children: [
         SizedBox(height: 1.0.h),
         Container(
-          width: 30,
+          width: 50,
           height: 5,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: Colors.grey, borderRadius: BorderRadius.circular(20)),
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(20)),
         ),
         SizedBox(height: 2.0.h),
         CustomTitle(textTitle: "پلاک شما در سامانه", fw: FontWeight.normal),

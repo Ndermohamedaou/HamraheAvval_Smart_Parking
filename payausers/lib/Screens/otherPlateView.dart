@@ -75,7 +75,7 @@ class _OtherPageViewState extends State<OtherPageView> {
           });
           showStatusInCaseOfFlush(
               context: context,
-              title: successfullPlateAddTitle,
+              title: successfulPlateAddTitle,
               msg: successFullOtherPlateAddDesc,
               mainBackgroundColor: "#00c853",
               iconColor: Colors.white,
@@ -161,7 +161,7 @@ class _OtherPageViewState extends State<OtherPageView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              PlateEntery(
+              PlateEntry(
                 plate0: plate0,
                 plate0Adder: (value) => setState(() => plate0 = value),
                 plate1: _value,
@@ -179,7 +179,7 @@ class _OtherPageViewState extends State<OtherPageView> {
         hasCondition: isAddingDocs,
         color: mainSectionCTA,
         text: "ثبت اطلاعات",
-        ontapped: () => addPlateProcInNow(
+        onTapped: () => addPlateProcInNow(
           plate0: plate0,
           plate1: alp.getAlphabet()[_value].item,
           plate2: plate2,

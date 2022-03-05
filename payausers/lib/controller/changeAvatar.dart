@@ -8,7 +8,7 @@ import 'package:payausers/Model/endpoints.dart';
 
 FlutterSecureStorage lds = FlutterSecureStorage();
 
-class ImageConvetion {
+class ImageConversion {
   bool imgSizeChecker(File img) {
     /// Checking image size in MB.
     ///

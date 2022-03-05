@@ -4,9 +4,9 @@ import 'package:payausers/ConstFiles/initialConst.dart';
 
 class BottomButton extends StatelessWidget {
   const BottomButton(
-      {this.ontapped, this.text, this.hasCondition = true, this.color});
+      {this.onTapped, this.text, this.hasCondition = true, this.color});
 
-  final Function ontapped;
+  final Function onTapped;
   final String text;
   final bool hasCondition;
   final color;
@@ -22,7 +22,7 @@ class BottomButton extends StatelessWidget {
         child: MaterialButton(
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             onPressed: () {
-              hasCondition ? ontapped() : null;
+              hasCondition ? onTapped() : null;
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

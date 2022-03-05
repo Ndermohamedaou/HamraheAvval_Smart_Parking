@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-// Card Color
-HexColor mainCardColor = HexColor("#AA642A");
-HexColor persCodeColor = HexColor("#814B00");
 HexColor lastVisitColor = HexColor("#0C4C4E");
 HexColor defaultAppBarColor = HexColor("#BDEAF1");
 
@@ -11,19 +8,14 @@ HexColor defaultAppBarColor = HexColor("#BDEAF1");
 HexColor mainBgColorLight = HexColor("#f6f7f9");
 HexColor mainBgColorDark = HexColor("#1d2733");
 
-// Dashboard Gradient Colors
-HexColor trafficsTileC1 = HexColor("#FF5B48");
-HexColor trafficsTileC2 = HexColor("#FF837E");
-HexColor reservesTileC1 = HexColor("#7414BC");
-HexColor reservesTileC2 = HexColor("#5C329F");
-HexColor currentLocationTileC1 = HexColor("#007AFF");
-HexColor currentLocationTileC2 = HexColor("#419FF9");
-HexColor userPlateNumberTileC1 = HexColor("#00CCFF");
-HexColor userPlateNumberTileC2 = HexColor("#00BBFF");
-
 // main app bar bg color
 HexColor mainCTA = HexColor("#4AC4CB");
 HexColor mainSectionCTA = HexColor("#F38137");
+
+// important and instanter button
+HexColor importantColor = HexColor("#D50000");
+// Holiday day background color
+HexColor holidayBgColor = HexColor("#D50000");
 
 // Primary color (CTR)
 const primarySubmitBtnColor = Colors.green;
@@ -64,6 +56,8 @@ HexColor bgOfChoice = HexColor("#EBEBEB");
 const double mainFontSize = 18;
 const double subFontSize = 12;
 
+const double modalBottomSheetRoundedSize = 40;
+
 // Image URLs
 const String first_slide =
     "https://shop.mci.ir/product-details/fcbdd53f-cd31-4256-9ac5-058f8ff6fb80";
@@ -74,7 +68,7 @@ const String third_slide = "https://shop.mci.ir";
 // const baseUrl = "http://188.213.64.78:8000/api";
 const baseUrl = "https://smartparking.mci.ir/api";
 // http://172.16.48.228/api
-// Old APIR
+// Old API
 // http://188.213.64.78:8000
 // http://172.16.24.14:8000
 // https://5.106.4.85/api

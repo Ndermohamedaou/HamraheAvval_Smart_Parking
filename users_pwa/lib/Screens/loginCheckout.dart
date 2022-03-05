@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
+import 'package:payausers/providers/public_parking_model.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginCheckingoutPage extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class LoginCheckingoutPage extends StatefulWidget {
 }
 
 class _LoginCheckingoutPageState extends State<LoginCheckingoutPage> {
+  PublicParkingModel publicParkingModel;
+
   @override
   void initState() {
     super.initState();
@@ -18,7 +23,7 @@ class _LoginCheckingoutPageState extends State<LoginCheckingoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    publicParkingModel = Provider.of<PublicParkingModel>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -33,10 +38,28 @@ class _LoginCheckingoutPageState extends State<LoginCheckingoutPage> {
     );
   }
 
-  void startingTimer() {
-    Timer(Duration(seconds: 2), () {
-      Navigator.pushNamed(
-          context, "/dashboard"); //It will redirect  after 4 seconds
-    });
+  void startingTimer() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userToken = prefs.getString("avatar");
+    ApiAccess api = ApiAccess(userToken);
+
+    try {
+      Endpoint staffInfo = apiEndpointsMap["auth"]["staffInfo"];
+      final staffInfoMap =
+          await api.requestHandler(staffInfo.route, staffInfo.method, {});
+      int parkingType = staffInfoMap["parking_type"];
+
+      if (parkingType == 0) {
+        publicParkingModel.fetchPublicParking;
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pushNamed(context, "/selectParkingType");
+      } else {
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pushNamed(context, "/dashboard");
+      }
+    } catch (e) {
+      print("Error in getting data of staff info in splash screen $e");
+      Navigator.pushNamed(context, '/checkConnection');
+    }
   }
 }

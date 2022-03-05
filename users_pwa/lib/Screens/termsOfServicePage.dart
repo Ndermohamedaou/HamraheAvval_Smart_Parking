@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/providers/terms_of_service_model.dart';
+import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 
 bool acceptedTerms = false;
 
@@ -16,7 +20,6 @@ class TermsOfServiceView extends StatefulWidget {
 class _TermsOfServiceViewState extends State<TermsOfServiceView> {
   @override
   void initState() {
-    // Bydefault terms of service is not accepted
     acceptedTerms = false;
     super.initState();
   }
@@ -29,7 +32,12 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    TermsOfServiceModel termsOfServiceModel =
+        Provider.of<TermsOfServiceModel>(context);
+    LogLoading logLoadingWidgets = LogLoading();
+
     void goToLogin() => Navigator.pushNamed(context, '/login');
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -40,33 +48,32 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
                 child: Column(
                   children: [
                     Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: MarkdownBody(
-                          data: terms,
-                          styleSheet: MarkdownStyleSheet.fromTheme(
-                            ThemeData(
-                              textTheme: TextTheme(
-                                bodyText1: TextStyle(
-                                    fontSize: 15.0,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontFamily: mainFaFontFamily),
-                                bodyText2: TextStyle(
-                                    fontSize: 15.0,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontFamily: mainFaFontFamily),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: MarkdownBody(
+                            data: primaryTerms,
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                              ThemeData(
+                                textTheme: TextTheme(
+                                  bodyText1: TextStyle(
+                                      fontSize: 15.0,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: mainFaFontFamily),
+                                  bodyText2: TextStyle(
+                                      fontSize: 15.0,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: mainFaFontFamily),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
+                        )),
                   ],
                 ),
               ),
@@ -89,7 +96,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
         color: mainCTA,
         text: acceptedTerms ? finalLoginText : mustAcceptTerms,
         hasCondition: acceptedTerms,
-        ontapped: goToLogin,
+        onTapped: goToLogin,
       ),
     );
   }
@@ -102,6 +109,9 @@ class AppBarAsNavigate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Getting now date time in jalali DateTime.
+    Jalali now = Jalali.now();
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Container(
@@ -114,7 +124,7 @@ class AppBarAsNavigate extends StatelessWidget {
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: subTitleSize,
-                    fontWeight: FontWeight.normal),
+                    fontWeight: FontWeight.bold),
               ),
               Icon(
                 Icons.verified_user_outlined,
@@ -123,7 +133,7 @@ class AppBarAsNavigate extends StatelessWidget {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
-                "$termsLastUpdate ${DateTime.now().year}",
+                "$termsLastUpdate ${now.year}",
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: 18,

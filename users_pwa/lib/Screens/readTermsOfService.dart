@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/providers/terms_of_service_model.dart';
+import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 
@@ -17,6 +20,9 @@ class _ReadTermsOfServiceState extends State<ReadTermsOfService> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    TermsOfServiceModel termsOfServiceModel =
+        Provider.of<TermsOfServiceModel>(context);
+    LogLoading logLoadingWidgets = LogLoading();
 
     return Scaffold(
       appBar: AppBar(
@@ -43,33 +49,32 @@ class _ReadTermsOfServiceState extends State<ReadTermsOfService> {
                 child: Column(
                   children: [
                     Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: MarkdownBody(
-                          data: terms,
-                          styleSheet: MarkdownStyleSheet.fromTheme(
-                            ThemeData(
-                              textTheme: TextTheme(
-                                bodyText1: TextStyle(
-                                    fontSize: 15.0,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontFamily: mainFaFontFamily),
-                                bodyText2: TextStyle(
-                                    fontSize: 15.0,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontFamily: mainFaFontFamily),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: MarkdownBody(
+                            data: primaryTerms,
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                              ThemeData(
+                                textTheme: TextTheme(
+                                  bodyText1: TextStyle(
+                                      fontSize: 15.0,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: mainFaFontFamily),
+                                  bodyText2: TextStyle(
+                                      fontSize: 15.0,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: mainFaFontFamily),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
+                        )),
                   ],
                 ),
               ),
@@ -103,7 +108,7 @@ class AppBarAsNavigate extends StatelessWidget {
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: subTitleSize,
-                    fontWeight: FontWeight.normal),
+                    fontWeight: FontWeight.bold),
               ),
               Icon(
                 Icons.verified_user_outlined,

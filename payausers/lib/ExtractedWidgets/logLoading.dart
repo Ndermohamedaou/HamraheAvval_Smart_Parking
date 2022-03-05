@@ -46,17 +46,17 @@ class LogLoading {
         child: CupertinoActivityIndicator(),
       );
 
-  Widget loading() => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 200,
-            alignment: Alignment.center,
-            child: LoadingIndicator(
-              indicatorType: Indicator.ballPulse,
-              colors: [mainSectionCTA],
-            ),
-          ),
-        ],
-      );
+  Widget loading = Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: 200,
+        alignment: Alignment.center,
+        child: LoadingIndicator(
+          indicatorType: Indicator.ballPulse,
+          colors: [mainSectionCTA],
+        ),
+      ),
+    ],
+  );
 }

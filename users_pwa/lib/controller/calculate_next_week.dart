@@ -29,4 +29,25 @@ class DateTimeCalculator {
 
     return week;
   }
+
+  parseDatesFromNextWeek(List selectedReserveList) {
+    // This is final value of reserve list.
+    List finalSelectedList = [];
+    List nextWeekDates = [];
+    List nextWeek = getAWeek();
+
+    // Getting only dates of next week helper method
+    for (int i = 0; i < nextWeek.length; i++) {
+      nextWeekDates.add(nextWeek[i]["value"]);
+    }
+
+    for (String date in nextWeekDates) {
+      finalSelectedList.add({
+        "date": date,
+        "isSelected": selectedReserveList.contains(date) ? 1 : 0,
+      });
+    }
+
+    return finalSelectedList;
+  }
 }

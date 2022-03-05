@@ -1,7 +1,6 @@
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/dashboardTiles/Tiles.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -35,7 +34,6 @@ dynamic themeChange;
 
 class _DashboardState extends State<Dashboard>
     with AutomaticKeepAliveClientMixin<Dashboard> {
-  GridTiles gridTile = GridTiles();
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -173,34 +171,40 @@ class _DashboardState extends State<Dashboard>
                             textDirection: TextDirection.rtl,
                             children: [
                               CircleAvatar(
-                                radius: 25,
-                                backgroundImage: avatarModel.avatar != ""
-                                    ? NetworkImage(avatarModel.avatar)
-                                    : null,
-                              ),
+                                  radius: 25,
+                                  backgroundImage:
+                                      NetworkImage(avatarModel.avatar ?? "")),
                               SizedBox(width: 10.0),
-                              Column(
-                                children: [
-                                  Text(
-                                    welcomeTitle,
-                                    style: TextStyle(
-                                      fontFamily: mainFaFontFamily,
-                                      color: Colors.white,
-                                      fontSize: 18.0,
+                              Container(
+                                alignment: Alignment.centerRight,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      avatarModel.fullname,
+                                      style: TextStyle(
+                                        fontFamily: mainFaFontFamily,
+                                        color: Colors.white,
+                                        fontSize: 20.0,
+                                      ),
+                                      textAlign: TextAlign.right,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Text(
-                                    avatarModel.fullname,
-                                    style: TextStyle(
-                                      fontFamily: mainFaFontFamily,
-                                      color: Colors.white,
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.w500,
+                                    Text(
+                                      staffInfoModel
+                                              .staffInfo["parking_type_fa"] ??
+                                          welcomeTitle,
+                                      style: TextStyle(
+                                        fontFamily: mainFaFontFamily,
+                                        color: Colors.white,
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      textAlign: TextAlign.right,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -335,7 +339,8 @@ class _DashboardState extends State<Dashboard>
                               title: "ترددها",
                               onPressed: () => openOptionsData(
                                   title: "تعداد تردد های شما",
-                                  data: trafficsModel.traffics.length,
+                                  data: trafficsModel.traffics.length ??
+                                      dataLoadingTextString,
                                   hasAction: true,
                                   onPressedNavigationButton: () {
                                     widget.navigateToTrafficsTab();
@@ -350,8 +355,10 @@ class _DashboardState extends State<Dashboard>
                               icon: "myReserveList.png",
                               title: "رزروها",
                               onPressed: () => openOptionsData(
-                                title: "تعداد رزروهای شما",
-                                data: reservesModel.reserves["reserves"].length,
+                                title: "تعداد رزروهای باقی مانده هفته",
+                                data:
+                                    reservesModel.reserves["reserves"].length ??
+                                        dataLoadingTextString,
                                 onPressedNavigationButton: () {
                                   return showStatusInCaseOfFlush(
                                       context: context,
@@ -369,8 +376,9 @@ class _DashboardState extends State<Dashboard>
                             icon: "myReserveList.png",
                             title: "رزروها",
                             onPressed: () => openOptionsData(
-                                title: "تعداد کل رزروهای شما",
-                                data: staffInfoModel.staffInfo["reserves"],
+                                title: "تعداد رزروهای باقی مانده هفته",
+                                data: staffInfoModel.staffInfo["reserves"] ??
+                                    dataLoadingTextString,
                                 hasAction: true,
                                 onPressedNavigationButton: () {
                                   widget.navigateToReservesTab();
@@ -385,7 +393,8 @@ class _DashboardState extends State<Dashboard>
                               title: "پلاک ها",
                               onPressed: () => openOptionsData(
                                 title: "تعداد پلاک های ثبت شده در سامانه",
-                                data: plateModel.plates.length,
+                                data: plateModel.plates.length ??
+                                    dataLoadingTextString,
                                 onPressedNavigationButton: () {
                                   return showStatusInCaseOfFlush(
                                       context: context,
@@ -404,7 +413,8 @@ class _DashboardState extends State<Dashboard>
                             title: "پلاک ها",
                             onPressed: () => openOptionsData(
                               title: "تعداد پلاک های شما",
-                              data: plateModel.plates.length,
+                              data: plateModel.plates.length ??
+                                  dataLoadingTextString,
                               hasAction: true,
                               onPressedNavigationButton: () {
                                 widget.navigateToPlatesTab();
@@ -433,7 +443,8 @@ class _DashboardState extends State<Dashboard>
                                     title: "جایگاه",
                                     onPressed: () => openOptionsData(
                                       title: "جایگاه فعلی وسیله نقلیه شما",
-                                      data: dataLoadingTextString,
+                                      data: dataLoadingTextString ??
+                                          dataLoadingTextString,
                                     ),
                                   )
                                 : SecondOptions(

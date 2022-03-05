@@ -52,9 +52,9 @@ void customAlert(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(25.0),
             width: 80.0.w,
-            height: 100.0.w,
+            height: 110.0.w,
             margin: EdgeInsets.symmetric(horizontal: 8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

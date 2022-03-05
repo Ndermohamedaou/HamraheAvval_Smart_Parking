@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:payausers/controller/image_picker_controller.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,8 @@ dynamic emptyTextFieldErrRePassword;
 
 FlutterSecureStorage lds = FlutterSecureStorage();
 SavingData savingData = SavingData();
-ImageConvetion imgConvertor = ImageConvetion();
+ImageConversion imgConvertor = ImageConversion();
+FlutterMediaPicker flutterMediaPicker = FlutterMediaPicker();
 
 IconData showMePass = Icons.remove_red_eye;
 bool protectedPassword = true;
@@ -184,15 +186,6 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
       }
     }
 
-    // Convert Image to base 64
-
-    Future galleryViewer() async {
-      final image = await ImagePicker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        imgSource = image;
-      });
-    }
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -235,7 +228,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                               Icons.add,
                               color: Colors.white,
                             )),
-                        onTap: () => galleryViewer(),
+                        onTap: () => setState(() async => imgSource =
+                            await flutterMediaPicker.pickImage(
+                                source: ImageSource.gallery)),
                       ),
                     ),
                   ),

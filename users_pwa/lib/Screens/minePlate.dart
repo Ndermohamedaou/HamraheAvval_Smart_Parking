@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/Model/Plate.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/imageConvertor.dart';
@@ -11,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:payausers/Model/AlphabetClassList.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
 import 'package:payausers/ExtractedWidgets/cardEntry.dart';
 import 'package:payausers/controller/addPlateProcess.dart';
@@ -128,8 +128,8 @@ class _MinePlateViewState extends State<MinePlateView> {
         });
         showStatusInCaseOfFlush(
             context: context,
-            title: successfullPlateAddTitle,
-            msg: successfullPlateAddDsc,
+            title: successfulPlateAddTitle,
+            msg: successfulPlateAddDsc,
             mainBackgroundColor: "#00c853",
             iconColor: Colors.white,
             icon: Icons.done_outline);
@@ -212,7 +212,7 @@ class _MinePlateViewState extends State<MinePlateView> {
           onPageChanged: (onChangePage) =>
               setState(() => pageIndex = onChangePage),
           children: [
-            PlateEntery(
+            PlateEntry(
               plate0: plate0,
               plate0Adder: (value) => setState(() => plate0 = value),
               plate1: _value,
@@ -240,7 +240,7 @@ class _MinePlateViewState extends State<MinePlateView> {
       bottomNavigationBar: BottomButton(
         hasCondition: isAddingDocs,
         text: pageIndex == 1 ? "ثبت اطلاعات" : nextLevel1,
-        ontapped: () => pageIndex == 1
+        onTapped: () => pageIndex == 1
             ? addPlateProcInNow(
                 plate0: plate0,
                 plate1: alp.getAlphabet()[_value].item,

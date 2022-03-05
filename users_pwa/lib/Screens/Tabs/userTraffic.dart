@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ExtractedWidgets/custom_divider.dart';
 import 'package:payausers/ExtractedWidgets/custom_sub_title.dart';
@@ -66,13 +67,19 @@ class _UserTrafficState extends State<UserTraffic>
         context: context,
         enableDrag: true,
         bounce: true,
-        duration: const Duration(milliseconds: 550),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(modalBottomSheetRoundedSize),
+            topRight: Radius.circular(modalBottomSheetRoundedSize),
+          ),
+        ),
+        duration: const Duration(milliseconds: 350),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
           child: Container(
             child: Column(
               children: [
-                SizedBox(height: 1.0.h),
+                SizedBox(height: 2.0.h),
                 Container(
                   width: 30,
                   height: 5,
@@ -169,7 +176,7 @@ class _UserTrafficState extends State<UserTraffic>
 
     Widget traffics = Builder(builder: (_) {
       if (trafficsModel.trafficsState == FlowState.Loading)
-        return logLoadingWidgets.loading();
+        return logLoadingWidgets.loading;
 
       if (trafficsModel.trafficsState == FlowState.Error)
         return logLoadingWidgets.internetProblem;
@@ -309,7 +316,6 @@ class _UserTrafficState extends State<UserTraffic>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(
           color: Colors.black,
         ),

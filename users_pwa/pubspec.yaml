@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
   # Have Responsive size in any Devices
   sizer: ^1.1.8
@@ -21,7 +23,6 @@ dependencies:
   url_launcher: any
   # MarkDown Plugin
   flutter_markdown:
-  carousel_slider: ^2.3.1
   dio:
   shared_preferences: ^2.0.5
   provider: ^4.3.2+2
@@ -58,6 +59,7 @@ dependencies:
   pinput: ^1.2.0
   multi_select_flutter: ^4.0.0
   shamsi_date: ^1.0.0
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +74,7 @@ flutter:
     - assets/fonts/
     - assets/images/
     - assets/lottie/
+    - assets/translations/fa.json
 
   fonts:
     - family: BYekan

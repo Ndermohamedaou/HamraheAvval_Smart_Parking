@@ -6,7 +6,7 @@ class AvatarModel extends ChangeNotifier {
   FlowState _avatarState = FlowState.Initial;
 
   String userToken = "";
-  String avatar = "";
+  String avatar = "http://via.placeholder.com/350x150";
   String fullname = "";
   String userID = "";
 
@@ -37,6 +37,7 @@ class AvatarModel extends ChangeNotifier {
       print("Error in Getting data from reserve notifier $e");
       _avatarState = FlowState.Error;
     }
+
     notifyListeners();
   }
 }

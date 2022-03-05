@@ -31,7 +31,7 @@ class ReservesByWeek extends ChangeNotifier {
       // Getting Endpoint class of userReservesByWeek.
       Endpoint getUserReservesByWeek =
           apiEndpointsMap["reserveEndpoint"]["getUserReservesByWeek"];
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 1));
       // Getting data.
       final reserversOfWeek = await api.requestHandler(
           "${getUserReservesByWeek.route}?week=$startDate",

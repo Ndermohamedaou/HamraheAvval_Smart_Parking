@@ -13,7 +13,13 @@ class ApiAccess {
   final String token;
 
   // Define dio framework for getting object.
-  Dio dio = Dio();
+  // Setting connectTimeout and receiveTimeout for fault error handling.
+  Dio dio = Dio(BaseOptions(
+    baseUrl: baseUrl,
+    receiveDataWhenStatusError: true,
+    connectTimeout: 60 * 1000,
+    receiveTimeout: 60 * 1000,
+  ));
 
   // Request handler method for getting proper response from the server.
   Future requestHandler(String route, String method, Map data) async {
@@ -34,7 +40,7 @@ class ApiAccess {
       };
     };
     Response response = await dio.request(
-      "$baseUrl$route",
+      "$route",
       data: data,
       options: Options(
         method: method,

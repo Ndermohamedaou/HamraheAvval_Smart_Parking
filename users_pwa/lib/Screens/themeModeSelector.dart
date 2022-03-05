@@ -103,7 +103,7 @@ class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
       ),
       bottomNavigationBar: BottomButton(
         text: nextLevel1,
-        ontapped: goToNext,
+        onTapped: goToNext,
       ),
     );
   }

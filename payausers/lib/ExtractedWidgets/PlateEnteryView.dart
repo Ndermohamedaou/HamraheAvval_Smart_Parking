@@ -6,8 +6,8 @@ import 'package:payausers/Model/ThemeColor.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
-class PlateEntery extends StatelessWidget {
-  const PlateEntery({
+class PlateEntry extends StatelessWidget {
+  const PlateEntry({
     this.plate0,
     this.plate0Adder,
     this.plate1,
@@ -57,7 +57,15 @@ class PlateEntery extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20.0.w),
+              margin: EdgeInsets.only(
+                  top: 20.0.w, bottom: 20.0.w, right: 10.0.w, left: 10.0.w),
+              padding: EdgeInsets.all(10.0),
+              width: double.infinity,
+              height: 200.0,
+              decoration: BoxDecoration(
+                color: themeChange.darkTheme ? darkBar : lightBar,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
               child: Image.asset(
                 "assets/images/myTraffic.png",
                 width: 40.0.w,

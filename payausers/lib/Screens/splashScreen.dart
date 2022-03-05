@@ -3,6 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/endpoints.dart';
+import 'package:payausers/providers/public_parking_model.dart';
+import 'package:payausers/providers/staffInfo_model.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -10,6 +15,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  StaffInfoModel staffInfoModel;
+  PublicParkingModel publicParkingModel;
+
   @override
   void initState() {
     super.initState();
@@ -18,6 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    staffInfoModel = Provider.of<StaffInfoModel>(context);
+    publicParkingModel = Provider.of<PublicParkingModel>(context);
+
     return WillPopScope(
       onWillPop: () =>
           SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
@@ -37,34 +48,43 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void startingTimer() {
     Timer(Duration(seconds: 1), () {
-      navigatedToRoot(); //It will redirect  after 5 microseconds
+      navigatedToRoot();
     });
   }
 
   void navigatedToRoot() async {
+    ///
+    /// Will navigate to proper screen, at first getting user token
+    /// if user token was null, will show login screen, else will decide to show
+    /// parking ty[e view or dashboard view.
     final lStorage = FlutterSecureStorage();
-    final userToken = await lStorage.read(key: "token");
-    final localAuthPasas = await lStorage.read(key: "local_lock");
+    String userToken = await lStorage.read(key: "token");
+    final localAuth = await lStorage.read(key: "local_lock");
+    ApiAccess api = ApiAccess(userToken);
 
     if (userToken != null) {
-      // try {
-      // Getting data from api Access
-      // final userAccountStatus =
-      // await api.getUserStatusAccount(token: userToken);
-      // if (userAccountStatus['status'] != "disable") {
-      if (localAuthPasas != null) // And And our boolean lock status show
-        Navigator.pushNamed(context, "/localAuth");
-      else
-        Navigator.pushNamed(context, "/dashboard");
-      // } else {
-      // user is not active
-      // }
-      // } catch (e) {
-      // Network or API Error
-      // Navigator.pushNamed(context, '/checkConnection');
-      // print("Error form getting status of user for entring dashboard $e");
-      // }
-    } else
+      try {
+        Endpoint staffInfo = apiEndpointsMap["auth"]["staffInfo"];
+        final staffInfoMap =
+            await api.requestHandler(staffInfo.route, staffInfo.method, {});
+        int parkingType = staffInfoMap["parking_type"];
+
+        if (localAuth != null) {
+          Navigator.pushNamed(context, "/localAuth");
+        } else {
+          if (parkingType == 0) {
+            publicParkingModel.fetchPublicParking;
+            Navigator.pushNamed(context, "/selectParkingType");
+          } else {
+            Navigator.pushNamed(context, "/dashboard");
+          }
+        }
+      } catch (e) {
+        print("Error in getting data of staff info in splash screen $e");
+        Navigator.pushNamed(context, '/checkConnection');
+      }
+    } else {
       Navigator.pushNamed(context, '/');
+    }
   }
 }

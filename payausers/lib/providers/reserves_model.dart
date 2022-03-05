@@ -24,7 +24,7 @@ class ReservesModel extends ChangeNotifier {
     try {
       Endpoint userReserves =
           apiEndpointsMap["reserveEndpoint"]["getUserReserves"];
-      // Wait for 2 second for getting safe data.
+      // Wait for a second for getting safe data.
       await Future.delayed(Duration(seconds: 1));
       final regularReserves =
           await api.requestHandler(userReserves.route, userReserves.method, {});

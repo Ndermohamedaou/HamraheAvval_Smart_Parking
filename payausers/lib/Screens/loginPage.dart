@@ -101,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
 
               gettingReadyAccount.getUserAccInfo(
                   getLoginStatus['token'], context);
+              localData.refreshToken = getLoginStatus['token'];
             }
             // } else {
             //   setState(() => isLogin = false);
@@ -169,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: 30),
               TextFields(
                 lblText: personalCodePlaceHolder,
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.number,
                 textFieldIcon: Icons.account_circle,
                 textInputType: false,
                 readOnly: false,

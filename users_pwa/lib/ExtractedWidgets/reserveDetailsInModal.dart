@@ -17,6 +17,7 @@ class ReserveInDetails extends StatelessWidget {
     this.slot,
     this.delReserve,
     this.reserveTimeExpire,
+    this.isShowCancelReserve,
   }) : super(key: key);
 
   final DarkThemeProvider themeChange;
@@ -28,11 +29,12 @@ class ReserveInDetails extends StatelessWidget {
   final Function delReserve;
   final reserveStatusDesc;
   final int reserveTimeExpire;
+  final bool isShowCancelReserve;
 
   @override
   Widget build(BuildContext context) {
-    String nowTimestmap = DateTime.now().millisecondsSinceEpoch.toString();
-    int nowTime = int.parse(nowTimestmap.substring(0, 10));
+    String nowTimestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    int nowTime = int.parse(nowTimestamp.substring(0, 10));
 
     final specificReserveStatusColor =
         ReserveStatusSpecification().getReserveStatusColor(reserveStatusDesc);
@@ -40,11 +42,12 @@ class ReserveInDetails extends StatelessWidget {
       children: [
         SizedBox(height: 1.0.h),
         Container(
-          width: 30,
+          width: 50,
           height: 5,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-              color: Colors.grey, borderRadius: BorderRadius.circular(20)),
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(20)),
         ),
         plate.isEmpty
             ? SizedBox()
@@ -106,11 +109,8 @@ class ReserveInDetails extends StatelessWidget {
           ],
         ),
         SizedBox(height: 2.0.h),
-        // Check if reserve was canceled you don't show any button to cancel again.
-        reserveStatusDesc == -2 ||
-                reserveStatusDesc == 2 ||
-                reserveStatusDesc == -1 ||
-                reserveTimeExpire < nowTime
+        // Check if reserve was canceled it doesn't show any button to cancel again.
+        !isShowCancelReserve
             ? SizedBox()
             : Container(
                 margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

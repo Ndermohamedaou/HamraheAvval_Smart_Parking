@@ -162,8 +162,8 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
         });
         showStatusInCaseOfFlush(
             context: context,
-            title: successfullPlateAddTitle,
-            msg: successfullPlateAddDsc,
+            title: successfulPlateAddTitle,
+            msg: successfulPlateAddDsc,
             mainBackgroundColor: "#00c853",
             iconColor: Colors.green,
             icon: Icons.done_outline);
@@ -246,7 +246,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
           onPageChanged: (onChangePage) =>
               setState(() => pageIndex = onChangePage),
           children: [
-            PlateEntery(
+            PlateEntry(
               plate0: plate0,
               plate0Adder: (value) => setState(() => plate0 = value),
               plate1: _value,
@@ -263,7 +263,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               cameraTapped: () => gettingNationalCard(),
             ),
             CardEntry(
-              customIcon: "assets/images/paper2.png",
+              customIcon: "assets/images/carCardWithNationalCard.png",
               imgShow: ownerCarCard,
               albumTapped: () => gettingOwnerCarCard(),
               cameraTapped: () => gettingOwnerCarCard(),
@@ -274,7 +274,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
       bottomNavigationBar: BottomButton(
         hasCondition: isAddingDocs,
         text: pageIndex == 2 ? "ثبت اطلاعات" : nextLevel1,
-        ontapped: () => pageIndex == 2
+        onTapped: () => pageIndex == 2
             ? addPlateProcInNow(
                 plate0: plate0,
                 plate1: alp.getAlphabet()[_value].item,

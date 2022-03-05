@@ -66,6 +66,12 @@ class _UserPlatesState extends State<UserPlates>
         context: context,
         enableDrag: true,
         bounce: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(modalBottomSheetRoundedSize),
+            topRight: Radius.circular(modalBottomSheetRoundedSize),
+          ),
+        ),
         duration: const Duration(milliseconds: 550),
         builder: (context) => SingleChildScrollView(
           controller: ModalScrollController.of(context),
@@ -99,7 +105,7 @@ class _UserPlatesState extends State<UserPlates>
     Widget plates = Builder(
       builder: (_) {
         if (plateModel.platesState == FlowState.Loading)
-          return logLoadingWidgets.loading();
+          return logLoadingWidgets.loading;
 
         if (plateModel.platesState == FlowState.Error)
           return logLoadingWidgets.internetProblem;
@@ -197,7 +203,6 @@ class _UserPlatesState extends State<UserPlates>
                     onPressed: () =>
                         Navigator.pushNamed(context, "/addingPlateIntro"),
                     child: Row(
-                      textDirection: TextDirection.rtl,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
