@@ -1,6 +1,7 @@
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/providers/avatar_model.dart';
@@ -49,6 +50,8 @@ class _DashboardState extends State<Dashboard>
     final avatarModel = Provider.of<AvatarModel>(context);
     // Getting Score and car location of uesr
     final staffInfoModel = Provider.of<StaffInfoModel>(context);
+
+    LogLoading logLoading = LogLoading();
 
     String finalCarSlotLocation() {
       /// Checking location of car slot from the API data.
@@ -504,18 +507,29 @@ class _DashboardState extends State<Dashboard>
                             ),
                           ),
                           SizedBox(height: 1.0.h),
-                          VerticalSlide(
-                            imgSrc: "assets/images/slider-1.jpg",
-                            openURL: () => launchURL(first_slide),
-                          ),
-                          VerticalSlide(
-                            imgSrc: "assets/images/slider-2.jpg",
-                            openURL: () => launchURL(second_slide),
-                          ),
-                          VerticalSlide(
-                            imgSrc: "assets/images/slider-3.jpg",
-                            openURL: () => launchURL(third_slide),
-                          )
+                          Builder(builder: (BuildContext context) {
+                            if (staffInfoModel.staffLoadState ==
+                                FlowState.Loading) return logLoading.loading;
+
+                            if (staffInfoModel.staffLoadState ==
+                                FlowState.Error)
+                              return logLoading.internetProblem;
+
+                            List banners = staffInfoModel.staffInfo["banners"];
+
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              primary: false,
+                              itemCount: banners.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return VerticalSlide(
+                                  imgSrc: banners[index]["img_url"],
+                                  openURL: () =>
+                                      launchURL(banners[index]["web_url"]),
+                                );
+                              },
+                            );
+                          }),
                         ],
                       ),
                     ),
@@ -551,7 +565,7 @@ class VerticalSlide extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           image: DecorationImage(
-            image: AssetImage(imgSrc),
+            image: NetworkImage(imgSrc),
             fit: BoxFit.cover,
           ),
         ),

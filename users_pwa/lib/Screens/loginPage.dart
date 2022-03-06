@@ -101,6 +101,7 @@ class _LoginPageState extends State<LoginPage> {
 
               gettingReadyAccount.getUserAccInfo(
                   getLoginStatus['token'], context);
+              localData.refreshToken = getLoginStatus['token'];
             }
             // } else {
             //   setState(() => isLogin = false);

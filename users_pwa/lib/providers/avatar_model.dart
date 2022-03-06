@@ -17,6 +17,11 @@ class AvatarModel extends ChangeNotifier {
   FlowState get avatarState => _avatarState;
   Future get fetchUserAvatar => _getUserAvatar();
 
+  set refreshToken(String value) {
+    userToken = value;
+    notifyListeners();
+  }
+
   Future<void> _getUserAvatar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final localAvatar = prefs.getString("avatar");

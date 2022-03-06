@@ -8,6 +8,7 @@ import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Model/imageConvertor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ConstFiles/constText.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/controller/alert.dart';
@@ -15,6 +16,8 @@ import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/validator/textValidator.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:toast/toast.dart';
+
+import '../providers/avatar_model.dart';
 
 Map<String, Object> userInfo;
 Map<String, Object> modalRoute;
@@ -66,6 +69,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
     final uToken = modalRoute["token"];
     // Sending token to constructor of ApiAccess class.
     ApiAccess api = ApiAccess(uToken);
+    AvatarModel localData = Provider.of<AvatarModel>(context);
 
     void gettingLogin({uToken, curPass, pass, rePass, String avatar}) async {
       if (pass != "" && rePass != "") {
@@ -111,6 +115,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   );
 
                   if (result) {
+                    localData.refreshToken = uToken;
                     Navigator.pushNamed(context, "/loginCheckout");
                   } else {
                     Toast.show("Your info can not saved", context,
