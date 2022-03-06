@@ -48,7 +48,7 @@ class _DashboardState extends State<Dashboard>
     final plateModel = Provider.of<PlatesModel>(context);
     // Getting user Avatar data from provider model
     final avatarModel = Provider.of<AvatarModel>(context);
-    // Getting Score and car location of uesr
+    // Getting Score and car location of user
     final staffInfoModel = Provider.of<StaffInfoModel>(context);
 
     LogLoading logLoading = LogLoading();
