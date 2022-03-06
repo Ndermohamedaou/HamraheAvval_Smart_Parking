@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/terms_of_service_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +31,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     TermsOfServiceModel termsOfServiceModel =
         Provider.of<TermsOfServiceModel>(context);
@@ -93,7 +94,7 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
               child: CheckboxListTile(
                   activeColor: mainSectionCTA,
                   title: Text(
-                    acceptAllTermsOfService,
+                    t.translate("terms.acceptAllTerms"),
                     style: TextStyle(fontFamily: mainFaFontFamily),
                   ),
                   value: acceptedTerms,
@@ -104,7 +105,9 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
       ),
       bottomNavigationBar: BottomButton(
         color: mainCTA,
-        text: acceptedTerms ? finalLoginText : mustAcceptTerms,
+        text: t.translate(acceptedTerms
+            ? "global.actions.enterOrGo"
+            : "terms.mustAcceptTerms"),
         hasCondition: acceptedTerms,
         onTapped: goToLogin,
       ),
@@ -119,6 +122,7 @@ class AppBarAsNavigate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     // Getting now date time in jalali DateTime.
     Jalali now = Jalali.now();
 
@@ -130,7 +134,7 @@ class AppBarAsNavigate extends StatelessWidget {
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
-                termsAndLicense,
+                t.translate("terms.termsOfServiceTitle"),
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: subTitleSize,
@@ -143,7 +147,7 @@ class AppBarAsNavigate extends StatelessWidget {
             ]),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text(
-                "$termsLastUpdate ${now.year}",
+                "${t.translate("terms.termsLastUpdate")} ${now.year}",
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: 18,

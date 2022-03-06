@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';
 import "package:payausers/ExtractedWidgets/ThemeModeComponent.dart";
 
@@ -14,9 +14,10 @@ class ThemeModeSelectorPage extends StatefulWidget {
 class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    // Navigatoed to Login
+    // Navigated to Login
     void goToNext() => Navigator.pushNamed(context, '/termsAndLicense');
     // Checked if you are have Dark or Light Mode
     const String lightLottie = "assets/lottie/36236-sun-icon.json";
@@ -31,7 +32,7 @@ class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
                 child: Container(
                   margin: EdgeInsets.only(top: 50),
                   child: Text(
-                    themeChangeText,
+                    t.translate("systemSettings.darkTheme"),
                     style: TextStyle(
                         color: mainCTA,
                         fontFamily: mainFaFontFamily,
@@ -47,7 +48,7 @@ class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      themeMsg,
+                      t.translate("systemSettings.selectTheme"),
                       style:
                           TextStyle(fontFamily: mainFaFontFamily, fontSize: 20),
                     ),
@@ -80,7 +81,7 @@ class _ThemeModeSelectorPageState extends State<ThemeModeSelectorPage> {
         ),
       ),
       bottomNavigationBar: BottomButton(
-        text: nextLevel1,
+        text: t.translate("navigation.next"),
         onTapped: goToNext,
       ),
     );

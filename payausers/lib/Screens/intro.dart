@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/localization/app_localization.dart';
 
 class IntroPage extends StatefulWidget {
   @override
   _IntroPageState createState() => _IntroPageState();
 }
 
+AppLocalizations t;
+
 class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
+    // Getting Strings
+    t = AppLocalizations.of(context);
+
     void navigatedToLogin() => Navigator.pushNamed(context, '/themeSelector');
     return Scaffold(
         body: MainIntro(),
         bottomNavigationBar: BottomButton(
-            color: mainCTA, text: nextLevel1, onTapped: navigatedToLogin));
+            color: mainCTA,
+            text: t.translate("navigation.next"),
+            onTapped: navigatedToLogin));
   }
 }
 
@@ -45,7 +52,7 @@ class _MainIntroState extends State<MainIntro> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  introTitle1Text,
+                  t.translate("appName"),
                   style: TextStyle(
                       fontFamily: mainFaFontFamily,
                       color: mainCTA,
@@ -54,7 +61,7 @@ class _MainIntroState extends State<MainIntro> {
                 ),
                 SizedBox(height: 7),
                 Text(
-                  "به اپلیکیشن پارکینگ هوشمند همراه اول خوش آمدید",
+                  t.translate("welcomeAppIntro"),
                   style: TextStyle(
                     fontFamily: mainFaFontFamily,
                     fontSize: subTitleSize,

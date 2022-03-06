@@ -112,7 +112,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
               showStatusInCaseOfFlush(
                   context: context,
-                  title: changeSuccess,
+                  title: titleOfReserve,
                   msg: sendSuccessful,
                   mainBackgroundColor: "#00c853",
                   iconColor: Colors.white,

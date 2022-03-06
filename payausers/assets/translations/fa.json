@@ -1,5 +1,6 @@
 {
     "appName": "پارکینگ هوشمند من",
+    "welcomeAppIntro": "به اپلیکیشن پارکینگ هوشمند همراه اول خوش آمدید",
     "loginToAccount": "ورود به حساب کاربری",
     "parkingType": {
         "title": "انتخاب نوع پارکینگ",
@@ -8,6 +9,12 @@
         "submitParking": "ثبت پارکینگ مورد نظر",
         "publicParking": "پارکینگ عمومی",
         "organizationParking": "پارکینگ سازمانی"
+    },
+    "terms": {
+        "termsOfServiceTitle": "شرایط و ضوابط",
+        "acceptAllTerms": "تمام شرایط را می پذیرم",
+        "mustAcceptTerms": "الزام در پذیرش شرایط",
+        "termsLastUpdate": "آخرین بروزرسانی در"
     },
     "login": {
         "welcome": "خوش آمدید",
@@ -38,7 +45,7 @@
     },
     "income": {
         "entranceDateReserve": "تاریخ ورود",
-        "entranceTimeReserve": "ساعت    ورود"
+        "entranceTimeReserve": "ساعت ورود"
     },
     "buildingName": "ساختمان",
     "slotNameText": "جایگاه",
