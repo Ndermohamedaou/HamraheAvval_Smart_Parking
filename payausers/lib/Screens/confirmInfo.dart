@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:payausers/controller/image_picker_controller.dart';
+import 'package:payausers/providers/avatar_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    AvatarModel localData = Provider.of<AvatarModel>(context);
     // Getting Arguments from login page all about user info.
     modalRoute = ModalRoute.of(context).settings.arguments;
     userInfo = modalRoute["userInfo"];
@@ -126,6 +128,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   );
 
                   if (result) {
+                    localData.refreshToken = uToken;
                     Navigator.pushNamed(context, "/loginCheckout");
                   } else {
                     Toast.show("Your info can not saved", context,
