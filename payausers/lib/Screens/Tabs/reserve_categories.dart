@@ -190,7 +190,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
       String legalDate =
           "$calculateDay/${formattedDateTime.mN}/${formattedDateTime.yyyy}";
       String instantReserveDateResult =
-          "آیا مایل به رزرو لحظه ای پارکینگ برای $specificDay ساعت $legalDate می باشید؟";
+          "آیا مایل به رزرو لحظه ای پارکینگ برای $specificDay تاریخ $legalDate می باشید؟";
 
       customAlert(
           context: context,
