@@ -10,6 +10,7 @@ import 'package:payausers/controller/calculate_next_week.dart';
 import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/server_base_calendar_model.dart';
+import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/alert.dart';
@@ -76,6 +77,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
     platesModel = Provider.of<PlatesModel>(context);
     instantReserveModel = Provider.of<InstantReserveModel>(context);
     localData = Provider.of<AvatarModel>(context);
+    StaffInfoModel staffInfoModel = Provider.of<StaffInfoModel>(context);
     final persianServerCalendar = Provider.of<ServerBaseCalendarModel>(context);
 
     // Prepared reserve list from the API
@@ -129,6 +131,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
           reserveWeeks.fetchReserveWeeks;
           // Fetch for disappear of material button
           instantReserveModel.fetchInstantReserve;
+          staffInfoModel.fetchStaffInfo;
 
           rAlert(
               context: context,
