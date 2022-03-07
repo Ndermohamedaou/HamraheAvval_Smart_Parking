@@ -5,10 +5,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/api_access.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/optionViewer.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/ExtractedWidgets/option_viewer.dart';
+import 'package:payausers/Model/theme_color.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/image_picker_controller.dart';
 import 'package:payausers/localization/app_localization.dart';
@@ -18,9 +18,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:toast/toast.dart';
 
 // Controller to Convert image
-import 'package:payausers/controller/changeAvatar.dart';
+import 'package:payausers/controller/change_avatar.dart';
 
-import '../controller/flushbarStatus.dart';
+import '../controller/flushbar_status.dart';
 
 String userAvatar = "";
 String userIdentify = "";

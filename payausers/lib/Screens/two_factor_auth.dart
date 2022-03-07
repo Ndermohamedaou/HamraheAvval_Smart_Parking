@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:payausers/Model/ApiAccess.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/api_access.dart';
+import 'package:payausers/Model/theme_color.dart';
 import 'package:payausers/Model/endpoints.dart';
-import 'package:payausers/Model/gettingReadyAccount.dart';
+import 'package:payausers/Model/getting_ready_account.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/flushbar_status.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

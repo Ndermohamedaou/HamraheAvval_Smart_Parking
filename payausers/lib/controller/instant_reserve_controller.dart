@@ -1,0 +1,18 @@
+import 'package:payausers/Model/api_access.dart';
+import 'package:payausers/Model/endpoints.dart';
+
+class InstantReserve {
+  Future<Map> instantReserve({token}) async {
+    Endpoint instantReserveEndpoint =
+        apiEndpointsMap["reserveEndpoint"]["InstantReserve"];
+    ApiAccess api = ApiAccess(token);
+
+    try {
+      return await api.requestHandler(
+          "${instantReserveEndpoint.route}", instantReserveEndpoint.method, {});
+    } catch (e) {
+      print("Error from instant reserve $e");
+      return {};
+    }
+  }
+}

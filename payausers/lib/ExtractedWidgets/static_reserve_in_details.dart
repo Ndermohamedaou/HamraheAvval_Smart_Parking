@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/theme_color.dart';
 import 'package:payausers/controller/convert_date_to_string.dart';
 import 'package:provider/provider.dart';
 import 'package:shamsi_date/shamsi_date.dart';

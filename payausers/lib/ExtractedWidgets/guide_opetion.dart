@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/theme_color.dart';
 
 class Option extends StatelessWidget {
   const Option({

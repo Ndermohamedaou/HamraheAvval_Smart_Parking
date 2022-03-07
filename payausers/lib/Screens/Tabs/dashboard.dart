@@ -1,8 +1,8 @@
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/logLoading.dart';
-import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/ExtractedWidgets/log_loading.dart';
+import 'package:payausers/Model/theme_color.dart';
+import 'package:payausers/controller/flushbar_status.dart';
 import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';

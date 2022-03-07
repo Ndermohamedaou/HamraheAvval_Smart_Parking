@@ -5,10 +5,10 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/theme_color.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Screens/Tabs/reserve_categories.dart';
-import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/controller/flushbar_status.dart';
 import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/instant_reserve_model.dart';
@@ -26,8 +26,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Related Screen
 import 'package:payausers/Screens/Tabs/dashboard.dart';
-import 'Tabs/userPlate.dart';
-import 'Tabs/userTraffic.dart';
+import 'Tabs/user_plate.dart';
+import 'Tabs/user_traffic.dart';
 
 class Maino extends StatefulWidget {
   @override

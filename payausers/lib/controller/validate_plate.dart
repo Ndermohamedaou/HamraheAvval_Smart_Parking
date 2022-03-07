@@ -1,4 +1,4 @@
-import 'package:payausers/Model/ApiAccess.dart';
+import 'package:payausers/Model/api_access.dart';
 import 'package:payausers/Model/Plate.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/localization/app_localization.dart';

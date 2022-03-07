@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/theme_color.dart';
 
 class NavigationButton extends StatelessWidget {
   const NavigationButton({this.themeChange, this.icon, this.onClick});

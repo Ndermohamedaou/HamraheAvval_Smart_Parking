@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/Model/ReserveColorsStatus.dart';
+import 'package:payausers/Model/reserve_colors_status.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/Model/theme_color.dart';
 import 'package:payausers/controller/convert_date_to_string.dart';
 import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';

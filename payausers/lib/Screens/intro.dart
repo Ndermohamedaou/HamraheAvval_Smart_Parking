@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
+import 'package:payausers/ExtractedWidgets/bottom_btn_navigator.dart';
 import 'package:payausers/localization/app_localization.dart';
 
 class IntroPage extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
+import 'package:payausers/ExtractedWidgets/Custom_rich_text.dart';
 import 'package:payausers/ExtractedWidgets/data_history.dart';
-import 'package:payausers/ExtractedWidgets/logLoading.dart';
-import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/ExtractedWidgets/log_loading.dart';
+import 'package:payausers/Model/theme_color.dart';
 import 'package:payausers/Model/static_reserve_info.dart';
 import 'package:payausers/controller/convert_date_to_string.dart';
 import 'package:payausers/controller/specific_reserve_type.dart';
