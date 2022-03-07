@@ -1,4 +1,3 @@
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
