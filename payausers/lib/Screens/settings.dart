@@ -6,12 +6,12 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Model/ApiAccess.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/optionViewer.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/image_picker_controller.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -82,7 +82,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    AppLocalizations t = AppLocalizations.of(context);
     final avatarModel = Provider.of<AvatarModel>(context);
     ApiAccess api = ApiAccess(avatarModel.userToken);
 
@@ -105,46 +105,31 @@ class _SettingsPageState extends State<SettingsPage> {
             final userAvatarChanged = userDetails["avatar"];
             await lds.write(key: "avatar", value: userAvatarChanged);
             final testAvatar = await lds.read(key: "avatar");
-            // print("LOCAL IMAGE SUBMITED NEW -------> $testAvatar");
+
             if (testAvatar != "") {
               // Update Avatar in Provider
               avatarModel.fetchUserAvatar;
-
               showStatusInCaseOfFlush(
                   context: context,
-                  title: titleOfReserve,
-                  msg: sendSuccessful,
+                  title: t.translate("settings.avatarChangedTitle"),
+                  msg: t.translate("settings.avatarChangedDesc"),
                   mainBackgroundColor: "#00c853",
                   iconColor: Colors.white,
                   icon: Icons.done_outline);
-            } else {
-              showStatusInCaseOfFlush(
-                  context: context,
-                  title: "",
-                  msg: sendFailed,
-                  iconColor: Colors.white,
-                  icon: Icons.remove_done);
             }
           } else {
-            Toast.show(sendServerFailed, context,
+            Toast.show(t.translate("global.errors.serverError"), context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
           }
-        } else {
-          showStatusInCaseOfFlush(
-              context: context,
-              title: "",
-              msg: sendDenied,
-              iconColor: Colors.white,
-              icon: Icons.remove_done);
         }
       } catch (e) {
-        print(e);
+        // print(e);
         showStatusInCaseOfFlush(
             context: context,
-            title: "",
-            msg: sendDenied,
+            title: t.translate("global.errors.serverError"),
+            msg: t.translate("global.errors.connectionFailed"),
             iconColor: Colors.white,
             icon: Icons.remove_done);
       }
@@ -158,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         centerTitle: true,
         title: Text(
-          settingsText,
+          t.translate("settings.bottomNavigationName"),
           style: TextStyle(
             fontFamily: mainFaFontFamily,
             fontSize: subTitleSize,
@@ -200,27 +185,27 @@ class _SettingsPageState extends State<SettingsPage> {
                   );
                 },
                 child: Text(
-                  changeAvatarScreen,
+                  t.translate("settings.settingNewAvatar"),
                   style: TextStyle(
                       fontFamily: mainFaFontFamily,
                       fontSize: 18,
                       color: Colors.blue),
                 ),
               ),
-              TilsInfo(
-                textTitle: "نام کاربری",
+              TileInfo(
+                textTitle: t.translate("settings.readOnlyFields.userFullName"),
                 textSubtitle: userName,
               ),
-              TilsInfo(
-                textTitle: "نشانی پست الکترونیکی",
+              TileInfo(
+                textTitle: t.translate("settings.readOnlyFields.email"),
                 textSubtitle: userEmail,
               ),
-              TilsInfo(
-                textTitle: "شناسه پرسنلی",
+              TileInfo(
+                textTitle: t.translate("settings.readOnlyFields.personalCode"),
                 textSubtitle: userPersonal,
               ),
-              TilsInfo(
-                textTitle: "شناسه ملی",
+              TileInfo(
+                textTitle: t.translate("settings.readOnlyFields.nationalCode"),
                 textSubtitle: userMelli,
               ),
               FlatButton(
@@ -229,7 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
-                    chPass,
+                    t.translate("recoverPassword.appBar"),
                     style: TextStyle(
                       fontFamily: mainFaFontFamily,
                       color: Colors.red,
@@ -256,7 +241,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Navigator.pop(context);
             },
             child: Text(
-              submitAvatarChanged,
+              t.translate("global.actions.submitChanges"),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -300,8 +285,8 @@ class SettingCircle extends StatelessWidget {
   }
 }
 
-class TilsInfo extends StatelessWidget {
-  const TilsInfo({
+class TileInfo extends StatelessWidget {
+  const TileInfo({
     this.textTitle,
     this.textSubtitle,
   });

@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -71,6 +72,7 @@ class AddPlateOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return SingleChildScrollView(
       child: Column(
@@ -86,7 +88,7 @@ class AddPlateOption extends StatelessWidget {
             ),
             alignment: Alignment.centerRight,
             child: Text(
-              plateIntroViewTitle,
+              t.translate("plates.addPlate.addPlateNote"),
               textAlign: TextAlign.right,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
@@ -96,9 +98,9 @@ class AddPlateOption extends StatelessWidget {
           ),
           SizedBox(height: 1.0.h),
           UploadDocumentMethod(
-            title: minePlateTitleText,
+            title: t.translate("plates.addPlate.selfPlate.title"),
             iconLeading: "assets/images/self.png",
-            onPressd: () => Navigator.pushNamed(context, "/addingMinePlate"),
+            onPressed: () => Navigator.pushNamed(context, "/addingMinePlate"),
           ),
           Divider(
             color: Colors.grey,
@@ -107,9 +109,9 @@ class AddPlateOption extends StatelessWidget {
             height: 10,
           ),
           UploadDocumentMethod(
-            title: familyPlateTitleText,
+            title: t.translate("plates.addPlate.familyPlate.title"),
             iconLeading: "assets/images/family.png",
-            onPressd: () => Navigator.pushNamed(context, "/addingFamilyPage"),
+            onPressed: () => Navigator.pushNamed(context, "/addingFamilyPage"),
           ),
           Divider(
             color: Colors.grey,
@@ -118,9 +120,9 @@ class AddPlateOption extends StatelessWidget {
             height: 10,
           ),
           UploadDocumentMethod(
-            title: otherPlateText,
+            title: t.translate("plates.addPlate.otherPlate.title"),
             iconLeading: "assets/images/other.png",
-            onPressd: () => Navigator.pushNamed(context, "/addingOtherPlate"),
+            onPressed: () => Navigator.pushNamed(context, "/addingOtherPlate"),
           ),
           Divider(
             color: Colors.grey,
@@ -136,11 +138,11 @@ class AddPlateOption extends StatelessWidget {
 
 class UploadDocumentMethod extends StatelessWidget {
   const UploadDocumentMethod({
-    this.onPressd,
+    this.onPressed,
     this.title,
     this.iconLeading,
   });
-  final Function onPressd;
+  final Function onPressed;
   final String title;
   final String iconLeading;
 
@@ -149,7 +151,7 @@ class UploadDocumentMethod extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: onPressd,
+        onTap: onPressed,
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: ListTile(

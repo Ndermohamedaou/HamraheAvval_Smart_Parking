@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/ExtractedWidgets/userPlateDetailsInModal.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/deleteUserPlate.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
 import 'package:payausers/spec/enum_state.dart';
@@ -50,6 +50,7 @@ class _UserPlatesState extends State<UserPlates>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    AppLocalizations t = AppLocalizations.of(context);
     // Providers
     final themeChange = Provider.of<DarkThemeProvider>(context);
     plateModel = Provider.of<PlatesModel>(context);
@@ -86,8 +87,8 @@ class _UserPlatesState extends State<UserPlates>
               alertIcon: Iconsax.box_remove,
               borderColor: Colors.blue,
               iconColor: Colors.blue,
-              title: deletePlateTitle,
-              desc: deletePlateDesc,
+              title: t.translate("plates.deletePlateTitle"),
+              desc: t.translate("plates.deletePlateDesc"),
               acceptPressed: () {
                 deletePlate.delUserPlate(id: plateEn, context: context);
                 // Update user plates in Provider
@@ -166,7 +167,7 @@ class _UserPlatesState extends State<UserPlates>
         backgroundColor: defaultAppBarColor,
         centerTitle: true,
         title: Text(
-          myPlateText,
+          t.translate("plates.appBar"),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,

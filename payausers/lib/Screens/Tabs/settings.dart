@@ -6,13 +6,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/endpoints.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +28,7 @@ class _SettingsState extends State<Settings>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     super.build(context);
     final targetPlatform =
@@ -62,7 +63,7 @@ class _SettingsState extends State<Settings>
                 ],
               ),
               Text(
-                "خروج از حساب",
+                t.translate('logout.logoutTitle'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
@@ -75,7 +76,7 @@ class _SettingsState extends State<Settings>
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  logoutMsg,
+                  t.translate('logout.logoutDesc'),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: mainFaFontFamily,
@@ -122,7 +123,7 @@ class _SettingsState extends State<Settings>
                             }
                           },
                           child: Text(
-                            "بله",
+                            t.translate("global.actions.yes"),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: loginBtnTxtColor,
@@ -142,7 +143,7 @@ class _SettingsState extends State<Settings>
                           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () => Navigator.pop(context),
                           child: Text(
-                            "خیر",
+                            t.translate("global.actions.no"),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: mainSectionCTA,
@@ -158,24 +159,6 @@ class _SettingsState extends State<Settings>
             ],
           ),
         ),
-      );
-    }
-
-    void firstStepToSetBiometric() {
-      CoolAlert.show(
-        context: context,
-        backgroundColor: mainSectionCTA,
-        type: CoolAlertType.info,
-        title: "!لازم است بدانید",
-        text: biometricInfoToCheck,
-        confirmBtnTextStyle: TextStyle(
-            fontFamily: mainFaFontFamily, color: Colors.white, fontSize: 18.0),
-        confirmBtnColor: mainSectionCTA,
-        confirmBtnText: "مرحله بعدی",
-        onConfirmBtnTap: () {
-          Navigator.pop(context);
-          Navigator.pushNamed(context, "/setBiometric");
-        },
       );
     }
 
@@ -260,7 +243,7 @@ class _SettingsState extends State<Settings>
                                   themeChange.darkTheme = state;
                                 },
                                 title: Text(
-                                  themeModeSwitch,
+                                  t.translate("systemSettings.darkTheme"),
                                   style: TextStyle(
                                       fontFamily: mainFaFontFamily,
                                       fontSize: 15),
@@ -277,10 +260,11 @@ class _SettingsState extends State<Settings>
                           Container(
                             color: themeChange.darkTheme ? darkBar : lightBar,
                             child: FlatButton(
-                              onPressed: () => firstStepToSetBiometric(),
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, "/setBiometric"),
                               child: ListTile(
                                 title: Text(
-                                  "تنظیم بایومتریک",
+                                  t.translate("systemSettings.biometric"),
                                   style: TextStyle(
                                       fontFamily: mainFaFontFamily,
                                       fontSize: 15),
@@ -308,7 +292,8 @@ class _SettingsState extends State<Settings>
                                     context, "/readTermsOfService"),
                                 child: ListTile(
                                   title: Text(
-                                    "قوانین و مقررات",
+                                    t.translate(
+                                        "systemSettings.termsOfService"),
                                     style: TextStyle(
                                         fontFamily: mainFaFontFamily,
                                         fontSize: 15),
@@ -334,7 +319,7 @@ class _SettingsState extends State<Settings>
                               onPressed: () => logoutSection(),
                               child: ListTile(
                                 title: Text(
-                                  "خروج از حساب کاربری خود",
+                                  t.translate("logout.logoutButton"),
                                   style: TextStyle(
                                       fontFamily: mainFaFontFamily,
                                       fontSize: 15),
@@ -351,7 +336,9 @@ class _SettingsState extends State<Settings>
                             margin: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             child: Text(
-                              "توسعه داده شده توسط صنایع ارتباطی پایا نسخه $targetPlatform",
+                              t.translate("developedBy") +
+                                  targetPlatform +
+                                  t.translate("version"),
                               style: TextStyle(
                                 fontFamily: mainFaFontFamily,
                                 fontSize: 15,

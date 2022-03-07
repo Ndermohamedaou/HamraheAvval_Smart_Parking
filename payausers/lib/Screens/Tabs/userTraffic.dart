@@ -9,12 +9,12 @@ import 'package:payausers/ExtractedWidgets/custom_title.dart';
 import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/controller/convert_date_to_string.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/traffics_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +50,7 @@ class _UserTrafficState extends State<UserTraffic>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    AppLocalizations t = AppLocalizations.of(context);
     // Providers
     final themeChange = Provider.of<DarkThemeProvider>(context);
     trafficsModel = Provider.of<TrafficsModel>(context);
@@ -101,7 +102,8 @@ class _UserTrafficState extends State<UserTraffic>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomTitle(
-                        textTitle: entranceDateReserve, fw: FontWeight.normal),
+                        textTitle: t.translate("income.entranceDateReserve"),
+                        fw: FontWeight.normal),
                     CustomSubTitle(
                         textTitle:
                             "${convertDate.splitDateTime(startTime)[0] ?? ""}"),
@@ -113,7 +115,8 @@ class _UserTrafficState extends State<UserTraffic>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomTitle(
-                        textTitle: entranceTimeReserve, fw: FontWeight.normal),
+                        textTitle: t.translate("income.entranceTimeReserve"),
+                        fw: FontWeight.normal),
                     CustomSubTitle(
                         textTitle:
                             "${convertDate.splitDateTime(startTime)[1] ?? ""}"),
@@ -125,7 +128,8 @@ class _UserTrafficState extends State<UserTraffic>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomTitle(
-                        textTitle: exitDateReserve, fw: FontWeight.normal),
+                        textTitle: t.translate("outcome.exitDateReserve"),
+                        fw: FontWeight.normal),
                     CustomSubTitle(
                         textTitle:
                             "${convertDate.splitDateTime(endTime)[0] ?? ""}"),
@@ -137,7 +141,8 @@ class _UserTrafficState extends State<UserTraffic>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomTitle(
-                        textTitle: exitTimeReserve, fw: FontWeight.normal),
+                        textTitle: t.translate("outcome.exitTimeReserve"),
+                        fw: FontWeight.normal),
                     CustomSubTitle(
                         textTitle:
                             "${convertDate.splitDateTime(endTime)[1] ?? ""}"),
@@ -155,7 +160,7 @@ class _UserTrafficState extends State<UserTraffic>
                       padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       onPressed: () => Navigator.pop(context),
                       child: Text(
-                        "بستن",
+                        t.translate("global.actions.close"),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
@@ -211,7 +216,7 @@ class _UserTrafficState extends State<UserTraffic>
             itemBuilder: (BuildContext context, index) {
               return (Column(
                 children: [
-                  DataHisotry(
+                  DataHistory(
                     reserveStatusColor: null,
                     historyBuildingName: trafficsList[index]["building"] ?? "",
                     historySlotName: trafficsList[index]["slot"] ?? "",
@@ -225,10 +230,10 @@ class _UserTrafficState extends State<UserTraffic>
                         trafficsList[index]["plate2"],
                         trafficsList[index]["plate3"]
                       ],
-                      startTime:
-                          trafficsList[index]["entry_datetime"] ?? dateWasNull,
-                      endTime:
-                          trafficsList[index]["exit_datetime"] ?? dateWasNull,
+                      startTime: trafficsList[index]["entry_datetime"] ??
+                          t.translate("global.default.unknown"),
+                      endTime: trafficsList[index]["exit_datetime"] ??
+                          t.translate("global.default.unknown"),
                     ),
                   ),
                 ],
@@ -328,7 +333,7 @@ class _UserTrafficState extends State<UserTraffic>
         ],
         centerTitle: true,
         title: Text(
-          trafficsLogText,
+          t.translate("traffic.trafficList"),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,

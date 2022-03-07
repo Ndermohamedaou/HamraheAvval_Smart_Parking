@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/Custom_material_button_controller.dart';
 import 'package:payausers/ExtractedWidgets/custom_text_controller.dart';
@@ -17,6 +16,7 @@ import 'package:payausers/Model/static_reserve_info.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/server_calendar_controller.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
@@ -44,6 +44,7 @@ class _StaticReserveViewState extends State<StaticReserveView> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final localData = Provider.of<AvatarModel>(context);
     final reserveWeeks = Provider.of<ReserveWeeks>(context);
@@ -64,7 +65,15 @@ class _StaticReserveViewState extends State<StaticReserveView> {
     LogLoading logLoadingWidgets = LogLoading();
     ServerCalendarController calendarController = ServerCalendarController();
 
-    List staticWeekDay = [sat, sun, mon, tues, wed, thurs, fri];
+    List staticWeekDay = [
+      t.translate("calendarAndTime.week.sat"),
+      t.translate("calendarAndTime.week.sun"),
+      t.translate("calendarAndTime.week.mon"),
+      t.translate("calendarAndTime.week.tues"),
+      t.translate("calendarAndTime.week.wed"),
+      t.translate("calendarAndTime.week.thurs"),
+      t.translate("calendarAndTime.week.fri")
+    ];
     // Getting current server month
     final serverMonths =
         serverBaseStaticReserveCalendarModel.staticReserveCalendar["months"];
@@ -79,7 +88,9 @@ class _StaticReserveViewState extends State<StaticReserveView> {
 
       if (isHoliday) return holidayBgColor;
 
-      if (dateFa == fri || dateFa == thurs) return Colors.grey.shade300;
+      if (dateFa == t.translate("calendarAndTime.week.fri") ||
+          dateFa == t.translate("calendarAndTime.week.thurs"))
+        return Colors.grey.shade300;
 
       return Colors.transparent;
     }
@@ -96,7 +107,9 @@ class _StaticReserveViewState extends State<StaticReserveView> {
       if (selectedReserveList.contains(date)) return Colors.white;
       if (isClickable) return null;
 
-      if (dateFa == fri || dateFa == thurs) return Colors.black;
+      if (dateFa == t.translate("calendarAndTime.week.fri") ||
+          dateFa == t.translate("calendarAndTime.week.thurs"))
+        return Colors.black;
 
       if (isHoliday) return Colors.white;
     }
@@ -110,8 +123,8 @@ class _StaticReserveViewState extends State<StaticReserveView> {
         showStatusInCaseOfFlush(
           context: context,
           mainBackgroundColor: "#F38137",
-          title: holidayTitle,
-          msg: cancelInHoliday,
+          title: t.translate("global.info.holidaySelectTitle"),
+          msg: t.translate("global.info.holidaySelectDesc"),
           iconColor: Colors.white,
           icon: Icons.close,
         );
@@ -225,8 +238,8 @@ class _StaticReserveViewState extends State<StaticReserveView> {
         rAlert(
             context: context,
             tAlert: AlertType.error,
-            title: serverCatchErrorTitle,
-            desc: serverCatchErrorDesc,
+            title: t.translate("global.errors.serverError"),
+            desc: t.translate("global.errors.connectionError"),
             onTapped: () =>
                 Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
       }
@@ -260,11 +273,12 @@ class _StaticReserveViewState extends State<StaticReserveView> {
                 children: [
                   CustomTitle(textTitle: "نتیجه رزرو", fw: FontWeight.normal),
                   CustomSubTitle(
-                      textTitle: ReserveStatusSpecification()
+                      textTitle: ReserveStatusSpecification(context)
                           .getReserveStatusString(
                               staticReserveInfo.reserveStatus),
-                      color: ReserveStatusSpecification().getReserveStatusColor(
-                          staticReserveInfo.reserveStatus)),
+                      color: ReserveStatusSpecification(context)
+                          .getReserveStatusColor(
+                              staticReserveInfo.reserveStatus)),
                 ],
               ),
               SizedBox(height: 2.0.h),
@@ -326,7 +340,7 @@ class _StaticReserveViewState extends State<StaticReserveView> {
                 ),
                 alignment: Alignment.centerRight,
                 child: Text(
-                  staticReserveListCancelReserve,
+                  t.translate("calendarAndTime.cancelReserve"),
                   textAlign: TextAlign.right,
                   style: TextStyle(
                       fontFamily: mainFaFontFamily,
@@ -378,7 +392,8 @@ class _StaticReserveViewState extends State<StaticReserveView> {
                       itemCount: calendarController
                           .calculateCalendar(
                               serverBaseStaticReserveCalendarModel
-                                  .staticReserveCalendar)
+                                  .staticReserveCalendar,
+                              context)
                           .length,
                       itemBuilder: (BuildContext context, int sliderIndex,
                           int pageViewIndex) {
@@ -438,16 +453,16 @@ class _StaticReserveViewState extends State<StaticReserveView> {
                                     itemCount: calendarController
                                         .calculateCalendar(
                                             serverBaseStaticReserveCalendarModel
-                                                .staticReserveCalendar)[
-                                            sliderIndex]
+                                                .staticReserveCalendar,
+                                            context)[sliderIndex]
                                         .length,
                                     itemBuilder: (context, index) {
                                       // Getting week data reader
                                       final week =
                                           calendarController.calculateCalendar(
-                                                  serverBaseStaticReserveCalendarModel
-                                                      .staticReserveCalendar)[
-                                              sliderIndex];
+                                              serverBaseStaticReserveCalendarModel
+                                                  .staticReserveCalendar,
+                                              context)[sliderIndex];
                                       return GestureDetector(
                                         onTap: () {
                                           onDateClick(
@@ -541,7 +556,7 @@ class _StaticReserveViewState extends State<StaticReserveView> {
         textDirection: TextDirection.rtl,
         children: [
           CustomMaterialButtonController(
-              buttonText: submitTextForAlert,
+              buttonText: t.translate("global.actions.confirm"),
               buttonColor: mainSectionCTA,
               buttonTextColor: Colors.white,
               onClick: () {
@@ -552,15 +567,21 @@ class _StaticReserveViewState extends State<StaticReserveView> {
                     ? rAlert(
                         context: context,
                         tAlert: AlertType.error,
-                        title: "عدم انتخاب روز",
-                        desc: "شما روزی را برای لغو کردن آن انتخاب نکرده اید",
+                        title:
+                            t.translate("calendarAndTime.emptyCancelDaysTitle"),
+                        desc:
+                            t.translate("calendarAndTime.emptyCancelDaysDesc"),
                         onTapped: () => Navigator.pop(context))
                     : customAlert(
                         context: context,
                         alertIcon: Iconsax.box_remove,
                         iconColor: Colors.red,
-                        title: cancelDaysConfirmTitle,
-                        desc: cancelDaysConfirmDesc + "\n" + cancelDaysArray,
+                        title: t.translate(
+                            "calendarAndTime.cancelDaysConfirmTitle"),
+                        desc: t.translate(
+                                "calendarAndTime.cancelDaysConfirmDesc") +
+                            "\n" +
+                            cancelDaysArray,
                         acceptPressed: () {
                           deleteStaticReserve(cancelList: newSelectedDays);
                           Navigator.pop(context);
@@ -569,7 +590,7 @@ class _StaticReserveViewState extends State<StaticReserveView> {
                       );
               }),
           CustomMaterialButtonController(
-            buttonText: closeALayer,
+            buttonText: t.translate("global.actions.close"),
             buttonTextColor: mainSectionCTA,
             buttonColor: themeChange.darkTheme ? darkBar : Colors.white,
             onClick: () {

@@ -4,6 +4,7 @@ import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/alert.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DeletePlate {
@@ -25,6 +26,7 @@ class DeletePlate {
 
   // Deleting User Selected Plate
   void delUserPlate({id, context}) async {
+    AppLocalizations t = AppLocalizations.of(context);
     final userToken = await lds.read(key: "token");
     final delStatus =
         await deleteUserPlateControl(token: userToken, plateID: id);
@@ -35,8 +37,8 @@ class DeletePlate {
       rAlert(
         context: context,
         tAlert: AlertType.success,
-        title: delProcSucTitle,
-        desc: delProcDesc,
+        title: t.translate("global.success.delete.deleted"),
+        desc: t.translate("global.success.delete.deletePlate"),
         onTapped: () =>
             Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
       );
@@ -45,8 +47,8 @@ class DeletePlate {
       rAlert(
         context: context,
         tAlert: AlertType.warning,
-        title: delProcFailTitle,
-        desc: delProcFailDesc,
+        title: t.translate("global.errors.errorInDelete"),
+        desc: t.translate("global.errors.errorInDeletePlate"),
         onTapped: () =>
             Navigator.popUntil(context, ModalRoute.withName("/dashboard")),
       );

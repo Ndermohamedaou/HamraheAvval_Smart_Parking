@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/guide_opetion.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class AddPlateGuideView extends StatefulWidget {
@@ -15,6 +15,7 @@ class AddPlateGuideView extends StatefulWidget {
 class _AddPlateGuideViewState extends State<AddPlateGuideView> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return Scaffold(
@@ -22,7 +23,7 @@ class _AddPlateGuideViewState extends State<AddPlateGuideView> {
         backgroundColor: defaultAppBarColor,
         centerTitle: true,
         title: Text(
-          guideViewAppBarTitle,
+          t.translate("plates.addPlate.addPlateGuide"),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
@@ -40,15 +41,21 @@ class _AddPlateGuideViewState extends State<AddPlateGuideView> {
             SizedBox(height: 20),
             Option(
                 themeChange: themeChange,
-                text: "$minePlateTitleText\n$minePlateDescText"),
+                text: t.translate("plates.addPlate.selfPlate.title") +
+                    "\n" +
+                    t.translate("plates.addPlate.selfPlate.desc")),
             SizedBox(height: 8),
             Option(
                 themeChange: themeChange,
-                text: "$familyPlateTitleText\n$familyPlateDscText"),
+                text: t.translate("plates.addPlate.familyPlate.title") +
+                    "\n" +
+                    t.translate("plates.addPlate.familyPlate.desc")),
             SizedBox(height: 8),
             Option(
                 themeChange: themeChange,
-                text: "$otherPlateText\n$otherPlateDscText"),
+                text: t.translate("plates.addPlate.otherPlate.title") +
+                    "\n" +
+                    t.translate("plates.addPlate.otherPlate.desc")),
           ],
         ),
       ),

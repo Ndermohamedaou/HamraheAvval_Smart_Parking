@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/custom_text.dart';
 import 'package:payausers/localization/app_localization.dart';
@@ -63,7 +62,7 @@ class _CheckConnectionState extends State<CheckConnection> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomText(
-                    text: tryAgainConnectionErrorSubtitle,
+                    text: t.translate("checkConnectionTryLater"),
                     color: Colors.white,
                     size: 20.0,
                   )

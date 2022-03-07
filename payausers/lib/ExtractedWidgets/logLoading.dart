@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:loading_indicator/loading_indicator.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
 class LogLoading {
@@ -34,7 +33,7 @@ class LogLoading {
         child: Icon(Iconsax.direct_normal, size: 80.0),
       ),
       Text(
-        serverConnectionProblem,
+        "عدم برقراری ارتباط با سرویس دهنده",
         textAlign: TextAlign.center,
         style: TextStyle(
             fontFamily: mainFaFontFamily, fontSize: 18, color: Colors.red),

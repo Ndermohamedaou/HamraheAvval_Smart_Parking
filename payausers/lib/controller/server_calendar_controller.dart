@@ -1,7 +1,8 @@
-import 'package:payausers/ConstFiles/constText.dart';
+import 'package:flutter/material.dart';
+import 'package:payausers/localization/app_localization.dart';
 
 class ServerCalendarController {
-  List calculateCalendar(Map persianCalendar) {
+  List calculateCalendar(Map persianCalendar, BuildContext context) {
     ///
     /// Prepare data of the proper calendar.
     /// prepare data of calendar base on the real calendar.
@@ -9,8 +10,17 @@ class ServerCalendarController {
     /// شنبه  یکشنبه دوشنبه چهارشنبه پنجشنبه جمعه
     ///  ۳      ۲       ۱
     ///  ۹      ۸       ۷       ۶       ۵     ۴
+    AppLocalizations t = AppLocalizations.of(context);
     // Static Persian week
-    const daysOfWeek = [sat, sun, mon, tues, wed, thurs, fri];
+    List<String> daysOfWeek = [
+      t.translate("calendarAndTime.week.sat"),
+      t.translate("calendarAndTime.week.sun"),
+      t.translate("calendarAndTime.week.mon"),
+      t.translate("calendarAndTime.week.tues"),
+      t.translate("calendarAndTime.week.wed"),
+      t.translate("calendarAndTime.week.thurs"),
+      t.translate("calendarAndTime.week.fri")
+    ];
     // Define month of year
     List serverMonths = persianCalendar["months"];
     // Final date of month

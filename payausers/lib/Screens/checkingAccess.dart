@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/custom_text.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:sizer/sizer.dart';
 
 class CheckingAccess extends StatefulWidget {
@@ -17,6 +17,7 @@ class CheckingAccess extends StatefulWidget {
 class _CheckingAccessState extends State<CheckingAccess> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     return WillPopScope(
       onWillPop: () =>
           SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
@@ -37,7 +38,7 @@ class _CheckingAccessState extends State<CheckingAccess> {
                 Container(
                   alignment: Alignment.center,
                   child: CustomText(
-                    text: accessDeniedTextTitle,
+                    text: t.translate("checkingAccess.accessDenied"),
                     size: titleTextSize,
                     weight: FontWeight.w500,
                   ),
@@ -45,7 +46,7 @@ class _CheckingAccessState extends State<CheckingAccess> {
                 Container(
                   alignment: Alignment.center,
                   child: CustomText(
-                    text: visitHRTextTitle,
+                    text: t.translate("checkingAccess.visitHR"),
                     size: 18.0,
                   ),
                 ),
@@ -65,7 +66,7 @@ class _CheckingAccessState extends State<CheckingAccess> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomText(
-                              text: exitFromAppTextTitle,
+                              text: t.translate("checkingAccess.exitFromApp"),
                               color: Colors.white,
                               size: 20.0,
                             )

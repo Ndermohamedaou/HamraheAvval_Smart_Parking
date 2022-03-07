@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
+import 'package:payausers/localization/app_localization.dart';
 
 class ReserveStatusSpecification {
+  final context;
+  ReserveStatusSpecification(this.context);
   Color getReserveStatusColor(status) {
     switch (status) {
       case -6:
@@ -24,23 +26,25 @@ class ReserveStatusSpecification {
   }
 
   String getReserveStatusString(status) {
+    AppLocalizations t = AppLocalizations.of(context);
+
     switch (status) {
       case -6:
-        return "رزرو ثابت لغو شده";
+        return t.translate("reserves.reserveStatus.cancelStaticReserve");
       case -3:
-        return "عدم استفاده از پارکنیگ";
+        return t.translate("reserves.reserveStatus.parkingNotUsed");
       case -2:
-        return cancelReserveStatus;
+        return t.translate("reserve.reserveStatus.canceledReserve");
       case -1:
-        return ignoredReserveStatus;
+        return t.translate("reserve.reserveStatus.ignoredReserveStatus");
       case 0:
-        return inprocessReserveStatus;
+        return t.translate("reserve.reserveStatus.process");
       case 1:
-        return admitReserveStatus;
+        return t.translate("reserve.reserveStatus.admitReserveStatus");
       case 2:
-        return performTrafficReserveStatus;
+        return t.translate("reserve.reserveStatus.performTrafficReserveStatus");
       default:
-        return "خارج از انتظار";
+        return t.translate("global.default.unknown");
     }
   }
 }

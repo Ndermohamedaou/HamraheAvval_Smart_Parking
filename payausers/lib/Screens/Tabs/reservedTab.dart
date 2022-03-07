@@ -4,7 +4,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/CustomRichText.dart';
 import 'package:payausers/ExtractedWidgets/filterModal.dart';
@@ -13,6 +12,7 @@ import 'package:payausers/ExtractedWidgets/reserveDetailsInModal.dart';
 import 'package:payausers/ExtractedWidgets/data_history.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/cancelingReserveController.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
@@ -52,6 +52,7 @@ class _ReservedTabState extends State<ReservedTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     // Reserve model for fetch and Reserve list getter
     reservesModel = Provider.of<ReservesModel>(context);
@@ -108,8 +109,8 @@ class _ReservedTabState extends State<ReservedTab>
                 alertIcon: Iconsax.receipt_2,
                 borderColor: Colors.blue,
                 iconColor: Colors.red,
-                title: deleteReserveTitle,
-                desc: deleteReserveDesc,
+                title: t.translate("reserves.deleteReserveTitle"),
+                desc: t.translate("reserves.deleteReserveDesc"),
                 acceptPressed: () {
                   cancelReserve.delReserve(
                       reserveID: reservID, context: context);
@@ -224,7 +225,7 @@ class _ReservedTabState extends State<ReservedTab>
         ],
         centerTitle: true,
         title: Text(
-          reserveTextTitle,
+          t.translate("reserves.reservedDays"),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
@@ -279,7 +280,7 @@ class _ReservedTabState extends State<ReservedTab>
                             return SingleChildScrollView(
                               child: (Column(
                                 children: [
-                                  DataHisotry(
+                                  DataHistory(
                                     historyBuildingName:
                                         reserveList[index]["building"] != null
                                             ? reserveList[index]["building"]

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/Model/ReserveColorsStatus.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/convert_date_to_string.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';
 
-class DataHisotry extends StatelessWidget {
-  const DataHisotry({
+class DataHistory extends StatelessWidget {
+  const DataHistory({
     this.reserveStatusColor,
     this.historyBuildingName,
     this.historySlotName,
@@ -30,16 +30,16 @@ class DataHisotry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    AppLocalizations t = AppLocalizations.of(context);
 
-    final specificReserveStatusColor =
-        ReserveStatusSpecification().getReserveStatusColor(reserveStatusColor);
+    final specificReserveStatusColor = ReserveStatusSpecification(context)
+        .getReserveStatusColor(reserveStatusColor);
 
     var size = MediaQuery.of(context).size;
     final double widthSizedResponse = size.width > 500 ? 500 : double.infinity;
 
-    final dateOfHistory = datePrefix == "weekly"
-        ? "لیست رزرو هفتگی-تاریخ شروع هفته از"
-        : entranceDateReserve;
+    final dateOfHistory = t.translate(
+        datePrefix == "weekly" ? "startWeek" : "income.entranceDateReserve");
 
     String alignDate(String date) {
       /// Split date time for right alignment.
@@ -57,7 +57,7 @@ class DataHisotry extends StatelessWidget {
         return dateTimeWeekText ?? "";
       } catch (e) {
         // print(e);
-        return dateWasNull;
+        return t.translate("dateCatch");
       }
     }
 
@@ -107,7 +107,7 @@ class DataHisotry extends StatelessWidget {
                   : Container(
                       margin: EdgeInsets.only(top: 8),
                       child: RowItem(
-                          title: entranceDateReserve,
+                          title: t.translate("income.entranceDateReserve"),
                           value: alignDate(historyStartTime)),
                     ),
 
@@ -127,7 +127,8 @@ class DataHisotry extends StatelessWidget {
               historyEndTime == "" && reserveStatusColor != null
                   ? SizedBox()
                   : RowItem(
-                      title: exitDateReserve, value: alignDate(historyEndTime)),
+                      title: t.translate("outcome.exitDateReserve"),
+                      value: alignDate(historyEndTime)),
 
               // Reserve type
               reserveType == null
@@ -140,7 +141,7 @@ class DataHisotry extends StatelessWidget {
               reserveType == null
                   ? SizedBox()
                   : RowItem(
-                      title: reserveTypeText,
+                      title: t.translate("reserves.reserveType"),
                       value: reserveType,
                     ),
               // Building section.
@@ -150,7 +151,7 @@ class DataHisotry extends StatelessWidget {
                 indent: 0,
               ),
               RowItem(
-                title: buildingNameText,
+                title: t.translate("buildingName"),
                 value: historyBuildingName,
               ),
               // Slot section.
@@ -160,7 +161,7 @@ class DataHisotry extends StatelessWidget {
                 indent: 0,
               ),
               RowItem(
-                title: slotNameText,
+                title: t.translate("slotNameText"),
                 value: historySlotName,
               ),
               SizedBox(height: 10),

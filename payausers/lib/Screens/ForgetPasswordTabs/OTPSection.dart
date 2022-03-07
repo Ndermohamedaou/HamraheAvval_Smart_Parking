@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +34,7 @@ class _OTPSubmissionState extends State<OTPSubmission> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     // Getting Data of user and parse user token
     final localData = Provider.of<AvatarModel>(context);
     ApiAccess api = ApiAccess(localData.userToken);
@@ -69,8 +70,8 @@ class _OTPSubmissionState extends State<OTPSubmission> {
         else if (otpCheckResult == "500")
           showStatusInCaseOfFlush(
               context: context,
-              title: otpCheckFailedTitle,
-              msg: otpCheckFailedDesc,
+              title: t.translate("otp.otpCheckFailedTitle"),
+              msg: t.translate("otp.otpCheckFailedDesc"),
               mainBackgroundColor: "#F38137",
               iconColor: Colors.white,
               icon: Icons.close);
@@ -79,8 +80,8 @@ class _OTPSubmissionState extends State<OTPSubmission> {
         rAlert(
           context: context,
           tAlert: AlertType.error,
-          title: serverConnectionProblem,
-          desc: serverNotRespond,
+          title: t.translate("global.errors.serverError"),
+          desc: t.translate("global.errors.connectionError"),
           onTapped: () => Navigator.pop(context),
         );
       }

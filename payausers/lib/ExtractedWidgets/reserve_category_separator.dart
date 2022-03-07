@@ -54,7 +54,7 @@ class ReserveCategorySeparatorState extends State<ReserveCategorySeparator> {
     // UI loading or Error Class
     LogLoading logLoadingWidgets = LogLoading();
     // Checking type of reserve.
-    SpecificReserveType specificReserveType = SpecificReserveType();
+    SpecificReserveType specificReserveType = SpecificReserveType(context);
 
     ServerBaseStaticReserveCalendarModel serverBaseStaticReserveCalendarModel =
         Provider.of<ServerBaseStaticReserveCalendarModel>(context);
@@ -113,7 +113,7 @@ class ReserveCategorySeparatorState extends State<ReserveCategorySeparator> {
                           itemCount: listViewItemCount,
                           itemBuilder: (BuildContext context, index) {
                             return SingleChildScrollView(
-                              child: DataHisotry(
+                              child: DataHistory(
                                 historyBuildingName: widget
                                         .reserveListByType[index]["building"] ??
                                     "",

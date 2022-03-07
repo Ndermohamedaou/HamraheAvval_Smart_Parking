@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/plateEditor.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -31,6 +31,7 @@ class PlateEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -48,7 +49,7 @@ class PlateEntry extends StatelessWidget {
               ),
               alignment: Alignment.centerRight,
               child: Text(
-                plateViewEntry,
+                t.translate("plates.addPlate.enterPlateNote"),
                 textAlign: TextAlign.right,
                 style: TextStyle(
                     fontFamily: mainFaFontFamily,

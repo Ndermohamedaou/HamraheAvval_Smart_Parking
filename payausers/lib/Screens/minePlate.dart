@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/AlphabetClassList.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/PlateEnteryView.dart';
 import 'package:payausers/ExtractedWidgets/bottomBtnNavigator.dart';
@@ -15,6 +14,7 @@ import 'package:payausers/controller/changeAvatar.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/image_picker_controller.dart';
 import 'package:payausers/controller/validate_plate.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +35,7 @@ ImageConversion imageConversion = ImageConversion();
 // Provider
 PlatesModel plateModel;
 
-// Plate Modifire,
+// Plate modify,
 // note plate1 is middle character.
 String plate0 = "";
 String plate2 = "";
@@ -45,16 +45,16 @@ File ncCard;
 File carCard;
 bool isAddingDocs = true;
 AvatarModel localData;
+AppLocalizations t;
 
 class _MinePlateViewState extends State<MinePlateView> {
   @override
   void initState() {
-    // Init all variable for ready side effecting from useState statemanager
+    // Init all variable for ready side effecting from useState
     _pageController = PageController();
     pageIndex = 0;
 
     // rm nationalCardAppBar view
-    appBarTitle = [addPlateNumAppBar, carCardAppBar];
     plate0 = "";
     plate2 = "";
     plate3 = "";
@@ -71,150 +71,199 @@ class _MinePlateViewState extends State<MinePlateView> {
     super.dispose();
   }
 
-  Future gettingCarCard(ImageSource source) async {
-    // Getting image from the phone system and convert it to bytes
-    // Config new settings to grep image from the Mobile file system or gallery
-    // I put my source as main source with maxium height and width size for sending to server
-    // imageQuality is half but is okay for seding document to the system.
-    FlutterMediaPicker flutterMediaPicker = FlutterMediaPicker();
-    final image = await flutterMediaPicker.pickImage(
-      source: source,
-    );
+  @override
+  Widget build(BuildContext context) {
+    t = AppLocalizations.of(context);
+    appBarTitle = [
+      t.translate("plates.addPlate.addPlateNumAppBar"),
+      t.translate("plates.addPlate.selfPlate.carCardAppBar"),
+    ];
+    plateModel = Provider.of<PlatesModel>(context);
+    localData = Provider.of<AvatarModel>(context);
 
-    if (image != null)
-      setState(() => carCard = image);
-    else
-      showStatusInCaseOfFlushBottom(
-        context: context,
-        icon: Icons.close,
-        iconColor: Colors.red,
-        title: ignoreToPickImageFromSystemTitle,
-        msg: ignoreToPickImageFromSystemDesc,
+    Future gettingCarCard(ImageSource source) async {
+      // Getting image from the phone system and convert it to bytes
+      // Config new settings to grep image from the Mobile file system or gallery
+      // I put my source as main source with maximum height and width size for sending to server
+      // imageQuality is half but is okay for sending document to the system.
+      FlutterMediaPicker flutterMediaPicker = FlutterMediaPicker();
+      final image = await flutterMediaPicker.pickImage(
+        source: source,
       );
-  }
 
-  // Final process for preparing document, send to the server
-  void addPlateProcInNow(
-      {plate0,
-      plate1,
-      plate2,
-      plate3,
-      File nationalCardImg,
-      File carCardImg}) async {
-    if (plate0 != "" &&
-        plate1 != null &&
-        plate2 != "" &&
-        plate3 != "" &&
-        // nationalCardImg != null &&
-        carCardImg != null) {
-      // Active loading indicator for waiting for server response
-      setState(() => isAddingDocs = false);
-      // Validating plate number
-      if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
-        final uToken = await lds.read(key: "token");
-        // Preparing plate number for sending to the server
-        PlateStructure plate = PlateStructure(plate0, plate1, plate2, plate3);
-        String _selfCarCard = await imageConversion.checkSize(carCardImg);
-
-        int result = await addPlateProc.uploadDocument(
-          token: uToken,
-          plate: plate,
-          type: "self",
-          data: {
-            // selfMelli: _selfMelliCard,
-            "car_card_image": _selfCarCard,
-          },
+      if (image != null)
+        setState(() => carCard = image);
+      else
+        showStatusInCaseOfFlushBottom(
+          context: context,
+          icon: Icons.close,
+          iconColor: Colors.red,
+          title: t.translate("plates.mediaPicker.imagePickCanceledTitle"),
+          msg: t.translate("plates.mediaPicker.imagePickCanceledDesc"),
         );
+    }
 
-        // If all documents sent successfully
-        // You will see successfull flush message from top of the phone
-        if (result == 200) {
-          // Update Plate in Provider
-          plateModel.fetchPlatesData;
-          // Delay for getting plates in right time
-          await Future.delayed(Duration(seconds: 1));
+    // Final process for preparing document, send to the server
+    void addPlateProcInNow(
+        {plate0,
+        plate1,
+        plate2,
+        plate3,
+        File nationalCardImg,
+        File carCardImg}) async {
+      if (plate0 != "" &&
+          plate1 != null &&
+          plate2 != "" &&
+          plate3 != "" &&
+          // nationalCardImg != null &&
+          carCardImg != null) {
+        // Active loading indicator for waiting for server response
+        setState(() => isAddingDocs = false);
+        // Validating plate number
+        if (plate0.length == 2 && plate2.length == 3 && plate3.length == 2) {
+          final uToken = await lds.read(key: "token");
+          // Preparing plate number for sending to the server
+          PlateStructure plate = PlateStructure(plate0, plate1, plate2, plate3);
+          String _selfCarCard = await imageConversion.checkSize(carCardImg);
 
-          // Prevent to twice tapping happen
+          int result = await addPlateProc.uploadDocument(
+            token: uToken,
+            plate: plate,
+            type: "self",
+            data: {
+              // selfMelli: _selfMelliCard,
+              "car_card_image": _selfCarCard,
+            },
+          );
+
+          // If all documents sent successfully
+          // You will see successfull flush message from top of the phone
+          if (result == 200) {
+            // Update Plate in Provider
+            plateModel.fetchPlatesData;
+            // Delay for getting plates in right time
+            await Future.delayed(Duration(seconds: 1));
+
+            // Prevent to twice tapping happen
+            setState(() => isAddingDocs = true);
+            // Twice poping
+            int count = 0;
+            // Back to home page or maino dashboard view
+            // with popUntill twice back in application
+            Navigator.popUntil(context, (route) {
+              return count++ == 2;
+            });
+            showStatusInCaseOfFlush(
+                context: context,
+                title: t.translate("plates.addPlate.addSuccessTitle"),
+                msg: t.translate(
+                    "plates.addPlate.familyPlate.plateAddedSuccessfulDesc"),
+                mainBackgroundColor: "#00c853",
+                iconColor: Colors.white,
+                icon: Icons.done_outline);
+          }
+
+          // If you have more than 3 plate in db you will get warning message
+          if (result == 100) {
+            // Twice poping
+            int count = 0;
+            Navigator.popUntil(context, (route) {
+              return count++ == 2;
+            });
+            setState(() => isAddingDocs = true);
+            showStatusInCaseOfFlush(
+                context: context,
+                title: t.translate("plates.addPlate.addPlateMoreThanNum"),
+                msg: t.translate("plates.addPlate.addPlateMoreThanNumDesc"),
+                iconColor: Colors.white,
+                icon: Icons.close);
+          }
+
+          // If you enter repetitious plate you will get warning message
+          if (result == 1) {
+            setState(() => isAddingDocs = true);
+            showStatusInCaseOfFlush(
+                context: context,
+                title: t.translate("plates.addPlate.repeatedPlateTitle"),
+                msg: t.translate("plates.addPlate.repeatedPlateDesc"),
+                iconColor: Colors.white,
+                icon: Icons.close);
+          }
+
+          // If server can't handle request of add document to db you will get error message
+          if (result == -1) {
+            setState(() => isAddingDocs = true);
+            showStatusInCaseOfFlush(
+                context: context,
+                title: t.translate("plates.addPlate.addPlateServerErrorTitle"),
+                msg: t.translate("plates.addPlate.addPlateServerErrorDesc"),
+                iconColor: Colors.white,
+                icon: Icons.close);
+          }
+        } else {
           setState(() => isAddingDocs = true);
-          // Twice poping
-          int count = 0;
-          // Back to home page or maino dashboard view
-          // with popUntill twice back in application
-          Navigator.popUntil(context, (route) {
-            return count++ == 2;
-          });
           showStatusInCaseOfFlush(
               context: context,
-              title: successfulPlateAddTitle,
-              msg: successfulPlateAddDsc,
-              mainBackgroundColor: "#00c853",
-              iconColor: Colors.white,
-              icon: Icons.done_outline);
-        }
-
-        // If you have more than 3 plate in db you will get warning message
-        if (result == 100) {
-          // Twice poping
-          int count = 0;
-          Navigator.popUntil(context, (route) {
-            return count++ == 2;
-          });
-          setState(() => isAddingDocs = true);
-          showStatusInCaseOfFlush(
-              context: context,
-              title: warnningOnAddPlate,
-              msg: moreThanPlateAdded,
-              iconColor: Colors.white,
-              icon: Icons.close);
-        }
-
-        // If you enter repetitious plate you will get warning message
-        if (result == 1) {
-          setState(() => isAddingDocs = true);
-          showStatusInCaseOfFlush(
-              context: context,
-              title: existUserPlateTitleErr,
-              msg: existUserPlateDescErr,
-              iconColor: Colors.white,
-              icon: Icons.close);
-        }
-
-        // If server can't handle request of add document to db you will get error message
-        if (result == -1) {
-          setState(() => isAddingDocs = true);
-          showStatusInCaseOfFlush(
-              context: context,
-              title: errorPlateAddTitle,
-              msg: errorPlateAddDsc,
+              title: t.translate("plates.addPlate.invalidPlateTitle"),
+              msg: t.translate("plates.addPlate.invalidPlateDesc"),
               iconColor: Colors.white,
               icon: Icons.close);
         }
       } else {
         setState(() => isAddingDocs = true);
+
         showStatusInCaseOfFlush(
             context: context,
-            title: errorInSendPlateTitle,
-            msg: errorInSendPlateDsc,
-            iconColor: Colors.white,
+            title: t.translate("plates.addPlate.completeInfoTitle"),
+            msg: t.translate("plates.addPlate.completeInfoDesc"),
+            iconColor: Colors.red,
             icon: Icons.close);
       }
-    } else {
-      setState(() => isAddingDocs = true);
-
-      showStatusInCaseOfFlush(
-          context: context,
-          title: completeInformationTitle,
-          msg: completeInformationDesc,
-          iconColor: Colors.red,
-          icon: Icons.close);
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    plateModel = Provider.of<PlatesModel>(context);
-    localData = Provider.of<AvatarModel>(context);
-    // final themeChange = Provider.of<DarkThemeProvider>(context);
+    void doNextPage() {
+      /// In this Function we only change page index to increase view.
+      ///
+      /// This function is called when user tap on next button in bottom navigation bar.
+      setState(() => pageIndex++);
+      _pageController.animateToPage(pageIndex,
+          duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+    }
+
+    void nextPage() async {
+      /// Next page checker function.
+      /// Next page has a plate number validator and when it's not valid
+      /// we will show error message to complete user plate.
+
+      ValidatePlate plateValidation = ValidatePlate(context);
+
+      final result = await plateValidation.isPlateValid(plate0,
+          alp.getAlphabet()[_value].item, plate2, plate3, localData.userToken);
+
+      if (pageIndex < 1) {
+        if (pageIndex == 0)
+          result["plateNumber"] && result["plateExist"]
+              ? doNextPage()
+              : showStatusInCaseOfFlush(
+                  context: context,
+                  title: result["title"],
+                  msg: result["desc"],
+                  iconColor: Colors.white,
+                  icon: Icons.close);
+        else if (pageIndex == 1)
+          carCard == null
+              ? showStatusInCaseOfFlush(
+                  context: context,
+                  title:
+                      t.translate("plates.addPlate.documentMustNotNullTitle"),
+                  msg: t.translate("plates.addPlate.documentMustNotNullDesc"),
+                  iconColor: Colors.white,
+                  icon: Icons.close)
+              : doNextPage();
+        else
+          doNextPage();
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -267,7 +316,9 @@ class _MinePlateViewState extends State<MinePlateView> {
       ),
       bottomNavigationBar: BottomButton(
         hasCondition: isAddingDocs,
-        text: pageIndex == 1 ? "ثبت اطلاعات" : nextLevel1,
+        text: pageIndex == 1
+            ? t.translate("global.actions.confirmInfo")
+            : t.translate("navigation.next"),
         color: mainSectionCTA,
         onTapped: () => pageIndex == 1
             ? addPlateProcInNow(
@@ -281,48 +332,5 @@ class _MinePlateViewState extends State<MinePlateView> {
             : nextPage(),
       ),
     );
-  }
-
-  void doNextPage() {
-    /// In this Function we only change page index to increate view.
-    ///
-    /// This function is called when user tap on next button in bottom navigation bar.
-    setState(() => pageIndex++);
-    _pageController.animateToPage(pageIndex,
-        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
-  }
-
-  void nextPage() async {
-    /// Next page checker function.
-    /// Next page has a plate number validator and when it's not valid
-    /// we will show error message to complete user plate.
-
-    ValidatePlate plateValidation = ValidatePlate();
-
-    final result = await plateValidation.isPlateValid(plate0,
-        alp.getAlphabet()[_value].item, plate2, plate3, localData.userToken);
-
-    if (pageIndex < 1) {
-      if (pageIndex == 0)
-        result["plateNumber"] && result["plateExist"]
-            ? doNextPage()
-            : showStatusInCaseOfFlush(
-                context: context,
-                title: result["title"],
-                msg: result["desc"],
-                iconColor: Colors.white,
-                icon: Icons.close);
-      else if (pageIndex == 1)
-        carCard == null
-            ? showStatusInCaseOfFlush(
-                context: context,
-                title: documentMustNotNullTitle,
-                msg: documentMustNotNullDesc,
-                iconColor: Colors.white,
-                icon: Icons.close)
-            : doNextPage();
-      else
-        doNextPage();
-    }
   }
 }

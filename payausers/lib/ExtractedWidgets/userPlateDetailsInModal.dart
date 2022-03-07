@@ -1,12 +1,12 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/custom_divider.dart';
 import 'package:payausers/ExtractedWidgets/custom_sub_title.dart';
 import 'package:payausers/ExtractedWidgets/custom_title.dart';
 import 'package:payausers/Model/PlateColorsStatus.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ExtractedWidgets/plateViwer.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:sizer/sizer.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 
@@ -30,20 +30,21 @@ class UserPlateInDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final hrStatusFinal =
-        PlateStatusSpecification().getPlateStatusString(hrStatus);
+        PlateStatusSpecification(context).getPlateStatusString(hrStatus);
     final hrStatusColorFinal =
-        PlateStatusSpecification().getPlateStatusColor(hrStatus);
+        PlateStatusSpecification(context).getPlateStatusColor(hrStatus);
 
     final secStatusFinal =
-        PlateStatusSpecification().getPlateStatusString(secStatus);
+        PlateStatusSpecification(context).getPlateStatusString(secStatus);
     final secStatusColorFinal =
-        PlateStatusSpecification().getPlateStatusColor(secStatus);
+        PlateStatusSpecification(context).getPlateStatusColor(secStatus);
 
     final overalStatusFinal =
-        PlateStatusSpecification().getPlateStatusString(overalStatus);
+        PlateStatusSpecification(context).getPlateStatusString(overalStatus);
     final overalStatusColorFinal =
-        PlateStatusSpecification().getPlateStatusColor(overalStatus);
+        PlateStatusSpecification(context).getPlateStatusColor(overalStatus);
 
     return Column(
       children: [
@@ -57,7 +58,9 @@ class UserPlateInDetails extends StatelessWidget {
               borderRadius: BorderRadius.circular(20)),
         ),
         SizedBox(height: 2.0.h),
-        CustomTitle(textTitle: "پلاک شما در سامانه", fw: FontWeight.normal),
+        CustomTitle(
+            textTitle: t.translate("plates.inModalInfo.modalTitle"),
+            fw: FontWeight.normal),
         PlateViewer(
           plate0: plate[0],
           plate1: plate[1],
@@ -69,13 +72,17 @@ class UserPlateInDetails extends StatelessWidget {
         DottedLine(dashColor: Colors.grey),
         SizedBox(height: 2.0.h),
         CustomTitle(
-            textTitle: "وضعیت جاری پلاک شما در سامانه", fw: FontWeight.normal),
+            textTitle: t.translate("plates.inModalInfo.plateStatusInSystem"),
+            fw: FontWeight.normal),
         SizedBox(height: 1.0.h),
         Row(
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: insideSectionText, fw: FontWeight.normal),
+            CustomTitle(
+                textTitle: t.translate(
+                    "plates.inModalInfo.departmentOfInternalAffairs"),
+                fw: FontWeight.normal),
             CustomSubTitle(textTitle: hrStatusFinal, color: hrStatusColorFinal),
           ],
         ),
@@ -84,7 +91,10 @@ class UserPlateInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: securitySectionText, fw: FontWeight.normal),
+            CustomTitle(
+                textTitle:
+                    t.translate("plates.inModalInfo.departmentOfSecurity"),
+                fw: FontWeight.normal),
             CustomSubTitle(
                 textTitle: secStatusFinal, color: secStatusColorFinal),
           ],
@@ -94,7 +104,9 @@ class UserPlateInDetails extends StatelessWidget {
           textDirection: TextDirection.rtl,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomTitle(textTitle: "وضعیت کلی پلاک", fw: FontWeight.normal),
+            CustomTitle(
+                textTitle: t.translate("plates.inModalInfo.plateOveralStatus"),
+                fw: FontWeight.normal),
             CustomSubTitle(
                 textTitle: overalStatusFinal, color: overalStatusColorFinal),
           ],
@@ -107,27 +119,28 @@ class UserPlateInDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             color: Colors.red,
             child: MaterialButton(
-                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                onPressed: () => delUserPlate(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  textDirection: TextDirection.rtl,
-                  children: [
-                    Text(
-                      "حذف پلاک",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: loginBtnTxtColor,
-                          fontFamily: mainFaFontFamily,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.normal),
-                    ),
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    )
-                  ],
-                )),
+              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              onPressed: () => delUserPlate(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                textDirection: TextDirection.rtl,
+                children: [
+                  Text(
+                    "حذف پلاک",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: loginBtnTxtColor,
+                        fontFamily: mainFaFontFamily,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.normal),
+                  ),
+                  Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ],

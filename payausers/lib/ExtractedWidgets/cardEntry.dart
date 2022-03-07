@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -11,7 +11,8 @@ class CardEntry extends StatelessWidget {
       this.cameraTapped,
       this.imgShow,
       this.customIcon,
-      this.attentionText = nationalCardEntry});
+      this.attentionText =
+          "کاربر گرامی، جهت ارسال مدارک خود بایستی تصویر خود را به کمتر از ۱ مگابایت برسانید"});
 
   final cameraTapped;
   final albumTapped;
@@ -21,6 +22,7 @@ class CardEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return SingleChildScrollView(
@@ -83,7 +85,7 @@ class CardEntry extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              attentionToConfidance,
+              t.translate("plates.addPlate.uploadDocumentAttention1"),
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
@@ -108,6 +110,7 @@ class CameraTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    AppLocalizations t = AppLocalizations.of(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -126,7 +129,7 @@ class CameraTile extends StatelessWidget {
               width: 10.0.w,
             ),
             Text(
-              captureImage,
+              t.translate("global.actions.imageCapture"),
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,
@@ -140,6 +143,7 @@ class CameraTile extends StatelessWidget {
   }
 }
 
+// TODO: Remove this widget and swap with top
 class AlbumTile extends StatelessWidget {
   const AlbumTile({
     this.onTap,
@@ -150,6 +154,7 @@ class AlbumTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    AppLocalizations t = AppLocalizations.of(context);
 
     return GestureDetector(
       onTap: onTap,
@@ -168,7 +173,7 @@ class AlbumTile extends StatelessWidget {
               width: 10.0.w,
             ),
             Text(
-              useAlbumImage,
+              t.translate("global.actions.galleryPick"),
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: mainFaFontFamily,

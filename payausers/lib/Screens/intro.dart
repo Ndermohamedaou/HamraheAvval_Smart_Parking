@@ -9,13 +9,11 @@ class IntroPage extends StatefulWidget {
   _IntroPageState createState() => _IntroPageState();
 }
 
-AppLocalizations t;
-
 class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
     // Getting Strings
-    t = AppLocalizations.of(context);
+    AppLocalizations t = AppLocalizations.of(context);
 
     void navigatedToLogin() => Navigator.pushNamed(context, '/themeSelector');
     return Scaffold(
@@ -35,6 +33,8 @@ class MainIntro extends StatefulWidget {
 class _MainIntroState extends State<MainIntro> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
+
     return WillPopScope(
       onWillPop: () =>
           SystemChannels.platform.invokeMethod('SystemNavigator.pop'),

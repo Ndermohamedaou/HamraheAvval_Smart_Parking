@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/guide_opetion.dart';
 import 'package:payausers/Model/ThemeColor.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';
 
 class ReserveGuideView extends StatefulWidget {
@@ -15,6 +15,7 @@ class ReserveGuideView extends StatefulWidget {
 class _ReserveGuideViewState extends State<ReserveGuideView> {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     return Scaffold(
@@ -22,7 +23,7 @@ class _ReserveGuideViewState extends State<ReserveGuideView> {
         backgroundColor: defaultAppBarColor,
         centerTitle: true,
         title: Text(
-          guideViewAppBarTitle,
+          t.translate("reserves.guide.guideAppBar"),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
@@ -38,38 +39,40 @@ class _ReserveGuideViewState extends State<ReserveGuideView> {
         child: Column(
           children: [
             SizedBox(height: 20),
-            Option(themeChange: themeChange, text: colorIndicatorDescription),
+            Option(
+                themeChange: themeChange,
+                text: t.translate("reserves.guide.colorIndicatorDescription")),
             SizedBox(height: 8),
             LeadingOption(
                 themeChange: themeChange,
                 indicatorColor: Colors.green,
-                title: greenColorTitle,
-                subTitle: greenColorDesc),
+                title: t.translate("reserves.guide.greenColorTitle"),
+                subTitle: t.translate("reserves.guide.greenColorDesc")),
             LeadingOption(
                 themeChange: themeChange,
                 indicatorColor: Colors.orange,
-                title: orangeColorTitle,
-                subTitle: orangeColorDesc),
+                title: t.translate("reserves.guide.orangeColorTitle"),
+                subTitle: t.translate("reserves.guide.orangeColorDesc")),
             LeadingOption(
                 themeChange: themeChange,
                 indicatorColor: Colors.red,
-                title: redColorTitle,
-                subTitle: redColorDesc),
+                title: t.translate("reserves.guide.redColorTitle"),
+                subTitle: t.translate("reserves.guide.redColorDesc")),
             LeadingOption(
                 themeChange: themeChange,
                 indicatorColor: Colors.grey,
-                title: greyColorTitle,
-                subTitle: greyColorDesc),
+                title: t.translate("reserves.guide.greyColorTitle"),
+                subTitle: t.translate("reserves.guide.greyColorDesc")),
             LeadingOption(
                 themeChange: themeChange,
                 indicatorColor: Colors.blue,
-                title: blueColorTitle,
-                subTitle: blueColorDesc),
+                title: t.translate("reserves.guide.blueColorTitle"),
+                subTitle: t.translate("reserves.guide.blueColorTitle")),
             LeadingOption(
                 themeChange: themeChange,
                 indicatorColor: Colors.brown,
-                title: brownColorTitle,
-                subTitle: brownColorDesc),
+                title: t.translate("reserves.guide.brownColorTitle"),
+                subTitle: t.translate("reserves.guide.brownColorDesc")),
           ],
         ),
       ),

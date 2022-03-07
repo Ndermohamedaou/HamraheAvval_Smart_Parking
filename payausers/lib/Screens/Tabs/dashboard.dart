@@ -1,9 +1,9 @@
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/logLoading.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/reserves_model.dart';
@@ -38,6 +38,7 @@ class _DashboardState extends State<Dashboard>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    AppLocalizations t = AppLocalizations.of(context);
     // Providers
     themeChange = Provider.of<DarkThemeProvider>(context);
     // Getting reserves data from provider model
@@ -89,7 +90,7 @@ class _DashboardState extends State<Dashboard>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "مشاهده جزئیات",
+                          t.translate("dashboard.inBottomSheetButton"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               color: loginBtnTxtColor,
@@ -197,7 +198,7 @@ class _DashboardState extends State<Dashboard>
                                     Text(
                                       staffInfoModel
                                               .staffInfo["parking_type_fa"] ??
-                                          welcomeTitle,
+                                          t.translate("dashboard.welcome"),
                                       style: TextStyle(
                                         fontFamily: mainFaFontFamily,
                                         color: Colors.white,
@@ -237,7 +238,7 @@ class _DashboardState extends State<Dashboard>
                                       if (staffInfoModel.staffLoadState ==
                                           FlowState.Loading) {
                                         return Text(
-                                          "انتظار",
+                                          t.translate("global.actions.wait"),
                                           style: TextStyle(
                                             fontFamily: mainFaFontFamily,
                                             color: themeChange.darkTheme
@@ -272,7 +273,8 @@ class _DashboardState extends State<Dashboard>
                                                 child: Row(
                                                   children: [
                                                     Text(
-                                                      "امتیاز",
+                                                      t.translate(
+                                                          "dashboard.score"),
                                                       style: TextStyle(
                                                         fontFamily:
                                                             mainFaFontFamily,
@@ -324,14 +326,15 @@ class _DashboardState extends State<Dashboard>
                                 FlowState.Error) {
                               return SecondOptions(
                                 icon: "myTraffic.png",
-                                title: "ترددها",
+                                title: t.translate(
+                                    "dashboard.trafficInBottomSheet"),
                                 onPressed: () {
                                   return showStatusInCaseOfFlush(
                                       context: context,
-                                      title:
-                                          "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
-                                      msg:
-                                          "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                                      title: t.translate(
+                                          "dashboard.bottomSheetData.errorInLoad"),
+                                      msg: t.translate(
+                                          "dashboard.bottomSheetData.errorInLoadMore"),
                                       iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
@@ -339,11 +342,14 @@ class _DashboardState extends State<Dashboard>
                             }
                             return SecondOptions(
                               icon: "myTraffic.png",
-                              title: "ترددها",
+                              title:
+                                  t.translate("dashboard.trafficInBottomSheet"),
                               onPressed: () => openOptionsData(
-                                  title: "تعداد تردد های شما",
+                                  title: t.translate(
+                                      "dashboard.trafficInBottomSheetCount"),
                                   data: trafficsModel.traffics.length ??
-                                      dataLoadingTextString,
+                                      t.translate(
+                                          "global.loading.dataLoadingTextString"),
                                   hasAction: true,
                                   onPressedNavigationButton: () {
                                     widget.navigateToTrafficsTab();
@@ -356,19 +362,21 @@ class _DashboardState extends State<Dashboard>
                           if (reservesModel.reserveState == FlowState.Error) {
                             return SecondOptions(
                               icon: "myReserveList.png",
-                              title: "رزروها",
+                              title: t
+                                  .translate("dashboard.reservesInBottomSheet"),
                               onPressed: () => openOptionsData(
-                                title: "تعداد رزروهای باقی مانده هفته",
-                                data:
-                                    reservesModel.reserves["reserves"].length ??
-                                        dataLoadingTextString,
+                                title: t.translate("dashboard.reserveInAWeek"),
+                                data: reservesModel
+                                        .reserves["reserves"].length ??
+                                    t.translate(
+                                        "global.loading.dataLoadingTextString"),
                                 onPressedNavigationButton: () {
                                   return showStatusInCaseOfFlush(
                                       context: context,
-                                      title:
-                                          "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
-                                      msg:
-                                          "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                                      title: t.translate(
+                                          "dashboard.bottomSheetData.errorInLoad"),
+                                      msg: t.translate(
+                                          "dashboard.bottomSheetData.errorInLoadMore"),
                                       iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
@@ -377,11 +385,13 @@ class _DashboardState extends State<Dashboard>
                           }
                           return SecondOptions(
                             icon: "myReserveList.png",
-                            title: "رزروها",
+                            title:
+                                t.translate("dashboard.reservesInBottomSheet"),
                             onPressed: () => openOptionsData(
-                                title: "تعداد رزروهای باقی مانده هفته",
+                                title: t.translate("dashboard.reserveInAWeek"),
                                 data: staffInfoModel.staffInfo["reserves"] ??
-                                    dataLoadingTextString,
+                                    t.translate(
+                                        "global.loading.dataLoadingTextString"),
                                 hasAction: true,
                                 onPressedNavigationButton: () {
                                   widget.navigateToReservesTab();
@@ -393,18 +403,21 @@ class _DashboardState extends State<Dashboard>
                           if (plateModel.platesState == FlowState.Error) {
                             return SecondOptions(
                               icon: "myPlate.png",
-                              title: "پلاک ها",
+                              title:
+                                  t.translate("dashboard.plateInBottomSheet"),
                               onPressed: () => openOptionsData(
-                                title: "تعداد پلاک های ثبت شده در سامانه",
+                                title: t.translate(
+                                    "dashboard.submittedPlateInSystem"),
                                 data: plateModel.plates.length ??
-                                    dataLoadingTextString,
+                                    t.translate(
+                                        "global.loading.dataLoadingTextString"),
                                 onPressedNavigationButton: () {
                                   return showStatusInCaseOfFlush(
                                       context: context,
-                                      title:
-                                          "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
-                                      msg:
-                                          "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط",
+                                      title: t.translate(
+                                          "dashboard.bottomSheetData.errorInLoad"),
+                                      msg: t.translate(
+                                          "dashboard.bottomSheetData.errorInLoadMore"),
                                       iconColor: Colors.white,
                                       icon: Icons.warning);
                                 },
@@ -415,9 +428,11 @@ class _DashboardState extends State<Dashboard>
                             icon: "myPlate.png",
                             title: "پلاک ها",
                             onPressed: () => openOptionsData(
-                              title: "تعداد پلاک های شما",
+                              title: t.translate(
+                                  "dashboard.submittedPlateInSystem"),
                               data: plateModel.plates.length ??
-                                  dataLoadingTextString,
+                                  t.translate(
+                                      "global.loading.dataLoadingTextString"),
                               hasAction: true,
                               onPressedNavigationButton: () {
                                 widget.navigateToPlatesTab();
@@ -431,11 +446,12 @@ class _DashboardState extends State<Dashboard>
                               FlowState.Error) {
                             return SecondOptions(
                               icon: "myLastLocation.png",
-                              title: "جایگاه",
+                              title: t.translate("dashboard.slotInBottomSheet"),
                               onPressed: () => openOptionsData(
-                                title: "عدم اتصال به شبکه",
-                                data:
-                                    "لطفا ارتباط خود را با شبکه اینترنت بررسی کنید",
+                                title: t.translate(
+                                    "dashboard.slotNotConnectToNetwork"),
+                                data: t.translate(
+                                    "dashboard.checkConnectionOfSlot"),
                               ),
                             );
                           }
@@ -443,18 +459,22 @@ class _DashboardState extends State<Dashboard>
                             return staffInfoModel.staffInfo["location"] == null
                                 ? SecondOptions(
                                     icon: "myLastLocation.png",
-                                    title: "جایگاه",
+                                    title: t.translate(
+                                        "dashboard.slotInBottomSheet"),
                                     onPressed: () => openOptionsData(
-                                      title: "جایگاه فعلی وسیله نقلیه شما",
-                                      data: dataLoadingTextString ??
-                                          dataLoadingTextString,
+                                      title: t
+                                          .translate("dashboard.currentlySlot"),
+                                      data: t.translate(
+                                          "global.loading.dataLoadingTextString"),
                                     ),
                                   )
                                 : SecondOptions(
                                     icon: "myLastLocation.png",
-                                    title: "جایگاه",
+                                    title: t.translate(
+                                        "dashboard.slotInBottomSheet"),
                                     onPressed: () => openOptionsData(
-                                      title: "جایگاه فعلی وسیله نقلیه شما",
+                                      title: t
+                                          .translate("dashboard.currentlySlot"),
                                       data: finalCarSlotLocation(),
                                       onPressedNavigationButton: () {
                                         widget.navigateToPlatesTab();
@@ -465,10 +485,11 @@ class _DashboardState extends State<Dashboard>
                           } catch (e) {
                             return SecondOptions(
                               icon: "myLastLocation.png",
-                              title: "جایگاه",
+                              title: t.translate("dashboard.slotInBottomSheet"),
                               onPressed: () => openOptionsData(
-                                title: "جایگاه فعلی وسیله نقلیه شما",
-                                data: dataLoadingTextString,
+                                title: t.translate("dashboard.currentlySlot"),
+                                data: t.translate(
+                                    "global.loading.dataLoadingTextString"),
                               ),
                             );
                           }
@@ -498,7 +519,7 @@ class _DashboardState extends State<Dashboard>
                             alignment: Alignment.centerRight,
                             margin: EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              "پیشنهادات",
+                              t.translate("dashboard.suggestedSlides"),
                               style: TextStyle(
                                 fontFamily: mainFaFontFamily,
                                 fontSize: 24.0,

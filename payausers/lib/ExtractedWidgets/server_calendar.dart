@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/Custom_material_button_controller.dart';
 import 'package:payausers/ExtractedWidgets/custom_text_controller.dart';
@@ -14,6 +13,7 @@ import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/calculate_next_week.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/server_calendar_controller.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/reserve_weeks_model.dart';
 import 'package:payausers/providers/reservers_by_week_model.dart';
@@ -41,6 +41,7 @@ class _ServerCalendarState extends State<ServerCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final localData = Provider.of<AvatarModel>(context);
     final reserveWeeks = Provider.of<ReserveWeeks>(context);
     final reservesModel = Provider.of<ReservesModel>(context);
@@ -58,7 +59,16 @@ class _ServerCalendarState extends State<ServerCalendar> {
     LogLoading logLoadingWidgets = LogLoading();
     ServerCalendarController calendarController = ServerCalendarController();
 
-    List staticWeekDay = [sat, sun, mon, tues, wed, thurs, fri];
+    List staticWeekDay = [
+      t.translate("calendarAndTime.week.sat"),
+      t.translate("calendarAndTime.week.sun"),
+      t.translate("calendarAndTime.week.mon"),
+      t.translate("calendarAndTime.week.tues"),
+      t.translate("calendarAndTime.week.wed"),
+      t.translate("calendarAndTime.week.thurs"),
+      t.translate("calendarAndTime.week.fri")
+    ];
+
     // Getting current server month
     final serverMonths = persianServerCalendar.calendar["months"];
     selectedReserveList = persianServerCalendar.calendar["reserved_days"];
@@ -71,7 +81,9 @@ class _ServerCalendarState extends State<ServerCalendar> {
 
       if (isHoliday) return holidayBgColor;
 
-      if (dateFa == fri || dateFa == thurs) return Colors.grey.shade300;
+      if (dateFa == t.translate("calendarAndTime.week.fri") ||
+          dateFa == t.translate("calendarAndTime.week.thurs"))
+        return Colors.grey.shade300;
 
       return Colors.transparent;
     }
@@ -88,7 +100,9 @@ class _ServerCalendarState extends State<ServerCalendar> {
       if (selectedReserveList.contains(date)) return Colors.white;
       if (isClickable) return null;
 
-      if (dateFa == fri || dateFa == thurs) return Colors.black;
+      if (dateFa == t.translate("calendarAndTime.week.fri") ||
+          dateFa == t.translate("calendarAndTime.week.thurs"))
+        return Colors.black;
 
       if (isHoliday) return Colors.white;
     }
@@ -102,8 +116,8 @@ class _ServerCalendarState extends State<ServerCalendar> {
         showStatusInCaseOfFlush(
           context: context,
           mainBackgroundColor: "#F38137",
-          title: holidayTitle,
-          msg: holidayDesc,
+          title: t.translate("global.info.holidaySelectTitle"),
+          msg: t.translate("global.info.holidaySelectDesc"),
           iconColor: Colors.white,
           icon: Icons.close,
         );
@@ -179,8 +193,8 @@ class _ServerCalendarState extends State<ServerCalendar> {
         rAlert(
             context: context,
             tAlert: AlertType.error,
-            title: serverCatchErrorTitle,
-            desc: serverCatchErrorDesc,
+            title: t.translate("global.errors.serverError"),
+            desc: t.translate("global.errors.connectionFailed"),
             onTapped: () =>
                 Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
       }
@@ -238,7 +252,7 @@ class _ServerCalendarState extends State<ServerCalendar> {
               child: CarouselSlider.builder(
                 carouselController: _carouselController,
                 itemCount: calendarController
-                    .calculateCalendar(persianServerCalendar.calendar)
+                    .calculateCalendar(persianServerCalendar.calendar, context)
                     .length,
                 itemBuilder:
                     (BuildContext context, int sliderIndex, int pageViewIndex) {
@@ -294,14 +308,16 @@ class _ServerCalendarState extends State<ServerCalendar> {
                                 mainAxisSpacing: 10,
                               ),
                               itemCount: calendarController
-                                  .calculateCalendar(persianServerCalendar
-                                      .calendar)[sliderIndex]
+                                  .calculateCalendar(
+                                      persianServerCalendar.calendar,
+                                      context)[sliderIndex]
                                   .length,
                               itemBuilder: (context, index) {
                                 // Getting week data reader
-                                final week = calendarController
-                                    .calculateCalendar(persianServerCalendar
-                                        .calendar)[sliderIndex];
+                                final week =
+                                    calendarController.calculateCalendar(
+                                        persianServerCalendar.calendar,
+                                        context)[sliderIndex];
                                 return GestureDetector(
                                   onTap: () {
                                     onDateClick(
@@ -387,13 +403,13 @@ class _ServerCalendarState extends State<ServerCalendar> {
           textDirection: TextDirection.rtl,
           children: [
             CustomMaterialButtonController(
-              buttonText: submitTextForAlert,
+              buttonText: t.translate("global.actions.confirm"),
               buttonColor: mainSectionCTA,
               buttonTextColor: Colors.white,
               onClick: () => onSubmitReserve(),
             ),
             CustomMaterialButtonController(
-              buttonText: closeALayer,
+              buttonText: t.translate("global.actions.close"),
               buttonTextColor: mainSectionCTA,
               buttonColor: themeChange.darkTheme ? darkBar : Colors.white,
               onClick: () {

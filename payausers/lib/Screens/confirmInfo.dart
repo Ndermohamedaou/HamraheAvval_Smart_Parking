@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:payausers/controller/image_picker_controller.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,9 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/SavingData.dart';
-import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/changeAvatar.dart';
@@ -71,7 +70,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    AppLocalizations t = AppLocalizations.of(context);
     AvatarModel localData = Provider.of<AvatarModel>(context);
     // Getting Arguments from login page all about user info.
     modalRoute = ModalRoute.of(context).settings.arguments;
@@ -126,48 +125,53 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                     section: staffInfo["section"],
                     lastLogin: staffInfo["last_login"],
                   );
-
+                  // result had a value, true or false progress of saving
+                  //data in localStorage
                   if (result) {
                     localData.refreshToken = uToken;
                     Navigator.pushNamed(context, "/loginCheckout");
                   } else {
-                    Toast.show("Your info can not saved", context,
+                    Toast.show(t.translate("global.errors.system"), context,
                         duration: Toast.LENGTH_LONG,
                         gravity: Toast.BOTTOM,
                         textColor: Colors.white);
                   }
                 }
               } catch (e) {
-                print(e);
+                // print(e);
                 setState(() => isConfirm = false);
                 showStatusInCaseOfFlush(
                     context: context,
-                    title: "خطا در ارسال اطلاعات",
-                    msg: "مشکلی در ارتباط با سرویس دهنده رخ داده است",
+                    title: t.translate("global.errors.serverError"),
+                    msg: t.translate("global.errors.connectionError"),
                     icon: Icons.workspaces_outline,
                     iconColor: Colors.white);
               }
             } else {
               showStatusInCaseOfFlush(
                   context: context,
-                  title: notValidPassText,
-                  msg: passwordCheckerText,
+                  title: t.translate("global.warnings.wrongPassword"),
+                  msg: t.translate("global.warnings.wrongPasswordNote"),
                   icon: Icons.email,
                   iconColor: Colors.white);
             }
           } else {
             showStatusInCaseOfFlush(
                 context: context,
-                title: "گذرواژه جدید باید با تکرار آن یکسان باشد",
-                msg: "",
+                title: t.translate(
+                    "global.warnings.confirmPassword.wrongInCorrespondCheckTitle"),
+                msg: t.translate(
+                    "global.warnings.confirmPassword.wrongInCorrespondCheckDesc"),
                 icon: Icons.workspaces_outline,
                 iconColor: Colors.white);
           }
         } else {
           showStatusInCaseOfFlush(
               context: context,
-              title: "گذرواژه شما باید بیشتر از 6 حرف باشد",
-              msg: "",
+              title: t.translate(
+                  "global.warnings.confirmPassword.wrongPasswordCountTitle"),
+              msg: t.translate(
+                  "global.warnings.confirmPassword.wrongPasswordCountDesc"),
               icon: Icons.vpn_key_outlined,
               iconColor: Colors.white);
         }
@@ -179,13 +183,13 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
           emptyTextFieldErrRePassword = null;
         });
         rAlert(
-            context: context,
-            tAlert: AlertType.warning,
-            onTapped: () =>
-                Navigator.popUntil(context, ModalRoute.withName("/confirm")),
-            title: "ورودی اطلاعات برای ثبت ناقص است",
-            desc:
-                "شما نمی توانید فیلد های مهمی که در این صفحه وجود دارد را خالی رها کنید");
+          context: context,
+          tAlert: AlertType.warning,
+          onTapped: () =>
+              Navigator.popUntil(context, ModalRoute.withName("/confirm")),
+          title: t.translate("global.info.imperfectInfoEntryTitle"),
+          desc: t.translate("global.info.imperfectInfoEntryDesc"),
+        );
       }
     }
 
@@ -195,7 +199,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         backgroundColor: defaultAppBarColor,
         centerTitle: true,
         title: Text(
-          "تکمیل اطلاعات اولیه",
+          t.translate("confirmInfo.completeInitInfo"),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
@@ -244,7 +248,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                 alignment: Alignment.centerRight,
                 margin: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  changeDefaultPassword,
+                  t.translate("confirmInfo.changeDefaultPassword"),
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     fontFamily: mainFaFontFamily,
@@ -254,13 +258,13 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               ),
               SizedBox(height: 15),
               TextFields(
-                lblText: passwordPlaceHolder,
+                lblText: t.translate("confirmInfo.fields.newPassword"),
                 keyboardType: TextInputType.visiblePassword,
                 maxLen: 20,
                 readOnly: false,
                 errText: emptyTextFieldErrPassword == null
                     ? null
-                    : emptyTextFieldMsg,
+                    : t.translate("global.info.mustNotEmpty"),
                 textInputType: protectedPassword,
                 textFieldIcon:
                     password == "" ? Icons.vpn_key_outlined : showMePass,
@@ -284,13 +288,13 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               ),
               SizedBox(height: 20),
               TextFields(
-                lblText: passwordPlaceHolderNew,
+                lblText: t.translate("confirmInfo.fields.confirmNewPassword"),
                 maxLen: 20,
                 readOnly: false,
                 keyboardType: TextInputType.visiblePassword,
                 errText: emptyTextFieldErrPassword == null
                     ? null
-                    : emptyTextFieldMsg,
+                    : t.translate("global.info.mustNotEmpty"),
                 textInputType: protectedPassword,
                 textFieldIcon:
                     password == "" ? Icons.vpn_key_outlined : showMePass,
@@ -340,13 +344,14 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   isConfirm
                       ? CupertinoActivityIndicator()
                       : Text(
-                          confirmLogin,
+                          t.translate("global.actions.confirmInfo"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: loginBtnTxtColor,
-                              fontFamily: mainFaFontFamily,
-                              fontSize: btnSized,
-                              fontWeight: FontWeight.normal),
+                            color: loginBtnTxtColor,
+                            fontFamily: mainFaFontFamily,
+                            fontSize: btnSized,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                   Icon(
                     Icons.chevron_right,

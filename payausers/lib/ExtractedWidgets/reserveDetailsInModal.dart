@@ -36,8 +36,8 @@ class ReserveInDetails extends StatelessWidget {
     String nowTimestamp = DateTime.now().millisecondsSinceEpoch.toString();
     int nowTime = int.parse(nowTimestamp.substring(0, 10));
 
-    final specificReserveStatusColor =
-        ReserveStatusSpecification().getReserveStatusColor(reserveStatusDesc);
+    final specificReserveStatusColor = ReserveStatusSpecification(context)
+        .getReserveStatusColor(reserveStatusDesc);
     return Column(
       children: [
         SizedBox(height: 1.0.h),
@@ -67,7 +67,7 @@ class ReserveInDetails extends StatelessWidget {
           children: [
             CustomTitle(textTitle: "نتیجه رزرو", fw: FontWeight.normal),
             CustomSubTitle(
-                textTitle: ReserveStatusSpecification()
+                textTitle: ReserveStatusSpecification(context)
                     .getReserveStatusString(reserveStatusDesc),
                 color: specificReserveStatusColor),
           ],

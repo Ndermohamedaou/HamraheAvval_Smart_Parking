@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/Model/gettingReadyAccount.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:payausers/Model/ApiAccess.dart';
@@ -53,6 +53,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final localData = Provider.of<AvatarModel>(context);
     // Accessing to Api
     api = ApiAccess(localData.userToken);
@@ -84,13 +85,10 @@ class _LoginPageState extends State<LoginPage> {
               "${loginEndpoint.route}?personal_code=$email&password=$pass&DeviceToken=$devToken",
               loginEndpoint.method, {});
 
-          print(getLoginStatus);
+          // print(getLoginStatus);
 
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
-            // Checking role if users was staff or admin
-            // if (getLoginStatus["role"] == "staff" ||
-            //     getLoginStatus["role"] == "admin") {
             if (getLoginStatus["first_visit"]) {
               Navigator.pushNamed(context, "/2factorAuth",
                   arguments: {"persCode": email, "password": pass});
@@ -103,15 +101,8 @@ class _LoginPageState extends State<LoginPage> {
                   getLoginStatus['token'], context);
               localData.refreshToken = getLoginStatus['token'];
             }
-            // } else {
-            //   setState(() => isLogin = false);
-            //   Toast.show("عدم دسترسی به سیستم", context,
-            //       duration: Toast.LENGTH_LONG,
-            //       gravity: Toast.BOTTOM,
-            //       textColor: Colors.white);
-            // }
           } else {
-            Toast.show("خطا در ورود", context,
+            Toast.show(t.translate("global.errors.errorInLogin"), context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
@@ -119,16 +110,17 @@ class _LoginPageState extends State<LoginPage> {
           }
         } catch (e) {
           setState(() => isLogin = false);
-          print("Erorr in self login ==> $e");
-          Toast.show("شماره پرسنلی یا گذرواژه اشتباه است", context,
+          // print("Error in self login ==> $e");
+          Toast.show(
+              t.translate("global.errors.wrongUsernameAndPassword"), context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);
         }
       } else {
         setState(() {
-          emptyTextFieldErrEmail = emptyTextFieldMsg;
-          emptyTextFieldErrPassword = emptyTextFieldMsg;
+          emptyTextFieldErrEmail = t.translate("global.warnings.emptyBox");
+          emptyTextFieldErrPassword = t.translate("global.warnings.emptyBox");
         });
       }
     }
@@ -149,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 30),
               Text(
-                "پارکینگ هوشمند من",
+                t.translate("appName"),
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   fontWeight: FontWeight.bold,
@@ -160,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 10),
               Text(
-                welcomeToInfo,
+                t.translate("login.loginToAccount"),
                 style: TextStyle(
                   fontFamily: mainFaFontFamily,
                   fontSize: 25,
@@ -169,13 +161,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 30),
               TextFields(
-                lblText: personalCodePlaceHolder,
+                lblText: t.translate("login.fields.personalCode"),
                 keyboardType: TextInputType.number,
                 textFieldIcon: Icons.account_circle,
                 textInputType: false,
                 readOnly: false,
-                errText:
-                    emptyTextFieldErrEmail == null ? null : emptyTextFieldMsg,
+                errText: emptyTextFieldErrEmail == null
+                    ? null
+                    : t.translate("global.warnings.emptyBox"),
                 onChangeText: (onChangeUsername) {
                   setState(() {
                     emptyTextFieldErrEmail = null;
@@ -185,13 +178,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 20),
               TextFields(
-                lblText: passwordTextFieldPlace,
+                lblText: t.translate("login.fields.password"),
                 maxLen: 20,
                 keyboardType: TextInputType.visiblePassword,
                 readOnly: false,
                 errText: emptyTextFieldErrPassword == null
                     ? null
-                    : emptyTextFieldMsg,
+                    : t.translate("global.warnings.emptyBox"),
                 textInputType: protectedPassword,
                 inputFormat: [
                   new WhitelistingTextInputFormatter(
@@ -220,22 +213,23 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 10),
                 child: FlatButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, "/forgetPassword"),
-                    child: Row(
-                      textDirection: TextDirection.rtl,
-                      children: [
-                        Icon(Icons.lock, color: mainSectionCTA),
-                        SizedBox(width: 10),
-                        Text(
-                          forgetPass,
-                          style: TextStyle(
-                              fontFamily: mainFaFontFamily,
-                              color: mainSectionCTA),
-                          textAlign: TextAlign.right,
-                        )
-                      ],
-                    )),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, "/forgetPassword"),
+                  child: Row(
+                    textDirection: TextDirection.rtl,
+                    children: [
+                      Icon(Icons.lock, color: mainSectionCTA),
+                      SizedBox(width: 10),
+                      Text(
+                        t.translate("login.forgetPassword"),
+                        style: TextStyle(
+                            fontFamily: mainFaFontFamily,
+                            color: mainSectionCTA),
+                        textAlign: TextAlign.right,
+                      )
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -248,30 +242,31 @@ class _LoginPageState extends State<LoginPage> {
           borderRadius: BorderRadius.circular(8.0),
           color: mainCTA,
           child: MaterialButton(
-              padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-              onPressed: () => !isLogin
-                  ? navigatedToDashboard(email: personalCode, pass: password)
-                  : null,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  isLogin
-                      ? CupertinoActivityIndicator()
-                      : Text(
-                          finalLoginText,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: loginBtnTxtColor,
-                              fontFamily: mainFaFontFamily,
-                              fontSize: btnSized,
-                              fontWeight: FontWeight.bold),
-                        ),
-                  Icon(
-                    Icons.chevron_right,
-                    color: Colors.white,
-                  )
-                ],
-              )),
+            padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            onPressed: () => !isLogin
+                ? navigatedToDashboard(email: personalCode, pass: password)
+                : null,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                isLogin
+                    ? CupertinoActivityIndicator()
+                    : Text(
+                        t.translate("global.actions.enterOrGo"),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: loginBtnTxtColor,
+                            fontFamily: mainFaFontFamily,
+                            fontSize: btnSized,
+                            fontWeight: FontWeight.bold),
+                      ),
+                Icon(
+                  Icons.chevron_right,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

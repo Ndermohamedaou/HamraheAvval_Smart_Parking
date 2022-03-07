@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:payausers/ConstFiles/constText.dart';
+import 'package:payausers/localization/app_localization.dart';
 
 class PlateStatusSpecification {
+  final context;
+  PlateStatusSpecification(this.context);
+
   Color getPlateStatusColor(status) {
     switch (status) {
       case -1:
@@ -17,16 +20,17 @@ class PlateStatusSpecification {
   }
 
   String getPlateStatusString(status) {
+    AppLocalizations t = AppLocalizations.of(context);
     switch (status) {
       case -1:
-        return ignoredPlateText;
+        return t.translate("global.info.ignoredPlateText");
       case 0:
-        return deniedPlateText;
+        return t.translate("global.info.deniedPlateText");
       case 1:
-        return acceptedPlateText;
+        return t.translate("global.info.acceptedPlateText");
         break;
       default:
-        return "خارج از انتظار";
+        return t.translate("global.default.unknown");
     }
   }
 }

@@ -7,10 +7,10 @@ import 'package:payausers/ExtractedWidgets/reserve_category_separator.dart';
 import 'package:payausers/ExtractedWidgets/server_calendar.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/calculate_next_week.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/server_base_calendar_model.dart';
 import 'package:payausers/spec/enum_state.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/controller/instantReserveController.dart';
@@ -67,6 +67,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     // Reserve model for fetch and Reserve list getter
     reserveWeeks = Provider.of<ReserveWeeks>(context);
@@ -149,8 +150,8 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
         rAlert(
             context: context,
             tAlert: AlertType.error,
-            title: serverCatchErrorTitle,
-            desc: serverCatchErrorDesc,
+            title: t.translate("global.errors.serverError"),
+            desc: t.translate("global.errors.connectionFailed"),
             onTapped: () =>
                 Navigator.popUntil(context, ModalRoute.withName("/dashboard")));
       }
@@ -175,8 +176,9 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
       // Preparing legal time to instant reserve.
 
       // checkLegalHour
-      String specificDay =
-          checkLegalHour(dateTimeNow.hour, 17) ? tomorrow : today;
+      String specificDay = checkLegalHour(dateTimeNow.hour, 17)
+          ? t.translate("calendarAndTime.tomorrow")
+          : t.translate("calendarAndTime.today");
 
       String calculateDay = checkLegalHour(dateTimeNow.hour, 17)
           ? (jDateTime + 1).formatter.dd
@@ -192,7 +194,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
           alertIcon: Icons.access_time_outlined,
           borderColor: Colors.blue,
           iconColor: Colors.blue,
-          title: instantReserveButtonText,
+          title: t.translate("reserves.reserveCategories.instantReserve"),
           desc: instantReserveDateResult,
           acceptPressed: () {
             instantReserveProcess();
@@ -211,7 +213,8 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
           backgroundColor: defaultAppBarColor,
           iconTheme: IconThemeData(color: Colors.black),
           centerTitle: true,
-          title: CustomText(reserveCategoriesTitle),
+          title: CustomText(
+              t.translate("reserves.reserveCategories.reserveCategoriesTitle")),
           actions: [
             IconButton(
               icon: Icon(
@@ -221,7 +224,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
                   Navigator.pushNamed(context, "/reserveGuideView"),
             ),
           ],
-          bottom: const TabBar(
+          bottom: TabBar(
               indicatorColor: Colors.orange,
               labelColor: Colors.black,
               labelStyle: TextStyle(
@@ -230,15 +233,18 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
               ),
               tabs: [
                 Tab(
-                    icon: Icon(Iconsax.notification_bing),
-                    text: "رزرو $instantReserveText"),
-                Tab(
-                  icon: Icon(Iconsax.calendar_tick),
-                  text: "رزرو $weeklyReserveText",
+                  icon: Icon(Iconsax.notification_bing),
+                  text:
+                      t.translate("reserves.reserveCategories.instantReserve"),
                 ),
                 Tab(
-                    icon: Icon(Iconsax.driver),
-                    text: "رزرو $staticReserveText"),
+                  icon: Icon(Iconsax.calendar_tick),
+                  text: t.translate("reserves.reserveCategories.weeklyReserve"),
+                ),
+                Tab(
+                  icon: Icon(Iconsax.driver),
+                  text: t.translate("reserves.reserveCategories.staticReserve"),
+                ),
               ]),
         ),
         body: TabBarView(children: [
@@ -266,7 +272,8 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
           children: [
             instantReserveModel.canInstantReserve == 1
                 ? FloatingButtonController(
-                    buttonText: instantReserveButtonText,
+                    buttonText: t
+                        .translate("reserves.reserveCategories.instantReserve"),
                     onPressed: () => instantReserve(),
                     width: 150,
                     height: 55,
@@ -280,7 +287,8 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
                     !reserveWeeks.finalReserveWeeks["canReserve"]
                 ? SizedBox()
                 : FloatingButtonController(
-                    buttonText: weeklyReserveButtonText,
+                    buttonText:
+                        t.translate("reserves.reserveCategories.weeklyReserve"),
                     onPressed: () {
                       persianServerCalendar.fetchCalendar;
                       reserveBottomSheet();

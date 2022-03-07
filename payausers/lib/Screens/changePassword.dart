@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:payausers/Model/ApiAccess.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/ExtractedWidgets/textField.dart';
 import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
 import 'package:payausers/controller/validator/textValidator.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -51,6 +51,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations t = AppLocalizations.of(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
     final localData = Provider.of<AvatarModel>(context);
     ApiAccess api = ApiAccess(localData.userToken);
@@ -64,10 +65,10 @@ class _ChangePassPageState extends State<ChangePassPage> {
         final result = await api.requestHandler(
             "${changePasswordEndpoint.route}?current_password=$currentPassword&new_password=$newPassword",
             changePasswordEndpoint.method, {});
-        print(result);
+        // print(result);
         return result;
       } catch (e) {
-        Toast.show(doesNotChange, context,
+        Toast.show(t.translate("global.actions.changeNotEffect"), context,
             duration: Toast.LENGTH_LONG,
             gravity: Toast.BOTTOM,
             textColor: Colors.white);
@@ -87,13 +88,18 @@ class _ChangePassPageState extends State<ChangePassPage> {
               final result = await sendPassword(curPass, newPass);
               if (result == "200") {
                 Navigator.pop(context);
-                Toast.show(changeSuccess, context,
+                Toast.show(
+                    t.translate("global.success.changePassword.changePassword"),
+                    context,
                     duration: Toast.LENGTH_LONG,
                     gravity: Toast.BOTTOM,
                     textColor: Colors.white);
               } else {
                 print(result);
-                Toast.show(failedToUpdatePass, context,
+                Toast.show(
+                    t.translate(
+                        "global.warnings.changePassword.wrongCurrentPassword"),
+                    context,
                     duration: Toast.LENGTH_LONG,
                     gravity: Toast.BOTTOM,
                     textColor: Colors.white);
@@ -101,30 +107,40 @@ class _ChangePassPageState extends State<ChangePassPage> {
             } else {
               showStatusInCaseOfFlush(
                   context: context,
-                  title: notMatchPassTitle,
-                  msg: notMatchPassDsc,
+                  title: t.translate(
+                      "global.warnings.confirmPassword.wrongInCorrespondCheckTitle"),
+                  msg: t.translate(
+                      "global.warnings.confirmPassword.wrongInCorrespondCheckDesc"),
                   icon: Icons.email,
                   iconColor: Colors.white);
             }
           } else {
             showStatusInCaseOfFlush(
                 context: context,
-                title: notValidPassText,
-                msg: passwordCheckerText,
+                title: t.translate(
+                    "global.warnings.confirmPassword.wrongPasswordCountTitle"),
+                msg: t.translate(
+                    "global.warnings.confirmPassword.wrongPasswordCountDesc"),
                 icon: Icons.email,
                 iconColor: Colors.white);
           }
         } else {
-          Toast.show(notEnouthLen, context,
+          Toast.show(
+              t.translate(
+                  "global.warnings.confirmPassword.wrongPasswordCountDesc"),
+              context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);
         }
       } else {
         setState(() {
-          emptyTextFieldErrCurPassword = emptyTextFieldMsg;
-          emptyTextFieldErrNewPassword = emptyTextFieldMsg;
-          emptyTextFieldErrConfNewPassword = emptyTextFieldMsg;
+          emptyTextFieldErrCurPassword =
+              t.translate("global.info.mustNotEmpty");
+          emptyTextFieldErrNewPassword =
+              t.translate("global.info.mustNotEmpty");
+          emptyTextFieldErrConfNewPassword =
+              t.translate("global.info.mustNotEmpty");
         });
       }
     }
@@ -137,7 +153,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
         ),
         centerTitle: true,
         title: Text(
-          changePassText,
+          t.translate("recoverPassword.appBar"),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
@@ -152,13 +168,13 @@ class _ChangePassPageState extends State<ChangePassPage> {
             children: [
               SizedBox(height: 20),
               TextFields(
-                lblText: curPass,
+                lblText: t.translate("recoverPassword.currentPassword"),
                 keyboardType: TextInputType.visiblePassword,
                 maxLen: 20,
                 readOnly: false,
                 errText: emptyTextFieldErrCurPassword == null
                     ? null
-                    : emptyTextFieldMsg,
+                    : t.translate("global.info.mustNotEmpty"),
                 textInputType: protectedPassword,
                 textFieldIcon:
                     currentPassword == "" ? Icons.vpn_key_outlined : showMePass,
@@ -183,12 +199,12 @@ class _ChangePassPageState extends State<ChangePassPage> {
               SizedBox(height: 10),
               TextFields(
                 keyboardType: TextInputType.visiblePassword,
-                lblText: newPass,
+                lblText: t.translate("confirmInfo.fields.newPassword"),
                 maxLen: 20,
                 readOnly: false,
                 errText: emptyTextFieldErrNewPassword == null
                     ? null
-                    : emptyTextFieldMsg,
+                    : t.translate("global.info.mustNotEmpty"),
                 textInputType: protectedPassword,
                 textFieldIcon:
                     newPassword == "" ? Icons.vpn_key_outlined : showMePass,
@@ -214,25 +230,26 @@ class _ChangePassPageState extends State<ChangePassPage> {
               newPassword != ""
                   ? validatePassword1
                       ? CustomTextErrorChecker(
-                          text: "گذرواژه مناسب است",
+                          text: t.translate(
+                              "global.success.changePassword.correctPassword"),
                           textColor: Colors.green,
                           icon: Icons.done,
                         )
                       : CustomTextErrorChecker(
-                          text:
-                              "گذرواژه مناسب نیست، گذرواژه جدید باید ترکیبی از حروف بزرگ و کوچک باشد و بیشتر از ۶ کاراکتر",
+                          text: t.translate(
+                              "global.warnings.confirmPassword.wrongPasswordCountDesc"),
                           textColor: Colors.red,
                           icon: Icons.close)
                   : SizedBox(),
               SizedBox(height: 10),
               TextFields(
                 keyboardType: TextInputType.visiblePassword,
-                lblText: confNewPass,
+                lblText: t.translate("confirmInfo.fields.confirmNewPassword"),
                 maxLen: 20,
                 readOnly: false,
                 errText: emptyTextFieldErrConfNewPassword == null
                     ? null
-                    : emptyTextFieldMsg,
+                    : t.translate("global.info.mustNotEmpty"),
                 textInputType: protectedPassword,
                 textFieldIcon: confirmNewPassword == ""
                     ? Icons.vpn_key_outlined
@@ -259,13 +276,14 @@ class _ChangePassPageState extends State<ChangePassPage> {
               confirmNewPassword != ""
                   ? validatePassword2
                       ? CustomTextErrorChecker(
-                          text: "گذرواژه مناسب است",
+                          text: t.translate(
+                              "global.success.changePassword.correctPassword"),
                           textColor: Colors.green,
                           icon: Icons.done,
                         )
                       : CustomTextErrorChecker(
-                          text:
-                              "گذرواژه مناسب نیست، تایید گذرواژه جدید باید ترکیبی از حروف بزرگ و کوچک باشد و بیشتر از ۶ کاراکتر",
+                          text: t.translate(
+                              "global.warnings.confirmPassword.wrongPasswordCountDesc"),
                           textColor: Colors.red,
                           icon: Icons.close,
                         )
@@ -288,7 +306,7 @@ class _ChangePassPageState extends State<ChangePassPage> {
                 newPass: newPassword,
                 confPass: confirmNewPassword),
             child: Text(
-              setNewPassText,
+              t.translate("global.info.submitPassword"),
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,

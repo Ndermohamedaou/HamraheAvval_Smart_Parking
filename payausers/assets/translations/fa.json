@@ -1,153 +1,371 @@
 {
-    "appName": "پارکینگ هوشمند من",
-    "welcomeAppIntro": "به اپلیکیشن پارکینگ هوشمند همراه اول خوش آمدید",
+  "appName": "پارکینگ هوشمند من",
+  "welcomeAppIntro": "به اپلیکیشن پارکینگ هوشمند همراه اول خوش آمدید",
+  "loginToAccount": "ورود به حساب کاربری",
+  "parkingType": {
+    "title": "انتخاب نوع پارکینگ",
+    "dropdownHintParkingType": "انتخاب نوع پارکینگ",
+    "dropdownHintParkingName": "پارکینگ مورد نظر خود را انتخاب کنید",
+    "submitParking": "ثبت پارکینگ مورد نظر",
+    "publicParking": "پارکینگ عمومی",
+    "organizationParking": "پارکینگ سازمانی"
+  },
+  "terms": {
+    "termsOfServiceTitle": "شرایط و ضوابط",
+    "acceptAllTerms": "تمام شرایط را می پذیرم",
+    "mustAcceptTerms": "الزام در پذیرش شرایط",
+    "termsLastUpdate": "آخرین بروزرسانی در"
+  },
+  "checkConnectionTryLater": "لطفا باری دیگر سعی کنید",
+  "connectionError": {
+    "connectionFailedTitle": "مشکل در برقرار ارتباط با سرویس دهنده",
+    "connectionFailed": "اتصال خود را به اینترنت بررسی کنید یا از خاموش بودن VPN خود اطمینان حاصل کنید"
+  },
+  "checkingAccess": {
+    "accessDenied": "شما بنا به دلایلی اجازه دسترسی به حساب خود ندارید",
+    "visitHR": "لطفا به مدیریت منابع انسانی مراجعه نمایید",
+    "exitFromApp": "خروج از برنامه"
+  },
+  "login": {
+    "welcome": "خوش آمدید",
     "loginToAccount": "ورود به حساب کاربری",
-    "parkingType": {
-        "title": "انتخاب نوع پارکینگ",
-        "dropdownHintParkingType": "انتخاب نوع پارکینگ",
-        "dropdownHintParkingName": "پارکینگ مورد نظر خود را انتخاب کنید",
-        "submitParking": "ثبت پارکینگ مورد نظر",
-        "publicParking": "پارکینگ عمومی",
-        "organizationParking": "پارکینگ سازمانی"
+    "fields": {
+      "personalCode": "کد پرسنلی",
+      "password": "گذرواژه"
     },
-    "terms": {
-        "termsOfServiceTitle": "شرایط و ضوابط",
-        "acceptAllTerms": "تمام شرایط را می پذیرم",
-        "mustAcceptTerms": "الزام در پذیرش شرایط",
-        "termsLastUpdate": "آخرین بروزرسانی در"
-    },
-    "login": {
-        "welcome": "خوش آمدید",
-        "accessDeniedTitle": "شما بنا به دلایلی اجازه دسترسی به حساب خود ندارید",
-        "accessDeniedDesc": "لطفا به مدیریت منابع انسانی مراجعه نمایید",
-        "accountEntrance": "ورود به حساب کاربری",
-        "personalCode": "کد پرسنلی",
-        "password": "گذرواژه",
-        "newPassword": "گذرواژه جدید",
-        "forgetPassword": "گذرواژه خود را فراموش کرده اید؟",
-        "mailAddress": "آدرس پست الکترونیکی",
-        "changeDefaultPassword": "گذرواژه پیش فرض خود را ویرایش کنید"
-    },
-    "otp": {
-        "otpCheckFailedTitle": "شکست در اعتبارسنجی کد امنیتی",
-        "otpCheckFailedDesc": "کد امنیتی شما اشتباه است یا منقضی شده است"
-    },
-    "dashboard": {},
-    "traffic": {},
-    "reserves": {
-        "reserveCategories": {
-            "reserveCategoriesTitle": "دسته بندی رزروها",
-            "weeklyReserve": "رزرو هفتگی",
-            "staticReserve": "رزرو ثابت",
-            "instantReserve": "رزرو لحظه ای"
-        },
-        "reserveType": "نوع رزرو"
-    },
-    "income": {
-        "entranceDateReserve": "تاریخ ورود",
-        "entranceTimeReserve": "ساعت ورود"
-    },
-    "buildingName": "ساختمان",
-    "slotNameText": "جایگاه",
-    "outcome": {
-        "exitDateReserve": "تاریخ خروج",
-        "exitTimeReserve": "ساعت خروج"
-    },
-    "plates": {
-        "inModalInfo": {
-            "departmentOfInternalAffairs": "اداره امور داخلی",
-            "departmentOfSecurity": "اداره نظارت بر حفاظت فیزیکی"
-        },
-        "addPlate": {
-            "selfPlate": {},
-            "familyPlate": {},
-            "otherPlate": {}
-        }
-    },
-    "settings": {},
-    "global": {
-        "errors": {
-            "invalidPassword": "گذرواژه نامعتبر",
-            "serverError": "مشکل در برقرار ارتباط با سرویس دهنده",
-            "connectionError": "از صحت ارتباط با شبکه اطمینان حاصل کنی",
-            "connectionFailed": "لطفا اتصال خود را به شبکه بررسی نمایید و سپس مجددا وارد شوید",
-            "checkConnectionAndTryLater": "لطفا اتصال خود را به شبکه بررسی نمایید و دوباره تلاش کنید",
-            "holidayNonSelect": "شما نمی توانید در روز تعطیل رزروی داشته باشید",
-            "canCancelInHoliday": "انتخاب این روز امکانپذیر نمی باشد",
-            "defectiveInfoTitle": "ورودی اطلاعات ناقص است",
-            "defectiveInfoDesc": "لطفا اطلاعات را با دقت وارد کنید",
-            "parkingTypeErrorTitle": "خطایی در وارد کردن اطلاعات نوع پارکینگ رخ داده است",
-            "parkingTypeErrorDesc": "لطفا اتصال خود را به شبکه بررسی نمایید و سپس مجددا پارکینگ مورد نظر خود را انتخاب کنید"
-        },
-        "warnings": {
-            "notMatchedPasswordTitle": "عدم مطابقت گذواژه جدید با تایید آن",
-            "notMatchedPasswordDesc": "گذرواژه جدید و تایید آن بایستی با یکدیگر یکسان باشند",
-            "wrongPersonalOrPassword": "کد پرسنلی یا گذرواژه اشتباه است",
-            "notMatch": "گذرواژه و تایید آن با یکدیگر یکسان نیستند.",
-            "fillAllFieldsTitle": "گزینه مرتبط انتخاب نشد",
-            "fillAllFieldsDesc": "لطفا گزینه مرتبط به انتخاب نوع پارکینگ و اسم آن را انتخاب نمایید"
-        },
-        "success": {},
-        "info": {
-            "checkPassword": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
-            "tryLater": "لطفا باری دیگر سعی کنید",
-            "mustNotEmpty": "فیلد نباید خالی باشد!",
-            "listConfirmTitle": "لغو رزرو ثابت",
-            "listConfirmDesc": "آیا از لغو رزرو ثابت خود برای روز انتخابی مطمئن هستید؟ این فرآیند غیر قابل بازگشت می باشد",
-            "organizationParkingUsed": "به علت استفاده از پارکینگ عمومی، قادر به رزرو پارکینگ نمی باشید."
-        },
-        "default": {
-            "unknown": "نامشخص"
-        },
-        "loading": {
-            "dataLoadingTextString": "در حال بارگیری اطلاعات"
-        },
-        "actions": {
-            "enterOrGo": "ورود",
-            "mustAcceptTerms": "الزام در پذیرش شرایط",
-            "confirmInfo": "تایید اطلاعات",
-            "cancel": "لغو",
-            "close": "بستن",
-            "open": "باز کردن",
-            "save": "ذخیره",
-            "edit": "ویرایش",
-            "delete": "حذف",
-            "confirm": "تایید",
-            "pickReserveDay": "انتخاب تاریخ رزرو",
-            "cancelStaticReserveDays": "لغو رزرو ثابت"
-        }
-    },
-    "bottomNavigation": {
-        "dashboard": "داشبورد",
-        "traffic": "ترددها",
-        "reserve": "رزروها",
-        "plates": "پلاک ها",
-        "settings": "تنظیمات"
-    },
-    "appBar": {
-        "login": "ورود به حساب"
-    },
-    "navigation": {
-        "next": "بعدی",
-        "previous": "قبلی"
-    },
-    "systemSettings": {
-        "darkTheme": "حالت تاریک یا روشن",
-        "selectTheme": "یک حالت را انتخاب کنید"
-    },
-    "calendarAndTime": {
-        "calendar": "تقویم",
-        "pickTime": "انتخاب زمان",
-        "week": {
-            "sat": "شنبه",
-            "sun": "یکشنبه",
-            "mon": "دوشنبه",
-            "tues": "سه شنبه",
-            "wed": "چهارشنبه",
-            "thurs": "پنج شنبه",
-            "fri": "جمعه"
-        },
-        "holiday": "روز تعطیل",
-        "exitFromApp": "خروج از برنامه"
+    "accessDeniedTitle": "شما بنا به دلایلی اجازه دسترسی به حساب خود ندارید",
+    "accessDeniedDesc": "لطفا به مدیریت منابع انسانی مراجعه نمایید",
+    "accountEntrance": "ورود به حساب کاربری",
+    "personalCode": "کد پرسنلی",
+    "password": "گذرواژه",
+    "newPassword": "گذرواژه جدید",
+    "forgetPassword": "گذرواژه خود را فراموش کرده اید؟",
+    "mailAddress": "آدرس پست الکترونیکی",
+    "changeDefaultPassword": "گذرواژه پیش فرض خود را ویرایش کنید"
+  },
+  "otp": {
+    "otpCheckFailedTitle": "شکست در اعتبارسنجی کد امنیتی",
+    "otpCheckFailedDesc": "کد امنیتی شما اشتباه است یا منقضی شده است",
+    "wrongOTPTitle": "خطا در کد وارد شده",
+    "wrongOTPDesc": "لطفا از صحت کد اطمینان حاصل کنید یا دوباره اقدام کنید"
+  },
+  "confirmInfo": {
+    "completeInitInfo": "تکمیل اطلاعات",
+    "changeDefaultPassword": "ویرایش گذرواژه پیش فرض خود",
+    "fields": {
+      "newPassword": "گذرواژه جدید",
+      "confirmNewPassword": "تایید گذرواژه جدید"
     }
+  },
+  "recoverPassword": {
+    "appBar": "ویرایش گذرواژه",
+    "recoverPasswordAppBar": "بازنشانی گذرواژه حساب شما",
+    "submitChanges": "تایید ویرایش گذرواژه",
+    "currentPassword": "گذرواژه جاری",
+    "wrongPersonalCode": "کد پرسنلی اشتباه است",
+    "wrongPersonalCodeInfo": "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
+    "emptyPersonalCode": "فیلد کدپرسنلی نمیتواند خالی رها شود"
+  },
+  "dashboard": {
+    "bottomNavigationName": "داشبورد",
+    "bottomSheetData": {
+      "errorInLoad": "نیم صفحه مشاهده وضعیت با شکست رو به رو شد",
+      "errorInLoadMore": "نیم صفحه قادر به باز شدن نیست زیرا باید اطلاعات را از سرویس دهنده دریافت کند، مشکل در برقراری ارتباط"
+    },
+    "inBottomSheetButton": "مشاهده جزئیات",
+    "welcome": "خوش آمدید",
+    "score": "امتیاز",
+    "trafficInBottomSheet": "ترددها",
+    "trafficInBottomSheetCount": "تعداد تردد های شما",
+    "reservesInBottomSheet": "رزروها",
+    "reserveInAWeek": "تعداد رزروهای باقی مانده هفته",
+    "plateInBottomSheet": "پلاک ها",
+    "submittedPlateInSystem": "تعداد پلاک های ثبت شده در سامانه",
+    "slotInBottomSheet": "جایگاه",
+    "slotNotConnectToNetwork": "عدم اتصال به شبکه",
+    "checkConnectionOfSlot": "لطفا ارتباط خود را با شبکه اینترنت بررسی کنید",
+    "currentlySlot": "جایگاه فعلی وسیله نقلیه شما",
+    "suggestedSlides": "پیشنهادات"
+  },
+  "traffic": {
+    "bottomNavigationName": "ترددها",
+    "trafficList": "لیست ترددهای شما"
+  },
+  "startWeek": "لیست رزرو هفتگی-تاریخ شروع هفته از",
+  "dateCatch": "بدون تاریخ",
+  "reserves": {
+    "bottomNavigationName": "رزروها",
+    "guide": {
+      "guideAppBar": "راهنمای وضعیت رزرو شما",
+      "colorIndicatorDescription": "معنای هر رنگ در قسمت رزرو های شما چیست؟",
+      "greenColorTitle": "دایره سبز",
+      "greenColorDesc": "رنگ سبز به معنای تایید ررزو شما از سمت سیستم می‌‌باشد.",
+      "redColorTitle": "دایره قرمز",
+      "redColorDesc": "رنگ قرمز به معنای رد رزرو شما از سمت سیستم می‌باشد.",
+      "orangeColorTitle": "دایره نارنجی",
+      "orangeColorDesc": "رنگ نارنجی به معنای آن است که رزرو شما در حال بررسی و در انتظار تایید سامانه می‌باشد.",
+      "greyColorTitle": "دایره خاکستری",
+      "greyColorDesc": "رنگ خاکستری به معنای آن است که رزرو شما لغو شده است.",
+      "blueColorTitle": "دایره آبی",
+      "blueColorDesc": "رنگ آبی به معنای آن است که شما تردد خود را انجام داده اید.",
+      "brownColorTitle": "دایره قهوه ای",
+      "brownColorDesc": "این رنگ به معنای آن است که از پارکینگ رزرو شده در روز مشخص شده استفاده نشده است و شامل کسر امتیاز خواهد شد"
+    },
+    "reservedDays": "لیست روز های رزرو شده",
+    "reserveCategories": {
+      "reserveCategoriesTitle": "دسته بندی رزروها",
+      "weeklyReserve": "رزرو هفتگی",
+      "staticReserve": "رزرو ثابت",
+      "instantReserve": "رزرو لحظه ای",
+      "weekly": "هفتگی",
+      "static": "ثابت",
+      "instant": "رزرو لحظه ای",
+      "unknown": "نامشخص"
+    },
+    "reserveType": "نوع رزرو",
+    "reserveStatus": {
+      "cancelStaticReserve": "رزرو ثابت لغو شده",
+      "parkingNotUsed": "عدم استفاده از پارکنیگ",
+      "canceledReserve": "رزرو لغو شده",
+      "ignoredReserveStatus": "رزرو رد شده",
+      "process ": "در حال پردازش",
+      "admitReserveStatus": "رزرو تایید شده",
+      "performTrafficReserveStatus": "تردد صورت گرفته"
+    },
+    "deleteReserveTitle": "حذف رزرو",
+    "deleteReserveDesc": "آیا از حذف رزرو خود مطمئن هستید؟"
+  },
+  "income": {
+    "entranceDateReserve": "تاریخ ورود",
+    "entranceTimeReserve": "ساعت ورود"
+  },
+  "buildingName": "ساختمان",
+  "slotNameText": "جایگاه",
+  "outcome": {
+    "exitDateReserve": "تاریخ خروج",
+    "exitTimeReserve": "ساعت خروج"
+  },
+  "plates": {
+    "bottomNavigationName": "پلاک ها",
+    "appBar": "پلاک ها",
+    "inModalInfo": {
+      "modalTitle": "پلاک شما در سامانه",
+      "plateStatusInSystem": "وضعیت جاری پلاک شما در سامانه",
+      "plateOveralStatus": "وضعیت کلی پلاک",
+      "departmentOfInternalAffairs": "اداره امور داخلی",
+      "departmentOfSecurity": "اداره نظارت بر حفاظت فیزیکی"
+    },
+    "mediaPicker": {
+      "imagePickCanceledTitle": "عدم انتخاب تصویر",
+      "imagePickCanceledDesc": "تصویر کارت را انتخاب کنید و یا با دوربین دسنگاه تصویر برداری کنید"
+    },
+    "addPlate": {
+      "addPlateGuide": "راهنمای افزودن پلاک در سامانه",
+      "addPlateNote": "کاربر گرامی، لطفا یکی از گزینه های زیر را جهت افزودن پلاک مورد نظر به سامانه، انتخاب کنید",
+      "uploadDocumentAttention1": "تا آنجایی که میتوانید سعی کنید تصویرتان را به صورت کامل از سند خواسته شده بگیرید",
+      "addPlateErrorTitle": "پلاک وارد شده صحیح نمی باشد.",
+      "addPlateErrorDesc": "لطفا از صحت پلاک وارد شده اطمینان حاصل نمایید.",
+      "enterPlateNote": "کاربر گرامی، پلاک مورد نظر خود را وارد کرده و سپس با فشردن دکمه بعدی به مرحله بعد خواهید رفت",
+      "addSuccessTitle": "پلاک شما با موفقیت در سامانه ثبت شد",
+      "addPlateMoreThanNum": "خطا در تعداد زیاد پلاک",
+      "addPlateMoreThanNumDesc": "شما فقط می توانید ۲ پلاک در سامانه ثبت کنید",
+      "repeatedPlateTitle": "پلاک تکراری",
+      "repeatedPlateDesc": "شما نمی توانید پلاک تکراری وارد کنید",
+      "addPlateServerErrorTitle": "عملیات ثبت پلاک شما با شکست مواجه شد",
+      "addPlateServerErrorDesc": "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید",
+      "invalidPlateTitle": "پلاک صحیح نمی باشد",
+      "invalidPlateDesc": "لطفا از صحت پلاک وارد شده اطمینان حاصل نمایید",
+      "completeInfoTitle": "اطلاعات خود را تکمیل کنید",
+      "completeInfoDesc": "اطلاعات خود را تکمیل کنید و سپس اقدام به ارسال کنید",
+      "documentMustNotNullTitle": "سند شما خالی است",
+      "documentMustNotNullDesc": "برای وارد کردن سند باید تصویر آن را بارگذاری کنید.",
+      "addPlateNumAppBar": "شماره پلاک را وارد کنید",
+      "selfPlate": {
+        "title": "پلاک برای خودم است",
+        "desc": "پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت خودرو در سامانه بارگزاری نمایید",
+        "carCardAppBar": "تصویر کارت ماشین یا برگ سبز"
+      },
+      "familyPlate": {
+        "appBar": {
+          "nationalCardAppBar": "تصویر شناسنامه کاربر",
+          "ownerCarCardAppBar": "کارت ماشین و صفحه دوم شناسنامه"
+        },
+        "title": "پلاک برای افراد درجه یک است",
+        "desc": "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر شناسنامه پدر، مادر، همسر و یا فرزندان و کارت وسیله نقلیه، برای سامانه ارسال کنید",
+        "plateAddedSuccessfulDesc": "پلاک و اسناد شما ثبت شد و منتظر اعلان از طرف سامانه باشید",
+        "attention": "لطفا تصویر کارت خودرو یا برگه سبز خودرو را در کنار صفحه دوم شناسنامه خود قرار داده و تصویر آن را ارسال کنید "
+      },
+      "otherPlate": {
+        "title": "پلاک برای سایر افراد است",
+        "desc": "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را در سامانه وارد کرده و به صورت حضوری مراجعه نمایید تا فرایند ثبت پلاک شما با موفقیت انجام شود",
+        "successfulOtherPlateAddDesc": "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید"
+      }
+    },
+    "deletePlateTitle": "حذف پلاک",
+    "deletePlateDesc": "آیا از حذف پلاک خود مطمئن هستید؟"
+  },
+  "settings": {
+    "bottomNavigationName": "تنظیمات",
+    "avatarChangedTitle": "عملیات ویرایش تصویر کاربر موفقیت آمیز بود",
+    "avatarChangedDesc": "آواتار شما تا چند ثانیه دیگر ثبت خواهد شد",
+    "settingNewAvatar": "تنظیم تصویر پروفایل",
+    "readOnlyFields": {
+      "userFullName": "نام کاربر",
+      "email": "نشانی پست الکترونیکی",
+      "personalCode": "شناسه پرسنلی"
+    }
+  },
+  "global": {
+    "errors": {
+      "invalidPassword": "گذرواژه نامعتبر",
+      "passwordCheckerText": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
+      "passwordsNotMatchTitle": "گذرواژه های وارد شده با هم مطابقت ندارند",
+      "passwordsNotMatchDesc": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
+      "serverConnectionConfused": "عدم برقراری ارتباط با سرویس دهنده",
+      "serverError": "مشکل در برقرار ارتباط با سرویس دهنده",
+      "connectionError": "از صحت ارتباط با شبکه اطمینان حاصل کنید",
+      "connectionFailed": "لطفا اتصال خود را به شبکه بررسی نمایید و سپس مجددا وارد شوید",
+      "checkConnectionAndTryLater": "لطفا اتصال خود را به شبکه بررسی نمایید و دوباره تلاش کنید",
+      "holidayNonSelect": "شما نمی توانید در روز تعطیل رزروی داشته باشید",
+      "canCancelInHoliday": "انتخاب این روز امکانپذیر نمی باشد",
+      "defectiveInfoTitle": "ورودی اطلاعات ناقص است",
+      "defectiveInfoDesc": "لطفا اطلاعات را با دقت وارد کنید",
+      "parkingTypeErrorTitle": "خطایی در وارد کردن اطلاعات نوع پارکینگ رخ داده است",
+      "parkingTypeErrorDesc": "لطفا اتصال خود را به شبکه بررسی نمایید و سپس مجددا پارکینگ مورد نظر خود را انتخاب کنید",
+      "wrongUsernameAndPassword": "شماره پرسنلی یا گذرواژه اشتباه است",
+      "errorInLogin": "خطا در ورود",
+      "errorInDelete": "عملیات با شکست مواجه شد",
+      "errorInDeletePlate": "حذف پلاک شما با خطا مواجه شده است",
+      "system": {
+        "dataCantSave": "مشکل سیستمی رخ داده است. داده ها ذخیره نشده اند"
+      }
+    },
+    "warnings": {
+      "notMatchedPasswordTitle": "عدم مطابقت گذواژه جدید با تایید آن",
+      "notMatchedPasswordDesc": "گذرواژه جدید و تایید آن بایستی با یکدیگر یکسان باشند",
+      "wrongPersonalOrPassword": "کد پرسنلی یا گذرواژه اشتباه است",
+      "notMatch": "گذرواژه و تایید آن با یکدیگر یکسان نیستند.",
+      "fillAllFieldsTitle": "گزینه مرتبط انتخاب نشد",
+      "fillAllFieldsDesc": "لطفا گزینه مرتبط به انتخاب نوع پارکینگ و اسم آن را انتخاب نمایید",
+      "emptyBox": "فیلد مورد نظر را پر کنید",
+      "wrongPassword": "گذرواژه نامعتبر",
+      "wrongPassowrdNote": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
+      "confirmPassword": {
+        "wrongInCorrespondCheckTitle": "خطا در تطابق گذرواژه",
+        "wrongInCorrespondCheckDesc": "گذارواژه جدید بایستی با تکرار آن یکسان باشد",
+        "wrongPasswordCountTitle": "خطا در اندازه و اعتماد گذرواژه",
+        "wrongPasswordCountDesc": "گذرواژه شما بایستی بیشتر از ۶ کاراکتر باشد"
+      },
+      "changePassword": {
+        "wrongCurrentPassword": "گذرواژه جاری اشتباه است"
+      }
+    },
+    "success": {
+      "delete": {
+        "deleted": "عملیات حذف موفقیت آمیز بود",
+        "deletePlate": "پلاک موردنظر شما با موفقیت حذف شد"
+      },
+      "recoverPassowrd": {
+        "recoverPasswordTitle": "عملیات ویرایش گذرواژه شما موفیت آمیز بود",
+        "recoverPasswordDesc": "گذرواژه شما با موفقیت تغییر کرد، لطفا دوباره اقدام به ورود کنید"
+      },
+      "changePassword": {
+        "correctPassword": "گذرواژه مناسب است",
+        "passwordChanged": "گذرواژه جدید شما با موفقیت ثبت شد"
+      }
+    },
+    "info": {
+      "checkPassword": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
+      "tryLater": "لطفا باری دیگر سعی کنید",
+      "mustNotEmpty": "فیلد نباید خالی باشد!",
+      "enterPassword": "لطفا گذرواژه مورد نظر را وارد نمایید",
+      "listConfirmTitle": "لغو رزرو ثابت",
+      "listConfirmDesc": "آیا از لغو رزرو ثابت خود برای روز انتخابی مطمئن هستید؟ این فرآیند غیر قابل بازگشت می باشد",
+      "organizationParkingUsed": "به علت استفاده از پارکینگ عمومی، قادر به رزرو پارکینگ نمی باشید.",
+      "imperfectInfoEntryTitle": "ورودی اطلاعات برای ثبت ناقص است",
+      "imperfectInfoEntryDesc": "شما نمی توانید فیلد های مهمی که در این صفحه وجود دارد را خالی رها کنید",
+      "holidaySelectTitle": "روز تعطیل",
+      "holidaySelectDesc": "شما نمی توانید در روز تعطیل رزروی داشته باشید",
+      "acceptedPlateText": "تایید شده",
+      "ignoredPlateText": "رد شده",
+      "deniedPlateText": "تایید نشده",
+      "submitPassword": "ثبت گذرواژه جدید"
+    },
+    "default": {
+      "unknown": "نامشخص"
+    },
+    "loading": {
+      "dataLoadingTextString": "در حال بارگیری اطلاعات"
+    },
+    "actions": {
+      "enterOrGo": "ورود",
+      "mustAcceptTerms": "الزام در پذیرش شرایط",
+      "confirmInfo": "تایید اطلاعات",
+      "wait": "انتظار",
+      "cancel": "لغو",
+      "close": "بستن",
+      "open": "باز کردن",
+      "save": "ذخیره",
+      "edit": "ویرایش",
+      "delete": "حذف",
+      "confirm": "تایید",
+      "yes": "بلی",
+      "no": "خیر",
+      "submitChanges": "ثبت ویرایش",
+      "pickReserveDay": "انتخاب تاریخ رزرو",
+      "cancelStaticReserveDays": "لغو رزرو ثابت",
+      "imageCapture": "دوربین",
+      "galleryPick": "آلبوم",
+      "changeNotEffect": "تغییری صورت نگرفت"
+    }
+  },
+  "bottomNavigation": {
+    "dashboard": "داشبورد",
+    "traffic": "ترددها",
+    "reserve": "رزروها",
+    "plates": "پلاک ها",
+    "settings": "تنظیمات"
+  },
+  "appBar": {
+    "login": "ورود به حساب"
+  },
+  "navigation": {
+    "next": "بعدی",
+    "previous": "قبلی"
+  },
+  "systemSettings": {
+    "darkTheme": "حالت تاریک یا روشن",
+    "selectTheme": "یک حالت را انتخاب کنید",
+    "biometric": "تنظیم بایومتریک",
+    "termsOfService": "قوانین و مقررات"
+  },
+  "calendarAndTime": {
+    "cancelReserve": "کاربر گرامی، جهت لغو رزرو جایگاه ثابت خود، روز های مورد نظر را انتخاب و سپس روی دکمه تایید کلیک کنید",
+    "cancelDaysConfirmTitle": "لغو رزرو جایگاه ثابت",
+    "cancelDaysConfirmDesc": "آیا از انتخاب روزهای مورد نظر زیر اطمینان دارید؟ این فرآیند غیر قابل بازگشت می باشد",
+    "emptyCancelDaysTitle": "عدم انتخاب روز",
+    "emptyCancelDaysDesc": "شما روزی را برای لغو کردن آن انتخاب نکرده اید",
+    "calendar": "تقویم",
+    "pickTime": "انتخاب زمان",
+    "today": "امروز",
+    "tomorrow": "فردا",
+    "week": {
+      "sat": "شنبه",
+      "sun": "یکشنبه",
+      "mon": "دوشنبه",
+      "tues": "سه شنبه",
+      "wed": "چهارشنبه",
+      "thurs": "پنج شنبه",
+      "fri": "جمعه"
+    },
+    "holiday": "روز تعطیل",
+    "exitFromApp": "خروج از برنامه"
+  },
+  "logout": {
+    "logoutButton": "خروج از حساب کاربری خود",
+    "logoutTitle": "خروج از حساب",
+    "logoutDesc": "آیا مایل به خروج از حساب کاربری خود هستید؟"
+  },
+  "developedBy": "توسعه داده شده توسط صنایع ارتباطی پایا پلتفرم",
+  "version": "0.1.6"
 }

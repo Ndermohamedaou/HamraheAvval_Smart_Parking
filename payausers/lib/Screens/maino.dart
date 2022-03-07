@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:payausers/Model/ThemeColor.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
 import 'package:payausers/Screens/Tabs/reserve_categories.dart';
 import 'package:payausers/controller/flushbarStatus.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/avatar_model.dart';
 import 'package:payausers/providers/instant_reserve_model.dart';
 import 'package:payausers/providers/plate_model.dart';
@@ -55,8 +55,8 @@ class _MainoState extends State<Maino> {
   String _connectionStatus = 'Un';
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
   Timer _onRefreshData;
+  AppLocalizations t;
 
   @override
   void initState() {
@@ -112,8 +112,8 @@ class _MainoState extends State<Maino> {
       case ConnectivityResult.none:
         showStatusInCaseOfFlush(
             context: context,
-            title: connectionFailedTitle,
-            msg: connectionFailed,
+            title: t.translate("connectionError.connectionFailedTitle"),
+            msg: t.translate("connectionError.connectionFailed"),
             iconColor: Colors.white,
             icon: Icons.wifi_off_rounded);
         break;
@@ -149,6 +149,7 @@ class _MainoState extends State<Maino> {
 
   @override
   Widget build(BuildContext context) {
+    t = AppLocalizations.of(context);
     // Getting instance from Providers
     themeChange = Provider.of<DarkThemeProvider>(context);
     reservesModel = Provider.of<ReservesModel>(context);
@@ -240,13 +241,13 @@ class _MainoState extends State<Maino> {
                 },
                 items: [
                   BottomNavigationBarItem(
-                    title: Text(dashboardText,
+                    title: Text(t.translate("dashboard.bottomNavigationName"),
                         style: TextStyle(fontFamily: mainFaFontFamily)),
                     icon: Icon(Iconsax.home),
                   ),
                   BottomNavigationBarItem(
                     title: Text(
-                      transactionText,
+                      t.translate("traffic.bottomNavigationName"),
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
                     icon: Icon(Iconsax.car),
@@ -254,7 +255,7 @@ class _MainoState extends State<Maino> {
                   BottomNavigationBarItem(
                     title: Container(
                       child: Text(
-                        reserveText,
+                        t.translate("reserves.bottomNavigationName"),
                         style: TextStyle(fontFamily: mainFaFontFamily),
                       ),
                     ),
@@ -273,7 +274,7 @@ class _MainoState extends State<Maino> {
                   ),
                   BottomNavigationBarItem(
                     title: Text(
-                      myPlateText,
+                      t.translate("plates.bottomNavigationName"),
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
                     icon: themeChange.userPlateNumNotif == 0
@@ -290,7 +291,7 @@ class _MainoState extends State<Maino> {
                   ),
                   BottomNavigationBarItem(
                     title: Text(
-                      settingsText,
+                      t.translate("settings.bottomNavigationName"),
                       style: TextStyle(fontFamily: mainFaFontFamily),
                     ),
                     icon: Icon(Iconsax.setting_5),
