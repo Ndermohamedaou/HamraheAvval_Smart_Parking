@@ -4,6 +4,10 @@ import 'package:payausers/ConstFiles/constText.dart';
 class ReserveStatusSpecification {
   Color getReserveStatusColor(status) {
     switch (status) {
+      case -6:
+        return Colors.grey;
+      case -3:
+        return Colors.brown;
       case -2:
         return Colors.grey;
       case -1:
@@ -21,6 +25,10 @@ class ReserveStatusSpecification {
 
   String getReserveStatusString(status) {
     switch (status) {
+      case -6:
+        return "رزرو ثابت لغو شده";
+      case -3:
+        return "عدم استفاده از پارکنیگ";
       case -2:
         return cancelReserveStatus;
       case -1:

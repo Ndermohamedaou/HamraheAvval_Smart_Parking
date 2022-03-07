@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -32,9 +34,27 @@ class Dashboard extends StatefulWidget {
 }
 
 dynamic themeChange;
+StaffInfoModel staffInfoModel;
+Timer _onRefreshStaffInfo;
 
 class _DashboardState extends State<Dashboard>
     with AutomaticKeepAliveClientMixin<Dashboard> {
+  @override
+  void initState() {
+    _onRefreshStaffInfo = Timer.periodic(Duration(seconds: 30), (timer) {
+      staffInfoModel.fetchStaffInfo;
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _onRefreshStaffInfo.cancel();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -49,7 +69,7 @@ class _DashboardState extends State<Dashboard>
     // Getting user Avatar data from provider model
     final avatarModel = Provider.of<AvatarModel>(context);
     // Getting Score and car location of user
-    final staffInfoModel = Provider.of<StaffInfoModel>(context);
+    staffInfoModel = Provider.of<StaffInfoModel>(context);
 
     LogLoading logLoading = LogLoading();
 

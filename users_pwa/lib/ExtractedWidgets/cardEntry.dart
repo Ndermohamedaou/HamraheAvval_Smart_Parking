@@ -51,7 +51,7 @@ class CardEntry extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(
-                top: 20.0.w, bottom: 20.0.w, right: 10.0.w, left: 10.0.w),
+                top: 10.0.w, bottom: 10.0.w, right: 10.0.w, left: 10.0.w),
             padding: EdgeInsets.all(10.0),
             width: double.infinity,
             height: 200.0,
@@ -84,7 +84,6 @@ class CardEntry extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 2.0.w),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10),
             child: Text(

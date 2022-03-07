@@ -22,7 +22,7 @@ class _AddPlateGuideViewState extends State<AddPlateGuideView> {
         backgroundColor: defaultAppBarColor,
         centerTitle: true,
         title: Text(
-          guideViewAppBarTitle,
+          parkingGuideViewAppBar,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,

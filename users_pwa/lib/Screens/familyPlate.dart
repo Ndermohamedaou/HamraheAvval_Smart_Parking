@@ -267,6 +267,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               imgShow: ownerCarCard,
               albumTapped: () => gettingOwnerCarCard(),
               cameraTapped: () => gettingOwnerCarCard(),
+              attentionText: attentionForNumberOneFamily,
             ),
           ],
         ),

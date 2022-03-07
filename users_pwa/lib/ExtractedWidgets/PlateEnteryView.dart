@@ -58,7 +58,7 @@ class PlateEntry extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.only(
-                  top: 20.0.w, bottom: 20.0.w, right: 10.0.w, left: 10.0.w),
+                  top: 10.0.w, bottom: 10.0.w, right: 10.0.w, left: 10.0.w),
               padding: EdgeInsets.all(10.0),
               width: double.infinity,
               height: 200.0,
@@ -71,7 +71,6 @@ class PlateEntry extends StatelessWidget {
                 width: 40.0.w,
               ),
             ),
-            SizedBox(height: 15.0.w),
             PlateEditor(
               plate0: plate0,
               plate0Adder: plate0Adder,

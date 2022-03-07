@@ -218,6 +218,7 @@ const reserveWasCanceled = "رزرو لغو شده است";
 const chPass = "تغییر گذرواژه";
 
 // Adding Plate section texts
+const parkingGuideViewAppBar = "راهنمای افزودن پلاک";
 const guideViewAppBarTitle = "راهنمای وضعیت رزرو شما";
 const introSec1Title = "اضافه کردن پلاک به همراه اسنادخواسته شده";
 const introSec1Subtitle =

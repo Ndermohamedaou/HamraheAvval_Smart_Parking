@@ -8,6 +8,7 @@ import 'package:payausers/Model/ThemeColor.dart';
 import 'package:payausers/controller/calculate_next_week.dart';
 import 'package:payausers/providers/plate_model.dart';
 import 'package:payausers/providers/server_base_calendar_model.dart';
+import 'package:payausers/providers/staffInfo_model.dart';
 import 'package:payausers/spec/enum_state.dart';
 import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
@@ -52,6 +53,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
       // Update data from the Provider
       reservesByWeek.fetchReserveWeeks;
       reserveWeeks.fetchReserveWeeks;
+      reservesModel.fetchReservesData;
     });
 
     super.initState();
@@ -75,6 +77,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
     instantReserveModel = Provider.of<InstantReserveModel>(context);
     localData = Provider.of<AvatarModel>(context);
     final persianServerCalendar = Provider.of<ServerBaseCalendarModel>(context);
+    StaffInfoModel staffInfoModel = Provider.of<StaffInfoModel>(context);
 
     // Prepared reserve list from the API
     // TODO: Fix this handy revariable after build
@@ -127,6 +130,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
           reserveWeeks.fetchReserveWeeks;
           // Fetch for disappear of material button
           instantReserveModel.fetchInstantReserve;
+          staffInfoModel.fetchStaffInfo;
 
           rAlert(
               context: context,
@@ -184,7 +188,7 @@ class _ReserveCategoriesState extends State<ReserveCategories> {
       String legalDate =
           "$calculateDay/${formattedDateTime.mN}/${formattedDateTime.yyyy}";
       String instantReserveDateResult =
-          "آیا مایل به رزرو لحظه ای پارکینگ برای $specificDay ساعت $legalDate می باشید؟";
+          "آیا مایل به رزرو لحظه ای پارکینگ برای $specificDay تاریخ $legalDate می باشید؟";
 
       customAlert(
           context: context,
