@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/ApiAccess.dart';
-import 'package:payausers/ConstFiles/constText.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/controller/alert.dart';
 import 'package:payausers/localization/app_localization.dart';
