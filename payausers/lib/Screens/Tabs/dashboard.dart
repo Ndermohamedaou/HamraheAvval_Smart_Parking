@@ -514,19 +514,19 @@ class _DashboardState extends State<Dashboard>
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          SizedBox(height: 2.0.h),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(
-                              t.translate("dashboard.suggestedSlides"),
-                              style: TextStyle(
-                                fontFamily: mainFaFontFamily,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
+                          // SizedBox(height: 2.0.h),
+                          // Container(
+                          //   alignment: Alignment.centerRight,
+                          //   margin: EdgeInsets.symmetric(horizontal: 20),
+                          //   child: Text(
+                          //     t.translate("dashboard.suggestedSlides"),
+                          //     style: TextStyle(
+                          //       fontFamily: mainFaFontFamily,
+                          //       fontSize: 24.0,
+                          //       fontWeight: FontWeight.w500,
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(height: 1.0.h),
                           Builder(builder: (BuildContext context) {
                             if (staffInfoModel.staffLoadState ==
