@@ -299,17 +299,13 @@ class _MinePlateViewState extends State<MinePlateView> {
               plate3: plate3,
               plate3Adder: (value) => setState(() => plate3 = value),
             ),
-            // CardEntry(
-            //   customIcon: "assets/images/nationalCardIcon.png",
-            //   imgShow: ncCard,
-            //   albumTapped: () => gettingNationalCard(ImageSource.gallery),
-            //   cameraTapped: () => gettingNationalCard(ImageSource.camera),
-            // ),
             CardEntry(
               customIcon: "assets/images/paper1.png",
               imgShow: carCard,
               albumTapped: () => gettingCarCard(ImageSource.gallery),
               cameraTapped: () => gettingCarCard(ImageSource.camera),
+              attentionText:
+                  t.translate("plates.addPlate.selfPlate.carCardAttention"),
             ),
           ],
         ),

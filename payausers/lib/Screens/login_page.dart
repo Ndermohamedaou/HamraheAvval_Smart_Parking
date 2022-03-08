@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -85,8 +87,6 @@ class _LoginPageState extends State<LoginPage> {
               "${loginEndpoint.route}?personal_code=$email&password=$pass&DeviceToken=$devToken",
               loginEndpoint.method, {});
 
-          // print(getLoginStatus);
-
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
             if (getLoginStatus["first_visit"]) {
@@ -95,24 +95,23 @@ class _LoginPageState extends State<LoginPage> {
               setState(() => isLogin = false);
             } else {
               setState(() => isLogin = false);
-              // print("Your token: ${getLoginStatus["token"]}");
-
               gettingReadyAccount.getUserAccInfo(
                   getLoginStatus['token'], context);
               localData.refreshToken = getLoginStatus['token'];
             }
           } else {
-            Toast.show(t.translate("global.errors.errorInLogin"), context,
+            Toast.show(
+                "${getLoginStatus["error"]["title"]} ${getLoginStatus["error"]["desc"]}",
+                context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
             setState(() => isLogin = false);
           }
         } catch (e) {
+          print(e);
           setState(() => isLogin = false);
-          // print("Error in self login ==> $e");
-          Toast.show(
-              t.translate("global.errors.wrongUsernameAndPassword"), context,
+          Toast.show(t.translate("global.errors.serverError"), context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);

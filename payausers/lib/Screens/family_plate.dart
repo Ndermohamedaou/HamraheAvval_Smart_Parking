@@ -325,14 +325,16 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               imgShow: ncCard,
               albumTapped: () => gettingNationalCard(ImageSource.gallery),
               cameraTapped: () => gettingNationalCard(ImageSource.camera),
+              attentionText: t.translate(
+                  "plates.addPlate.familyPlate.nationalCardAttention"),
             ),
             CardEntry(
               customIcon: "assets/images/carCardWithNationalCard.png",
               imgShow: ownerCarCard,
-              attentionText:
-                  t.translate("plates.addPlate.familyPlate.attention"),
               albumTapped: () => gettingOwnerCarCard(ImageSource.gallery),
               cameraTapped: () => gettingOwnerCarCard(ImageSource.camera),
+              attentionText:
+                  t.translate("plates.addPlate.familyPlate.attention"),
             ),
           ],
         ),
