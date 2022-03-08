@@ -88,30 +88,21 @@ class _LoginPageState extends State<LoginPage> {
 
           if (getLoginStatus["status"] == 200 ||
               getLoginStatus["status"] == "200") {
-            // Checking role if users was staff or admin
-            // if (getLoginStatus["role"] == "staff" ||
-            //     getLoginStatus["role"] == "admin") {
             if (getLoginStatus["first_visit"]) {
               Navigator.pushNamed(context, "/2factorAuth",
                   arguments: {"persCode": email, "password": pass});
               setState(() => isLogin = false);
             } else {
               setState(() => isLogin = false);
-              // print("Your token: ${getLoginStatus["token"]}");
 
               gettingReadyAccount.getUserAccInfo(
                   getLoginStatus['token'], context);
               localData.refreshToken = getLoginStatus['token'];
             }
-            // } else {
-            //   setState(() => isLogin = false);
-            //   Toast.show("عدم دسترسی به سیستم", context,
-            //       duration: Toast.LENGTH_LONG,
-            //       gravity: Toast.BOTTOM,
-            //       textColor: Colors.white);
-            // }
           } else {
-            Toast.show("خطا در ورود", context,
+            Toast.show(
+                "${getLoginStatus["error"]["title"]} ${getLoginStatus["error"]["desc"]}",
+                context,
                 duration: Toast.LENGTH_LONG,
                 gravity: Toast.BOTTOM,
                 textColor: Colors.white);
@@ -119,8 +110,8 @@ class _LoginPageState extends State<LoginPage> {
           }
         } catch (e) {
           setState(() => isLogin = false);
-          print("Erorr in self login ==> $e");
-          Toast.show("شماره پرسنلی یا گذرواژه اشتباه است", context,
+          // print("Erorr in self login ==> $e");
+          Toast.show("مشکل در برقرار ارتباط با سرویس دهنده", context,
               duration: Toast.LENGTH_LONG,
               gravity: Toast.BOTTOM,
               textColor: Colors.white);

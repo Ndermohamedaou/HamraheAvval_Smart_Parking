@@ -192,6 +192,7 @@ class _MinePlateViewState extends State<MinePlateView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           appBarTitle[pageIndex],
           textAlign: TextAlign.center,
@@ -222,17 +223,12 @@ class _MinePlateViewState extends State<MinePlateView> {
               plate3: plate3,
               plate3Adder: (value) => setState(() => plate3 = value),
             ),
-            // CardEntry(
-            //   customIcon: "assets/images/nationalCardIcon.png",
-            //   imgShow: ncCard,
-            //   albumTapped: () => gettingNationalCard(),
-            //   cameraTapped: () => gettingNationalCard(),
-            // ),
             CardEntry(
               customIcon: "assets/images/paper1.png",
               imgShow: carCard,
               albumTapped: () => gettingCarCard(),
               cameraTapped: () => gettingCarCard(),
+              attentionText: carCardAttention,
             ),
           ],
         ),

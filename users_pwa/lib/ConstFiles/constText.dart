@@ -150,7 +150,7 @@ const cancelText = 'لغو';
 const closeALayer = "بستن";
 
 const attentionForNumberOneFamily =
-    "لطفا تصویر کارت خودرو یا برگه سبز خودرو را در کنار صفحه دوم شناسنامه خود قرار داده و تصویر آن را ارسال کنید ";
+    "لطفا تصویر کارت خودرو (یا برگ سبز خودرو) را در کنار صفحه دوم شناسنامه خود قرار داده و تصویر آن را ارسال فرمایید";
 
 // Reserve
 const String reserveTextTitle = "لیست روز های رزرو شده";
@@ -217,6 +217,10 @@ const sendDenied = "ثبت تصویر جدید لغو شد";
 const reserveWasCanceled = "رزرو لغو شده است";
 const chPass = "تغییر گذرواژه";
 
+const appNameSubTitle = "سامانه پارکینگ هوشمند همراه اول";
+const familyAttentions =
+    "کاربر گرامی، جهت ارسال مدارک خود بایستی تصویر صفحه اول شناسنامه خود را به کمتر از ۱ مگابایت برسانید";
+
 // Adding Plate section texts
 const parkingGuideViewAppBar = "راهنمای افزودن پلاک";
 const guideViewAppBarTitle = "راهنمای وضعیت رزرو شما";
@@ -278,10 +282,12 @@ const otherPlateDscText =
 // - Section App Bar
 const addPlateNumAppBar = "شماره پلاک را وارد کنید";
 // const nationalCardAppBar = "تصویر کارت ملی شما";
-const nationalCardAppBar = "تصویر شناسنامه کاربر";
+const nationalCardAppBar = "صفحه اول شناسنامه کاربر";
 const carCardAppBar = "تصویر کارت ماشین یا برگ سبز";
 const ownerNationalCardAppBar = "تصویر کارت ملی مالک وسیله نقلیه";
-const ownerCarCardAppBar = " کارت ماشین و صفحه دوم شناسنامه";
+const ownerCarCardAppBar = "کارت ماشین + صفحه دوم شناسنامه";
+const carCardAttention =
+    "کاربر گرامی، جهت ارسال مدارک خود بایستی تصویر کارت ماشین یا برگ سبز خود را به کمتر از ۱ مگابایت برسانید";
 
 // Attention in page view
 const attentionToConfidance =

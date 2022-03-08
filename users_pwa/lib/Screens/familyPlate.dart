@@ -226,6 +226,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: defaultAppBarColor,
+        centerTitle: true,
         title: Text(
           appBarTitle[pageIndex],
           textAlign: TextAlign.center,
@@ -261,6 +262,7 @@ class _FamilyPlateViewState extends State<FamilyPlateView> {
               imgShow: ncCard,
               albumTapped: () => gettingNationalCard(),
               cameraTapped: () => gettingNationalCard(),
+              attentionText: familyAttentions,
             ),
             CardEntry(
               customIcon: "assets/images/carCardWithNationalCard.png",

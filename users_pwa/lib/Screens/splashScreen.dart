@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:payausers/ConstFiles/constText.dart';
+import 'package:payausers/ExtractedWidgets/custom_text.dart';
 import 'package:payausers/Model/ApiAccess.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/providers/public_parking_model.dart';
 import 'package:payausers/providers/staffInfo_model.dart';
+import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,11 +37,37 @@ class _SplashScreenState extends State<SplashScreen> {
           SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
       child: Scaffold(
         body: SafeArea(
-          child: Center(
-            child: CircleAvatar(
-              radius: 100,
-              backgroundColor: Colors.white,
-              backgroundImage: AssetImage("assets/images/mainLogo.png"),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 30.0.h),
+                Container(
+                  alignment: Alignment.center,
+                  child: CircleAvatar(
+                    radius: 100,
+                    backgroundColor: Colors.white,
+                    backgroundImage: AssetImage("assets/images/mainLogo.png"),
+                  ),
+                ),
+                SizedBox(height: 15.0.h),
+                Container(
+                  alignment: Alignment.center,
+                  child: Column(children: [
+                    Image(
+                      image: AssetImage("assets/images/cardLogo.png"),
+                      width: 10.0.w,
+                    ),
+                    SizedBox(height: 2.0.h),
+                    CustomText(
+                      text: appNameSubTitle,
+                      size: 12.0,
+                      align: TextAlign.center,
+                      weight: FontWeight.w500,
+                    )
+                  ]),
+                ),
+              ],
             ),
           ),
         ),
