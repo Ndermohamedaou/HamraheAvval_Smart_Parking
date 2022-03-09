@@ -104,8 +104,8 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushNamed(context, "/localAuth");
         } else {
           if (parkingType == 0) {
+            print("==========================> $parkingType");
             publicParkingModel.fetchPublicParking;
-            Navigator.pushNamed(context, "/selectParkingType");
           } else {
             Navigator.pushNamed(context, "/dashboard");
           }

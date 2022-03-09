@@ -520,28 +520,26 @@ class _DashboardState extends State<Dashboard>
                       ),
                     ),
                     child: Builder(builder: (BuildContext context) {
-                            if (staffInfoModel.staffLoadState ==
-                                FlowState.Loading) return logLoading.loading;
+                      if (staffInfoModel.staffLoadState == FlowState.Loading)
+                        return logLoading.loading;
 
-                            if (staffInfoModel.staffLoadState ==
-                                FlowState.Error)
-                              return logLoading.internetProblem;
+                      if (staffInfoModel.staffLoadState == FlowState.Error)
+                        return logLoading.internetProblem;
 
-                            List banners = staffInfoModel.staffInfo["banners"];
+                      List banners = staffInfoModel.staffInfo["banners"];
 
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              itemCount: banners.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return VerticalSlide(
-                                  imgSrc: banners[index]["img_url"],
-                                  openURL: () =>
-                                      launchURL(banners[index]["web_url"]),
-                                );
-                              },
-                            );
-                          }),
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: banners.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return VerticalSlide(
+                            imgSrc: banners[index]["img_url"],
+                            openURL: () => launchURL(banners[index]["web_url"]),
+                          );
+                        },
+                      );
+                    }),
                   ),
                 ],
               ),
