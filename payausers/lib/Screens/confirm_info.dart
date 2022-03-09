@@ -152,8 +152,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                   context: context,
                   title: t.translate("global.warnings.wrongPassword"),
                   msg: t.translate("global.warnings.wrongPasswordNote"),
-                  icon: Icons.email,
-                  iconColor: Colors.white);
+                  iconColor: Colors.white,
+                  icon: Icons.close);
             }
           } else {
             showStatusInCaseOfFlush(

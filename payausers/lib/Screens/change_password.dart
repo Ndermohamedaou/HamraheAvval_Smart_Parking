@@ -89,7 +89,8 @@ class _ChangePassPageState extends State<ChangePassPage> {
               if (result == "200") {
                 Navigator.pop(context);
                 Toast.show(
-                    t.translate("global.success.changePassword.changePassword"),
+                    t.translate(
+                        "global.success.changePassword.correctPassword"),
                     context,
                     duration: Toast.LENGTH_LONG,
                     gravity: Toast.BOTTOM,

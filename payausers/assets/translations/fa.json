@@ -252,7 +252,7 @@
       "fillAllFieldsDesc": "لطفا گزینه مرتبط به انتخاب نوع پارکینگ و اسم آن را انتخاب نمایید",
       "emptyBox": "فیلد مورد نظر را پر کنید",
       "wrongPassword": "گذرواژه نامعتبر",
-      "wrongPassowrdNote": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
+      "wrongPasswordNote": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
       "confirmPassword": {
         "wrongInCorrespondCheckTitle": "خطا در تطابق گذرواژه",
         "wrongInCorrespondCheckDesc": "گذارواژه جدید بایستی با تکرار آن یکسان باشد",
