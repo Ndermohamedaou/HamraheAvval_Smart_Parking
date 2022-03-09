@@ -498,7 +498,7 @@ class _DashboardState extends State<Dashboard>
                   ),
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.7,
                     padding: EdgeInsets.all(10),
                     margin: EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
@@ -510,36 +510,27 @@ class _DashboardState extends State<Dashboard>
                         topRight: Radius.circular(50),
                       ),
                     ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 1.0.h),
-                          Builder(builder: (BuildContext context) {
-                            if (staffInfoModel.staffLoadState ==
-                                FlowState.Loading) return logLoading.loading;
+                    child: Builder(builder: (BuildContext context) {
+                      if (staffInfoModel.staffLoadState == FlowState.Loading)
+                        return logLoading.loading;
 
-                            if (staffInfoModel.staffLoadState ==
-                                FlowState.Error)
-                              return logLoading.internetProblem;
+                      if (staffInfoModel.staffLoadState == FlowState.Error)
+                        return logLoading.internetProblem;
 
-                            List banners = staffInfoModel.staffInfo["banners"];
+                      List banners = staffInfoModel.staffInfo["banners"];
 
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              itemCount: banners.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return VerticalSlide(
-                                  imgSrc: banners[index]["img_url"],
-                                  openURL: () =>
-                                      launchURL(banners[index]["web_url"]),
-                                );
-                              },
-                            );
-                          }),
-                        ],
-                      ),
-                    ),
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: banners.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return VerticalSlide(
+                            imgSrc: banners[index]["img_url"],
+                            openURL: () => launchURL(banners[index]["web_url"]),
+                          );
+                        },
+                      );
+                    }),
                   ),
                 ],
               ),
