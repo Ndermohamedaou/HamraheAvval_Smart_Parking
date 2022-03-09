@@ -11,10 +11,10 @@ class LogLoading {
           children: [
             Container(
               alignment: Alignment.center,
-              child: Image.asset(
-                "assets/images/emptyBox.png",
-                width: 180,
-                height: 180,
+              child: CircleAvatar(
+                radius: 100,
+                backgroundColor: Colors.white,
+                backgroundImage: AssetImage("assets/images/mainLogo.png"),
               ),
             ),
             Text(
@@ -45,7 +45,7 @@ class LogLoading {
         child: CupertinoActivityIndicator(),
       );
 
- Widget loading = Row(
+  Widget loading = Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(

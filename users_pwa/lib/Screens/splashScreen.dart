@@ -88,7 +88,6 @@ class _SplashScreenState extends State<SplashScreen> {
     /// parking ty[e view or dashboard view.
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userToken = prefs.getString("token");
-
     ApiAccess api = ApiAccess(userToken);
 
     if (userToken != null) {
@@ -98,8 +97,12 @@ class _SplashScreenState extends State<SplashScreen> {
             await api.requestHandler(staffInfo.route, staffInfo.method, {});
         int parkingType = staffInfoMap["parking_type"];
 
-        if (parkingType == 0) {
+        if (parkingType == null) {
+          prefs.clear();
+          Navigator.pushNamed(context, '/');
+        } else if (parkingType == 0) {
           publicParkingModel.fetchPublicParking;
+          await Future.delayed(Duration(seconds: 1));
           Navigator.pushNamed(context, "/selectParkingType");
         } else {
           Navigator.pushNamed(context, "/dashboard");
