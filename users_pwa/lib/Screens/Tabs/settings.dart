@@ -287,18 +287,6 @@ class _SettingsState extends State<Settings>
                               ),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            child: Text(
-                              "توسعه داده شده توسط صنایع ارتباطی پایا نسخه وب",
-                              style: TextStyle(
-                                fontFamily: mainFaFontFamily,
-                                fontSize: 15,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
