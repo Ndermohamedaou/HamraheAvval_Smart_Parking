@@ -498,9 +498,9 @@ class _DashboardState extends State<Dashboard>
                   ),
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.57,
+                    height: MediaQuery.of(context).size.height * 0.6,
                     padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.only(top: 70),
+                    margin: EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
                       color: themeChange.darkTheme
                           ? mainBgColorDark
@@ -513,19 +513,6 @@ class _DashboardState extends State<Dashboard>
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          SizedBox(height: 2.0.h),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            margin: EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(
-                              "پیشنهادات",
-                              style: TextStyle(
-                                fontFamily: mainFaFontFamily,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
                           SizedBox(height: 1.0.h),
                           Builder(builder: (BuildContext context) {
                             if (staffInfoModel.staffLoadState ==
