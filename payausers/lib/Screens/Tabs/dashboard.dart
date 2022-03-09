@@ -32,9 +32,16 @@ class Dashboard extends StatefulWidget {
 }
 
 dynamic themeChange;
+AssetImage mainBackgroundAsset;
 
 class _DashboardState extends State<Dashboard>
     with AutomaticKeepAliveClientMixin<Dashboard> {
+  @override
+  void initState() {
+    mainBackgroundAsset = AssetImage("assets/images/dashboardBg.png");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -151,7 +158,7 @@ class _DashboardState extends State<Dashboard>
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/dashboardBg.png"),
+            image: mainBackgroundAsset,
             fit: BoxFit.cover,
           ),
         ),
@@ -159,6 +166,7 @@ class _DashboardState extends State<Dashboard>
           backgroundColor: Colors.transparent,
           body: SafeArea(
             child: SingleChildScrollView(
+              // physics: NeverScrollableScrollPhysics(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -499,7 +507,7 @@ class _DashboardState extends State<Dashboard>
                   ),
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height * 0.6,
+                    height: MediaQuery.of(context).size.height * 0.7,
                     padding: EdgeInsets.all(10),
                     margin: EdgeInsets.only(top: 10),
                     decoration: BoxDecoration(
@@ -511,11 +519,7 @@ class _DashboardState extends State<Dashboard>
                         topRight: Radius.circular(50),
                       ),
                     ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          SizedBox(height: 1.0.h),
-                          Builder(builder: (BuildContext context) {
+                    child: Builder(builder: (BuildContext context) {
                             if (staffInfoModel.staffLoadState ==
                                 FlowState.Loading) return logLoading.loading;
 
@@ -538,9 +542,6 @@ class _DashboardState extends State<Dashboard>
                               },
                             );
                           }),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),

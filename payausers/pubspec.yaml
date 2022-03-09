@@ -59,6 +59,7 @@ dependencies:
   # Persian date tools
   shamsi_date: ^1.0.0
   carousel_slider: ^4.0.0
+  cached_network_image: ^3.2.0
 
 dev_dependencies:
   flutter_test:
