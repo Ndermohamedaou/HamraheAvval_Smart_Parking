@@ -87,8 +87,10 @@ class RecoverPasswordState extends State<RecoverPassword> {
                   });
                   showStatusInCaseOfFlush(
                       context: context,
-                      title: t.translate("global.success.recoverPassword"),
-                      msg: t.translate("global.success.recoverPasswordDesc"),
+                      title: t.translate(
+                          "global.success.recoverPassword.recoverPasswordTitle"),
+                      msg: t.translate(
+                          "global.success.recoverPassword.recoverPasswordDesc"),
                       mainBackgroundColor: "#00c853",
                       iconColor: Colors.white,
                       icon: Icons.done_all_rounded);

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payausers/Model/api_access.dart';
 import 'package:payausers/ExtractedWidgets/custom_text.dart';
-import 'package:payausers/Model/api_access.dart';
 import 'package:payausers/Model/endpoints.dart';
 import 'package:payausers/localization/app_localization.dart';
 import 'package:payausers/providers/public_parking_model.dart';
@@ -103,9 +102,14 @@ class _SplashScreenState extends State<SplashScreen> {
         if (localAuth != null) {
           Navigator.pushNamed(context, "/localAuth");
         } else {
-          if (parkingType == 0) {
-            print("==========================> $parkingType");
+          if (parkingType == null) {
+            FlutterSecureStorage lds = FlutterSecureStorage();
+            lds.deleteAll();
+            Navigator.pushNamed(context, '/');
+          } else if (parkingType == 0) {
             publicParkingModel.fetchPublicParking;
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pushNamed(context, "/selectParkingType");
           } else {
             Navigator.pushNamed(context, "/dashboard");
           }

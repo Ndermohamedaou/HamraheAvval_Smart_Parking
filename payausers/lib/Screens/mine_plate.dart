@@ -137,7 +137,7 @@ class _MinePlateViewState extends State<MinePlateView> {
           );
 
           // If all documents sent successfully
-          // You will see successfull flush message from top of the phone
+          // You will see successful flush message from top of the phone
           if (result == 200) {
             // Update Plate in Provider
             plateModel.fetchPlatesData;

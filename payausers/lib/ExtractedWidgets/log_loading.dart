@@ -11,10 +11,13 @@ class LogLoading {
           children: [
             Container(
               alignment: Alignment.center,
-              child: Image.asset(
-                "assets/images/emptyBox.png",
-                width: 180,
-                height: 180,
+              child: Container(
+                alignment: Alignment.center,
+                child: CircleAvatar(
+                  radius: 100,
+                  backgroundColor: Colors.white,
+                  backgroundImage: AssetImage("assets/images/mainLogo.png"),
+                ),
               ),
             ),
             Text(

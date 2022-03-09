@@ -268,7 +268,7 @@
         "deleted": "عملیات حذف موفقیت آمیز بود",
         "deletePlate": "پلاک موردنظر شما با موفقیت حذف شد"
       },
-      "recoverPassowrd": {
+      "recoverPassword": {
         "recoverPasswordTitle": "عملیات ویرایش گذرواژه شما موفیت آمیز بود",
         "recoverPasswordDesc": "گذرواژه شما با موفقیت تغییر کرد، لطفا دوباره اقدام به ورود کنید"
       },
