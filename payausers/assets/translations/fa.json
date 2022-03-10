@@ -5,10 +5,10 @@
   "loginToAccount": "ورود به حساب کاربری",
   "localLock": {
     "setLock": "تنظیم بایومتریک",
-    "info": "برای ورود به اپلیکیشن می توانید از حسگر اثرانگشت و تشخیص صورت استفاده کنید",
+    "info": "برای ورود به اپلیکیشن می توانید از حسگر اثر انگشت و تشخیص صورت استفاده کنید",
     "enable": "فعال سازی بایومتریک",
     "title": "گذرواژه پشتیبان",
-    "desc": "گذرواژه ای را برای پشتیبانی در کنار تشخیص تصویر یا اثرانگشت تعیین کنید"
+    "desc": "گذرواژه ای را برای پشتیبانی در کنار تشخیص تصویر یا اثر انگشت تعیین کنید"
   },
   "parkingType": {
     "title": "انتخاب نوع پارکینگ",
@@ -72,7 +72,7 @@
     "currentPassword": "گذرواژه جاری",
     "wrongPersonalCode": "کد پرسنلی اشتباه است",
     "wrongPersonalCodeInfo": "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد",
-    "emptyPersonalCode": "فیلد کدپرسنلی نمیتواند خالی رها شود"
+    "emptyPersonalCode": "فیلد کد پرسنلی نمیتواند خالی رها شود"
   },
   "dashboard": {
     "bottomNavigationName": "داشبورد",
@@ -86,7 +86,7 @@
     "trafficInBottomSheet": "ترددها",
     "trafficInBottomSheetCount": "تعداد تردد های شما",
     "reservesInBottomSheet": "رزروها",
-    "reserveInAWeek": "تعداد رزروهای باقی مانده هفته",
+    "reserveInAWeek": "تعداد رزرو های باقی مانده هفته",
     "plateInBottomSheet": "پلاک ها",
     "submittedPlateInSystem": "تعداد پلاک های ثبت شده در سامانه",
     "slotInBottomSheet": "جایگاه",
@@ -97,17 +97,17 @@
   },
   "traffic": {
     "bottomNavigationName": "ترددها",
-    "trafficList": "لیست ترددهای شما"
+    "trafficList": "لیست تردد های شما"
   },
   "startWeek": "لیست رزرو هفتگی-تاریخ شروع هفته از",
   "dateCatch": "بدون تاریخ",
   "reserves": {
-    "bottomNavigationName": "رزروها",
+    "bottomNavigationName": "رزرو ها",
     "guide": {
       "guideAppBar": "راهنمای وضعیت رزرو شما",
       "colorIndicatorDescription": "معنای هر رنگ در قسمت رزرو های شما چیست؟",
       "greenColorTitle": "دایره سبز",
-      "greenColorDesc": "رنگ سبز به معنای تایید ررزو شما از سمت سیستم می‌‌باشد.",
+      "greenColorDesc": "رنگ سبز به معنای تایید رزرو شما از سمت سیستم می‌‌باشد.",
       "redColorTitle": "دایره قرمز",
       "redColorDesc": "رنگ قرمز به معنای رد رزرو شما از سمت سیستم می‌باشد.",
       "orangeColorTitle": "دایره نارنجی",
@@ -133,7 +133,7 @@
     "reserveType": "نوع رزرو",
     "reserveStatus": {
       "cancelStaticReserve": "رزرو ثابت لغو شده",
-      "parkingNotUsed": "عدم استفاده از پارکنیگ",
+      "parkingNotUsed": "عدم استفاده از پارکینگ",
       "canceledReserve": "رزرو لغو شده",
       "ignoredReserveStatus": "رزرو رد شده",
       "process ": "در حال پردازش",
@@ -165,7 +165,7 @@
     },
     "mediaPicker": {
       "imagePickCanceledTitle": "عدم انتخاب تصویر",
-      "imagePickCanceledDesc": "تصویر کارت را انتخاب کنید و یا با دوربین دسنگاه تصویر برداری کنید"
+      "imagePickCanceledDesc": "تصویر کارت را انتخاب کنید و یا با دوربین دستگاه تصویر برداری کنید"
     },
     "addPlate": {
       "addPlateGuide": "راهنمای افزودن پلاک در سامانه",
@@ -192,7 +192,7 @@
       "addPlateNumAppBar": "شماره پلاک را وارد کنید",
       "selfPlate": {
         "title": "پلاک برای خودم است",
-        "desc": "پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت خودرو در سامانه بارگزاری نمایید",
+        "desc": "پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت خودرو در سامانه بارگذاری نمایید",
         "carCardAppBar": "تصویر کارت ماشین یا برگ سبز",
         "carCardAttention": "کاربر گرامی، جهت ارسال مدارک خود بایستی تصویر کارت ماشین یا برگ سبز خود را به کمتر از ۱ مگابایت برسانید"
       },
@@ -210,7 +210,7 @@
       "otherPlate": {
         "title": "پلاک برای سایر افراد است",
         "desc": "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را در سامانه وارد کرده و به صورت حضوری مراجعه نمایید تا فرایند ثبت پلاک شما با موفقیت انجام شود",
-        "successfulOtherPlateAddDesc": "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید"
+        "successfulOtherPlateAddDesc": "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهد نامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید"
       }
     },
     "deletePlateTitle": "حذف پلاک",
@@ -239,7 +239,7 @@
       "connectionFailed": "لطفا اتصال خود را به شبکه بررسی نمایید و سپس مجددا وارد شوید",
       "checkConnectionAndTryLater": "لطفا اتصال خود را به شبکه بررسی نمایید و دوباره تلاش کنید",
       "holidayNonSelect": "شما نمی توانید در روز تعطیل رزروی داشته باشید",
-      "canCancelInHoliday": "انتخاب این روز امکانپذیر نمی باشد",
+      "canCancelInHoliday": "انتخاب این روز امکان پذیر نمی باشد",
       "defectiveInfoTitle": "ورودی اطلاعات ناقص است",
       "defectiveInfoDesc": "لطفا اطلاعات را با دقت وارد کنید",
       "parkingTypeErrorTitle": "خطایی در وارد کردن اطلاعات نوع پارکینگ رخ داده است",
@@ -253,7 +253,7 @@
       }
     },
     "warnings": {
-      "notMatchedPasswordTitle": "عدم مطابقت گذواژه جدید با تایید آن",
+      "notMatchedPasswordTitle": "عدم مطابقت گذرواژه جدید با تایید آن",
       "notMatchedPasswordDesc": "گذرواژه جدید و تایید آن بایستی با یکدیگر یکسان باشند",
       "wrongPersonalOrPassword": "کد پرسنلی یا گذرواژه اشتباه است",
       "notMatch": "گذرواژه و تایید آن با یکدیگر یکسان نیستند.",
@@ -264,7 +264,7 @@
       "wrongPasswordNote": "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد",
       "confirmPassword": {
         "wrongInCorrespondCheckTitle": "خطا در تطابق گذرواژه",
-        "wrongInCorrespondCheckDesc": "گذارواژه جدید بایستی با تکرار آن یکسان باشد",
+        "wrongInCorrespondCheckDesc": "گذرواژه جدید بایستی با تکرار آن یکسان باشد",
         "wrongPasswordCountTitle": "خطا در اندازه و اعتماد گذرواژه",
         "wrongPasswordCountDesc": "گذرواژه شما بایستی بیشتر از ۶ کاراکتر باشد"
       },
@@ -275,10 +275,10 @@
     "success": {
       "delete": {
         "deleted": "عملیات حذف موفقیت آمیز بود",
-        "deletePlate": "پلاک موردنظر شما با موفقیت حذف شد"
+        "deletePlate": "پلاک مورد نظر شما با موفقیت حذف شد"
       },
       "recoverPassword": {
-        "recoverPasswordTitle": "عملیات ویرایش گذرواژه شما موفیت آمیز بود",
+        "recoverPasswordTitle": "عملیات ویرایش گذرواژه شما موفقیت آمیز بود",
         "recoverPasswordDesc": "گذرواژه شما با موفقیت تغییر کرد، لطفا دوباره اقدام به ورود کنید"
       },
       "changePassword": {
