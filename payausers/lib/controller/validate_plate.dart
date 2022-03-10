@@ -40,12 +40,12 @@ class ValidatePlate {
       "title": !plateNumberOk
           ? t.translate("plates.addPlate.addPlateErrorTitle")
           : checkedPlate["status"] == "409"
-              ? t.translate("plates.addPlate.addPlateErrorTitle")
+              ? t.translate("plates.addPlate.isPlateExistTitle")
               : "",
       "desc": !plateNumberOk
           ? t.translate("plates.addPlate.addPlateErrorDesc")
           : checkedPlate["status"] == "409"
-              ? t.translate("plates.addPlate.addPlateErrorDesc")
+              ? t.translate("plates.addPlate.isPlateExistDesc")
               : "",
     };
 

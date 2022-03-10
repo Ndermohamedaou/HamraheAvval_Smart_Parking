@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:list_tile_switch/list_tile_switch.dart';
 import 'package:payausers/Model/theme_color.dart';
 import 'package:payausers/ConstFiles/initialConst.dart';
+import 'package:payausers/localization/app_localization.dart';
 import 'package:provider/provider.dart';
 
 String appLockPassword = null;
@@ -28,6 +29,7 @@ class _SettingBiometricState extends State<SettingBiometric> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    AppLocalizations t = AppLocalizations.of(context);
 
     void delAppLock() async {
       final lStorage = FlutterSecureStorage();
@@ -39,7 +41,7 @@ class _SettingBiometricState extends State<SettingBiometric> {
         backgroundColor: defaultAppBarColor,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          "تنظیم بایومتریک",
+          t.translate("localLock.setLock"),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: mainFaFontFamily,
@@ -65,7 +67,7 @@ class _SettingBiometricState extends State<SettingBiometric> {
                     leading: Icon(Icons.lock),
                     value: themeChange.appLock,
                     subtitle: Text(
-                      "برای ورود به اپلیکیشن میتوانید از حسگر اثرانگشت و تشخیص صورت استفاده کنید",
+                      t.translate("localLock.info"),
                       style: TextStyle(
                         fontFamily: mainFaFontFamily,
                       ),
@@ -85,7 +87,7 @@ class _SettingBiometricState extends State<SettingBiometric> {
                       }
                     },
                     title: Text(
-                      "فعال سازی بایومتریک",
+                      t.translate("localLock.enable"),
                       style:
                           TextStyle(fontFamily: mainFaFontFamily, fontSize: 15),
                     ),

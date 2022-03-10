@@ -59,8 +59,6 @@ class _DashboardState extends State<Dashboard>
     // Getting Score and car location of uesr
     final staffInfoModel = Provider.of<StaffInfoModel>(context);
 
-    print(avatarModel.userToken);
-
     LogLoading logLoading = LogLoading();
 
     String finalCarSlotLocation() {
