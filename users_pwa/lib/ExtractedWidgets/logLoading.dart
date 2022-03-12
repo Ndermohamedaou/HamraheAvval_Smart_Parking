@@ -17,6 +17,7 @@ class LogLoading {
                 backgroundImage: AssetImage("assets/images/mainLogo.png"),
               ),
             ),
+            SizedBox(height: 20),
             Text(
               "شما $msg انجام نداده اید",
               style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),

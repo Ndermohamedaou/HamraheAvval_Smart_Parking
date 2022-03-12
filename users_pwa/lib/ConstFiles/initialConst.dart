@@ -58,12 +58,6 @@ const double subFontSize = 12;
 
 const double modalBottomSheetRoundedSize = 40;
 
-// Image URLs
-const String first_slide =
-    "https://shop.mci.ir/product-details/fcbdd53f-cd31-4256-9ac5-058f8ff6fb80";
-const String second_slide = "https://mci.ir/notrino-plans";
-const String third_slide = "https://shop.mci.ir";
-
 // API details
 // const baseUrl = "http://188.213.64.78:8000/api";
 const baseUrl = "https://smartparking.mci.ir/api";

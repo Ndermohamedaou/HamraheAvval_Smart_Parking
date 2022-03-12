@@ -18,7 +18,7 @@ const fri = "جمعه";
 // If selected day was holiday
 const holidayTitle = "روز تعطیل";
 const holidayDesc = "شما نمی توانید در روز تعطیل رزروی داشته باشید";
-const cancelInHoliday = "انتخاب این روز امکانپذیر نمی باشد";
+const cancelInHoliday = "انتخاب این روز امکان پذیر نمی باشد";
 
 // Status of weekReservedTab:
 const reserveCategoriesTitle = "دسته بندی رزروها";
@@ -40,7 +40,7 @@ const passwordCheckerText =
     "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد";
 // 12345678asD@
 // Not Match Password Message
-const notMatchPassTitle = "عدم مطابقت گذواژه جدید با تایید آن";
+const notMatchPassTitle = "عدم مطابقت گذرواژه جدید با تایید آن";
 const notMatchPassDsc = "گذرواژه جدید و تایید آن بایستی با یکدیگر یکسان باشند";
 
 // Defective INFO
@@ -139,7 +139,7 @@ const listConfirmDesc =
 
 const today = "امروز";
 const tomorrow = "فردا";
-const parkingTypeAppBarTitle = "انتخاب نوع پارکنیگ";
+const parkingTypeAppBarTitle = "انتخاب نوع پارکینگ";
 
 // Date and Time Picker texts
 const choseReserveDate = "تاریخ رزرو خود را انتخاب کنید";
@@ -195,7 +195,7 @@ const existUserPlateDescErr = "شما نمی توانید پلاک تکراری 
 
 // Delete User plate section in Swap
 const delProcSucTitle = "عملیات حذف موفقیت آمیز بود";
-const delProcDesc = "پلاک موردنظر شما با موفقیت حذف شد";
+const delProcDesc = "پلاک مورد نظر شما با موفقیت حذف شد";
 // if warning had happend
 const delProcFailTitle = "عملیات با شکست مواجه شد";
 const delProcFailDesc = "پلاک شما در دیتابیس حذف نشد";
@@ -224,9 +224,9 @@ const familyAttentions =
 // Adding Plate section texts
 const parkingGuideViewAppBar = "راهنمای افزودن پلاک";
 const guideViewAppBarTitle = "راهنمای وضعیت رزرو شما";
-const introSec1Title = "اضافه کردن پلاک به همراه اسنادخواسته شده";
+const introSec1Title = "اضافه کردن پلاک به همراه اسناد خواسته شده";
 const introSec1Subtitle =
-    "اسنادی که در هر مرحله از شما خواسته میشودرا برای سامانه ارسال کنید";
+    "اسنادی که در هر مرحله از شما خواسته میشود را برای سامانه ارسال کنید";
 
 const plateViewEntry =
     "کاربر گرامی، پلاک مورد نظر خود را وارد کرده و سپس با فشردن دکمه بعدی به مرحله بعد خواهید رفت";
@@ -242,7 +242,7 @@ const plateIntroViewTitle =
     "کاربر گرامی، لطفا یکی از گزینه های زیر را جهت افزودن پلاک مورد نظر به سامانه، انتخاب کنید";
 const colorIndicatorDescription = "معنای هر رنگ در قسمت رزرو های شما چیست؟";
 const greenColorTitle = "دایره سبز";
-const greenColorDesc = "رنگ سبز به معنای تایید ررزو شما از سمت سیستم می‌‌باشد.";
+const greenColorDesc = "رنگ سبز به معنای تایید رزرو شما از سمت سیستم می‌‌باشد.";
 const redColorTitle = "دایره قرمز";
 const redColorDesc = "رنگ قرمز به معنای رد رزرو شما از سمت سیستم می‌باشد.";
 const orangeColorTitle = "دایره نارنجی";
@@ -271,10 +271,10 @@ const introSec2Subtitle =
 
 const minePlateTitleText = "پلاک برای خودم است";
 const minePlateDescText =
-    "پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت خودرو در سامانه بارگزاری نمایید";
+    "پلاک وسیله نقلیه مورد نظر را به همراه تصویر کارت خودرو در سامانه بارگذاری نمایید";
 const familyPlateTitleText = "پلاک برای افراد درجه یک است";
 const familyPlateDscText =
-    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر شناسنامه پدر، مادر، همسر و یا فرزندان و کارت وسیله نقلیه، برای سامانه ارسال کنید";
+    "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را به همراه تصویر صفحه اول شناسنامه خود به همراه صفحه دوم شناسنامه در کنار کارت وسیله نقلیه، برای سامانه ارسال کنید";
 const otherPlateText = "پلاک برای سایر افراد است";
 const otherPlateDscText =
     "برای این منظور بایستی پلاک وسیله نقلیه مورد نظر را در سامانه وارد کرده و به صورت حضوری مراجعه نمایید تا فرایند ثبت پلاک شما با موفقیت انجام شود";
@@ -315,7 +315,7 @@ const failedToUpdatePass = "گذرواژه جاری اشتباه است";
 const doesNotChange = "تغییری صورت نگرفت";
 const changeSuccess = "گذرواژه جدید شما با موفقیت ثبت شد";
 // My plate
-const searchingProcessText = "درحال یافتن پلاک";
+const searchingProcessText = "در حال یافتن پلاک";
 const searchingUserTraffics = "در حال یافتن اطلاعات تردد";
 const userTrafficNull = "تردد شما خالی می باشد";
 // Detele plate
@@ -338,7 +338,7 @@ const failedChangedServerEmailDesc =
 const logoutMsg = "آیا مایل به خروج از حساب کاربری خود هستید؟";
 
 const biometricInfoToCheck =
-    "برای تنظیم سیستم تشخیص بایومتریک لازم است تا شما دارای فناوری حسگر اثرانگشت (تاچ آی دی) و یا فناوری تشخیص چهره (فیس آی دی) و یا سیستم تشخیص عنبیه چشم باشید در غیر این صورت شما فقط برای ورود به اپلیکیشن خود نیازمند به گذرواژه ای هستید که بعد از این مرحله تنظیم خواهید کرد";
+    "برای تنظیم سیستم تشخیص بایومتریک لازم است تا شما دارای فناوری حسگر اثر انگشت (تاچ آی دی) و یا فناوری تشخیص چهره (فیس آی دی) و یا سیستم تشخیص عنبیه چشم باشید در غیر این صورت شما فقط برای ورود به اپلیکیشن خود نیازمند به گذرواژه ای هستید که بعد از این مرحله تنظیم خواهید کرد";
 
 const termsAndLicense = "شرایط و ضوابط";
 const termsLastUpdate = "آخرین بروزرسانی در";
@@ -348,7 +348,7 @@ const successfulPlateAddTitle = "پلاک شما با موفیت ثبت شد";
 const successfulPlateAddDsc =
     "پلاک و اسناد شما ثبت شد و منتظر اعلان از طرف سامانه باشید";
 const successFullOtherPlateAddDesc =
-    "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهدنامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید";
+    "پلاک شما با موفقیت ثبت شد لطفا جهت دریافت تعهد نامه و ارائه مدارک به اداره امور داخلی مراجعه نمایید";
 const errorPlateAddTitle = "عملیات ثبت پلاک شما با شکست مواجه شد";
 const errorPlateAddDsc =
     "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید";
@@ -366,7 +366,7 @@ const performTrafficReserveStatus = "تردد صورت گرفته";
 const ignoredReserveStatus = "رزرو رد شده";
 const ignoreToPickImageFromSystemTitle = "عدم انتخاب تصویر";
 const ignoreToPickImageFromSystemDesc =
-    "تصویر کارت را انتخاب کنید یا با دوربین دسنگاه تصویر برداری کنید";
+    "تصویر کارت را انتخاب کنید یا با دوربین دستگاه تصویر برداری کنید";
 const errorInSendPlateTitle = "خطا در ارسال پلاک";
 const errorInSendPlateDsc = "لطفا پلاک معتبر وارد نمایید";
 const completeInformationTitle = "اطلاعات خود را تکمیل کنید";
