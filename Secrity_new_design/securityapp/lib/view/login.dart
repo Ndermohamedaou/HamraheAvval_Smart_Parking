@@ -91,7 +91,7 @@ class _LoginState extends State<Login> {
           );
         } else {
           // print(initUser);
-          if (initUser['role'] == "security") {
+          if (initUser['role'] == "security" || initUser['role'] == "admin") {
             if (initUser["first_visit"]) {
               setState(() => isLogin = false);
               updateStaffInfo(initUser["token"]);

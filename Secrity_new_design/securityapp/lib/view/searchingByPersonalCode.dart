@@ -43,7 +43,7 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
         final token = await lStorage.read(key: "uToken");
         Map result = await searchMethod.searchingByPersonalCode(
             token: token, persCode: staffPersonalCode);
-        // print(result["meta"]);
+        print(result["meta"]);
         if (result["meta"] != null)
           Navigator.pushNamed(
             context,

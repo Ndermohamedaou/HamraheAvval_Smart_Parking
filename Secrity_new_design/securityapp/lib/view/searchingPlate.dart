@@ -81,8 +81,9 @@ class _SearchByPlateState extends State<SearchByPlate> {
     }
 
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         Navigator.popUntil(context, ModalRoute.withName(mainoRoute));
+        return true;
       },
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),

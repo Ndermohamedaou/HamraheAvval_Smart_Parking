@@ -12,80 +12,84 @@ class DropdownItems {
         value: 1,
       ),
       DropdownMenuItem(
-        child: Text('ج'),
+        child: Text('ت'),
         value: 2,
       ),
       DropdownMenuItem(
-        child: Text('د'),
+        child: Text('ج'),
         value: 3,
       ),
       DropdownMenuItem(
-        child: Text('ز'),
+        child: Text('د'),
         value: 4,
       ),
       DropdownMenuItem(
-        child: Text('س'),
+        child: Text('ز'),
         value: 5,
       ),
       DropdownMenuItem(
-        child: Text('ص'),
+        child: Text('س'),
         value: 6,
       ),
       DropdownMenuItem(
-        child: Text('ط'),
+        child: Text('ص'),
         value: 7,
       ),
       DropdownMenuItem(
-        child: Text('ع'),
+        child: Text('ط'),
         value: 8,
       ),
       DropdownMenuItem(
-        child: Text('ف'),
+        child: Text('ع'),
         value: 9,
       ),
       DropdownMenuItem(
-        child: Text('ق'),
+        child: Text('ف'),
         value: 10,
       ),
       DropdownMenuItem(
-        child: Text('ک'),
+        child: Text('ق'),
         value: 11,
       ),
       DropdownMenuItem(
-        child: Text('ل'),
+        child: Text('ک'),
         value: 12,
       ),
       DropdownMenuItem(
-        child: Text('م'),
+        child: Text('ل'),
         value: 13,
       ),
       DropdownMenuItem(
-        child: Text('ن'),
+        child: Text('م'),
         value: 14,
       ),
       DropdownMenuItem(
-        child: Text('و'),
+        child: Text('ن'),
         value: 15,
       ),
       DropdownMenuItem(
-        child: Text('ه'),
+        child: Text('و'),
         value: 16,
       ),
       DropdownMenuItem(
-        child: Text('ی'),
+        child: Text('ه'),
         value: 17,
       ),
       DropdownMenuItem(
-        child: Text('ژ'),
+        child: Text('ی'),
         value: 18,
       ),
       DropdownMenuItem(
-        child: Text('D'),
+        child: Text('ژ'),
         value: 19,
       ),
       DropdownMenuItem(
-        child: Text('S'),
+        child: Text('D'),
         value: 20,
+      ),
+      DropdownMenuItem(
+        child: Text('S'),
+        value: 21,
       ),
     ].toList();
 

@@ -45,7 +45,8 @@ class _SearchResultsState extends State<SearchResults> {
     final personalCode = info["personal_code"];
     final name = info["name"];
 
-    // print(info);
+    print(info);
+
     return Scaffold(
       appBar: AppBar(
         title: CustomText(
@@ -65,11 +66,11 @@ class _SearchResultsState extends State<SearchResults> {
                 child: PageView(
                   children: [
                     Image.memory(
-                      base64.decode(plateImg),
+                      base64.decode(carImg),
                       fit: BoxFit.contain,
                     ),
                     Image.memory(
-                      base64.decode(carImg),
+                      base64.decode(plateImg),
                       fit: BoxFit.contain,
                     ),
                   ],

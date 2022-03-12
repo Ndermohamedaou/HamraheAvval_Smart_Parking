@@ -38,14 +38,15 @@ import 'view/readTermsOfService.dart';
 
 void main() {
   runApp(MyApp());
-  connectSocket();
+  // Future use
+  // connectSocket();
   // Getting start for checking if device was root app doest open.
   // rootDetector();
 }
 
 // this function, is a root detector function by root_detector package from beer root detector.
 ///
-/// root_detector is nativly for java by beer root github repo.
+/// root_detector is natively for java by beer root github repo.
 /// In flutter we will use from root_detector package.
 /// In this function we check if machine was root or not.
 /// If machine (phone) was root, the application will close automatically from the phone.
@@ -107,7 +108,7 @@ class _MyAppState extends State<MyApp> {
     getCurrentAppTheme();
     getCurrentAppLockPassStatus();
 
-    // init and getting instace
+    // init and getting instance
     localNotif = FlutterLocalNotificationsPlugin();
     var android = AndroidInitializationSettings('@minmap/ic_launcher');
     var iOS = IOSInitializationSettings();
@@ -196,7 +197,7 @@ class _MyAppState extends State<MyApp> {
                     savingAppLockPass: (context) => SavingAppLock(),
                     readTermsOfService: (context) => ReadTermsOfService(),
                     // If user enable app local lock show this view and
-                    // prevent from entry without passcode
+                    // prevent from entry without passCode
                     localAuthLocker: (context) => LocalAuthEnter(),
                   },
                 ),

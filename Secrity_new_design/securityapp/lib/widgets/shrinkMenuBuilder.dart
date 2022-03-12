@@ -118,13 +118,13 @@ Widget buildMenu({
             icon: Icons.design_services,
             pressedMenu: () => Navigator.pushNamed(context, readTermsOfService),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),
-            child: CustomText(
-              text:
-                  "\u00a9 2021 ، پیاده سازی و توسعه یافته توسط صنایع ارتباطی پایا",
-            ),
-          ),
+          // Container(
+          //   margin: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),
+          //   child: CustomText(
+          //     text:
+          //         "\u00a9 2021 ، پیاده سازی و توسعه یافته توسط صنایع ارتباطی پایا",
+          //   ),
+          // ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 10.0.w, vertical: 2.0.h),
             child: CustomText(

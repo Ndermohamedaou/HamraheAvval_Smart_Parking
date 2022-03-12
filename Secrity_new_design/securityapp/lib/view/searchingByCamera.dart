@@ -54,7 +54,7 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
         Map admitImageResult = await searchMethod.searchingByCapturedImage(
             token: token, capturedImage: capturedImage);
 
-        print("Result is === > > $admitImageResult");
+        // print("Result is ===> $admitImageResult");
 
         if (admitImageResult.isNotEmpty) {
           if (admitImageResult["status"] == 100) {
@@ -106,8 +106,9 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
     }
 
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         Navigator.popUntil(context, ModalRoute.withName(mainoRoute));
+        return true;
       },
       child: Scaffold(
         body: CustomScrollView(

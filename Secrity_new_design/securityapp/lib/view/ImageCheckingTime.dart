@@ -11,7 +11,6 @@ import 'package:securityapp/widgets/sentSituation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
 import 'package:securityapp/constFile/initStrings.dart';
-import 'package:securityapp/widgets/capturingButton.dart';
 
 Map<dynamic, dynamic> imgSent;
 File img;

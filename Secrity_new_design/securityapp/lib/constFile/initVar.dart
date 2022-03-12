@@ -43,6 +43,7 @@ HexColor littleRecPlateColor = HexColor("#00478E");
 // API
 // BASE URL
 const localIp = "http://192.168.1.5:8000/api";
-const publicIp = "http://172.16.24.14:8010/api";
+const publicIp = "https://smartparking.mci.ir/api";
+// const publicIp = "http://172.16.24.14:8010/api";
 // const publicIp = "http://172.16.24.14:8010/api";
 const baseURL = publicIp;

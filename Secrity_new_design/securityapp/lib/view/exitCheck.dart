@@ -40,8 +40,9 @@ class _ExitCheckState extends State<ExitCheck> {
     }
 
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         Navigator.popUntil(context, ModalRoute.withName(mainoRoute));
+        return true;
       },
       child: Scaffold(
         body: CustomScrollView(

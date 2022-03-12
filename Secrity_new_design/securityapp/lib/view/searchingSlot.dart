@@ -42,6 +42,7 @@ class _SearchingBySlotState extends State<SearchingBySlot> {
         Map result =
             await searchMethod.searchingBySlot(token: token, slot: slotNum);
         // print(result["meta"]);
+        
         if (result["meta"] != null)
           Navigator.pushNamed(
             context,
@@ -68,8 +69,9 @@ class _SearchingBySlotState extends State<SearchingBySlot> {
     }
 
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         Navigator.popUntil(context, ModalRoute.withName(mainoRoute));
+        return true;
       },
       child: Scaffold(
         body: CustomScrollView(

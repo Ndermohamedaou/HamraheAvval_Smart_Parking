@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -176,7 +175,7 @@ class _MainoState extends State<Maino> {
                         child: GestureDetector(
                           onTap: () => openSlotDetails(
                               slotNum: slotsMap["${slotsMap['floors'][item]}"]
-                                  [index]["id"],
+                                  [index]["name"],
                               status: indicatorUtil.getColorByStatus(
                                   status:
                                       slotsMap["${slotsMap['floors'][item]}"]
@@ -185,7 +184,7 @@ class _MainoState extends State<Maino> {
                             size: 13.0.sp,
                             // slotsMap["${slotsMap['floors'][item]}"][index]["id"]
                             text:
-                                "P ${slotsMap["${slotsMap['floors'][item]}"][index]["id"]}",
+                                "${slotsMap["${slotsMap['floors'][item]}"][index]["name"]}",
                             color: slotsMap["${slotsMap['floors'][item]}"]
                                         [index]["status"] ==
                                     1

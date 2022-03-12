@@ -20,7 +20,7 @@ dependencies:
   # Connection with API
   dio:
   # Provide provider model in theme mode
-  provider:
+  provider: ^6.0.2
   # Alerts
   toast:
   flushbar:
