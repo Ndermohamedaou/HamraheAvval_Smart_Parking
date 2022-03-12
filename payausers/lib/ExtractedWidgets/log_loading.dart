@@ -20,6 +20,7 @@ class LogLoading {
                 ),
               ),
             ),
+            SizedBox(height: 20),
             Text(
               "شما $msg انجام نداده اید",
               style: TextStyle(fontFamily: mainFaFontFamily, fontSize: 18),

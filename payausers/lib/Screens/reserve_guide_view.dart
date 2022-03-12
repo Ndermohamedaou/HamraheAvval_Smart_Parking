@@ -67,7 +67,7 @@ class _ReserveGuideViewState extends State<ReserveGuideView> {
                 themeChange: themeChange,
                 indicatorColor: Colors.blue,
                 title: t.translate("reserves.guide.blueColorTitle"),
-                subTitle: t.translate("reserves.guide.blueColorTitle")),
+                subTitle: t.translate("reserves.guide.blueColorDesc")),
             LeadingOption(
                 themeChange: themeChange,
                 indicatorColor: Colors.brown,
