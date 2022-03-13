@@ -71,9 +71,9 @@ class _ConfirmationState extends State<Confirmation> {
       final ImagePicker _picker = ImagePicker();
       final image = await _picker.getImage(
         source: sourceType,
-        maxWidth: 500,
-        maxHeight: 500,
-        imageQuality: 50,
+        maxWidth: imgConfig["maxWidth"],
+        maxHeight: imgConfig["maxHeight"],
+        imageQuality: imgConfig["imgQuality"].toInt(),
       );
       setState(() {
         imageSource = File(image.path);
@@ -81,10 +81,11 @@ class _ConfirmationState extends State<Confirmation> {
     }
 
     return WillPopScope(
-      onWillPop: () {
+      onWillPop: () async {
         if (pageIndex >= 1)
           _pageController.animateToPage(pageIndex - 1,
               duration: Duration(milliseconds: 600), curve: Curves.decelerate);
+        return true;
       },
       child: Scaffold(
         body: SafeArea(
@@ -175,27 +176,37 @@ class _ConfirmationState extends State<Confirmation> {
 
   void updateStaffInfo({avatar, pass, rePass, uToken}) async {
     if (pass != "" && rePass != "" && avatar != null) {
-      if (pass == rePass && pass.length > 6 && rePass.length > 6) {
-        bool valPass = passwordRegex(pass);
-        bool valRePass = passwordRegex(rePass);
-        if (valPass && valRePass) {
-          // Created Is Confrimation
-          setState(() => isConfirm = true);
-          // Finlly go to update api
-          String _img64 = await imgConvertion.img2Base64(img: avatar);
-          bool result = await auth.updateStaffInfo(
-            avatar: _img64,
-            pass: pass,
-            token: token,
-          );
-          if (result)
-            Navigator.pushNamed(context, buildingsRoute, arguments: token);
-          else {
-            setState(() => isConfirm = false);
+      if (pass == rePass) {
+        if (pass.length >= 6 && rePass.length >= 6) {
+          bool valPass = passwordRegex(pass);
+          bool valRePass = passwordRegex(rePass);
+          if (valPass && valRePass) {
+            // Created Is confirmation
+            setState(() => isConfirm = true);
+            // Finally go to update api
+            String _img64 = await imgConvertion.img2Base64(img: avatar);
+            bool result = await auth.updateStaffInfo(
+              avatar: _img64,
+              pass: pass,
+              token: token,
+            );
+            if (result)
+              Navigator.pushNamed(context, buildingsRoute, arguments: token);
+            else {
+              setState(() => isConfirm = false);
+              showStatusInCaseOfFlush(
+                context: context,
+                title: updaingProblemTitle,
+                msg: updaingProblemDsc,
+                icon: Icons.edit_attributes_outlined,
+                iconColor: Colors.red,
+              );
+            }
+          } else {
             showStatusInCaseOfFlush(
               context: context,
-              title: updaingProblemTitle,
-              msg: updaingProblemDsc,
+              title: passValTitle,
+              msg: passValDsc,
               icon: Icons.edit_attributes_outlined,
               iconColor: Colors.red,
             );
@@ -203,8 +214,8 @@ class _ConfirmationState extends State<Confirmation> {
         } else {
           showStatusInCaseOfFlush(
             context: context,
-            title: passValTitle,
-            msg: passValDsc,
+            title: passwordWouldGTTitle,
+            msg: passwordWouldGTDesc,
             icon: Icons.edit_attributes_outlined,
             iconColor: Colors.red,
           );

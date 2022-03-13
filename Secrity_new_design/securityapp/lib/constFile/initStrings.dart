@@ -113,8 +113,10 @@ const notMathPassDsc = "گذرواژه ها باهم یکسان نیستند";
 const emailValTitle = "آدرس پست الکترونیکی نامعتبر";
 const emailValDsc = "آدرس پست الکترونیکی شما معتبر و استاندارد نمی باشند";
 const passValTitle = "گذرواژه های نامعتبر";
-const passValDsc =
-    "گذواژه شما باید ترکیبی از حروف بزرگ و کوچک، اعداد و علامت هایی باشد مانند زیر \n 1234asD@";
+const passValDsc = "گذواژه شما باید ترکیبی از حروف بزرگ و کوچک و اعداد باشد";
+const passwordWouldGTTitle = "طول گذرواژه شما کم است";
+const passwordWouldGTDesc =
+    "طول گذرواژه شما بایستی بیشتر یا مساوی ۶ کارکتر باشد";
 const updaingProblemTitle = "مشکلی در بارگذاری اطلاعات";
 const updaingProblemDsc =
     "ممکن است ارتباط شما با سرویس دهنده قطع شده باشد یا اینکه مشکل از سرویس دهنده باشد";

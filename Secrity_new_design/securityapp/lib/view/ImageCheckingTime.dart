@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/imgConversion.dart';
 import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/controller/sendImgCheckerProcess.dart';
 import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/alert.dart';
+import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:securityapp/widgets/sentSituation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
@@ -53,15 +53,46 @@ class _ImageCheckingState extends State<ImageChecking> {
       final lStorage = FlutterSecureStorage();
       String token = await lStorage.read(key: "uToken");
       String _img64 = await imgConvertion.img2Base64(img: img);
-      Map result = await imgProcessing.sendingImage(
-          token: token, img: _img64, state: status);
-      if (result.isEmpty) {
+
+      try {
+        final result = await imgProcessing.sendingImage(
+            token: token, img: _img64, state: status);
+
+        Navigator.pop(context);
+        // TODO: Fix this for future, we need class of Alarm for specific type.
+        if (result["status"] == "success")
+          showStatusInCaseOfFlush(
+            context: context,
+            icon: Icons.done,
+            iconColor: Colors.white,
+            backgroundColor: fullSlotColors,
+            title: result["message"]["title"],
+            msg: result["message"]["desc"],
+          );
+
+        if (result["status"] == "warning")
+          showStatusInCaseOfFlush(
+            context: context,
+            icon: Icons.done,
+            iconColor: Colors.white,
+            backgroundColor: mainSectionCTA,
+            title: result["message"]["title"],
+            msg: result["message"]["desc"],
+          );
+
+        if (result["status"] == "failed")
+          showStatusInCaseOfFlush(
+            context: context,
+            icon: Icons.done,
+            iconColor: Colors.white,
+            title: result["message"]["title"],
+            msg: result["message"]["desc"],
+          );
+      } catch (e) {
+        print("Error in send data to server so i save it => $e");
         bool saveResult = await saveSecurity.addSavedSecurity(
             img: _img64, trafficType: status);
         if (saveResult) alertSayStatus(context: context);
-      } else {
-        Navigator.pushNamed(context, imgProcessRoute,
-            arguments: {"res": result, "img": _img64, "status": status});
       }
     }
 

@@ -2,11 +2,17 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:securityapp/constFile/initVar.dart';
 
-void showStatusInCaseOfFlush({context, String msg, title, icon, iconColor}) {
+void showStatusInCaseOfFlush(
+    {context,
+    String title,
+    String msg,
+    IconData icon,
+    Color iconColor,
+    dynamic backgroundColor}) {
   Flushbar(
     margin: EdgeInsets.all(8),
     borderRadius: 8,
-    backgroundColor: darkBgColor,
+    backgroundColor: backgroundColor ?? darkBgColor,
     flushbarPosition: FlushbarPosition.TOP,
     titleText: Text(
       title,

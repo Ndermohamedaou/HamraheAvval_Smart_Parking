@@ -46,27 +46,58 @@ class _BookmarkedState extends State<Bookmarked> {
       final token = await lStorage.read(key: "uToken");
       // print(token);
       // print(status);
-      print(savedId);
-      Map result = await imgProcessing.sendingImage(
-          token: token, img: img, state: status);
-      if (result.isNotEmpty) {
-        Navigator.pushNamed(context, imgProcessRoute,
-            arguments: {"res": result, "img": img, "status": status});
-        // Deleting by id if sending is successful
-        bool delSaved = await saveSecurity.delSavedSecurity(id: savedId);
-        if (delSaved) {
-          // Getting relist from local data
-          final reList = await saveSecurity.readySavedSecurity();
-          setState(() => savedList = reList);
+      // print(savedId);
+
+      try {
+        final result = await imgProcessing.sendingImage(
+            token: token, img: img, state: status);
+
+        // TODO: Fix this for future, we need class of Alarm for specific type.
+        if (result["status"] == "success") {
+          showStatusInCaseOfFlush(
+            context: context,
+            icon: Icons.done,
+            iconColor: Colors.white,
+            backgroundColor: fullSlotColors,
+            title: result["message"]["title"],
+            msg: result["message"]["desc"],
+          );
+
+          bool delSaved = await saveSecurity.delSavedSecurity(id: savedId);
+          if (delSaved) {
+            // Getting relist from local data
+            final reList = await saveSecurity.readySavedSecurity();
+            setState(() => savedList = reList);
+          }
         }
-      } else
+
+        if (result["status"] == "warning")
+          showStatusInCaseOfFlush(
+            context: context,
+            icon: Icons.done,
+            iconColor: Colors.white,
+            backgroundColor: mainSectionCTA,
+            title: result["message"]["title"],
+            msg: result["message"]["desc"],
+          );
+
+        if (result["status"] == "failed")
+          showStatusInCaseOfFlush(
+            context: context,
+            icon: Icons.done,
+            iconColor: Colors.white,
+            title: result["message"]["title"],
+            msg: result["message"]["desc"],
+          );
+      } catch (e) {
         showStatusInCaseOfFlush(
           context: context,
-          title: notSendAgainTitle,
-          msg: notSendAgainDsc,
-          icon: Icons.close,
-          iconColor: Colors.red,
+          icon: Icons.done,
+          iconColor: Colors.white,
+          title: updaingProblemTitle,
+          msg: updaingProblemDsc,
         );
+      }
     }
 
     final sliverList = SliverList(

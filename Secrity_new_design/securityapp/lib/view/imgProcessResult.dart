@@ -26,7 +26,7 @@ class _ImgProcessingResultState extends State<ImgProcessingResult> {
     // TODO: Change my bad.
     // Getting result Map
     Map result = source['res'];
-    // Getting Image from Localy
+    // Getting Image from Locally
     String img = source['img'];
     // source["status"] is status of submission
     String statusOfSent = source["status"] != null ? source["status"] : "";

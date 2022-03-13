@@ -89,9 +89,9 @@ class _ProfileState extends State<Profile> {
 
     final image = await _picker.getImage(
       source: sourceType,
-      maxWidth: 500,
-      maxHeight: 500,
-      imageQuality: 50,
+      maxWidth: imgConfig["maxWidth"],
+      maxHeight: imgConfig["maxHeight"],
+      imageQuality: imgConfig["imgQuality"].toInt(),
     );
 
     if (image != null) {

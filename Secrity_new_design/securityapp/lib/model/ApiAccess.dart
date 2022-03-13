@@ -125,10 +125,7 @@ class ApiAccess {
     // In this section we want get Map form data
     // but server String base Json in Client
     // So, i decode json form to usual Map data
-    Map realS = jsonDecode(response.data);
-    print(realS);
-    // print(realS['plate_fa0']);
-    return realS;
+    return response.data;
   }
 
   Future<Map> getSlots({String uAuth, String slotName}) async {

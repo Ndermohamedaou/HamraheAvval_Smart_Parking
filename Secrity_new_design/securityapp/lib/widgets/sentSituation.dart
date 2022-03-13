@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:securityapp/constFile/initStrings.dart';
-import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:sizer/sizer.dart';
 

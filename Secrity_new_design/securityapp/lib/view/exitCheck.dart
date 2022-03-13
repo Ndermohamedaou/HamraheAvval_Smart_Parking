@@ -25,12 +25,7 @@ class _ExitCheckState extends State<ExitCheck> {
 
     Future gettingPhoto(ImageSource sourceType) async {
       final ImagePicker _picker = ImagePicker();
-      final image = await _picker.getImage(
-        source: sourceType,
-        maxWidth: 500,
-        maxHeight: 500,
-        imageQuality: 50,
-      );
+      final image = await _picker.getImage(source: sourceType);
 
       File imgFile = File(image.path);
 
