@@ -44,13 +44,18 @@ class _BookmarkedState extends State<Bookmarked> {
     void sendItAgain({savedId, img, status}) async {
       final lStorage = FlutterSecureStorage();
       final token = await lStorage.read(key: "uToken");
+      String buildingName = await lStorage.read(key: "buildingName");
       // print(token);
       // print(status);
       // print(savedId);
 
       try {
         final result = await imgProcessing.sendingImage(
-            token: token, img: img, state: status);
+          token: token,
+          img: img,
+          state: status,
+          buildingName: buildingName,
+        );
 
         // TODO: Fix this for future, we need class of Alarm for specific type.
         if (result["status"] == "success") {

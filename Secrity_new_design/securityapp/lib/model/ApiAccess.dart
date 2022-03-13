@@ -117,10 +117,13 @@ class ApiAccess {
     return response.data;
   }
 
-  Future<Map> submittingCarPlate({uToken, plate, cameraState}) async {
+  Future<Map> submittingCarPlate(
+      {uToken, plate, cameraState, buildingName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
-    Response response = await dio.post("$baseURL/uploadPlate?plate",
+    print("$baseURL/uploadPlate?plate&building=$buildingName");
+    Response response = await dio.post(
+        "$baseURL/uploadPlate?plate&building=$buildingName",
         data: {"plate": plate, "cameraState": cameraState});
     // In this section we want get Map form data
     // but server String base Json in Client

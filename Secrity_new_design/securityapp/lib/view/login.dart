@@ -80,17 +80,17 @@ class _LoginState extends State<Login> {
         Map initUser =
             await auth.gettingLogin(persCode: personalCode, pass: password);
         // Invalid (Validation Process Check)
-        if (initUser["status"] == "null") {
+        print(initUser);
+        if (initUser["error"] != null) {
           setState(() => isLogin = false);
           showStatusInCaseOfFlush(
             context: context,
-            title: loginIsFailedByUsernameorPassTitle,
-            msg: loginIsFailedByUsernameorPassDsc,
+            title: initUser["error"]["title"],
+            msg: initUser["error"]["desc"],
             icon: Icons.supervised_user_circle,
             iconColor: Colors.red,
           );
         } else {
-          // print(initUser);
           if (initUser['role'] == "security" || initUser['role'] == "admin") {
             if (initUser["first_visit"]) {
               setState(() => isLogin = false);

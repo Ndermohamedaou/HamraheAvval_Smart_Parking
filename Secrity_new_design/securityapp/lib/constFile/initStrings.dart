@@ -17,13 +17,13 @@ const forgetPassword = "گذرواژه خود را فراموش کرده اید�
 // Side Menu -- Home text
 const homeText = "نمایش جایگاه ها";
 // Side Menu -- Search text
-const searchText = "جست و جوی پلاک";
+const searchText = "جست و جو پلاک";
 // Side Menu -- Slot text
-const slotText = "جست و جوی جايگاه";
+const slotText = "جست و جو جايگاه";
 // Side Menu -- searching With Personal code
-const personalCodeSearchText = "جست و جوی با کد پرسنلی";
+const personalCodeSearchText = "جست و جو با کد پرسنلی";
 // Side Menu -- searching With Personal code
-const searchingByPhotoCapturing = "جست و جوی با گرفتن عکس";
+const searchingByPhotoCapturing = "جست و جو با گرفتن عکس";
 // Side Menu -- Enter text
 const enterText = "ثبت ورود";
 // Side Menu -- Exit text

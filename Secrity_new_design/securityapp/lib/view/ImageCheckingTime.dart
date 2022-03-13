@@ -53,10 +53,15 @@ class _ImageCheckingState extends State<ImageChecking> {
       final lStorage = FlutterSecureStorage();
       String token = await lStorage.read(key: "uToken");
       String _img64 = await imgConvertion.img2Base64(img: img);
+      String buildingName = await lStorage.read(key: "buildingName");
 
       try {
         final result = await imgProcessing.sendingImage(
-            token: token, img: _img64, state: status);
+          token: token,
+          img: _img64,
+          state: status,
+          buildingName: buildingName,
+        );
 
         Navigator.pop(context);
         // TODO: Fix this for future, we need class of Alarm for specific type.
