@@ -57,35 +57,37 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
         // print("Result is ===> $admitImageResult");
 
         if (admitImageResult.isNotEmpty) {
-          if (admitImageResult["status"] == 100) {
-            List plateArr = [
-              admitImageResult["plate_fa0"],
-              admitImageResult["plate_fa1"],
-              admitImageResult["plate_fa2"],
-              admitImageResult["plate_fa3"]
-            ];
-            List result = await searchMethod.searchingByPlate(
-                token: token, plates: plateArr);
-            // print(result);
-            if (result.isNotEmpty)
-              Navigator.pushNamed(context, searchResults, arguments: result[0]);
-            else
-              showStatusInCaseOfFlush(
-                context: context,
-                title: notFoundTitle,
-                msg: notFoundDsc,
-                icon: Icons.close,
-                iconColor: Colors.red,
-              );
-          } else {
-            showStatusInCaseOfFlush(
-              context: context,
-              title: notFoundTitle,
-              msg: notFoundDsc,
-              icon: Icons.close,
-              iconColor: Colors.red,
-            );
-          }
+          // if (admitImageResult["status"] == 100) {
+          //   List plateArr = [
+          //     admitImageResult["plate_fa0"],
+          //     admitImageResult["plate_fa1"],
+          //     admitImageResult["plate_fa2"],
+          //     admitImageResult["plate_fa3"]
+          //   ];
+          //   List result = await searchMethod.searchingByPlate(
+          //       token: token, plates: plateArr);
+          //   // print(result);
+          //   if (result.isNotEmpty)
+          //     Navigator.pushNamed(context, searchResults, arguments: result[0]);
+          //   else
+          //     showStatusInCaseOfFlush(
+          //       context: context,
+          //       title: notFoundTitle,
+          //       msg: notFoundDsc,
+          //       icon: Icons.close,
+          //       iconColor: Colors.red,
+          //     );
+          // } else {
+          //   showStatusInCaseOfFlush(
+          //     context: context,
+          //     title: notFoundTitle,
+          //     msg: notFoundDsc,
+          //     icon: Icons.close,
+          //     iconColor: Colors.red,
+          //   );
+          // }
+          Navigator.pushNamed(context, searchResults,
+              arguments: admitImageResult[0]);
         } else
           showStatusInCaseOfFlush(
             context: context,
@@ -114,7 +116,6 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              // expandedHeight: 40.0.h,
               floating: false,
               pinned: true,
               backgroundColor: mainCTA,
@@ -125,10 +126,6 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
                   fw: FontWeight.bold,
                   size: 12.0.sp,
                 ),
-                // background: Image(
-                //   image: AssetImage("assets/images/checking.png"),
-                //   fit: BoxFit.cover,
-                // ),
               ),
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),

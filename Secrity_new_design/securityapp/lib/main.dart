@@ -5,6 +5,7 @@ import 'package:liquid_ui/liquid_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
+import 'package:securityapp/provider/term_of_service_model.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:sizer/sizer.dart';
 import 'model/classes/ThemeColor.dart';
@@ -151,10 +152,17 @@ class _MyAppState extends State<MyApp> {
     return LayoutBuilder(builder: (context, constraints) {
       return OrientationBuilder(builder: (context, orientation) {
         SizerUtil().init(constraints, orientation);
-        return ChangeNotifierProvider(
-          create: (_) {
-            return themeChangeProvider;
-          },
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) {
+                return themeChangeProvider;
+              },
+            ),
+            ChangeNotifierProvider<TermsOfServiceModel>(
+              create: (_) => TermsOfServiceModel(),
+            )
+          ],
           child: Consumer<DarkThemeProvider>(
             builder: (BuildContext context, value, Widget child) {
               SystemChrome.setSystemUIOverlayStyle(themeChangeProvider.darkTheme

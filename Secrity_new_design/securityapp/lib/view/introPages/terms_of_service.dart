@@ -1,7 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
+import 'package:securityapp/model/classes/ThemeColor.dart';
+import 'package:securityapp/provider/term_of_service_model.dart';
+import 'package:securityapp/spec/FlowState.dart';
+import 'package:securityapp/widgets/CustomText.dart';
 
 class Terms extends StatelessWidget {
   const Terms({
@@ -16,6 +22,10 @@ class Terms extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    TermsOfServiceModel termsOfServiceModel =
+        Provider.of<TermsOfServiceModel>(context);
+
     return SafeArea(
       child: Column(
         children: [
@@ -26,26 +36,38 @@ class Terms extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: MarkdownBody(
-                        data: terms,
-                        styleSheet: MarkdownStyleSheet.fromTheme(ThemeData(
-                            textTheme: TextTheme(
+                    child: Builder(builder: (context) {
+                      if (termsOfServiceModel.termsStatus == FlowState.Loading)
+                        return CupertinoActivityIndicator();
+
+                      if (termsOfServiceModel.termsStatus == FlowState.Error)
+                        return CustomText(text: "خطا");
+
+                      return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: MarkdownBody(
+                          data: termsOfServiceModel.termsOfService,
+                          styleSheet: MarkdownStyleSheet.fromTheme(
+                            ThemeData(
+                              textTheme: TextTheme(
                                 bodyText1: TextStyle(
-                                    fontSize: 18.0,
-                                    color: themeChange
+                                    fontSize: 15.0,
+                                    color: themeChange.darkTheme
                                         ? Colors.white
                                         : Colors.black,
                                     fontFamily: mainFont),
                                 bodyText2: TextStyle(
-                                    fontSize: 16.0,
-                                    color: themeChange
+                                    fontSize: 15.0,
+                                    color: themeChange.darkTheme
                                         ? Colors.white
                                         : Colors.black,
-                                    fontFamily: mainFont)))),
-                      ),
-                    ),
+                                    fontFamily: mainFont),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
                   ),
                 ],
               ),

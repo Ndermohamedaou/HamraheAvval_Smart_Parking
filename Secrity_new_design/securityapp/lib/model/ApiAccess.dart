@@ -137,4 +137,11 @@ class ApiAccess {
     Response response = await dio.get("$baseURL/getSlots/$slotName");
     return response.data;
   }
+
+  Future getTerms(String token) async {
+    dio.options.headers['content-type'] = 'application/json';
+    Response response =
+        await dio.get("https://smartparking.mci.ir/security_tos.md");
+    return response.data;
+  }
 }

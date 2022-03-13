@@ -6,6 +6,7 @@ class SavedSecurity {
 
   // Init databsae
   void createSavedSecurity() async {
+    // TODO: Convert this bad methods to one method for a simple db interaction.
     var db = await openDatabase("paya.db");
     print("LOG : $db");
     var databasesPath = await getDatabasesPath();

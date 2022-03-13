@@ -23,6 +23,7 @@ class _ImgProcessingResultState extends State<ImgProcessingResult> {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     source = ModalRoute.of(context).settings.arguments;
+    // TODO: Change my bad.
     // Getting result Map
     Map result = source['res'];
     // Getting Image from Localy

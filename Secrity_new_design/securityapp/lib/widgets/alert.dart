@@ -24,7 +24,6 @@ void alertCheckTip({context, Function onPressed}) {
           text: understandingMater,
           align: TextAlign.center,
           size: 15.0.sp,
-          color: Colors.white,
         ),
         onPressed: onPressed,
       ),

@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
+import 'package:securityapp/provider/term_of_service_model.dart';
+import 'package:securityapp/spec/FlowState.dart';
+import 'package:securityapp/widgets/CustomText.dart';
 
 class ReadTermsOfService extends StatefulWidget {
   const ReadTermsOfService({Key key}) : super(key: key);
@@ -16,6 +20,8 @@ class _ReadTermsOfServiceState extends State<ReadTermsOfService> {
   @override
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
+    TermsOfServiceModel termsOfServiceModel =
+        Provider.of<TermsOfServiceModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -43,30 +49,39 @@ class _ReadTermsOfServiceState extends State<ReadTermsOfService> {
                     Container(
                       margin:
                           EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: MarkdownBody(
-                          data: terms,
-                          styleSheet: MarkdownStyleSheet.fromTheme(
-                            ThemeData(
-                              textTheme: TextTheme(
-                                bodyText1: TextStyle(
-                                    fontSize: 15.0,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontFamily: mainFont),
-                                bodyText2: TextStyle(
-                                    fontSize: 15.0,
-                                    color: themeChange.darkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontFamily: mainFont),
+                      child: Builder(builder: (context) {
+                        if (termsOfServiceModel.termsStatus ==
+                            FlowState.Loading)
+                          return CupertinoActivityIndicator();
+
+                        if (termsOfServiceModel.termsStatus == FlowState.Error)
+                          return CustomText(text: "خطا");
+
+                        return Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: MarkdownBody(
+                            data: termsOfServiceModel.termsOfService,
+                            styleSheet: MarkdownStyleSheet.fromTheme(
+                              ThemeData(
+                                textTheme: TextTheme(
+                                  bodyText1: TextStyle(
+                                      fontSize: 15.0,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: mainFont),
+                                  bodyText2: TextStyle(
+                                      fontSize: 15.0,
+                                      color: themeChange.darkTheme
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontFamily: mainFont),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+                        );
+                      }),
                     ),
                   ],
                 ),
