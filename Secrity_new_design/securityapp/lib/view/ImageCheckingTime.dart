@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/imgConversion.dart';
 import 'package:securityapp/controller/localDataController.dart';
 import 'package:securityapp/controller/sendImgCheckerProcess.dart';
 import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/alert.dart';
-import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:securityapp/widgets/sentSituation.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +46,17 @@ class _ImageCheckingState extends State<ImageChecking> {
     imgSent = ModalRoute.of(context).settings.arguments;
     img = imgSent['img'];
 
-    // print(imgSent["cameraStatus"]);
+    twicePop() {
+      // Twice poping
+      int count = 0;
+      // Back to home page or maino dashboard view
+      // with popUntill twice back in application
+      Navigator.popUntil(context, (route) {
+        return count++ == 2;
+      });
+    }
 
-    void sendChecker({img, status}) async {
+    sendChecker({img, status}) async {
       // print(img);
       // print(status);
       final lStorage = FlutterSecureStorage();
@@ -61,37 +70,35 @@ class _ImageCheckingState extends State<ImageChecking> {
           img: _img64,
           state: status,
           buildingName: buildingName,
+          type: imgSent["type"],
         );
 
-        Navigator.pop(context);
         // TODO: Fix this for future, we need class of Alarm for specific type.
         if (result["status"] == "success")
-          showStatusInCaseOfFlush(
+          rAlert(
             context: context,
-            icon: Icons.done,
-            iconColor: Colors.white,
-            backgroundColor: fullSlotColors,
             title: result["message"]["title"],
-            msg: result["message"]["desc"],
+            desc: result["message"]["desc"],
+            tAlert: AlertType.success,
+            onTapped: () => twicePop(),
           );
 
         if (result["status"] == "warning")
-          showStatusInCaseOfFlush(
+          rAlert(
             context: context,
-            icon: Icons.done,
-            iconColor: Colors.white,
-            backgroundColor: mainSectionCTA,
             title: result["message"]["title"],
-            msg: result["message"]["desc"],
+            desc: result["message"]["desc"],
+            tAlert: AlertType.warning,
+            onTapped: () => twicePop(),
           );
 
         if (result["status"] == "failed")
-          showStatusInCaseOfFlush(
+          rAlert(
             context: context,
-            icon: Icons.done,
-            iconColor: Colors.white,
             title: result["message"]["title"],
-            msg: result["message"]["desc"],
+            desc: result["message"]["desc"],
+            tAlert: AlertType.error,
+            onTapped: () => twicePop(),
           );
       } catch (e) {
         print("Error in send data to server so i save it => $e");

@@ -9,7 +9,6 @@ import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/widgets/CustomText.dart';
-import 'package:securityapp/widgets/alert.dart';
 import 'package:securityapp/widgets/capturingButton.dart';
 import 'package:sizer/sizer.dart';
 
@@ -31,7 +30,7 @@ class _ExitCheckState extends State<ExitCheck> {
 
       if (imgFile != null)
         Navigator.pushNamed(context, imgChecker,
-            arguments: {"img": imgFile, "cameraStatus": "1"});
+            arguments: {"img": imgFile, "cameraStatus": "1", "type": "exit"});
     }
 
     return WillPopScope(
@@ -98,27 +97,15 @@ class _ExitCheckState extends State<ExitCheck> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CapturingOption(
-                                  capture: () {
-                                    alertCheckTip(
-                                        context: context,
-                                        onPressed: () {
-                                          gettingPhoto(ImageSource.camera);
-                                          Navigator.pop(context);
-                                        });
-                                  },
+                                  capture: () =>
+                                      gettingPhoto(ImageSource.camera),
                                   icon: Icons.photo_camera_outlined,
                                   text: cameraBtnText,
                                 ),
                                 SizedBox(width: 5.0.w),
                                 CapturingOption(
-                                  capture: () {
-                                    alertCheckTip(
-                                        context: context,
-                                        onPressed: () {
-                                          gettingPhoto(ImageSource.gallery);
-                                          Navigator.pop(context);
-                                        });
-                                  },
+                                  capture: () =>
+                                      gettingPhoto(ImageSource.gallery),
                                   icon: Icons.photo_album_outlined,
                                   text: galleryBtnText,
                                 )

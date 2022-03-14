@@ -31,7 +31,7 @@ void alertCheckTip({context, Function onPressed}) {
   ).show();
 }
 
-void securityAlertLogin({context, Function onPressed}) {
+securityAlertLogin({context, Function onPressed}) {
   Alert(
     context: context,
     type: AlertType.warning,
@@ -53,6 +53,33 @@ void securityAlertLogin({context, Function onPressed}) {
         ),
         onPressed: onPressed,
       ),
+    ],
+  ).show();
+}
+
+void rAlert({context, title, desc, tAlert, onTapped}) {
+  Alert(
+    context: context,
+    type: tAlert,
+    title: title,
+    desc: desc,
+    style: AlertStyle(
+        titleStyle: TextStyle(
+          fontFamily: mainFont,
+        ),
+        descStyle: TextStyle(fontFamily: mainFont)),
+    buttons: [
+      DialogButton(
+        color: mainCTA,
+        child: Text(
+          "تایید",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontFamily: mainFont),
+        ),
+        onPressed: onTapped,
+        width: 120,
+      )
     ],
   ).show();
 }

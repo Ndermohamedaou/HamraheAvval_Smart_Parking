@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
@@ -12,6 +13,7 @@ import 'package:securityapp/controller/sendImgCheckerProcess.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
 import 'package:securityapp/model/sqfliteLocalCheck.dart';
 import 'package:securityapp/widgets/CustomText.dart';
+import 'package:securityapp/widgets/alert.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:sizer/sizer.dart';
 
@@ -41,7 +43,17 @@ class _BookmarkedState extends State<Bookmarked> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    void sendItAgain({savedId, img, status}) async {
+    twicePop() {
+      // Twice poping
+      int count = 0;
+      // Back to home page or maino dashboard view
+      // with popUntill twice back in application
+      Navigator.popUntil(context, (route) {
+        return count++ == 2;
+      });
+    }
+
+    sendItAgain({savedId, img, status, type}) async {
       final lStorage = FlutterSecureStorage();
       final token = await lStorage.read(key: "uToken");
       String buildingName = await lStorage.read(key: "buildingName");
@@ -55,17 +67,17 @@ class _BookmarkedState extends State<Bookmarked> {
           img: img,
           state: status,
           buildingName: buildingName,
+          type: type,
         );
 
         // TODO: Fix this for future, we need class of Alarm for specific type.
         if (result["status"] == "success") {
-          showStatusInCaseOfFlush(
+          rAlert(
             context: context,
-            icon: Icons.done,
-            iconColor: Colors.white,
-            backgroundColor: fullSlotColors,
             title: result["message"]["title"],
-            msg: result["message"]["desc"],
+            desc: result["message"]["desc"],
+            tAlert: AlertType.success,
+            onTapped: () => twicePop(),
           );
 
           bool delSaved = await saveSecurity.delSavedSecurity(id: savedId);
@@ -77,22 +89,21 @@ class _BookmarkedState extends State<Bookmarked> {
         }
 
         if (result["status"] == "warning")
-          showStatusInCaseOfFlush(
+          rAlert(
             context: context,
-            icon: Icons.done,
-            iconColor: Colors.white,
-            backgroundColor: mainSectionCTA,
             title: result["message"]["title"],
-            msg: result["message"]["desc"],
+            desc: result["message"]["desc"],
+            tAlert: AlertType.warning,
+            onTapped: () => twicePop(),
           );
 
         if (result["status"] == "failed")
-          showStatusInCaseOfFlush(
+          rAlert(
             context: context,
-            icon: Icons.done,
-            iconColor: Colors.white,
             title: result["message"]["title"],
-            msg: result["message"]["desc"],
+            desc: result["message"]["desc"],
+            tAlert: AlertType.error,
+            onTapped: () => twicePop(),
           );
       } catch (e) {
         showStatusInCaseOfFlush(
@@ -126,6 +137,9 @@ class _BookmarkedState extends State<Bookmarked> {
                       savedId: savedList[index]['id'],
                       img: savedList[index]['img'],
                       status: savedList[index]['trafficType'],
+                      type: savedList[index]['trafficType'] == "0"
+                          ? "entry"
+                          : "exit",
                     ),
                     child: SavedContainer(
                       themeChange: themeChange,
