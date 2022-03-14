@@ -30,22 +30,30 @@ class _SearchResultsState extends State<SearchResults> {
 
   @override
   Widget build(BuildContext context) {
+    Map statusSpecification = {
+      -1: "رزرو شده",
+      1: "پر",
+      0: "خالی",
+    };
+
     final themeChange = Provider.of<DarkThemeProvider>(context);
     Map info = ModalRoute.of(context).settings.arguments;
-    String plateImg = info["Plate_img"] != null ? info["Plate_img"] : "";
-    String carImg = info["car_img"] != null ? info["car_img"] : "";
-    var slotNum = info['slot'];
-    var slotStatus = info['status'] == -1
-        ? "رزور شده"
-        : info['slot'] == 1
-            ? "پر"
-            : "خالی";
-    final entryTime = info["entry_datetime"];
-    final exitTime = info["exit_datetime"];
-    final personalCode = info["personal_code"];
-    final name = info["name"];
+    String plateImg =
+        info["meta"]["Plate_img"] != null ? info["meta"]["Plate_img"] : "";
+    String carImg =
+        info["meta"]["car_img"] != null ? info["meta"]["car_img"] : "";
+    var slotNum = info["meta"]['slot'];
+    var slotStatus = statusSpecification[info["status"]['status']];
 
-    print(info);
+    print(slotStatus);
+    print("${info["status"]['status']}");
+
+    final entryTime = info["meta"]["entry_datetime"];
+    final exitTime = info["meta"]["exit_datetime"];
+    final personalCode = info["meta"]["personal_code"];
+    final name = info["meta"]["name"];
+
+    print(info['status']);
 
     return Scaffold(
       appBar: AppBar(

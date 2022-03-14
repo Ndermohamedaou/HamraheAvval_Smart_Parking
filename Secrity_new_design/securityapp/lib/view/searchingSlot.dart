@@ -39,16 +39,16 @@ class _SearchingBySlotState extends State<SearchingBySlot> {
         // First getting token form Flutter local storage
         final lStorage = FlutterSecureStorage();
         final token = await lStorage.read(key: "uToken");
-        Map result =
+        final result =
             await searchMethod.searchingBySlot(token: token, slot: slotNum);
-        // print(result["meta"]);
-        
+
+        print(result);
+
         if (result["meta"] != null)
-          Navigator.pushNamed(
-            context,
-            searchResults,
-            arguments: result["meta"],
-          );
+          Navigator.pushNamed(context, searchResults, arguments: {
+            "status": result["status"],
+            "meta": result["meta"],
+          });
         else
           showStatusInCaseOfFlush(
             context: context,

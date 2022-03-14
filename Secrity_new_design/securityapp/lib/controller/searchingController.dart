@@ -3,17 +3,17 @@ import 'package:securityapp/model/ApiAccess.dart';
 import 'localDataController.dart';
 
 class SearchingCar {
+  // TODO: Change this class
   ApiAccess api = ApiAccess();
-  Future<List> searchingByPlate({token, List plates}) async {
-    try {
-      return await api.searchingByPlate(uToken: token, plates: plates);
-    } catch (e) {
-      print("Error from searching by plate : $e");
-      return [];
-    }
+  Future<dynamic> searchingByPlate({token, List plates, building}) async {
+    return await api.searchingByPlate(
+      uToken: token,
+      plates: plates,
+      buildingName: building,
+    );
   }
 
-  Future<Map> searchingBySlot({token, slot}) async {
+  Future<dynamic> searchingBySlot({token, slot}) async {
     LoadingLocalData llds = LoadingLocalData();
 
     Map loadLocalData = await llds.gettingStaffInfoInLocal();
@@ -28,19 +28,24 @@ class SearchingCar {
     }
   }
 
-  Future<Map> searchingByPersonalCode({token, persCode}) async {
+  Future<dynamic> searchingByPersonalCode({token, persCode, building}) async {
     try {
       return await api.searchingByPersonalCode(
-          uToken: token, persCode: persCode);
+          uToken: token, persCode: persCode, buildingName: building);
     } catch (e) {
       print("Error from searching by Personal Code: $e");
       return {};
     }
   }
 
-  Future<Map> searchingByCapturedImage({token, capturedImage}) async {
+  Future<dynamic> searchingByCapturedImage(
+      {token, capturedImage, building}) async {
     try {
-      return await api.searchingByImage(uToken: token, img: capturedImage);
+      return await api.searchingByImage(
+        uToken: token,
+        img: capturedImage,
+        buildingName: building,
+      );
     } catch (e) {
       print("Error from searching by Captured Image: $e");
       return {};

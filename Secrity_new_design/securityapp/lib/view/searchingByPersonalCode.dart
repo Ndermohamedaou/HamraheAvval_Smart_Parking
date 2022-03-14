@@ -35,21 +35,36 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
 
   @override
   Widget build(BuildContext context) {
-    void searchedBySlot({staffPersonalCode}) async {
+    searchedBySlot({staffPersonalCode}) async {
+      final lStorage = FlutterSecureStorage();
+      String buildingName = await lStorage.read(key: "buildingName");
+
       if (staffPersonalCode != "") {
         // init Flutter Secure Storage
         // First getting token form Flutter local storage
         final lStorage = FlutterSecureStorage();
         final token = await lStorage.read(key: "uToken");
-        Map result = await searchMethod.searchingByPersonalCode(
-            token: token, persCode: staffPersonalCode);
-        print(result["meta"]);
-        if (result["meta"] != null)
-          Navigator.pushNamed(
-            context,
-            searchResults,
-            arguments: result["meta"][0],
+        final result = await searchMethod.searchingByPersonalCode(
+          token: token,
+          persCode: staffPersonalCode,
+          building: buildingName,
+        );
+
+        if (result == "404") {
+          showStatusInCaseOfFlush(
+            context: context,
+            title: notFoundTitle,
+            msg: notFoundDsc,
+            icon: Icons.close,
+            iconColor: Colors.red,
           );
+        }
+
+        if (result["meta"] != null)
+          Navigator.pushNamed(context, searchResults, arguments: {
+            "status": result["status"],
+            "meta": result["meta"][0],
+          });
         else
           showStatusInCaseOfFlush(
             context: context,

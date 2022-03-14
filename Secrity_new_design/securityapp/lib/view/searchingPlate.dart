@@ -48,7 +48,10 @@ class _SearchByPlateState extends State<SearchByPlate> {
   Widget build(BuildContext context) {
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
-    void searchedByPlate({plate0, plate1, plate2, plate3}) async {
+    searchedByPlate({plate0, plate1, plate2, plate3}) async {
+      final lStorage = FlutterSecureStorage();
+      String buildingName = await lStorage.read(key: "buildingName");
+
       if (plate0 != "" && plate1 != "" && plate2 != "" && plate3 != "") {
         // init Flutter Secure Storage
         // First getting token form Flutter local storage
@@ -56,11 +59,17 @@ class _SearchByPlateState extends State<SearchByPlate> {
         final token = await lStorage.read(key: "uToken");
         // print("${plate0} ${plate1} ${plate2} ${plate3}");
         List plateArr = [plate0, plate1, plate2, plate3];
-        List result =
-            await searchMethod.searchingByPlate(token: token, plates: plateArr);
-        // print(result);
+        final result = await searchMethod.searchingByPlate(
+          token: token,
+          plates: plateArr,
+          building: buildingName,
+        );
+        print(result);
         if (result.isNotEmpty)
-          Navigator.pushNamed(context, searchResults, arguments: result[0]);
+          Navigator.pushNamed(context, searchResults, arguments: {
+            "status": result["status"],
+            "meta": result["meta"],
+          });
         else
           showStatusInCaseOfFlush(
             context: context,

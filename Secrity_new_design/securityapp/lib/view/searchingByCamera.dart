@@ -31,6 +31,8 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
     themeChange = Provider.of<DarkThemeProvider>(context);
 
     Future gettingPhoto(ImageSource sourceType) async {
+      final lStorage = FlutterSecureStorage();
+      String buildingName = await lStorage.read(key: "buildingName");
       final ImagePicker _picker = ImagePicker();
       final image = await _picker.getImage(source: sourceType);
       File imgFile = File(image.path);
@@ -46,13 +48,18 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
         final token = await lStorage.read(key: "uToken");
         // Getting only result from searched
         // image (Image processing on the plate number)
-        Map admitImageResult = await searchMethod.searchingByCapturedImage(
-            token: token, capturedImage: capturedImage);
+        final admitImageResult = await searchMethod.searchingByCapturedImage(
+          token: token,
+          capturedImage: capturedImage,
+          building: buildingName,
+        );
 
         print("Result is ===> $admitImageResult");
         if (admitImageResult.isNotEmpty) {
-          Navigator.pushNamed(context, searchResults,
-              arguments: admitImageResult);
+          Navigator.pushNamed(context, searchResults, arguments: {
+            "status": admitImageResult["status"],
+            "meta": admitImageResult["meta"],
+          });
         } else
           showStatusInCaseOfFlush(
             context: context,

@@ -70,17 +70,18 @@ class ApiAccess {
   }
 
   // Searching by Plate
-  Future<List> searchingByPlate({uToken, List plates}) async {
+  Future<dynamic> searchingByPlate({uToken, List plates, buildingName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
-
-    Response res = await dio.post(
-        "$baseURL/searchSlot?type=plate&plate0=${plates[0]}&plate1=${plates[1]}&plate2=${plates[2]}&plate3=${plates[3]}");
+    // TODO: Change My bad
+    String query =
+        "$baseURL/searchSlot?type=plate&plate0=${plates[0]}&plate1=${plates[1]}&plate2=${plates[2]}&plate3=${plates[3]}&building=$buildingName";
+    Response res = await dio.post(query);
     return res.data;
   }
 
   // Searching by Slot
-  Future<Map> searchingBySlot({uToken, slotNum, buildingName}) async {
+  Future<dynamic> searchingBySlot({uToken, slotNum, buildingName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
     // print("searchSlot?type=slot&slot=$buildingName-$slotNum");
@@ -90,21 +91,23 @@ class ApiAccess {
   }
 
   // Searching by Personal Code
-  Future<Map> searchingByPersonalCode({uToken, persCode}) async {
+  Future<dynamic> searchingByPersonalCode(
+      {uToken, persCode, buildingName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
 
-    Response res = await dio
-        .post("$baseURL/searchSlot?type=personal_code&personal_code=$persCode");
+    Response res = await dio.post(
+        "$baseURL/searchSlot?type=personal_code&personal_code=$persCode&building=$buildingName");
     return res.data;
   }
 
   // Searching by Captured Image from Sec man
-  Future<Map> searchingByImage({uToken, img}) async {
+  Future<dynamic> searchingByImage({uToken, img, buildingName}) async {
     dio.options.headers['content-type'] = 'application/json';
     dio.options.headers['authorization'] = "Bearer $uToken";
 
-    Response res = await dio.post("$baseURL/searchSlot?type=plate_image",
+    Response res = await dio.post(
+        "$baseURL/searchSlot?type=plate_image&building=$buildingName",
         data: {"plate_image": img});
     return res.data;
   }
