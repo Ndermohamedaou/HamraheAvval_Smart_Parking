@@ -11,8 +11,40 @@ const darkTheme = "تاریک";
 const personalCodeText = "کد پرسنلی";
 const passwordCodeText = "گذرواژه";
 const forgetPassword = "گذرواژه خود را فراموش کرده اید؟";
-// Will be next fist visit statment to show new page
+// Reset password
+const wrongPersonalCode = "کد پرسنلی اشتباه است";
+const wrongPersonalCodeInfo =
+    "ممکن است اطلاعات ورود اشتباه یا در سامانه موجود نباشد";
+const emptyBox = "فیلد مورد نظر را پر کنید";
+const emptyPersonalCode = "فیلد کد پرسنلی نمیتواند خالی رها شود";
+const recoverPasswordAppBar = "بازنشانی گذرواژه حساب شما";
+const newPassword = "گذرواژه";
+const confirmPassword = "تایید گذرواژه";
+// Will be next fist visit statement to show new page
 
+const recoverPasswordTitle = "عملیات ویرایش گذرواژه شما موفقیت آمیز بود";
+const recoverPasswordDesc =
+    "گذرواژه شما با موفقیت تغییر کرد، لطفا دوباره اقدام به ورود کنید";
+const wrongOTPTitle = "خطا در کد وارد شده";
+const wrongOTPDesc = "لطفا از صحت کد اطمینان حاصل کنید یا دوباره اقدام کنید";
+const invalidPassword = "گذرواژه نامعتبر";
+const passwordCheckerText =
+    "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد";
+const passwordsNotMatchTitle = "گذرواژه های وارد شده با هم مطابقت ندارند";
+const passwordsNotMatchDesc =
+    "گذرواژه منتخب شما بایستی ترکیبی از حروف بزرگ و کوچک و اعداد باشد";
+const otpCheckFailedTitle = "شکست در اعتبارسنجی کد امنیتی";
+const otpCheckFailedDesc = "کد امنیتی شما اشتباه است یا منقضی شده است";
+const addPlateServerErrorTitle = "عملیات ثبت پلاک شما با شکست مواجه شد";
+const addPlateServerErrorDesc =
+    "پلاک و اسناد شما در سامانه ثبت نشد، لطفا باری دیگر امتحان کنید";
+const wrongPasswordCountTitle = "خطا در اندازه و اعتماد گذرواژه";
+const wrongPasswordCountDesc = "گذرواژه شما بایستی بیشتر از ۶ کاراکتر باشد";
+const mustNotEmpty = "فیلد نباید خالی باشد!";
+const enterPassword = "لطفا گذرواژه مورد نظر را وارد نمایید";
+const serverError = "مشکل در برقرار ارتباط با سرویس دهنده";
+const connectionFailed =
+    "لطفا اتصال خود را به شبکه بررسی نمایید و سپس مجددا وارد شوید";
 // Side Menu
 // Side Menu -- Home text
 const homeText = "نمایش جایگاه ها";

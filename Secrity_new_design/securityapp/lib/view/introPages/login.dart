@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/widgets/CustomText.dart';
@@ -62,23 +63,26 @@ class LoginMain extends StatelessWidget {
               onChangeText: onChangedPassword,
             ),
             SizedBox(height: 3.0.h),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                textDirection: TextDirection.ltr,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CustomText(
-                    text: forgetPassword,
-                    size: 11.0.sp,
-                    color: mainCTA,
-                  ),
-                  SizedBox(width: 10),
-                  Icon(
-                    Icons.lock,
-                    color: mainCTA,
-                  )
-                ],
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, forgetPasswordRoute),
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  textDirection: TextDirection.ltr,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomText(
+                      text: forgetPassword,
+                      size: 11.0.sp,
+                      color: mainCTA,
+                    ),
+                    SizedBox(width: 10),
+                    Icon(
+                      Icons.lock,
+                      color: mainCTA,
+                    )
+                  ],
+                ),
               ),
             ),
           ],

@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class TextFields extends StatelessWidget {
-  TextFields(
-      {this.lblText,
-      this.onChangeText,
-      this.textFieldIcon,
-      this.textInputType,
-      this.validate,
-      this.iconPressed,
-      this.maxLen,
-      this.errText,
-      this.enteringEditing,
-      this.readOnly,
-      this.initValue,
-      this.keyType});
+  TextFields({
+    this.lblText,
+    this.onChangeText,
+    this.textFieldIcon,
+    this.textInputType,
+    this.validate,
+    this.iconPressed,
+    this.maxLen,
+    this.errText,
+    this.enteringEditing,
+    this.readOnly,
+    this.initValue,
+    this.keyType,
+  });
 
   final String lblText;
   final Function onChangeText;

@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/provider/term_of_service_model.dart';
+import 'package:securityapp/view/recover_password_view.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:sizer/sizer.dart';
 import 'model/classes/ThemeColor.dart';
@@ -16,6 +17,8 @@ import 'package:root_detector/root_detector.dart';
 // Screens
 import 'view/splashScreen.dart';
 import 'view/login.dart';
+import 'view/forget_password_view.dart';
+import 'view/otp_screen.dart';
 import 'view/maino.dart';
 import 'view/searchingPlate.dart';
 import 'view/searchingSlot.dart';
@@ -184,6 +187,9 @@ class _MyAppState extends State<MyApp> {
                   routes: {
                     splashScreenRoute: (context) => SplashScreen(),
                     loginRoute: (context) => Login(),
+                    forgetPasswordRoute: (context) => ForgetPasswordPage(),
+                    otpRoute: (context) => OTPSubmission(),
+                    recoverPasswordRoute: (context) => RecoverPassword(),
                     mainoRoute: (context) => Maino(),
                     searchByPlateRoute: (context) => SearchByPlate(),
                     searchBySlotRoute: (context) => SearchingBySlot(),

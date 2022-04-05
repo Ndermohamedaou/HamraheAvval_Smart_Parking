@@ -65,6 +65,8 @@ dependencies:
   connectivity:
   # For detecting root device
   root_detector: ^0.0.6
+  # For OTP view
+  pinput: ^1.2.0
 
 dev_dependencies:
   flutter_test:

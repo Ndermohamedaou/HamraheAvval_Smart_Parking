@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:securityapp/constFile/initVar.dart';
 
@@ -24,6 +23,33 @@ class ApiAccess {
     dio.options.headers["authorization"] = "Bearer $uToken";
     // Get User info with Map Type
     Response response = await dio.get("$baseURL/userInfo");
+    return response.data;
+  }
+
+  Future<dynamic> passwordReset({String personalCode}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    // Will Return status number
+    // If it was 200 it means that password reset was successful else do error
+    Response response =
+        await dio.post("$baseURL/PasswordReset?personal_code=$personalCode");
+    return response.data;
+  }
+
+  Future<dynamic> checkOTP({String otpNumber, String personalCode}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    // Will Return status number
+    // If it was 200 it means that password reset was successful else do error
+    Response response = await dio.post(
+        "$baseURL/checkOTP?personal_code=$personalCode&otp_code=$otpNumber");
+    return response.data;
+  }
+
+  Future<dynamic> recoverPassword({String otpCode, String password}) async {
+    dio.options.headers['Content-Type'] = 'application/json';
+    // Will Return status number
+    // If it was 200 it means that password reset was successful else do error
+    Response response = await dio
+        .post("$baseURL/recoverPassword?&otp_code=$otpCode&password=$password");
     return response.data;
   }
 
