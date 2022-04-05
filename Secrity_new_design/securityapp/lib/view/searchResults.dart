@@ -44,16 +44,14 @@ class _SearchResultsState extends State<SearchResults> {
         info["meta"]["car_img"] != null ? info["meta"]["car_img"] : "";
     var slotNum = info["meta"]['slot'];
     var slotStatus = statusSpecification[info["status"]['status']];
-
-    print(slotStatus);
-    print("${info["status"]['status']}");
-
     final entryTime = info["meta"]["entry_datetime"];
     final exitTime = info["meta"]["exit_datetime"];
-    final personalCode = info["meta"]["personal_code"];
-    final name = info["meta"]["name"];
-
-    print(info['status']);
+    final personalCode = info["status"]["personal_code"];
+    final staffPhone =
+        info["status"]["phone"] == null ? "-" : info["status"]["phone"];
+    final name = info["status"]["name"];
+    final staffPosition =
+        info["status"]["position"] == null ? "-" : info["status"]["position"];
 
     return Scaffold(
       appBar: AppBar(
@@ -105,9 +103,9 @@ class _SearchResultsState extends State<SearchResults> {
                   return Column(
                     children: [
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.all(5.0),
+                        margin: EdgeInsets.all(5.0),
                         width: double.infinity,
-                        height: 55.0.h,
                         decoration: BoxDecoration(
                           color: themeChange.darkTheme
                               ? darkOptionBg
@@ -115,7 +113,7 @@ class _SearchResultsState extends State<SearchResults> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ResultTiles(
                               icon: Icons.layers,
@@ -159,14 +157,36 @@ class _SearchResultsState extends State<SearchResults> {
                               title: "شناسه پرسنلی",
                               subtitle: personalCode,
                             ),
+                            Divider(
+                              height: 2,
+                              thickness: 1,
+                            ),
+                            ResultTiles(
+                              icon: Icons.phone,
+                              iconBg: staffPhoneBg,
+                              iconColor: Colors.white,
+                              title: staffPhoneString,
+                              subtitle: staffPhone,
+                            ),
+                            Divider(
+                              height: 2,
+                              thickness: 1,
+                            ),
+                            ResultTiles(
+                              icon: Icons.point_of_sale,
+                              iconBg: mainSectionCTA,
+                              iconColor: Colors.white,
+                              title: staffPositionString,
+                              subtitle: staffPosition,
+                            ),
                           ],
                         ),
                       ),
                       SizedBox(height: 5.0.h),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.all(5.0),
+                        margin: EdgeInsets.all(5.0),
                         width: double.infinity,
-                        height: 28.0.h,
                         decoration: BoxDecoration(
                           color: themeChange.darkTheme
                               ? darkOptionBg

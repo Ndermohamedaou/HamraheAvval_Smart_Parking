@@ -42,6 +42,7 @@ HexColor slotNumberBg = HexColor("#FED342");
 HexColor slotStatusBg = HexColor("#A7AFB2");
 HexColor entrySlotBg = HexColor("#AEDE0D");
 HexColor exitSlotBg = HexColor("#DF1868");
+HexColor staffPhoneBg = HexColor("#1df2eb");
 
 // Colors -- mini plate colors
 HexColor littleRecPlateColor = HexColor("#00478E");

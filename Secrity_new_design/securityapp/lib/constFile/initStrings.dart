@@ -74,6 +74,8 @@ const slotStatusResult = "وضعیت جایگاه";
 const resultSlotTip = "موقعیت جایگاه جست و جو شده";
 const entryTimeResult = "زمان ورود";
 const exitTimeResult = "زمان خروج";
+const staffPositionString = "سطح سازمانی";
+const staffPhoneString = "شماره تماس کارمند";
 const resultTimeTips =
     "وضعیت زمانی، در چه ساعاتی تردد و ورود - خروج صورت گرفته است";
 
