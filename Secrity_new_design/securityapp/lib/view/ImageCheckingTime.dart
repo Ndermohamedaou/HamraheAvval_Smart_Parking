@@ -28,6 +28,9 @@ class ImageChecking extends StatefulWidget {
 }
 
 class _ImageCheckingState extends State<ImageChecking> {
+  // Add sendImageLoading state to sender
+  bool sendImageLoading = false;
+
   @override
   void initState() {
     img;
@@ -59,6 +62,7 @@ class _ImageCheckingState extends State<ImageChecking> {
     sendChecker({img, status}) async {
       // print(img);
       // print(status);
+      setState(() => sendImageLoading = true);
       final lStorage = FlutterSecureStorage();
       String token = await lStorage.read(key: "uToken");
       String _img64 = await imgConvertion.img2Base64(img: img);
@@ -72,6 +76,7 @@ class _ImageCheckingState extends State<ImageChecking> {
           buildingName: buildingName,
           type: imgSent["type"],
         );
+        setState(() => sendImageLoading = false);
 
         // TODO: Fix this for future, we need class of Alarm for specific type.
         if (result["status"] == "success")
@@ -101,6 +106,7 @@ class _ImageCheckingState extends State<ImageChecking> {
             onTapped: () => twicePop(),
           );
       } catch (e) {
+        setState(() => sendImageLoading = false);
         print("Error in send data to server so i save it => $e");
         bool saveResult = await saveSecurity.addSavedSecurity(
             img: _img64, trafficType: status);
@@ -136,13 +142,16 @@ class _ImageCheckingState extends State<ImageChecking> {
         textDirection: TextDirection.rtl,
         children: [
           SentSituation(
-            send: () => sendChecker(
-                img: imgSent["img"], status: imgSent["cameraStatus"]),
+            send: sendImageLoading
+                ? null
+                : () => sendChecker(
+                    img: imgSent["img"], status: imgSent["cameraStatus"]),
             icon: Icons.done_all,
             iconColor: Colors.white,
             color: mainCTA,
             text: send,
             textColor: Colors.white,
+            isLoadingTime: sendImageLoading,
           ),
           SizedBox(width: 5.0.w),
           SentSituation(
@@ -152,6 +161,7 @@ class _ImageCheckingState extends State<ImageChecking> {
             iconColor: Colors.black,
             text: abort,
             textColor: Colors.black,
+            isLoadingTime: false,
           ),
         ],
       ),
