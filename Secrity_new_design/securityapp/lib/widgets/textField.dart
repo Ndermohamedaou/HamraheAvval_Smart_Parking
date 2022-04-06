@@ -1,6 +1,5 @@
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class TextFields extends StatelessWidget {
   TextFields({

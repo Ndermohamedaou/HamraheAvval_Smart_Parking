@@ -8,6 +8,7 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/searchingController.dart';
 import 'package:securityapp/model/classes/AlphabetClassList.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
+import 'package:securityapp/provider/abuse_warning_model.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/dorpdownMenuItem.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
@@ -46,6 +47,8 @@ class _SearchByPlateState extends State<SearchByPlate> {
 
   @override
   Widget build(BuildContext context) {
+    AbuseWarningModel abuseWarningModel =
+        Provider.of<AbuseWarningModel>(context);
     final themeChange = Provider.of<DarkThemeProvider>(context);
 
     searchedByPlate({plate0, plate1, plate2, plate3}) async {
@@ -64,13 +67,17 @@ class _SearchByPlateState extends State<SearchByPlate> {
           plates: plateArr,
           building: buildingName,
         );
-        print(result);
-        if (result.isNotEmpty)
+        // print(result);
+        if (result.isNotEmpty) {
           Navigator.pushNamed(context, searchResults, arguments: {
             "status": result["status"],
             "meta": result["meta"],
           });
-        else
+          // Setting the personal code for abuse list api call.
+          abuseWarningModel.setAbuseReportPersonalCode =
+              result["status"]["personal_code"];
+          abuseWarningModel.getAbuseList;
+        } else
           showStatusInCaseOfFlush(
             context: context,
             title: notFoundTitle,

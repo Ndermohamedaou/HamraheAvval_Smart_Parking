@@ -1,10 +1,12 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/searchingController.dart';
+import 'package:securityapp/provider/abuse_warning_model.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
 import 'package:securityapp/widgets/searchingButton.dart';
@@ -35,6 +37,9 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
 
   @override
   Widget build(BuildContext context) {
+    AbuseWarningModel abuseWarningModel =
+        Provider.of<AbuseWarningModel>(context);
+
     searchedBySlot({staffPersonalCode}) async {
       final lStorage = FlutterSecureStorage();
       String buildingName = await lStorage.read(key: "buildingName");
@@ -60,12 +65,16 @@ class _SearchingByPersonalCodeState extends State<SearchingByPersonalCode> {
           );
         }
 
-        if (result["meta"] != null)
+        if (result["meta"] != null) {
           Navigator.pushNamed(context, searchResults, arguments: {
             "status": result["status"],
             "meta": result["meta"][0],
           });
-        else
+          // Setting the personal code for abuse list api call.
+          abuseWarningModel.setAbuseReportPersonalCode =
+              result["status"]["personal_code"];
+          abuseWarningModel.getAbuseList;
+        } else
           showStatusInCaseOfFlush(
             context: context,
             title: notFoundTitle,

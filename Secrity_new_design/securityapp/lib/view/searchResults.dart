@@ -1,11 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
+import 'package:securityapp/model/ApiAccess.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
+import 'package:securityapp/provider/abuse_warning_model.dart';
+import 'package:securityapp/spec/FlowState.dart';
 import 'package:securityapp/widgets/CustomText.dart';
+import 'package:securityapp/widgets/alert.dart';
+import 'package:securityapp/widgets/flushbarStatus.dart';
+import 'package:securityapp/widgets/padded_container.dart';
+import 'package:securityapp/widgets/sentSituation.dart';
+import 'package:securityapp/widgets/textField.dart';
 import 'package:sizer/sizer.dart';
 
 int moreImgIndex = 0;
@@ -16,6 +26,7 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
+  String abuseSlot;
   @override
   void initState() {
     moreImgIndex = 0;
@@ -30,14 +41,20 @@ class _SearchResultsState extends State<SearchResults> {
 
   @override
   Widget build(BuildContext context) {
+    final themeChange = Provider.of<DarkThemeProvider>(context);
+    AbuseWarningModel abuseWarningModel =
+        Provider.of<AbuseWarningModel>(context);
+
     Map statusSpecification = {
       -1: "رزرو شده",
       1: "پر",
       0: "خالی",
     };
 
-    final themeChange = Provider.of<DarkThemeProvider>(context);
+    // Getting all data from the server in previous screen api call.
     Map info = ModalRoute.of(context).settings.arguments;
+
+    final personalCode = info["status"]["personal_code"];
     String plateImg =
         info["meta"]["Plate_img"] != null ? info["meta"]["Plate_img"] : "";
     String carImg =
@@ -46,12 +63,71 @@ class _SearchResultsState extends State<SearchResults> {
     var slotStatus = statusSpecification[info["status"]['status']];
     final entryTime = info["meta"]["entry_datetime"];
     final exitTime = info["meta"]["exit_datetime"];
-    final personalCode = info["status"]["personal_code"];
     final staffPhone =
         info["status"]["phone"] == null ? "-" : info["status"]["phone"];
     final name = info["status"]["name"];
     final staffPosition =
         info["status"]["position"] == null ? "-" : info["status"]["position"];
+
+    submitAbuseSlotSelection() async {
+      ///
+      /// Set new Abuse slot with parkingWarnApi.
+      /// Passed slot number and staff personal code
+      ApiAccess api = ApiAccess();
+      final lStorage = FlutterSecureStorage();
+      final userToken = await lStorage.read(key: "uToken");
+
+      // Check TextField empty, and send request
+      if (abuseSlot != "") {
+        try {
+          final result = await api.setNewAbuse(
+            token: userToken,
+            personalCode: personalCode,
+            slotNumber: slotNum,
+          );
+
+          if (result == "200")
+            rAlert(
+              context: context,
+              title: reportAbuseSuccessTitle,
+              desc: reportAbuseSuccessDesc,
+              tAlert: AlertType.success,
+              onTapped: () => Navigator.pop(context),
+            );
+
+          if (result == "500")
+            rAlert(
+              context: context,
+              title: reportAbuseSuccessTitle,
+              desc: reportAbuseFailedDesc,
+              tAlert: AlertType.warning,
+              onTapped: () => Navigator.pop(context),
+            );
+
+          setState(() => abuseSlot = "");
+          abuseWarningModel.getAbuseList;
+        } catch (e) {
+          print("Error in setting new abuse report $e");
+          showStatusInCaseOfFlush(
+            context: context,
+            backgroundColor: mainSectionCTA,
+            icon: Icons.close,
+            iconColor: Colors.red,
+            title: reportAbuseFailedTitle,
+            msg: reportAbuseFailedDesc,
+          );
+        }
+      } else {
+        showStatusInCaseOfFlush(
+          context: context,
+          backgroundColor: mainSectionCTA,
+          icon: Icons.close,
+          iconColor: Colors.red,
+          title: reportAbuseTextFiledEmptyTitle,
+          msg: reportAbuseTextFiledEmptyDesc,
+        );
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -102,16 +178,8 @@ class _SearchResultsState extends State<SearchResults> {
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
                     children: [
-                      Container(
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(5.0),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: themeChange.darkTheme
-                              ? darkOptionBg
-                              : lightOptionBg,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                      PaddedContainer(
+                        themeChange: themeChange,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -183,16 +251,8 @@ class _SearchResultsState extends State<SearchResults> {
                         ),
                       ),
                       SizedBox(height: 5.0.h),
-                      Container(
-                        padding: EdgeInsets.all(5.0),
-                        margin: EdgeInsets.all(5.0),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: themeChange.darkTheme
-                              ? darkOptionBg
-                              : lightOptionBg,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
+                      PaddedContainer(
+                        themeChange: themeChange,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -218,6 +278,94 @@ class _SearchResultsState extends State<SearchResults> {
                           ],
                         ),
                       ),
+                      PaddedContainer(
+                        themeChange: themeChange,
+                        child: Builder(
+                          builder: (_) {
+                            if (abuseWarningModel.getAbuseListState ==
+                                FlowState.Loading)
+                              return CircularProgressIndicator();
+
+                            if (abuseWarningModel.getAbuseListState ==
+                                FlowState.Error)
+                              return CustomText(
+                                text: "خطا در دریافت اطلاعات",
+                              );
+
+                            if (abuseWarningModel.abuseList.isEmpty)
+                              return CustomText(
+                                size: 14.0.sp,
+                                text: "لیست اخطارها خالی است",
+                              );
+
+                            return ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: abuseWarningModel.abuseList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return PaddedContainer(
+                                  themeChange: themeChange,
+                                  child: Column(
+                                    children: [
+                                      CustomText(
+                                        text:
+                                            abuseWarningModel.abuseList[index],
+                                        size: 12.0.sp,
+                                      ),
+                                      SizedBox(height: 5),
+                                      Divider(
+                                        color: Colors.grey,
+                                        indent: 3.0,
+                                        height: 5.0,
+                                        thickness: 0.75,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                      personalCode == "-"
+                          ? SizedBox()
+                          : PaddedContainer(
+                              themeChange: themeChange,
+                              child: Column(
+                                textDirection: TextDirection.rtl,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 30.0, vertical: 15.0),
+                                    child: TextFields(
+                                      keyType: TextInputType.number,
+                                      lblText: reportAbuseTextFieldLabel,
+                                      initValue: abuseSlot,
+                                      textInputType: false,
+                                      maxLen:
+                                          textFieldsMaxLength["abuseTextField"],
+                                      readOnly: false,
+                                      onChangeText: (newSlot) =>
+                                          setState(() => abuseSlot = newSlot),
+                                    ),
+                                  ),
+                                  SentSituation(
+                                    width: 68.0.w,
+                                    send: () => submitAbuseSlotSelection(),
+                                    icon: Icons.done_all,
+                                    iconColor: Colors.white,
+                                    color: mainSectionCTA,
+                                    text: reportAbuseText,
+                                    textColor: Colors.white,
+                                    isLoadingTime: false,
+                                  ),
+                                ],
+                              ),
+                            ),
+                      SizedBox(height: 2.0.h),
                       SizedBox(height: 5.0.h),
                     ],
                   );

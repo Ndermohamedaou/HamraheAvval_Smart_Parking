@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/widgets/CustomText.dart';
@@ -12,6 +14,7 @@ class SentSituation extends StatelessWidget {
     this.textColor,
     this.iconColor,
     this.isLoadingTime,
+    this.width,
   });
 
   final Function send;
@@ -21,6 +24,7 @@ class SentSituation extends StatelessWidget {
   final textColor;
   final iconColor;
   final isLoadingTime;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +36,7 @@ class SentSituation extends StatelessWidget {
           color: color,
           child: MaterialButton(
               onPressed: send,
-              minWidth: 40.0.w,
+              minWidth: width != null ? width : 40.0.w,
               height: 6.56.h,
               child: Row(
                 children: [

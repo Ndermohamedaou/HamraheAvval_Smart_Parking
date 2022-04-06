@@ -5,6 +5,7 @@ import 'package:liquid_ui/liquid_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:securityapp/constFile/initRouteString.dart';
+import 'package:securityapp/provider/abuse_warning_model.dart';
 import 'package:securityapp/provider/term_of_service_model.dart';
 import 'package:securityapp/view/recover_password_view.dart';
 import 'package:securityapp/widgets/CustomText.dart';
@@ -164,7 +165,10 @@ class _MyAppState extends State<MyApp> {
             ),
             ChangeNotifierProvider<TermsOfServiceModel>(
               create: (_) => TermsOfServiceModel(),
-            )
+            ),
+            ChangeNotifierProvider<AbuseWarningModel>(
+              create: (_) => AbuseWarningModel(),
+            ),
           ],
           child: Consumer<DarkThemeProvider>(
             builder: (BuildContext context, value, Widget child) {

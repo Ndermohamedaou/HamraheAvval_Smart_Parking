@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:securityapp/constFile/initRouteString.dart';
 import 'package:securityapp/constFile/initStrings.dart';
 import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/model/ApiAccess.dart';
@@ -73,6 +74,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
                   });
                   showStatusInCaseOfFlush(
                       context: context,
+                      backgroundColor: successfulChange,
                       title: recoverPasswordTitle,
                       msg: recoverPasswordDesc,
                       iconColor: Colors.white,
@@ -80,6 +82,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
                 } else {
                   showStatusInCaseOfFlush(
                       context: context,
+                      backgroundColor: wrongChange,
                       title: wrongOTPTitle,
                       msg: wrongOTPDesc,
                       iconColor: Colors.white,
@@ -90,6 +93,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
 
                 showStatusInCaseOfFlush(
                     context: context,
+                    backgroundColor: wrongChange,
                     title: invalidPassword,
                     msg: passwordCheckerText,
                     icon: Icons.email,
@@ -99,6 +103,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
               setState(() => _isSubmit = true);
               showStatusInCaseOfFlush(
                   context: context,
+                  backgroundColor: wrongChange,
                   title: passwordsNotMatchTitle,
                   msg: passwordsNotMatchDesc,
                   iconColor: Colors.white,
@@ -108,6 +113,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
             setState(() => _isSubmit = true);
             showStatusInCaseOfFlush(
                 context: context,
+                backgroundColor: wrongChange,
                 title: wrongPasswordCountTitle,
                 msg: wrongPasswordCountDesc,
                 iconColor: Colors.white,
@@ -121,6 +127,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
           });
           showStatusInCaseOfFlush(
               context: context,
+              backgroundColor: wrongChange,
               title: mustNotEmpty,
               msg: enterPassword,
               iconColor: Colors.white,
@@ -131,6 +138,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
         setState(() => _isSubmit = true);
         showStatusInCaseOfFlush(
             context: context,
+            backgroundColor: wrongChange,
             title: serverError,
             msg: connectionFailed,
             iconColor: Colors.white,
@@ -140,7 +148,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.popUntil(context, ModalRoute.withName("/login"));
+        Navigator.popUntil(context, ModalRoute.withName(loginRoute));
         return true;
       },
       child: Scaffold(
@@ -165,7 +173,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
             children: [
               SizedBox(height: 2.0.h),
               TextFields(
-                lblText: password,
+                lblText: passwordCodeText,
                 maxLen: 20,
                 keyType: TextInputType.visiblePassword,
                 readOnly: false,
@@ -193,7 +201,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
               ),
               SizedBox(height: 2.0.h),
               TextFields(
-                lblText: newPassword,
+                lblText: repeatPasswordText,
                 maxLen: 20,
                 keyType: TextInputType.visiblePassword,
                 readOnly: false,
@@ -224,6 +232,7 @@ class RecoverPasswordState extends State<RecoverPassword> {
         ),
         bottomNavigationBar: BottomButton(
           text: savedSuccessBtn,
+          color: mainCTA,
           onTapped: () => submitPassword(
               otpCode: otpCode, pass: password, repass: rePassword),
         ),

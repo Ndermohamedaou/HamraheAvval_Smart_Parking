@@ -19,6 +19,7 @@ const emptyBox = "فیلد مورد نظر را پر کنید";
 const emptyPersonalCode = "فیلد کد پرسنلی نمیتواند خالی رها شود";
 const recoverPasswordAppBar = "بازنشانی گذرواژه حساب شما";
 const newPassword = "گذرواژه";
+const repeatPasswordText = "تکرار گذرواژه";
 const confirmPassword = "تایید گذرواژه";
 // Will be next fist visit statement to show new page
 
@@ -66,6 +67,15 @@ const saved = "اطلاعات ذخیره شده";
 const themeText = "محیط روشن / تاریک";
 // Settings text
 const initSettingsText = "تنظیمات";
+const reportAbuseText = "اخطار پارک اشتباه";
+const reportAbuseTextFieldLabel = "شماره جایگاه";
+// Abuse
+const reportAbuseSuccessTitle = "پیغام اخطار";
+const reportAbuseSuccessDesc = "اخطار پارک اشتباه با موفقیت ارسال شد";
+const reportAbuseTextFiledEmptyTitle = "فیلد خالی است";
+const reportAbuseTextFiledEmptyDesc = "فیلد جایگاه مورد نظر خود را وارد کنید";
+const reportAbuseFailedTitle = "گزارش ثبت تخلف انجام نشد";
+const reportAbuseFailedDesc = "خطا در ارسال پیغام اخطار";
 
 // Home <<Slots View>>
 // APP bar

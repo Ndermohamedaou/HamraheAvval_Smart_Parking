@@ -10,6 +10,7 @@ import 'package:securityapp/constFile/initVar.dart';
 import 'package:securityapp/controller/imgConversion.dart';
 import 'package:securityapp/controller/searchingController.dart';
 import 'package:securityapp/model/classes/ThemeColor.dart';
+import 'package:securityapp/provider/abuse_warning_model.dart';
 import 'package:securityapp/widgets/CustomText.dart';
 import 'package:securityapp/widgets/capturingButton.dart';
 import 'package:securityapp/widgets/flushbarStatus.dart';
@@ -28,6 +29,8 @@ class SearchingByCamera extends StatefulWidget {
 class _SearchingByCameraState extends State<SearchingByCamera> {
   @override
   Widget build(BuildContext context) {
+    AbuseWarningModel abuseWarningModel =
+        Provider.of<AbuseWarningModel>(context);
     themeChange = Provider.of<DarkThemeProvider>(context);
 
     Future gettingPhoto(ImageSource sourceType) async {
@@ -54,12 +57,17 @@ class _SearchingByCameraState extends State<SearchingByCamera> {
           building: buildingName,
         );
 
-        print("Result is ===> $admitImageResult");
+        // print("Result is ===> $admitImageResult");
         if (admitImageResult.isNotEmpty) {
           Navigator.pushNamed(context, searchResults, arguments: {
             "status": admitImageResult["status"],
             "meta": admitImageResult["meta"],
           });
+
+          // Setting the personal code for abuse list api call.
+          abuseWarningModel.setAbuseReportPersonalCode =
+              admitImageResult["status"]["personal_code"];
+          abuseWarningModel.getAbuseList;
         } else
           showStatusInCaseOfFlush(
             context: context,

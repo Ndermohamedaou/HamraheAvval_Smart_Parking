@@ -9,6 +9,10 @@ const Map<String, double> imgConfig = {
   "imgQuality": 60,
 };
 
+const Map<String, int> textFieldsMaxLength = {
+  "abuseTextField": 4,
+};
+
 // Colors
 HexColor lightBgColor = HexColor("#F9F9F9");
 HexColor darkBgColor = HexColor("#303841");
@@ -20,6 +24,10 @@ HexColor floatingAction = HexColor("#919BA0");
 HexColor appBarColor = HexColor("#2AAFB7");
 HexColor floatingActionPoint = HexColor("#919BA0");
 HexColor logoutColor = HexColor("#A72222");
+
+// Color for flusher
+HexColor successfulChange = HexColor("#50e21b");
+HexColor wrongChange = HexColor("#e82c32");
 
 // Color for reserve
 // -1 reserve

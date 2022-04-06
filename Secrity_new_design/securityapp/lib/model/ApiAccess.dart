@@ -48,8 +48,8 @@ class ApiAccess {
     dio.options.headers['Content-Type'] = 'application/json';
     // Will Return status number
     // If it was 200 it means that password reset was successful else do error
-    Response response = await dio
-        .post("$baseURL/recoverPassword?&otp_code=$otpCode&password=$password");
+    Response response = await dio.post(
+        "$baseURL/recover_password?&otp_code=$otpCode&password=$password");
     return response.data;
   }
 
@@ -171,6 +171,24 @@ class ApiAccess {
     dio.options.headers['content-type'] = 'application/json';
     Response response =
         await dio.get("https://smartparking.mci.ir/security_tos.md");
+    return response.data;
+  }
+
+  Future<dynamic> getAbuseList({String token, String personalCode}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer $token";
+    Response response =
+        await dio.post("$baseURL/getWarnings?personal_code=$personalCode");
+    return response.data;
+  }
+
+  Future<dynamic> setNewAbuse(
+      {String token, String personalCode, String slotNumber}) async {
+    dio.options.headers['content-type'] = 'application/json';
+    dio.options.headers['authorization'] = "Bearer $token";
+    Response response = await dio.post(
+      "$baseURL/parkingWarn?personal_code=$personalCode&slot=$slotNumber",
+    );
     return response.data;
   }
 }
